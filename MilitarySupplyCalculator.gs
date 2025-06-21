@@ -166,17 +166,21 @@ function calculateMilitarySupply(row) {
     return;
   }
 
-  // Column definitions - Correct column layout
-  const militaryOrgColumn = 3;      // Column C for Military Organization
-  const militarySupplyColumn = 4;   // Column D for Military Supply
-  const mobilizationColumn = 5;     // Column E for Mobilization Level
-  const complexityColumn = 6;       // Column F for Equipment Complexity
-  const militaryFactoryColumn = 4;  // Column D in Industrial Status for Military Factories
-  const developmentLevelColumn = 7; // Column G in National Status for Development Level
+  const HEADER_ROW = 4;
+  const nameColumn = getColumnIndex(militarySheet, "Nation", HEADER_ROW);
+  const militaryOrgColumn = getColumnIndex(militarySheet, "Military Organization", HEADER_ROW);
+  const militarySupplyColumn = getColumnIndex(militarySheet, "Military Supply", HEADER_ROW);
+  const mobilizationColumn = getColumnIndex(militarySheet, "Mobilization Level", HEADER_ROW);
+  const complexityColumn = getColumnIndex(militarySheet, "Equipment Complexity", HEADER_ROW);
+  const militaryFactoryColumn = getColumnIndex(industrialSheet, "Military Factories", HEADER_ROW);
+  const developmentLevelColumn = getColumnIndex(nationalSheet, "Development Level", HEADER_ROW);
+  const rowMap = buildRowMap(militarySheet, nameColumn);
+  const nationName = militarySheet.getRange(row, nameColumn).getValue();
+  const actualRow = rowMap[nationName] || row;
 
   try {
     // Get the current supply value
-    const currentCell = militarySheet.getRange(row, militarySupplyColumn);
+    const currentCell = militarySheet.getRange(actualRow, militarySupplyColumn);
     const currentValue = currentCell.getValue();
     
     // Parse current supply percentage - Fixed to handle values like "121%" correctly
@@ -199,11 +203,11 @@ function calculateMilitarySupply(row) {
     // console.log("Current supply before update:", currentSupply + "%");
 
     // Fetch other values
-    const militaryOrg = militarySheet.getRange(row, militaryOrgColumn).getValue() || 0;
-    const mobilizationLevel = militarySheet.getRange(row, mobilizationColumn).getValue() || "None";
-    const equipmentComplexity = militarySheet.getRange(row, complexityColumn).getValue() || 4;
-    const militaryFactories = industrialSheet.getRange(row, militaryFactoryColumn).getValue() || 0;
-    const developmentLevel = nationalSheet.getRange(row, developmentLevelColumn).getValue() || 0;
+    const militaryOrg = militarySheet.getRange(actualRow, militaryOrgColumn).getValue() || 0;
+    const mobilizationLevel = militarySheet.getRange(actualRow, mobilizationColumn).getValue() || "None";
+    const equipmentComplexity = militarySheet.getRange(actualRow, complexityColumn).getValue() || 4;
+    const militaryFactories = industrialSheet.getRange(actualRow, militaryFactoryColumn).getValue() || 0;
+    const developmentLevel = nationalSheet.getRange(actualRow, developmentLevelColumn).getValue() || 0;
 
     // Calculate modifiers
     const mobMultiplier = mobilizationImpact[mobilizationLevel] || 1.0;
@@ -273,51 +277,46 @@ function updateAllNationsSupply() {
     return;
   }
 
-  const lastRow = militarySheet.getLastRow();
-  
-  // Read all data at once
-  const militaryData = militarySheet.getRange(5, 1, lastRow - 4, 6).getValues(); // Columns A-F
-  const industrialData = industrialSheet.getRange(5, 4, lastRow - 4, 1).getValues(); // Column D (Military Factories)
-  const nationalData = nationalSheet.getRange(5, 7, lastRow - 4, 1).getValues(); // Column G (Development Level)
-  
-  // Prepare array for updates
+  const HEADER_ROW = 4;
+  const nameColumn = getColumnIndex(militarySheet, "Nation", HEADER_ROW);
+  const militaryOrgColumn = getColumnIndex(militarySheet, "Military Organization", HEADER_ROW);
+  const militarySupplyColumn = getColumnIndex(militarySheet, "Military Supply", HEADER_ROW);
+  const mobilizationColumn = getColumnIndex(militarySheet, "Mobilization Level", HEADER_ROW);
+  const complexityColumn = getColumnIndex(militarySheet, "Equipment Complexity", HEADER_ROW);
+  const militaryFactoryColumn = getColumnIndex(industrialSheet, "Military Factories", HEADER_ROW);
+  const developmentLevelColumn = getColumnIndex(nationalSheet, "Development Level", HEADER_ROW);
+  const rowMap = buildRowMap(militarySheet, nameColumn);
+  const names = Object.keys(rowMap);
+
   const updates = [];
-  
-  // Process all nations in one loop
-  for (let i = 0; i < militaryData.length; i++) {
-    if (militaryData[i][0] !== "") { // Skip empty rows
-      const row = i + 5;
-      const currentSupply = militaryData[i][3]; // Column D
-      const militaryOrg = militaryData[i][2]; // Column C
-      const mobilizationLevel = militaryData[i][4]; // Column E
-      const equipmentComplexity = militaryData[i][5]; // Column F
-      const militaryFactories = industrialData[i][0];
-      const developmentLevel = nationalData[i][0];
-      
-      // Calculate new supply
-      const newSupply = calculateMilitarySupplyForRow(
-        currentSupply,
-        militaryOrg,
-        mobilizationLevel,
-        equipmentComplexity,
-        militaryFactories,
-        developmentLevel
-      );
-      
-      if (newSupply !== null) {
-        updates.push([row, newSupply]);
-      }
+
+  names.forEach(name => {
+    const row = rowMap[name];
+    const currentSupply = militarySheet.getRange(row, militarySupplyColumn).getValue();
+    const militaryOrg = militarySheet.getRange(row, militaryOrgColumn).getValue();
+    const mobilizationLevel = militarySheet.getRange(row, mobilizationColumn).getValue();
+    const equipmentComplexity = militarySheet.getRange(row, complexityColumn).getValue();
+    const militaryFactories = industrialSheet.getRange(row, militaryFactoryColumn).getValue();
+    const developmentLevel = nationalSheet.getRange(row, developmentLevelColumn).getValue();
+
+    const newSupply = calculateMilitarySupplyForRow(
+      currentSupply,
+      militaryOrg,
+      mobilizationLevel,
+      equipmentComplexity,
+      militaryFactories,
+      developmentLevel
+    );
+
+    if (newSupply !== null) {
+      updates.push([row, newSupply]);
     }
-  }
-  
-  // Batch update all changes
+  });
+
   if (updates.length > 0) {
-    const updateRange = militarySheet.getRange(5, 4, lastRow - 4, 1);
-    const newValues = Array(lastRow - 4).fill([""]);
     updates.forEach(([row, value]) => {
-      newValues[row - 5] = [value];
+      militarySheet.getRange(row, militarySupplyColumn).setValue(value);
     });
-    updateRange.setValues(newValues);
   }
 }
 

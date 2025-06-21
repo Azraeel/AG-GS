@@ -148,14 +148,17 @@ function calculateBudgetForRow(row) {
 function updateDebt(previousData, row) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("National Status");
 
-  // Define columns
-  const budgetCapacityColumn = 8; // Column H
-  const budgetBalanceColumn = 10; // Column J
-  const debtColumn = 11;          // Column K
+  const HEADER_ROW = 4;
+  const nameColumn = getColumnIndex(sheet, "Nation", HEADER_ROW);
+  const budgetCapacityColumn = getColumnIndex(sheet, "Budget Capacity", HEADER_ROW);
+  const budgetBalanceColumn = getColumnIndex(sheet, "Budget Balance", HEADER_ROW);
+  const debtColumn = getColumnIndex(sheet, "Debt", HEADER_ROW);
+  const rowMap = buildRowMap(sheet, nameColumn);
+  const nationName = sheet.getRange(row, nameColumn).getValue();
+  const actualRow = rowMap[nationName] || row;
 
-  // Fetch data for the specific row
-  const budgetCapacity = parseFloat(sheet.getRange(row, budgetCapacityColumn).getValue()) || 0;
-  const currentDebtValue = sheet.getRange(row, debtColumn).getValue();
+  const budgetCapacity = parseFloat(sheet.getRange(actualRow, budgetCapacityColumn).getValue()) || 0;
+  const currentDebtValue = sheet.getRange(actualRow, debtColumn).getValue();
   let currentDebtPercent = parseFloat(currentDebtValue) || 0;
 
   if (typeof currentDebtValue === "string" && currentDebtValue.includes("%")) {
@@ -167,12 +170,12 @@ function updateDebt(previousData, row) {
   const previousCapacity = previousData?.previousCapacity || budgetCapacity;
 
   if (budgetCapacity === 0) {
-    sheet.getRange(row, debtColumn).setValue("Error: Zero Budget Capacity");
+    sheet.getRange(actualRow, debtColumn).setValue("Error: Zero Budget Capacity");
     return;
   }
 
   let absoluteDebt = (currentDebtPercent / 100) * previousCapacity;
   const newDebtPercent = (absoluteDebt / budgetCapacity) * 100;
 
-  sheet.getRange(row, debtColumn).setValue(`${newDebtPercent.toFixed(2)}%`);
+  sheet.getRange(actualRow, debtColumn).setValue(`${newDebtPercent.toFixed(2)}%`);
 }
