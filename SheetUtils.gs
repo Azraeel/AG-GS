@@ -29,3 +29,13 @@ function getValueByName(sheet, rowMap, name, column, defaultValue) {
   }
   return defaultValue;
 }
+
+function getColumnValues(sheet, column, headerRow) {
+  const lastRow = sheet.getLastRow();
+  const numRows = Math.max(lastRow - headerRow, 0);
+  if (numRows === 0) return [];
+  return sheet
+    .getRange(headerRow + 1, column, numRows, 1)
+    .getValues()
+    .map((r) => r[0]);
+}

@@ -99,6 +99,18 @@ function updateTradeStats() {
   const economicHealthColumn = getColumnIndex(nationalStatusSheet, "Economic Health", HEADER_ROW);
 
   const names = Object.keys(tradeRowMap);
+  const rowOffset = HEADER_ROW + 1;
+
+  const budgetCapacities = getColumnValues(nationalStatusSheet, budgetCapacityColumn, HEADER_ROW);
+  const corruptions = getColumnValues(nationalStatusSheet, corruptionColumn, HEADER_ROW).map(v => parseFloat(v) / 100);
+  const populations = getColumnValues(nationalStatusSheet, populationColumn, HEADER_ROW);
+  const factoriesArr = getColumnValues(industrialSheet, civilianFactoriesColumn, HEADER_ROW);
+  const shipyardsArr = getColumnValues(industrialSheet, shipyardsColumn, HEADER_ROW);
+  const developmentLevels = getColumnValues(nationalStatusSheet, developmentColumn, HEADER_ROW);
+  const importReliances = getColumnValues(tradeSheet, importRelianceColumn, HEADER_ROW);
+  const exportReliances = getColumnValues(tradeSheet, exportRelianceColumn, HEADER_ROW);
+  const tradeDiversities = getColumnValues(tradeSheet, economicTradeDiversityColumn, HEADER_ROW);
+  const economicHealthStatuses = getColumnValues(nationalStatusSheet, economicHealthColumn, HEADER_ROW);
 
   const globalEconomicHealth = worldStatusSheet.getRange("A6").getValue();
   const mostUsedCurrencies = worldStatusSheet.getRange("G6:G10").getValues();
@@ -114,20 +126,20 @@ function updateTradeStats() {
   };
 
   const updatedTradeStats = names.map((nationName) => {
-    const tradeRow = tradeRowMap[nationName];
-    const nationalRow = nationalRowMap[nationName];
-    const industrialRow = industrialRowMap[nationName];
+    const tIdx = tradeRowMap[nationName] - rowOffset;
+    const nIdx = nationalRowMap[nationName] - rowOffset;
+    const iIdx = industrialRowMap[nationName] - rowOffset;
 
-    const budgetCapacity = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nationName, budgetCapacityColumn, 0));
-    const corruption = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nationName, corruptionColumn, 0)) / 100;
-    const population = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nationName, populationColumn, 0));
-    const factories = parseFloat(getValueByName(industrialSheet, industrialRowMap, nationName, civilianFactoriesColumn, 0));
-    const shipyardCount = parseFloat(getValueByName(industrialSheet, industrialRowMap, nationName, shipyardsColumn, 0));
-    const development = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nationName, developmentColumn, 0));
-    const importReliance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nationName, importRelianceColumn, 0));
-    const exportReliance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nationName, exportRelianceColumn, 0));
-    const tradeDiversity = parseFloat(getValueByName(tradeSheet, tradeRowMap, nationName, economicTradeDiversityColumn, 0));
-    const nationalEconomicHealth = getValueByName(nationalStatusSheet, nationalRowMap, nationName, economicHealthColumn, "Recovery");
+    const budgetCapacity = parseFloat(budgetCapacities[nIdx]) || 0;
+    const corruption = parseFloat(corruptions[nIdx]) || 0;
+    const population = parseFloat(populations[nIdx]) || 0;
+    const factories = parseFloat(factoriesArr[iIdx]) || 0;
+    const shipyardCount = parseFloat(shipyardsArr[iIdx]) || 0;
+    const development = parseFloat(developmentLevels[nIdx]) || 0;
+    const importReliance = parseFloat(importReliances[tIdx]) || 0;
+    const exportReliance = parseFloat(exportReliances[tIdx]) || 0;
+    const tradeDiversity = parseFloat(tradeDiversities[tIdx]) || 0;
+    const nationalEconomicHealth = economicHealthStatuses[nIdx] || "Recovery";
 
     if (
       isNaN(budgetCapacity) ||
@@ -229,11 +241,17 @@ function updateTradeStats() {
     ];
   });
 
-  // Update each nation's row individually
+  const tradeRows = tradeSheet.getLastRow() - HEADER_ROW;
+  const tradeData = tradeSheet
+    .getRange(rowOffset, tradeCapacityColumn, tradeRows, 6)
+    .getValues();
+
   names.forEach((nationName, idx) => {
-    const row = tradeRowMap[nationName];
-    if (row != null) {
-      tradeSheet.getRange(row, tradeCapacityColumn, 1, 6).setValues([updatedTradeStats[idx]]);
-    }
+    const rowIdx = tradeRowMap[nationName] - rowOffset;
+    tradeData[rowIdx] = updatedTradeStats[idx];
   });
+
+  tradeSheet
+    .getRange(rowOffset, tradeCapacityColumn, tradeRows, 6)
+    .setValues(tradeData);
 }

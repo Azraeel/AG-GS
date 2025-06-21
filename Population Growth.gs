@@ -39,15 +39,17 @@ function updatePopulation(currentYear) {
   const immigrationRateColumn = getColumnIndex(nationalStatusSheet, "Immigration Rate", HEADER_ROW);
 
   const names = Object.keys(rowMap);
+  const rowOffset = HEADER_ROW + 1;
+  const numRows = sheet.getLastRow() - HEADER_ROW;
   const lastRow = sheet.getLastRow();
 
-  const populations = names.map(n => [sheet.getRange(rowMap[n], populationColumn).getValue()]);
-  const policyValues = names.map(n => [sheet.getRange(rowMap[n], policyColumn).getValue()]);
-  const stabilityValues = names.map(n => [getValueByName(nationalStatusSheet, nationalRowMap, n, stabilityColumn, 0)]);
-  const unrestValues = names.map(n => [getValueByName(nationalStatusSheet, nationalRowMap, n, unrestColumn, 0)]);
-  const developmentValues = names.map(n => [getValueByName(nationalStatusSheet, nationalRowMap, n, developmentColumn, 0)]);
-  const economicHealthValues = names.map(n => [getValueByName(nationalStatusSheet, nationalRowMap, n, economicHealthColumn, "Recovery")]);
-  const immigrationRates = names.map(n => [getValueByName(nationalStatusSheet, nationalRowMap, n, immigrationRateColumn, 0)]);
+  const populations = getColumnValues(sheet, populationColumn, HEADER_ROW);
+  const policyValues = getColumnValues(sheet, policyColumn, HEADER_ROW);
+  const stabilityValues = getColumnValues(nationalStatusSheet, stabilityColumn, HEADER_ROW);
+  const unrestValues = getColumnValues(nationalStatusSheet, unrestColumn, HEADER_ROW);
+  const developmentValues = getColumnValues(nationalStatusSheet, developmentColumn, HEADER_ROW);
+  const economicHealthValues = getColumnValues(nationalStatusSheet, economicHealthColumn, HEADER_ROW);
+  const immigrationRates = getColumnValues(nationalStatusSheet, immigrationRateColumn, HEADER_ROW);
 
   const economicHealthImpact = {
     "Prosperity": 2,
@@ -77,17 +79,22 @@ function updatePopulation(currentYear) {
   sheet.getRange(4, newPopulationColumn).setValue(`Population (${currentYear - 1})`);
 
   // Copy old population to the new column
-  sheet.getRange(5, newPopulationColumn, lastRow - 4, 1).setValues(populations);
+  sheet
+    .getRange(5, newPopulationColumn, lastRow - 4, 1)
+    .setValues(populations.map((v) => [v]));
 
   // Calculate and update the new population
-  const updatedPopulations = names.map((nation, index) => {
-    const currentPopulation = populations[index][0];
-    const policy = policyValues[index][0];
-    const stability = stabilityValues[index][0];
-    const unrest = unrestValues[index][0];
-    const development = developmentValues[index][0];
-    const economicHealth = economicHealthValues[index][0];
-    const immigrationRate = immigrationRates[index][0];
+  const updatedPopulations = names.map((nation) => {
+    const idx = rowMap[nation] - rowOffset;
+    const nIdx = nationalRowMap[nation] - rowOffset;
+
+    const currentPopulation = populations[idx];
+    const policy = policyValues[idx];
+    const stability = stabilityValues[nIdx];
+    const unrest = unrestValues[nIdx];
+    const development = developmentValues[nIdx];
+    const economicHealth = economicHealthValues[nIdx];
+    const immigrationRate = immigrationRates[nIdx];
 
     if (
       !currentPopulation ||
@@ -143,9 +150,13 @@ function updatePopulation(currentYear) {
   });
 
   names.forEach((nation, idx) => {
-    const row = rowMap[nation];
-    sheet.getRange(row, populationColumn).setValue(updatedPopulations[idx][0]);
+    const row = rowMap[nation] - rowOffset;
+    populations[row] = updatedPopulations[idx][0];
   });
+
+  sheet
+    .getRange(rowOffset, populationColumn, numRows, 1)
+    .setValues(populations.map((v) => [v]));
 
   // Update the year in the Population column header
   sheet.getRange(4, populationColumn).setValue(`Population (${currentYear})`);
