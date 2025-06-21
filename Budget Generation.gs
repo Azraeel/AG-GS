@@ -7,23 +7,31 @@ function onOpen() {
 
 function visualizeBudget() {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("National Status");
+  const HEADER_ROW = 4;
+  const nameColumn = getColumnIndex(sheet, "Nation", HEADER_ROW);
+  const rowMap = buildRowMap(sheet, nameColumn);
   const selectedRange = sheet.getActiveRange();
   if (!selectedRange || selectedRange.getNumRows() > 1) {
     SpreadsheetApp.getUi().alert("Please select a single row to visualize.");
     return;
   }
-  const row = selectedRange.getRow();
-  createPieChartForNation(row);
+  const nationName = sheet.getRange(selectedRange.getRow(), nameColumn).getValue();
+  createPieChartForNation(nationName, rowMap);
 }
 
-function createPieChartForNation(row) {
+function createPieChartForNation(nationName, rowMap) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("National Status");
   const chartSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Charts") || SpreadsheetApp.getActiveSpreadsheet().insertSheet("Charts");
 
-  const nation = sheet.getRange(row, 1).getValue(); // Nation name
-  const budgetCapacity = sheet.getRange(row, 2).getValue(); // Budget Capacity
+  const HEADER_ROW = 4;
+  const nameColumn = getColumnIndex(sheet, "Nation", HEADER_ROW);
+  const budgetCapacityColumn = getColumnIndex(sheet, "Budget Capacity", HEADER_ROW);
+  const firstCategoryColumn = getColumnIndex(sheet, "Healthcare", HEADER_ROW);
   const categories = ["Healthcare", "Military", "Education", "Infrastructure"];
-  const percentages = sheet.getRange(row, 3, 1, categories.length).getValues()[0]; // Fetch category percentages
+  const row = rowMap[nationName];
+  const nation = sheet.getRange(row, nameColumn).getValue();
+  const budgetCapacity = sheet.getRange(row, budgetCapacityColumn).getValue();
+  const percentages = sheet.getRange(row, firstCategoryColumn, 1, categories.length).getValues()[0];
 
   // Ensure data is valid
   if (!budgetCapacity || percentages.reduce((a, b) => a + b, 0) !== 100) {

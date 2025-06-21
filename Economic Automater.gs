@@ -52,23 +52,26 @@ function onEdit(e) {
     const yearDifference = newYear - oldYear;
     if (yearDifference <= 0) return; // Only proceed if the year has advanced
     
-    // Define the columns for Civilian Factories (E), Military Factories (D), Shipyards (F) in Industrial Status
-    const factoryColumn = 5; // Column E in Industrial Status
-    const militaryFactoryColumn = 4; // Column D in Industrial Status
-    const shipyardColumn = 6; // Column F in Industrial Status
-    const healthColumn = 12; // Column L in National Status
-    const tradeBalanceColumn = 6; // Column F in Trade Status
-    const lastRow = industrialSheet.getLastRow();
-    
-    // Get the ranges for all industrial values
-    const healthRange = economicSheet.getRange(5, healthColumn, lastRow - 4, 1).getValues();
-    const tradeBalanceRange = tradeSheet.getRange(5, tradeBalanceColumn, lastRow - 4, 1).getValues();
-    const factoryRange = industrialSheet.getRange(5, factoryColumn, lastRow - 4, 1);
-    const factoryValues = factoryRange.getValues();
-    const militaryFactoryRange = industrialSheet.getRange(5, militaryFactoryColumn, lastRow - 4, 1);
-    const militaryFactoryValues = militaryFactoryRange.getValues();
-    const shipyardRange = industrialSheet.getRange(5, shipyardColumn, lastRow - 4, 1);
-    const shipyardValues = shipyardRange.getValues();
+    const HEADER_ROW = 4;
+    const industrialNameColumn = getColumnIndex(industrialSheet, "Nation", HEADER_ROW);
+    const economicNameColumn = getColumnIndex(economicSheet, "Nation", HEADER_ROW);
+    const tradeNameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
+    const militarySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Military Status");
+    const militaryNameColumn = getColumnIndex(militarySheet, "Nation", HEADER_ROW);
+
+    const industrialRowMap = buildRowMap(industrialSheet, industrialNameColumn);
+    const economicRowMap = buildRowMap(economicSheet, economicNameColumn);
+    const tradeRowMap = buildRowMap(tradeSheet, tradeNameColumn);
+    const militaryRowMap = buildRowMap(militarySheet, militaryNameColumn);
+
+    const factoryColumn = getColumnIndex(industrialSheet, "Civilian Factories", HEADER_ROW);
+    const militaryFactoryColumn = getColumnIndex(industrialSheet, "Military Factories", HEADER_ROW);
+    const shipyardColumn = getColumnIndex(industrialSheet, "Shipyards", HEADER_ROW);
+    const healthColumn = getColumnIndex(economicSheet, "Economic Health", HEADER_ROW);
+    const tradeBalanceColumn = getColumnIndex(tradeSheet, "Trade Balance", HEADER_ROW);
+    const mobilizationColumn = getColumnIndex(militarySheet, "Mobilization Level", HEADER_ROW);
+
+    const names = Object.keys(industrialRowMap);
     
     // Define hard values for each Economic Health status
     const healthImpact = {
@@ -80,21 +83,15 @@ function onEdit(e) {
       "Prosperity": 3
     };
 
-    // Add mobilization level column
-    const mobilizationColumn = 5; // Column E in Military Status
-    const militarySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Military Status");
-    
-    // Get mobilization levels
-    const mobilizationLevels = militarySheet.getRange(5, mobilizationColumn, lastRow - 4, 1).getValues();
+    const updatedIndustrial = names.map((nation) => {
+      const iRow = industrialRowMap[nation];
 
-    // Calculate the new industrial values based on Economic Health and Trade Balance
-    const updatedIndustrial = factoryValues.map((row, index) => {
-      const currentFactories = row[0];
-      const currentMilitaryFactories = militaryFactoryValues[index][0];
-      const currentShipyards = shipyardValues[index][0];
-      const healthStatus = healthRange[index][0];
-      const tradeBalance = parseFloat(tradeBalanceRange[index][0]) || 0;
-      const mobilizationLevel = mobilizationLevels[index][0] || "None";
+      const currentFactories = parseFloat(industrialSheet.getRange(iRow, factoryColumn).getValue());
+      const currentMilitaryFactories = parseFloat(industrialSheet.getRange(iRow, militaryFactoryColumn).getValue());
+      const currentShipyards = parseFloat(industrialSheet.getRange(iRow, shipyardColumn).getValue());
+      const healthStatus = getValueByName(economicSheet, economicRowMap, nation, healthColumn, "Recovery");
+      const tradeBalance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, tradeBalanceColumn, 0)) || 0;
+      const mobilizationLevel = getValueByName(militarySheet, militaryRowMap, nation, mobilizationColumn, "None") || "None";
       const mobilization = mobilizationImpact[mobilizationLevel] || mobilizationImpact["None"];
 
       // Check if values are numbers and healthStatus is recognized
@@ -126,13 +123,15 @@ function onEdit(e) {
       return [newFactories];
     });
 
-    const updatedMilitary = factoryValues.map((row, index) => {
-      const currentFactories = row[0];
-      const currentMilitaryFactories = militaryFactoryValues[index][0];
-      const currentShipyards = shipyardValues[index][0];
-      const healthStatus = healthRange[index][0];
-      const tradeBalance = parseFloat(tradeBalanceRange[index][0]) || 0;
-      const mobilizationLevel = mobilizationLevels[index][0] || "None";
+    const updatedMilitary = names.map((nation) => {
+      const iRow = industrialRowMap[nation];
+
+      const currentFactories = parseFloat(industrialSheet.getRange(iRow, factoryColumn).getValue());
+      const currentMilitaryFactories = parseFloat(industrialSheet.getRange(iRow, militaryFactoryColumn).getValue());
+      const currentShipyards = parseFloat(industrialSheet.getRange(iRow, shipyardColumn).getValue());
+      const healthStatus = getValueByName(economicSheet, economicRowMap, nation, healthColumn, "Recovery");
+      const tradeBalance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, tradeBalanceColumn, 0)) || 0;
+      const mobilizationLevel = getValueByName(militarySheet, militaryRowMap, nation, mobilizationColumn, "None") || "None";
       const mobilization = mobilizationImpact[mobilizationLevel] || mobilizationImpact["None"];
 
       if (isNaN(currentFactories) || isNaN(currentMilitaryFactories) || isNaN(currentShipyards) || !(healthStatus in healthImpact)) {
@@ -149,12 +148,14 @@ function onEdit(e) {
       return [Math.max(currentMilitaryFactories + Math.floor(militaryGrowth), 0)];
     });
 
-    const updatedShipyards = factoryValues.map((row, index) => {
-      const currentFactories = row[0];
-      const currentMilitaryFactories = militaryFactoryValues[index][0];
-      const currentShipyards = shipyardValues[index][0];
-      const healthStatus = healthRange[index][0];
-      const tradeBalance = parseFloat(tradeBalanceRange[index][0]) || 0;
+    const updatedShipyards = names.map((nation) => {
+      const iRow = industrialRowMap[nation];
+
+      const currentFactories = parseFloat(industrialSheet.getRange(iRow, factoryColumn).getValue());
+      const currentMilitaryFactories = parseFloat(industrialSheet.getRange(iRow, militaryFactoryColumn).getValue());
+      const currentShipyards = parseFloat(industrialSheet.getRange(iRow, shipyardColumn).getValue());
+      const healthStatus = getValueByName(economicSheet, economicRowMap, nation, healthColumn, "Recovery");
+      const tradeBalance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, tradeBalanceColumn, 0)) || 0;
 
       if (isNaN(currentFactories) || isNaN(currentMilitaryFactories) || isNaN(currentShipyards) || !(healthStatus in healthImpact)) {
         return [currentShipyards];
@@ -170,10 +171,14 @@ function onEdit(e) {
       return [Math.max(currentShipyards + shipyardGrowth, 0)];
     });
     
-    // Set the updated industrial values separately for each column
-    industrialSheet.getRange(5, factoryColumn, lastRow - 4, 1).setValues(updatedIndustrial);
-    industrialSheet.getRange(5, militaryFactoryColumn, lastRow - 4, 1).setValues(updatedMilitary);
-    industrialSheet.getRange(5, shipyardColumn, lastRow - 4, 1).setValues(updatedShipyards);
+    names.forEach((nation, idx) => {
+      const iRow = industrialRowMap[nation];
+      if (iRow != null) {
+        industrialSheet.getRange(iRow, factoryColumn).setValue(updatedIndustrial[idx][0]);
+        industrialSheet.getRange(iRow, militaryFactoryColumn).setValue(updatedMilitary[idx][0]);
+        industrialSheet.getRange(iRow, shipyardColumn).setValue(updatedShipyards[idx][0]);
+      }
+    });
 
     // Call calculateBudget after updating industrial values
     calculateBudget();
@@ -181,28 +186,40 @@ function onEdit(e) {
 }
 
 function calculateBudget() {
-  const industrialSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Industrial Status");
-  const nationalSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("National Status");
-  const populationSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Population Tracker");
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const industrialSheet = ss.getSheetByName("Industrial Status");
+  const nationalSheet = ss.getSheetByName("National Status");
+  const populationSheet = ss.getSheetByName("Population Tracker");
+  const militarySheet = ss.getSheetByName("Military Status");
 
-  // Get the last row with data in Industrial Status
-  const lastRow = industrialSheet.getLastRow();
+  const HEADER_ROW = 4;
+  const industrialNameColumn = getColumnIndex(industrialSheet, "Nation", HEADER_ROW);
+  const nationalNameColumn = getColumnIndex(nationalSheet, "Nation", HEADER_ROW);
+  const populationNameColumn = getColumnIndex(populationSheet, "Nation", HEADER_ROW);
 
-  // Columns in Industrial Status, National Status, and Trade Status sheets
-  const factoryColumn = 5; // Column E for Civilian Factories
-  const militaryFactoryColumn = 4; // Column D for Military Factories
-  const shipyardColumn = 6; // Column F for Shipyards
-  const budgetCapacityColumn = 8; // Column H for Budget Capacity
-  const budgetBalanceColumn = 10; // Column J for Budget Balance
-  const populationColumn = 4; // Column D for Population
-  const developmentLevelColumn = 7; // Column G for Development Level
-  const corruptionColumn = 6; // Column F for Corruption
-  const economicHealthColumn = 12; // Column L for Economic Health
-  const taxRateColumn = 14; // Column N for Tax Rate
+  const industrialRowMap = buildRowMap(industrialSheet, industrialNameColumn);
+  const nationalRowMap = buildRowMap(nationalSheet, nationalNameColumn);
+  const populationRowMap = buildRowMap(populationSheet, populationNameColumn);
+  const militaryNameColumn = getColumnIndex(militarySheet, "Nation", HEADER_ROW);
+  const militaryRowMap = buildRowMap(militarySheet, militaryNameColumn);
+
+  const names = Object.keys(industrialRowMap);
+
+  const factoryColumn = getColumnIndex(industrialSheet, "Civilian Factories", HEADER_ROW);
+  const militaryFactoryColumn = getColumnIndex(industrialSheet, "Military Factories", HEADER_ROW);
+  const shipyardColumn = getColumnIndex(industrialSheet, "Shipyards", HEADER_ROW);
+  const budgetCapacityColumn = getColumnIndex(nationalSheet, "Budget Capacity", HEADER_ROW);
+  const budgetBalanceColumn = getColumnIndex(nationalSheet, "Budget Balance", HEADER_ROW);
+  const populationColumn = getColumnIndex(populationSheet, "Population", HEADER_ROW);
+  const developmentLevelColumn = getColumnIndex(nationalSheet, "Development Level", HEADER_ROW);
+  const corruptionColumn = getColumnIndex(nationalSheet, "Corruption", HEADER_ROW);
+  const economicHealthColumn = getColumnIndex(nationalSheet, "Economic Health", HEADER_ROW);
+  const taxRateColumn = getColumnIndex(nationalSheet, "Tax Rate", HEADER_ROW);
+  const mobilizationColumn = getColumnIndex(militarySheet, "Mobilization Level", HEADER_ROW);
 
   // Fetch current budget capacities and balances (previous values before updating)
-  const currentBudgetCapacities = nationalSheet.getRange(5, budgetCapacityColumn, lastRow - 4, 1).getValues();
-  const currentBudgetBalances = nationalSheet.getRange(5, budgetBalanceColumn, lastRow - 4, 1).getValues();
+  const currentBudgetCapacities = names.map(n => getValueByName(nationalSheet, nationalRowMap, n, budgetCapacityColumn, 0));
+  const currentBudgetBalances = names.map(n => getValueByName(nationalSheet, nationalRowMap, n, budgetBalanceColumn, 0));
 
   // Constants
   const baseBudget = 10;
@@ -213,15 +230,14 @@ function calculateBudget() {
   const militaryFactoryMultiplier = 0.4; // Military factories contribute 40% of civilian factories
   const baseMaintenanceCost = 0.1; // Base maintenance cost per factory
 
-  // Fetch values for Civilian Factories, Military Factories, Shipyards, Development Levels, Population, Corruption, Economic Health, and Tax Rate
-  const factoryValues = industrialSheet.getRange(5, factoryColumn, lastRow - 4, 1).getValues();
-  const militaryFactoryValues = industrialSheet.getRange(5, militaryFactoryColumn, lastRow - 4, 1).getValues();
-  const shipyardValues = industrialSheet.getRange(5, shipyardColumn, lastRow - 4, 1).getValues();
-  const developmentLevels = nationalSheet.getRange(5, developmentLevelColumn, lastRow - 4, 1).getValues();
-  const populationValues = populationSheet.getRange(5, populationColumn, lastRow - 4, 1).getValues();
-  const corruptionValues = nationalSheet.getRange(5, corruptionColumn, lastRow - 4, 1).getValues();
-  const economicHealthStatuses = nationalSheet.getRange(5, economicHealthColumn, lastRow - 4, 1).getValues();
-  const taxRates = nationalSheet.getRange(5, taxRateColumn, lastRow - 4, 1).getValues();
+  const factoryValues = names.map(n => [getValueByName(industrialSheet, industrialRowMap, n, factoryColumn, 0)]);
+  const militaryFactoryValues = names.map(n => [getValueByName(industrialSheet, industrialRowMap, n, militaryFactoryColumn, 0)]);
+  const shipyardValues = names.map(n => [getValueByName(industrialSheet, industrialRowMap, n, shipyardColumn, 0)]);
+  const developmentLevels = names.map(n => [getValueByName(nationalSheet, nationalRowMap, n, developmentLevelColumn, 0)]);
+  const populationValues = names.map(n => [getValueByName(populationSheet, populationRowMap, n, populationColumn, 0)]);
+  const corruptionValues = names.map(n => [getValueByName(nationalSheet, nationalRowMap, n, corruptionColumn, 0)]);
+  const economicHealthStatuses = names.map(n => [getValueByName(nationalSheet, nationalRowMap, n, economicHealthColumn, "Recovery")]);
+  const taxRates = names.map(n => [getValueByName(nationalSheet, nationalRowMap, n, taxRateColumn, 0)]);
 
   // Economic Health multipliers
   const economicHealthImpact = {
@@ -233,12 +249,10 @@ function calculateBudget() {
     "Depression": 0.6,
   };
 
-  // Get mobilization levels for budget calculation
-  const militarySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Military Status");
-  const mobilizationLevels = militarySheet.getRange(5, 4, lastRow - 4, 1).getValues();
+  const mobilizationLevels = names.map(n => getValueByName(militarySheet, militaryRowMap, n, mobilizationColumn, "None"));
 
-  const updatedBudgets = factoryValues.map((row, index) => {
-    const civFactories = row[0];
+  const updatedBudgets = names.map((nation, index) => {
+    const civFactories = factoryValues[index][0];
     const militaryFactories = militaryFactoryValues[index][0];
     const shipyards = shipyardValues[index][0];
     const developmentLevel = developmentLevels[index][0];
@@ -246,7 +260,7 @@ function calculateBudget() {
     const corruption = parseFloat(corruptionValues[index][0]);
     const economicHealth = economicHealthStatuses[index][0];
     const taxRate = parseFloat(taxRates[index][0]);
-    const mobilizationLevel = mobilizationLevels[index][0] || "None";
+    const mobilizationLevel = mobilizationLevels[index] || "None";
     const mobilization = mobilizationImpact[mobilizationLevel] || mobilizationImpact["None"];
 
     // Ensure values are valid numbers
@@ -295,9 +309,9 @@ function calculateBudget() {
     );
 
     // Store the previous capacity and balance for use in updateDebt
-    previousData[index] = {
-      previousCapacity: currentBudgetCapacities[index][0],
-      previousBalance: currentBudgetBalances[index][0],
+    previousData[nation] = {
+      previousCapacity: currentBudgetCapacities[index],
+      previousBalance: currentBudgetBalances[index],
       currentBudget: totalBudget
     };
 
@@ -305,7 +319,12 @@ function calculateBudget() {
   });
 
   // Set the updated budget capacities in the National Status sheet
-  nationalSheet.getRange(5, budgetCapacityColumn, lastRow - 4, 1).setValues(updatedBudgets);
+  names.forEach((nation, idx) => {
+    const nRow = nationalRowMap[nation];
+    if (nRow != null) {
+      nationalSheet.getRange(nRow, budgetCapacityColumn).setValue(updatedBudgets[idx][0]);
+    }
+  });
 
   // Run UpdateDebt After calculateBudget 
   updateDebt(previousData);
@@ -314,24 +333,26 @@ function calculateBudget() {
 function updateDebt(previousData) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("National Status");
 
-  // Define columns and range
-  const budgetCapacityColumn = 8; // Column H
-  const budgetBalanceColumn = 10; // Column J
-  const debtColumn = 11;          // Column K
-  const firstDataRow = 5;         // Start from row 5
-  const lastRow = sheet.getLastRow();
+  const HEADER_ROW = 4;
+  const nameColumn = getColumnIndex(sheet, "Nation", HEADER_ROW);
+  const budgetCapacityColumn = getColumnIndex(sheet, "Budget Capacity", HEADER_ROW);
+  const budgetBalanceColumn = getColumnIndex(sheet, "Budget Balance", HEADER_ROW);
+  const debtColumn = getColumnIndex(sheet, "Debt", HEADER_ROW);
+  const rowMap = buildRowMap(sheet, nameColumn);
+  const names = Object.keys(rowMap);
 
-  // Fetch data
-  const budgetCapacities = sheet.getRange(firstDataRow, budgetCapacityColumn, lastRow - firstDataRow + 1, 1).getValues();
-  const budgetBalances = sheet.getRange(firstDataRow, budgetBalanceColumn, lastRow - firstDataRow + 1, 1).getValues();
-  const currentDebts = sheet.getRange(firstDataRow, debtColumn, lastRow - firstDataRow + 1, 1).getValues();
+  const budgetCapacities = names.map(n => [sheet.getRange(rowMap[n], budgetCapacityColumn).getValue()]);
+  const budgetBalances = names.map(n => [sheet.getRange(rowMap[n], budgetBalanceColumn).getValue()]);
+  const currentDebts = names.map(n => [sheet.getRange(rowMap[n], debtColumn).getValue()]);
 
   const updatedDebts = budgetCapacities.map((capacityRow, index) => {
     const budgetCapacity = parseFloat(capacityRow[0]) || 0;
     const budgetBalance = parseFloat(budgetBalances[index][0]) || 0;
     let currentDebtPercent = parseFloat(currentDebts[index][0]) || 0;
-    const previousCapacity = previousData[index]?.previousCapacity || budgetCapacity;
-    const previousBalance = parseFloat(previousData[index]?.previousBalance || 0);
+    const nation = names[index];
+    const prev = previousData[nation] || {};
+    const previousCapacity = prev.previousCapacity ?? budgetCapacity;
+    const previousBalance = parseFloat(prev.previousBalance || 0);
 
     if (typeof currentDebts[index][0] === "string" && currentDebts[index][0].includes("%")) {
       currentDebtPercent = parseFloat(currentDebts[index][0].replace('%', '')) || 0;
@@ -352,5 +373,8 @@ function updateDebt(previousData) {
     return [`${newDebtPercent.toFixed(2)}%`];
   });
 
-  sheet.getRange(firstDataRow, debtColumn, lastRow - firstDataRow + 1, 1).setValues(updatedDebts);
+  names.forEach((nation, idx) => {
+    const row = rowMap[nation];
+    sheet.getRange(row, debtColumn).setValue(updatedDebts[idx][0]);
+  });
 }

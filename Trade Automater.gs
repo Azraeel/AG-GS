@@ -1,6 +1,9 @@
 function onEdit(e) {
-  const worldstatusSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("World Status Tracker");
-  const tradeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Trade Status");
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const worldstatusSheet = ss.getSheetByName("World Status Tracker");
+  const tradeSheet = ss.getSheetByName("Trade Status");
+  const HEADER_ROW = 4;
+  const nameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
 
   // Define the cell that holds the Year in World Status Tracker (C6)
   const yearCell = worldstatusSheet.getRange("C6");
@@ -19,26 +22,34 @@ function onEdit(e) {
     // Trigger the Trade Update function with the new year
     updateTradeStats();
   } else if (e.source.getActiveSheet().getName() === "Trade Status") {
-    // Store manual adjustments when editing trade stats
     const row = e.range.getRow();
     const col = e.range.getColumn();
-    
-    // Only process if editing main trade stat columns (Trade Capacity through Trade Power)
-    if (row >= 5 && col >= 3 && col <= 8) {
-      const newValue = e.value;
-      const oldValue = e.oldValue;
-      
-      if (!isNaN(newValue) && !isNaN(oldValue)) {
-        const adjustment = newValue - oldValue;
-        storeAdjustment(row, col, adjustment);
+    if (row >= 5) {
+      const nationName = tradeSheet.getRange(row, nameColumn).getValue().toString().trim();
+      const headerName = tradeSheet.getRange(HEADER_ROW, col).getValue().toString().trim();
+      const validHeaders = [
+        "Trade Capacity",
+        "Trade Efficiency",
+        "Autarky Index",
+        "Trade Balance",
+        "Trade Flow",
+        "Trade Power",
+      ];
+      if (validHeaders.indexOf(headerName) !== -1) {
+        const newValue = e.value;
+        const oldValue = e.oldValue;
+        if (!isNaN(newValue) && !isNaN(oldValue)) {
+          const adjustment = newValue - oldValue;
+          storeAdjustment(nationName, headerName, adjustment);
+        }
       }
     }
   }
 }
 
-function storeAdjustment(row, col, adjustment) {
+function storeAdjustment(nationName, headerName, adjustment) {
   const scriptProperties = PropertiesService.getScriptProperties();
-  const key = `adjustment_${row}_${col}`;
+  const key = `${nationName}_${headerName}`;
   
   // Get existing adjustment or default to 0
   let existingAdjustment = parseFloat(scriptProperties.getProperty(key)) || 0;
@@ -50,9 +61,9 @@ function storeAdjustment(row, col, adjustment) {
   scriptProperties.setProperty(key, existingAdjustment.toString());
 }
 
-function getAdjustment(row, col) {
+function getAdjustment(nationName, headerName) {
   const scriptProperties = PropertiesService.getScriptProperties();
-  const key = `adjustment_${row}_${col}`;
+  const key = `${nationName}_${headerName}`;
   return parseFloat(scriptProperties.getProperty(key)) || 0;
 }
 
@@ -62,38 +73,32 @@ function updateTradeStats() {
   const nationalStatusSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("National Status");
   const industrialSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Industrial Status");
 
-  // Column definitions
-  const tradeCapacityColumn = 3;
-  const tradeEfficiencyColumn = 4;
-  const autarkyIndexColumn = 5;
-  const tradeBalanceColumn = 6;
-  const tradeFlowColumn = 7;
-  const tradePowerColumn = 8;
-  const importRelianceColumn = 9;
-  const exportRelianceColumn = 10;
-  const economicTradeDiversityColumn = 11;
+  const HEADER_ROW = 4;
+  const nameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
+  const tradeRowMap = buildRowMap(tradeSheet, nameColumn);
+  const nationalNameColumn = getColumnIndex(nationalStatusSheet, "Nation", HEADER_ROW);
+  const nationalRowMap = buildRowMap(nationalStatusSheet, nationalNameColumn);
+  const industrialNameColumn = getColumnIndex(industrialSheet, "Nation", HEADER_ROW);
+  const industrialRowMap = buildRowMap(industrialSheet, industrialNameColumn);
+  const tradeCapacityColumn = getColumnIndex(tradeSheet, "Trade Capacity", HEADER_ROW);
+  const tradeEfficiencyColumn = getColumnIndex(tradeSheet, "Trade Efficiency", HEADER_ROW);
+  const autarkyIndexColumn = getColumnIndex(tradeSheet, "Autarky Index", HEADER_ROW);
+  const tradeBalanceColumn = getColumnIndex(tradeSheet, "Trade Balance", HEADER_ROW);
+  const tradeFlowColumn = getColumnIndex(tradeSheet, "Trade Flow", HEADER_ROW);
+  const tradePowerColumn = getColumnIndex(tradeSheet, "Trade Power", HEADER_ROW);
+  const importRelianceColumn = getColumnIndex(tradeSheet, "Import Reliance", HEADER_ROW);
+  const exportRelianceColumn = getColumnIndex(tradeSheet, "Export Reliance", HEADER_ROW);
+  const economicTradeDiversityColumn = getColumnIndex(tradeSheet, "Economic Trade Diversity", HEADER_ROW);
 
-  const budgetCapacityColumn = 8; // National Status
-  const corruptionColumn = 6;
-  const populationColumn = 4;
-  const civilianFactoriesColumn = 5; // Industrial Status
-  const shipyardsColumn = 6; // Industrial Status
-  const developmentColumn = 7;
-  const economicHealthColumn = 12;
+  const budgetCapacityColumn = getColumnIndex(nationalStatusSheet, "Budget Capacity", HEADER_ROW);
+  const corruptionColumn = getColumnIndex(nationalStatusSheet, "Corruption", HEADER_ROW);
+  const populationColumn = getColumnIndex(nationalStatusSheet, "Population", HEADER_ROW);
+  const civilianFactoriesColumn = getColumnIndex(industrialSheet, "Civilian Factories", HEADER_ROW);
+  const shipyardsColumn = getColumnIndex(industrialSheet, "Shipyards", HEADER_ROW);
+  const developmentColumn = getColumnIndex(nationalStatusSheet, "Development Level", HEADER_ROW);
+  const economicHealthColumn = getColumnIndex(nationalStatusSheet, "Economic Health", HEADER_ROW);
 
-  const lastRow = tradeSheet.getLastRow();
-
-  // Retrieve values from sheets
-  const budgetCapacities = nationalStatusSheet.getRange(5, budgetCapacityColumn, lastRow - 4, 1).getValues();
-  const corruptions = nationalStatusSheet.getRange(5, corruptionColumn, lastRow - 4, 1).getValues();
-  const populations = nationalStatusSheet.getRange(5, populationColumn, lastRow - 4, 1).getValues();
-  const civilianFactories = industrialSheet.getRange(5, civilianFactoriesColumn, lastRow - 4, 1).getValues();
-  const shipyards = industrialSheet.getRange(5, shipyardsColumn, lastRow - 4, 1).getValues();
-  const developmentLevels = nationalStatusSheet.getRange(5, developmentColumn, lastRow - 4, 1).getValues();
-  const importReliances = tradeSheet.getRange(5, importRelianceColumn, lastRow - 4, 1).getValues();
-  const exportReliances = tradeSheet.getRange(5, exportRelianceColumn, lastRow - 4, 1).getValues();
-  const tradeDiversities = tradeSheet.getRange(5, economicTradeDiversityColumn, lastRow - 4, 1).getValues();
-  const economicHealthStatuses = nationalStatusSheet.getRange(5, economicHealthColumn, lastRow - 4, 1).getValues();
+  const names = Object.keys(tradeRowMap);
 
   const globalEconomicHealth = worldStatusSheet.getRange("A6").getValue();
   const mostUsedCurrencies = worldStatusSheet.getRange("G6:G10").getValues();
@@ -108,19 +113,22 @@ function updateTradeStats() {
     "Depression": -10,
   };
 
-  const updatedTradeStats = budgetCapacities.map((row, index) => {
-    const budgetCapacity = parseFloat(row[0]);
-    const corruption = parseFloat(corruptions[index][0]) / 100;
-    const population = parseFloat(populations[index][0]);
-    const factories = parseFloat(civilianFactories[index][0]);
-    const shipyardCount = parseFloat(shipyards[index][0]);
-    const development = parseFloat(developmentLevels[index][0]);
-    const importReliance = parseFloat(importReliances[index][0]);
-    const exportReliance = parseFloat(exportReliances[index][0]);
-    const tradeDiversity = parseFloat(tradeDiversities[index][0]);
-    const nationalEconomicHealth = economicHealthStatuses[index][0];
+  const updatedTradeStats = names.map((nationName) => {
+    const tradeRow = tradeRowMap[nationName];
+    const nationalRow = nationalRowMap[nationName];
+    const industrialRow = industrialRowMap[nationName];
 
-    // Handle invalid data
+    const budgetCapacity = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nationName, budgetCapacityColumn, 0));
+    const corruption = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nationName, corruptionColumn, 0)) / 100;
+    const population = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nationName, populationColumn, 0));
+    const factories = parseFloat(getValueByName(industrialSheet, industrialRowMap, nationName, civilianFactoriesColumn, 0));
+    const shipyardCount = parseFloat(getValueByName(industrialSheet, industrialRowMap, nationName, shipyardsColumn, 0));
+    const development = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nationName, developmentColumn, 0));
+    const importReliance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nationName, importRelianceColumn, 0));
+    const exportReliance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nationName, exportRelianceColumn, 0));
+    const tradeDiversity = parseFloat(getValueByName(tradeSheet, tradeRowMap, nationName, economicTradeDiversityColumn, 0));
+    const nationalEconomicHealth = getValueByName(nationalStatusSheet, nationalRowMap, nationName, economicHealthColumn, "Recovery");
+
     if (
       isNaN(budgetCapacity) ||
       isNaN(corruption) ||
@@ -139,7 +147,6 @@ function updateTradeStats() {
     const nationalEconomicImpact = economicHealthImpact[nationalEconomicHealth] || 0;
 
     // Currency Bonus Impact
-    const nationName = tradeSheet.getRange(5 + index, 1).getValue().trim();
     let currencyBonusImpact = 0;
 
     for (let i = 0; i < mostUsedCurrencies.length; i++) {
@@ -205,13 +212,12 @@ function updateTradeStats() {
     }
 
     // Add stored adjustments to the calculated values
-    const currentRow = index + 5;
-    const adjustedTradeCapacity = Math.round(tradeCapacity) + getAdjustment(currentRow, tradeCapacityColumn);
-    const adjustedTradeEfficiency = Math.round(tradeEfficiency) + getAdjustment(currentRow, tradeEfficiencyColumn);
-    const adjustedAutarkyIndex = clampedAutarkyIndex + getAdjustment(currentRow, autarkyIndexColumn);
-    const adjustedTradeBalance = Math.round(tradeBalance) + getAdjustment(currentRow, tradeBalanceColumn);
-    const adjustedTradeFlow = Math.round(tradeFlow) + getAdjustment(currentRow, tradeFlowColumn);
-    const adjustedTradePower = Math.round(tradePower) + getAdjustment(currentRow, tradePowerColumn);
+    const adjustedTradeCapacity = Math.round(tradeCapacity) + getAdjustment(nationName, "Trade Capacity");
+    const adjustedTradeEfficiency = Math.round(tradeEfficiency) + getAdjustment(nationName, "Trade Efficiency");
+    const adjustedAutarkyIndex = clampedAutarkyIndex + getAdjustment(nationName, "Autarky Index");
+    const adjustedTradeBalance = Math.round(tradeBalance) + getAdjustment(nationName, "Trade Balance");
+    const adjustedTradeFlow = Math.round(tradeFlow) + getAdjustment(nationName, "Trade Flow");
+    const adjustedTradePower = Math.round(tradePower) + getAdjustment(nationName, "Trade Power");
 
     return [
       adjustedTradeCapacity,
@@ -223,6 +229,11 @@ function updateTradeStats() {
     ];
   });
 
-  // Update the sheet
-  tradeSheet.getRange(5, tradeCapacityColumn, lastRow - 4, 6).setValues(updatedTradeStats);
+  // Update each nation's row individually
+  names.forEach((nationName, idx) => {
+    const row = tradeRowMap[nationName];
+    if (row != null) {
+      tradeSheet.getRange(row, tradeCapacityColumn, 1, 6).setValues([updatedTradeStats[idx]]);
+    }
+  });
 }
