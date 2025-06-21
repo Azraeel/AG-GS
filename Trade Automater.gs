@@ -72,12 +72,15 @@ function updateTradeStats() {
   const worldStatusSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("World Status Tracker");
   const nationalStatusSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("National Status");
   const industrialSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Industrial Status");
+  const populationSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Population Tracker");
 
   const HEADER_ROW = 4;
   const nameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
   const tradeRowMap = buildRowMap(tradeSheet, nameColumn);
   const nationalNameColumn = getColumnIndex(nationalStatusSheet, "Nation", HEADER_ROW);
   const nationalRowMap = buildRowMap(nationalStatusSheet, nationalNameColumn);
+  const populationNameColumn = getColumnIndex(populationSheet, "Nation", HEADER_ROW);
+  const populationRowMap = buildRowMap(populationSheet, populationNameColumn);
   const industrialNameColumn = getColumnIndex(industrialSheet, "Nation", HEADER_ROW);
   const industrialRowMap = buildRowMap(industrialSheet, industrialNameColumn);
   const tradeCapacityColumn = getColumnIndex(tradeSheet, "Trade Capacity", HEADER_ROW);
@@ -92,7 +95,7 @@ function updateTradeStats() {
 
   const budgetCapacityColumn = getColumnIndex(nationalStatusSheet, "Budget Capacity", HEADER_ROW);
   const corruptionColumn = getColumnIndex(nationalStatusSheet, "Corruption", HEADER_ROW);
-  const populationColumn = getColumnIndex(nationalStatusSheet, "Population", HEADER_ROW);
+  const populationColumn = getColumnIndex(populationSheet, "Population", HEADER_ROW);
   const civilianFactoriesColumn = getColumnIndex(industrialSheet, "Civilian Factories", HEADER_ROW);
   const shipyardsColumn = getColumnIndex(industrialSheet, "Shipyards", HEADER_ROW);
   const developmentColumn = getColumnIndex(nationalStatusSheet, "Development Level", HEADER_ROW);
@@ -120,7 +123,7 @@ function updateTradeStats() {
 
     const budgetCapacity = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nationName, budgetCapacityColumn, 0));
     const corruption = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nationName, corruptionColumn, 0)) / 100;
-    const population = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nationName, populationColumn, 0));
+    const population = parseFloat(getValueByName(populationSheet, nationalRowMap, nationName, populationColumn, 0));
     const factories = parseFloat(getValueByName(industrialSheet, industrialRowMap, nationName, civilianFactoriesColumn, 0));
     const shipyardCount = parseFloat(getValueByName(industrialSheet, industrialRowMap, nationName, shipyardsColumn, 0));
     const development = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nationName, developmentColumn, 0));
