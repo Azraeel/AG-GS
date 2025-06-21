@@ -50,17 +50,17 @@ function calculateBudgetForRow(row) {
     }
   };
 
-  // Columns in Industrial Status and National Status sheets
-  const factoryColumn = 5;           // Column E for Civilian Factories in Industrial Status
-  const militaryFactoryColumn = 4;   // Column D for Military Factories in Industrial Status
-  const shipyardColumn = 6;          // Column F for Shipyards in Industrial Status
-  const budgetCapacityColumn = 8;    // Column H for Budget Capacity in National Status
-  const populationColumn = 4;        // Column D for Population in Population Tracker
-  const developmentLevelColumn = 7;  // Column G for Development Level in National Status
-  const corruptionColumn = 6;        // Column F for Corruption in National Status
-  const economicHealthColumn = 12;   // Column L for Economic Health in National Status
-  const taxRateColumn = 14;         // Column N for Tax Rate in National Status
-  const mobilizationColumn = 5;      // Column E for Mobilization Level in Military Status
+  const HEADER_ROW = 4;
+  const factoryColumn = getColumnIndex(industrialSheet, "Civilian Factories", HEADER_ROW);
+  const militaryFactoryColumn = getColumnIndex(industrialSheet, "Military Factories", HEADER_ROW);
+  const shipyardColumn = getColumnIndex(industrialSheet, "Shipyards", HEADER_ROW);
+  const budgetCapacityColumn = getColumnIndex(nationalSheet, "Budget Capacity", HEADER_ROW);
+  const populationColumn = getColumnIndex(populationSheet, "Population", HEADER_ROW);
+  const developmentLevelColumn = getColumnIndex(nationalSheet, "Development Level", HEADER_ROW);
+  const corruptionColumn = getColumnIndex(nationalSheet, "Corruption", HEADER_ROW);
+  const economicHealthColumn = getColumnIndex(nationalSheet, "Economic Health", HEADER_ROW);
+  const taxRateColumn = getColumnIndex(nationalSheet, "Tax Rate", HEADER_ROW);
+  const mobilizationColumn = getColumnIndex(militarySheet, "Mobilization Level", HEADER_ROW);
 
   // Fetch current budget capacities and balances (previous values before updating)
   const currentBudgetCapacities = nationalSheet.getRange(row, budgetCapacityColumn).getValue();
