@@ -102,10 +102,75 @@ function onEdit(e) {
       // Calculate impact from Economic Health
       const impactFromHealth = healthImpact[healthStatus] * yearDifference;
 
-      // Scale Trade Balance impact with diminishing returns based on total industrial capacity
+      // Enhanced Trade Balance impact - more realistic and significant
       const totalIndustrialCapacity = currentFactories + (currentMilitaryFactories * 0.5) + currentShipyards;
-      const tradeImpactScaling = 1 / (1 + (totalIndustrialCapacity / 200));
-      const impactFromTradeBalance = tradeBalance >= 2500 ? Math.max(Math.floor((tradeBalance / 2500) * tradeImpactScaling), 1) : 0;
+
+      // Get additional trade data for enhanced calculations
+      let economicImpactScore = 50; // Default if column doesn't exist
+      let tradeVolatility = 0; // Default if column doesn't exist
+      try {
+        const tradeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Trade Status");
+        const HEADER_ROW = 4;
+        const nameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
+        const tradeRowMap = buildRowMap(tradeSheet, nameColumn);
+
+        try {
+          const economicImpactColumn = getColumnIndex(tradeSheet, "Economic Impact Score", HEADER_ROW);
+          const tariffRateColumn = getColumnIndex(tradeSheet, "Tariff Rate", HEADER_ROW);
+          economicImpactScore = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, economicImpactColumn, 50)) || 50;
+          const tariffRateStr = getValueByName(tradeSheet, tradeRowMap, nation, tariffRateColumn, "5%");
+          const tariffRate = parseFloat(tariffRateStr.toString().replace('%', '')) || 5;
+          // Convert tariff rate to a volatility-like effect (higher tariffs = more trade disruption)
+          tradeVolatility = (tariffRate - 5) * 0.5; // Deviation from 5% default creates "volatility"
+        } catch (e) {
+          // Enhanced columns don't exist yet
+        }
+      } catch (e) {
+        // Trade sheet doesn't exist
+      }
+
+      // Enhanced trade impact calculation with import dependency
+      let importReliance = 0;
+      let exportReliance = 0;
+      try {
+        const importColumn = getColumnIndex(tradeSheet, "Import Reliance", HEADER_ROW);
+        const exportColumn = getColumnIndex(tradeSheet, "Export Reliance", HEADER_ROW);
+        importReliance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, importColumn, 0)) || 0;
+        exportReliance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, exportColumn, 0)) || 0;
+      } catch (e) {
+        // Import/Export columns don't exist
+      }
+
+      // Calculate minimum imports needed
+      const minimumImports = Math.max(
+        (currentFactories * 0.5) + 5, // Industrial needs + base
+        5
+      );
+
+      // Calculate import dependency penalty for industrial growth
+      const excessImports = Math.max(0, importReliance - minimumImports);
+      const importDependencyPenalty = excessImports * 0.05; // 5% penalty per excess import point
+
+      // High imports with low development hurt industrial growth
+      const developmentLevel = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nation, getColumnIndex(nationalStatusSheet, "Development Level", HEADER_ROW), 0)) || 0;
+      const developmentImportRatio = developmentLevel / Math.max(importReliance, 1);
+      const industrialGrowthModifier = Math.min(1.5, Math.max(0.5, developmentImportRatio * 0.1));
+
+      // More realistic trade impact calculation
+      const tradeImpactBase = tradeBalance / 1000; // Base impact per 1000 trade balance
+      const economicImpactMultiplier = economicImpactScore / 50; // Scale by economic impact score
+      const volatilityPenalty = Math.abs(tradeVolatility) * 0.1; // Volatility reduces growth
+      const tradeImpactScaling = 1 / (1 + (totalIndustrialCapacity / 150)); // Less diminishing returns
+
+      let impactFromTradeBalance = (tradeImpactBase * economicImpactMultiplier * tradeImpactScaling * industrialGrowthModifier) - volatilityPenalty - importDependencyPenalty;
+
+      // Negative trade balance should hurt growth more significantly
+      if (tradeBalance < 0) {
+        impactFromTradeBalance *= 1.5; // Negative trade balance has 50% more impact
+      }
+
+      // Cap the impact to prevent extreme values
+      impactFromTradeBalance = Math.max(Math.min(impactFromTradeBalance, 5), -3);
 
       // Calculate base growth
       const baseGrowth = impactFromHealth + Math.max(impactFromTradeBalance, 0);
@@ -140,8 +205,42 @@ function onEdit(e) {
 
       const impactFromHealth = healthImpact[healthStatus] * yearDifference;
       const totalIndustrialCapacity = currentFactories + (currentMilitaryFactories * 0.5) + currentShipyards;
-      const tradeImpactScaling = 1 / (1 + (totalIndustrialCapacity / 200));
-      const impactFromTradeBalance = tradeBalance >= 2500 ? Math.max(Math.floor((tradeBalance / 2500) * tradeImpactScaling), 1) : 0;
+
+      // Use the same enhanced trade impact calculation as civilian factories
+      let economicImpactScore = 50;
+      let tradeVolatility = 0;
+      try {
+        const tradeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Trade Status");
+        const HEADER_ROW = 4;
+        const nameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
+        const tradeRowMap = buildRowMap(tradeSheet, nameColumn);
+
+        try {
+          const economicImpactColumn = getColumnIndex(tradeSheet, "Economic Impact Score", HEADER_ROW);
+          const tariffRateColumn = getColumnIndex(tradeSheet, "Tariff Rate", HEADER_ROW);
+          economicImpactScore = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, economicImpactColumn, 50)) || 50;
+          const tariffRateStr = getValueByName(tradeSheet, tradeRowMap, nation, tariffRateColumn, "5%");
+          const tariffRate = parseFloat(tariffRateStr.toString().replace('%', '')) || 5;
+          tradeVolatility = (tariffRate - 5) * 0.5;
+        } catch (e) {
+          // Enhanced columns don't exist yet
+        }
+      } catch (e) {
+        // Trade sheet doesn't exist
+      }
+
+      const tradeImpactBase = tradeBalance / 1000;
+      const economicImpactMultiplier = economicImpactScore / 50;
+      const volatilityPenalty = Math.abs(tradeVolatility) * 0.1;
+      const tradeImpactScaling = 1 / (1 + (totalIndustrialCapacity / 150));
+
+      let impactFromTradeBalance = tradeImpactBase * economicImpactMultiplier * tradeImpactScaling - volatilityPenalty;
+
+      if (tradeBalance < 0) {
+        impactFromTradeBalance *= 1.5;
+      }
+
+      impactFromTradeBalance = Math.max(Math.min(impactFromTradeBalance, 5), -3);
       const baseGrowth = impactFromHealth + Math.max(impactFromTradeBalance, 0);
       const militaryGrowth = baseGrowth * mobilization.militaryGrowthMultiplier;
 
@@ -163,8 +262,42 @@ function onEdit(e) {
 
       const impactFromHealth = healthImpact[healthStatus] * yearDifference;
       const totalIndustrialCapacity = currentFactories + (currentMilitaryFactories * 0.5) + currentShipyards;
-      const tradeImpactScaling = 1 / (1 + (totalIndustrialCapacity / 200));
-      const impactFromTradeBalance = tradeBalance >= 2500 ? Math.max(Math.floor((tradeBalance / 2500) * tradeImpactScaling), 1) : 0;
+
+      // Use the same enhanced trade impact calculation
+      let economicImpactScore = 50;
+      let tradeVolatility = 0;
+      try {
+        const tradeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Trade Status");
+        const HEADER_ROW = 4;
+        const nameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
+        const tradeRowMap = buildRowMap(tradeSheet, nameColumn);
+
+        try {
+          const economicImpactColumn = getColumnIndex(tradeSheet, "Economic Impact Score", HEADER_ROW);
+          const tariffRateColumn = getColumnIndex(tradeSheet, "Tariff Rate", HEADER_ROW);
+          economicImpactScore = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, economicImpactColumn, 50)) || 50;
+          const tariffRateStr = getValueByName(tradeSheet, tradeRowMap, nation, tariffRateColumn, "5%");
+          const tariffRate = parseFloat(tariffRateStr.toString().replace('%', '')) || 5;
+          tradeVolatility = (tariffRate - 5) * 0.5;
+        } catch (e) {
+          // Enhanced columns don't exist yet
+        }
+      } catch (e) {
+        // Trade sheet doesn't exist
+      }
+
+      const tradeImpactBase = tradeBalance / 1000;
+      const economicImpactMultiplier = economicImpactScore / 50;
+      const volatilityPenalty = Math.abs(tradeVolatility) * 0.1;
+      const tradeImpactScaling = 1 / (1 + (totalIndustrialCapacity / 150));
+
+      let impactFromTradeBalance = tradeImpactBase * economicImpactMultiplier * tradeImpactScaling - volatilityPenalty;
+
+      if (tradeBalance < 0) {
+        impactFromTradeBalance *= 1.5;
+      }
+
+      impactFromTradeBalance = Math.max(Math.min(impactFromTradeBalance, 5), -3);
       const baseGrowth = impactFromHealth + Math.max(impactFromTradeBalance, 0);
       const shipyardGrowth = Math.floor(baseGrowth / 3);
 
@@ -177,12 +310,16 @@ function onEdit(e) {
         industrialSheet.getRange(iRow, factoryColumn).setValue(updatedIndustrial[idx][0]);
         industrialSheet.getRange(iRow, militaryFactoryColumn).setValue(updatedMilitary[idx][0]);
         industrialSheet.getRange(iRow, shipyardColumn).setValue(updatedShipyards[idx][0]);
+
+
       }
     });
 
     // Call calculateBudget after updating industrial values
     calculateBudget();
   }
+
+
 }
 
 function calculateBudget() {
@@ -289,12 +426,53 @@ function calculateBudget() {
     // Calculate population-based tax contribution with correct scaling
     const developmentImpact = Math.pow(validDevelopmentLevel / 10, 3) * (1 + validDevelopmentLevel / 20);
     const taxRateScalingFactor = 1 + Math.sqrt(Math.max(0, (taxRate * 100 - 1) / 100));
-    const populationContribution = 
+
+    // Enhanced trade impact on budget
+    let tradeImpactOnBudget = 1; // Default multiplier
+    try {
+      const tradeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Trade Status");
+      const HEADER_ROW = 4;
+      const nameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
+      const tradeRowMap = buildRowMap(tradeSheet, nameColumn);
+      const tradeBalanceColumn = getColumnIndex(tradeSheet, "Trade Balance", HEADER_ROW);
+
+      const tradeBalance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, tradeBalanceColumn, 0)) || 0;
+
+      // Trade balance affects budget capacity through economic activity and tax collection
+      const tradeToGDPRatio = tradeBalance / Math.max(baseBudget + industrialContribution, 100);
+      tradeImpactOnBudget = 1 + (tradeToGDPRatio * 0.5); // 50% of trade-to-GDP ratio affects budget (increased from 10%)
+      tradeImpactOnBudget = Math.max(0.5, Math.min(2.0, tradeImpactOnBudget)); // Cap between 50% and 200% (increased range)
+
+      // Get enhanced trade data if available
+      try {
+        const economicImpactColumn = getColumnIndex(tradeSheet, "Economic Impact Score", HEADER_ROW);
+        const tariffRateColumn = getColumnIndex(tradeSheet, "Tariff Rate", HEADER_ROW);
+        const economicImpact = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, economicImpactColumn, 50)) || 50;
+        const tariffRateStr = getValueByName(tradeSheet, tradeRowMap, nation, tariffRateColumn, "5%");
+        const tariffRate = parseFloat(tariffRateStr.toString().replace('%', '')) || 5;
+
+        // Economic impact score affects how much trade influences budget
+        const impactMultiplier = economicImpact / 50;
+        tradeImpactOnBudget = 1 + ((tradeImpactOnBudget - 1) * impactMultiplier);
+
+        // Tariff revenue adds to budget capacity (tariffs generate government income)
+        const tariffRevenue = Math.abs(tradeBalance) * (tariffRate / 100) * 0.2; // 20% of tariff revenue goes to budget (increased from 10%)
+        tradeImpactOnBudget += tariffRevenue / Math.max(baseBudget + industrialContribution, 100);
+
+      } catch (e) {
+        // Enhanced columns don't exist yet
+      }
+    } catch (e) {
+      // Trade sheet doesn't exist
+    }
+
+    const populationContribution =
       (Math.log(validPopulation) + validPopulation / 250000) * // Combined logarithmic and direct scaling for population
       taxRateScalingFactor * // Adjust for tax rate
       developmentImpact * // Adjusted development impact
       ((100 - validCorruption) / 100) * // Adjust for corruption as a reducing factor
-      validEconomicHealthMultiplier; // Apply economic health multiplier
+      validEconomicHealthMultiplier * // Apply economic health multiplier
+      tradeImpactOnBudget; // Apply trade impact
 
     // Apply maintenance cost modifier from mobilization
     const maintenanceCost = (
@@ -326,9 +504,13 @@ function calculateBudget() {
     }
   });
 
-  // Run UpdateDebt After calculateBudget 
+  // Run UpdateDebt After calculateBudget
   updateDebt(previousData);
+
+  // Economic health is manually controlled - no automatic updates from trade
 }
+
+
 
 function updateDebt(previousData) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("National Status");
