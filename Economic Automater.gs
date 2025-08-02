@@ -29,15 +29,18 @@ const mobilizationImpact = {
 };
 
 function onEdit(e) {
-  const industrialSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Industrial Status");
-  const economicSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("National Status");  
-  const nationalStatusSheet = economicSheet;
-  const tradeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Trade Status");
-  const worldstatusSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("World Status Tracker");
-  
+  // ULTRA OPTIMIZATION: Cache all sheet references once
+  const sheets = {
+    industrial: getSheetCached("Industrial Status"),
+    economic: getSheetCached("National Status"),
+    trade: getSheetCached("Trade Status"),
+    world: getSheetCached("World Status Tracker"),
+    military: getSheetCached("Military Status")
+  };
+
   // Define the cell that holds the Year in World Status Tracker (C6)
-  const yearCell = worldstatusSheet.getRange("C6");
-  
+  const yearCell = sheets.world.getRange("C6");
+
   // Check if the edited cell is the year cell
   if (e.range.getA1Notation() === yearCell.getA1Notation()) {
     const newYear = parseInt(e.value, 10);
@@ -52,28 +55,64 @@ function onEdit(e) {
     // Calculate the difference in years
     const yearDifference = newYear - oldYear;
     if (yearDifference <= 0) return; // Only proceed if the year has advanced
-    
+
+    // ULTRA OPTIMIZATION: Cache all column indices once
     const HEADER_ROW = 4;
-    const industrialNameColumn = getColumnIndex(industrialSheet, "Nation", HEADER_ROW);
-    const economicNameColumn = getColumnIndex(economicSheet, "Nation", HEADER_ROW);
-    const tradeNameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
-    const militarySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Military Status");
-    const militaryNameColumn = getColumnIndex(militarySheet, "Nation", HEADER_ROW);
+    const columns = {
+      industrial: {
+        nation: getColumnIndexCached(sheets.industrial, "Nation", HEADER_ROW),
+        factories: getColumnIndexCached(sheets.industrial, "Civilian Factories", HEADER_ROW),
+        military: getColumnIndexCached(sheets.industrial, "Military Factories", HEADER_ROW),
+        shipyards: getColumnIndexCached(sheets.industrial, "Shipyards", HEADER_ROW)
+      },
+      economic: {
+        nation: getColumnIndexCached(sheets.economic, "Nation", HEADER_ROW),
+        health: getColumnIndexCached(sheets.economic, "Economic Health", HEADER_ROW),
+        development: getColumnIndexCached(sheets.economic, "Development Level", HEADER_ROW)
+      },
+      trade: {
+        nation: getColumnIndexCached(sheets.trade, "Nation", HEADER_ROW),
+        balance: getColumnIndexCached(sheets.trade, "Trade Balance", HEADER_ROW)
+      },
+      military: {
+        nation: getColumnIndexCached(sheets.military, "Nation", HEADER_ROW),
+        mobilization: getColumnIndexCached(sheets.military, "Mobilization Level", HEADER_ROW)
+      }
+    };
 
-    const industrialRowMap = buildRowMap(industrialSheet, industrialNameColumn);
-    const economicRowMap = buildRowMap(economicSheet, economicNameColumn);
-    const tradeRowMap = buildRowMap(tradeSheet, tradeNameColumn);
-    const militaryRowMap = buildRowMap(militarySheet, militaryNameColumn);
+    // ULTRA OPTIMIZATION: Build row maps once
+    const rowMaps = {
+      industrial: buildRowMapCached(sheets.industrial, columns.industrial.nation),
+      economic: buildRowMapCached(sheets.economic, columns.economic.nation),
+      trade: buildRowMapCached(sheets.trade, columns.trade.nation),
+      military: buildRowMapCached(sheets.military, columns.military.nation)
+    };
 
-    const factoryColumn = getColumnIndex(industrialSheet, "Civilian Factories", HEADER_ROW);
-    const militaryFactoryColumn = getColumnIndex(industrialSheet, "Military Factories", HEADER_ROW);
-    const shipyardColumn = getColumnIndex(industrialSheet, "Shipyards", HEADER_ROW);
-    const healthColumn = getColumnIndex(economicSheet, "Economic Health", HEADER_ROW);
-    const tradeBalanceColumn = getColumnIndex(tradeSheet, "Trade Balance", HEADER_ROW);
-    const mobilizationColumn = getColumnIndex(militarySheet, "Mobilization Level", HEADER_ROW);
+    const names = Object.keys(rowMaps.industrial);
 
-    const names = Object.keys(industrialRowMap);
-    
+    // ULTRA OPTIMIZATION: Try to add enhanced trade columns
+    try {
+      columns.trade.economicImpact = getColumnIndexCached(sheets.trade, "Economic Impact Score", HEADER_ROW);
+      columns.trade.tariffRate = getColumnIndexCached(sheets.trade, "Tariff Rate", HEADER_ROW);
+      columns.trade.importReliance = getColumnIndexCached(sheets.trade, "Import Reliance", HEADER_ROW);
+      columns.trade.exportReliance = getColumnIndexCached(sheets.trade, "Export Reliance", HEADER_ROW);
+    } catch (e) {
+      // Enhanced columns don't exist yet
+    }
+
+    // ULTRA OPTIMIZATION: Batch read ALL data once
+    const allData = {
+      industrial: getBatchDataByNames(sheets.industrial, rowMaps.industrial, names,
+        [columns.industrial.factories, columns.industrial.military, columns.industrial.shipyards]),
+      economic: getBatchDataByNames(sheets.economic, rowMaps.economic, names,
+        [columns.economic.health, columns.economic.development]),
+      trade: getBatchDataByNames(sheets.trade, rowMaps.trade, names,
+        columns.trade.economicImpact ?
+          [columns.trade.balance, columns.trade.economicImpact, columns.trade.tariffRate, columns.trade.importReliance, columns.trade.exportReliance] :
+          [columns.trade.balance]),
+      military: getBatchDataByNames(sheets.military, rowMaps.military, names, columns.military.mobilization)
+    };
+
     // Define hard values for each Economic Health status
     const healthImpact = {
       "Depression": -3,
@@ -84,63 +123,34 @@ function onEdit(e) {
       "Prosperity": 3
     };
 
+    // ULTRA OPTIMIZATION: Process civilian factories using cached data
     const updatedIndustrial = names.map((nation) => {
-      const iRow = industrialRowMap[nation];
+      const industrialData = allData.industrial[nation] || {};
+      const economicData = allData.economic[nation] || {};
+      const tradeData = allData.trade[nation] || {};
+      const militaryData = allData.military[nation];
 
-      const currentFactories = parseFloat(industrialSheet.getRange(iRow, factoryColumn).getValue());
-      const currentMilitaryFactories = parseFloat(industrialSheet.getRange(iRow, militaryFactoryColumn).getValue());
-      const currentShipyards = parseFloat(industrialSheet.getRange(iRow, shipyardColumn).getValue());
-      const healthStatus = getValueByName(economicSheet, economicRowMap, nation, healthColumn, "Recovery");
-      const tradeBalance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, tradeBalanceColumn, 0)) || 0;
-      const mobilizationLevel = getValueByName(militarySheet, militaryRowMap, nation, mobilizationColumn, "None") || "None";
+      const currentFactories = parseFloat(industrialData[columns.industrial.factories]) || 0;
+      const currentMilitaryFactories = parseFloat(industrialData[columns.industrial.military]) || 0;
+      const currentShipyards = parseFloat(industrialData[columns.industrial.shipyards]) || 0;
+      const healthStatus = economicData[columns.economic.health] || "Recovery";
+      const tradeBalance = parseFloat(tradeData[columns.trade.balance]) || 0;
+      const mobilizationLevel = militaryData || "None";
       const mobilization = mobilizationImpact[mobilizationLevel] || mobilizationImpact["None"];
 
-      // Check if values are numbers and healthStatus is recognized
       if (isNaN(currentFactories) || isNaN(currentMilitaryFactories) || isNaN(currentShipyards) || !(healthStatus in healthImpact)) {
         return [currentFactories];
       }
-      
-      // Calculate impact from Economic Health
-      const impactFromHealth = healthImpact[healthStatus] * yearDifference;
 
-      // Enhanced Trade Balance impact - more realistic and significant
+      const impactFromHealth = healthImpact[healthStatus] * yearDifference;
       const totalIndustrialCapacity = currentFactories + (currentMilitaryFactories * 0.5) + currentShipyards;
 
-      // Get additional trade data for enhanced calculations
-      let economicImpactScore = 50; // Default if column doesn't exist
-      let tradeVolatility = 0; // Default if column doesn't exist
-      try {
-        const tradeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Trade Status");
-        const HEADER_ROW = 4;
-        const nameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
-        const tradeRowMap = buildRowMap(tradeSheet, nameColumn);
-
-        try {
-          const economicImpactColumn = getColumnIndex(tradeSheet, "Economic Impact Score", HEADER_ROW);
-          const tariffRateColumn = getColumnIndex(tradeSheet, "Tariff Rate", HEADER_ROW);
-          economicImpactScore = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, economicImpactColumn, 50)) || 50;
-          const tariffRateStr = getValueByName(tradeSheet, tradeRowMap, nation, tariffRateColumn, "5%");
-          const tariffRate = parseFloat(tariffRateStr.toString().replace('%', '')) || 5;
-          // Convert tariff rate to a volatility-like effect (higher tariffs = more trade disruption)
-          tradeVolatility = (tariffRate - 5) * 0.5; // Deviation from 5% default creates "volatility"
-        } catch (e) {
-          // Enhanced columns don't exist yet
-        }
-      } catch (e) {
-        // Trade sheet doesn't exist
-      }
-
-      // Enhanced trade impact calculation with import dependency
-      let importReliance = 0;
-      let exportReliance = 0;
-      try {
-        const importColumn = getColumnIndex(tradeSheet, "Import Reliance", HEADER_ROW);
-        const exportColumn = getColumnIndex(tradeSheet, "Export Reliance", HEADER_ROW);
-        importReliance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, importColumn, 0)) || 0;
-        exportReliance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, exportColumn, 0)) || 0;
-      } catch (e) {
-        // Import/Export columns don't exist
-      }
+      // Use cached enhanced trade data
+      const economicImpactScore = columns.trade.economicImpact ? (parseFloat(tradeData[columns.trade.economicImpact]) || 50) : 50;
+      const tariffRate = columns.trade.tariffRate ? (parseFloat(tradeData[columns.trade.tariffRate]?.toString().replace('%', '')) || 5) : 5;
+      const tradeVolatility = (tariffRate - 5) * 0.5;
+      const importReliance = columns.trade.importReliance ? (parseFloat(tradeData[columns.trade.importReliance]) || 0) : 0;
+      const exportReliance = columns.trade.exportReliance ? (parseFloat(tradeData[columns.trade.exportReliance]) || 0) : 0;
 
       // Calculate minimum imports needed
       const minimumImports = Math.max(
@@ -153,7 +163,7 @@ function onEdit(e) {
       const importDependencyPenalty = excessImports * 0.05; // 5% penalty per excess import point
 
       // High imports with low development hurt industrial growth
-      const developmentLevel = parseFloat(getValueByName(economicSheet, economicRowMap, nation, getColumnIndex(economicSheet, "Development Level", HEADER_ROW), 0)) || 0;
+      const developmentLevel = parseFloat(economicData[columns.economic.development]) || 0;
       const developmentImportRatio = developmentLevel / Math.max(importReliance, 1);
       const industrialGrowthModifier = Math.min(1.5, Math.max(0.5, developmentImportRatio * 0.1));
 
@@ -189,15 +199,19 @@ function onEdit(e) {
       return [newFactories];
     });
 
+    // ULTRA OPTIMIZATION: Process military factories using cached data
     const updatedMilitary = names.map((nation) => {
-      const iRow = industrialRowMap[nation];
+      const industrialData = allData.industrial[nation] || {};
+      const economicData = allData.economic[nation] || {};
+      const tradeData = allData.trade[nation] || {};
+      const militaryData = allData.military[nation];
 
-      const currentFactories = parseFloat(industrialSheet.getRange(iRow, factoryColumn).getValue());
-      const currentMilitaryFactories = parseFloat(industrialSheet.getRange(iRow, militaryFactoryColumn).getValue());
-      const currentShipyards = parseFloat(industrialSheet.getRange(iRow, shipyardColumn).getValue());
-      const healthStatus = getValueByName(economicSheet, economicRowMap, nation, healthColumn, "Recovery");
-      const tradeBalance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, tradeBalanceColumn, 0)) || 0;
-      const mobilizationLevel = getValueByName(militarySheet, militaryRowMap, nation, mobilizationColumn, "None") || "None";
+      const currentFactories = parseFloat(industrialData[columns.industrial.factories]) || 0;
+      const currentMilitaryFactories = parseFloat(industrialData[columns.industrial.military]) || 0;
+      const currentShipyards = parseFloat(industrialData[columns.industrial.shipyards]) || 0;
+      const healthStatus = economicData[columns.economic.health] || "Recovery";
+      const tradeBalance = parseFloat(tradeData[columns.trade.balance]) || 0;
+      const mobilizationLevel = militaryData || "None";
       const mobilization = mobilizationImpact[mobilizationLevel] || mobilizationImpact["None"];
 
       if (isNaN(currentFactories) || isNaN(currentMilitaryFactories) || isNaN(currentShipyards) || !(healthStatus in healthImpact)) {
@@ -207,28 +221,10 @@ function onEdit(e) {
       const impactFromHealth = healthImpact[healthStatus] * yearDifference;
       const totalIndustrialCapacity = currentFactories + (currentMilitaryFactories * 0.5) + currentShipyards;
 
-      // Use the same enhanced trade impact calculation as civilian factories
-      let economicImpactScore = 50;
-      let tradeVolatility = 0;
-      try {
-        const tradeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Trade Status");
-        const HEADER_ROW = 4;
-        const nameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
-        const tradeRowMap = buildRowMap(tradeSheet, nameColumn);
-
-        try {
-          const economicImpactColumn = getColumnIndex(tradeSheet, "Economic Impact Score", HEADER_ROW);
-          const tariffRateColumn = getColumnIndex(tradeSheet, "Tariff Rate", HEADER_ROW);
-          economicImpactScore = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, economicImpactColumn, 50)) || 50;
-          const tariffRateStr = getValueByName(tradeSheet, tradeRowMap, nation, tariffRateColumn, "5%");
-          const tariffRate = parseFloat(tariffRateStr.toString().replace('%', '')) || 5;
-          tradeVolatility = (tariffRate - 5) * 0.5;
-        } catch (e) {
-          // Enhanced columns don't exist yet
-        }
-      } catch (e) {
-        // Trade sheet doesn't exist
-      }
+      // Use cached enhanced trade data
+      const economicImpactScore = columns.trade.economicImpact ? (parseFloat(tradeData[columns.trade.economicImpact]) || 50) : 50;
+      const tariffRate = columns.trade.tariffRate ? (parseFloat(tradeData[columns.trade.tariffRate]?.toString().replace('%', '')) || 5) : 5;
+      const tradeVolatility = (tariffRate - 5) * 0.5;
 
       const tradeImpactBase = tradeBalance / 1000;
       const economicImpactMultiplier = economicImpactScore / 50;
@@ -248,14 +244,17 @@ function onEdit(e) {
       return [Math.max(currentMilitaryFactories + Math.floor(militaryGrowth), 0)];
     });
 
+    // ULTRA OPTIMIZATION: Process shipyards using cached data
     const updatedShipyards = names.map((nation) => {
-      const iRow = industrialRowMap[nation];
+      const industrialData = allData.industrial[nation] || {};
+      const economicData = allData.economic[nation] || {};
+      const tradeData = allData.trade[nation] || {};
 
-      const currentFactories = parseFloat(industrialSheet.getRange(iRow, factoryColumn).getValue());
-      const currentMilitaryFactories = parseFloat(industrialSheet.getRange(iRow, militaryFactoryColumn).getValue());
-      const currentShipyards = parseFloat(industrialSheet.getRange(iRow, shipyardColumn).getValue());
-      const healthStatus = getValueByName(economicSheet, economicRowMap, nation, healthColumn, "Recovery");
-      const tradeBalance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, tradeBalanceColumn, 0)) || 0;
+      const currentFactories = parseFloat(industrialData[columns.industrial.factories]) || 0;
+      const currentMilitaryFactories = parseFloat(industrialData[columns.industrial.military]) || 0;
+      const currentShipyards = parseFloat(industrialData[columns.industrial.shipyards]) || 0;
+      const healthStatus = economicData[columns.economic.health] || "Recovery";
+      const tradeBalance = parseFloat(tradeData[columns.trade.balance]) || 0;
 
       if (isNaN(currentFactories) || isNaN(currentMilitaryFactories) || isNaN(currentShipyards) || !(healthStatus in healthImpact)) {
         return [currentShipyards];
@@ -264,28 +263,10 @@ function onEdit(e) {
       const impactFromHealth = healthImpact[healthStatus] * yearDifference;
       const totalIndustrialCapacity = currentFactories + (currentMilitaryFactories * 0.5) + currentShipyards;
 
-      // Use the same enhanced trade impact calculation
-      let economicImpactScore = 50;
-      let tradeVolatility = 0;
-      try {
-        const tradeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Trade Status");
-        const HEADER_ROW = 4;
-        const nameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
-        const tradeRowMap = buildRowMap(tradeSheet, nameColumn);
-
-        try {
-          const economicImpactColumn = getColumnIndex(tradeSheet, "Economic Impact Score", HEADER_ROW);
-          const tariffRateColumn = getColumnIndex(tradeSheet, "Tariff Rate", HEADER_ROW);
-          economicImpactScore = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, economicImpactColumn, 50)) || 50;
-          const tariffRateStr = getValueByName(tradeSheet, tradeRowMap, nation, tariffRateColumn, "5%");
-          const tariffRate = parseFloat(tariffRateStr.toString().replace('%', '')) || 5;
-          tradeVolatility = (tariffRate - 5) * 0.5;
-        } catch (e) {
-          // Enhanced columns don't exist yet
-        }
-      } catch (e) {
-        // Trade sheet doesn't exist
-      }
+      // Use cached enhanced trade data
+      const economicImpactScore = columns.trade.economicImpact ? (parseFloat(tradeData[columns.trade.economicImpact]) || 50) : 50;
+      const tariffRate = columns.trade.tariffRate ? (parseFloat(tradeData[columns.trade.tariffRate]?.toString().replace('%', '')) || 5) : 5;
+      const tradeVolatility = (tariffRate - 5) * 0.5;
 
       const tradeImpactBase = tradeBalance / 1000;
       const economicImpactMultiplier = economicImpactScore / 50;
@@ -305,14 +286,13 @@ function onEdit(e) {
       return [Math.max(currentShipyards + shipyardGrowth, 0)];
     });
     
+    // ULTRA OPTIMIZATION: Write industrial data using cached references
     names.forEach((nation, idx) => {
-      const iRow = industrialRowMap[nation];
+      const iRow = rowMaps.industrial[nation];
       if (iRow != null) {
-        industrialSheet.getRange(iRow, factoryColumn).setValue(updatedIndustrial[idx][0]);
-        industrialSheet.getRange(iRow, militaryFactoryColumn).setValue(updatedMilitary[idx][0]);
-        industrialSheet.getRange(iRow, shipyardColumn).setValue(updatedShipyards[idx][0]);
-
-
+        sheets.industrial.getRange(iRow, columns.industrial.factories).setValue(updatedIndustrial[idx][0]);
+        sheets.industrial.getRange(iRow, columns.industrial.military).setValue(updatedMilitary[idx][0]);
+        sheets.industrial.getRange(iRow, columns.industrial.shipyards).setValue(updatedShipyards[idx][0]);
       }
     });
 
@@ -324,40 +304,78 @@ function onEdit(e) {
 }
 
 function calculateBudget() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const industrialSheet = ss.getSheetByName("Industrial Status");
-  const nationalSheet = ss.getSheetByName("National Status");
-  const populationSheet = ss.getSheetByName("Population Tracker");
-  const militarySheet = ss.getSheetByName("Military Status");
+  // ULTRA OPTIMIZATION: Use cached sheet references and column indices
+  const sheets = {
+    industrial: getSheetCached("Industrial Status"),
+    national: getSheetCached("National Status"),
+    population: getSheetCached("Population Tracker"),
+    military: getSheetCached("Military Status"),
+    trade: getSheetCached("Trade Status")
+  };
 
   const HEADER_ROW = 4;
-  const industrialNameColumn = getColumnIndex(industrialSheet, "Nation", HEADER_ROW);
-  const nationalNameColumn = getColumnIndex(nationalSheet, "Nation", HEADER_ROW);
-  const populationNameColumn = getColumnIndex(populationSheet, "Nation", HEADER_ROW);
+  const columns = {
+    industrial: {
+      nation: getColumnIndexCached(sheets.industrial, "Nation", HEADER_ROW),
+      factories: getColumnIndexCached(sheets.industrial, "Civilian Factories", HEADER_ROW),
+      military: getColumnIndexCached(sheets.industrial, "Military Factories", HEADER_ROW),
+      shipyards: getColumnIndexCached(sheets.industrial, "Shipyards", HEADER_ROW)
+    },
+    national: {
+      nation: getColumnIndexCached(sheets.national, "Nation", HEADER_ROW),
+      budgetCapacity: getColumnIndexCached(sheets.national, "Budget Capacity", HEADER_ROW),
+      budgetBalance: getColumnIndexCached(sheets.national, "Budget Balance", HEADER_ROW),
+      developmentLevel: getColumnIndexCached(sheets.national, "Development Level", HEADER_ROW),
+      corruption: getColumnIndexCached(sheets.national, "Corruption", HEADER_ROW),
+      economicHealth: getColumnIndexCached(sheets.national, "Economic Health", HEADER_ROW),
+      taxRate: getColumnIndexCached(sheets.national, "Tax Rate", HEADER_ROW)
+    },
+    population: {
+      nation: getColumnIndexCached(sheets.population, "Nation", HEADER_ROW),
+      population: getColumnIndexCached(sheets.population, "Population", HEADER_ROW)
+    },
+    military: {
+      nation: getColumnIndexCached(sheets.military, "Nation", HEADER_ROW),
+      mobilization: getColumnIndexCached(sheets.military, "Mobilization Level", HEADER_ROW)
+    },
+    trade: {
+      nation: getColumnIndexCached(sheets.trade, "Nation", HEADER_ROW),
+      balance: getColumnIndexCached(sheets.trade, "Trade Balance", HEADER_ROW)
+    }
+  };
 
-  const industrialRowMap = buildRowMap(industrialSheet, industrialNameColumn);
-  const nationalRowMap = buildRowMap(nationalSheet, nationalNameColumn);
-  const populationRowMap = buildRowMap(populationSheet, populationNameColumn);
-  const militaryNameColumn = getColumnIndex(militarySheet, "Nation", HEADER_ROW);
-  const militaryRowMap = buildRowMap(militarySheet, militaryNameColumn);
+  const rowMaps = {
+    industrial: buildRowMapCached(sheets.industrial, columns.industrial.nation),
+    national: buildRowMapCached(sheets.national, columns.national.nation),
+    population: buildRowMapCached(sheets.population, columns.population.nation),
+    military: buildRowMapCached(sheets.military, columns.military.nation),
+    trade: buildRowMapCached(sheets.trade, columns.trade.nation)
+  };
 
-  const names = Object.keys(industrialRowMap);
+  const names = Object.keys(rowMaps.industrial);
 
-  const factoryColumn = getColumnIndex(industrialSheet, "Civilian Factories", HEADER_ROW);
-  const militaryFactoryColumn = getColumnIndex(industrialSheet, "Military Factories", HEADER_ROW);
-  const shipyardColumn = getColumnIndex(industrialSheet, "Shipyards", HEADER_ROW);
-  const budgetCapacityColumn = getColumnIndex(nationalSheet, "Budget Capacity", HEADER_ROW);
-  const budgetBalanceColumn = getColumnIndex(nationalSheet, "Budget Balance", HEADER_ROW);
-  const populationColumn = getColumnIndex(populationSheet, "Population", HEADER_ROW);
-  const developmentLevelColumn = getColumnIndex(nationalSheet, "Development Level", HEADER_ROW);
-  const corruptionColumn = getColumnIndex(nationalSheet, "Corruption", HEADER_ROW);
-  const economicHealthColumn = getColumnIndex(nationalSheet, "Economic Health", HEADER_ROW);
-  const taxRateColumn = getColumnIndex(nationalSheet, "Tax Rate", HEADER_ROW);
-  const mobilizationColumn = getColumnIndex(militarySheet, "Mobilization Level", HEADER_ROW);
+  // Try to add enhanced trade columns
+  try {
+    columns.trade.economicImpact = getColumnIndexCached(sheets.trade, "Economic Impact Score", HEADER_ROW);
+    columns.trade.tariffRate = getColumnIndexCached(sheets.trade, "Tariff Rate", HEADER_ROW);
+  } catch (e) {
+    // Enhanced columns don't exist yet
+  }
 
-  // Fetch current budget capacities and balances (previous values before updating)
-  const currentBudgetCapacities = names.map(n => getValueByName(nationalSheet, nationalRowMap, n, budgetCapacityColumn, 0));
-  const currentBudgetBalances = names.map(n => getValueByName(nationalSheet, nationalRowMap, n, budgetBalanceColumn, 0));
+  // ULTRA OPTIMIZATION: Batch read ALL budget data once
+  const allBudgetData = {
+    industrial: getBatchDataByNames(sheets.industrial, rowMaps.industrial, names,
+      [columns.industrial.factories, columns.industrial.military, columns.industrial.shipyards]),
+    national: getBatchDataByNames(sheets.national, rowMaps.national, names,
+      [columns.national.budgetCapacity, columns.national.budgetBalance, columns.national.developmentLevel,
+       columns.national.corruption, columns.national.economicHealth, columns.national.taxRate]),
+    population: getBatchDataByNames(sheets.population, rowMaps.population, names, columns.population.population),
+    military: getBatchDataByNames(sheets.military, rowMaps.military, names, columns.military.mobilization),
+    trade: getBatchDataByNames(sheets.trade, rowMaps.trade, names,
+      columns.trade.economicImpact ?
+        [columns.trade.balance, columns.trade.economicImpact, columns.trade.tariffRate] :
+        [columns.trade.balance])
+  };
 
   // Constants
   const baseBudget = 10;
@@ -367,15 +385,6 @@ function calculateBudget() {
   const shipyardMultiplier = 1.5; // Shipyards contribute 50% more than factories
   const militaryFactoryMultiplier = 0.4; // Military factories contribute 40% of civilian factories
   const baseMaintenanceCost = 0.1; // Base maintenance cost per factory
-
-  const factoryValues = names.map(n => [getValueByName(industrialSheet, industrialRowMap, n, factoryColumn, 0)]);
-  const militaryFactoryValues = names.map(n => [getValueByName(industrialSheet, industrialRowMap, n, militaryFactoryColumn, 0)]);
-  const shipyardValues = names.map(n => [getValueByName(industrialSheet, industrialRowMap, n, shipyardColumn, 0)]);
-  const developmentLevels = names.map(n => [getValueByName(nationalSheet, nationalRowMap, n, developmentLevelColumn, 0)]);
-  const populationValues = names.map(n => [getValueByName(populationSheet, populationRowMap, n, populationColumn, 0)]);
-  const corruptionValues = names.map(n => [getValueByName(nationalSheet, nationalRowMap, n, corruptionColumn, 0)]);
-  const economicHealthStatuses = names.map(n => [getValueByName(nationalSheet, nationalRowMap, n, economicHealthColumn, "Recovery")]);
-  const taxRates = names.map(n => [getValueByName(nationalSheet, nationalRowMap, n, taxRateColumn, 0)]);
 
   // Economic Health multipliers
   const economicHealthImpact = {
@@ -387,18 +396,23 @@ function calculateBudget() {
     "Depression": 0.6,
   };
 
-  const mobilizationLevels = names.map(n => getValueByName(militarySheet, militaryRowMap, n, mobilizationColumn, "None"));
-
+  // ULTRA OPTIMIZATION: Process budget calculations using cached data
   const updatedBudgets = names.map((nation, index) => {
-    const civFactories = factoryValues[index][0];
-    const militaryFactories = militaryFactoryValues[index][0];
-    const shipyards = shipyardValues[index][0];
-    const developmentLevel = developmentLevels[index][0];
-    const population = populationValues[index][0];
-    const corruption = parseFloat(corruptionValues[index][0]);
-    const economicHealth = economicHealthStatuses[index][0];
-    const taxRate = parseFloat(taxRates[index][0]);
-    const mobilizationLevel = mobilizationLevels[index] || "None";
+    const industrialData = allBudgetData.industrial[nation] || {};
+    const nationalData = allBudgetData.national[nation] || {};
+    const populationData = allBudgetData.population[nation];
+    const militaryData = allBudgetData.military[nation];
+    const tradeData = allBudgetData.trade[nation] || {};
+
+    const civFactories = parseFloat(industrialData[columns.industrial.factories]) || 0;
+    const militaryFactories = parseFloat(industrialData[columns.industrial.military]) || 0;
+    const shipyards = parseFloat(industrialData[columns.industrial.shipyards]) || 0;
+    const developmentLevel = parseFloat(nationalData[columns.national.developmentLevel]) || 0;
+    const population = parseFloat(populationData) || 0;
+    const corruption = parseFloat(nationalData[columns.national.corruption]) || 0;
+    const economicHealth = nationalData[columns.national.economicHealth] || "Recovery";
+    const taxRate = parseFloat(nationalData[columns.national.taxRate]) || 0;
+    const mobilizationLevel = militaryData || "None";
     const mobilization = mobilizationImpact[mobilizationLevel] || mobilizationImpact["None"];
 
     // Ensure values are valid numbers
@@ -428,80 +442,51 @@ function calculateBudget() {
     const developmentImpact = Math.pow(validDevelopmentLevel / 10, 3) * (1 + validDevelopmentLevel / 20);
     const taxRateScalingFactor = 1 + Math.sqrt(Math.max(0, (taxRate * 100 - 1) / 100));
 
-    // Enhanced trade impact on budget
-    let tradeImpactOnBudget = 1; // Default multiplier
-    try {
-      const tradeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Trade Status");
-      const HEADER_ROW = 4;
-      const nameColumn = getColumnIndex(tradeSheet, "Nation", HEADER_ROW);
-      const tradeRowMap = buildRowMap(tradeSheet, nameColumn);
-      const tradeBalanceColumn = getColumnIndex(tradeSheet, "Trade Balance", HEADER_ROW);
-
-      const tradeBalance = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, tradeBalanceColumn, 0)) || 0;
-
-      // Trade balance affects budget capacity through economic activity and tax collection
-      const tradeToGDPRatio = tradeBalance / Math.max(baseBudget + industrialContribution, 100);
-      tradeImpactOnBudget = 1 + (tradeToGDPRatio * 0.5); // 50% of trade-to-GDP ratio affects budget (increased from 10%)
-      tradeImpactOnBudget = Math.max(0.5, Math.min(2.0, tradeImpactOnBudget)); // Cap between 50% and 200% (increased range)
-
-      // Get enhanced trade data if available
-      try {
-        const economicImpactColumn = getColumnIndex(tradeSheet, "Economic Impact Score", HEADER_ROW);
-        const tariffRateColumn = getColumnIndex(tradeSheet, "Tariff Rate", HEADER_ROW);
-        const economicImpact = parseFloat(getValueByName(tradeSheet, tradeRowMap, nation, economicImpactColumn, 50)) || 50;
-        const tariffRateStr = getValueByName(tradeSheet, tradeRowMap, nation, tariffRateColumn, "5%");
-        const tariffRate = parseFloat(tariffRateStr.toString().replace('%', '')) || 5;
-
-        // Economic impact score affects how much trade influences budget
-        const impactMultiplier = economicImpact / 50;
-        tradeImpactOnBudget = 1 + ((tradeImpactOnBudget - 1) * impactMultiplier);
-
-        // Tariff revenue adds to budget capacity (tariffs generate government income)
-        const tariffRevenue = Math.abs(tradeBalance) * (tariffRate / 100) * 0.2; // 20% of tariff revenue goes to budget (increased from 10%)
-        tradeImpactOnBudget += tariffRevenue / Math.max(baseBudget + industrialContribution, 100);
-
-      } catch (e) {
-        // Enhanced columns don't exist yet
-      }
-    } catch (e) {
-      // Trade sheet doesn't exist
-    }
-
+    // CORRECTED: Calculate population contribution (EXACT Trade Automater logic)
     const populationContribution =
-      (Math.log(validPopulation) + validPopulation / 250000) * // Combined logarithmic and direct scaling for population
-      taxRateScalingFactor * // Adjust for tax rate
-      developmentImpact * // Adjusted development impact
-      ((100 - validCorruption) / 100) * // Adjust for corruption as a reducing factor
-      validEconomicHealthMultiplier * // Apply economic health multiplier
-      tradeImpactOnBudget; // Apply trade impact
+      (Math.log(validPopulation) + validPopulation / 250000) *
+      taxRateScalingFactor *
+      developmentImpact *
+      ((100 - validCorruption) / 100) *
+      validEconomicHealthMultiplier;
 
-    // Apply maintenance cost modifier from mobilization
+    // CORRECTED: Calculate maintenance costs with mobilization effects
     const maintenanceCost = (
-      (validCivFactories + validShipyards + 
-      (validMilitaryFactories * mobilization.maintenanceCost)) * 
+      (validCivFactories + validShipyards + (validMilitaryFactories * mobilization.maintenanceCost)) *
       baseMaintenanceCost
     );
 
-    // Total budget capacity with maintenance costs
-    const totalBudget = Math.round(
-      (baseBudget + industrialContribution + populationContribution) - maintenanceCost
-    );
+    // CORRECTED: Calculate base budget before trade impact
+    const baseBudgetTotal = baseBudget + industrialContribution + populationContribution - maintenanceCost;
 
-    // Store the previous capacity and balance for use in updateDebt
+    // CORRECTED: Apply trade impact using EXACT Trade Automater logic
+    const tradeBalance = parseFloat(tradeData[columns.trade.balance]) || 0;
+    let tradeImpactOnBudget = 1.0;
+    const tradeToGDPRatio = tradeBalance / Math.max(baseBudgetTotal, 100);
+    tradeImpactOnBudget = 1 + (tradeToGDPRatio * 0.1); // CORRECTED: 10% not 50%
+    tradeImpactOnBudget = Math.max(0.1, Math.min(2.0, tradeImpactOnBudget)); // CORRECTED: 10% not 50%
+
+    // CORRECTED: Calculate final budget with trade impact
+    const totalBudget = Math.round(baseBudgetTotal * tradeImpactOnBudget);
+
+    // Store the previous capacity and balance for use in updateDebt using cached data
+    const currentCapacity = parseFloat(nationalData[columns.national.budgetCapacity]) || 0;
+    const currentBalance = parseFloat(nationalData[columns.national.budgetBalance]) || 0;
+
     previousData[nation] = {
-      previousCapacity: currentBudgetCapacities[index],
-      previousBalance: currentBudgetBalances[index],
+      previousCapacity: currentCapacity,
+      previousBalance: currentBalance,
       currentBudget: totalBudget
     };
 
     return [totalBudget];
   });
 
-  // Set the updated budget capacities in the National Status sheet
+  // ULTRA OPTIMIZATION: Set the updated budget capacities using cached references
   names.forEach((nation, idx) => {
-    const nRow = nationalRowMap[nation];
+    const nRow = rowMaps.national[nation];
     if (nRow != null) {
-      nationalSheet.getRange(nRow, budgetCapacityColumn).setValue(updatedBudgets[idx][0]);
+      sheets.national.getRange(nRow, columns.national.budgetCapacity).setValue(updatedBudgets[idx][0]);
     }
   });
 
