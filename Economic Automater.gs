@@ -153,7 +153,7 @@ function onEdit(e) {
       const importDependencyPenalty = excessImports * 0.05; // 5% penalty per excess import point
 
       // High imports with low development hurt industrial growth
-      const developmentLevel = parseFloat(getValueByName(nationalStatusSheet, nationalRowMap, nation, getColumnIndex(nationalStatusSheet, "Development Level", HEADER_ROW), 0)) || 0;
+      const developmentLevel = parseFloat(getValueByName(economicSheet, economicRowMap, nation, getColumnIndex(economicSheet, "Development Level", HEADER_ROW), 0)) || 0;
       const developmentImportRatio = developmentLevel / Math.max(importReliance, 1);
       const industrialGrowthModifier = Math.min(1.5, Math.max(0.5, developmentImportRatio * 0.1));
 
