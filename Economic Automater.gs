@@ -31,6 +31,7 @@ const mobilizationImpact = {
 function onEdit(e) {
   const industrialSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Industrial Status");
   const economicSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("National Status");  
+  const nationalStatusSheet = economicSheet;
   const tradeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Trade Status");
   const worldstatusSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("World Status Tracker");
   
