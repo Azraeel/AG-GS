@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AG-GS Operations Ledger</title>
+    <meta name="description" content="GitHub Pages dashboard for AG-GS nation, trade, industrial, population, intelligence, military, naval, and equipment stats.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">
+        <span></span>
+      </div>
+      <div class="brand-copy">
+        <p class="eyebrow">AG-GS</p>
+        <h1>Operations Ledger</h1>
+      </div>
+      <div class="source-pill">GitHub Pages ready</div>
+    </header>
+
+    <nav class="tabs" aria-label="Status views">
+      <button class="tab is-active" type="button" data-tab="overview">Overview</button>
+      <button class="tab" type="button" data-tab="nations">Nations</button>
+      <button class="tab" type="button" data-tab="national">National</button>
+      <button class="tab" type="button" data-tab="trade">Trade</button>
+      <button class="tab" type="button" data-tab="industrial">Industrial</button>
+      <button class="tab" type="button" data-tab="population">Population</button>
+      <button class="tab" type="button" data-tab="military">Military</button>
+      <button class="tab" type="button" data-tab="intelligence">Intelligence</button>
+      <button class="tab" type="button" data-tab="naval">Naval</button>
+      <button class="tab" type="button" data-tab="equipment">Equipment</button>
+      <button class="tab" type="button" data-tab="audit">Audit</button>
+    </nav>
+
+    <section class="toolbar" aria-label="Dashboard filters">
+      <label class="search">
+        <span aria-hidden="true">Search</span>
+        <input id="searchInput" type="search" placeholder="Nation, policy, status, class" autocomplete="off">
+      </label>
+      <label class="select-shell">
+        <span>Nation</span>
+        <select id="nationSelect"></select>
+      </label>
+    </section>
+
+    <main id="app" class="app-shell" aria-live="polite"></main>
+
+    <footer class="footer">
+      <span id="sourceNote"></span>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
