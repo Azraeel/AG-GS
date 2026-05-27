@@ -1,42 +1,38 @@
-# AG-GS
+# Global Ledger
 
-AG-GS is now set up as a static GitHub Pages dashboard for the nation roleplay sheets and automation scripts.
+Global Ledger is the operational dashboard for the AG-GS world: a live reference and administration system for national statistics, trade, population, military readiness, naval inventories, intelligence records, elections, and world events.
 
-## Website
+[Open Global Ledger](https://aggsworld.net/)
 
-- Open `index.html` locally to preview the dashboard.
-- GitHub Pages publishes this repo at `https://azraeel.github.io/AG-GS/` and the custom domain `https://aggsworld.net/`.
-- The included workflow deploys the root of the repo when changes are pushed to `main`.
-- The public website is a read-only Global Ledger. The admin workspace lives at `/admin/` and contains the editor, simulation controls, reset tools, and exports.
+## Overview
 
-## Data Accuracy
+Global Ledger brings the AG-GS world state into a fast, readable web application. Public users can browse active nations, compare records, search datasets, and follow the current state of the world without touching the administrative tools.
 
-The website uses the 2026-05-27 operating baseline from `Event Creator Tracker.xlsx`. Populated trade and budget outputs include adjustment offsets so recalculating the current year preserves the baseline. Blank cells are stored as unknown until edited. Use the Audit view on the site to see which active nations are missing values from each dataset.
+Approved editors use the admin workspace to update records, run calculations, advance years, publish live changes, and export updated datasets.
 
-Browser edits are cached in local storage. With the Cloudflare Worker deployed, admin edits also publish to the shared live ledger. They do not write back to GitHub automatically; use the export controls in the Simulation tab when you want to preserve an updated dataset in the repo.
+## Core Features
 
-## Admin Access
+- Public read-only nation and status ledger
+- Protected editor workspace for approved administrators
+- Live shared updates across open sessions
+- Searchable and sortable status tables
+- National, trade, industrial, population, military, intelligence, naval, eclipse, and election views
+- Simulation tools for yearly advancement and recalculation
+- Light and dark themes with saved preferences
 
-Protect `https://aggsworld.net/admin` and `https://aggsworld.net/admin/*` with Cloudflare Access so only approved users can open the editor and simulation workspace. The static app does not include an in-page password system; access control should happen before the page is served.
+## Systems Covered
 
-## Live Sync
+- Government stability, unrest, corruption, budgets, debt, immigration, and economic health
+- Trade capacity, efficiency, policy, tariffs, sanctions, reliance, diversity, and impact
+- Population history and demographic policy
+- Industrial capacity, factories, shipyards, and mobilization
+- Military organization, supply, personnel, reserves, and equipment complexity
+- Intelligence capabilities and internal security posture
+- Naval inventories and equipment cost records
+- Eclipse and election tracking
 
-The browser app can use a Cloudflare Worker and KV namespace for shared live state. Public pages poll `https://aggsworld.net/api/state` for read-only updates. The admin workspace publishes through `https://aggsworld.net/admin/api/state`, which should remain covered by the existing `/admin/*` Cloudflare Access policy.
+## Admin Workspace
 
-1. Create a Workers KV namespace named `AGGS_LEDGER`.
-2. Copy `wrangler.example.toml` to `wrangler.toml`.
-3. Replace `REPLACE_WITH_KV_NAMESPACE_ID` with the namespace ID.
-4. Deploy the Worker with Wrangler.
-5. In the admin Simulation view, click **Publish Live State** once to seed the shared ledger.
+[Open Admin Workspace](https://aggsworld.net/admin/)
 
-After that, admin edits publish to KV and open public pages refresh from the shared state every few seconds. If the Worker is not deployed, the website stays usable in local browser fallback mode.
-
-## Pages Setup
-
-1. In GitHub, open **Settings -> Pages**.
-2. Set **Build and deployment** to **GitHub Actions**.
-3. Push to `main` or run the **Deploy GitHub Pages** workflow manually.
-
-The `CNAME` file points GitHub Pages to `aggsworld.net`.
-
-If GitHub reports that the current plan does not support Pages for this repository, the repo must either be made public or moved to a GitHub plan that supports Pages from private repositories.
+The admin workspace is reserved for approved editors and world administrators.
