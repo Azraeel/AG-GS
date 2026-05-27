@@ -9,7 +9,9 @@
   const tabs = Array.from(document.querySelectorAll(".tab"));
   const sourceNote = document.getElementById("sourceNote");
   const sourcePill = document.querySelector(".source-pill");
+  const themeToggle = document.getElementById("themeToggle");
   const isAdmin = document.body.dataset.appMode === "admin";
+  const THEME_KEY = "aggs-theme";
   const adminOnlyTabs = new Set(["editor", "simulation"]);
   const adminOnlyActions = new Set(["advance-one", "advance-target", "recalculate", "reset-state", "export-json", "export-data-js", "publish-live-state"]);
   const sharedSync = {
@@ -70,6 +72,30 @@
     return isAdmin || !adminOnlyTabs.has(tabKey);
   }
 
+  function currentTheme() {
+    return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+  }
+
+  function updateThemeToggle() {
+    if (!themeToggle) return;
+    const isDark = currentTheme() === "dark";
+    const label = isDark ? "Switch to light mode" : "Switch to dark mode";
+    themeToggle.setAttribute("aria-pressed", String(isDark));
+    themeToggle.setAttribute("aria-label", label);
+    themeToggle.title = label;
+  }
+
+  function setTheme(theme) {
+    const nextTheme = theme === "dark" ? "dark" : "light";
+    document.documentElement.dataset.theme = nextTheme;
+    try {
+      localStorage.setItem(THEME_KEY, nextTheme);
+    } catch (error) {
+      // Theme persistence is optional; the visual toggle should still work.
+    }
+    updateThemeToggle();
+  }
+
   function syncLabel(short = false) {
     if (!sharedSync.enabled) return short ? "Local mode" : "Static fallback mode.";
     if (sharedSync.status === "online") {
@@ -94,6 +120,7 @@
     tab.hidden = !canAccessTab(tab.dataset.tab);
   });
 
+  updateThemeToggle();
   updateSourceNote();
 
   function byId(id) {
@@ -1135,6 +1162,12 @@
       render();
     });
   });
+
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      setTheme(currentTheme() === "dark" ? "light" : "dark");
+    });
+  }
 
   let editRenderTimer = null;
 
