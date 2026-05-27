@@ -363,6 +363,22 @@ h3 {
   color: var(--ink);
 }
 
+select option,
+select optgroup {
+  background: var(--input-bg);
+  color: var(--ink);
+}
+
+:root[data-theme="dark"] select {
+  color-scheme: dark;
+}
+
+:root[data-theme="dark"] select option,
+:root[data-theme="dark"] select optgroup {
+  background: #111821;
+  color: #edf2f7;
+}
+
 .app-shell {
   padding: 18px clamp(16px, 4vw, 44px) 36px;
 }
