@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "aggs-operations-state-v1";
+  const STORAGE_KEY = "aggs-operations-state-v2";
 
   const HEALTH_GROWTH = { Depression: -3, Recession: -2, Slowdown: -1, Recovery: 1, Expansion: 2, Prosperity: 3 };
   const HEALTH_POPULATION = { Prosperity: 2, Expansion: 1.5, Recovery: 1, Slowdown: 0.5, Recession: -1, Depression: -2 };
@@ -34,6 +34,10 @@
     }
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  function isBlank(value) {
+    return value === null || value === undefined || value === "";
   }
 
   function clamp(value, min, max) {
@@ -115,6 +119,7 @@
     const trade = data.trade[id];
     const industrial = data.industrial[id];
     if (!national || !trade || !industrial) return null;
+    if ([trade.autarkyIndex, trade.importReliance, trade.exportReliance, trade.economicTradeDiversity].some(isBlank)) return null;
 
     const budgetCapacity = number(national.budgetCapacity, 0);
     const corruption = number(national.corruption, 0) / 100;
@@ -163,20 +168,22 @@
     tradeBalance += Math.abs(tradeBalance) * tariffRevenue;
     const economicImpactScore = Math.round((Math.abs(tradeBalance) / Math.max(budgetCapacity, 1)) * 100 + (importReliance + exportReliance) / 2 + (100 - autarkyIndex) * 0.5);
 
+    const adjustments = trade.adjustments || {};
+
     return {
-      tradeCapacity: Math.round(tradeCapacity),
-      tradeEfficiency: Math.round(tradeEfficiency),
+      tradeCapacity: Math.round(tradeCapacity) + number(adjustments.tradeCapacity, 0),
+      tradeEfficiency: Math.round(tradeEfficiency) + number(adjustments.tradeEfficiency, 0),
       autarkyIndex,
-      tradeBalance: Math.round(tradeBalance),
-      tradeFlow: Math.round(tradeFlow),
-      tradePower: Math.round(tradePower),
+      tradeBalance: Math.round(tradeBalance) + number(adjustments.tradeBalance, 0),
+      tradeFlow: Math.round(tradeFlow) + number(adjustments.tradeFlow, 0),
+      tradePower: Math.round(tradePower) + number(adjustments.tradePower, 0),
       importReliance,
       exportReliance,
       economicTradeDiversity: tradeDiversity,
       tradePolicy,
       sanctionsLevel,
       tariffRate,
-      economicImpactScore
+      economicImpactScore: Math.round(economicImpactScore + number(adjustments.economicImpactScore, 0))
     };
   }
 
@@ -214,10 +221,11 @@
     const maintenanceCost = (civFactories + shipyards + militaryFactories * mobilization.maintenanceCost) * 0.1;
     const baseBudgetTotal = 10 + industrialContribution + populationContribution - maintenanceCost;
     const tradeImpactOnBudget = clamp(1 + (tradeBalance / Math.max(baseBudgetTotal, 100)) * 0.1, 0.1, 2);
-    return Math.round(baseBudgetTotal * tradeImpactOnBudget);
+    return Math.round(baseBudgetTotal * tradeImpactOnBudget) + number(national.budgetAdjustment, 0);
   }
 
-  function recalculateBudgets(data) {
+  function recalculateBudgets(data, options = {}) {
+    const shouldUpdateDebt = options.updateDebt === true;
     for (const id of Object.keys(data.national || {})) {
       const national = data.national[id];
       const previousCapacity = number(national.budgetCapacity, 0);
@@ -227,10 +235,12 @@
       if (budgetCapacity === null) continue;
       national.budgetCapacity = budgetCapacity;
       national.budgetBalance = budgetCapacity - number(national.budgetExpenditure, 0);
-      let absoluteDebt = (currentDebtPercent / 100) * previousCapacity;
-      if (previousBalance < 0) absoluteDebt += Math.abs(previousBalance);
-      else absoluteDebt = Math.max(absoluteDebt - previousBalance, 0);
-      national.debt = budgetCapacity > 0 ? Number(((absoluteDebt / budgetCapacity) * 100).toFixed(2)) : 0;
+      if (shouldUpdateDebt) {
+        let absoluteDebt = (currentDebtPercent / 100) * previousCapacity;
+        if (previousBalance < 0) absoluteDebt += Math.abs(previousBalance);
+        else absoluteDebt = Math.max(absoluteDebt - previousBalance, 0);
+        national.debt = budgetCapacity > 0 ? Number(((absoluteDebt / budgetCapacity) * 100).toFixed(2)) : 0;
+      }
     }
     return data;
   }
@@ -313,9 +323,9 @@
     return military.militarySupply - currentSupply;
   }
 
-  function recalculateAll(data) {
+  function recalculateAll(data, options = {}) {
     recalculateTrade(data);
-    recalculateBudgets(data);
+    recalculateBudgets(data, options);
     recalculateTrade(data);
     return data;
   }
@@ -340,9 +350,9 @@
       data.meta.currentYear = year;
       recalculateTrade(data);
       for (const nation of data.nations) advanceIndustry(data, nation.id, 1);
-      recalculateBudgets(data);
+      recalculateBudgets(data, { updateDebt: true });
       recalculateTrade(data);
-      recalculateBudgets(data);
+      recalculateBudgets(data, { updateDebt: true });
       for (const nation of data.nations) advanceMilitarySupply(data, nation.id, 12);
       log.push(snapshot(data, year));
     }
@@ -376,6 +386,8 @@
     getPopulation,
     setPopulation,
     currentPopulationKey,
+    calculateTradeForNation,
+    calculateBudgetForNation,
     recalculateAll,
     recalculateTrade,
     recalculateBudgets,

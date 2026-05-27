@@ -15,6 +15,8 @@
     { key: "population", label: "Population" },
     { key: "military", label: "Military" },
     { key: "intelligence", label: "Intelligence" },
+    { key: "eclipse", label: "Eclipse" },
+    { key: "elections", label: "Elections" },
     { key: "naval", label: "Naval" }
   ];
 
@@ -71,7 +73,7 @@
 
   function resetWorkingState() {
     data = Engine.reset(baseData);
-    state.notice = "Reset to the screenshot baseline.";
+    state.notice = "Reset to the workbook baseline.";
     updateSourceNote();
     render();
   }
@@ -117,7 +119,10 @@
         data.trade[nation.id]?.tradePolicy,
         data.trade[nation.id]?.sanctionsLevel,
         data.industrial[nation.id]?.mobilizationLevel,
-        data.population[nation.id]?.mandatoryChildPolicy
+        data.population[nation.id]?.mandatoryChildPolicy,
+        data.eclipse[nation.id]?.eclipseStatus,
+        data.elections[nation.id]?.leaderElections,
+        data.elections[nation.id]?.parliamentElections
       ]
         .filter(Boolean)
         .join(" ")
@@ -182,15 +187,15 @@
 
     app.innerHTML = `
       <section class="dashboard-grid">
-        ${renderMetric("Nations", fmtNumber(data.nations.length), "Unique nations visible across screenshots")}
+        ${renderMetric("Nations", fmtNumber(data.nations.length), "Unique nations imported from the workbook")}
         ${renderMetric(`${currentYear} Population`, fmtCompact(totalPopulation), "Current working population")}
-        ${renderMetric("Budget Capacity", fmtNumber(totalBudget), "National Status visible rows")}
+        ${renderMetric("Budget Capacity", fmtNumber(totalBudget), "National Status workbook rows")}
         ${renderMetric("Fleet Inventory", fmtNumber(totalFleet), "Naval rows entered")}
       </section>
       <section class="dashboard-grid">
-        ${renderMetric("Trade Flow", fmtCompact(totalTradeFlow), "Trade Status visible rows")}
+        ${renderMetric("Trade Flow", fmtCompact(totalTradeFlow), "Trade Status workbook rows")}
         ${renderMetric("Active Personnel", fmtCompact(totalActive), "Combat, support, air, naval, irregular")}
-        ${renderMetric("National Rows", fmtNumber(Object.keys(data.national).length), "Rows visible in National Status")}
+        ${renderMetric("National Rows", fmtNumber(Object.keys(data.national).length), "Rows imported from National Status")}
         ${renderMetric("Audit Gaps", fmtNumber(auditRows().filter((row) => row.missing.length).length), "Nations missing at least one dataset")}
       </section>
       <div class="split">
@@ -273,7 +278,7 @@
   function renderNational() {
     tablePanel(
       "National Status",
-      "Government, budget, debt, health, and migration values from the visible National Status rows.",
+      "Government, budget, debt, health, and migration values imported from National Status.",
       tableRowsFor("national"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
@@ -296,7 +301,7 @@
   function renderTrade() {
     tablePanel(
       "Trade Status",
-      "Capacity, flow, reliance, policy, sanctions, tariff, and economic impact values from the visible Trade Status rows.",
+      "Capacity, flow, reliance, policy, sanctions, tariff, and economic impact values imported from Trade Status.",
       tableRowsFor("trade"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
@@ -321,7 +326,7 @@
   function renderIndustrial() {
     tablePanel(
       "Industrial Status",
-      "Factory, shipyard, and mobilization rows visible in the Industrial Status screenshot.",
+      "Factory, shipyard, and mobilization rows imported from Industrial Status.",
       tableRowsFor("industrial"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
@@ -523,7 +528,7 @@
   function renderMilitary() {
     tablePanel(
       "Military Status",
-      "Organization, supply, complexity, cyber, personnel, reserve, and irregular values from the visible Military Status rows.",
+      "Organization, supply, complexity, cyber, personnel, reserve, and irregular values imported from Military Status.",
       tableRowsFor("military"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
@@ -564,6 +569,33 @@
     );
   }
 
+  function renderEclipse() {
+    tablePanel(
+      "Eclipse Status",
+      "Workbook Eclipse Status rows.",
+      tableRowsFor("eclipse"),
+      [
+        { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
+        { key: "eclipseStatus", label: "Eclipse Status", render: (value) => value ? `<span class="status">${value}</span>` : "Unknown" }
+      ],
+      "eclipse"
+    );
+  }
+
+  function renderElections() {
+    tablePanel(
+      "Election Tracker",
+      "Leader and parliament election dates imported from the workbook.",
+      tableRowsFor("elections"),
+      [
+        { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
+        { key: "leaderElections", label: "Leader Elections", render: (value) => value || "Unknown" },
+        { key: "parliamentElections", label: "Parliament Elections", render: (value) => value || "Unknown" }
+      ],
+      "elections"
+    );
+  }
+
   function detailItem(label, value) {
     return `<div class="detail-item"><span>${label}</span><strong>${value}</strong></div>`;
   }
@@ -589,7 +621,7 @@
                 <button class="nation-button ${nation.id === selected.id ? "is-selected" : ""}" type="button" data-nation="${nation.id}">
                   <span class="swatch" style="background:${nation.color}"></span>
                   <strong>${nation.name}</strong>
-                  <span class="status">${coverageFor(nation.id).filter((set) => set.hasData).length}/7</span>
+                  <span class="status">${coverageFor(nation.id).filter((set) => set.hasData).length}/${datasets.length}</span>
                 </button>`
             )
             .join("")}
@@ -613,7 +645,7 @@
             ${detailItem("Military Supply", fmtPercent(military?.militarySupply))}
             ${detailItem("Intelligence Total", fmtNumber(intelligence ? Object.values(intelligence).reduce((a, b) => a + b, 0) : null))}
             ${detailItem("Fleet Total", fmtNumber(naval?.total))}
-            ${detailItem("Data Coverage", `${coverageFor(selected.id).filter((set) => set.hasData).length}/7`)}
+            ${detailItem("Data Coverage", `${coverageFor(selected.id).filter((set) => set.hasData).length}/${datasets.length}`)}
           </div>
         </section>
       </div>
@@ -638,7 +670,7 @@
         <div class="panel-head">
           <div>
             <h2>Naval Inventory</h2>
-            <p>Visible class counts from the fleet screenshot. Computed totals are marked when the total cell was not visible.</p>
+            <p>Class counts imported from Naval Tracker. Computed totals are marked when the total cell was blank.</p>
           </div>
           <span class="status">${fmtNumber(entries.length)} fleets</span>
         </div>
@@ -697,7 +729,7 @@
           <div class="panel-head">
             <div>
               <h2>Cost Modifiers</h2>
-              <p>Era multipliers plus visible cost addition and reduction modifiers.</p>
+              <p>Era multipliers plus cost addition and reduction modifiers imported from Equipment Tracker.</p>
             </div>
           </div>
           <div class="table-wrap">
@@ -753,7 +785,7 @@
           <div class="panel-head">
             <div>
               <h2>Nation Completeness</h2>
-              <p>All unique nations visible across the supplied screenshots.</p>
+              <p>All unique nations imported from the supplied workbook.</p>
             </div>
           </div>
           <div class="table-wrap">
@@ -791,6 +823,8 @@
       population: renderPopulation,
       military: renderMilitary,
       intelligence: renderIntelligence,
+      eclipse: renderEclipse,
+      elections: renderElections,
       naval: renderNaval,
       equipment: renderEquipment,
       audit: renderAudit

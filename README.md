@@ -11,7 +11,7 @@ AG-GS is now set up as a static GitHub Pages dashboard for the nation roleplay s
 
 ## Data Accuracy
 
-The first website dataset is transcribed from the screenshots provided on 2026-05-27. Visible rows are entered directly, hidden rows are not guessed, and blank cells are stored as unknown. Use the Audit view on the site to see which nations are missing values from each sheet screenshot.
+The website dataset is imported from `Event Creator Tracker.xlsx` provided on 2026-05-27. Workbook values are treated as the source of truth; populated trade and budget outputs include imported adjustment offsets so recalculating the current year preserves the workbook baseline. Blank workbook cells are stored as unknown until edited. Use the Audit view on the site to see which nations are missing values from each dataset.
 
 Browser edits are stored in local storage. They do not write back to GitHub automatically; use the export controls in the Simulation tab when you want to preserve an updated dataset.
 
