@@ -17,7 +17,7 @@ Browser edits are stored in local storage. They do not write back to GitHub auto
 
 ## Admin Access
 
-Protect `https://aggsworld.net/admin/*` with Cloudflare Access so only approved users can open the editor and simulation workspace. The static app does not include an in-page password system; access control should happen before the page is served.
+Protect `https://aggsworld.net/admin` and `https://aggsworld.net/admin/*` with Cloudflare Access so only approved users can open the editor and simulation workspace. The static app does not include an in-page password system; access control should happen before the page is served.
 
 ## Pages Setup
 
