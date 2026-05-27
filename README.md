@@ -7,10 +7,13 @@ AG-GS is now set up as a static GitHub Pages dashboard for the nation roleplay s
 - Open `index.html` locally to preview the dashboard.
 - GitHub Pages can publish this repo at `https://azraeel.github.io/AG-GS/`.
 - The included workflow deploys the root of the repo when changes are pushed to `main`.
+- The website now runs as an operational browser app: edit nation data, recalculate systems, advance years, reset to baseline, and export updated JSON or `data.js`.
 
 ## Data Accuracy
 
 The first website dataset is transcribed from the screenshots provided on 2026-05-27. Visible rows are entered directly, hidden rows are not guessed, and blank cells are stored as unknown. Use the Audit view on the site to see which nations are missing values from each sheet screenshot.
+
+Browser edits are stored in local storage. They do not write back to GitHub automatically; use the export controls in the Simulation tab when you want to preserve an updated dataset.
 
 ## Pages Setup
 

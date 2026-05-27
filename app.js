@@ -1,5 +1,7 @@
 (function () {
-  const data = window.AGGS_DATA;
+  const baseData = window.AGGS_DATA;
+  const Engine = window.AGGS_ENGINE;
+  let data = Engine.load(baseData);
   const app = document.getElementById("app");
   const searchInput = document.getElementById("searchInput");
   const nationSelect = document.getElementById("nationSelect");
@@ -20,10 +22,15 @@
     tab: "overview",
     query: "",
     selectedNation: "solara",
-    sort: {}
+    sort: {},
+    notice: ""
   };
 
-  sourceNote.textContent = `${data.meta.source} ${data.meta.accuracyNote}`;
+  function updateSourceNote() {
+    sourceNote.textContent = `${data.meta.source} ${data.meta.accuracyNote} Working year: ${data.meta.currentYear}. Browser edits are saved locally until exported.`;
+  }
+
+  updateSourceNote();
 
   function byId(id) {
     return data.nations.find((nation) => nation.id === id);
@@ -49,6 +56,36 @@
 
   function fmtCost(value) {
     return value === null || value === undefined ? "Unknown" : Number(value).toLocaleString("en-US", { maximumFractionDigits: 6 });
+  }
+
+  function populationFor(id, year = data.meta.currentYear) {
+    return Engine.getPopulation(data, id, year);
+  }
+
+  function saveWorkingState(message) {
+    Engine.save(data);
+    state.notice = message || "Saved locally.";
+    updateSourceNote();
+    render();
+  }
+
+  function resetWorkingState() {
+    data = Engine.reset(baseData);
+    state.notice = "Reset to the screenshot baseline.";
+    updateSourceNote();
+    render();
+  }
+
+  function downloadText(filename, text, mimeType = "application/json") {
+    const blob = new Blob([text], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
   }
 
   function nationCell(id) {
@@ -136,7 +173,8 @@
   }
 
   function renderOverview() {
-    const totalPopulation = sumValues(data.population, (row) => row.values["2021"]);
+    const currentYear = data.meta.currentYear;
+    const totalPopulation = data.nations.reduce((total, nation) => total + populationFor(nation.id, currentYear), 0);
     const totalBudget = sumValues(data.national, (row) => row.budgetCapacity);
     const totalTradeFlow = sumValues(data.trade, (row) => row.tradeFlow);
     const totalActive = sumValues(data.military, (row) => activeMilitary(row));
@@ -145,7 +183,7 @@
     app.innerHTML = `
       <section class="dashboard-grid">
         ${renderMetric("Nations", fmtNumber(data.nations.length), "Unique nations visible across screenshots")}
-        ${renderMetric("2021 Population", fmtCompact(totalPopulation), "Population Tracker visible rows")}
+        ${renderMetric(`${currentYear} Population`, fmtCompact(totalPopulation), "Current working population")}
         ${renderMetric("Budget Capacity", fmtNumber(totalBudget), "National Status visible rows")}
         ${renderMetric("Fleet Inventory", fmtNumber(totalFleet), "Naval rows entered")}
       </section>
@@ -156,7 +194,7 @@
         ${renderMetric("Audit Gaps", fmtNumber(auditRows().filter((row) => row.missing.length).length), "Nations missing at least one dataset")}
       </section>
       <div class="split">
-        ${topList("Largest Populations", "Population (2021)", dataId => data.population[dataId]?.values["2021"], fmtCompact)}
+        ${topList("Largest Populations", `Population (${currentYear})`, dataId => populationFor(dataId, currentYear), fmtCompact)}
         ${topList("Budget Capacity", "National Status", dataId => data.national[dataId]?.budgetCapacity, fmtNumber)}
       </div>
       <div class="split" style="margin-top:14px">
@@ -314,6 +352,174 @@
     tablePanel("Population Tracker", "Visible population history columns, including the duplicate 2020 archive column exactly as shown.", rows, columns, "population");
   }
 
+  function renderSimulation() {
+    const currentYear = Number(data.meta.currentYear) || 2021;
+    const snapshot = Engine.snapshot(data, currentYear);
+    const log = data.meta.lastSimulationLog || [];
+    app.innerHTML = `
+      <section class="dashboard-grid">
+        ${renderMetric("Working Year", fmtNumber(currentYear), "Local browser state")}
+        ${renderMetric("Population", fmtCompact(snapshot.totalPopulation), `Total in ${currentYear}`)}
+        ${renderMetric("Budget Capacity", fmtNumber(snapshot.budgetCapacity), "After current calculations")}
+        ${renderMetric("Trade Flow", fmtCompact(snapshot.tradeFlow), "After current calculations")}
+      </section>
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Simulation Controls</h2>
+            <p>Advance the whole world year by year using the converted population, trade, industry, budget, debt, and military supply formulas.</p>
+          </div>
+          <span class="status ${state.notice ? "positive" : ""}">${state.notice || "Ready"}</span>
+        </div>
+        <div class="control-grid">
+          <label class="control-field">
+            <span>Current Year</span>
+            <input type="number" id="currentYearInput" value="${currentYear}" min="1">
+          </label>
+          <label class="control-field">
+            <span>Target Year</span>
+            <input type="number" id="targetYearInput" value="${currentYear + 1}" min="${currentYear + 1}">
+          </label>
+          <label class="control-field">
+            <span>World Economy</span>
+            <select id="worldHealthInput">
+              ${["Prosperity", "Expansion", "Recovery", "Slowdown", "Recession", "Depression"].map((option) => `<option ${data.meta.worldEconomicHealth === option ? "selected" : ""}>${option}</option>`).join("")}
+            </select>
+          </label>
+        </div>
+        <div class="command-row">
+          <button class="command primary" type="button" data-action="advance-one">Advance 1 Year</button>
+          <button class="command" type="button" data-action="advance-target">Simulate To Target</button>
+          <button class="command" type="button" data-action="recalculate">Recalculate Current Year</button>
+          <button class="command danger" type="button" data-action="reset-state">Reset Baseline</button>
+          <button class="command" type="button" data-action="export-json">Export JSON</button>
+          <button class="command" type="button" data-action="export-data-js">Export data.js</button>
+        </div>
+      </section>
+      <section class="panel simulation-notes">
+        <div class="panel-head">
+          <div>
+            <h2>Calculation Pipeline</h2>
+            <p>Each year runs population growth, trade recalculation, industrial growth, budget/debt update, a second trade/budget pass, and twelve military supply months.</p>
+          </div>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Simulation Log</h2>
+            <p>Most recent run, stored locally in this browser.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th class="numeric">Year</th><th class="numeric">Population</th><th class="numeric">Budget Capacity</th><th class="numeric">Trade Flow</th><th class="numeric">Avg Supply</th></tr></thead>
+            <tbody>
+              ${(log.length ? log : [snapshot]).map((row) => `<tr><td class="numeric">${fmtNumber(row.year)}</td><td class="numeric">${fmtNumber(row.totalPopulation)}</td><td class="numeric">${fmtNumber(row.budgetCapacity)}</td><td class="numeric">${fmtNumber(row.tradeFlow)}</td><td class="numeric">${fmtPercent(row.militarySupplyAverage)}</td></tr>`).join("")}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    `;
+  }
+
+  function fieldControl(dataset, path, label, value, type = "number", options = []) {
+    const id = `${dataset}-${path}`.replace(/[^a-z0-9_-]/gi, "-");
+    if (type === "select") {
+      return `
+        <label class="control-field" for="${id}">
+          <span>${label}</span>
+          <select id="${id}" data-edit data-dataset="${dataset}" data-path="${path}">
+            ${options.map((option) => `<option value="${option}" ${value === option ? "selected" : ""}>${option}</option>`).join("")}
+          </select>
+        </label>`;
+    }
+    return `
+      <label class="control-field" for="${id}">
+        <span>${label}</span>
+        <input id="${id}" type="${type}" value="${value ?? ""}" data-edit data-dataset="${dataset}" data-path="${path}">
+      </label>`;
+  }
+
+  function renderEditor() {
+    const nation = byId(state.selectedNation) || data.nations[0];
+    const national = data.national[nation.id] || {};
+    const trade = data.trade[nation.id] || {};
+    const industrial = data.industrial[nation.id] || {};
+    const military = data.military[nation.id] || {};
+    const population = data.population[nation.id] || { mandatoryChildPolicy: "No Policy", values: {} };
+    const currentYear = data.meta.currentYear;
+
+    app.innerHTML = `
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>${nationCell(nation.id)}</h2>
+            <p>Edit values directly in the browser. Changes auto-save locally and can be exported as JSON or data.js.</p>
+          </div>
+          <span class="status ${state.notice ? "positive" : ""}">${state.notice || "Editor ready"}</span>
+        </div>
+        <div class="editor-grid">
+          <section class="editor-section">
+            <h3>Population</h3>
+            ${fieldControl("population", String(currentYear), `Population (${currentYear})`, populationFor(nation.id, currentYear))}
+            ${fieldControl("population", "mandatoryChildPolicy", "Child Policy", population.mandatoryChildPolicy, "select", Object.keys(Engine.constants.CHILD_POLICY))}
+          </section>
+          <section class="editor-section">
+            <h3>National</h3>
+            ${fieldControl("national", "governmentalStability", "Stability %", national.governmentalStability)}
+            ${fieldControl("national", "publicUnrest", "Public Unrest", national.publicUnrest)}
+            ${fieldControl("national", "warSupport", "War Support %", national.warSupport)}
+            ${fieldControl("national", "corruption", "Corruption %", national.corruption)}
+            ${fieldControl("national", "developmentLevel", "Development", national.developmentLevel)}
+            ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}
+            ${fieldControl("national", "economicHealth", "Economic Health", national.economicHealth, "select", ["Prosperity", "Expansion", "Recovery", "Slowdown", "Recession", "Depression"])}
+            ${fieldControl("national", "immigrationRate", "Immigration", national.immigrationRate)}
+            ${fieldControl("national", "taxRate", "Tax Rate", national.taxRate ?? 0)}
+          </section>
+          <section class="editor-section">
+            <h3>Trade</h3>
+            ${fieldControl("trade", "importReliance", "Import Reliance", trade.importReliance)}
+            ${fieldControl("trade", "exportReliance", "Export Reliance", trade.exportReliance)}
+            ${fieldControl("trade", "economicTradeDiversity", "Diversity", trade.economicTradeDiversity)}
+            ${fieldControl("trade", "autarkyIndex", "Autarky", trade.autarkyIndex)}
+            ${fieldControl("trade", "tradePolicy", "Trade Policy", trade.tradePolicy, "select", Object.keys(Engine.constants.TRADE_POLICY))}
+            ${fieldControl("trade", "sanctionsLevel", "Sanctions", trade.sanctionsLevel, "select", Object.keys(Engine.constants.SANCTIONS))}
+            ${fieldControl("trade", "tariffRate", "Tariff %", trade.tariffRate)}
+          </section>
+          <section class="editor-section">
+            <h3>Industrial</h3>
+            ${fieldControl("industrial", "civilianFactories", "Civilian Factories", industrial.civilianFactories)}
+            ${fieldControl("industrial", "militaryFactories", "Military Factories", industrial.militaryFactories)}
+            ${fieldControl("industrial", "shipyards", "Shipyards", industrial.shipyards)}
+          </section>
+          <section class="editor-section">
+            <h3>Military</h3>
+            ${fieldControl("military", "militaryOrganization", "Organization", military.militaryOrganization)}
+            ${fieldControl("military", "militarySupply", "Supply %", military.militarySupply)}
+            ${fieldControl("military", "mobilizationLevel", "Mobilization", military.mobilizationLevel, "select", Object.keys(Engine.constants.MOBILIZATION))}
+            ${fieldControl("military", "equipmentComplexity", "Complexity", military.equipmentComplexity)}
+            ${fieldControl("military", "cyberSecurity", "Cyber Security", military.cyberSecurity)}
+            ${fieldControl("military", "combatPersonnel", "Combat Personnel", military.combatPersonnel)}
+            ${fieldControl("military", "supportPersonnel", "Support Personnel", military.supportPersonnel)}
+            ${fieldControl("military", "airForcePersonnel", "Air Force Personnel", military.airForcePersonnel)}
+            ${fieldControl("military", "navalPersonnel", "Naval Personnel", military.navalPersonnel)}
+            ${fieldControl("military", "reserveForces", "Reserve Forces", military.reserveForces)}
+            ${fieldControl("military", "paramilitaryIrregular", "Paramilitary", military.paramilitaryIrregular)}
+          </section>
+          <section class="editor-section">
+            <h3>Derived Preview</h3>
+            ${detailItem("Budget Capacity", fmtNumber(national.budgetCapacity))}
+            ${detailItem("Budget Balance", fmtSigned(national.budgetBalance))}
+            ${detailItem("Trade Balance", fmtSigned(trade.tradeBalance))}
+            ${detailItem("Trade Flow", fmtNumber(trade.tradeFlow))}
+            ${detailItem("Economic Impact", fmtNumber(trade.economicImpactScore))}
+          </section>
+        </div>
+      </section>
+    `;
+  }
+
   function renderMilitary() {
     tablePanel(
       "Military Status",
@@ -396,7 +602,7 @@
             </div>
           </div>
           <div class="detail-grid">
-            ${detailItem("2021 Population", fmtNumber(population?.values["2021"]))}
+            ${detailItem(`${data.meta.currentYear} Population`, fmtNumber(populationFor(selected.id)))}
             ${detailItem("Economic Health", national?.economicHealth ?? "Unknown")}
             ${detailItem("Budget Balance", national ? fmtSigned(national.budgetBalance) : "Unknown")}
             ${detailItem("Trade Balance", trade ? fmtSigned(trade.tradeBalance) : "Unknown")}
@@ -576,6 +782,8 @@
     tabs.forEach((tab) => tab.classList.toggle("is-active", tab.dataset.tab === state.tab));
     const renderers = {
       overview: renderOverview,
+      simulation: renderSimulation,
+      editor: renderEditor,
       nations: renderNations,
       national: renderNational,
       trade: renderTrade,
@@ -611,11 +819,38 @@
 
   nationSelect.addEventListener("change", (event) => {
     state.selectedNation = event.target.value;
-    state.tab = "nations";
+    if (state.tab !== "editor") state.tab = "nations";
     render();
   });
 
   app.addEventListener("click", (event) => {
+    const actionButton = event.target.closest("[data-action]");
+    if (actionButton) {
+      const action = actionButton.dataset.action;
+      const targetInput = document.getElementById("targetYearInput");
+      const currentInput = document.getElementById("currentYearInput");
+      const worldHealthInput = document.getElementById("worldHealthInput");
+      if (worldHealthInput) data.meta.worldEconomicHealth = worldHealthInput.value;
+      if (action === "advance-one") {
+        const result = Engine.advanceToYear(data, Number(data.meta.currentYear) + 1);
+        saveWorkingState(result.message);
+      } else if (action === "advance-target") {
+        const result = Engine.advanceToYear(data, Number(targetInput?.value || data.meta.currentYear + 1));
+        saveWorkingState(result.message);
+      } else if (action === "recalculate") {
+        data.meta.currentYear = Number(currentInput?.value || data.meta.currentYear);
+        Engine.recalculateAll(data);
+        saveWorkingState(`Recalculated ${data.meta.currentYear}.`);
+      } else if (action === "reset-state") {
+        resetWorkingState();
+      } else if (action === "export-json") {
+        downloadText(`ag-gs-${data.meta.currentYear}.json`, JSON.stringify(data, null, 2));
+      } else if (action === "export-data-js") {
+        downloadText("data.js", Engine.exportDataJs(data), "text/javascript");
+      }
+      return;
+    }
+
     const nationButton = event.target.closest("[data-nation]");
     if (nationButton) {
       state.selectedNation = nationButton.dataset.nation;
@@ -632,6 +867,29 @@
       state.sort[table] = { key, dir: current.key === key && current.dir === "asc" ? "desc" : "asc" };
       render();
     }
+  });
+
+  app.addEventListener("change", (event) => {
+    const edit = event.target.closest("[data-edit]");
+    if (!edit) {
+      if (event.target.id === "worldHealthInput") {
+        data.meta.worldEconomicHealth = event.target.value;
+        Engine.recalculateAll(data);
+        saveWorkingState("World economy updated.");
+      } else if (event.target.id === "currentYearInput") {
+        data.meta.currentYear = Number(event.target.value || data.meta.currentYear);
+        saveWorkingState(`Working year set to ${data.meta.currentYear}.`);
+      }
+      return;
+    }
+
+    const dataset = edit.dataset.dataset;
+    const path = edit.dataset.path;
+    const rawValue = edit.value;
+    const value = edit.tagName === "SELECT" ? rawValue : Engine.number(rawValue, 0);
+    Engine.updateValue(data, dataset, state.selectedNation, path, value);
+    Engine.recalculateAll(data);
+    saveWorkingState(`${byId(state.selectedNation)?.name || "Nation"} updated.`);
   });
 
   render();

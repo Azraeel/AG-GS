@@ -468,6 +468,100 @@ tbody tr:hover {
   overflow-wrap: anywhere;
 }
 
+.control-grid,
+.editor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px;
+}
+
+.control-field {
+  display: grid;
+  gap: 7px;
+  align-content: start;
+}
+
+.control-field span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.control-field input,
+.control-field select {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  padding: 8px 10px;
+  outline: 0;
+}
+
+.control-field input:focus,
+.control-field select:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(13, 101, 217, 0.14);
+}
+
+.command-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 16px 16px;
+}
+
+.command {
+  min-height: 40px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.command:hover,
+.command:focus-visible {
+  border-color: var(--blue);
+}
+
+.command.primary {
+  color: #fff;
+  background: var(--blue);
+  border-color: var(--blue);
+}
+
+.command.danger {
+  color: #8e2118;
+  border-color: #f0b9b2;
+  background: #fff4f2;
+}
+
+.editor-section {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfcfe;
+}
+
+.editor-section h3 {
+  margin-bottom: 2px;
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.simulation-notes {
+  margin: 14px 0;
+}
+
 .naval-grid,
 .equipment-grid,
 .audit-grid {
@@ -561,6 +655,11 @@ tbody tr:hover {
   .detail-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .control-grid,
+  .editor-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 720px) {
@@ -578,7 +677,9 @@ tbody tr:hover {
   }
 
   .dashboard-grid,
-  .detail-grid {
+  .detail-grid,
+  .control-grid,
+  .editor-grid {
     grid-template-columns: 1fr;
   }
 
