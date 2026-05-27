@@ -19,7 +19,7 @@
     endpoint: window.AGGS_API_URL || (isAdmin ? "/admin/api/state" : "/api/state"),
     pollMs: 2500,
     revision: null,
-    status: "local",
+    status: "connecting",
     message: "",
     updatedAt: "",
     updatedBy: "",
@@ -113,8 +113,8 @@
 
   function updateSourceNote() {
     const modeNote = isAdmin
-      ? "Admin workspace: edits are saved in this browser until exported."
-      : "Public view: editor and simulation access are managed separately.";
+      ? "Admin workspace: edits publish to the live ledger."
+      : "Public view: active data is loaded from the live ledger.";
     sourceNote.textContent = `${data.meta.title}. Working year: ${data.meta.currentYear}. ${modeNote} ${syncLabel()}`;
     if (sourcePill) sourcePill.textContent = isAdmin ? `Admin workspace · ${syncLabel(true)}` : `Read-only ledger · ${syncLabel(true)}`;
   }
@@ -206,11 +206,12 @@
 
   function resetWorkingState() {
     data = Engine.reset(baseData);
-    state.notice = "Reset to the operating baseline.";
+    sharedSync.revision = null;
+    state.notice = sharedSync.enabled ? "Reloading the live ledger." : "Cleared local fallback state.";
     ensureSelectedNation();
-    scheduleSharedPublish(state.notice, 0);
     updateSourceNote();
     render();
+    if (sharedSync.enabled) fetchSharedState();
   }
 
   function downloadText(filename, text, mimeType = "application/json") {
@@ -245,7 +246,7 @@
     if (!payload?.data || sharedSync.hasPendingLocalChange || sharedSync.isPublishing) return false;
     const nextRevision = Number(payload.revision || 0);
     if (nextRevision && nextRevision === sharedSync.revision) return false;
-    data = Engine.clone(payload.data);
+    data = Engine.normalizeState(Engine.clone(payload.data));
     sharedSync.revision = nextRevision || sharedSync.revision;
     sharedSync.updatedAt = payload.updatedAt || data.meta?.updatedAt || "";
     sharedSync.updatedBy = payload.updatedBy || data.meta?.updatedBy || "";
@@ -682,7 +683,7 @@
           <button class="command primary" type="button" data-action="advance-one">Advance 1 Year</button>
           <button class="command" type="button" data-action="advance-target">Simulate To Target</button>
           <button class="command" type="button" data-action="recalculate">Recalculate Current Year</button>
-          <button class="command danger" type="button" data-action="reset-state">Reset Baseline</button>
+          <button class="command danger" type="button" data-action="reset-state">Reload Live State</button>
           <button class="command" type="button" data-action="export-json">Export JSON</button>
           <button class="command" type="button" data-action="export-data-js">Export data.js</button>
           <button class="command" type="button" data-action="publish-live-state">Publish Live State</button>
@@ -735,7 +736,21 @@
 
   function renderEditor() {
     const nation = byId(state.selectedNation) || visibleNations()[0];
-    if (!nation) return;
+    if (!nation) {
+      app.innerHTML = `
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>Editor</h2>
+              <p>No live nation data is loaded yet.</p>
+            </div>
+            <span class="status">${syncLabel(true)}</span>
+          </div>
+          <div class="empty">Open the live site through Cloudflare, or publish a valid state from the admin API.</div>
+        </section>
+      `;
+      return;
+    }
     const national = data.national[nation.id] || {};
     const trade = data.trade[nation.id] || {};
     const industrial = data.industrial[nation.id] || {};

@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "aggs-operations-state-v3";
+  const STORAGE_KEY = "aggs-operations-state-v4";
 
   const HEALTH_GROWTH = { Depression: -3, Recession: -2, Slowdown: -1, Recovery: 1, Expansion: 2, Prosperity: 3 };
   const HEALTH_POPULATION = { Prosperity: 2, Expansion: 1.5, Recovery: 1, Slowdown: 0.5, Recession: -1, Depression: -2 };
@@ -44,13 +44,20 @@
     return Math.max(min, Math.min(max, value));
   }
 
-  function ensureState(data) {
+  function ensureState(data = {}) {
     data.meta = data.meta || {};
+    data.meta.title = data.meta.title || "AG-GS Global Ledger";
     data.meta.currentYear = number(data.meta.currentYear, 2021);
     data.meta.worldEconomicHealth = data.meta.worldEconomicHealth || "Expansion";
     data.meta.lastSimulationLog = data.meta.lastSimulationLog || [];
     data.meta.updatedAt = data.meta.updatedAt || new Date().toISOString();
-    data.populationColumns = data.populationColumns || [];
+    data.nations = Array.isArray(data.nations) ? data.nations : [];
+    ["national", "trade", "industrial", "population", "military", "intelligence", "naval", "eclipse", "elections"].forEach((key) => {
+      data[key] = data[key] && typeof data[key] === "object" && !Array.isArray(data[key]) ? data[key] : {};
+    });
+    ["populationColumns", "equipmentCosts", "eraMultipliers", "costAdditionModifiers", "costReductionModifiers"].forEach((key) => {
+      data[key] = Array.isArray(data[key]) ? data[key] : [];
+    });
     return data;
   }
 
@@ -416,6 +423,7 @@
     load,
     save,
     reset,
+    normalizeState: ensureState,
     clone,
     number,
     getPopulation,
