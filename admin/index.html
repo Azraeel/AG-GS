@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AG-GS Global Ledger</title>
-    <meta name="description" content="GitHub Pages dashboard for AG-GS nation, trade, industrial, population, intelligence, military, naval, and equipment stats.">
+    <title>AG-GS Global Ledger Admin</title>
+    <meta name="description" content="Admin workspace for AG-GS nation, trade, industrial, population, intelligence, military, naval, and equipment stats.">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%2314171a'/%3E%3Cpath d='M8 8h32L8 40z' fill='%23f0c33b'/%3E%3Cpath d='M56 56H24l32-32z' fill='%230d65d9'/%3E%3C/svg%3E">
-    <link rel="stylesheet" href="styles.css?v=20260527-admin">
+    <link rel="stylesheet" href="../styles.css?v=20260527-admin">
   </head>
-  <body data-app-mode="public">
+  <body data-app-mode="admin">
     <header class="topbar">
       <div class="brand-mark" aria-hidden="true">
         <span></span>
@@ -17,12 +17,14 @@
         <p class="eyebrow">AG-GS</p>
         <h1>Global Ledger</h1>
       </div>
-      <div class="source-pill">Read-only public ledger</div>
+      <div class="source-pill">Admin workspace</div>
     </header>
 
     <nav class="tabs" aria-label="Primary views">
       <button class="tab is-active" type="button" data-tab="overview">Overview</button>
+      <button class="tab" type="button" data-tab="editor" data-requires-admin="true">Editor</button>
       <button class="tab" type="button" data-tab="nations">Nations</button>
+      <button class="tab" type="button" data-tab="simulation" data-requires-admin="true">Simulation</button>
       <button class="tab" type="button" data-tab="national" data-related-tabs="national trade industrial population military intelligence">Status Tables</button>
       <button class="tab" type="button" data-tab="naval" data-related-tabs="naval equipment eclipse elections audit">Records</button>
     </nav>
@@ -48,8 +50,8 @@
       <span id="sourceNote"></span>
     </footer>
 
-    <script src="data.js?v=20260527-admin"></script>
-    <script src="engine.js?v=20260527-admin"></script>
-    <script src="app.js?v=20260527-admin"></script>
+    <script src="../data.js?v=20260527-admin"></script>
+    <script src="../engine.js?v=20260527-admin"></script>
+    <script src="../app.js?v=20260527-admin"></script>
   </body>
 </html>

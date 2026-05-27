@@ -8,6 +8,10 @@
   const nationSelect = document.getElementById("nationSelect");
   const tabs = Array.from(document.querySelectorAll(".tab"));
   const sourceNote = document.getElementById("sourceNote");
+  const sourcePill = document.querySelector(".source-pill");
+  const isAdmin = document.body.dataset.appMode === "admin";
+  const adminOnlyTabs = new Set(["editor", "simulation"]);
+  const adminOnlyActions = new Set(["advance-one", "advance-target", "recalculate", "reset-state", "export-json", "export-data-js"]);
 
   const datasets = [
     { key: "national", label: "National" },
@@ -22,9 +26,9 @@
   ];
   const viewOptions = [
     { key: "overview", label: "Overview" },
-    { key: "editor", label: "Editor" },
+    { key: "editor", label: "Editor", adminOnly: true },
     { key: "nations", label: "Nations" },
-    { key: "simulation", label: "Simulation" },
+    { key: "simulation", label: "Simulation", adminOnly: true },
     { key: "national", label: "National Status" },
     { key: "trade", label: "Trade Status" },
     { key: "industrial", label: "Industrial Status" },
@@ -48,9 +52,21 @@
     notice: ""
   };
 
-  function updateSourceNote() {
-    sourceNote.textContent = `${data.meta.title}. Working year: ${data.meta.currentYear}. Edits are saved in this browser until exported.`;
+  function canAccessTab(tabKey) {
+    return isAdmin || !adminOnlyTabs.has(tabKey);
   }
+
+  function updateSourceNote() {
+    const modeNote = isAdmin
+      ? "Admin workspace: edits are saved in this browser until exported."
+      : "Public view: editor and simulation access are managed separately.";
+    sourceNote.textContent = `${data.meta.title}. Working year: ${data.meta.currentYear}. ${modeNote}`;
+    if (sourcePill) sourcePill.textContent = isAdmin ? "Admin workspace" : "Read-only public ledger";
+  }
+
+  tabs.forEach((tab) => {
+    tab.hidden = !canAccessTab(tab.dataset.tab);
+  });
 
   updateSourceNote();
 
@@ -905,6 +921,7 @@
   }
 
   function render() {
+    if (!canAccessTab(state.tab)) state.tab = "overview";
     ensureSelectedNation();
     tabs.forEach((tab) => {
       const relatedTabs = (tab.dataset.relatedTabs || "").split(" ").filter(Boolean);
@@ -931,7 +948,7 @@
     renderers[state.tab]();
   }
 
-  viewOptions.forEach((view) => {
+  viewOptions.filter((view) => isAdmin || !view.adminOnly).forEach((view) => {
     const option = document.createElement("option");
     option.value = view.key;
     option.textContent = view.label;
@@ -947,6 +964,7 @@
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
+      if (!canAccessTab(tab.dataset.tab)) return;
       state.tab = tab.dataset.tab;
       render();
     });
@@ -955,6 +973,11 @@
   let editRenderTimer = null;
 
   function applyEdit(edit, renderNow = true) {
+    if (!isAdmin) {
+      state.notice = "Editor access is restricted.";
+      render();
+      return;
+    }
     const dataset = edit.dataset.dataset;
     const path = edit.dataset.path;
     const id = edit.dataset.id || state.selectedNation;
@@ -984,6 +1007,11 @@
   });
 
   viewSelect.addEventListener("change", (event) => {
+    if (!canAccessTab(event.target.value)) {
+      state.tab = "overview";
+      render();
+      return;
+    }
     state.tab = event.target.value;
     render();
   });
@@ -1003,6 +1031,11 @@
     const actionButton = event.target.closest("[data-action]");
     if (actionButton) {
       const action = actionButton.dataset.action;
+      if (!isAdmin && adminOnlyActions.has(action)) {
+        state.notice = "Admin access is required for this action.";
+        render();
+        return;
+      }
       const targetInput = document.getElementById("targetYearInput");
       const currentInput = document.getElementById("currentYearInput");
       const worldHealthInput = document.getElementById("worldHealthInput");
@@ -1050,6 +1083,11 @@
 
   app.addEventListener("change", (event) => {
     const edit = event.target.closest("[data-edit]");
+    if (edit && !isAdmin) {
+      state.notice = "Editor access is restricted.";
+      render();
+      return;
+    }
     if (!edit) {
       if (event.target.id === "worldHealthInput") {
         data.meta.worldEconomicHealth = event.target.value;
