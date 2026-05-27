@@ -245,7 +245,7 @@
     if (!payload?.data || sharedSync.hasPendingLocalChange || sharedSync.isPublishing) return false;
     const nextRevision = Number(payload.revision || 0);
     if (nextRevision && nextRevision === sharedSync.revision) return false;
-    data = Engine.clone(payload.data);
+    data = Engine.normalizeState(Engine.clone(payload.data));
     sharedSync.revision = nextRevision || sharedSync.revision;
     sharedSync.updatedAt = payload.updatedAt || data.meta?.updatedAt || "";
     sharedSync.updatedBy = payload.updatedBy || data.meta?.updatedBy || "";
