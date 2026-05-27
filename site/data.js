@@ -516,14 +516,14 @@ window.AGGS_DATA = {
       "warSupport": 1,
       "corruption": 13,
       "developmentLevel": 20,
-      "budgetCapacity": 89000,
+      "budgetCapacity": 60519,
       "budgetExpenditure": 88409,
-      "budgetBalance": 591,
+      "budgetBalance": -27890,
       "debt": 1.723,
       "economicHealth": "Prosperity",
       "immigrationRate": 3,
       "taxRate": 0.42,
-      "budgetAdjustment": 34890
+      "budgetAdjustment": 6602
     },
     "vesperan_federation": {
       "governmentalStability": 38,

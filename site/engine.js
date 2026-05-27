@@ -51,18 +51,6 @@
     data.meta.lastSimulationLog = data.meta.lastSimulationLog || [];
     data.meta.updatedAt = data.meta.updatedAt || new Date().toISOString();
     data.populationColumns = data.populationColumns || [];
-    applyLegacyCorrections(data);
-    return data;
-  }
-
-  function applyLegacyCorrections(data) {
-    const xanaqu = data.national?.people_s_federation_of_xanaqu;
-    if (!xanaqu) return data;
-    if (number(xanaqu.budgetCapacity, 0) === 60519 && number(xanaqu.budgetAdjustment, 0) === 6602) {
-      xanaqu.budgetCapacity = 89000;
-      xanaqu.budgetAdjustment = 34890;
-      xanaqu.budgetBalance = 89000 - number(xanaqu.budgetExpenditure, 0);
-    }
     return data;
   }
 
@@ -428,7 +416,6 @@
     load,
     save,
     reset,
-    normalizeState: ensureState,
     clone,
     number,
     getPopulation,
