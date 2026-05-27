@@ -1,6 +1,6 @@
 window.AGGS_DATA = {
   "meta": {
-    "title": "AG-GS Operations Ledger",
+    "title": "AG-GS Global Ledger",
     "source": "AG-GS operating baseline updated on 2026-05-27.",
     "accuracyNote": "Editable operational data with recalculated national, trade, industrial, population, and military outputs.",
     "githubPagesPath": "https://azraeel.github.io/AG-GS/",
