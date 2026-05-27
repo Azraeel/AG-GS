@@ -789,6 +789,16 @@ tbody tr:hover {
   font-weight: 700;
 }
 
+.change-history-panel {
+  margin-top: 14px;
+}
+
+.change-impact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .editor-section {
   display: grid;
   gap: 12px;

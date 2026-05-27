@@ -50,6 +50,7 @@
     data.meta.currentYear = number(data.meta.currentYear, 2021);
     data.meta.worldEconomicHealth = data.meta.worldEconomicHealth || "Expansion";
     data.meta.lastSimulationLog = data.meta.lastSimulationLog || [];
+    data.meta.changeHistory = Array.isArray(data.meta.changeHistory) ? data.meta.changeHistory : [];
     data.meta.updatedAt = data.meta.updatedAt || new Date().toISOString();
     data.nations = Array.isArray(data.nations) ? data.nations : [];
     ["national", "trade", "industrial", "population", "military", "intelligence", "naval", "eclipse", "elections"].forEach((key) => {

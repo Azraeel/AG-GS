@@ -45,6 +45,7 @@
     { key: "editor", label: "Editor", adminOnly: true },
     { key: "nations", label: "Nations" },
     { key: "simulation", label: "Simulation", adminOnly: true },
+    { key: "history", label: "Change History", adminOnly: true },
     { key: "national", label: "National Status" },
     { key: "trade", label: "Trade Status" },
     { key: "industrial", label: "Industrial Status" },
@@ -174,6 +175,11 @@
     return value === null || value === undefined || value === "" ? "Unknown" : Number(value).toLocaleString("en-US");
   }
 
+  function fmtYear(value) {
+    const year = Number(value);
+    return Number.isFinite(year) ? String(Math.trunc(year)) : "Unknown";
+  }
+
   function fmtCompact(value) {
     if (value === null || value === undefined || value === "") return "Unknown";
     return Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(value);
@@ -192,6 +198,13 @@
     return value === null || value === undefined ? "Unknown" : Number(value).toLocaleString("en-US", { maximumFractionDigits: 6 });
   }
 
+  function fmtHistoryValue(value) {
+    if (value === null || value === undefined || value === "") return "Unknown";
+    const numeric = typeof value === "number" || (typeof value === "string" && value.trim() !== "" && Number.isFinite(Number(value)));
+    if (!numeric) return String(value);
+    return Number(value).toLocaleString("en-US", { maximumFractionDigits: 4 });
+  }
+
   function populationFor(id, year = data.meta.currentYear) {
     return Engine.getPopulation(data, id, year);
   }
@@ -207,6 +220,7 @@
   function resetWorkingState() {
     data = Engine.reset(baseData);
     sharedSync.revision = null;
+    pendingEdits.clear();
     state.notice = sharedSync.enabled ? "Reloading the live ledger." : "Cleared local fallback state.";
     ensureSelectedNation();
     updateSourceNote();
@@ -247,6 +261,7 @@
     const nextRevision = Number(payload.revision || 0);
     if (nextRevision && nextRevision === sharedSync.revision) return false;
     data = Engine.normalizeState(Engine.clone(payload.data));
+    pendingEdits.clear();
     sharedSync.revision = nextRevision || sharedSync.revision;
     sharedSync.updatedAt = payload.updatedAt || data.meta?.updatedAt || "";
     sharedSync.updatedBy = payload.updatedBy || data.meta?.updatedBy || "";
@@ -650,7 +665,7 @@
     const log = data.meta.lastSimulationLog || [];
     app.innerHTML = `
       <section class="dashboard-grid">
-        ${renderMetric("Working Year", fmtNumber(currentYear), "Local browser state")}
+        ${renderMetric("Global Year State", fmtYear(currentYear), "Live ledger year")}
         ${renderMetric("Population", fmtCompact(snapshot.totalPopulation), `Total in ${currentYear}`)}
         ${renderMetric("Budget Capacity", fmtNumber(snapshot.budgetCapacity), "After current calculations")}
         ${renderMetric("Trade Flow", fmtCompact(snapshot.tradeFlow), "After current calculations")}
@@ -708,7 +723,7 @@
           <table>
             <thead><tr><th class="numeric">Year</th><th class="numeric">Population</th><th class="numeric">Budget Capacity</th><th class="numeric">Trade Flow</th><th class="numeric">Avg Supply</th></tr></thead>
             <tbody>
-              ${(log.length ? log : [snapshot]).map((row) => `<tr><td class="numeric">${fmtNumber(row.year)}</td><td class="numeric">${fmtNumber(row.totalPopulation)}</td><td class="numeric">${fmtNumber(row.budgetCapacity)}</td><td class="numeric">${fmtNumber(row.tradeFlow)}</td><td class="numeric">${fmtPercent(row.militarySupplyAverage)}</td></tr>`).join("")}
+              ${(log.length ? log : [snapshot]).map((row) => `<tr><td class="numeric">${fmtYear(row.year)}</td><td class="numeric">${fmtNumber(row.totalPopulation)}</td><td class="numeric">${fmtNumber(row.budgetCapacity)}</td><td class="numeric">${fmtNumber(row.tradeFlow)}</td><td class="numeric">${fmtPercent(row.militarySupplyAverage)}</td></tr>`).join("")}
             </tbody>
           </table>
         </div>
@@ -766,7 +781,7 @@
         <div class="panel-head">
           <div>
             <h2>${nationCell(nation.id)}</h2>
-            <p>Edit the selected nation. Dependent systems recalculate automatically, and changes stay local until exported.</p>
+            <p>Edit the selected nation. Dependent systems recalculate automatically, and changes publish to the live ledger.</p>
           </div>
           <span class="status ${state.notice ? "positive" : ""}">${state.notice || "Editor ready"}</span>
         </div>
@@ -845,6 +860,7 @@
           </section>
         </div>
       </section>
+      ${renderChangeHistoryPanel(nation.id, 6)}
     `;
   }
 
@@ -921,6 +937,111 @@
 
   function detailItem(label, value) {
     return `<div class="detail-item"><span>${label}</span><strong>${value}</strong></div>`;
+  }
+
+  const trackedChangeMetrics = [
+    { key: "budgetCapacity", label: "BC", source: (source, id) => source.national?.[id]?.budgetCapacity },
+    { key: "budgetBalance", label: "Budget Balance", source: (source, id) => source.national?.[id]?.budgetBalance },
+    { key: "tradeBalance", label: "Trade Balance", source: (source, id) => source.trade?.[id]?.tradeBalance },
+    { key: "tradeFlow", label: "Trade Flow", source: (source, id) => source.trade?.[id]?.tradeFlow },
+    { key: "economicImpactScore", label: "Economic Impact", source: (source, id) => source.trade?.[id]?.economicImpactScore }
+  ];
+
+  function metricSnapshot(source, id) {
+    return Object.fromEntries(trackedChangeMetrics.map((metric) => [metric.key, Engine.number(metric.source(source, id), 0)]));
+  }
+
+  function metricDeltas(before, after) {
+    return trackedChangeMetrics
+      .map((metric) => {
+        const previous = Engine.number(before?.[metric.key], 0);
+        const next = Engine.number(after?.[metric.key], 0);
+        return { key: metric.key, label: metric.label, before: previous, after: next, delta: next - previous };
+      })
+      .filter((metric) => metric.delta !== 0);
+  }
+
+  function readFieldValue(source, dataset, id, path) {
+    if (dataset === "population") {
+      const row = source.population?.[id];
+      return path === "mandatoryChildPolicy" ? row?.mandatoryChildPolicy : row?.values?.[path];
+    }
+    const row = source[dataset]?.[id];
+    if (!row) return undefined;
+    if (!path.includes(".")) return row[path];
+    return path.split(".").reduce((target, segment) => target?.[segment], row);
+  }
+
+  function fieldLabel(dataset, path) {
+    const labels = {
+      governmentalStability: "Stability",
+      publicUnrest: "Public Unrest",
+      warSupport: "War Support",
+      developmentLevel: "Development",
+      budgetExpenditure: "Expenditure",
+      economicHealth: "Economic Health",
+      immigrationRate: "Immigration",
+      taxRate: "Tax Rate",
+      importReliance: "Import Reliance",
+      exportReliance: "Export Reliance",
+      economicTradeDiversity: "Diversity",
+      autarkyIndex: "Autarky",
+      tradePolicy: "Trade Policy",
+      sanctionsLevel: "Sanctions",
+      tariffRate: "Tariff",
+      civilianFactories: "Civilian Factories",
+      militaryFactories: "Military Factories",
+      militarySupply: "Military Supply",
+      mobilizationLevel: "Mobilization",
+      mandatoryChildPolicy: "Child Policy"
+    };
+    if (dataset === "population" && /^\d+$/.test(path)) return `Population (${path})`;
+    return labels[path] || path.replace(/([A-Z])/g, " $1").replace(/^./, (letter) => letter.toUpperCase());
+  }
+
+  function changeHistoryRows(idFilter = "", limit = 12) {
+    return (data.meta.changeHistory || [])
+      .filter((entry) => !idFilter || entry.nationId === idFilter)
+      .slice(0, limit);
+  }
+
+  function historyTime(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "Unknown";
+    return date.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  }
+
+  function renderChangeHistoryPanel(idFilter = "", limit = 8) {
+    const rows = changeHistoryRows(idFilter, limit);
+    return `
+      <section class="panel change-history-panel">
+        <div class="panel-head">
+          <div>
+            <h2>Change History</h2>
+            <p>Recent admin edits and the calculated impact on key outputs.</p>
+          </div>
+        </div>
+        ${rows.length ? `
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Time</th><th>Nation</th><th>Edit</th><th>Value</th><th>Calculation Impact</th></tr></thead>
+              <tbody>
+                ${rows.map((entry) => `
+                  <tr>
+                    <td>${historyTime(entry.changedAt)}</td>
+                    <td>${nationCell(entry.nationId)}</td>
+                    <td>${escapeHtml(entry.label || entry.field)}</td>
+                    <td>${escapeHtml(fmtHistoryValue(entry.beforeValue))} -> ${escapeHtml(fmtHistoryValue(entry.afterValue))}</td>
+                    <td><div class="change-impact">${(entry.deltas || []).length ? entry.deltas.map((delta) => `<span class="status ${delta.delta >= 0 ? "positive" : "negative"}">${escapeHtml(delta.label)} ${fmtSigned(delta.delta)}</span>`).join("") : `<span class="status">No calculated change</span>`}</div></td>
+                  </tr>`).join("")}
+              </tbody>
+            </table>
+          </div>` : `<div class="empty">No changes recorded yet.</div>`}
+      </section>`;
+  }
+
+  function renderHistory() {
+    app.innerHTML = renderChangeHistoryPanel("", 50);
   }
 
   function renderNations() {
@@ -1148,6 +1269,7 @@
       overview: renderOverview,
       simulation: renderSimulation,
       editor: renderEditor,
+      history: renderHistory,
       nations: renderNations,
       national: renderNational,
       trade: renderTrade,
@@ -1188,6 +1310,34 @@
   }
 
   let editRenderTimer = null;
+  const pendingEdits = new Map();
+
+  function recordChange(entryKey, id, dataset, path, afterValue, afterMetrics) {
+    const pending = pendingEdits.get(entryKey);
+    if (!pending) return [];
+    const deltas = metricDeltas(pending.beforeMetrics, afterMetrics);
+    const fieldChanged = String(pending.beforeValue ?? "") !== String(afterValue ?? "");
+    if (!fieldChanged && !deltas.length) {
+      data.meta.changeHistory = (data.meta.changeHistory || []).filter((entry) => entry.key !== pending.historyKey);
+      return [];
+    }
+    const entry = {
+      key: pending.historyKey,
+      nationId: id,
+      nationName: byId(id)?.name || id,
+      dataset,
+      field: path,
+      label: fieldLabel(dataset, path),
+      beforeValue: pending.beforeValue,
+      afterValue,
+      changedAt: new Date().toISOString(),
+      deltas
+    };
+    data.meta.changeHistory = [entry, ...(data.meta.changeHistory || []).filter((item) => item.key !== entry.key)].slice(0, 60);
+    clearTimeout(pending.timer);
+    pending.timer = setTimeout(() => pendingEdits.delete(entryKey), 2500);
+    return deltas;
+  }
 
   function applyEdit(edit, renderNow = true) {
     if (!isAdmin) {
@@ -1200,13 +1350,25 @@
     const id = edit.dataset.id || state.selectedNation;
     const rawValue = edit.value;
     const value = edit.tagName === "SELECT" || edit.type === "text" ? rawValue : Engine.number(rawValue, 0);
+    const entryKey = `${id}:${dataset}:${path}`;
+    if (!pendingEdits.has(entryKey)) {
+      pendingEdits.set(entryKey, {
+        historyKey: `${entryKey}:${Date.now()}`,
+        beforeValue: readFieldValue(data, dataset, id, path),
+        beforeMetrics: metricSnapshot(data, id),
+        timer: null
+      });
+    }
     Engine.updateValue(data, dataset, id, path, value);
     if (path === "mobilizationLevel") {
       if (dataset === "military" && data.industrial[id]) data.industrial[id].mobilizationLevel = value;
       if (dataset === "industrial" && data.military[id]) data.military[id].mobilizationLevel = value;
     }
     Engine.recalculateAll(data);
-    state.notice = `${byId(id)?.name || "Nation"} updated.`;
+    const afterValue = readFieldValue(data, dataset, id, path);
+    const deltas = recordChange(entryKey, id, dataset, path, afterValue, metricSnapshot(data, id));
+    const bcDelta = deltas.find((delta) => delta.key === "budgetCapacity");
+    state.notice = `${byId(id)?.name || "Nation"} updated${bcDelta ? `; BC ${fmtSigned(bcDelta.delta)}` : ""}.`;
     Engine.save(data);
     scheduleSharedPublish(state.notice);
     updateSourceNote();

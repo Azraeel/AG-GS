@@ -11,6 +11,7 @@ window.AGGS_DATA = {
     worldCurrencies: [],
     currencyBonusByNation: {},
     lastSimulationLog: [],
+    changeHistory: [],
     updatedAt: ""
   },
   nations: [],
