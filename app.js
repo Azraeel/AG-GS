@@ -79,10 +79,13 @@
   function updateThemeToggle() {
     if (!themeToggle) return;
     const isDark = currentTheme() === "dark";
-    const label = isDark ? "Switch to light mode" : "Switch to dark mode";
+    const mode = isDark ? "Dark" : "Light";
+    const label = isDark ? "Theme is dark. Switch to light mode." : "Theme is light. Switch to dark mode.";
     themeToggle.setAttribute("aria-pressed", String(isDark));
     themeToggle.setAttribute("aria-label", label);
     themeToggle.title = label;
+    const value = themeToggle.querySelector(".theme-toggle-value");
+    if (value) value.textContent = mode;
   }
 
   function setTheme(theme) {
