@@ -111,9 +111,9 @@ h3 {
 
 .tabs {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   overflow-x: auto;
-  padding: 12px clamp(16px, 4vw, 44px);
+  padding: 10px clamp(16px, 4vw, 44px);
   background: #262a30;
   scrollbar-width: thin;
 }
@@ -123,10 +123,10 @@ h3 {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 8px;
-  padding: 9px 12px;
+  padding: 10px 14px;
   cursor: pointer;
   white-space: nowrap;
-  font-weight: 800;
+  font-weight: 850;
 }
 
 .tab:hover,
@@ -142,13 +142,14 @@ h3 {
 
 .toolbar {
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(220px, 320px);
+  grid-template-columns: minmax(210px, 280px) minmax(260px, 1fr) minmax(220px, 320px);
   gap: 12px;
   padding: 16px clamp(16px, 4vw, 44px) 0;
 }
 
 .search,
-.select-shell {
+.select-shell,
+.view-shell {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 10px;
@@ -162,7 +163,8 @@ h3 {
 }
 
 .search span,
-.select-shell span {
+.select-shell span,
+.view-shell span {
   color: var(--muted);
   font-size: 12px;
   font-weight: 800;
@@ -170,7 +172,8 @@ h3 {
 }
 
 .search input,
-.select-shell select {
+.select-shell select,
+.view-shell select {
   width: 100%;
   min-width: 0;
   border: 0;
@@ -198,6 +201,14 @@ h3 {
   gap: 16px;
   padding: 16px;
   border-bottom: 1px solid var(--line);
+}
+
+.panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  align-items: center;
 }
 
 .panel-head p {
@@ -305,14 +316,15 @@ h3 {
 
 table {
   width: 100%;
-  border-collapse: collapse;
-  min-width: 880px;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 760px;
 }
 
 th,
 td {
   border-bottom: 1px solid var(--line);
-  padding: 10px 12px;
+  padding: 9px 12px;
   text-align: left;
   vertical-align: middle;
   font-size: 14px;
@@ -323,11 +335,24 @@ th {
   top: 0;
   z-index: 2;
   color: #fff;
-  background: #191c21;
+  background: #222831;
   font-size: 12px;
   text-transform: uppercase;
   cursor: pointer;
   letter-spacing: 0;
+}
+
+th:first-child,
+td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: inherit;
+}
+
+th:first-child {
+  z-index: 3;
+  background: #222831;
 }
 
 td.numeric,
@@ -338,6 +363,10 @@ th.numeric {
 
 tbody tr {
   background: #fff;
+}
+
+tbody tr:nth-child(even) {
+  background: #fbfcfe;
 }
 
 tbody tr:hover {
@@ -525,6 +554,12 @@ tbody tr:hover {
   font-weight: 900;
 }
 
+.command.compact {
+  min-height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
 .command:hover,
 .command:focus-visible {
   border-color: var(--blue);
@@ -542,9 +577,24 @@ tbody tr:hover {
   background: #fff4f2;
 }
 
+.command.is-active {
+  color: #fff;
+  background: #262a30;
+  border-color: #262a30;
+}
+
+.table-note {
+  padding: 10px 16px;
+  color: var(--muted);
+  background: #fbfcfe;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .editor-section {
   display: grid;
-  gap: 10px;
+  gap: 12px;
   align-content: start;
   padding: 14px;
   border: 1px solid var(--line);

@@ -4,6 +4,7 @@
   let data = Engine.load(baseData);
   const app = document.getElementById("app");
   const searchInput = document.getElementById("searchInput");
+  const viewSelect = document.getElementById("viewSelect");
   const nationSelect = document.getElementById("nationSelect");
   const tabs = Array.from(document.querySelectorAll(".tab"));
   const sourceNote = document.getElementById("sourceNote");
@@ -19,6 +20,23 @@
     { key: "elections", label: "Elections" },
     { key: "naval", label: "Naval" }
   ];
+  const viewOptions = [
+    { key: "overview", label: "Overview" },
+    { key: "editor", label: "Editor" },
+    { key: "nations", label: "Nations" },
+    { key: "simulation", label: "Simulation" },
+    { key: "national", label: "National Status" },
+    { key: "trade", label: "Trade Status" },
+    { key: "industrial", label: "Industrial Status" },
+    { key: "population", label: "Population Tracker" },
+    { key: "military", label: "Military Status" },
+    { key: "intelligence", label: "Intelligence Status" },
+    { key: "naval", label: "Naval Inventory" },
+    { key: "equipment", label: "Equipment Costs" },
+    { key: "eclipse", label: "Eclipse Status" },
+    { key: "elections", label: "Election Tracker" },
+    { key: "audit", label: "Audit" }
+  ];
   const economicHealthOptions = ["Prosperity", "Expansion", "Recovery", "Slowdown", "Recession", "Depression"];
 
   const state = {
@@ -26,6 +44,7 @@
     query: "",
     selectedNation: "solara",
     sort: {},
+    showDetails: false,
     notice: ""
   };
 
@@ -183,6 +202,11 @@
     return `<article class="metric"><span>${label}</span><strong>${value}</strong><small>${subtext}</small></article>`;
   }
 
+  function sortLabel(sort, column) {
+    if (sort.key !== column.key) return "";
+    return `<span aria-hidden="true">${sort.dir === "asc" ? " ↑" : " ↓"}</span>`;
+  }
+
   function topList(title, source, getter, formatter, limit = 6) {
     const rows = visibleNations()
       .map((nation) => ({ nation, value: getter(nation.id) }))
@@ -252,8 +276,11 @@
       return;
     }
 
-    const sort = state.sort[id] || { key: columns[0].key, dir: "asc" };
-    const col = columns.find((column) => column.key === sort.key) || columns[0];
+    const hasSecondaryColumns = columns.some((column) => column.secondary);
+    const visibleColumns = columns.filter((column) => !column.secondary || state.showDetails);
+    let sort = state.sort[id] || { key: visibleColumns[0].key, dir: "asc" };
+    if (!visibleColumns.some((column) => column.key === sort.key)) sort = { key: visibleColumns[0].key, dir: "asc" };
+    const col = columns.find((column) => column.key === sort.key) || visibleColumns[0];
     const sortedRows = [...rows].sort((a, b) => {
       const left = col.raw ? col.raw(a) : a[col.key];
       const right = col.raw ? col.raw(b) : b[col.key];
@@ -270,16 +297,19 @@
             <h2>${title}</h2>
             <p>${subtitle}</p>
           </div>
-          <span class="status">${fmtNumber(sortedRows.length)} rows</span>
+          <div class="panel-actions">
+            ${hasSecondaryColumns ? `<button class="command compact ${state.showDetails ? "is-active" : ""}" type="button" data-action="toggle-detail-columns">${state.showDetails ? "Focused Columns" : "Detailed Columns"}</button>` : ""}
+            <span class="status">${fmtNumber(sortedRows.length)} rows</span>
+          </div>
         </div>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                ${columns
+                ${visibleColumns
                   .map(
                     (column) =>
-                      `<th class="${column.numeric ? "numeric" : ""}" data-table="${id}" data-key="${column.key}">${column.label}${sort.key === column.key ? (sort.dir === "asc" ? " ^" : " v") : ""}</th>`
+                      `<th class="${column.numeric ? "numeric" : ""}" data-table="${id}" data-key="${column.key}">${column.label}${sortLabel(sort, column)}</th>`
                   )
                   .join("")}
               </tr>
@@ -289,7 +319,7 @@
                 .map(
                   (row) => `
                     <tr>
-                      ${columns
+                      ${visibleColumns
                         .map((column) => {
                           const value = column.raw ? column.raw(row) : row[column.key];
                           const rendered = column.render ? column.render(value, row) : value ?? "Unknown";
@@ -302,6 +332,7 @@
             </tbody>
           </table>
         </div>
+        ${hasSecondaryColumns && !state.showDetails ? `<div class="table-note">Showing the most-used columns. Use Detailed Columns for the full ledger view.</div>` : ""}
       </section>
     `;
   }
@@ -321,16 +352,16 @@
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
         { key: "governmentalStability", label: "Stability", numeric: true, render: fmtPercent },
         { key: "publicUnrest", label: "Unrest", numeric: true, render: fmtNumber },
-        { key: "warSupport", label: "War Support", numeric: true, render: fmtPercent },
-        { key: "corruption", label: "Corruption", numeric: true, render: fmtPercent },
+        { key: "warSupport", label: "War Support", numeric: true, secondary: true, render: fmtPercent },
+        { key: "corruption", label: "Corruption", numeric: true, secondary: true, render: fmtPercent },
         { key: "developmentLevel", label: "Development", numeric: true, render: fmtNumber },
         { key: "budgetCapacity", label: "Budget Capacity", numeric: true, render: fmtNumber },
-        { key: "budgetExpenditure", label: "Expenditure", numeric: true, render: fmtNumber },
+        { key: "budgetExpenditure", label: "Expenditure", numeric: true, secondary: true, render: fmtNumber },
         { key: "budgetBalance", label: "Balance", numeric: true, render: (v) => `<span class="status ${v >= 0 ? "positive" : "negative"}">${fmtSigned(v)}</span>` },
         { key: "debt", label: "Debt", numeric: true, render: fmtPercent },
         { key: "economicHealth", label: "Health", render: (v) => `<span class="status ${v === "Prosperity" ? "positive" : v === "Recovery" ? "warning" : ""}">${v}</span>` },
-        { key: "immigrationRate", label: "Immigration", numeric: true, render: fmtNumber },
-        { key: "taxRate", label: "Tax Rate", numeric: true, render: fmtNumber }
+        { key: "immigrationRate", label: "Immigration", numeric: true, secondary: true, render: fmtNumber },
+        { key: "taxRate", label: "Tax Rate", numeric: true, secondary: true, render: fmtNumber }
       ],
       "national"
     );
@@ -345,16 +376,16 @@
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
         { key: "tradeCapacity", label: "Capacity", numeric: true, render: fmtNumber },
         { key: "tradeEfficiency", label: "Efficiency", numeric: true, render: fmtNumber },
-        { key: "autarkyIndex", label: "Autarky", numeric: true, render: fmtNumber },
+        { key: "autarkyIndex", label: "Autarky", numeric: true, secondary: true, render: fmtNumber },
         { key: "tradeBalance", label: "Balance", numeric: true, render: (v) => `<span class="status ${v >= 0 ? "positive" : "negative"}">${fmtSigned(v)}</span>` },
         { key: "tradeFlow", label: "Flow", numeric: true, render: fmtNumber },
-        { key: "tradePower", label: "Power", numeric: true, render: fmtNumber },
-        { key: "importReliance", label: "Import", numeric: true, render: fmtNumber },
-        { key: "exportReliance", label: "Export", numeric: true, render: fmtNumber },
-        { key: "economicTradeDiversity", label: "Diversity", numeric: true, render: fmtNumber },
+        { key: "tradePower", label: "Power", numeric: true, secondary: true, render: fmtNumber },
+        { key: "importReliance", label: "Import", numeric: true, secondary: true, render: fmtNumber },
+        { key: "exportReliance", label: "Export", numeric: true, secondary: true, render: fmtNumber },
+        { key: "economicTradeDiversity", label: "Diversity", numeric: true, secondary: true, render: fmtNumber },
         { key: "tradePolicy", label: "Policy", render: (v) => `<span class="status">${v}</span>` },
         { key: "sanctionsLevel", label: "Sanctions", render: (v) => `<span class="status ${v === "None" ? "positive" : "warning"}">${v}</span>` },
-        { key: "tariffRate", label: "Tariff", numeric: true, render: fmtPercent },
+        { key: "tariffRate", label: "Tariff", numeric: true, secondary: true, render: fmtPercent },
         { key: "economicImpactScore", label: "Impact", numeric: true, render: fmtNumber }
       ],
       "trade"
@@ -388,6 +419,7 @@
         key: column.key,
         label: column.label,
         numeric: true,
+        secondary: column.key !== String(data.meta.currentYear),
         raw: (row) => row.values[column.key],
         render: (v) => fmtNumber(v)
       }))
@@ -597,11 +629,11 @@
         { key: "equipmentComplexity", label: "Complexity", numeric: true, render: fmtNumber },
         { key: "cyberSecurity", label: "Cyber", numeric: true, render: fmtNumber },
         { key: "combatPersonnel", label: "Combat", numeric: true, render: fmtNumber },
-        { key: "supportPersonnel", label: "Support", numeric: true, render: fmtNumber },
-        { key: "airForcePersonnel", label: "Air Force", numeric: true, render: fmtNumber },
-        { key: "navalPersonnel", label: "Naval", numeric: true, render: fmtNumber },
-        { key: "reserveForces", label: "Reserve", numeric: true, render: fmtNumber },
-        { key: "paramilitaryIrregular", label: "Irregular", numeric: true, render: fmtNumber },
+        { key: "supportPersonnel", label: "Support", numeric: true, secondary: true, render: fmtNumber },
+        { key: "airForcePersonnel", label: "Air Force", numeric: true, secondary: true, render: fmtNumber },
+        { key: "navalPersonnel", label: "Naval", numeric: true, secondary: true, render: fmtNumber },
+        { key: "reserveForces", label: "Reserve", numeric: true, secondary: true, render: fmtNumber },
+        { key: "paramilitaryIrregular", label: "Irregular", numeric: true, secondary: true, render: fmtNumber },
         { key: "active", label: "Active Total", numeric: true, raw: (row) => activeMilitary(row), render: fmtNumber }
       ],
       "military"
@@ -620,9 +652,9 @@
         { key: "counterintelligence", label: "Counterintel", numeric: true, render: fmtNumber },
         { key: "covertAction", label: "Covert", numeric: true, render: fmtNumber },
         { key: "analysisDoctrine", label: "Doctrine", numeric: true, render: fmtNumber },
-        { key: "globalReach", label: "Reach", numeric: true, render: fmtNumber },
-        { key: "internalSurveillance", label: "Surveillance", numeric: true, render: fmtNumber },
-        { key: "secrecyDenial", label: "Secrecy", numeric: true, render: fmtNumber }
+        { key: "globalReach", label: "Reach", numeric: true, secondary: true, render: fmtNumber },
+        { key: "internalSurveillance", label: "Surveillance", numeric: true, secondary: true, render: fmtNumber },
+        { key: "secrecyDenial", label: "Secrecy", numeric: true, secondary: true, render: fmtNumber }
       ],
       "intelligence"
     );
@@ -874,7 +906,11 @@
 
   function render() {
     ensureSelectedNation();
-    tabs.forEach((tab) => tab.classList.toggle("is-active", tab.dataset.tab === state.tab));
+    tabs.forEach((tab) => {
+      const relatedTabs = (tab.dataset.relatedTabs || "").split(" ").filter(Boolean);
+      tab.classList.toggle("is-active", tab.dataset.tab === state.tab || relatedTabs.includes(state.tab));
+    });
+    if (viewSelect.value !== state.tab) viewSelect.value = state.tab;
     const renderers = {
       overview: renderOverview,
       simulation: renderSimulation,
@@ -894,6 +930,13 @@
     };
     renderers[state.tab]();
   }
+
+  viewOptions.forEach((view) => {
+    const option = document.createElement("option");
+    option.value = view.key;
+    option.textContent = view.label;
+    viewSelect.append(option);
+  });
 
   visibleNations().forEach((nation) => {
     const option = document.createElement("option");
@@ -940,6 +983,11 @@
     render();
   });
 
+  viewSelect.addEventListener("change", (event) => {
+    state.tab = event.target.value;
+    render();
+  });
+
   app.addEventListener("input", (event) => {
     const edit = event.target.closest("[data-edit]");
     if (edit) applyEdit(edit, false);
@@ -969,6 +1017,9 @@
         data.meta.currentYear = Number(currentInput?.value || data.meta.currentYear);
         Engine.recalculateAll(data);
         saveWorkingState(`Recalculated ${data.meta.currentYear}.`);
+      } else if (action === "toggle-detail-columns") {
+        state.showDetails = !state.showDetails;
+        render();
       } else if (action === "reset-state") {
         resetWorkingState();
       } else if (action === "export-json") {
