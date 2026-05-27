@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = "aggs-operations-state-v2";
+  const STORAGE_KEY = "aggs-operations-state-v3";
 
   const HEALTH_GROWTH = { Depression: -3, Recession: -2, Slowdown: -1, Recovery: 1, Expansion: 2, Prosperity: 3 };
   const HEALTH_POPULATION = { Prosperity: 2, Expansion: 1.5, Recovery: 1, Slowdown: 0.5, Recession: -1, Depression: -2 };
@@ -52,6 +52,19 @@
     data.meta.updatedAt = data.meta.updatedAt || new Date().toISOString();
     data.populationColumns = data.populationColumns || [];
     return data;
+  }
+
+  function hiddenNationIds(data) {
+    return new Set(data.meta?.hiddenNationIds || []);
+  }
+
+  function visibleNations(data) {
+    const hidden = hiddenNationIds(data);
+    return (data.nations || []).filter((nation) => !hidden.has(nation.id));
+  }
+
+  function visibleNationIds(data) {
+    return visibleNations(data).map((nation) => nation.id);
   }
 
   function load(baseData) {
@@ -331,10 +344,11 @@
   }
 
   function snapshot(data, year) {
-    const totalPopulation = Object.keys(data.population || {}).reduce((total, id) => total + getPopulation(data, id, year), 0);
-    const budgetCapacity = Object.values(data.national || {}).reduce((total, row) => total + number(row.budgetCapacity, 0), 0);
-    const tradeFlow = Object.values(data.trade || {}).reduce((total, row) => total + number(row.tradeFlow, 0), 0);
-    const militaryRows = Object.values(data.military || {});
+    const ids = visibleNationIds(data);
+    const totalPopulation = ids.reduce((total, id) => total + getPopulation(data, id, year), 0);
+    const budgetCapacity = ids.reduce((total, id) => total + number(data.national?.[id]?.budgetCapacity, 0), 0);
+    const tradeFlow = ids.reduce((total, id) => total + number(data.trade?.[id]?.tradeFlow, 0), 0);
+    const militaryRows = ids.map((id) => data.military?.[id]).filter(Boolean);
     const militarySupplyAverage = militaryRows.reduce((total, row) => total + number(row.militarySupply, 0), 0) / Math.max(militaryRows.length, 1);
     return { year, totalPopulation, budgetCapacity, tradeFlow, militarySupplyAverage: Number(militarySupplyAverage.toFixed(1)) };
   }
@@ -345,15 +359,16 @@
     const endYear = number(targetYear, startYear);
     if (endYear <= startYear) return { ok: false, message: "Target year must be greater than the current year.", log: [] };
     const log = [];
+    const activeNations = visibleNations(data);
     for (let year = startYear + 1; year <= endYear; year++) {
-      for (const nation of data.nations) advancePopulation(data, nation.id, year - 1, year);
+      for (const nation of activeNations) advancePopulation(data, nation.id, year - 1, year);
       data.meta.currentYear = year;
       recalculateTrade(data);
-      for (const nation of data.nations) advanceIndustry(data, nation.id, 1);
+      for (const nation of activeNations) advanceIndustry(data, nation.id, 1);
       recalculateBudgets(data, { updateDebt: true });
       recalculateTrade(data);
       recalculateBudgets(data, { updateDebt: true });
-      for (const nation of data.nations) advanceMilitarySupply(data, nation.id, 12);
+      for (const nation of activeNations) advanceMilitarySupply(data, nation.id, 12);
       log.push(snapshot(data, year));
     }
     data.meta.lastSimulationLog = log;
@@ -369,8 +384,28 @@
       return;
     }
     if (!data[dataset]) data[dataset] = {};
+    if (Array.isArray(data[dataset])) {
+      const row = data[dataset][number(id, -1)];
+      if (row) row[path] = value;
+      return;
+    }
     if (!data[dataset][id]) data[dataset][id] = {};
-    data[dataset][id][path] = value;
+    if (path.includes(".")) {
+      const segments = path.split(".");
+      let target = data[dataset][id];
+      for (let i = 0; i < segments.length - 1; i++) target = target[segments[i]];
+      target[segments[segments.length - 1]] = value;
+    } else {
+      data[dataset][id][path] = value;
+    }
+    if (dataset === "naval") {
+      const fleet = data.naval[id];
+      fleet.total = (fleet.categories || []).reduce(
+        (total, category) => total + (category.ships || []).reduce((subtotal, ship) => subtotal + number(ship.count, 0), 0),
+        0
+      );
+      fleet.totalNote = "Computed from editable class counts.";
+    }
   }
 
   function exportDataJs(data) {
@@ -385,6 +420,8 @@
     number,
     getPopulation,
     setPopulation,
+    visibleNations,
+    visibleNationIds,
     currentPopulationKey,
     calculateTradeForNation,
     calculateBudgetForNation,

@@ -19,6 +19,7 @@
     { key: "elections", label: "Elections" },
     { key: "naval", label: "Naval" }
   ];
+  const economicHealthOptions = ["Prosperity", "Expansion", "Recovery", "Slowdown", "Recession", "Depression"];
 
   const state = {
     tab: "overview",
@@ -29,13 +30,42 @@
   };
 
   function updateSourceNote() {
-    sourceNote.textContent = `${data.meta.source} ${data.meta.accuracyNote} Working year: ${data.meta.currentYear}. Browser edits are saved locally until exported.`;
+    sourceNote.textContent = `${data.meta.title}. Working year: ${data.meta.currentYear}. Edits are saved in this browser until exported.`;
   }
 
   updateSourceNote();
 
   function byId(id) {
     return data.nations.find((nation) => nation.id === id);
+  }
+
+  function visibleNations() {
+    return Engine.visibleNations(data);
+  }
+
+  function visibleIds() {
+    return Engine.visibleNationIds(data);
+  }
+
+  function isVisibleNation(id) {
+    return visibleIds().includes(id);
+  }
+
+  function ensureSelectedNation() {
+    const active = visibleNations();
+    if (!active.some((nation) => nation.id === state.selectedNation)) {
+      state.selectedNation = active[0]?.id || "";
+    }
+    if (nationSelect.value !== state.selectedNation) nationSelect.value = state.selectedNation;
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
   function fmtNumber(value) {
@@ -73,7 +103,8 @@
 
   function resetWorkingState() {
     data = Engine.reset(baseData);
-    state.notice = "Reset to the workbook baseline.";
+    state.notice = "Reset to the operating baseline.";
+    ensureSelectedNation();
     updateSourceNote();
     render();
   }
@@ -111,8 +142,9 @@
 
   function filteredNations() {
     const q = state.query.trim().toLowerCase();
-    if (!q) return data.nations;
-    return data.nations.filter((nation) => {
+    const active = visibleNations();
+    if (!q) return active;
+    return active.filter((nation) => {
       const haystack = [
         nation.name,
         data.national[nation.id]?.economicHealth,
@@ -132,7 +164,11 @@
   }
 
   function sumValues(object, getter) {
-    return Object.keys(object).reduce((total, id) => total + (Number(getter(object[id], id)) || 0), 0);
+    return visibleIds().reduce((total, id) => {
+      const row = object?.[id];
+      if (!row) return total;
+      return total + (Number(getter(row, id)) || 0);
+    }, 0);
   }
 
   function activeMilitary(military) {
@@ -148,7 +184,7 @@
   }
 
   function topList(title, source, getter, formatter, limit = 6) {
-    const rows = data.nations
+    const rows = visibleNations()
       .map((nation) => ({ nation, value: getter(nation.id) }))
       .filter((row) => row.value !== null && row.value !== undefined)
       .sort((a, b) => b.value - a.value)
@@ -179,7 +215,8 @@
 
   function renderOverview() {
     const currentYear = data.meta.currentYear;
-    const totalPopulation = data.nations.reduce((total, nation) => total + populationFor(nation.id, currentYear), 0);
+    const active = visibleNations();
+    const totalPopulation = active.reduce((total, nation) => total + populationFor(nation.id, currentYear), 0);
     const totalBudget = sumValues(data.national, (row) => row.budgetCapacity);
     const totalTradeFlow = sumValues(data.trade, (row) => row.tradeFlow);
     const totalActive = sumValues(data.military, (row) => activeMilitary(row));
@@ -187,16 +224,16 @@
 
     app.innerHTML = `
       <section class="dashboard-grid">
-        ${renderMetric("Nations", fmtNumber(data.nations.length), "Unique nations imported from the workbook")}
-        ${renderMetric(`${currentYear} Population`, fmtCompact(totalPopulation), "Current working population")}
-        ${renderMetric("Budget Capacity", fmtNumber(totalBudget), "National Status workbook rows")}
-        ${renderMetric("Fleet Inventory", fmtNumber(totalFleet), "Naval rows entered")}
+        ${renderMetric("Active Nations", fmtNumber(active.length), "Countries currently shown in the ledger")}
+        ${renderMetric(`${currentYear} Population`, fmtCompact(totalPopulation), "Combined active population")}
+        ${renderMetric("Budget Capacity", fmtNumber(totalBudget), "Combined national budget capacity")}
+        ${renderMetric("Fleet Inventory", fmtNumber(totalFleet), "Tracked naval assets")}
       </section>
       <section class="dashboard-grid">
-        ${renderMetric("Trade Flow", fmtCompact(totalTradeFlow), "Trade Status workbook rows")}
+        ${renderMetric("Trade Flow", fmtCompact(totalTradeFlow), "Aggregate active trade flow")}
         ${renderMetric("Active Personnel", fmtCompact(totalActive), "Combat, support, air, naval, irregular")}
-        ${renderMetric("National Rows", fmtNumber(Object.keys(data.national).length), "Rows imported from National Status")}
-        ${renderMetric("Audit Gaps", fmtNumber(auditRows().filter((row) => row.missing.length).length), "Nations missing at least one dataset")}
+        ${renderMetric("National Profiles", fmtNumber(active.filter((nation) => data.national[nation.id]).length), "Active records with national data")}
+        ${renderMetric("Coverage Gaps", fmtNumber(auditRows().filter((row) => row.missing.length).length), "Active nations missing a dataset")}
       </section>
       <div class="split">
         ${topList("Largest Populations", `Population (${currentYear})`, dataId => populationFor(dataId, currentYear), fmtCompact)}
@@ -278,7 +315,7 @@
   function renderNational() {
     tablePanel(
       "National Status",
-      "Government, budget, debt, health, and migration values imported from National Status.",
+      "Core governance, fiscal, and economic indicators used by the simulation model.",
       tableRowsFor("national"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
@@ -292,7 +329,8 @@
         { key: "budgetBalance", label: "Balance", numeric: true, render: (v) => `<span class="status ${v >= 0 ? "positive" : "negative"}">${fmtSigned(v)}</span>` },
         { key: "debt", label: "Debt", numeric: true, render: fmtPercent },
         { key: "economicHealth", label: "Health", render: (v) => `<span class="status ${v === "Prosperity" ? "positive" : v === "Recovery" ? "warning" : ""}">${v}</span>` },
-        { key: "immigrationRate", label: "Immigration", numeric: true, render: fmtNumber }
+        { key: "immigrationRate", label: "Immigration", numeric: true, render: fmtNumber },
+        { key: "taxRate", label: "Tax Rate", numeric: true, render: fmtNumber }
       ],
       "national"
     );
@@ -301,7 +339,7 @@
   function renderTrade() {
     tablePanel(
       "Trade Status",
-      "Capacity, flow, reliance, policy, sanctions, tariff, and economic impact values imported from Trade Status.",
+      "Trade posture, reliance, restrictions, and calculated output for each active nation.",
       tableRowsFor("trade"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
@@ -326,7 +364,7 @@
   function renderIndustrial() {
     tablePanel(
       "Industrial Status",
-      "Factory, shipyard, and mobilization rows imported from Industrial Status.",
+      "Production capacity and mobilization settings used by the economic and military supply models.",
       tableRowsFor("industrial"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
@@ -354,7 +392,7 @@
         render: (v) => fmtNumber(v)
       }))
     ];
-    tablePanel("Population Tracker", "Visible population history columns, including the duplicate 2020 archive column exactly as shown.", rows, columns, "population");
+    tablePanel("Population Tracker", "Population history and demographic policy inputs used by yearly growth calculations.", rows, columns, "population");
   }
 
   function renderSimulation() {
@@ -372,7 +410,7 @@
         <div class="panel-head">
           <div>
             <h2>Simulation Controls</h2>
-            <p>Advance the whole world year by year using the converted population, trade, industry, budget, debt, and military supply formulas.</p>
+            <p>Advance active nations year by year through population, trade, industry, budget, debt, and military supply calculations.</p>
           </div>
           <span class="status ${state.notice ? "positive" : ""}">${state.notice || "Ready"}</span>
         </div>
@@ -405,7 +443,7 @@
         <div class="panel-head">
           <div>
             <h2>Calculation Pipeline</h2>
-            <p>Each year runs population growth, trade recalculation, industrial growth, budget/debt update, a second trade/budget pass, and twelve military supply months.</p>
+            <p>Each yearly step updates population, recalculates trade, grows industry, updates budget and debt, then applies twelve months of military supply production.</p>
           </div>
         </div>
       </section>
@@ -435,23 +473,27 @@
         <label class="control-field" for="${id}">
           <span>${label}</span>
           <select id="${id}" data-edit data-dataset="${dataset}" data-path="${path}">
-            ${options.map((option) => `<option value="${option}" ${value === option ? "selected" : ""}>${option}</option>`).join("")}
+            ${options.map((option) => `<option value="${escapeHtml(option)}" ${value === option ? "selected" : ""}>${escapeHtml(option)}</option>`).join("")}
           </select>
         </label>`;
     }
     return `
       <label class="control-field" for="${id}">
         <span>${label}</span>
-        <input id="${id}" type="${type}" value="${value ?? ""}" data-edit data-dataset="${dataset}" data-path="${path}">
+        <input id="${id}" type="${type}" value="${escapeHtml(value ?? "")}" data-edit data-dataset="${dataset}" data-path="${path}">
       </label>`;
   }
 
   function renderEditor() {
-    const nation = byId(state.selectedNation) || data.nations[0];
+    const nation = byId(state.selectedNation) || visibleNations()[0];
+    if (!nation) return;
     const national = data.national[nation.id] || {};
     const trade = data.trade[nation.id] || {};
     const industrial = data.industrial[nation.id] || {};
     const military = data.military[nation.id] || {};
+    const intelligence = data.intelligence[nation.id] || {};
+    const eclipse = data.eclipse[nation.id] || {};
+    const elections = data.elections[nation.id] || {};
     const population = data.population[nation.id] || { mandatoryChildPolicy: "No Policy", values: {} };
     const currentYear = data.meta.currentYear;
 
@@ -460,7 +502,7 @@
         <div class="panel-head">
           <div>
             <h2>${nationCell(nation.id)}</h2>
-            <p>Edit values directly in the browser. Changes auto-save locally and can be exported as JSON or data.js.</p>
+            <p>Edit the selected nation. Dependent systems recalculate automatically, and changes stay local until exported.</p>
           </div>
           <span class="status ${state.notice ? "positive" : ""}">${state.notice || "Editor ready"}</span>
         </div>
@@ -478,7 +520,7 @@
             ${fieldControl("national", "corruption", "Corruption %", national.corruption)}
             ${fieldControl("national", "developmentLevel", "Development", national.developmentLevel)}
             ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}
-            ${fieldControl("national", "economicHealth", "Economic Health", national.economicHealth, "select", ["Prosperity", "Expansion", "Recovery", "Slowdown", "Recession", "Depression"])}
+            ${fieldControl("national", "economicHealth", "Economic Health", national.economicHealth, "select", economicHealthOptions)}
             ${fieldControl("national", "immigrationRate", "Immigration", national.immigrationRate)}
             ${fieldControl("national", "taxRate", "Tax Rate", national.taxRate ?? 0)}
           </section>
@@ -513,6 +555,23 @@
             ${fieldControl("military", "paramilitaryIrregular", "Paramilitary", military.paramilitaryIrregular)}
           </section>
           <section class="editor-section">
+            <h3>Intelligence</h3>
+            ${fieldControl("intelligence", "humint", "HUMINT", intelligence.humint)}
+            ${fieldControl("intelligence", "sigint", "SIGINT", intelligence.sigint)}
+            ${fieldControl("intelligence", "counterintelligence", "Counterintelligence", intelligence.counterintelligence)}
+            ${fieldControl("intelligence", "covertAction", "Covert Action", intelligence.covertAction)}
+            ${fieldControl("intelligence", "analysisDoctrine", "Analysis & Doctrine", intelligence.analysisDoctrine)}
+            ${fieldControl("intelligence", "globalReach", "Global Reach", intelligence.globalReach)}
+            ${fieldControl("intelligence", "internalSurveillance", "Internal Surveillance", intelligence.internalSurveillance)}
+            ${fieldControl("intelligence", "secrecyDenial", "Secrecy & Denial", intelligence.secrecyDenial)}
+          </section>
+          <section class="editor-section">
+            <h3>Civic Schedule</h3>
+            ${fieldControl("eclipse", "eclipseStatus", "Eclipse Status", eclipse.eclipseStatus ?? "", "text")}
+            ${fieldControl("elections", "leaderElections", "Leader Elections", elections.leaderElections ?? "", "text")}
+            ${fieldControl("elections", "parliamentElections", "Parliament Elections", elections.parliamentElections ?? "", "text")}
+          </section>
+          <section class="editor-section">
             <h3>Derived Preview</h3>
             ${detailItem("Budget Capacity", fmtNumber(national.budgetCapacity))}
             ${detailItem("Budget Balance", fmtSigned(national.budgetBalance))}
@@ -528,7 +587,7 @@
   function renderMilitary() {
     tablePanel(
       "Military Status",
-      "Organization, supply, complexity, cyber, personnel, reserve, and irregular values imported from Military Status.",
+      "Force readiness, supply, complexity, cyber capability, and personnel structure.",
       tableRowsFor("military"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
@@ -572,7 +631,7 @@
   function renderEclipse() {
     tablePanel(
       "Eclipse Status",
-      "Workbook Eclipse Status rows.",
+      "Current Eclipse status for active nations.",
       tableRowsFor("eclipse"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
@@ -585,7 +644,7 @@
   function renderElections() {
     tablePanel(
       "Election Tracker",
-      "Leader and parliament election dates imported from the workbook.",
+      "Leadership and parliamentary election timing for active nations.",
       tableRowsFor("elections"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
@@ -602,7 +661,8 @@
 
   function renderNations() {
     const nations = filteredNations();
-    const selected = byId(state.selectedNation) || nations[0] || data.nations[0];
+    const selected = nations.find((nation) => nation.id === state.selectedNation) || nations[0] || visibleNations()[0];
+    if (!selected) return;
     if (selected && selected.id !== state.selectedNation) state.selectedNation = selected.id;
     const national = data.national[selected.id];
     const trade = data.trade[selected.id];
@@ -655,6 +715,7 @@
   function renderNaval() {
     const q = state.query.trim().toLowerCase();
     const entries = Object.entries(data.naval).filter(([id, fleet]) => {
+      if (!isVisibleNation(id)) return false;
       const nation = byId(id);
       const text = [
         nation?.name,
@@ -670,7 +731,7 @@
         <div class="panel-head">
           <div>
             <h2>Naval Inventory</h2>
-            <p>Class counts imported from Naval Tracker. Computed totals are marked when the total cell was blank.</p>
+            <p>Tracked fleet classes and force totals for active nations with naval records.</p>
           </div>
           <span class="status">${fmtNumber(entries.length)} fleets</span>
         </div>
@@ -711,7 +772,7 @@
           <div class="panel-head">
             <div>
               <h2>Equipment Costs</h2>
-              <p>Visible production and maintenance costs in BC.</p>
+              <p>Production and maintenance cost references used for equipment planning.</p>
             </div>
           </div>
           <div class="table-wrap">
@@ -729,7 +790,7 @@
           <div class="panel-head">
             <div>
               <h2>Cost Modifiers</h2>
-              <p>Era multipliers plus cost addition and reduction modifiers imported from Equipment Tracker.</p>
+              <p>Era, design, storage, and maintenance modifiers for equipment cost calculations.</p>
             </div>
           </div>
           <div class="table-wrap">
@@ -748,7 +809,7 @@
   }
 
   function auditRows() {
-    return data.nations.map((nation) => {
+    return visibleNations().map((nation) => {
       const present = coverageFor(nation.id).filter((set) => set.hasData).map((set) => set.label);
       const missing = coverageFor(nation.id).filter((set) => !set.hasData).map((set) => set.label);
       return { nation, present, missing };
@@ -757,10 +818,11 @@
 
   function renderAudit() {
     const rows = auditRows().filter((row) => !state.query || row.nation.name.toLowerCase().includes(state.query.toLowerCase()));
+    const active = visibleNations();
     const datasetCounts = datasets.map((set) => ({
       label: set.label,
-      count: Object.keys(data[set.key]).length,
-      missing: data.nations.length - Object.keys(data[set.key]).length
+      count: active.filter((nation) => Boolean(data[set.key]?.[nation.id])).length,
+      missing: active.filter((nation) => !data[set.key]?.[nation.id]).length
     }));
 
     app.innerHTML = `
@@ -769,7 +831,7 @@
           <div class="panel-head">
             <div>
               <h2>Dataset Coverage</h2>
-              <p>${data.meta.accuracyNote}</p>
+              <p>Coverage across active operational datasets.</p>
             </div>
           </div>
           <div class="table-wrap">
@@ -785,7 +847,7 @@
           <div class="panel-head">
             <div>
               <h2>Nation Completeness</h2>
-              <p>All unique nations imported from the supplied workbook.</p>
+              <p>Dataset availability for every active nation in the ledger.</p>
             </div>
           </div>
           <div class="table-wrap">
@@ -811,6 +873,7 @@
   }
 
   function render() {
+    ensureSelectedNation();
     tabs.forEach((tab) => tab.classList.toggle("is-active", tab.dataset.tab === state.tab));
     const renderers = {
       overview: renderOverview,
@@ -832,7 +895,7 @@
     renderers[state.tab]();
   }
 
-  data.nations.forEach((nation) => {
+  visibleNations().forEach((nation) => {
     const option = document.createElement("option");
     option.value = nation.id;
     option.textContent = nation.name;
@@ -846,9 +909,40 @@
     });
   });
 
+  let editRenderTimer = null;
+
+  function applyEdit(edit, renderNow = true) {
+    const dataset = edit.dataset.dataset;
+    const path = edit.dataset.path;
+    const id = edit.dataset.id || state.selectedNation;
+    const rawValue = edit.value;
+    const value = edit.tagName === "SELECT" || edit.type === "text" ? rawValue : Engine.number(rawValue, 0);
+    Engine.updateValue(data, dataset, id, path, value);
+    if (path === "mobilizationLevel") {
+      if (dataset === "military" && data.industrial[id]) data.industrial[id].mobilizationLevel = value;
+      if (dataset === "industrial" && data.military[id]) data.military[id].mobilizationLevel = value;
+    }
+    Engine.recalculateAll(data);
+    state.notice = `${byId(id)?.name || "Nation"} updated.`;
+    Engine.save(data);
+    updateSourceNote();
+    if (renderNow) {
+      clearTimeout(editRenderTimer);
+      render();
+    } else {
+      clearTimeout(editRenderTimer);
+      editRenderTimer = setTimeout(() => render(), 700);
+    }
+  }
+
   searchInput.addEventListener("input", (event) => {
     state.query = event.target.value;
     render();
+  });
+
+  app.addEventListener("input", (event) => {
+    const edit = event.target.closest("[data-edit]");
+    if (edit) applyEdit(edit, false);
   });
 
   nationSelect.addEventListener("change", (event) => {
@@ -917,13 +1011,7 @@
       return;
     }
 
-    const dataset = edit.dataset.dataset;
-    const path = edit.dataset.path;
-    const rawValue = edit.value;
-    const value = edit.tagName === "SELECT" ? rawValue : Engine.number(rawValue, 0);
-    Engine.updateValue(data, dataset, state.selectedNation, path, value);
-    Engine.recalculateAll(data);
-    saveWorkingState(`${byId(state.selectedNation)?.name || "Nation"} updated.`);
+    applyEdit(edit, true);
   });
 
   render();

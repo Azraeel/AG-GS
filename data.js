@@ -1,13 +1,16 @@
 window.AGGS_DATA = {
   "meta": {
     "title": "AG-GS Operations Ledger",
-    "source": "Imported from Event Creator Tracker.xlsx on 2026-05-27.",
-    "accuracyNote": "Workbook values are the source of truth. Recalculation preserves populated workbook trade and budget baselines with imported adjustment offsets; blank workbook cells remain unknown until edited.",
+    "source": "AG-GS operating baseline updated on 2026-05-27.",
+    "accuracyNote": "Editable operational data with recalculated national, trade, industrial, population, and military outputs.",
     "githubPagesPath": "https://azraeel.github.io/AG-GS/",
     "sourceWorkbook": "Event Creator Tracker.xlsx",
     "currentYear": 2021,
     "currentMonth": "January",
     "worldEconomicHealth": "Expansion",
+    "hiddenNationIds": [
+      "zhensanovian_commonwealth"
+    ],
     "worldCurrencies": [
       {
         "nation": "Socialist Republic of Aurendale",
