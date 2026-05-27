@@ -51,19 +51,6 @@
     data.meta.lastSimulationLog = data.meta.lastSimulationLog || [];
     data.meta.updatedAt = data.meta.updatedAt || new Date().toISOString();
     data.populationColumns = data.populationColumns || [];
-    applyDataCorrections(data);
-    return data;
-  }
-
-  function applyDataCorrections(data) {
-    const xanaquTrade = data.trade?.people_s_federation_of_xanaqu;
-    if (!xanaquTrade) return data;
-    if (number(xanaquTrade.exportReliance, 0) === 18 && number(xanaquTrade.importReliance, 0) === 276) {
-      xanaquTrade.exportReliance = 238;
-      recalculateAll(data);
-      recalculateAll(data);
-      recalculateAll(data);
-    }
     return data;
   }
 
@@ -429,7 +416,6 @@
     load,
     save,
     reset,
-    normalizeState: ensureState,
     clone,
     number,
     getPopulation,
