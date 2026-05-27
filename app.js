@@ -11,7 +11,21 @@
   const sourcePill = document.querySelector(".source-pill");
   const isAdmin = document.body.dataset.appMode === "admin";
   const adminOnlyTabs = new Set(["editor", "simulation"]);
-  const adminOnlyActions = new Set(["advance-one", "advance-target", "recalculate", "reset-state", "export-json", "export-data-js"]);
+  const adminOnlyActions = new Set(["advance-one", "advance-target", "recalculate", "reset-state", "export-json", "export-data-js", "publish-live-state"]);
+  const sharedSync = {
+    enabled: location.protocol.startsWith("http") && !["localhost", "127.0.0.1", "::1"].includes(location.hostname),
+    endpoint: window.AGGS_API_URL || (isAdmin ? "/admin/api/state" : "/api/state"),
+    pollMs: 2500,
+    revision: null,
+    status: "local",
+    message: "",
+    updatedAt: "",
+    updatedBy: "",
+    isPublishing: false,
+    hasPendingLocalChange: false,
+    publishTimer: null,
+    pollTimer: null
+  };
 
   const datasets = [
     { key: "national", label: "National" },
@@ -56,12 +70,24 @@
     return isAdmin || !adminOnlyTabs.has(tabKey);
   }
 
+  function syncLabel(short = false) {
+    if (!sharedSync.enabled) return short ? "Local mode" : "Static fallback mode.";
+    if (sharedSync.status === "online") {
+      return short ? "Live sync online" : `Live sync online${sharedSync.revision ? `, revision ${sharedSync.revision}` : ""}.`;
+    }
+    if (sharedSync.status === "publishing") return short ? "Publishing" : "Publishing changes to the shared ledger.";
+    if (sharedSync.status === "connecting") return short ? "Connecting sync" : "Connecting to the shared ledger.";
+    if (sharedSync.status === "ready-empty") return short ? "Ready to publish" : "Shared ledger is ready; publish once from the admin workspace to initialize it.";
+    if (sharedSync.status === "offline") return short ? "Sync offline" : "Shared sync is offline; this browser is using its local copy.";
+    return short ? "Local mode" : "Local browser fallback.";
+  }
+
   function updateSourceNote() {
     const modeNote = isAdmin
       ? "Admin workspace: edits are saved in this browser until exported."
       : "Public view: editor and simulation access are managed separately.";
-    sourceNote.textContent = `${data.meta.title}. Working year: ${data.meta.currentYear}. ${modeNote}`;
-    if (sourcePill) sourcePill.textContent = isAdmin ? "Admin workspace" : "Read-only public ledger";
+    sourceNote.textContent = `${data.meta.title}. Working year: ${data.meta.currentYear}. ${modeNote} ${syncLabel()}`;
+    if (sourcePill) sourcePill.textContent = isAdmin ? `Admin workspace · ${syncLabel(true)}` : `Read-only ledger · ${syncLabel(true)}`;
   }
 
   tabs.forEach((tab) => {
@@ -92,6 +118,17 @@
       state.selectedNation = active[0]?.id || "";
     }
     if (nationSelect.value !== state.selectedNation) nationSelect.value = state.selectedNation;
+  }
+
+  function populateNationSelect() {
+    nationSelect.textContent = "";
+    visibleNations().forEach((nation) => {
+      const option = document.createElement("option");
+      option.value = nation.id;
+      option.textContent = nation.name;
+      nationSelect.append(option);
+    });
+    ensureSelectedNation();
   }
 
   function escapeHtml(value) {
@@ -132,6 +169,7 @@
   function saveWorkingState(message) {
     Engine.save(data);
     state.notice = message || "Saved locally.";
+    scheduleSharedPublish(state.notice, 0);
     updateSourceNote();
     render();
   }
@@ -140,6 +178,7 @@
     data = Engine.reset(baseData);
     state.notice = "Reset to the operating baseline.";
     ensureSelectedNation();
+    scheduleSharedPublish(state.notice, 0);
     updateSourceNote();
     render();
   }
@@ -154,6 +193,137 @@
     link.click();
     link.remove();
     URL.revokeObjectURL(url);
+  }
+
+  async function readSharedJson(response) {
+    const text = await response.text();
+    if (!text) return null;
+    try {
+      return JSON.parse(text);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function markSync(status, message = "") {
+    sharedSync.status = status;
+    sharedSync.message = message;
+    updateSourceNote();
+  }
+
+  function applySharedData(payload) {
+    if (!payload?.data || sharedSync.hasPendingLocalChange || sharedSync.isPublishing) return false;
+    const nextRevision = Number(payload.revision || 0);
+    if (nextRevision && nextRevision === sharedSync.revision) return false;
+    data = Engine.clone(payload.data);
+    sharedSync.revision = nextRevision || sharedSync.revision;
+    sharedSync.updatedAt = payload.updatedAt || data.meta?.updatedAt || "";
+    sharedSync.updatedBy = payload.updatedBy || data.meta?.updatedBy || "";
+    Engine.save(data, { touch: false });
+    populateNationSelect();
+    updateSourceNote();
+    state.notice = sharedSync.updatedBy ? `Live update from ${sharedSync.updatedBy}.` : "Live update received.";
+    render();
+    return true;
+  }
+
+  async function fetchSharedState() {
+    if (!sharedSync.enabled || sharedSync.isPublishing || sharedSync.hasPendingLocalChange) return;
+    markSync(sharedSync.revision ? "online" : "connecting");
+    try {
+      const response = await fetch(sharedSync.endpoint, {
+        cache: "no-store",
+        credentials: "same-origin",
+        headers: { Accept: "application/json" }
+      });
+      const payload = await readSharedJson(response);
+      if (response.status === 404 && payload?.code === "NO_SHARED_STATE") {
+        markSync("ready-empty", payload.message || "");
+        return;
+      }
+      if (response.status === 404 && !payload) {
+        markSync("local");
+        return;
+      }
+      if (!response.ok || !payload?.ok) {
+        markSync("offline", payload?.message || "Shared sync is unavailable.");
+        return;
+      }
+      const applied = applySharedData(payload);
+      if (!applied) {
+        sharedSync.revision = Number(payload.revision || sharedSync.revision || 0);
+        sharedSync.updatedAt = payload.updatedAt || sharedSync.updatedAt;
+        sharedSync.updatedBy = payload.updatedBy || sharedSync.updatedBy;
+      }
+      markSync("online");
+    } catch (error) {
+      markSync("offline", "Shared sync is unavailable.");
+    }
+  }
+
+  function scheduleSharedPublish(message, delay = 900) {
+    if (!sharedSync.enabled || !isAdmin) return;
+    sharedSync.hasPendingLocalChange = true;
+    markSync("publishing");
+    clearTimeout(sharedSync.publishTimer);
+    sharedSync.publishTimer = setTimeout(() => {
+      publishSharedState(message);
+    }, delay);
+  }
+
+  async function publishSharedState(message = "Published live changes.") {
+    if (!sharedSync.enabled || !isAdmin) {
+      state.notice = sharedSync.enabled ? "Admin access is required to publish." : "Shared sync is not configured for this host.";
+      updateSourceNote();
+      render();
+      return;
+    }
+    clearTimeout(sharedSync.publishTimer);
+    sharedSync.hasPendingLocalChange = true;
+    sharedSync.isPublishing = true;
+    markSync("publishing");
+    try {
+      data.meta.updatedAt = new Date().toISOString();
+      const response = await fetch(sharedSync.endpoint, {
+        method: "PUT",
+        cache: "no-store",
+        credentials: "same-origin",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ data, revision: sharedSync.revision })
+      });
+      const payload = await readSharedJson(response);
+      if (!response.ok || !payload?.ok) throw new Error(payload?.message || "Publish failed.");
+      sharedSync.revision = Number(payload.revision || sharedSync.revision || 0);
+      sharedSync.updatedAt = payload.updatedAt || data.meta.updatedAt;
+      sharedSync.updatedBy = payload.updatedBy || sharedSync.updatedBy;
+      data.meta.updatedBy = sharedSync.updatedBy || data.meta.updatedBy;
+      Engine.save(data, { touch: false });
+      sharedSync.hasPendingLocalChange = false;
+      sharedSync.isPublishing = false;
+      markSync("online");
+      state.notice = message;
+      render();
+    } catch (error) {
+      sharedSync.isPublishing = false;
+      markSync("offline", error.message || "Shared publish failed.");
+      state.notice = "Saved locally. Live publish failed.";
+      render();
+    }
+  }
+
+  function startSharedSync() {
+    if (!sharedSync.enabled) {
+      markSync("local");
+      return;
+    }
+    fetchSharedState();
+    sharedSync.pollTimer = setInterval(fetchSharedState, sharedSync.pollMs);
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) fetchSharedState();
+    });
   }
 
   function nationCell(id) {
@@ -485,6 +655,7 @@
           <button class="command danger" type="button" data-action="reset-state">Reset Baseline</button>
           <button class="command" type="button" data-action="export-json">Export JSON</button>
           <button class="command" type="button" data-action="export-data-js">Export data.js</button>
+          <button class="command" type="button" data-action="publish-live-state">Publish Live State</button>
         </div>
       </section>
       <section class="panel simulation-notes">
@@ -955,12 +1126,7 @@
     viewSelect.append(option);
   });
 
-  visibleNations().forEach((nation) => {
-    const option = document.createElement("option");
-    option.value = nation.id;
-    option.textContent = nation.name;
-    nationSelect.append(option);
-  });
+  populateNationSelect();
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -991,6 +1157,7 @@
     Engine.recalculateAll(data);
     state.notice = `${byId(id)?.name || "Nation"} updated.`;
     Engine.save(data);
+    scheduleSharedPublish(state.notice);
     updateSourceNote();
     if (renderNow) {
       clearTimeout(editRenderTimer);
@@ -1027,7 +1194,7 @@
     render();
   });
 
-  app.addEventListener("click", (event) => {
+  app.addEventListener("click", async (event) => {
     const actionButton = event.target.closest("[data-action]");
     if (actionButton) {
       const action = actionButton.dataset.action;
@@ -1059,6 +1226,9 @@
         downloadText(`ag-gs-${data.meta.currentYear}.json`, JSON.stringify(data, null, 2));
       } else if (action === "export-data-js") {
         downloadText("data.js", Engine.exportDataJs(data), "text/javascript");
+      } else if (action === "publish-live-state") {
+        Engine.save(data);
+        await publishSharedState("Published current state to the live ledger.");
       }
       return;
     }
@@ -1104,4 +1274,5 @@
   });
 
   render();
+  startSharedSync();
 })();

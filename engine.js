@@ -79,8 +79,8 @@
     return ensureState(clone(baseData));
   }
 
-  function save(data) {
-    data.meta.updatedAt = new Date().toISOString();
+  function save(data, options = {}) {
+    if (options.touch !== false) data.meta.updatedAt = new Date().toISOString();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }
 

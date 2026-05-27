@@ -99,12 +99,15 @@ h3 {
 
 .source-pill {
   justify-self: end;
+  max-width: min(360px, 38vw);
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 8px 12px;
   color: var(--muted);
   background: #fff;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 13px;
   font-weight: 700;
 }
