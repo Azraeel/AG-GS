@@ -19,3 +19,5 @@ The first website dataset is transcribed from the screenshots provided on 2026-0
 3. Push to `main` or run the **Deploy GitHub Pages** workflow manually.
 
 For an owner-level `.io` site later, rename or create the repository as `Azraeel.github.io`. For this repository, the Pages URL is the project site path above.
+
+If GitHub reports that the current plan does not support Pages for this repository, the repo must either be made public or moved to a GitHub plan that supports Pages from private repositories.
