@@ -460,11 +460,6 @@
   }
 
   function renderOverviewHero(currentYear, active, totals) {
-    const selected = byId(state.selectedNation) || active[0];
-    const national = selected ? data.national[selected.id] || {} : {};
-    const trade = selected ? data.trade[selected.id] || {} : {};
-    const military = selected ? data.military[selected.id] || {} : {};
-    const selectedCoverage = selected ? coverageFor(selected.id).filter((set) => set.hasData).length : 0;
     const revision = sharedSync.revision ? `#${sharedSync.revision}` : syncLabel(true);
 
     return `
@@ -479,23 +474,6 @@
           ${overviewFact("Updated", fmtDateTime(data.meta.updatedAt || sharedSync.updatedAt))}
           ${overviewFact("Fleet", fmtNumber(totals.fleet))}
           ${overviewFact("Personnel", fmtCompact(totals.activePersonnel))}
-        </div>
-        <div class="overview-focus">
-          <div class="overview-focus-title">
-            <span class="swatch" style="background:${safeColor(selected?.color)}"></span>
-            <div>
-              <span>Selected Nation</span>
-              <strong>${safeText(selected?.name)}</strong>
-            </div>
-          </div>
-          <div class="overview-focus-grid">
-            ${overviewFact("Budget", fmtNumber(national.budgetCapacity))}
-            ${overviewFact("Population", fmtCompact(selected ? populationFor(selected.id, currentYear) : null))}
-            ${overviewFact("Trade", fmtCompact(trade.tradeFlow))}
-            ${overviewFact("Coverage", `${selectedCoverage}/${datasets.length}`)}
-            ${overviewFact("Supply", fmtPercent(military.militarySupply))}
-            ${overviewFact("Health", national.economicHealth || "Unknown")}
-          </div>
         </div>
       </section>`;
   }
@@ -824,13 +802,6 @@
     const coverage = coverageFor(nation.id).filter((set) => set.hasData).length;
     return `
       <div class="editor-summary">
-        <div class="editor-summary-title">
-          <span class="swatch" style="background:${safeColor(nation.color)}"></span>
-          <div>
-            <span>Selected Nation</span>
-            <strong>${safeText(nation.name)}</strong>
-          </div>
-        </div>
         ${overviewFact("Population", fmtCompact(populationFor(nation.id, currentYear)))}
         ${overviewFact("Budget", fmtNumber(national.budgetCapacity))}
         ${overviewFact("Trade Flow", fmtCompact(trade.tradeFlow))}
@@ -911,7 +882,7 @@
         <div class="panel-head">
           <div>
             <h2>${nationCell(nation.id)}</h2>
-            <p>Edit the selected nation. Dependent systems recalculate automatically, and changes publish to the live ledger.</p>
+            <p>Edit this nation. Dependent systems recalculate automatically, and changes publish to the live ledger.</p>
           </div>
           <span class="status ${state.notice ? "positive" : ""}">${safeText(state.notice || "Editor ready")}</span>
         </div>

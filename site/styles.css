@@ -417,11 +417,11 @@ select optgroup {
 
 .overview-hero {
   display: grid;
-  grid-template-columns: minmax(260px, 1.05fr) minmax(260px, 0.9fr) minmax(320px, 1fr);
-  gap: 18px;
-  align-items: stretch;
-  margin-bottom: 14px;
-  padding: 18px;
+  grid-template-columns: minmax(280px, 1fr) minmax(340px, 0.82fr);
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 16px 18px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background:
@@ -460,12 +460,15 @@ select optgroup {
   line-height: 1.45;
 }
 
-.overview-facts,
-.overview-focus-grid {
+.overview-facts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 14px;
   align-content: start;
+}
+
+.overview-hero .overview-facts {
+  align-content: center;
 }
 
 .overview-fact {
@@ -474,8 +477,7 @@ select optgroup {
   border-top: 1px solid var(--line);
 }
 
-.overview-fact span,
-.overview-focus-title span {
+.overview-fact span {
   display: block;
   color: var(--muted);
   font-size: 11px;
@@ -483,31 +485,12 @@ select optgroup {
   text-transform: uppercase;
 }
 
-.overview-fact strong,
-.overview-focus-title strong {
+.overview-fact strong {
   display: block;
   margin-top: 4px;
   font-size: 16px;
   line-height: 1.18;
   overflow-wrap: anywhere;
-}
-
-.overview-focus {
-  min-width: 0;
-  padding-left: 18px;
-  border-left: 1px solid var(--line);
-}
-
-.overview-focus-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.overview-focus-title .swatch {
-  width: 18px;
-  height: 18px;
 }
 
 .dashboard-grid {
@@ -835,23 +818,23 @@ tbody td {
 
 .editor-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
-  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 340px);
+  gap: 12px;
   align-items: start;
-  padding: 16px;
+  padding: 12px;
 }
 
 .editor-columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 12px;
   min-width: 0;
 }
 
 .editor-column,
 .editor-rail {
   display: grid;
-  gap: 14px;
+  gap: 12px;
   align-content: start;
   min-width: 0;
 }
@@ -863,48 +846,29 @@ tbody td {
 
 .editor-summary {
   display: grid;
-  grid-template-columns: minmax(220px, 1.2fr) repeat(6, minmax(108px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(6, minmax(96px, 1fr));
+  gap: 10px;
   align-items: stretch;
-  padding: 14px 16px;
+  padding: 10px 14px;
   border-bottom: 1px solid var(--line);
   background:
     linear-gradient(135deg, var(--hero-wash), transparent 42%),
     var(--subtle-bg);
 }
 
-.editor-summary-title {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  min-width: 0;
-}
-
-.editor-summary-title .swatch {
-  width: 18px;
-  height: 18px;
-}
-
-.editor-summary-title span {
-  display: block;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-.editor-summary-title strong {
-  display: block;
-  margin-top: 4px;
-  font-size: 18px;
-  line-height: 1.1;
-  overflow-wrap: anywhere;
-}
-
 .editor-summary .overview-fact {
-  padding: 4px 0 4px 14px;
+  padding: 3px 0;
   border-top: 0;
+  border-left: 0;
+}
+
+.editor-summary .overview-fact + .overview-fact {
+  padding-left: 12px;
   border-left: 1px solid var(--line);
+}
+
+.editor-summary .overview-fact strong {
+  font-size: 15px;
 }
 
 .control-field {
@@ -1042,10 +1006,10 @@ tbody td {
 
 .editor-section {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
   align-content: start;
-  padding: 16px;
+  padding: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--subtle-bg);
@@ -1055,14 +1019,14 @@ tbody td {
   grid-column: 1 / -1;
   margin-bottom: 0;
   color: var(--ink);
-  font-size: 18px;
-  padding-bottom: 9px;
+  font-size: 16px;
+  padding-bottom: 7px;
   border-bottom: 1px solid var(--line);
 }
 
 .editor-section .control-field {
-  min-height: 58px;
-  padding: 10px 12px;
+  min-height: 52px;
+  padding: 8px 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--input-bg);
@@ -1075,7 +1039,7 @@ tbody td {
 
 .editor-section .control-field input,
 .editor-section .control-field select {
-  min-height: 22px;
+  min-height: 20px;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -1090,8 +1054,8 @@ tbody td {
 
 .editor-rail-panel {
   display: grid;
-  gap: 14px;
-  padding: 16px;
+  gap: 12px;
+  padding: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--subtle-bg);
@@ -1117,12 +1081,12 @@ tbody td {
 .rail-detail-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px;
 }
 
 .rail-detail-grid .detail-item {
-  min-height: 72px;
-  padding: 10px;
+  min-height: 66px;
+  padding: 9px;
 }
 
 .rail-detail-grid .detail-item strong {
@@ -1270,13 +1234,6 @@ tbody td {
     grid-template-columns: 1fr;
   }
 
-  .overview-focus {
-    padding-left: 0;
-    border-left: 0;
-    border-top: 1px solid var(--line);
-    padding-top: 14px;
-  }
-
   .detail-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1298,9 +1255,6 @@ tbody td {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .editor-summary-title {
-    grid-column: 1 / -1;
-  }
 }
 
 @media (max-width: 720px) {
@@ -1332,7 +1286,6 @@ tbody td {
 
   .dashboard-grid,
   .overview-facts,
-  .overview-focus-grid,
   .detail-grid,
   .control-grid,
   .editor-layout,
