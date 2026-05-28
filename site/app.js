@@ -1246,8 +1246,34 @@
     app.innerHTML = renderChangeHistoryPanel("", 50);
   }
 
+  function dossierMetric(label, value, subtext = "") {
+    return `
+      <div class="dossier-metric">
+        <span>${safeText(label)}</span>
+        <strong>${safeText(value)}</strong>
+        ${subtext ? `<small>${safeText(subtext)}</small>` : ""}
+      </div>`;
+  }
+
+  function dossierRow(label, value, tone = "") {
+    const toneClass = tone ? ` ${escapeHtml(tone)}` : "";
+    return `
+      <div class="dossier-row">
+        <span>${safeText(label)}</span>
+        <strong class="${toneClass.trim()}">${safeText(value)}</strong>
+      </div>`;
+  }
+
+  function dossierSection(title, rows) {
+    return `
+      <section class="dossier-section">
+        <h3>${safeText(title)}</h3>
+        <div class="dossier-rows">${rows.join("")}</div>
+      </section>`;
+  }
+
   function renderNations() {
-    const nations = filteredNations();
+    const nations = [...filteredNations()].sort((left, right) => left.name.localeCompare(right.name, "en", { sensitivity: "base" }));
     const selected = nations.find((nation) => nation.id === state.selectedNation) || nations[0] || visibleNations()[0];
     if (!selected) return;
     if (selected && selected.id !== state.selectedNation) state.selectedNation = selected.id;
@@ -1258,41 +1284,99 @@
     const military = data.military[selected.id];
     const intelligence = data.intelligence[selected.id];
     const naval = data.naval[selected.id];
+    const currentYear = data.meta.currentYear;
+    const selectedCoverage = coverageFor(selected.id).filter((set) => set.hasData).length;
+    const intelligenceTotal = intelligence ? Object.values(intelligence).reduce((total, value) => total + (Number(value) || 0), 0) : null;
+    const militaryPersonnel = activeMilitary(military);
+    const budgetTone = national?.budgetBalance >= 0 ? "positive" : "negative";
+    const tradeTone = trade?.tradeBalance >= 0 ? "positive" : "negative";
 
     app.innerHTML = `
       <div class="nation-layout">
-        <section class="nation-list" aria-label="Nation list">
-          ${nations
-            .map(
-              (nation) => `
-                <button class="nation-button ${nation.id === selected.id ? "is-selected" : ""}" type="button" data-nation="${escapeHtml(nation.id)}">
-                  <span class="swatch" style="background:${safeColor(nation.color)}"></span>
-                  <strong>${safeText(nation.name)}</strong>
-                  <span class="status">${coverageFor(nation.id).filter((set) => set.hasData).length}/${datasets.length}</span>
-                </button>`
-            )
-            .join("")}
-        </section>
-        <section class="panel">
-          <div class="panel-head">
+        <section class="panel nation-roster" aria-label="Nation list">
+          <div class="nation-roster-head">
             <div>
-              <h2>${nationCell(selected.id)}</h2>
-              <p>${coverageHtml(selected.id)}</p>
+              <h2>Nations</h2>
+              <p>${fmtNumber(nations.length)} active records</p>
+            </div>
+            <span class="status">${safeText("A-Z")}</span>
+          </div>
+          <div class="nation-list">
+            ${nations
+              .map((nation) => {
+                const rowNational = data.national[nation.id];
+                const rowPopulation = populationFor(nation.id, currentYear);
+                const rowCoverage = coverageFor(nation.id).filter((set) => set.hasData).length;
+                return `
+                  <button class="nation-button ${nation.id === selected.id ? "is-selected" : ""}" type="button" data-nation="${escapeHtml(nation.id)}">
+                    <span class="swatch" style="background:${safeColor(nation.color)}"></span>
+                    <span class="nation-button-copy">
+                      <strong>${safeText(nation.name)}</strong>
+                      <small>${safeText(fmtCompact(rowPopulation))} / ${safeText(rowNational?.economicHealth || "No status")}</small>
+                    </span>
+                    <span class="status">${rowCoverage}/${datasets.length}</span>
+                  </button>`;
+              })
+              .join("")}
+          </div>
+        </section>
+        <section class="panel nation-dossier" style="--nation-color:${safeColor(selected.color)}">
+          <div class="nation-dossier-hero">
+            <div class="nation-dossier-title">
+              <span class="swatch" style="background:${safeColor(selected.color)}"></span>
+              <div>
+                <span class="section-kicker">Nation Dossier</span>
+                <h2>${safeText(selected.name)}</h2>
+                <p>${safeText(currentYear)} ledger profile / ${selectedCoverage} of ${datasets.length} datasets connected</p>
+              </div>
+            </div>
+            <div class="nation-dossier-status">
+              ${safeStatus(national?.economicHealth || "Unknown", national?.economicHealth === "Prosperity" ? "positive" : national?.economicHealth === "Recovery" ? "warning" : "")}
+              ${safeStatus(trade?.tradePolicy || "No trade policy")}
             </div>
           </div>
-          <div class="detail-grid">
-            ${detailItem(`${data.meta.currentYear} Population`, fmtNumber(populationFor(selected.id)))}
-            ${detailItem("Economic Health", national?.economicHealth ?? "Unknown")}
-            ${detailItem("Budget Balance", national ? fmtSigned(national.budgetBalance) : "Unknown")}
-            ${detailItem("Trade Balance", trade ? fmtSigned(trade.tradeBalance) : "Unknown")}
-            ${detailItem("Trade Policy", trade?.tradePolicy ?? "Unknown")}
-            ${detailItem("Civilian Factories", fmtNumber(industrial?.civilianFactories))}
-            ${detailItem("Military Factories", fmtNumber(industrial?.militaryFactories))}
-            ${detailItem("Active Personnel", fmtNumber(activeMilitary(military)))}
-            ${detailItem("Military Supply", fmtPercent(military?.militarySupply))}
-            ${detailItem("Intelligence Total", fmtNumber(intelligence ? Object.values(intelligence).reduce((a, b) => a + b, 0) : null))}
-            ${detailItem("Fleet Total", fmtNumber(naval?.total))}
-            ${detailItem("Data Coverage", `${coverageFor(selected.id).filter((set) => set.hasData).length}/${datasets.length}`)}
+          <div class="nation-stat-strip">
+            ${dossierMetric("Population", fmtCompact(populationFor(selected.id, currentYear)), `${fmtNumber(populationFor(selected.id, currentYear))} in ${currentYear}`)}
+            ${dossierMetric("Budget Capacity", fmtNumber(national?.budgetCapacity), national ? `${fmtSigned(national.budgetBalance)} balance` : "No national row")}
+            ${dossierMetric("Trade Flow", fmtCompact(trade?.tradeFlow), trade ? `${fmtSigned(trade.tradeBalance)} balance` : "No trade row")}
+            ${dossierMetric("Active Personnel", fmtCompact(militaryPersonnel), "Military total")}
+            ${dossierMetric("Fleet", fmtNumber(naval?.total), "Tracked naval assets")}
+          </div>
+          <div class="nation-dossier-grid">
+            ${dossierSection("National", [
+              dossierRow("Stability", fmtPercent(national?.governmentalStability)),
+              dossierRow("Development", fmtNumber(national?.developmentLevel)),
+              dossierRow("Budget Balance", national ? fmtSigned(national.budgetBalance) : "Unknown", budgetTone),
+              dossierRow("Debt", fmtPercent(national?.debt))
+            ])}
+            ${dossierSection("Trade", [
+              dossierRow("Policy", trade?.tradePolicy || "Unknown"),
+              dossierRow("Trade Balance", trade ? fmtSigned(trade.tradeBalance) : "Unknown", tradeTone),
+              dossierRow("Import Reliance", fmtNumber(trade?.importReliance)),
+              dossierRow("Export Reliance", fmtNumber(trade?.exportReliance))
+            ])}
+            ${dossierSection("Industry", [
+              dossierRow("Civilian Factories", fmtNumber(industrial?.civilianFactories)),
+              dossierRow("Military Factories", fmtNumber(industrial?.militaryFactories)),
+              dossierRow("Shipyards", fmtNumber(industrial?.shipyards)),
+              dossierRow("Mobilization", industrial?.mobilizationLevel || "Unknown")
+            ])}
+            ${dossierSection("Military", [
+              dossierRow("Supply", fmtPercent(military?.militarySupply)),
+              dossierRow("Organization", fmtNumber(military?.militaryOrganization)),
+              dossierRow("Cyber Security", fmtNumber(military?.cyberSecurity)),
+              dossierRow("Reserve Forces", fmtNumber(military?.reserveForces))
+            ])}
+            ${dossierSection("Intelligence", [
+              dossierRow("Total", fmtNumber(intelligenceTotal)),
+              dossierRow("HUMINT", fmtNumber(intelligence?.humint)),
+              dossierRow("SIGINT", fmtNumber(intelligence?.sigint)),
+              dossierRow("Global Reach", fmtNumber(intelligence?.globalReach))
+            ])}
+            <section class="dossier-section dossier-section-wide">
+              <h3>Dataset Coverage</h3>
+              ${coverageHtml(selected.id)}
+            </section>
           </div>
         </section>
       </div>
