@@ -2,6 +2,9 @@ name = "aggs-global-ledger-api"
 main = "cloudflare/worker.js"
 compatibility_date = "2026-05-27"
 
+[vars]
+ALLOWED_HOSTS = "aggsworld.net"
+
 routes = [
   { pattern = "aggsworld.net/api/*", zone_name = "aggsworld.net" },
   { pattern = "aggsworld.net/admin/api/*", zone_name = "aggsworld.net" }

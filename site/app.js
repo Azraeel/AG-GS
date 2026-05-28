@@ -12,7 +12,7 @@
   const themeToggle = document.getElementById("themeToggle");
   const isAdmin = document.body.dataset.appMode === "admin";
   const THEME_KEY = "aggs-theme";
-  const adminOnlyTabs = new Set(["editor", "simulation"]);
+  const adminOnlyTabs = new Set(["editor", "simulation", "history"]);
   const adminOnlyActions = new Set(["advance-one", "advance-target", "recalculate", "reset-state", "export-json", "export-data-js", "publish-live-state"]);
   const sharedSync = {
     enabled: location.protocol.startsWith("http") && !["localhost", "127.0.0.1", "::1"].includes(location.hostname),
@@ -169,6 +169,20 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
+  }
+
+  function safeText(value, fallback = "Unknown") {
+    return escapeHtml(value === null || value === undefined || value === "" ? fallback : value);
+  }
+
+  function safeColor(value) {
+    const color = String(value || "").trim();
+    return /^#[0-9a-f]{3,8}$/i.test(color) ? color : "#8a94a6";
+  }
+
+  function safeStatus(value, tone = "") {
+    const className = tone ? ` ${escapeHtml(tone)}` : "";
+    return `<span class="status${className}">${safeText(value)}</span>`;
   }
 
   function fmtNumber(value) {
@@ -355,7 +369,7 @@
     } catch (error) {
       sharedSync.isPublishing = false;
       markSync("offline", error.message || "Shared publish failed.");
-      state.notice = "Saved locally. Live publish failed.";
+      state.notice = `Saved locally. ${error.message || "Live publish failed."}`;
       render();
     }
   }
@@ -374,8 +388,8 @@
 
   function nationCell(id) {
     const nation = byId(id);
-    if (!nation) return id;
-    return `<span class="nation-cell"><span class="swatch" style="background:${nation.color}"></span>${nation.name}</span>`;
+    if (!nation) return safeText(id);
+    return `<span class="nation-cell"><span class="swatch" style="background:${safeColor(nation.color)}"></span>${safeText(nation.name)}</span>`;
   }
 
   function coverageFor(id) {
@@ -387,7 +401,7 @@
 
   function coverageHtml(id) {
     return `<div class="coverage">${coverageFor(id)
-      .map((set) => `<span class="${set.hasData ? "has-data" : ""}">${set.label}</span>`)
+      .map((set) => `<span class="${set.hasData ? "has-data" : ""}">${safeText(set.label)}</span>`)
       .join("")}</div>`;
   }
 
@@ -431,7 +445,7 @@
   }
 
   function renderMetric(label, value, subtext) {
-    return `<article class="metric"><span>${label}</span><strong>${value}</strong><small>${subtext}</small></article>`;
+    return `<article class="metric"><span>${safeText(label)}</span><strong>${safeText(value)}</strong><small>${safeText(subtext)}</small></article>`;
   }
 
   function sortLabel(sort, column) {
@@ -450,8 +464,8 @@
       <section class="panel">
         <div class="panel-head">
           <div>
-            <h2>${title}</h2>
-            <p>${source}</p>
+            <h2>${safeText(title)}</h2>
+            <p>${safeText(source)}</p>
           </div>
         </div>
         <div class="bar-list">
@@ -459,9 +473,9 @@
             .map(
               ({ nation, value }) => `
                 <div class="bar-row">
-                  <span class="bar-name"><span class="swatch" style="background:${nation.color}"></span>${nation.name}</span>
+                  <span class="bar-name"><span class="swatch" style="background:${safeColor(nation.color)}"></span>${safeText(nation.name)}</span>
                   <span class="bar-track"><span class="bar-fill" style="--bar-width:${Math.max(3, (value / max) * 100)}%"></span></span>
-                  <span class="bar-value">${formatter(value)}</span>
+                  <span class="bar-value">${safeText(formatter(value))}</span>
                 </div>`
             )
             .join("")}
@@ -504,7 +518,7 @@
 
   function tablePanel(title, subtitle, rows, columns, id) {
     if (!rows.length) {
-      app.innerHTML = `<section class="panel"><div class="panel-head"><div><h2>${title}</h2><p>${subtitle}</p></div></div><div class="empty">No rows match the current search.</div></section>`;
+      app.innerHTML = `<section class="panel"><div class="panel-head"><div><h2>${safeText(title)}</h2><p>${safeText(subtitle)}</p></div></div><div class="empty">No rows match the current search.</div></section>`;
       return;
     }
 
@@ -526,8 +540,8 @@
       <section class="panel">
         <div class="panel-head">
           <div>
-            <h2>${title}</h2>
-            <p>${subtitle}</p>
+            <h2>${safeText(title)}</h2>
+            <p>${safeText(subtitle)}</p>
           </div>
           <div class="panel-actions">
             ${hasSecondaryColumns ? `<button class="command compact ${state.showDetails ? "is-active" : ""}" type="button" data-action="toggle-detail-columns">${state.showDetails ? "Focused Columns" : "Detailed Columns"}</button>` : ""}
@@ -541,7 +555,7 @@
                 ${visibleColumns
                   .map(
                     (column) =>
-                      `<th class="${column.numeric ? "numeric" : ""}" data-table="${id}" data-key="${column.key}">${column.label}${sortLabel(sort, column)}</th>`
+                      `<th class="${column.numeric ? "numeric" : ""}" data-table="${escapeHtml(id)}" data-key="${escapeHtml(column.key)}">${safeText(column.label)}${sortLabel(sort, column)}</th>`
                   )
                   .join("")}
               </tr>
@@ -554,7 +568,7 @@
                       ${visibleColumns
                         .map((column) => {
                           const value = column.raw ? column.raw(row) : row[column.key];
-                          const rendered = column.render ? column.render(value, row) : value ?? "Unknown";
+                          const rendered = column.render ? column.render(value, row) : safeText(value);
                           return `<td class="${column.numeric ? "numeric" : ""}">${rendered}</td>`;
                         })
                         .join("")}
@@ -589,9 +603,9 @@
         { key: "developmentLevel", label: "Development", numeric: true, render: fmtNumber },
         { key: "budgetCapacity", label: "Budget Capacity", numeric: true, render: fmtNumber },
         { key: "budgetExpenditure", label: "Expenditure", numeric: true, secondary: true, render: fmtNumber },
-        { key: "budgetBalance", label: "Balance", numeric: true, render: (v) => `<span class="status ${v >= 0 ? "positive" : "negative"}">${fmtSigned(v)}</span>` },
+        { key: "budgetBalance", label: "Balance", numeric: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
         { key: "debt", label: "Debt", numeric: true, render: fmtPercent },
-        { key: "economicHealth", label: "Health", render: (v) => `<span class="status ${v === "Prosperity" ? "positive" : v === "Recovery" ? "warning" : ""}">${v}</span>` },
+        { key: "economicHealth", label: "Health", render: (v) => safeStatus(v, v === "Prosperity" ? "positive" : v === "Recovery" ? "warning" : "") },
         { key: "immigrationRate", label: "Immigration", numeric: true, secondary: true, render: fmtNumber },
         { key: "taxRate", label: "Tax Rate", numeric: true, secondary: true, render: fmtNumber }
       ],
@@ -609,14 +623,14 @@
         { key: "tradeCapacity", label: "Capacity", numeric: true, render: fmtNumber },
         { key: "tradeEfficiency", label: "Efficiency", numeric: true, render: fmtNumber },
         { key: "autarkyIndex", label: "Autarky", numeric: true, secondary: true, render: fmtNumber },
-        { key: "tradeBalance", label: "Balance", numeric: true, render: (v) => `<span class="status ${v >= 0 ? "positive" : "negative"}">${fmtSigned(v)}</span>` },
+        { key: "tradeBalance", label: "Balance", numeric: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
         { key: "tradeFlow", label: "Flow", numeric: true, render: fmtNumber },
         { key: "tradePower", label: "Power", numeric: true, secondary: true, render: fmtNumber },
         { key: "importReliance", label: "Import", numeric: true, secondary: true, render: fmtNumber },
         { key: "exportReliance", label: "Export", numeric: true, secondary: true, render: fmtNumber },
         { key: "economicTradeDiversity", label: "Diversity", numeric: true, secondary: true, render: fmtNumber },
-        { key: "tradePolicy", label: "Policy", render: (v) => `<span class="status">${v}</span>` },
-        { key: "sanctionsLevel", label: "Sanctions", render: (v) => `<span class="status ${v === "None" ? "positive" : "warning"}">${v}</span>` },
+        { key: "tradePolicy", label: "Policy", render: (v) => safeStatus(v) },
+        { key: "sanctionsLevel", label: "Sanctions", render: (v) => safeStatus(v, v === "None" ? "positive" : "warning") },
         { key: "tariffRate", label: "Tariff", numeric: true, secondary: true, render: fmtPercent },
         { key: "economicImpactScore", label: "Impact", numeric: true, render: fmtNumber }
       ],
@@ -631,7 +645,7 @@
       tableRowsFor("industrial"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
-        { key: "mobilizationLevel", label: "Mobilization", render: (v) => `<span class="status">${v}</span>` },
+        { key: "mobilizationLevel", label: "Mobilization", render: (v) => safeStatus(v) },
         { key: "militaryFactories", label: "Military Factories", numeric: true, render: fmtNumber },
         { key: "civilianFactories", label: "Civilian Factories", numeric: true, render: fmtNumber },
         { key: "shipyards", label: "Shipyards", numeric: true, render: fmtNumber }
@@ -646,7 +660,7 @@
       .map((nation) => ({ id: nation.id, nation: nation.name, ...data.population[nation.id] }));
     const columns = [
       { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
-      { key: "mandatoryChildPolicy", label: "Child Policy", render: (v) => `<span class="status">${v}</span>` },
+      { key: "mandatoryChildPolicy", label: "Child Policy", render: (v) => safeStatus(v) },
       ...data.populationColumns.map((column) => ({
         key: column.key,
         label: column.label,
@@ -676,7 +690,7 @@
             <h2>Simulation Controls</h2>
             <p>Advance active nations year by year through population, trade, industry, budget, debt, and military supply calculations.</p>
           </div>
-          <span class="status ${state.notice ? "positive" : ""}">${state.notice || "Ready"}</span>
+          <span class="status ${state.notice ? "positive" : ""}">${safeText(state.notice || "Ready")}</span>
         </div>
         <div class="control-grid">
           <label class="control-field">
@@ -736,7 +750,7 @@
     if (type === "select") {
       return `
         <label class="control-field" for="${id}">
-          <span>${label}</span>
+          <span>${safeText(label)}</span>
           <select id="${id}" data-edit data-dataset="${dataset}" data-path="${path}">
             ${options.map((option) => `<option value="${escapeHtml(option)}" ${value === option ? "selected" : ""}>${escapeHtml(option)}</option>`).join("")}
           </select>
@@ -744,7 +758,7 @@
     }
     return `
       <label class="control-field" for="${id}">
-        <span>${label}</span>
+        <span>${safeText(label)}</span>
         <input id="${id}" type="${type}" value="${escapeHtml(value ?? "")}" data-edit data-dataset="${dataset}" data-path="${path}">
       </label>`;
   }
@@ -759,7 +773,7 @@
               <h2>Editor</h2>
               <p>No live nation data is loaded yet.</p>
             </div>
-            <span class="status">${syncLabel(true)}</span>
+          <span class="status">${safeText(syncLabel(true))}</span>
           </div>
           <div class="empty">Open the live site through Cloudflare, or publish a valid state from the admin API.</div>
         </section>
@@ -783,7 +797,7 @@
             <h2>${nationCell(nation.id)}</h2>
             <p>Edit the selected nation. Dependent systems recalculate automatically, and changes publish to the live ledger.</p>
           </div>
-          <span class="status ${state.notice ? "positive" : ""}">${state.notice || "Editor ready"}</span>
+          <span class="status ${state.notice ? "positive" : ""}">${safeText(state.notice || "Editor ready")}</span>
         </div>
         <div class="editor-grid">
           <section class="editor-section">
@@ -873,7 +887,7 @@
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
         { key: "militaryOrganization", label: "Org", numeric: true, render: fmtNumber },
         { key: "militarySupply", label: "Supply", numeric: true, render: fmtPercent },
-        { key: "mobilizationLevel", label: "Mobilization", render: (v) => `<span class="status">${v}</span>` },
+        { key: "mobilizationLevel", label: "Mobilization", render: (v) => safeStatus(v) },
         { key: "equipmentComplexity", label: "Complexity", numeric: true, render: fmtNumber },
         { key: "cyberSecurity", label: "Cyber", numeric: true, render: fmtNumber },
         { key: "combatPersonnel", label: "Combat", numeric: true, render: fmtNumber },
@@ -915,7 +929,7 @@
       tableRowsFor("eclipse"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
-        { key: "eclipseStatus", label: "Eclipse Status", render: (value) => value ? `<span class="status">${value}</span>` : "Unknown" }
+        { key: "eclipseStatus", label: "Eclipse Status", render: (value) => value ? safeStatus(value) : "Unknown" }
       ],
       "eclipse"
     );
@@ -928,15 +942,15 @@
       tableRowsFor("elections"),
       [
         { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
-        { key: "leaderElections", label: "Leader Elections", render: (value) => value || "Unknown" },
-        { key: "parliamentElections", label: "Parliament Elections", render: (value) => value || "Unknown" }
+        { key: "leaderElections", label: "Leader Elections", render: (value) => safeText(value) },
+        { key: "parliamentElections", label: "Parliament Elections", render: (value) => safeText(value) }
       ],
       "elections"
     );
   }
 
   function detailItem(label, value) {
-    return `<div class="detail-item"><span>${label}</span><strong>${value}</strong></div>`;
+    return `<div class="detail-item"><span>${safeText(label)}</span><strong>${safeText(value)}</strong></div>`;
   }
 
   function readFieldValue(source, dataset, id, path) {
@@ -1163,9 +1177,9 @@
           ${nations
             .map(
               (nation) => `
-                <button class="nation-button ${nation.id === selected.id ? "is-selected" : ""}" type="button" data-nation="${nation.id}">
-                  <span class="swatch" style="background:${nation.color}"></span>
-                  <strong>${nation.name}</strong>
+                <button class="nation-button ${nation.id === selected.id ? "is-selected" : ""}" type="button" data-nation="${escapeHtml(nation.id)}">
+                  <span class="swatch" style="background:${safeColor(nation.color)}"></span>
+                  <strong>${safeText(nation.name)}</strong>
                   <span class="status">${coverageFor(nation.id).filter((set) => set.hasData).length}/${datasets.length}</span>
                 </button>`
             )
@@ -1227,15 +1241,15 @@
                 <h2>${nationCell(id)}</h2>
                 <span class="fleet-total">${fmtNumber(fleet.total)}</span>
               </div>
-              ${fleet.totalNote ? `<p class="note">${fleet.totalNote}</p>` : ""}
+              ${fleet.totalNote ? `<p class="note">${safeText(fleet.totalNote)}</p>` : ""}
               ${fleet.categories
                 .map(
                   (category) => `
                     <div class="ship-category">
-                      <h3>${category.name}</h3>
+                      <h3>${safeText(category.name)}</h3>
                       <div class="ship-list">
                         ${category.ships
-                          .map((ship) => `<div class="ship-row"><span>${ship.name}</span><span>${fmtNumber(ship.count)}</span></div>`)
+                          .map((ship) => `<div class="ship-row"><span>${safeText(ship.name)}</span><span>${fmtNumber(ship.count)}</span></div>`)
                           .join("")}
                       </div>
                     </div>`
@@ -1265,7 +1279,7 @@
               <thead><tr><th>Category</th><th>Equipment</th><th class="numeric">Production</th><th class="numeric">Maintenance</th></tr></thead>
               <tbody>
                 ${costRows
-                  .map((row) => `<tr><td>${row.category}</td><td>${row.name}</td><td class="numeric">${fmtCost(row.productionCost)}</td><td class="numeric">${fmtCost(row.maintenanceCost)}</td></tr>`)
+                  .map((row) => `<tr><td>${safeText(row.category)}</td><td>${safeText(row.name)}</td><td class="numeric">${fmtCost(row.productionCost)}</td><td class="numeric">${fmtCost(row.maintenanceCost)}</td></tr>`)
                   .join("")}
               </tbody>
             </table>
@@ -1282,9 +1296,9 @@
             <table>
               <thead><tr><th>Group</th><th>Modifier</th><th class="numeric">Value</th></tr></thead>
               <tbody>
-                ${data.eraMultipliers.map((row) => `<tr><td>Era</td><td>${row.label}</td><td class="numeric">${row.multiplier}x</td></tr>`).join("")}
-                ${data.costAdditionModifiers.map((row) => `<tr><td>Addition</td><td>${row.label}</td><td class="numeric">${row.multiplier}x</td></tr>`).join("")}
-                ${data.costReductionModifiers.map((row) => `<tr><td>Reduction</td><td>${row.label}</td><td class="numeric">${fmtPercent(row.reduction)}</td></tr>`).join("")}
+                ${data.eraMultipliers.map((row) => `<tr><td>Era</td><td>${safeText(row.label)}</td><td class="numeric">${fmtCost(row.multiplier)}x</td></tr>`).join("")}
+                ${data.costAdditionModifiers.map((row) => `<tr><td>Addition</td><td>${safeText(row.label)}</td><td class="numeric">${fmtCost(row.multiplier)}x</td></tr>`).join("")}
+                ${data.costReductionModifiers.map((row) => `<tr><td>Reduction</td><td>${safeText(row.label)}</td><td class="numeric">${fmtPercent(row.reduction)}</td></tr>`).join("")}
               </tbody>
             </table>
           </div>
@@ -1323,7 +1337,7 @@
             <table>
               <thead><tr><th>Dataset</th><th class="numeric">Rows Entered</th><th class="numeric">Missing Nations</th></tr></thead>
               <tbody>
-                ${datasetCounts.map((row) => `<tr><td>${row.label}</td><td class="numeric">${fmtNumber(row.count)}</td><td class="numeric">${fmtNumber(row.missing)}</td></tr>`).join("")}
+                ${datasetCounts.map((row) => `<tr><td>${safeText(row.label)}</td><td class="numeric">${fmtNumber(row.count)}</td><td class="numeric">${fmtNumber(row.missing)}</td></tr>`).join("")}
               </tbody>
             </table>
           </div>
@@ -1344,8 +1358,8 @@
                     (row) => `
                       <tr>
                         <td>${nationCell(row.nation.id)}</td>
-                        <td>${row.present.map((label) => `<span class="status positive">${label}</span>`).join(" ")}</td>
-                        <td>${row.missing.length ? row.missing.map((label) => `<span class="status warning">${label}</span>`).join(" ") : `<span class="status positive">Complete</span>`}</td>
+                        <td>${row.present.map((label) => safeStatus(label, "positive")).join(" ")}</td>
+                        <td>${row.missing.length ? row.missing.map((label) => safeStatus(label, "warning")).join(" ") : safeStatus("Complete", "positive")}</td>
                       </tr>`
                   )
                   .join("")}

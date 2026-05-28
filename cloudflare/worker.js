@@ -1,4 +1,5 @@
 const STATE_KEY = "global-ledger-state";
+const DEFAULT_ALLOWED_HOSTS = ["aggsworld.net"];
 
 function json(body, init = {}) {
   return new Response(JSON.stringify(body, null, 2), {
@@ -19,6 +20,15 @@ function isAdminPath(pathname) {
   return pathname.startsWith("/admin/api/");
 }
 
+function isAllowedHost(hostname, env) {
+  const configured = String(env.ALLOWED_HOSTS || "")
+    .split(",")
+    .map((host) => host.trim().toLowerCase())
+    .filter(Boolean);
+  const allowed = configured.length ? configured : DEFAULT_ALLOWED_HOSTS;
+  return allowed.includes(hostname.toLowerCase());
+}
+
 function actorFromAccess(request) {
   const email =
     request.headers.get("cf-access-authenticated-user-email") ||
@@ -30,7 +40,20 @@ function actorFromAccess(request) {
   return email || "access-authenticated-admin";
 }
 
-async function getState(env) {
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function redactPublicData(data) {
+  const redacted = clone(data);
+  if (redacted.meta) {
+    delete redacted.meta.updatedBy;
+    redacted.meta.changeHistory = [];
+  }
+  return redacted;
+}
+
+async function getState(env, isAdmin = false) {
   const record = await env.AGGS_LEDGER.get(STATE_KEY, "json");
   if (!record?.data) {
     return json(
@@ -42,13 +65,14 @@ async function getState(env) {
       { status: 404 }
     );
   }
-  return json({
+  const body = {
     ok: true,
     revision: record.revision || 1,
     updatedAt: record.updatedAt,
-    updatedBy: record.updatedBy,
-    data: record.data
-  });
+    data: isAdmin ? record.data : redactPublicData(record.data)
+  };
+  if (isAdmin) body.updatedBy = record.updatedBy;
+  return json(body);
 }
 
 async function putState(request, env) {
@@ -63,7 +87,21 @@ async function putState(request, env) {
   if (!updatedBy) {
     return json({ ok: false, message: "Cloudflare Access identity is required for writes." }, { status: 403 });
   }
-  const revision = Number(previous?.revision || 0) + 1;
+  const previousRevision = Number(previous?.revision || 0);
+  const submittedRevision = body.revision === null || body.revision === undefined ? null : Number(body.revision);
+  if (previousRevision && (!Number.isFinite(submittedRevision) || submittedRevision !== previousRevision)) {
+    return json(
+      {
+        ok: false,
+        code: "REVISION_CONFLICT",
+        message: "Live state changed before this publish. Reload the live state and apply the edit again.",
+        revision: previousRevision
+      },
+      { status: 409 }
+    );
+  }
+
+  const revision = previousRevision + 1;
   const data = body.data;
   data.meta.updatedAt = updatedAt;
   data.meta.updatedBy = updatedBy;
@@ -77,6 +115,13 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    if (!isAllowedHost(url.hostname, env)) {
+      return new Response("Not found.", {
+        status: 404,
+        headers: { "cache-control": "no-store" }
+      });
+    }
+
     if (!isStatePath(url.pathname)) {
       return json({ ok: false, message: "Not found." }, { status: 404 });
     }
@@ -85,7 +130,7 @@ export default {
       return json({ ok: false, message: "AGGS_LEDGER KV binding is not configured." }, { status: 500 });
     }
 
-    if (request.method === "GET") return getState(env);
+    if (request.method === "GET") return getState(env, isAdminPath(url.pathname));
 
     if (request.method === "PUT") {
       if (!isAdminPath(url.pathname)) {
