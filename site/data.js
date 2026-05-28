@@ -8,6 +8,7 @@ window.AGGS_DATA = {
     currentMonth: "January",
     worldEconomicHealth: "Expansion",
     hiddenNationIds: ["zhensanovian_commonwealth"],
+    archivedNationIds: [],
     worldCurrencies: [],
     currencyBonusByNation: {},
     lastSimulationLog: [],

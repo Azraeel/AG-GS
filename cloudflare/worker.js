@@ -1,4 +1,7 @@
 const STATE_KEY = "global-ledger-state";
+const SNAPSHOT_INDEX_KEY = "global-ledger-state:snapshots";
+const SNAPSHOT_PREFIX = "global-ledger-state:snapshot:";
+const MAX_SNAPSHOTS = 50;
 const DEFAULT_ALLOWED_HOSTS = ["aggsworld.net"];
 
 function json(body, init = {}) {
@@ -12,8 +15,18 @@ function json(body, init = {}) {
   });
 }
 
-function isStatePath(pathname) {
-  return pathname === "/api/state" || pathname === "/admin/api/state";
+function snapshotKey(revision) {
+  return `${SNAPSHOT_PREFIX}${revision}`;
+}
+
+function isApiPath(pathname) {
+  return (
+    pathname === "/api/state" ||
+    pathname === "/admin/api/state" ||
+    pathname === "/admin/api/snapshots" ||
+    pathname === "/admin/api/revert" ||
+    /^\/admin\/api\/snapshots\/\d+$/.test(pathname)
+  );
 }
 
 function isAdminPath(pathname) {
@@ -42,6 +55,11 @@ function actorFromAccess(request) {
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
+}
+
+function number(value, fallback = 0) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
 }
 
 function redactPublicData(data) {
@@ -75,6 +93,54 @@ async function getState(env, isAdmin = false) {
   return json(body);
 }
 
+function snapshotSummary(snapshot) {
+  const nations = Array.isArray(snapshot.data?.nations) ? snapshot.data.nations : [];
+  const archived = new Set(snapshot.data?.meta?.archivedNationIds || []);
+  const hidden = new Set(snapshot.data?.meta?.hiddenNationIds || []);
+  return {
+    revision: number(snapshot.revision),
+    updatedAt: snapshot.updatedAt || "",
+    updatedBy: snapshot.updatedBy || "",
+    snapshotAt: snapshot.snapshotAt || "",
+    nationCount: nations.length,
+    activeNationCount: nations.filter((nation) => !archived.has(nation.id) && !hidden.has(nation.id)).length
+  };
+}
+
+async function getSnapshotIndex(env) {
+  const snapshots = await env.AGGS_LEDGER.get(SNAPSHOT_INDEX_KEY, "json");
+  return Array.isArray(snapshots) ? snapshots : [];
+}
+
+async function rememberSnapshot(env, record, snapshotAt) {
+  if (!record?.data || !record.revision) return;
+  const snapshot = {
+    revision: number(record.revision),
+    updatedAt: record.updatedAt || "",
+    updatedBy: record.updatedBy || "",
+    snapshotAt,
+    data: record.data
+  };
+  await env.AGGS_LEDGER.put(snapshotKey(snapshot.revision), JSON.stringify(snapshot));
+  const current = await getSnapshotIndex(env);
+  const next = [snapshotSummary(snapshot), ...current.filter((item) => number(item.revision) !== snapshot.revision)]
+    .sort((left, right) => number(right.revision) - number(left.revision))
+    .slice(0, MAX_SNAPSHOTS);
+  await env.AGGS_LEDGER.put(SNAPSHOT_INDEX_KEY, JSON.stringify(next));
+}
+
+async function getSnapshots(env) {
+  return json({ ok: true, snapshots: await getSnapshotIndex(env), maxSnapshots: MAX_SNAPSHOTS });
+}
+
+async function getSnapshot(env, pathname) {
+  const revision = number(pathname.split("/").pop(), NaN);
+  if (!Number.isFinite(revision)) return json({ ok: false, message: "Snapshot revision is required." }, { status: 400 });
+  const snapshot = await env.AGGS_LEDGER.get(snapshotKey(revision), "json");
+  if (!snapshot?.data) return json({ ok: false, message: "Snapshot was not found." }, { status: 404 });
+  return json({ ok: true, snapshot });
+}
+
 async function putState(request, env) {
   const body = await request.json().catch(() => null);
   if (!body?.data?.meta || !Array.isArray(body.data.nations)) {
@@ -106,9 +172,74 @@ async function putState(request, env) {
   data.meta.updatedAt = updatedAt;
   data.meta.updatedBy = updatedBy;
 
+  await rememberSnapshot(env, previous, updatedAt);
   const record = { revision, updatedAt, updatedBy, data };
   await env.AGGS_LEDGER.put(STATE_KEY, JSON.stringify(record));
   return json({ ok: true, revision, updatedAt, updatedBy });
+}
+
+async function revertState(request, env) {
+  const body = await request.json().catch(() => null);
+  const snapshotRevision = number(body?.snapshotRevision, NaN);
+  if (!Number.isFinite(snapshotRevision)) {
+    return json({ ok: false, message: "snapshotRevision is required." }, { status: 400 });
+  }
+
+  const updatedBy = actorFromAccess(request);
+  if (!updatedBy) {
+    return json({ ok: false, message: "Cloudflare Access identity is required for writes." }, { status: 403 });
+  }
+
+  const previous = await env.AGGS_LEDGER.get(STATE_KEY, "json");
+  if (!previous?.data) {
+    return json({ ok: false, message: "No live state exists to revert." }, { status: 404 });
+  }
+
+  const previousRevision = number(previous.revision);
+  const submittedRevision = body.revision === null || body.revision === undefined ? null : number(body.revision, NaN);
+  if (!Number.isFinite(submittedRevision) || submittedRevision !== previousRevision) {
+    return json(
+      {
+        ok: false,
+        code: "REVISION_CONFLICT",
+        message: "Live state changed before this revert. Reload snapshots and try again.",
+        revision: previousRevision
+      },
+      { status: 409 }
+    );
+  }
+
+  const snapshot = await env.AGGS_LEDGER.get(snapshotKey(snapshotRevision), "json");
+  if (!snapshot?.data) return json({ ok: false, message: "Snapshot was not found." }, { status: 404 });
+
+  const updatedAt = new Date().toISOString();
+  await rememberSnapshot(env, previous, updatedAt);
+
+  const data = clone(snapshot.data);
+  data.meta = data.meta || {};
+  data.meta.updatedAt = updatedAt;
+  data.meta.updatedBy = updatedBy;
+  data.meta.changeHistory = [
+    {
+      key: `snapshot-revert:${snapshotRevision}:${Date.now()}`,
+      nationId: "",
+      nationName: "Global Ledger",
+      dataset: "state",
+      field: "revert",
+      label: "Reverted Snapshot",
+      beforeValue: `Revision #${previousRevision}`,
+      afterValue: `Revision #${snapshotRevision}`,
+      changedAt: updatedAt,
+      changes: [],
+      deltas: []
+    },
+    ...(Array.isArray(data.meta.changeHistory) ? data.meta.changeHistory : [])
+  ].slice(0, 60);
+
+  const revision = previousRevision + 1;
+  const record = { revision, updatedAt, updatedBy, data, revertedFromRevision: snapshotRevision };
+  await env.AGGS_LEDGER.put(STATE_KEY, JSON.stringify(record));
+  return json({ ok: true, revision, updatedAt, updatedBy, revertedFromRevision: snapshotRevision });
 }
 
 export default {
@@ -122,7 +253,7 @@ export default {
       });
     }
 
-    if (!isStatePath(url.pathname)) {
+    if (!isApiPath(url.pathname)) {
       return json({ ok: false, message: "Not found." }, { status: 404 });
     }
 
@@ -130,14 +261,28 @@ export default {
       return json({ ok: false, message: "AGGS_LEDGER KV binding is not configured." }, { status: 500 });
     }
 
-    if (request.method === "GET") return getState(env, isAdminPath(url.pathname));
+    if (isAdminPath(url.pathname) && !actorFromAccess(request)) {
+      return json({ ok: false, message: "Cloudflare Access identity is required." }, { status: 403 });
+    }
+
+    if (request.method === "GET" && (url.pathname === "/api/state" || url.pathname === "/admin/api/state")) {
+      return getState(env, isAdminPath(url.pathname));
+    }
+
+    if (request.method === "GET" && url.pathname === "/admin/api/snapshots") return getSnapshots(env);
+
+    if (request.method === "GET" && url.pathname.startsWith("/admin/api/snapshots/")) {
+      return getSnapshot(env, url.pathname);
+    }
 
     if (request.method === "PUT") {
-      if (!isAdminPath(url.pathname)) {
+      if (url.pathname !== "/admin/api/state") {
         return json({ ok: false, message: "Use the protected admin API path for writes." }, { status: 405 });
       }
       return putState(request, env);
     }
+
+    if (request.method === "POST" && url.pathname === "/admin/api/revert") return revertState(request, env);
 
     return json({ ok: false, message: "Method not allowed." }, { status: 405 });
   }

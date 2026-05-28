@@ -10,7 +10,21 @@
   const isAdmin = document.body.dataset.appMode === "admin";
   const THEME_KEY = "aggs-theme";
   const adminOnlyTabs = new Set(["editor", "simulation", "history"]);
-  const adminOnlyActions = new Set(["advance-one", "advance-target", "recalculate", "reset-state", "export-json", "export-data-js", "publish-live-state", "create-nation", "delete-nation"]);
+  const adminOnlyActions = new Set([
+    "advance-one",
+    "advance-target",
+    "recalculate",
+    "reset-state",
+    "export-json",
+    "export-data-js",
+    "publish-live-state",
+    "create-nation",
+    "archive-nation",
+    "restore-nation",
+    "refresh-snapshots",
+    "snapshot-revert",
+    "snapshot-export"
+  ]);
   const sharedSync = {
     enabled: location.protocol.startsWith("http") && !["localhost", "127.0.0.1", "::1"].includes(location.hostname),
     endpoint: window.AGGS_API_URL || (isAdmin ? "/admin/api/state" : "/api/state"),
@@ -20,6 +34,9 @@
     message: "",
     updatedAt: "",
     updatedBy: "",
+    snapshots: [],
+    snapshotsLoaded: false,
+    isLoadingSnapshots: false,
     isPublishing: false,
     hasPendingLocalChange: false,
     publishTimer: null,
@@ -137,6 +154,10 @@
     return Engine.visibleNationIds(data);
   }
 
+  function archivedNations() {
+    return Engine.archivedNations(data).sort((left, right) => left.name.localeCompare(right.name, "en", { sensitivity: "base" }));
+  }
+
   function isVisibleNation(id) {
     return visibleIds().includes(id);
   }
@@ -148,6 +169,14 @@
   function nationOptionsHtml(selectedId = state.selectedNation, includePlaceholder = false, placeholder = "Select country") {
     const options = includePlaceholder ? [`<option value="">${safeText(placeholder)}</option>`] : [];
     sortedNations().forEach((nation) => {
+      options.push(`<option value="${escapeHtml(nation.id)}" ${nation.id === selectedId ? "selected" : ""}>${safeText(nation.name)}</option>`);
+    });
+    return options.join("");
+  }
+
+  function archivedNationOptionsHtml(selectedId = "", includePlaceholder = true, placeholder = "Select archived country") {
+    const options = includePlaceholder ? [`<option value="">${safeText(placeholder)}</option>`] : [];
+    archivedNations().forEach((nation) => {
       options.push(`<option value="${escapeHtml(nation.id)}" ${nation.id === selectedId ? "selected" : ""}>${safeText(nation.name)}</option>`);
     });
     return options.join("");
@@ -337,6 +366,82 @@
     }
   }
 
+  async function fetchSnapshots(force = false) {
+    if (!sharedSync.enabled || !isAdmin || sharedSync.isLoadingSnapshots) return;
+    if (!force && sharedSync.snapshotsLoaded) return;
+    sharedSync.isLoadingSnapshots = true;
+    try {
+      const response = await fetch("/admin/api/snapshots", {
+        cache: "no-store",
+        credentials: "same-origin",
+        headers: { Accept: "application/json" }
+      });
+      const payload = await readSharedJson(response);
+      if (!response.ok || !payload?.ok) throw new Error(payload?.message || "Snapshot list is unavailable.");
+      sharedSync.snapshots = Array.isArray(payload.snapshots) ? payload.snapshots : [];
+      sharedSync.snapshotsLoaded = true;
+    } catch (error) {
+      sharedSync.snapshotsLoaded = true;
+      state.notice = error.message || "Snapshot list is unavailable.";
+    } finally {
+      sharedSync.isLoadingSnapshots = false;
+      if (state.tab === "history") render();
+    }
+  }
+
+  async function revertSelectedSnapshot() {
+    const snapshotRevision = Number(document.getElementById("snapshotSelect")?.value || 0);
+    if (!snapshotRevision) {
+      state.notice = "Select a revision snapshot first.";
+      render();
+      return;
+    }
+    if (!window.confirm(`Revert the live ledger to revision #${snapshotRevision}? The current live state will be saved as a snapshot first.`)) return;
+    try {
+      const response = await fetch("/admin/api/revert", {
+        method: "POST",
+        cache: "no-store",
+        credentials: "same-origin",
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ revision: sharedSync.revision, snapshotRevision })
+      });
+      const payload = await readSharedJson(response);
+      if (!response.ok || !payload?.ok) throw new Error(payload?.message || "Snapshot revert failed.");
+      sharedSync.updatedAt = payload.updatedAt || sharedSync.updatedAt;
+      sharedSync.updatedBy = payload.updatedBy || sharedSync.updatedBy;
+      state.notice = `Reverted live ledger to snapshot #${snapshotRevision}.`;
+      await fetchSharedState();
+      await fetchSnapshots(true);
+    } catch (error) {
+      state.notice = error.message || "Snapshot revert failed.";
+      render();
+    }
+  }
+
+  async function exportSelectedSnapshot() {
+    const snapshotRevision = Number(document.getElementById("snapshotSelect")?.value || 0);
+    if (!snapshotRevision) {
+      state.notice = "Select a revision snapshot first.";
+      render();
+      return;
+    }
+    try {
+      const response = await fetch(`/admin/api/snapshots/${snapshotRevision}`, {
+        cache: "no-store",
+        credentials: "same-origin",
+        headers: { Accept: "application/json" }
+      });
+      const payload = await readSharedJson(response);
+      if (!response.ok || !payload?.ok) throw new Error(payload?.message || "Snapshot export failed.");
+      downloadText(`ag-gs-revision-${snapshotRevision}.json`, JSON.stringify(payload.snapshot, null, 2));
+      state.notice = `Exported snapshot #${snapshotRevision}.`;
+      render();
+    } catch (error) {
+      state.notice = error.message || "Snapshot export failed.";
+      render();
+    }
+  }
+
   function scheduleSharedPublish(message, delay = 900) {
     if (!sharedSync.enabled || !isAdmin) return;
     sharedSync.hasPendingLocalChange = true;
@@ -381,6 +486,7 @@
       sharedSync.isPublishing = false;
       markSync("online");
       state.notice = message;
+      fetchSnapshots(true);
       render();
     } catch (error) {
       sharedSync.isPublishing = false;
@@ -403,6 +509,7 @@
   }
 
   function nationCell(id) {
+    if (!id) return `<span class="nation-cell">Global Ledger</span>`;
     const nation = byId(id);
     if (!nation) return safeText(id);
     return `<span class="nation-cell"><span class="swatch" style="background:${safeColor(nation.color)}"></span>${safeText(nation.name)}</span>`;
@@ -1022,14 +1129,15 @@
 
   function renderNationManagement(nation) {
     const color = nation?.color || "#63a4ff";
+    const archived = archivedNations();
     return `
       <section class="panel roster-manager" aria-label="Roster manager">
         <div class="panel-head compact-head">
           <div>
             <h2>Roster Manager</h2>
-            <p>Create countries and remove records without changing the active editor selection.</p>
+            <p>Create countries, archive inactive records, and restore archived countries without losing datasets.</p>
           </div>
-          <span class="status">${fmtNumber(visibleNations().length)} active</span>
+          <span class="status">${fmtNumber(visibleNations().length)} active / ${fmtNumber(archived.length)} archived</span>
         </div>
         <div class="roster-tools-grid">
           <div class="roster-create-card">
@@ -1050,14 +1158,23 @@
             </label>
             <button class="command primary roster-create-command" type="button" data-action="create-nation">Create Nation</button>
           </div>
-          <div class="roster-delete-card">
-            <label class="control-field" for="deleteNationSelect">
-              <span>Delete Country</span>
-              <select id="deleteNationSelect">
-                ${nationOptionsHtml("", true, "Select country to delete")}
+          <div class="roster-archive-card">
+            <label class="control-field" for="archiveNationSelect">
+              <span>Archive Country</span>
+              <select id="archiveNationSelect">
+                ${nationOptionsHtml("", true, "Select country to archive")}
               </select>
             </label>
-            <button class="command danger" type="button" data-action="delete-nation">Delete</button>
+            <button class="command danger" type="button" data-action="archive-nation">Archive</button>
+          </div>
+          <div class="roster-restore-card">
+            <label class="control-field" for="restoreNationSelect">
+              <span>Restore Country</span>
+              <select id="restoreNationSelect">
+                ${archivedNationOptionsHtml("", true, archived.length ? "Select archived country" : "No archived countries")}
+              </select>
+            </label>
+            <button class="command positive" type="button" data-action="restore-nation" ${archived.length ? "" : "disabled"}>Restore</button>
           </div>
         </div>
       </section>`;
@@ -1078,6 +1195,7 @@
     const sourceId = templateInput?.value === "copy" ? state.selectedNation : "";
     data.nations.push({ id, name, color });
     data.meta.hiddenNationIds = (data.meta.hiddenNationIds || []).filter((hiddenId) => hiddenId !== id);
+    data.meta.archivedNationIds = (data.meta.archivedNationIds || []).filter((archivedId) => archivedId !== id);
     applyNationRecords(id, recordsFromTemplate(sourceId, id));
     Engine.recalculateAll(data);
     data.meta.changeHistory = [{
@@ -1102,38 +1220,72 @@
     render();
   }
 
-  function deleteSelectedNationFromEditor() {
-    const targetId = document.getElementById("deleteNationSelect")?.value || "";
+  function archiveSelectedNationFromEditor() {
+    const targetId = document.getElementById("archiveNationSelect")?.value || "";
     const nation = byId(targetId);
     if (!nation) {
-      state.notice = "Select a country to delete first.";
+      state.notice = "Select a country to archive first.";
       render();
       return;
     }
-    if (!window.confirm(`Delete ${nation.name} and all of its ledger rows? This cannot be undone from this browser state.`)) return;
-    const id = nation.id;
-    data.nations = data.nations.filter((row) => row.id !== id);
-    ["national", "trade", "industrial", "population", "military", "intelligence", "eclipse", "elections", "naval"].forEach((key) => {
-      delete data[key][id];
-    });
-    if (data.meta.currencyBonusByNation) delete data.meta.currencyBonusByNation[id];
-    data.meta.hiddenNationIds = (data.meta.hiddenNationIds || []).filter((hiddenId) => hiddenId !== id);
+    if (!window.confirm(`Archive ${nation.name}? It will be hidden from active calculations, but all ledger rows will be kept for restore.`)) return;
+    if (!Engine.archiveNation(data, nation.id)) {
+      state.notice = "That country could not be archived.";
+      render();
+      return;
+    }
     data.meta.changeHistory = [{
-      key: `nation-deleted:${id}:${Date.now()}`,
-      nationId: id,
+      key: `nation-archived:${nation.id}:${Date.now()}`,
+      nationId: nation.id,
       nationName: nation.name,
       dataset: "nations",
-      field: "delete",
-      label: "Deleted Nation",
-      beforeValue: nation.name,
-      afterValue: "Deleted",
+      field: "archive",
+      label: "Archived Nation",
+      beforeValue: "Active",
+      afterValue: "Archived",
       changedAt: new Date().toISOString(),
       changes: [],
       deltas: []
     }, ...(data.meta.changeHistory || [])].slice(0, 60);
     ensureSelectedNation();
     Engine.recalculateAll(data);
-    state.notice = `${nation.name} deleted.`;
+    state.notice = `${nation.name} archived.`;
+    Engine.save(data);
+    populateNationSelect();
+    scheduleSharedPublish(state.notice);
+    updateSourceNote();
+    render();
+  }
+
+  function restoreArchivedNationFromEditor() {
+    const targetId = document.getElementById("restoreNationSelect")?.value || "";
+    const nation = byId(targetId);
+    if (!nation) {
+      state.notice = "Select an archived country to restore first.";
+      render();
+      return;
+    }
+    if (!Engine.restoreNation(data, nation.id)) {
+      state.notice = `${nation.name} is not archived.`;
+      render();
+      return;
+    }
+    state.selectedNation = nation.id;
+    data.meta.changeHistory = [{
+      key: `nation-restored:${nation.id}:${Date.now()}`,
+      nationId: nation.id,
+      nationName: nation.name,
+      dataset: "nations",
+      field: "restore",
+      label: "Restored Nation",
+      beforeValue: "Archived",
+      afterValue: "Active",
+      changedAt: new Date().toISOString(),
+      changes: [],
+      deltas: []
+    }, ...(data.meta.changeHistory || [])].slice(0, 60);
+    Engine.recalculateAll(data);
+    state.notice = `${nation.name} restored.`;
     Engine.save(data);
     populateNationSelect();
     scheduleSharedPublish(state.notice);
@@ -1590,8 +1742,59 @@
       </section>`;
   }
 
+  function renderSnapshotRecoveryPanel() {
+    const snapshots = sharedSync.snapshots || [];
+    const latest = snapshots[0];
+    return `
+      <section class="panel snapshot-recovery-panel">
+        <div class="panel-head">
+          <div>
+            <h2>Revision Recovery</h2>
+            <p>Previous live states saved automatically before each publish.</p>
+          </div>
+          <span class="status">${sharedSync.isLoadingSnapshots ? "Loading" : `${fmtNumber(snapshots.length)} snapshots`}</span>
+        </div>
+        <div class="snapshot-recovery-controls">
+          <label class="control-field snapshot-select-field" for="snapshotSelect">
+            <span>Snapshot</span>
+            <select id="snapshotSelect" ${snapshots.length ? "" : "disabled"}>
+              ${snapshots.length
+                ? snapshots.map((snapshot) => `<option value="${escapeHtml(snapshot.revision)}">Revision #${safeText(snapshot.revision)} - ${safeText(fmtDateTime(snapshot.updatedAt))}</option>`).join("")
+                : `<option value="">No snapshots yet</option>`}
+            </select>
+          </label>
+          <button class="command" type="button" data-action="refresh-snapshots">Refresh</button>
+          <button class="command" type="button" data-action="snapshot-export" ${snapshots.length ? "" : "disabled"}>Export JSON</button>
+          <button class="command danger" type="button" data-action="snapshot-revert" ${snapshots.length ? "" : "disabled"}>Revert Live State</button>
+        </div>
+        ${snapshots.length ? `
+          <div class="snapshot-summary-strip">
+            ${overviewFact("Latest Snapshot", `#${latest.revision}`, fmtDateTime(latest.snapshotAt || latest.updatedAt))}
+            ${overviewFact("Active Nations", fmtNumber(latest.activeNationCount), `${fmtNumber(latest.nationCount)} total records`)}
+            ${overviewFact("Published By", latest.updatedBy || "Unknown", "Snapshot source")}
+          </div>
+          <div class="table-wrap">
+            <table class="snapshot-table">
+              <thead><tr><th>Revision</th><th>Published</th><th>Saved</th><th>Publisher</th><th class="numeric">Active</th><th class="numeric">Total</th></tr></thead>
+              <tbody>
+                ${snapshots.slice(0, 12).map((snapshot) => `
+                  <tr>
+                    <td>#${safeText(snapshot.revision)}</td>
+                    <td>${safeText(fmtDateTime(snapshot.updatedAt))}</td>
+                    <td>${safeText(fmtDateTime(snapshot.snapshotAt))}</td>
+                    <td>${safeText(snapshot.updatedBy || "Unknown")}</td>
+                    <td class="numeric">${fmtNumber(snapshot.activeNationCount)}</td>
+                    <td class="numeric">${fmtNumber(snapshot.nationCount)}</td>
+                  </tr>`).join("")}
+              </tbody>
+            </table>
+          </div>` : `<div class="empty">Snapshots start recording after the next successful publish.</div>`}
+      </section>`;
+  }
+
   function renderHistory() {
-    app.innerHTML = renderChangeHistoryPanel("", 50);
+    if (isAdmin && sharedSync.enabled && !sharedSync.snapshotsLoaded && !sharedSync.isLoadingSnapshots) fetchSnapshots();
+    app.innerHTML = `${renderSnapshotRecoveryPanel()}${renderChangeHistoryPanel("", 50)}`;
   }
 
   function dossierMetric(label, value, subtext = "") {
@@ -2041,8 +2244,16 @@
       if (worldHealthInput) data.meta.worldEconomicHealth = worldHealthInput.value;
       if (action === "create-nation") {
         createNationFromEditor();
-      } else if (action === "delete-nation") {
-        deleteSelectedNationFromEditor();
+      } else if (action === "archive-nation") {
+        archiveSelectedNationFromEditor();
+      } else if (action === "restore-nation") {
+        restoreArchivedNationFromEditor();
+      } else if (action === "refresh-snapshots") {
+        await fetchSnapshots(true);
+      } else if (action === "snapshot-revert") {
+        await revertSelectedSnapshot();
+      } else if (action === "snapshot-export") {
+        await exportSelectedSnapshot();
       } else if (action === "advance-one") {
         const result = Engine.advanceToYear(data, Number(data.meta.currentYear) + 1);
         saveWorkingState(result.message);

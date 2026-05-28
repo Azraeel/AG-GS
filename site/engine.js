@@ -49,6 +49,8 @@
     data.meta.title = data.meta.title || "AG-GS Global Ledger";
     data.meta.currentYear = number(data.meta.currentYear, 2021);
     data.meta.worldEconomicHealth = data.meta.worldEconomicHealth || "Expansion";
+    data.meta.hiddenNationIds = Array.isArray(data.meta.hiddenNationIds) ? data.meta.hiddenNationIds : [];
+    data.meta.archivedNationIds = Array.isArray(data.meta.archivedNationIds) ? data.meta.archivedNationIds : [];
     data.meta.lastSimulationLog = data.meta.lastSimulationLog || [];
     data.meta.changeHistory = Array.isArray(data.meta.changeHistory) ? data.meta.changeHistory : [];
     data.meta.updatedAt = data.meta.updatedAt || new Date().toISOString();
@@ -66,13 +68,48 @@
     return new Set(data.meta?.hiddenNationIds || []);
   }
 
+  function archivedNationIds(data) {
+    return new Set(data.meta?.archivedNationIds || []);
+  }
+
+  function inactiveNationIds(data) {
+    return new Set([...hiddenNationIds(data), ...archivedNationIds(data)]);
+  }
+
   function visibleNations(data) {
-    const hidden = hiddenNationIds(data);
-    return (data.nations || []).filter((nation) => !hidden.has(nation.id));
+    const inactive = inactiveNationIds(data);
+    return (data.nations || []).filter((nation) => !inactive.has(nation.id));
   }
 
   function visibleNationIds(data) {
     return visibleNations(data).map((nation) => nation.id);
+  }
+
+  function archivedNations(data) {
+    const archived = archivedNationIds(data);
+    return (data.nations || []).filter((nation) => archived.has(nation.id));
+  }
+
+  function uniqueIds(ids) {
+    return [...new Set((ids || []).filter(Boolean))];
+  }
+
+  function archiveNation(data, id) {
+    ensureState(data);
+    if (!data.nations.some((nation) => nation.id === id)) return false;
+    data.meta.archivedNationIds = uniqueIds([...(data.meta.archivedNationIds || []), id]);
+    data.meta.updatedAt = new Date().toISOString();
+    return true;
+  }
+
+  function restoreNation(data, id) {
+    ensureState(data);
+    if (!data.nations.some((nation) => nation.id === id)) return false;
+    const archived = archivedNationIds(data);
+    if (!archived.has(id)) return false;
+    data.meta.archivedNationIds = uniqueIds((data.meta.archivedNationIds || []).filter((archivedId) => archivedId !== id));
+    data.meta.updatedAt = new Date().toISOString();
+    return true;
   }
 
   function load(baseData) {
@@ -427,6 +464,9 @@
     normalizeState: ensureState,
     clone,
     number,
+    archivedNations,
+    archiveNation,
+    restoreNation,
     getPopulation,
     setPopulation,
     visibleNations,
