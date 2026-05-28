@@ -710,68 +710,96 @@
     tablePanel("Population Tracker", "Population history and demographic policy inputs used by yearly growth calculations.", rows, columns, "population");
   }
 
+  function pipelineStep(number, title, description) {
+    return `
+      <article class="pipeline-step">
+        <span>${safeText(number)}</span>
+        <div>
+          <h3>${safeText(title)}</h3>
+          <p>${safeText(description)}</p>
+        </div>
+      </article>`;
+  }
+
   function renderSimulation() {
     const currentYear = Number(data.meta.currentYear) || 2021;
     const snapshot = Engine.snapshot(data, currentYear);
     const log = data.meta.lastSimulationLog || [];
+    const targetYear = currentYear + 1;
     app.innerHTML = `
-      <section class="dashboard-grid">
-        ${renderMetric("Global Year State", fmtYear(currentYear), "Live ledger year")}
-        ${renderMetric("Population", fmtCompact(snapshot.totalPopulation), `Total in ${currentYear}`)}
-        ${renderMetric("Budget Capacity", fmtNumber(snapshot.budgetCapacity), "After current calculations")}
-        ${renderMetric("Trade Flow", fmtCompact(snapshot.tradeFlow), "After current calculations")}
-      </section>
-      <section class="panel">
-        <div class="panel-head">
+      <section class="panel simulation-cockpit">
+        <div class="simulation-hero">
           <div>
-            <h2>Simulation Controls</h2>
-            <p>Advance active nations year by year through population, trade, industry, budget, debt, and military supply calculations.</p>
+            <span class="section-kicker">Simulation Cockpit</span>
+            <h2>${fmtYear(currentYear)} <span aria-hidden="true">to</span> ${fmtYear(targetYear)}</h2>
+            <p>${fmtNumber(visibleNations().length)} active nations / ${safeText(data.meta.worldEconomicHealth || "Expansion")} world economy</p>
           </div>
           <span class="status ${state.notice ? "positive" : ""}">${safeText(state.notice || "Ready")}</span>
         </div>
-        <div class="control-grid">
-          <label class="control-field">
-            <span>Current Year</span>
-            <input type="number" id="currentYearInput" value="${currentYear}" min="1">
-          </label>
-          <label class="control-field">
-            <span>Target Year</span>
-            <input type="number" id="targetYearInput" value="${currentYear + 1}" min="${currentYear + 1}">
-          </label>
-          <label class="control-field">
-            <span>World Economy</span>
-            <select id="worldHealthInput">
-              ${["Prosperity", "Expansion", "Recovery", "Slowdown", "Recession", "Depression"].map((option) => `<option ${data.meta.worldEconomicHealth === option ? "selected" : ""}>${option}</option>`).join("")}
-            </select>
-          </label>
-        </div>
-        <div class="command-row">
-          <button class="command primary" type="button" data-action="advance-one">Advance 1 Year</button>
-          <button class="command" type="button" data-action="advance-target">Simulate To Target</button>
-          <button class="command" type="button" data-action="recalculate">Recalculate Current Year</button>
-          <button class="command danger" type="button" data-action="reset-state">Reload Live State</button>
-          <button class="command" type="button" data-action="export-json">Export JSON</button>
-          <button class="command" type="button" data-action="export-data-js">Export data.js</button>
-          <button class="command" type="button" data-action="publish-live-state">Publish Live State</button>
-        </div>
-      </section>
-      <section class="panel simulation-notes">
-        <div class="panel-head">
-          <div>
-            <h2>Calculation Pipeline</h2>
-            <p>Each yearly step updates population, recalculates trade, grows industry, updates budget and debt, then applies twelve months of military supply production.</p>
+        <div class="simulation-grid">
+          <div class="simulation-snapshot">
+            ${dossierMetric("Population", fmtCompact(snapshot.totalPopulation), `Total in ${currentYear}`)}
+            ${dossierMetric("Budget Capacity", fmtNumber(snapshot.budgetCapacity), "Current calculation")}
+            ${dossierMetric("Trade Flow", fmtCompact(snapshot.tradeFlow), fmtNumber(snapshot.tradeFlow))}
+            ${dossierMetric("Average Supply", fmtPercent(snapshot.militarySupplyAverage), "Military readiness")}
+          </div>
+          <div class="simulation-control-surface">
+            <div class="simulation-control-head">
+              <h3>Run Controls</h3>
+              <span class="status">${safeText(`Target ${targetYear}`)}</span>
+            </div>
+            <div class="simulation-control-grid">
+              <label class="control-field">
+                <span>Current Year</span>
+                <input type="number" id="currentYearInput" value="${currentYear}" min="1">
+              </label>
+              <label class="control-field">
+                <span>Target Year</span>
+                <input type="number" id="targetYearInput" value="${targetYear}" min="${targetYear}">
+              </label>
+              <label class="control-field">
+                <span>World Economy</span>
+                <select id="worldHealthInput">
+                  ${["Prosperity", "Expansion", "Recovery", "Slowdown", "Recession", "Depression"].map((option) => `<option ${data.meta.worldEconomicHealth === option ? "selected" : ""}>${option}</option>`).join("")}
+                </select>
+              </label>
+            </div>
+            <div class="simulation-command-grid">
+              <button class="command primary" type="button" data-action="advance-one">Advance 1 Year</button>
+              <button class="command primary" type="button" data-action="advance-target">Simulate To Target</button>
+              <button class="command" type="button" data-action="recalculate">Recalculate Current Year</button>
+              <button class="command" type="button" data-action="publish-live-state">Publish Live State</button>
+              <button class="command" type="button" data-action="export-json">Export JSON</button>
+              <button class="command" type="button" data-action="export-data-js">Export data.js</button>
+              <button class="command danger" type="button" data-action="reset-state">Reload Live State</button>
+            </div>
           </div>
         </div>
       </section>
-      <section class="panel">
+      <section class="panel simulation-pipeline">
+        <div class="panel-head compact-head">
+          <div>
+            <h2>Calculation Pipeline</h2>
+            <p>Yearly updates run in order across the active ledger.</p>
+          </div>
+        </div>
+        <div class="pipeline-grid">
+          ${pipelineStep("01", "Population", "Demographics and child policy")}
+          ${pipelineStep("02", "Trade", "Reliance, balance, flow, impact")}
+          ${pipelineStep("03", "Industry", "Factories, shipyards, capacity")}
+          ${pipelineStep("04", "Budget", "Capacity, expenditure, debt")}
+          ${pipelineStep("05", "Supply", "Twelve monthly production passes")}
+        </div>
+      </section>
+      <section class="panel simulation-log-panel">
         <div class="panel-head">
           <div>
             <h2>Simulation Log</h2>
-            <p>Most recent run, stored locally in this browser.</p>
+            <p>${log.length ? `${fmtNumber(log.length)} yearly entries from the most recent run.` : "Current snapshot only."}</p>
           </div>
         </div>
         <div class="table-wrap">
-          <table>
+          <table class="simulation-log-table">
             <thead><tr><th class="numeric">Year</th><th class="numeric">Population</th><th class="numeric">Budget Capacity</th><th class="numeric">Trade Flow</th><th class="numeric">Avg Supply</th></tr></thead>
             <tbody>
               ${(log.length ? log : [snapshot]).map((row) => `<tr><td class="numeric">${fmtYear(row.year)}</td><td class="numeric">${fmtNumber(row.totalPopulation)}</td><td class="numeric">${fmtNumber(row.budgetCapacity)}</td><td class="numeric">${fmtNumber(row.tradeFlow)}</td><td class="numeric">${fmtPercent(row.militarySupplyAverage)}</td></tr>`).join("")}
