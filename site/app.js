@@ -1085,11 +1085,17 @@
   }
 
   function renderChangeBadge(change) {
-    const signed = change.numeric && change.delta !== 0;
+    const beforeNumber = Engine.number(change.before, NaN);
+    const afterNumber = Engine.number(change.after, NaN);
+    const storedDelta = change.delta !== null && change.delta !== undefined && Number.isFinite(Number(change.delta))
+      ? Number(change.delta)
+      : null;
+    const computedDelta = storedDelta ?? (Number.isFinite(beforeNumber) && Number.isFinite(afterNumber) ? afterNumber - beforeNumber : null);
+    const signed = computedDelta !== null && computedDelta !== 0;
     const valueText = signed
-      ? `${fmtSigned(change.delta)} (${fmtHistoryValue(change.before)} -> ${fmtHistoryValue(change.after)})`
+      ? `${fmtSigned(computedDelta)} (${fmtHistoryValue(change.before)} -> ${fmtHistoryValue(change.after)})`
       : `${fmtHistoryValue(change.before)} -> ${fmtHistoryValue(change.after)}`;
-    const tone = signed ? (change.delta >= 0 ? "positive" : "negative") : "";
+    const tone = signed ? (computedDelta >= 0 ? "positive" : "negative") : "";
     return `<span class="status ${tone}">${escapeHtml(change.label)} ${escapeHtml(valueText)}</span>`;
   }
 
