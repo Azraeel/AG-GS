@@ -321,55 +321,6 @@ h3 {
   border-color: var(--gold);
 }
 
-.toolbar {
-  padding: 16px clamp(16px, 4vw, 44px) 0;
-}
-
-.toolbar[hidden] {
-  display: none;
-}
-
-.table-toolbar {
-  display: grid;
-  grid-template-columns: minmax(220px, 330px) minmax(0, 1fr);
-  gap: 12px;
-  align-items: start;
-}
-
-.table-toolbar.is-search-only {
-  grid-template-columns: minmax(280px, 720px);
-}
-
-.guided-search {
-  display: grid;
-  gap: 8px;
-  min-width: 0;
-}
-
-.search-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.search-chips button {
-  min-height: 28px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--status-bg);
-  color: var(--ink);
-  padding: 4px 10px;
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 850;
-}
-
-.search-chips button:hover,
-.search-chips button:focus-visible {
-  border-color: var(--blue);
-  outline: 0;
-}
-
 .search,
 .select-shell,
 .view-shell {
@@ -1816,7 +1767,6 @@ tbody td {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .table-toolbar,
   .roster-tools-grid {
     grid-template-columns: 1fr;
   }
@@ -1854,7 +1804,6 @@ tbody td {
   .overview-facts,
   .detail-grid,
   .control-grid,
-  .table-toolbar,
   .roster-tools-grid,
   .roster-create-card,
   .roster-delete-card,

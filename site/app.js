@@ -3,7 +3,6 @@
   const Engine = window.AGGS_ENGINE;
   let data = Engine.load(baseData);
   const app = document.getElementById("app");
-  const contextToolbar = document.getElementById("contextToolbar");
   const tabs = Array.from(document.querySelectorAll(".tab"));
   const sourceNote = document.getElementById("sourceNote");
   const sourcePill = document.querySelector(".source-pill");
@@ -58,9 +57,6 @@
   ];
   const economicHealthOptions = ["Prosperity", "Expansion", "Recovery", "Slowdown", "Recession", "Depression"];
   const statusTableKeys = new Set(["industrial", "intelligence", "military", "national", "population", "trade"]);
-  const searchSuggestions = {
-    nations: ["Prosperity", "Free Trade", "No Policy", "Missing data"]
-  };
 
   const state = {
     tab: "overview",
@@ -482,45 +478,8 @@
       .sort((left, right) => left.label.localeCompare(right.label, "en", { sensitivity: "base" }));
   }
 
-  function searchControlHtml(context, placeholder, suggestions) {
-    return `
-      <div class="guided-search">
-        <label class="search">
-          <span aria-hidden="true">Search</span>
-          <input data-search-input data-search-context="${escapeHtml(context)}" type="search" value="${escapeHtml(state.query)}" placeholder="${escapeHtml(placeholder)}" autocomplete="off">
-        </label>
-        <div class="search-chips" aria-label="Search examples">
-          ${suggestions.map((term) => `<button type="button" data-search-suggestion="${escapeHtml(term)}">${safeText(term)}</button>`).join("")}
-          <button type="button" data-search-clear>Clear</button>
-        </div>
-      </div>`;
-  }
-
-  function syncSearchInputs() {
-    document.querySelectorAll("[data-search-input]").forEach((input) => {
-      if (input.value !== state.query) input.value = state.query;
-    });
-  }
-
   function renderContextToolbar() {
-    if (!contextToolbar) return;
-    if (state.tab !== "nations" && state.query) state.query = "";
-    if (contextToolbar.dataset.renderedFor === state.tab) {
-      syncSearchInputs();
-      return;
-    }
-    contextToolbar.dataset.renderedFor = state.tab;
-    if (state.tab === "nations") {
-      contextToolbar.hidden = false;
-      contextToolbar.innerHTML = `
-        <div class="table-toolbar is-search-only">
-          ${searchControlHtml("nations", "Search countries, policies, health, coverage", searchSuggestions.nations)}
-        </div>`;
-      return;
-    }
-    contextToolbar.hidden = true;
-    contextToolbar.innerHTML = "";
-    contextToolbar.dataset.renderedFor = "";
+    if (state.query) state.query = "";
   }
 
   function statusViewSelectHtml(activeKey) {
@@ -2050,11 +2009,6 @@
     }
   }
 
-  function applySearch(value) {
-    state.query = value;
-    render();
-  }
-
   function applyView(value) {
     if (!canAccessTab(value)) {
       state.tab = "overview";
@@ -2064,35 +2018,9 @@
     render();
   }
 
-  if (contextToolbar) {
-    contextToolbar.addEventListener("input", (event) => {
-      const input = event.target.closest("[data-search-input]");
-      if (input) applySearch(input.value);
-    });
-
-    contextToolbar.addEventListener("change", (event) => {
-      const select = event.target.closest("[data-view-select]");
-      if (select) applyView(select.value);
-    });
-
-    contextToolbar.addEventListener("click", (event) => {
-      const suggestion = event.target.closest("[data-search-suggestion]");
-      if (suggestion) {
-        applySearch(suggestion.dataset.searchSuggestion || "");
-        return;
-      }
-      if (event.target.closest("[data-search-clear]")) applySearch("");
-    });
-  }
-
   app.addEventListener("input", (event) => {
     if (["currentYearInput", "targetYearInput", "worldHealthInput"].includes(event.target.id)) {
       updateSimulationPreview(event.target.id);
-    }
-    const search = event.target.closest("[data-search-input]");
-    if (search) {
-      applySearch(search.value);
-      return;
     }
     const edit = event.target.closest("[data-edit]");
     if (edit) applyEdit(edit, false);
@@ -2138,17 +2066,6 @@
         Engine.save(data);
         await publishSharedState("Published current state to the live ledger.");
       }
-      return;
-    }
-
-    const suggestion = event.target.closest("[data-search-suggestion]");
-    if (suggestion) {
-      applySearch(suggestion.dataset.searchSuggestion || "");
-      return;
-    }
-
-    if (event.target.closest("[data-search-clear]")) {
-      applySearch("");
       return;
     }
 
