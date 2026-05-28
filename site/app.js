@@ -13,7 +13,7 @@
   const isAdmin = document.body.dataset.appMode === "admin";
   const THEME_KEY = "aggs-theme";
   const adminOnlyTabs = new Set(["editor", "simulation", "history"]);
-  const adminOnlyActions = new Set(["advance-one", "advance-target", "recalculate", "reset-state", "export-json", "export-data-js", "publish-live-state"]);
+  const adminOnlyActions = new Set(["advance-one", "advance-target", "recalculate", "reset-state", "export-json", "export-data-js", "publish-live-state", "create-nation", "delete-nation"]);
   const sharedSync = {
     enabled: location.protocol.startsWith("http") && !["localhost", "127.0.0.1", "::1"].includes(location.hostname),
     endpoint: window.AGGS_API_URL || (isAdmin ? "/admin/api/state" : "/api/state"),
@@ -863,6 +863,235 @@
       </label>`;
   }
 
+  function slugifyNationName(name) {
+    const base = String(name || "")
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "");
+    return base || "new_nation";
+  }
+
+  function uniqueNationId(name) {
+    const base = slugifyNationName(name);
+    const used = new Set(data.nations.map((nation) => nation.id));
+    let next = base;
+    let index = 2;
+    while (used.has(next)) {
+      next = `${base}_${index}`;
+      index += 1;
+    }
+    return next;
+  }
+
+  function defaultNationRecords(id) {
+    const currentYear = String(data.meta.currentYear || 2021);
+    return {
+      national: {
+        governmentalStability: 70,
+        publicUnrest: 0,
+        warSupport: 50,
+        corruption: 20,
+        developmentLevel: 10,
+        budgetCapacity: 0,
+        budgetExpenditure: 0,
+        budgetBalance: 0,
+        debt: 0,
+        economicHealth: data.meta.worldEconomicHealth || "Expansion",
+        immigrationRate: 0,
+        taxRate: 0.02
+      },
+      trade: {
+        tradeCapacity: 0,
+        tradeEfficiency: 0,
+        autarkyIndex: 50,
+        tradeBalance: 0,
+        tradeFlow: 0,
+        tradePower: 0,
+        importReliance: 100,
+        exportReliance: 100,
+        economicTradeDiversity: 100,
+        tradePolicy: "Balanced",
+        sanctionsLevel: "None",
+        tariffRate: 5,
+        economicImpactScore: 0
+      },
+      industrial: {
+        mobilizationLevel: "None",
+        militaryFactories: 10,
+        civilianFactories: 100,
+        shipyards: 10
+      },
+      population: {
+        mandatoryChildPolicy: "No Policy",
+        values: { [currentYear]: 1000000 }
+      },
+      military: {
+        militaryOrganization: 5,
+        militarySupply: 100,
+        mobilizationLevel: "None",
+        equipmentComplexity: 7,
+        cyberSecurity: 5,
+        combatPersonnel: 0,
+        supportPersonnel: 0,
+        airForcePersonnel: 0,
+        navalPersonnel: 0,
+        reserveForces: 0,
+        paramilitaryIrregular: 0
+      },
+      intelligence: {
+        humint: 0,
+        sigint: 0,
+        counterintelligence: 0,
+        covertAction: 0,
+        analysisDoctrine: 0,
+        globalReach: 0,
+        internalSurveillance: 0,
+        secrecyDenial: 0
+      },
+      eclipse: { eclipseStatus: "" },
+      elections: { leaderElections: "", parliamentElections: "" },
+      naval: { total: 0, totalNote: "No fleet entered.", categories: [] }
+    };
+  }
+
+  function recordsFromTemplate(sourceId, id) {
+    const defaults = defaultNationRecords(id);
+    if (!sourceId || !byId(sourceId)) return defaults;
+    return {
+      national: Engine.clone(data.national[sourceId] || defaults.national),
+      trade: Engine.clone(data.trade[sourceId] || defaults.trade),
+      industrial: Engine.clone(data.industrial[sourceId] || defaults.industrial),
+      population: Engine.clone(data.population[sourceId] || defaults.population),
+      military: Engine.clone(data.military[sourceId] || defaults.military),
+      intelligence: Engine.clone(data.intelligence[sourceId] || defaults.intelligence),
+      eclipse: Engine.clone(data.eclipse[sourceId] || defaults.eclipse),
+      elections: Engine.clone(data.elections[sourceId] || defaults.elections),
+      naval: Engine.clone(data.naval[sourceId] || defaults.naval)
+    };
+  }
+
+  function applyNationRecords(id, records) {
+    ["national", "trade", "industrial", "population", "military", "intelligence", "eclipse", "elections", "naval"].forEach((key) => {
+      data[key][id] = records[key];
+    });
+  }
+
+  function renderNationManagement(nation) {
+    const color = nation?.color || "#63a4ff";
+    const canDelete = Boolean(nation);
+    return `
+      <section class="nation-management">
+        <div class="nation-management-create">
+          <div>
+            <span class="section-kicker">Nation Management</span>
+            <h3>Create Country</h3>
+          </div>
+          <label class="control-field" for="newNationName">
+            <span>Name</span>
+            <input id="newNationName" type="text" placeholder="New country name">
+          </label>
+          <label class="control-field color-field" for="newNationColor">
+            <span>Color</span>
+            <input id="newNationColor" type="color" value="${escapeHtml(color)}">
+            <span class="color-preview" data-new-nation-color-preview style="background:${safeColor(color)}"></span>
+          </label>
+          <label class="control-field" for="newNationTemplate">
+            <span>Starting Stats</span>
+            <select id="newNationTemplate">
+              <option value="blank">Blank baseline</option>
+              ${nation ? `<option value="copy">Copy ${safeText(nation.name)}</option>` : ""}
+            </select>
+          </label>
+          <button class="command primary" type="button" data-action="create-nation">Create Nation</button>
+        </div>
+        <div class="nation-management-delete">
+          <div>
+            <h3>Delete Country</h3>
+            <p>${nation ? `Remove ${safeText(nation.name)} and its dataset rows from the live ledger.` : "No active country is selected."}</p>
+          </div>
+          <button class="command danger" type="button" data-action="delete-nation" ${canDelete ? "" : "disabled"}>Delete Selected</button>
+        </div>
+      </section>`;
+  }
+
+  function createNationFromEditor() {
+    const nameInput = document.getElementById("newNationName");
+    const colorInput = document.getElementById("newNationColor");
+    const templateInput = document.getElementById("newNationTemplate");
+    const name = String(nameInput?.value || "").trim();
+    if (!name) {
+      state.notice = "Enter a country name first.";
+      render();
+      return;
+    }
+    const id = uniqueNationId(name);
+    const color = safeColor(colorInput?.value || "#63a4ff");
+    const sourceId = templateInput?.value === "copy" ? state.selectedNation : "";
+    data.nations.push({ id, name, color });
+    data.meta.hiddenNationIds = (data.meta.hiddenNationIds || []).filter((hiddenId) => hiddenId !== id);
+    applyNationRecords(id, recordsFromTemplate(sourceId, id));
+    Engine.recalculateAll(data);
+    data.meta.changeHistory = [{
+      key: `nation-created:${id}:${Date.now()}`,
+      nationId: id,
+      nationName: name,
+      dataset: "nations",
+      field: "create",
+      label: "Created Nation",
+      beforeValue: "None",
+      afterValue: name,
+      changedAt: new Date().toISOString(),
+      changes: [],
+      deltas: []
+    }, ...(data.meta.changeHistory || [])].slice(0, 60);
+    state.selectedNation = id;
+    state.notice = `${name} created. Fill out its stats below.`;
+    Engine.save(data);
+    populateNationSelect();
+    scheduleSharedPublish(state.notice);
+    updateSourceNote();
+    render();
+  }
+
+  function deleteSelectedNationFromEditor() {
+    const nation = byId(state.selectedNation);
+    if (!nation) {
+      state.notice = "No country selected to delete.";
+      render();
+      return;
+    }
+    if (!window.confirm(`Delete ${nation.name} and all of its ledger rows? This cannot be undone from this browser state.`)) return;
+    const id = nation.id;
+    data.nations = data.nations.filter((row) => row.id !== id);
+    ["national", "trade", "industrial", "population", "military", "intelligence", "eclipse", "elections", "naval"].forEach((key) => {
+      delete data[key][id];
+    });
+    if (data.meta.currencyBonusByNation) delete data.meta.currencyBonusByNation[id];
+    data.meta.hiddenNationIds = (data.meta.hiddenNationIds || []).filter((hiddenId) => hiddenId !== id);
+    data.meta.changeHistory = [{
+      key: `nation-deleted:${id}:${Date.now()}`,
+      nationId: id,
+      nationName: nation.name,
+      dataset: "nations",
+      field: "delete",
+      label: "Deleted Nation",
+      beforeValue: nation.name,
+      afterValue: "Deleted",
+      changedAt: new Date().toISOString(),
+      changes: [],
+      deltas: []
+    }, ...(data.meta.changeHistory || [])].slice(0, 60);
+    ensureSelectedNation();
+    Engine.recalculateAll(data);
+    state.notice = `${nation.name} deleted.`;
+    Engine.save(data);
+    populateNationSelect();
+    scheduleSharedPublish(state.notice);
+    updateSourceNote();
+    render();
+  }
+
   function renderEditorSummary(nation, national, trade, industrial, military, currentYear) {
     const coverage = coverageFor(nation.id).filter((set) => set.hasData).length;
     return `
@@ -927,6 +1156,7 @@
             </div>
           <span class="status">${safeText(syncLabel(true))}</span>
           </div>
+          ${renderNationManagement(null)}
           <div class="empty">Open the live site through Cloudflare, or publish a valid state from the admin API.</div>
         </section>
       `;
@@ -951,6 +1181,7 @@
           </div>
           <span class="status ${state.notice ? "positive" : ""}">${safeText(state.notice || "Editor ready")}</span>
         </div>
+        ${renderNationManagement(nation)}
         ${renderEditorSummary(nation, national, trade, industrial, military, currentYear)}
         <div class="editor-layout">
           <div class="editor-sections">
@@ -1747,6 +1978,11 @@
     if (["currentYearInput", "targetYearInput", "worldHealthInput"].includes(event.target.id)) {
       updateSimulationPreview(event.target.id);
     }
+    if (event.target.id === "newNationColor") {
+      const preview = document.querySelector("[data-new-nation-color-preview]");
+      if (preview) preview.style.background = safeColor(event.target.value);
+      return;
+    }
     const edit = event.target.closest("[data-edit]");
     if (edit) applyEdit(edit, false);
   });
@@ -1770,7 +2006,11 @@
       const currentInput = document.getElementById("currentYearInput");
       const worldHealthInput = document.getElementById("worldHealthInput");
       if (worldHealthInput) data.meta.worldEconomicHealth = worldHealthInput.value;
-      if (action === "advance-one") {
+      if (action === "create-nation") {
+        createNationFromEditor();
+      } else if (action === "delete-nation") {
+        deleteSelectedNationFromEditor();
+      } else if (action === "advance-one") {
         const result = Engine.advanceToYear(data, Number(data.meta.currentYear) + 1);
         saveWorkingState(result.message);
       } else if (action === "advance-target") {
@@ -1815,6 +2055,12 @@
   });
 
   app.addEventListener("change", (event) => {
+    if (event.target.id === "newNationColor") {
+      const preview = document.querySelector("[data-new-nation-color-preview]");
+      if (preview) preview.style.background = safeColor(event.target.value);
+      return;
+    }
+
     const edit = event.target.closest("[data-edit]");
     if (edit && !isAdmin) {
       state.notice = "Editor access is restricted.";

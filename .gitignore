@@ -1,3 +1,4 @@
 wrangler.toml
 cloudflare/wrangler.toml
 .wrangler/
+AGENTS.md
