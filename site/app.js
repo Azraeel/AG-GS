@@ -939,28 +939,6 @@
     return `<div class="detail-item"><span>${label}</span><strong>${value}</strong></div>`;
   }
 
-  const trackedChangeMetrics = [
-    { key: "budgetCapacity", label: "BC", source: (source, id) => source.national?.[id]?.budgetCapacity },
-    { key: "budgetBalance", label: "Budget Balance", source: (source, id) => source.national?.[id]?.budgetBalance },
-    { key: "tradeBalance", label: "Trade Balance", source: (source, id) => source.trade?.[id]?.tradeBalance },
-    { key: "tradeFlow", label: "Trade Flow", source: (source, id) => source.trade?.[id]?.tradeFlow },
-    { key: "economicImpactScore", label: "Economic Impact", source: (source, id) => source.trade?.[id]?.economicImpactScore }
-  ];
-
-  function metricSnapshot(source, id) {
-    return Object.fromEntries(trackedChangeMetrics.map((metric) => [metric.key, Engine.number(metric.source(source, id), 0)]));
-  }
-
-  function metricDeltas(before, after) {
-    return trackedChangeMetrics
-      .map((metric) => {
-        const previous = Engine.number(before?.[metric.key], 0);
-        const next = Engine.number(after?.[metric.key], 0);
-        return { key: metric.key, label: metric.label, before: previous, after: next, delta: next - previous };
-      })
-      .filter((metric) => metric.delta !== 0);
-  }
-
   function readFieldValue(source, dataset, id, path) {
     if (dataset === "population") {
       const row = source.population?.[id];
@@ -974,11 +952,21 @@
 
   function fieldLabel(dataset, path) {
     const labels = {
+      budgetCapacity: "Budget Capacity",
+      budgetBalance: "Budget Balance",
+      tradeBalance: "Trade Balance",
+      tradeFlow: "Trade Flow",
+      tradePower: "Trade Power",
+      tradeCapacity: "Trade Capacity",
+      tradeEfficiency: "Trade Efficiency",
+      economicImpactScore: "Economic Impact",
       governmentalStability: "Stability",
       publicUnrest: "Public Unrest",
       warSupport: "War Support",
+      corruption: "Corruption",
       developmentLevel: "Development",
       budgetExpenditure: "Expenditure",
+      debt: "Debt",
       economicHealth: "Economic Health",
       immigrationRate: "Immigration",
       taxRate: "Tax Rate",
@@ -992,11 +980,117 @@
       civilianFactories: "Civilian Factories",
       militaryFactories: "Military Factories",
       militarySupply: "Military Supply",
+      militaryOrganization: "Military Organization",
+      equipmentComplexity: "Equipment Complexity",
+      cyberSecurity: "Cyber Security",
+      combatPersonnel: "Combat Personnel",
+      supportPersonnel: "Support Personnel",
+      airForcePersonnel: "Air Force Personnel",
+      navalPersonnel: "Naval Personnel",
+      reserveForces: "Reserve Forces",
+      paramilitaryIrregular: "Paramilitary",
       mobilizationLevel: "Mobilization",
-      mandatoryChildPolicy: "Child Policy"
+      mandatoryChildPolicy: "Child Policy",
+      humint: "HUMINT",
+      sigint: "SIGINT",
+      counterintelligence: "Counterintelligence",
+      covertAction: "Covert Action",
+      analysisDoctrine: "Analysis & Doctrine",
+      globalReach: "Global Reach",
+      internalSurveillance: "Internal Surveillance",
+      secrecyDenial: "Secrecy & Denial",
+      eclipseStatus: "Eclipse Status",
+      leaderElections: "Leader Elections",
+      parliamentElections: "Parliament Elections"
     };
     if (dataset === "population" && /^\d+$/.test(path)) return `Population (${path})`;
     return labels[path] || path.replace(/([A-Z])/g, " $1").replace(/^./, (letter) => letter.toUpperCase());
+  }
+
+  function datasetLabel(dataset) {
+    const labels = {
+      national: "National",
+      trade: "Trade",
+      industrial: "Industrial",
+      population: "Population",
+      military: "Military",
+      intelligence: "Intelligence",
+      eclipse: "Eclipse",
+      elections: "Elections",
+      naval: "Naval"
+    };
+    return labels[dataset] || dataset;
+  }
+
+  function flattenRecord(value, prefix = "", output = {}) {
+    if (value === null || value === undefined) {
+      if (prefix) output[prefix] = value;
+      return output;
+    }
+    if (Array.isArray(value)) {
+      value.forEach((item, index) => flattenRecord(item, prefix ? `${prefix}.${index}` : String(index), output));
+      if (!value.length && prefix) output[prefix] = [];
+      return output;
+    }
+    if (typeof value === "object") {
+      Object.entries(value).forEach(([key, child]) => flattenRecord(child, prefix ? `${prefix}.${key}` : key, output));
+      if (!Object.keys(value).length && prefix) output[prefix] = {};
+      return output;
+    }
+    output[prefix] = value;
+    return output;
+  }
+
+  function nationSnapshot(source, id) {
+    const datasetsToTrack = ["national", "trade", "industrial", "population", "military", "intelligence", "eclipse", "elections", "naval"];
+    return datasetsToTrack.reduce((snapshot, dataset) => {
+      const row = source[dataset]?.[id];
+      if (row !== undefined) flattenRecord(row, dataset, snapshot);
+      return snapshot;
+    }, {});
+  }
+
+  function valuesMatch(left, right) {
+    if (left === right) return true;
+    const leftNumber = Engine.number(left, NaN);
+    const rightNumber = Engine.number(right, NaN);
+    if (Number.isFinite(leftNumber) && Number.isFinite(rightNumber)) return Math.abs(leftNumber - rightNumber) < 0.000001;
+    return JSON.stringify(left) === JSON.stringify(right);
+  }
+
+  function changeLabelForKey(key) {
+    const [dataset, ...segments] = key.split(".");
+    if (dataset === "population" && segments[0] === "values" && segments[1]) return `${datasetLabel(dataset)} / ${fieldLabel(dataset, segments[1])}`;
+    return `${datasetLabel(dataset)} / ${fieldLabel(dataset, segments.join("."))}`;
+  }
+
+  function snapshotChanges(before, after) {
+    return Array.from(new Set([...Object.keys(before || {}), ...Object.keys(after || {})]))
+      .filter((key) => !valuesMatch(before?.[key], after?.[key]))
+      .map((key) => {
+        const beforeValue = before?.[key];
+        const afterValue = after?.[key];
+        const beforeNumber = Engine.number(beforeValue, NaN);
+        const afterNumber = Engine.number(afterValue, NaN);
+        const numeric = Number.isFinite(beforeNumber) && Number.isFinite(afterNumber);
+        return {
+          key,
+          label: changeLabelForKey(key),
+          before: beforeValue,
+          after: afterValue,
+          numeric,
+          delta: numeric ? afterNumber - beforeNumber : null
+        };
+      });
+  }
+
+  function renderChangeBadge(change) {
+    const signed = change.numeric && change.delta !== 0;
+    const valueText = signed
+      ? `${fmtSigned(change.delta)} (${fmtHistoryValue(change.before)} -> ${fmtHistoryValue(change.after)})`
+      : `${fmtHistoryValue(change.before)} -> ${fmtHistoryValue(change.after)}`;
+    const tone = signed ? (change.delta >= 0 ? "positive" : "negative") : "";
+    return `<span class="status ${tone}">${escapeHtml(change.label)} ${escapeHtml(valueText)}</span>`;
   }
 
   function changeHistoryRows(idFilter = "", limit = 12) {
@@ -1018,13 +1112,13 @@
         <div class="panel-head">
           <div>
             <h2>Change History</h2>
-            <p>Recent admin edits and the calculated impact on key outputs.</p>
+            <p>Recent admin edits and every changed field after recalculation.</p>
           </div>
         </div>
         ${rows.length ? `
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Time</th><th>Nation</th><th>Edit</th><th>Value</th><th>Calculation Impact</th></tr></thead>
+              <thead><tr><th>Time</th><th>Nation</th><th>Edit</th><th>Value</th><th>Changed Fields</th></tr></thead>
               <tbody>
                 ${rows.map((entry) => `
                   <tr>
@@ -1032,7 +1126,7 @@
                     <td>${nationCell(entry.nationId)}</td>
                     <td>${escapeHtml(entry.label || entry.field)}</td>
                     <td>${escapeHtml(fmtHistoryValue(entry.beforeValue))} -> ${escapeHtml(fmtHistoryValue(entry.afterValue))}</td>
-                    <td><div class="change-impact">${(entry.deltas || []).length ? entry.deltas.map((delta) => `<span class="status ${delta.delta >= 0 ? "positive" : "negative"}">${escapeHtml(delta.label)} ${fmtSigned(delta.delta)}</span>`).join("") : `<span class="status">No calculated change</span>`}</div></td>
+                    <td><div class="change-impact">${(entry.changes || entry.deltas || []).length ? (entry.changes || entry.deltas).map(renderChangeBadge).join("") : `<span class="status">No calculated change</span>`}</div></td>
                   </tr>`).join("")}
               </tbody>
             </table>
@@ -1315,9 +1409,9 @@
   function recordChange(entryKey, id, dataset, path, afterValue, afterMetrics) {
     const pending = pendingEdits.get(entryKey);
     if (!pending) return [];
-    const deltas = metricDeltas(pending.beforeMetrics, afterMetrics);
+    const changes = snapshotChanges(pending.beforeSnapshot, afterMetrics);
     const fieldChanged = String(pending.beforeValue ?? "") !== String(afterValue ?? "");
-    if (!fieldChanged && !deltas.length) {
+    if (!fieldChanged && !changes.length) {
       data.meta.changeHistory = (data.meta.changeHistory || []).filter((entry) => entry.key !== pending.historyKey);
       return [];
     }
@@ -1331,12 +1425,13 @@
       beforeValue: pending.beforeValue,
       afterValue,
       changedAt: new Date().toISOString(),
-      deltas
+      changes,
+      deltas: changes.filter((change) => change.numeric && change.delta !== 0)
     };
     data.meta.changeHistory = [entry, ...(data.meta.changeHistory || []).filter((item) => item.key !== entry.key)].slice(0, 60);
     clearTimeout(pending.timer);
     pending.timer = setTimeout(() => pendingEdits.delete(entryKey), 2500);
-    return deltas;
+    return changes;
   }
 
   function applyEdit(edit, renderNow = true) {
@@ -1355,7 +1450,7 @@
       pendingEdits.set(entryKey, {
         historyKey: `${entryKey}:${Date.now()}`,
         beforeValue: readFieldValue(data, dataset, id, path),
-        beforeMetrics: metricSnapshot(data, id),
+        beforeSnapshot: nationSnapshot(data, id),
         timer: null
       });
     }
@@ -1366,8 +1461,8 @@
     }
     Engine.recalculateAll(data);
     const afterValue = readFieldValue(data, dataset, id, path);
-    const deltas = recordChange(entryKey, id, dataset, path, afterValue, metricSnapshot(data, id));
-    const bcDelta = deltas.find((delta) => delta.key === "budgetCapacity");
+    const changes = recordChange(entryKey, id, dataset, path, afterValue, nationSnapshot(data, id));
+    const bcDelta = changes.find((change) => change.key === "national.budgetCapacity");
     state.notice = `${byId(id)?.name || "Nation"} updated${bcDelta ? `; BC ${fmtSigned(bcDelta.delta)}` : ""}.`;
     Engine.save(data);
     scheduleSharedPublish(state.notice);
