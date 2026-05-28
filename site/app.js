@@ -981,36 +981,33 @@
     const color = nation?.color || "#63a4ff";
     const canDelete = Boolean(nation);
     return `
-      <section class="nation-management">
-        <div class="nation-management-create">
-          <div>
-            <span class="section-kicker">Nation Management</span>
-            <h3>Create Country</h3>
-          </div>
-          <label class="control-field" for="newNationName">
-            <span>Name</span>
-            <input id="newNationName" type="text" placeholder="New country name">
-          </label>
-          <label class="control-field color-field" for="newNationColor">
-            <span>Color</span>
-            <input id="newNationColor" type="color" value="${escapeHtml(color)}">
-            <span class="color-preview" data-new-nation-color-preview style="background:${safeColor(color)}"></span>
-          </label>
-          <label class="control-field" for="newNationTemplate">
-            <span>Starting Stats</span>
-            <select id="newNationTemplate">
-              <option value="blank">Blank baseline</option>
-              ${nation ? `<option value="copy">Copy ${safeText(nation.name)}</option>` : ""}
-            </select>
-          </label>
-          <button class="command primary" type="button" data-action="create-nation">Create Nation</button>
+      <section class="nation-roster-tools" aria-label="Nation management">
+        <div class="roster-intro">
+          <span class="section-kicker">Roster Tools</span>
+          <strong>Add a country or manage the selected record</strong>
         </div>
-        <div class="nation-management-delete">
+        <label class="control-field roster-name-field" for="newNationName">
+          <span>Name</span>
+          <input id="newNationName" type="text" placeholder="New country name" autocomplete="off">
+        </label>
+        <label class="control-field color-field" for="newNationColor">
+          <span>Color</span>
+          <input id="newNationColor" type="color" value="${escapeHtml(color)}" aria-label="Nation color">
+        </label>
+        <label class="control-field roster-template-field" for="newNationTemplate">
+          <span>Starting Stats</span>
+          <select id="newNationTemplate">
+            <option value="blank">Blank baseline</option>
+            ${nation ? `<option value="copy">Copy ${safeText(nation.name)}</option>` : ""}
+          </select>
+        </label>
+        <button class="command primary roster-create-command" type="button" data-action="create-nation">Create Nation</button>
+        <div class="roster-danger">
           <div>
-            <h3>Delete Country</h3>
-            <p>${nation ? `Remove ${safeText(nation.name)} and its dataset rows from the live ledger.` : "No active country is selected."}</p>
+            <span>Selected Record</span>
+            <strong>${nation ? "Delete current nation" : "No active nation"}</strong>
           </div>
-          <button class="command danger" type="button" data-action="delete-nation" ${canDelete ? "" : "disabled"}>Delete Selected</button>
+          <button class="command danger compact" type="button" data-action="delete-nation" ${canDelete ? "" : "disabled"}>Delete</button>
         </div>
       </section>`;
   }
@@ -1978,11 +1975,6 @@
     if (["currentYearInput", "targetYearInput", "worldHealthInput"].includes(event.target.id)) {
       updateSimulationPreview(event.target.id);
     }
-    if (event.target.id === "newNationColor") {
-      const preview = document.querySelector("[data-new-nation-color-preview]");
-      if (preview) preview.style.background = safeColor(event.target.value);
-      return;
-    }
     const edit = event.target.closest("[data-edit]");
     if (edit) applyEdit(edit, false);
   });
@@ -2055,12 +2047,6 @@
   });
 
   app.addEventListener("change", (event) => {
-    if (event.target.id === "newNationColor") {
-      const preview = document.querySelector("[data-new-nation-color-preview]");
-      if (preview) preview.style.background = safeColor(event.target.value);
-      return;
-    }
-
     const edit = event.target.closest("[data-edit]");
     if (edit && !isAdmin) {
       state.notice = "Editor access is restricted.";
