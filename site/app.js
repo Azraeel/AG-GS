@@ -731,8 +731,8 @@
         <div class="simulation-hero">
           <div>
             <span class="section-kicker">Simulation Cockpit</span>
-            <h2>${fmtYear(currentYear)} <span aria-hidden="true">to</span> ${fmtYear(targetYear)}</h2>
-            <p>${fmtNumber(visibleNations().length)} active nations / ${safeText(data.meta.worldEconomicHealth || "Expansion")} world economy</p>
+            <h2><span class="sim-year" data-sim-current-year>${fmtYear(currentYear)}</span> <span class="sim-year-separator" aria-hidden="true">to</span> <span class="sim-year" data-sim-target-year>${fmtYear(targetYear)}</span></h2>
+            <p>${fmtNumber(visibleNations().length)} active nations / <span data-sim-world-economy>${safeText(data.meta.worldEconomicHealth || "Expansion")}</span> world economy</p>
           </div>
           <span class="status ${state.notice ? "positive" : ""}">${safeText(state.notice || "Ready")}</span>
         </div>
@@ -746,7 +746,7 @@
           <div class="simulation-control-surface">
             <div class="simulation-control-head">
               <h3>Run Controls</h3>
-              <span class="status">${safeText(`Target ${targetYear}`)}</span>
+              <span class="status" data-sim-target-chip>${safeText(`Target ${targetYear}`)}</span>
             </div>
             <div class="simulation-control-grid">
               <label class="control-field">
@@ -764,14 +764,20 @@
                 </select>
               </label>
             </div>
-            <div class="simulation-command-grid">
-              <button class="command primary" type="button" data-action="advance-one">Advance 1 Year</button>
-              <button class="command primary" type="button" data-action="advance-target">Simulate To Target</button>
-              <button class="command" type="button" data-action="recalculate">Recalculate Current Year</button>
-              <button class="command" type="button" data-action="publish-live-state">Publish Live State</button>
-              <button class="command" type="button" data-action="export-json">Export JSON</button>
-              <button class="command" type="button" data-action="export-data-js">Export data.js</button>
-              <button class="command danger" type="button" data-action="reset-state">Reload Live State</button>
+            <div class="simulation-actions">
+              <div class="simulation-action-group simulation-action-run">
+                <button class="command primary" type="button" data-action="advance-one">Advance 1 Year</button>
+                <button class="command primary" type="button" data-action="advance-target">Simulate To Target</button>
+                <button class="command" type="button" data-action="recalculate">Recalculate Current Year</button>
+              </div>
+              <div class="simulation-action-group simulation-action-maintenance">
+                <button class="command" type="button" data-action="publish-live-state">Publish Live State</button>
+                <button class="command danger" type="button" data-action="reset-state">Reload Live State</button>
+              </div>
+              <div class="simulation-action-group simulation-action-export">
+                <button class="command" type="button" data-action="export-json">Export JSON</button>
+                <button class="command" type="button" data-action="export-data-js">Export data.js</button>
+              </div>
             </div>
           </div>
         </div>
@@ -808,6 +814,32 @@
         </div>
       </section>
     `;
+  }
+
+  function updateSimulationPreview(sourceId = "") {
+    if (state.tab !== "simulation") return;
+    const currentInput = document.getElementById("currentYearInput");
+    const targetInput = document.getElementById("targetYearInput");
+    const worldHealthInput = document.getElementById("worldHealthInput");
+    if (!currentInput || !targetInput) return;
+
+    const currentYear = Math.max(1, Math.trunc(Engine.number(currentInput.value, data.meta.currentYear)));
+    let targetYear = Math.trunc(Engine.number(targetInput.value, currentYear + 1));
+    const minimumTarget = currentYear + 1;
+    targetInput.min = String(minimumTarget);
+    if (sourceId === "currentYearInput" && targetYear <= currentYear) {
+      targetYear = minimumTarget;
+      targetInput.value = String(targetYear);
+    }
+
+    const currentLabel = document.querySelector("[data-sim-current-year]");
+    const targetLabel = document.querySelector("[data-sim-target-year]");
+    const targetChip = document.querySelector("[data-sim-target-chip]");
+    const economyLabel = document.querySelector("[data-sim-world-economy]");
+    if (currentLabel) currentLabel.textContent = fmtYear(currentYear);
+    if (targetLabel) targetLabel.textContent = fmtYear(targetYear);
+    if (targetChip) targetChip.textContent = `Target ${fmtYear(targetYear)}`;
+    if (economyLabel && worldHealthInput) economyLabel.textContent = worldHealthInput.value || "Expansion";
   }
 
   function fieldControl(dataset, path, label, value, type = "number", options = []) {
@@ -1712,6 +1744,9 @@
   });
 
   app.addEventListener("input", (event) => {
+    if (["currentYearInput", "targetYearInput", "worldHealthInput"].includes(event.target.id)) {
+      updateSimulationPreview(event.target.id);
+    }
     const edit = event.target.closest("[data-edit]");
     if (edit) applyEdit(edit, false);
   });
@@ -1788,12 +1823,16 @@
     }
     if (!edit) {
       if (event.target.id === "worldHealthInput") {
+        updateSimulationPreview(event.target.id);
         data.meta.worldEconomicHealth = event.target.value;
         Engine.recalculateAll(data);
         saveWorkingState("World economy updated.");
       } else if (event.target.id === "currentYearInput") {
+        updateSimulationPreview(event.target.id);
         data.meta.currentYear = Number(event.target.value || data.meta.currentYear);
         saveWorkingState(`Working year set to ${data.meta.currentYear}.`);
+      } else if (event.target.id === "targetYearInput") {
+        updateSimulationPreview(event.target.id);
       }
       return;
     }

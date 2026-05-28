@@ -1397,7 +1397,7 @@ tbody td {
   line-height: 0.95;
 }
 
-.simulation-hero h2 span {
+.simulation-hero h2 .sim-year-separator {
   color: var(--muted);
   font-size: 0.36em;
   text-transform: uppercase;
@@ -1467,13 +1467,27 @@ tbody td {
   background: var(--input-bg);
 }
 
-.simulation-command-grid {
+.simulation-actions {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.simulation-action-group {
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
-.simulation-command-grid .command {
+.simulation-action-run .command {
+  flex: 1 1 180px;
+}
+
+.simulation-action-maintenance .command,
+.simulation-action-export .command {
+  flex: 0 1 190px;
+}
+
+.simulation-actions .command {
   min-height: 42px;
 }
 
@@ -1656,8 +1670,7 @@ tbody td {
     border-bottom: 1px solid var(--line);
   }
 
-  .simulation-control-grid,
-  .simulation-command-grid {
+  .simulation-control-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1714,7 +1727,6 @@ tbody td {
   .nation-dossier-grid,
   .simulation-snapshot,
   .simulation-control-grid,
-  .simulation-command-grid,
   .pipeline-grid,
   .editor-layout,
   .editor-sections,
@@ -1730,6 +1742,11 @@ tbody td {
 
   .simulation-hero {
     display: grid;
+  }
+
+  .simulation-action-group {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 
   .nation-dossier-status {
