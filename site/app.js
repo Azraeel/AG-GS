@@ -820,6 +820,26 @@
       </label>`;
   }
 
+  function renderEditorSummary(nation, national, trade, industrial, military, currentYear) {
+    const coverage = coverageFor(nation.id).filter((set) => set.hasData).length;
+    return `
+      <div class="editor-summary">
+        <div class="editor-summary-title">
+          <span class="swatch" style="background:${safeColor(nation.color)}"></span>
+          <div>
+            <span>Selected Nation</span>
+            <strong>${safeText(nation.name)}</strong>
+          </div>
+        </div>
+        ${overviewFact("Population", fmtCompact(populationFor(nation.id, currentYear)))}
+        ${overviewFact("Budget", fmtNumber(national.budgetCapacity))}
+        ${overviewFact("Trade Flow", fmtCompact(trade.tradeFlow))}
+        ${overviewFact("Factories", fmtNumber((Number(industrial.civilianFactories) || 0) + (Number(industrial.militaryFactories) || 0)))}
+        ${overviewFact("Supply", fmtPercent(military.militarySupply))}
+        ${overviewFact("Coverage", `${coverage}/${datasets.length}`)}
+      </div>`;
+  }
+
   function renderEditor() {
     const nation = byId(state.selectedNation) || visibleNations()[0];
     if (!nation) {
@@ -856,6 +876,7 @@
           </div>
           <span class="status ${state.notice ? "positive" : ""}">${safeText(state.notice || "Editor ready")}</span>
         </div>
+        ${renderEditorSummary(nation, national, trade, industrial, military, currentYear)}
         <div class="editor-grid">
           <section class="editor-section">
             <h3>Population</h3>
@@ -921,7 +942,7 @@
             ${fieldControl("elections", "leaderElections", "Leader Elections", elections.leaderElections ?? "", "text")}
             ${fieldControl("elections", "parliamentElections", "Parliament Elections", elections.parliamentElections ?? "", "text")}
           </section>
-          <section class="editor-section">
+          <section class="editor-section derived-preview">
             <h3>Derived Preview</h3>
             ${detailItem("Budget Capacity", fmtNumber(national.budgetCapacity))}
             ${detailItem("Budget Balance", fmtSigned(national.budgetBalance))}
@@ -1194,15 +1215,15 @@
         </div>
         ${rows.length ? `
           <div class="table-wrap">
-            <table>
+            <table class="history-table">
               <thead><tr><th>Time</th><th>Nation</th><th>Edit</th><th>Value</th><th>Changed Fields</th></tr></thead>
               <tbody>
                 ${rows.map((entry) => `
-                  <tr>
+                  <tr class="history-row">
                     <td>${historyTime(entry.changedAt)}</td>
                     <td>${nationCell(entry.nationId)}</td>
                     <td>${escapeHtml(entry.label || entry.field)}</td>
-                    <td>${escapeHtml(fmtHistoryValue(entry.beforeValue))} -> ${escapeHtml(fmtHistoryValue(entry.afterValue))}</td>
+                    <td><span class="history-value">${escapeHtml(fmtHistoryValue(entry.beforeValue))}<span aria-hidden="true"> &rarr; </span>${escapeHtml(fmtHistoryValue(entry.afterValue))}</span></td>
                     <td><div class="change-impact">${(entry.changes || entry.deltas || []).length ? (entry.changes || entry.deltas).map(renderChangeBadge).join("") : `<span class="status">No calculated change</span>`}</div></td>
                   </tr>`).join("")}
               </tbody>
