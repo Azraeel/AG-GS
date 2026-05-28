@@ -2148,7 +2148,30 @@
     `;
   }
 
-  function render() {
+  let editRenderTimer = null;
+  let deferredRenderTimer = null;
+
+  function activeEditElement() {
+    return document.activeElement?.closest?.("[data-edit]") || null;
+  }
+
+  function deferRenderUntilEditSettles() {
+    clearTimeout(deferredRenderTimer);
+    deferredRenderTimer = setTimeout(() => {
+      if (activeEditElement()) {
+        deferRenderUntilEditSettles();
+      } else {
+        render({ force: true });
+      }
+    }, 250);
+  }
+
+  function render(options = {}) {
+    if (!options.force && activeEditElement()) {
+      deferRenderUntilEditSettles();
+      return;
+    }
+    clearTimeout(deferredRenderTimer);
     if (!canAccessTab(state.tab)) state.tab = "overview";
     ensureSelectedNation();
     tabs.forEach((tab) => {
@@ -2193,7 +2216,6 @@
     });
   }
 
-  let editRenderTimer = null;
   const pendingEdits = new Map();
 
   function recordChange(entryKey, id, dataset, path, afterValue, afterMetrics) {
@@ -2263,7 +2285,7 @@
     updateSourceNote();
     if (renderNow) {
       clearTimeout(editRenderTimer);
-      render();
+      render({ force: true });
     } else {
       clearTimeout(editRenderTimer);
     }
@@ -2389,7 +2411,8 @@
       return;
     }
 
-    applyEdit(edit, true);
+    const shouldRenderAfterChange = edit.tagName === "SELECT" || document.activeElement !== edit;
+    applyEdit(edit, shouldRenderAfterChange);
   });
 
   render();
