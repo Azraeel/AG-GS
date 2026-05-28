@@ -199,6 +199,13 @@
     return Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(value);
   }
 
+  function fmtDateTime(value) {
+    if (!value) return "Not recorded";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "Not recorded";
+    return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(date);
+  }
+
   function fmtPercent(value) {
     return value === null || value === undefined || value === "" ? "Unknown" : `${value}%`;
   }
@@ -448,6 +455,51 @@
     return `<article class="metric"><span>${safeText(label)}</span><strong>${safeText(value)}</strong><small>${safeText(subtext)}</small></article>`;
   }
 
+  function overviewFact(label, value) {
+    return `<div class="overview-fact"><span>${safeText(label)}</span><strong>${safeText(value)}</strong></div>`;
+  }
+
+  function renderOverviewHero(currentYear, active, totals) {
+    const selected = byId(state.selectedNation) || active[0];
+    const national = selected ? data.national[selected.id] || {} : {};
+    const trade = selected ? data.trade[selected.id] || {} : {};
+    const military = selected ? data.military[selected.id] || {} : {};
+    const selectedCoverage = selected ? coverageFor(selected.id).filter((set) => set.hasData).length : 0;
+    const revision = sharedSync.revision ? `#${sharedSync.revision}` : syncLabel(true);
+
+    return `
+      <section class="overview-hero">
+        <div class="overview-identity">
+          <span class="section-kicker">Global Year State</span>
+          <h2>${fmtYear(currentYear)}</h2>
+          <p>${safeText(fmtNumber(active.length))} active nations / ${safeText(fmtCompact(totals.population))} population / ${safeText(fmtCompact(totals.tradeFlow))} trade flow</p>
+        </div>
+        <div class="overview-facts" aria-label="Ledger state">
+          ${overviewFact("Revision", revision)}
+          ${overviewFact("Updated", fmtDateTime(data.meta.updatedAt || sharedSync.updatedAt))}
+          ${overviewFact("Fleet", fmtNumber(totals.fleet))}
+          ${overviewFact("Personnel", fmtCompact(totals.activePersonnel))}
+        </div>
+        <div class="overview-focus">
+          <div class="overview-focus-title">
+            <span class="swatch" style="background:${safeColor(selected?.color)}"></span>
+            <div>
+              <span>Selected Nation</span>
+              <strong>${safeText(selected?.name)}</strong>
+            </div>
+          </div>
+          <div class="overview-focus-grid">
+            ${overviewFact("Budget", fmtNumber(national.budgetCapacity))}
+            ${overviewFact("Population", fmtCompact(selected ? populationFor(selected.id, currentYear) : null))}
+            ${overviewFact("Trade", fmtCompact(trade.tradeFlow))}
+            ${overviewFact("Coverage", `${selectedCoverage}/${datasets.length}`)}
+            ${overviewFact("Supply", fmtPercent(military.militarySupply))}
+            ${overviewFact("Health", national.economicHealth || "Unknown")}
+          </div>
+        </div>
+      </section>`;
+  }
+
   function sortLabel(sort, column) {
     if (sort.key !== column.key) return "";
     return `<span aria-hidden="true">${sort.dir === "asc" ? " ↑" : " ↓"}</span>`;
@@ -490,25 +542,31 @@
     const totalTradeFlow = sumValues(data.trade, (row) => row.tradeFlow);
     const totalActive = sumValues(data.military, (row) => activeMilitary(row));
     const totalFleet = sumValues(data.naval, (row) => row.total);
+    const totals = {
+      population: totalPopulation,
+      budget: totalBudget,
+      tradeFlow: totalTradeFlow,
+      activePersonnel: totalActive,
+      fleet: totalFleet
+    };
 
     app.innerHTML = `
-      <section class="dashboard-grid">
+      ${renderOverviewHero(currentYear, active, totals)}
+      <section class="dashboard-grid overview-metrics">
         ${renderMetric("Active Nations", fmtNumber(active.length), "Countries currently shown in the ledger")}
         ${renderMetric(`${currentYear} Population`, fmtCompact(totalPopulation), "Combined active population")}
         ${renderMetric("Budget Capacity", fmtNumber(totalBudget), "Combined national budget capacity")}
         ${renderMetric("Fleet Inventory", fmtNumber(totalFleet), "Tracked naval assets")}
-      </section>
-      <section class="dashboard-grid">
         ${renderMetric("Trade Flow", fmtCompact(totalTradeFlow), "Aggregate active trade flow")}
         ${renderMetric("Active Personnel", fmtCompact(totalActive), "Combat, support, air, naval, irregular")}
         ${renderMetric("National Profiles", fmtNumber(active.filter((nation) => data.national[nation.id]).length), "Active records with national data")}
         ${renderMetric("Coverage Gaps", fmtNumber(auditRows().filter((row) => row.missing.length).length), "Active nations missing a dataset")}
       </section>
-      <div class="split">
+      <div class="overview-panels">
         ${topList("Largest Populations", `Population (${currentYear})`, dataId => populationFor(dataId, currentYear), fmtCompact)}
         ${topList("Budget Capacity", "National Status", dataId => data.national[dataId]?.budgetCapacity, fmtNumber)}
       </div>
-      <div class="split" style="margin-top:14px">
+      <div class="overview-panels">
         ${topList("Trade Flow", "Trade Status", dataId => data.trade[dataId]?.tradeFlow, fmtCompact)}
         ${topList("Active Military Personnel", "Military Status", dataId => activeMilitary(data.military[dataId]), fmtCompact)}
       </div>
