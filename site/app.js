@@ -153,12 +153,14 @@
 
   function populateNationSelect() {
     nationSelect.textContent = "";
-    visibleNations().forEach((nation) => {
-      const option = document.createElement("option");
-      option.value = nation.id;
-      option.textContent = nation.name;
-      nationSelect.append(option);
-    });
+    [...visibleNations()]
+      .sort((left, right) => left.name.localeCompare(right.name, "en", { sensitivity: "base" }))
+      .forEach((nation) => {
+        const option = document.createElement("option");
+        option.value = nation.id;
+        option.textContent = nation.name;
+        nationSelect.append(option);
+      });
     ensureSelectedNation();
   }
 
