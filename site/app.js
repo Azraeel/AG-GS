@@ -782,9 +782,12 @@
 
   function fieldControl(dataset, path, label, value, type = "number", options = []) {
     const id = `${dataset}-${path}`.replace(/[^a-z0-9_-]/gi, "-");
+    const fieldClass = ["control-field", type === "text" ? "is-text" : "", type === "select" ? "is-select" : ""]
+      .filter(Boolean)
+      .join(" ");
     if (type === "select") {
       return `
-        <label class="control-field" for="${id}">
+        <label class="${fieldClass}" for="${id}">
           <span>${safeText(label)}</span>
           <select id="${id}" data-edit data-dataset="${dataset}" data-path="${path}">
             ${options.map((option) => `<option value="${escapeHtml(option)}" ${value === option ? "selected" : ""}>${escapeHtml(option)}</option>`).join("")}
@@ -792,7 +795,7 @@
         </label>`;
     }
     return `
-      <label class="control-field" for="${id}">
+      <label class="${fieldClass}" for="${id}">
         <span>${safeText(label)}</span>
         <input id="${id}" type="${type}" value="${escapeHtml(value ?? "")}" data-edit data-dataset="${dataset}" data-path="${path}">
       </label>`;
@@ -888,75 +891,71 @@
         </div>
         ${renderEditorSummary(nation, national, trade, industrial, military, currentYear)}
         <div class="editor-layout">
-          <div class="editor-columns">
-            <div class="editor-column">
-              <section class="editor-section">
-                <h3>Population</h3>
-                ${fieldControl("population", String(currentYear), `Population (${currentYear})`, populationFor(nation.id, currentYear))}
-                ${fieldControl("population", "mandatoryChildPolicy", "Child Policy", population.mandatoryChildPolicy, "select", Object.keys(Engine.constants.CHILD_POLICY))}
-              </section>
-              <section class="editor-section">
-                <h3>Industrial</h3>
-                ${fieldControl("industrial", "civilianFactories", "Civilian Factories", industrial.civilianFactories)}
-                ${fieldControl("industrial", "militaryFactories", "Military Factories", industrial.militaryFactories)}
-                ${fieldControl("industrial", "shipyards", "Shipyards", industrial.shipyards)}
-              </section>
-              <section class="editor-section">
-                <h3>Military</h3>
-                ${fieldControl("military", "militaryOrganization", "Organization", military.militaryOrganization)}
-                ${fieldControl("military", "militarySupply", "Supply %", military.militarySupply)}
-                ${fieldControl("military", "mobilizationLevel", "Mobilization", military.mobilizationLevel, "select", Object.keys(Engine.constants.MOBILIZATION))}
-                ${fieldControl("military", "equipmentComplexity", "Complexity", military.equipmentComplexity)}
-                ${fieldControl("military", "cyberSecurity", "Cyber Security", military.cyberSecurity)}
-                ${fieldControl("military", "combatPersonnel", "Combat Personnel", military.combatPersonnel)}
-                ${fieldControl("military", "supportPersonnel", "Support Personnel", military.supportPersonnel)}
-                ${fieldControl("military", "airForcePersonnel", "Air Force Personnel", military.airForcePersonnel)}
-                ${fieldControl("military", "navalPersonnel", "Naval Personnel", military.navalPersonnel)}
-                ${fieldControl("military", "reserveForces", "Reserve Forces", military.reserveForces)}
-                ${fieldControl("military", "paramilitaryIrregular", "Paramilitary", military.paramilitaryIrregular)}
-              </section>
-            </div>
-            <div class="editor-column">
-              <section class="editor-section">
-                <h3>National</h3>
-                ${fieldControl("national", "governmentalStability", "Stability %", national.governmentalStability)}
-                ${fieldControl("national", "publicUnrest", "Public Unrest", national.publicUnrest)}
-                ${fieldControl("national", "warSupport", "War Support %", national.warSupport)}
-                ${fieldControl("national", "corruption", "Corruption %", national.corruption)}
-                ${fieldControl("national", "developmentLevel", "Development", national.developmentLevel)}
-                ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}
-                ${fieldControl("national", "economicHealth", "Economic Health", national.economicHealth, "select", economicHealthOptions)}
-                ${fieldControl("national", "immigrationRate", "Immigration", national.immigrationRate)}
-                ${fieldControl("national", "taxRate", "Tax Rate", national.taxRate ?? 0)}
-              </section>
-              <section class="editor-section">
-                <h3>Trade</h3>
-                ${fieldControl("trade", "importReliance", "Import Reliance", trade.importReliance)}
-                ${fieldControl("trade", "exportReliance", "Export Reliance", trade.exportReliance)}
-                ${fieldControl("trade", "economicTradeDiversity", "Diversity", trade.economicTradeDiversity)}
-                ${fieldControl("trade", "autarkyIndex", "Autarky", trade.autarkyIndex)}
-                ${fieldControl("trade", "tradePolicy", "Trade Policy", trade.tradePolicy, "select", Object.keys(Engine.constants.TRADE_POLICY))}
-                ${fieldControl("trade", "sanctionsLevel", "Sanctions", trade.sanctionsLevel, "select", Object.keys(Engine.constants.SANCTIONS))}
-                ${fieldControl("trade", "tariffRate", "Tariff %", trade.tariffRate)}
-              </section>
-              <section class="editor-section">
-                <h3>Intelligence</h3>
-                ${fieldControl("intelligence", "humint", "HUMINT", intelligence.humint)}
-                ${fieldControl("intelligence", "sigint", "SIGINT", intelligence.sigint)}
-                ${fieldControl("intelligence", "counterintelligence", "Counterintelligence", intelligence.counterintelligence)}
-                ${fieldControl("intelligence", "covertAction", "Covert Action", intelligence.covertAction)}
-                ${fieldControl("intelligence", "analysisDoctrine", "Analysis & Doctrine", intelligence.analysisDoctrine)}
-                ${fieldControl("intelligence", "globalReach", "Global Reach", intelligence.globalReach)}
-                ${fieldControl("intelligence", "internalSurveillance", "Internal Surveillance", intelligence.internalSurveillance)}
-                ${fieldControl("intelligence", "secrecyDenial", "Secrecy & Denial", intelligence.secrecyDenial)}
-              </section>
-              <section class="editor-section">
-                <h3>Civic Schedule</h3>
-                ${fieldControl("eclipse", "eclipseStatus", "Eclipse Status", eclipse.eclipseStatus ?? "", "text")}
-                ${fieldControl("elections", "leaderElections", "Leader Elections", elections.leaderElections ?? "", "text")}
-                ${fieldControl("elections", "parliamentElections", "Parliament Elections", elections.parliamentElections ?? "", "text")}
-              </section>
-            </div>
+          <div class="editor-sections">
+            <section class="editor-section editor-section-national">
+              <h3>National</h3>
+              ${fieldControl("national", "governmentalStability", "Stability %", national.governmentalStability)}
+              ${fieldControl("national", "publicUnrest", "Public Unrest", national.publicUnrest)}
+              ${fieldControl("national", "warSupport", "War Support %", national.warSupport)}
+              ${fieldControl("national", "corruption", "Corruption %", national.corruption)}
+              ${fieldControl("national", "developmentLevel", "Development", national.developmentLevel)}
+              ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}
+              ${fieldControl("national", "economicHealth", "Economic Health", national.economicHealth, "select", economicHealthOptions)}
+              ${fieldControl("national", "immigrationRate", "Immigration", national.immigrationRate)}
+              ${fieldControl("national", "taxRate", "Tax Rate", national.taxRate ?? 0)}
+            </section>
+            <section class="editor-section editor-section-trade">
+              <h3>Trade</h3>
+              ${fieldControl("trade", "importReliance", "Import Reliance", trade.importReliance)}
+              ${fieldControl("trade", "exportReliance", "Export Reliance", trade.exportReliance)}
+              ${fieldControl("trade", "economicTradeDiversity", "Diversity", trade.economicTradeDiversity)}
+              ${fieldControl("trade", "autarkyIndex", "Autarky", trade.autarkyIndex)}
+              ${fieldControl("trade", "tradePolicy", "Trade Policy", trade.tradePolicy, "select", Object.keys(Engine.constants.TRADE_POLICY))}
+              ${fieldControl("trade", "sanctionsLevel", "Sanctions", trade.sanctionsLevel, "select", Object.keys(Engine.constants.SANCTIONS))}
+              ${fieldControl("trade", "tariffRate", "Tariff %", trade.tariffRate)}
+            </section>
+            <section class="editor-section editor-section-military">
+              <h3>Military</h3>
+              ${fieldControl("military", "militaryOrganization", "Organization", military.militaryOrganization)}
+              ${fieldControl("military", "militarySupply", "Supply %", military.militarySupply)}
+              ${fieldControl("military", "mobilizationLevel", "Mobilization", military.mobilizationLevel, "select", Object.keys(Engine.constants.MOBILIZATION))}
+              ${fieldControl("military", "equipmentComplexity", "Complexity", military.equipmentComplexity)}
+              ${fieldControl("military", "cyberSecurity", "Cyber Security", military.cyberSecurity)}
+              ${fieldControl("military", "combatPersonnel", "Combat Personnel", military.combatPersonnel)}
+              ${fieldControl("military", "supportPersonnel", "Support Personnel", military.supportPersonnel)}
+              ${fieldControl("military", "airForcePersonnel", "Air Force Personnel", military.airForcePersonnel)}
+              ${fieldControl("military", "navalPersonnel", "Naval Personnel", military.navalPersonnel)}
+              ${fieldControl("military", "reserveForces", "Reserve Forces", military.reserveForces)}
+              ${fieldControl("military", "paramilitaryIrregular", "Paramilitary", military.paramilitaryIrregular)}
+            </section>
+            <section class="editor-section editor-section-intelligence">
+              <h3>Intelligence</h3>
+              ${fieldControl("intelligence", "humint", "HUMINT", intelligence.humint)}
+              ${fieldControl("intelligence", "sigint", "SIGINT", intelligence.sigint)}
+              ${fieldControl("intelligence", "counterintelligence", "Counterintelligence", intelligence.counterintelligence)}
+              ${fieldControl("intelligence", "covertAction", "Covert Action", intelligence.covertAction)}
+              ${fieldControl("intelligence", "analysisDoctrine", "Analysis & Doctrine", intelligence.analysisDoctrine)}
+              ${fieldControl("intelligence", "globalReach", "Global Reach", intelligence.globalReach)}
+              ${fieldControl("intelligence", "internalSurveillance", "Internal Surveillance", intelligence.internalSurveillance)}
+              ${fieldControl("intelligence", "secrecyDenial", "Secrecy & Denial", intelligence.secrecyDenial)}
+            </section>
+            <section class="editor-section editor-section-population">
+              <h3>Population</h3>
+              ${fieldControl("population", String(currentYear), `Population (${currentYear})`, populationFor(nation.id, currentYear))}
+              ${fieldControl("population", "mandatoryChildPolicy", "Child Policy", population.mandatoryChildPolicy, "select", Object.keys(Engine.constants.CHILD_POLICY))}
+            </section>
+            <section class="editor-section editor-section-industrial">
+              <h3>Industrial</h3>
+              ${fieldControl("industrial", "civilianFactories", "Civilian Factories", industrial.civilianFactories)}
+              ${fieldControl("industrial", "militaryFactories", "Military Factories", industrial.militaryFactories)}
+              ${fieldControl("industrial", "shipyards", "Shipyards", industrial.shipyards)}
+            </section>
+            <section class="editor-section editor-section-civic">
+              <h3>Civic Schedule</h3>
+              ${fieldControl("eclipse", "eclipseStatus", "Eclipse Status", eclipse.eclipseStatus ?? "", "text")}
+              ${fieldControl("elections", "leaderElections", "Leader Elections", elections.leaderElections ?? "", "text")}
+              ${fieldControl("elections", "parliamentElections", "Parliament Elections", elections.parliamentElections ?? "", "text")}
+            </section>
           </div>
           ${renderEditorRail(nation, national, trade)}
         </div>

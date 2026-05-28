@@ -824,14 +824,14 @@ tbody td {
   padding: 12px;
 }
 
-.editor-columns {
+.editor-sections {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
   min-width: 0;
 }
 
-.editor-column,
 .editor-rail {
   display: grid;
   gap: 12px;
@@ -1006,18 +1006,38 @@ tbody td {
 
 .editor-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0 16px;
   align-content: start;
-  padding: 12px;
+  padding: 12px 14px 6px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--subtle-bg);
 }
 
+.editor-section-national,
+.editor-section-military {
+  grid-column: span 7;
+}
+
+.editor-section-trade,
+.editor-section-intelligence {
+  grid-column: span 5;
+}
+
+.editor-section-population,
+.editor-section-industrial {
+  grid-column: span 6;
+}
+
+.editor-section-civic {
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(230px, 1fr));
+}
+
 .editor-section h3 {
   grid-column: 1 / -1;
-  margin-bottom: 0;
+  margin-bottom: 4px;
   color: var(--ink);
   font-size: 16px;
   padding-bottom: 7px;
@@ -1025,31 +1045,44 @@ tbody td {
 }
 
 .editor-section .control-field {
-  min-height: 52px;
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--input-bg);
+  min-height: 46px;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
 }
 
 .editor-section .control-field:focus-within {
   border-color: var(--blue);
-  box-shadow: 0 0 0 3px var(--focus-ring);
+  box-shadow: none;
 }
 
 .editor-section .control-field input,
 .editor-section .control-field select {
-  min-height: 20px;
-  border: 0;
-  border-radius: 0;
+  min-height: 26px;
+  border: 1px solid transparent;
+  border-radius: 6px;
   background: transparent;
-  padding: 0;
+  padding: 2px 4px;
   font-weight: 850;
+}
+
+.editor-section .control-field:hover input,
+.editor-section .control-field:hover select {
+  border-color: var(--line);
+  background: var(--input-bg);
 }
 
 .editor-section .control-field input:focus,
 .editor-section .control-field select:focus {
-  box-shadow: none;
+  border-color: var(--blue);
+  background: var(--input-bg);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.editor-section-civic .control-field {
+  min-width: 0;
 }
 
 .editor-rail-panel {
@@ -1238,8 +1271,7 @@ tbody td {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .control-grid,
-  .editor-columns {
+  .control-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1289,11 +1321,21 @@ tbody td {
   .detail-grid,
   .control-grid,
   .editor-layout,
-  .editor-columns,
+  .editor-sections,
   .editor-section,
   .rail-detail-grid,
   .editor-summary {
     grid-template-columns: 1fr;
+  }
+
+  .editor-section-national,
+  .editor-section-trade,
+  .editor-section-military,
+  .editor-section-intelligence,
+  .editor-section-population,
+  .editor-section-industrial,
+  .editor-section-civic {
+    grid-column: 1 / -1;
   }
 
   .editor-summary .overview-fact {
