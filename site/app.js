@@ -459,7 +459,6 @@
       .filter((row) => row.value !== null && row.value !== undefined)
       .sort((a, b) => b.value - a.value)
       .slice(0, limit);
-    const max = Math.max(...rows.map((row) => row.value), 1);
     return `
       <section class="panel">
         <div class="panel-head">
@@ -468,14 +467,14 @@
             <p>${safeText(source)}</p>
           </div>
         </div>
-        <div class="bar-list">
+        <div class="leaderboard-list">
           ${rows
             .map(
-              ({ nation, value }) => `
-                <div class="bar-row">
-                  <span class="bar-name"><span class="swatch" style="background:${safeColor(nation.color)}"></span>${safeText(nation.name)}</span>
-                  <span class="bar-track"><span class="bar-fill" style="--bar-width:${Math.max(3, (value / max) * 100)}%"></span></span>
-                  <span class="bar-value">${safeText(formatter(value))}</span>
+              ({ nation, value }, index) => `
+                <div class="leaderboard-row" style="--nation-color:${safeColor(nation.color)}">
+                  <span class="leaderboard-rank">${index + 1}</span>
+                  <span class="leaderboard-name"><span class="swatch" style="background:${safeColor(nation.color)}"></span><span class="leaderboard-label">${safeText(nation.name)}</span></span>
+                  <span class="leaderboard-value">${safeText(formatter(value))}</span>
                 </div>`
             )
             .join("")}

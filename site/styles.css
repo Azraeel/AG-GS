@@ -457,25 +457,55 @@ select optgroup {
   gap: 14px;
 }
 
-.bar-list {
+.leaderboard-list {
   display: grid;
-  gap: 10px;
-  padding: 16px;
+  gap: 8px;
+  padding: 14px 16px 16px;
 }
 
-.bar-row {
+.leaderboard-row {
   display: grid;
-  grid-template-columns: minmax(140px, 220px) minmax(0, 1fr) auto;
+  grid-template-columns: 34px minmax(0, 1fr) max-content;
   gap: 10px;
   align-items: center;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--table-row-bg);
+  box-shadow: inset 3px 0 0 var(--nation-color);
 }
 
-.bar-name {
+.leaderboard-row:nth-child(even) {
+  background: var(--table-row-alt);
+}
+
+.leaderboard-rank {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--subtle-bg);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.leaderboard-name {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   min-width: 0;
   font-weight: 800;
+}
+
+.leaderboard-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.18;
 }
 
 .swatch {
@@ -486,25 +516,12 @@ select optgroup {
   flex: 0 0 auto;
 }
 
-.bar-track {
-  height: 10px;
-  border-radius: 999px;
-  background: var(--bar-track);
-  overflow: hidden;
-}
-
-.bar-fill {
-  display: block;
-  height: 100%;
-  width: var(--bar-width);
-  background: linear-gradient(90deg, var(--blue), var(--green));
-}
-
-.bar-value {
-  color: var(--muted);
+.leaderboard-value {
+  color: var(--ink);
   font-variant-numeric: tabular-nums;
-  font-weight: 800;
+  font-weight: 900;
   white-space: nowrap;
+  text-align: right;
 }
 
 .table-wrap {
@@ -945,12 +962,13 @@ tbody tr:hover {
     grid-template-columns: 1fr;
   }
 
-  .bar-row {
-    grid-template-columns: 1fr auto;
+  .leaderboard-row {
+    grid-template-columns: 30px minmax(0, 1fr);
   }
 
-  .bar-track {
-    grid-column: 1 / -1;
+  .leaderboard-value {
+    grid-column: 2;
+    text-align: left;
   }
 
   .ship-category {
