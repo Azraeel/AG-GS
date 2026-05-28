@@ -1724,20 +1724,25 @@
           </div>
         </div>
         ${rows.length ? `
-          <div class="table-wrap">
-            <table class="history-table">
-              <thead><tr><th>Time</th><th>Nation</th><th>Edit</th><th>Value</th><th>Changed Fields</th></tr></thead>
-              <tbody>
-                ${rows.map((entry) => `
-                  <tr class="history-row">
-                    <td>${historyTime(entry.changedAt)}</td>
-                    <td>${nationCell(entry.nationId)}</td>
-                    <td>${escapeHtml(entry.label || entry.field)}</td>
-                    <td><span class="history-value">${escapeHtml(fmtHistoryValue(entry.beforeValue))}<span aria-hidden="true"> &rarr; </span>${escapeHtml(fmtHistoryValue(entry.afterValue))}</span></td>
-                    <td><div class="change-impact">${(entry.changes || entry.deltas || []).length ? (entry.changes || entry.deltas).map(renderChangeBadge).join("") : `<span class="status">No calculated change</span>`}</div></td>
-                  </tr>`).join("")}
-              </tbody>
-            </table>
+          <div class="history-list" role="table" aria-label="Change history">
+            <div class="history-list-head" role="row">
+              <span>Time</span>
+              <span>Nation</span>
+              <span>Edit</span>
+              <span>Value</span>
+              <span>Impact</span>
+            </div>
+            ${rows.map((entry) => {
+              const impacts = entry.changes || entry.deltas || [];
+              return `
+                <article class="history-list-row" role="row">
+                  <div class="history-time" role="cell">${historyTime(entry.changedAt)}</div>
+                  <div role="cell">${nationCell(entry.nationId)}</div>
+                  <div class="history-edit" role="cell">${escapeHtml(entry.label || entry.field)}</div>
+                  <div role="cell"><span class="history-value">${escapeHtml(fmtHistoryValue(entry.beforeValue))}<span aria-hidden="true"> &rarr; </span>${escapeHtml(fmtHistoryValue(entry.afterValue))}</span></div>
+                  <div class="history-impact ${impacts.length ? "" : "is-empty"}" role="cell">${impacts.length ? impacts.map(renderChangeBadge).join("") : "No calculated impact"}</div>
+                </article>`;
+            }).join("")}
           </div>` : `<div class="empty">No changes recorded yet.</div>`}
       </section>`;
   }

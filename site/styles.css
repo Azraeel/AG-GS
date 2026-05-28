@@ -1300,46 +1300,82 @@ tbody td {
   min-width: 960px;
 }
 
-.change-impact {
+.change-impact,
+.history-impact {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  min-width: 360px;
+  min-width: 0;
 }
 
-.change-impact .status {
+.change-impact .status,
+.history-impact .status {
   min-height: 26px;
   border-radius: 7px;
   font-size: 11px;
 }
 
-.history-table {
-  min-width: 1180px;
+.history-list {
+  display: grid;
+  border-top: 1px solid var(--line);
 }
 
-.history-table th:nth-child(1) {
-  width: 150px;
+.history-list-head,
+.history-list-row {
+  display: grid;
+  grid-template-columns: 132px minmax(180px, 0.9fr) 130px 190px minmax(220px, 1.1fr);
+  gap: 12px;
+  align-items: center;
 }
 
-.history-table th:nth-child(2) {
-  width: 250px;
+.history-list-head {
+  padding: 10px 16px;
+  color: var(--table-head-text);
+  background: var(--table-head-bg);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
-.history-table th:nth-child(3) {
-  width: 170px;
+.history-list-row {
+  min-height: 44px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--line);
+  background: var(--table-row-bg);
+  font-size: 14px;
 }
 
-.history-table th:nth-child(4) {
-  width: 170px;
+.history-list-row:nth-child(odd) {
+  background: var(--table-row-alt);
+}
+
+.history-time,
+.history-edit {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.history-time,
+.history-value {
+  white-space: nowrap;
 }
 
 .history-value {
   display: inline-flex;
   align-items: center;
-  white-space: nowrap;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
   font-weight: 800;
+}
+
+.history-impact.is-empty {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.history-list-row .nation-cell {
+  min-width: 0;
 }
 
 .editor-section {
@@ -1807,6 +1843,21 @@ tbody td {
 
   .pipeline-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .history-list-head {
+    display: none;
+  }
+
+  .history-list-row {
+    grid-template-columns: 132px minmax(0, 1fr);
+    gap: 6px 12px;
+  }
+
+  .history-list-row > div:nth-child(3),
+  .history-list-row > div:nth-child(4),
+  .history-list-row > div:nth-child(5) {
+    grid-column: 2;
   }
 
   .editor-layout {
