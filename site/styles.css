@@ -450,6 +450,17 @@ select optgroup {
   align-items: center;
 }
 
+.table-view-shell {
+  min-width: min(330px, 48vw);
+  min-height: 40px;
+  box-shadow: none;
+  background: var(--input-bg);
+}
+
+.table-view-shell span {
+  color: var(--blue);
+}
+
 .panel-head p {
   margin: 4px 0 0;
   color: var(--muted);

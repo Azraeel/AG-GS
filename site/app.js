@@ -57,10 +57,9 @@
     { key: "audit", label: "Audit" }
   ];
   const economicHealthOptions = ["Prosperity", "Expansion", "Recovery", "Slowdown", "Recession", "Depression"];
-  const contextualViewKeys = new Set(["audit", "eclipse", "elections", "equipment", "history", "industrial", "intelligence", "military", "national", "naval", "population", "trade"]);
+  const statusTableKeys = new Set(["industrial", "intelligence", "military", "national", "population", "trade"]);
   const searchSuggestions = {
-    nations: ["Prosperity", "Free Trade", "No Policy", "Missing data"],
-    tables: ["Prosperity", "Free Trade", "No Policy", "2021"]
+    nations: ["Prosperity", "Free Trade", "No Policy", "Missing data"]
   };
 
   const state = {
@@ -477,9 +476,9 @@
     return `<div class="overview-fact"><span>${safeText(label)}</span><strong>${safeText(value)}</strong></div>`;
   }
 
-  function contextualViewOptions() {
+  function statusViewOptions() {
     return viewOptions
-      .filter((view) => contextualViewKeys.has(view.key) && (isAdmin || !view.adminOnly))
+      .filter((view) => statusTableKeys.has(view.key) && (isAdmin || !view.adminOnly))
       .sort((left, right) => left.label.localeCompare(right.label, "en", { sensitivity: "base" }));
   }
 
@@ -505,6 +504,7 @@
 
   function renderContextToolbar() {
     if (!contextToolbar) return;
+    if (state.tab !== "nations" && state.query) state.query = "";
     if (contextToolbar.dataset.renderedFor === state.tab) {
       syncSearchInputs();
       return;
@@ -518,24 +518,19 @@
         </div>`;
       return;
     }
-    const showViewControls = contextualViewKeys.has(state.tab);
-    if (!showViewControls) {
-      contextToolbar.hidden = true;
-      contextToolbar.innerHTML = "";
-      contextToolbar.dataset.renderedFor = "";
-      return;
-    }
-    contextToolbar.hidden = false;
-    contextToolbar.innerHTML = `
-      <div class="table-toolbar">
-        <label class="view-shell">
-          <span>View</span>
-          <select data-view-select>
-            ${contextualViewOptions().map((view) => `<option value="${escapeHtml(view.key)}" ${view.key === state.tab ? "selected" : ""}>${safeText(view.label)}</option>`).join("")}
-          </select>
-        </label>
-        ${searchControlHtml("tables", "Search table values, policies, years", searchSuggestions.tables)}
-      </div>`;
+    contextToolbar.hidden = true;
+    contextToolbar.innerHTML = "";
+    contextToolbar.dataset.renderedFor = "";
+  }
+
+  function statusViewSelectHtml(activeKey) {
+    return `
+      <label class="select-shell table-view-shell">
+        <span>Status Table</span>
+        <select data-view-select>
+          ${statusViewOptions().map((view) => `<option value="${escapeHtml(view.key)}" ${view.key === activeKey ? "selected" : ""}>${safeText(view.label)}</option>`).join("")}
+        </select>
+      </label>`;
   }
 
   function renderOverviewHero(currentYear, active, totals) {
@@ -631,8 +626,19 @@
   }
 
   function tablePanel(title, subtitle, rows, columns, id) {
+    const isStatusTable = statusTableKeys.has(id);
     if (!rows.length) {
-      app.innerHTML = `<section class="panel"><div class="panel-head"><div><h2>${safeText(title)}</h2><p>${safeText(subtitle)}</p></div></div><div class="empty">No rows match the current search.</div></section>`;
+      app.innerHTML = `
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>${safeText(title)}</h2>
+              <p>${safeText(subtitle)}</p>
+            </div>
+            ${isStatusTable ? `<div class="panel-actions">${statusViewSelectHtml(id)}</div>` : ""}
+          </div>
+          <div class="empty">No rows are available.</div>
+        </section>`;
       return;
     }
 
@@ -658,6 +664,7 @@
             <p>${safeText(subtitle)}</p>
           </div>
           <div class="panel-actions">
+            ${isStatusTable ? statusViewSelectHtml(id) : ""}
             ${hasSecondaryColumns ? `<button class="command compact ${state.showDetails ? "is-active" : ""}" type="button" data-action="toggle-detail-columns">${state.showDetails ? "Focused Columns" : "Detailed Columns"}</button>` : ""}
             <span class="status">${fmtNumber(sortedRows.length)} rows</span>
           </div>
@@ -2163,6 +2170,12 @@
   });
 
   app.addEventListener("change", (event) => {
+    const viewSelect = event.target.closest("[data-view-select]");
+    if (viewSelect) {
+      applyView(viewSelect.value);
+      return;
+    }
+
     if (event.target.id === "editorNationSelect") {
       state.selectedNation = event.target.value;
       render();
