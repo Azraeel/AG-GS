@@ -322,10 +322,52 @@ h3 {
 }
 
 .toolbar {
-  display: grid;
-  grid-template-columns: minmax(210px, 280px) minmax(260px, 1fr) minmax(220px, 320px);
-  gap: 12px;
   padding: 16px clamp(16px, 4vw, 44px) 0;
+}
+
+.toolbar[hidden] {
+  display: none;
+}
+
+.table-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 330px) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.table-toolbar.is-search-only {
+  grid-template-columns: minmax(280px, 720px);
+}
+
+.guided-search {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.search-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.search-chips button {
+  min-height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--status-bg);
+  color: var(--ink);
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.search-chips button:hover,
+.search-chips button:focus-visible {
+  border-color: var(--blue);
+  outline: 0;
 }
 
 .search,
@@ -1078,64 +1120,64 @@ tbody td {
   font-size: 15px;
 }
 
-.nation-roster-tools {
+.app-shell > .panel + .panel {
+  margin-top: 12px;
+}
+
+.roster-manager {
+  box-shadow: var(--metric-shadow);
+}
+
+.roster-tools-grid {
   display: grid;
-  grid-template-columns: minmax(220px, 1.2fr) minmax(220px, 1fr) 92px minmax(240px, 1fr) auto minmax(224px, 0.9fr);
-  gap: 10px;
-  align-items: end;
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--line);
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.46fr);
+  gap: 12px;
+  padding: 12px;
   background:
     linear-gradient(135deg, var(--hero-wash), transparent 46%),
     var(--subtle-bg);
 }
 
-.roster-intro {
+.roster-create-card,
+.roster-delete-card {
   display: grid;
-  gap: 4px;
-  align-self: center;
+  gap: 10px;
+  align-items: end;
   min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
 }
 
-.roster-intro strong {
-  display: block;
-  color: var(--ink);
-  font-size: 14px;
-  line-height: 1.25;
-  overflow-wrap: anywhere;
+.roster-create-card {
+  grid-template-columns: minmax(190px, 1fr) 82px minmax(220px, 0.85fr) auto;
+}
+
+.roster-delete-card {
+  grid-template-columns: minmax(0, 1fr) auto;
 }
 
 .roster-create-command {
   min-width: 136px;
 }
 
-.roster-danger {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 12px;
+.editor-panel-head {
   align-items: center;
-  min-width: 0;
-  min-height: 48px;
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel);
 }
 
-.roster-danger span {
-  display: block;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 900;
-  text-transform: uppercase;
+.editor-head-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  align-items: center;
+  min-width: min(100%, 460px);
 }
 
-.roster-danger strong {
-  display: block;
-  margin-top: 2px;
-  color: var(--ink);
-  font-size: 13px;
-  line-height: 1.2;
+.editor-nation-picker {
+  min-width: min(380px, 100%);
+  box-shadow: none;
 }
 
 .color-field {
@@ -1763,13 +1805,13 @@ tbody td {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .nation-roster-tools {
+  .table-toolbar,
+  .roster-tools-grid {
     grid-template-columns: 1fr;
   }
 
-  .roster-intro,
-  .roster-danger {
-    grid-column: 1 / -1;
+  .roster-create-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
 }
@@ -1789,10 +1831,6 @@ tbody td {
     max-width: min(100%, 520px);
   }
 
-  .toolbar {
-    grid-template-columns: 1fr;
-  }
-
   .overview-hero {
     padding: 16px;
   }
@@ -1805,7 +1843,10 @@ tbody td {
   .overview-facts,
   .detail-grid,
   .control-grid,
-  .nation-roster-tools,
+  .table-toolbar,
+  .roster-tools-grid,
+  .roster-create-card,
+  .roster-delete-card,
   .nation-stat-strip,
   .nation-dossier-grid,
   .simulation-snapshot,
@@ -1852,8 +1893,14 @@ tbody td {
     grid-column: 1 / -1;
   }
 
-  .roster-danger {
+  .editor-panel-head,
+  .editor-head-controls {
     display: grid;
+    justify-content: stretch;
+  }
+
+  .editor-nation-picker {
+    min-width: 0;
   }
 
   .editor-summary .overview-fact {

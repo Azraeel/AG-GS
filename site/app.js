@@ -3,9 +3,7 @@
   const Engine = window.AGGS_ENGINE;
   let data = Engine.load(baseData);
   const app = document.getElementById("app");
-  const searchInput = document.getElementById("searchInput");
-  const viewSelect = document.getElementById("viewSelect");
-  const nationSelect = document.getElementById("nationSelect");
+  const contextToolbar = document.getElementById("contextToolbar");
   const tabs = Array.from(document.querySelectorAll(".tab"));
   const sourceNote = document.getElementById("sourceNote");
   const sourcePill = document.querySelector(".source-pill");
@@ -59,6 +57,11 @@
     { key: "audit", label: "Audit" }
   ];
   const economicHealthOptions = ["Prosperity", "Expansion", "Recovery", "Slowdown", "Recession", "Depression"];
+  const contextualViewKeys = new Set(["audit", "eclipse", "elections", "equipment", "history", "industrial", "intelligence", "military", "national", "naval", "population", "trade"]);
+  const searchSuggestions = {
+    nations: ["Prosperity", "Free Trade", "No Policy", "Missing data"],
+    tables: ["Prosperity", "Free Trade", "No Policy", "2021"]
+  };
 
   const state = {
     tab: "overview",
@@ -143,24 +146,33 @@
     return visibleIds().includes(id);
   }
 
+  function sortedNations() {
+    return [...visibleNations()].sort((left, right) => left.name.localeCompare(right.name, "en", { sensitivity: "base" }));
+  }
+
+  function nationOptionsHtml(selectedId = state.selectedNation, includePlaceholder = false, placeholder = "Select country") {
+    const options = includePlaceholder ? [`<option value="">${safeText(placeholder)}</option>`] : [];
+    sortedNations().forEach((nation) => {
+      options.push(`<option value="${escapeHtml(nation.id)}" ${nation.id === selectedId ? "selected" : ""}>${safeText(nation.name)}</option>`);
+    });
+    return options.join("");
+  }
+
+  function syncNationSelects() {
+    document.querySelectorAll("[data-nation-select]").forEach((select) => {
+      if (select.value !== state.selectedNation) select.value = state.selectedNation;
+    });
+  }
+
   function ensureSelectedNation() {
     const active = visibleNations();
     if (!active.some((nation) => nation.id === state.selectedNation)) {
       state.selectedNation = active[0]?.id || "";
     }
-    if (nationSelect.value !== state.selectedNation) nationSelect.value = state.selectedNation;
+    syncNationSelects();
   }
 
   function populateNationSelect() {
-    nationSelect.textContent = "";
-    [...visibleNations()]
-      .sort((left, right) => left.name.localeCompare(right.name, "en", { sensitivity: "base" }))
-      .forEach((nation) => {
-        const option = document.createElement("option");
-        option.value = nation.id;
-        option.textContent = nation.name;
-        nationSelect.append(option);
-      });
     ensureSelectedNation();
   }
 
@@ -418,9 +430,13 @@
     const q = state.query.trim().toLowerCase();
     const active = visibleNations();
     if (!q) return active;
+    if (["missing data", "coverage gaps", "incomplete"].some((term) => q.includes(term))) {
+      return active.filter((nation) => coverageFor(nation.id).some((set) => !set.hasData));
+    }
     return active.filter((nation) => {
       const haystack = [
         nation.name,
+        `${coverageFor(nation.id).filter((set) => set.hasData).length}/${datasets.length}`,
         data.national[nation.id]?.economicHealth,
         data.trade[nation.id]?.tradePolicy,
         data.trade[nation.id]?.sanctionsLevel,
@@ -459,6 +475,67 @@
 
   function overviewFact(label, value) {
     return `<div class="overview-fact"><span>${safeText(label)}</span><strong>${safeText(value)}</strong></div>`;
+  }
+
+  function contextualViewOptions() {
+    return viewOptions
+      .filter((view) => contextualViewKeys.has(view.key) && (isAdmin || !view.adminOnly))
+      .sort((left, right) => left.label.localeCompare(right.label, "en", { sensitivity: "base" }));
+  }
+
+  function searchControlHtml(context, placeholder, suggestions) {
+    return `
+      <div class="guided-search">
+        <label class="search">
+          <span aria-hidden="true">Search</span>
+          <input data-search-input data-search-context="${escapeHtml(context)}" type="search" value="${escapeHtml(state.query)}" placeholder="${escapeHtml(placeholder)}" autocomplete="off">
+        </label>
+        <div class="search-chips" aria-label="Search examples">
+          ${suggestions.map((term) => `<button type="button" data-search-suggestion="${escapeHtml(term)}">${safeText(term)}</button>`).join("")}
+          <button type="button" data-search-clear>Clear</button>
+        </div>
+      </div>`;
+  }
+
+  function syncSearchInputs() {
+    document.querySelectorAll("[data-search-input]").forEach((input) => {
+      if (input.value !== state.query) input.value = state.query;
+    });
+  }
+
+  function renderContextToolbar() {
+    if (!contextToolbar) return;
+    if (contextToolbar.dataset.renderedFor === state.tab) {
+      syncSearchInputs();
+      return;
+    }
+    contextToolbar.dataset.renderedFor = state.tab;
+    if (state.tab === "nations") {
+      contextToolbar.hidden = false;
+      contextToolbar.innerHTML = `
+        <div class="table-toolbar is-search-only">
+          ${searchControlHtml("nations", "Search countries, policies, health, coverage", searchSuggestions.nations)}
+        </div>`;
+      return;
+    }
+    const showViewControls = contextualViewKeys.has(state.tab);
+    if (!showViewControls) {
+      contextToolbar.hidden = true;
+      contextToolbar.innerHTML = "";
+      contextToolbar.dataset.renderedFor = "";
+      return;
+    }
+    contextToolbar.hidden = false;
+    contextToolbar.innerHTML = `
+      <div class="table-toolbar">
+        <label class="view-shell">
+          <span>View</span>
+          <select data-view-select>
+            ${contextualViewOptions().map((view) => `<option value="${escapeHtml(view.key)}" ${view.key === state.tab ? "selected" : ""}>${safeText(view.label)}</option>`).join("")}
+          </select>
+        </label>
+        ${searchControlHtml("tables", "Search table values, policies, years", searchSuggestions.tables)}
+      </div>`;
   }
 
   function renderOverviewHero(currentYear, active, totals) {
@@ -979,35 +1056,43 @@
 
   function renderNationManagement(nation) {
     const color = nation?.color || "#63a4ff";
-    const canDelete = Boolean(nation);
     return `
-      <section class="nation-roster-tools" aria-label="Nation management">
-        <div class="roster-intro">
-          <span class="section-kicker">Roster Tools</span>
-          <strong>Add a country or manage the selected record</strong>
-        </div>
-        <label class="control-field roster-name-field" for="newNationName">
-          <span>Name</span>
-          <input id="newNationName" type="text" placeholder="New country name" autocomplete="off">
-        </label>
-        <label class="control-field color-field" for="newNationColor">
-          <span>Color</span>
-          <input id="newNationColor" type="color" value="${escapeHtml(color)}" aria-label="Nation color">
-        </label>
-        <label class="control-field roster-template-field" for="newNationTemplate">
-          <span>Starting Stats</span>
-          <select id="newNationTemplate">
-            <option value="blank">Blank baseline</option>
-            ${nation ? `<option value="copy">Copy ${safeText(nation.name)}</option>` : ""}
-          </select>
-        </label>
-        <button class="command primary roster-create-command" type="button" data-action="create-nation">Create Nation</button>
-        <div class="roster-danger">
+      <section class="panel roster-manager" aria-label="Roster manager">
+        <div class="panel-head compact-head">
           <div>
-            <span>Selected Record</span>
-            <strong>${nation ? "Delete current nation" : "No active nation"}</strong>
+            <h2>Roster Manager</h2>
+            <p>Create countries and remove records without changing the active editor selection.</p>
           </div>
-          <button class="command danger compact" type="button" data-action="delete-nation" ${canDelete ? "" : "disabled"}>Delete</button>
+          <span class="status">${fmtNumber(visibleNations().length)} active</span>
+        </div>
+        <div class="roster-tools-grid">
+          <div class="roster-create-card">
+            <label class="control-field roster-name-field" for="newNationName">
+              <span>Name</span>
+              <input id="newNationName" type="text" placeholder="New country name" autocomplete="off">
+            </label>
+            <label class="control-field color-field" for="newNationColor">
+              <span>Color</span>
+              <input id="newNationColor" type="color" value="${escapeHtml(color)}" aria-label="Nation color">
+            </label>
+            <label class="control-field roster-template-field" for="newNationTemplate">
+              <span>Starting Stats</span>
+              <select id="newNationTemplate">
+                <option value="blank">Blank baseline</option>
+                ${nation ? `<option value="copy">Copy ${safeText(nation.name)}</option>` : ""}
+              </select>
+            </label>
+            <button class="command primary roster-create-command" type="button" data-action="create-nation">Create Nation</button>
+          </div>
+          <div class="roster-delete-card">
+            <label class="control-field" for="deleteNationSelect">
+              <span>Delete Country</span>
+              <select id="deleteNationSelect">
+                ${nationOptionsHtml("", true, "Select country to delete")}
+              </select>
+            </label>
+            <button class="command danger" type="button" data-action="delete-nation">Delete</button>
+          </div>
         </div>
       </section>`;
   }
@@ -1052,9 +1137,10 @@
   }
 
   function deleteSelectedNationFromEditor() {
-    const nation = byId(state.selectedNation);
+    const targetId = document.getElementById("deleteNationSelect")?.value || "";
+    const nation = byId(targetId);
     if (!nation) {
-      state.notice = "No country selected to delete.";
+      state.notice = "Select a country to delete first.";
       render();
       return;
     }
@@ -1145,15 +1231,15 @@
     const nation = byId(state.selectedNation) || visibleNations()[0];
     if (!nation) {
       app.innerHTML = `
+        ${renderNationManagement(null)}
         <section class="panel">
           <div class="panel-head">
             <div>
-              <h2>Editor</h2>
+              <h2>Nation Editor</h2>
               <p>No live nation data is loaded yet.</p>
             </div>
           <span class="status">${safeText(syncLabel(true))}</span>
           </div>
-          ${renderNationManagement(null)}
           <div class="empty">Open the live site through Cloudflare, or publish a valid state from the admin API.</div>
         </section>
       `;
@@ -1170,15 +1256,23 @@
     const currentYear = data.meta.currentYear;
 
     app.innerHTML = `
+      ${renderNationManagement(nation)}
       <section class="panel">
-        <div class="panel-head">
+        <div class="panel-head editor-panel-head">
           <div>
-            <h2>${nationCell(nation.id)}</h2>
-            <p>Edit this nation. Dependent systems recalculate automatically, and changes publish to the live ledger.</p>
+            <h2>Nation Editor</h2>
+            <p>Pick a record, edit its stats, and dependent systems recalculate automatically.</p>
           </div>
-          <span class="status ${state.notice ? "positive" : ""}">${safeText(state.notice || "Editor ready")}</span>
+          <div class="editor-head-controls">
+            <label class="select-shell editor-nation-picker" for="editorNationSelect">
+              <span>Editing</span>
+              <select id="editorNationSelect" data-nation-select>
+                ${nationOptionsHtml(nation.id)}
+              </select>
+            </label>
+            <span class="status ${state.notice ? "positive" : ""}">${safeText(state.notice || "Editor ready")}</span>
+          </div>
         </div>
-        ${renderNationManagement(nation)}
         ${renderEditorSummary(nation, national, trade, industrial, military, currentYear)}
         <div class="editor-layout">
           <div class="editor-sections">
@@ -1585,12 +1679,12 @@
           <div class="nation-roster-head">
             <div>
               <h2>Nations</h2>
-              <p>${fmtNumber(nations.length)} active records</p>
+              <p>${fmtNumber(nations.length)} shown / ${fmtNumber(visibleNations().length)} active</p>
             </div>
             <span class="status">${safeText("A-Z")}</span>
           </div>
           <div class="nation-list">
-            ${nations
+            ${nations.length ? nations
               .map((nation) => {
                 const rowNational = data.national[nation.id];
                 const rowPopulation = populationFor(nation.id, currentYear);
@@ -1605,7 +1699,7 @@
                     <span class="status">${rowCoverage}/${datasets.length}</span>
                   </button>`;
               })
-              .join("")}
+              .join("") : `<div class="empty compact">No matching countries.</div>`}
           </div>
         </section>
         <section class="panel nation-dossier" style="--nation-color:${safeColor(selected.color)}">
@@ -1838,7 +1932,7 @@
       const relatedTabs = (tab.dataset.relatedTabs || "").split(" ").filter(Boolean);
       tab.classList.toggle("is-active", tab.dataset.tab === state.tab || relatedTabs.includes(state.tab));
     });
-    if (viewSelect.value !== state.tab) viewSelect.value = state.tab;
+    renderContextToolbar();
     const renderers = {
       overview: renderOverview,
       simulation: renderSimulation,
@@ -1859,13 +1953,6 @@
     };
     renderers[state.tab]();
   }
-
-  viewOptions.filter((view) => isAdmin || !view.adminOnly).forEach((view) => {
-    const option = document.createElement("option");
-    option.value = view.key;
-    option.textContent = view.label;
-    viewSelect.append(option);
-  });
 
   populateNationSelect();
 
@@ -1956,33 +2043,52 @@
     }
   }
 
-  searchInput.addEventListener("input", (event) => {
-    state.query = event.target.value;
+  function applySearch(value) {
+    state.query = value;
     render();
-  });
+  }
 
-  viewSelect.addEventListener("change", (event) => {
-    if (!canAccessTab(event.target.value)) {
+  function applyView(value) {
+    if (!canAccessTab(value)) {
       state.tab = "overview";
-      render();
-      return;
+    } else {
+      state.tab = value;
     }
-    state.tab = event.target.value;
     render();
-  });
+  }
+
+  if (contextToolbar) {
+    contextToolbar.addEventListener("input", (event) => {
+      const input = event.target.closest("[data-search-input]");
+      if (input) applySearch(input.value);
+    });
+
+    contextToolbar.addEventListener("change", (event) => {
+      const select = event.target.closest("[data-view-select]");
+      if (select) applyView(select.value);
+    });
+
+    contextToolbar.addEventListener("click", (event) => {
+      const suggestion = event.target.closest("[data-search-suggestion]");
+      if (suggestion) {
+        applySearch(suggestion.dataset.searchSuggestion || "");
+        return;
+      }
+      if (event.target.closest("[data-search-clear]")) applySearch("");
+    });
+  }
 
   app.addEventListener("input", (event) => {
     if (["currentYearInput", "targetYearInput", "worldHealthInput"].includes(event.target.id)) {
       updateSimulationPreview(event.target.id);
     }
+    const search = event.target.closest("[data-search-input]");
+    if (search) {
+      applySearch(search.value);
+      return;
+    }
     const edit = event.target.closest("[data-edit]");
     if (edit) applyEdit(edit, false);
-  });
-
-  nationSelect.addEventListener("change", (event) => {
-    state.selectedNation = event.target.value;
-    if (state.tab !== "editor") state.tab = "nations";
-    render();
   });
 
   app.addEventListener("click", async (event) => {
@@ -2028,10 +2134,20 @@
       return;
     }
 
+    const suggestion = event.target.closest("[data-search-suggestion]");
+    if (suggestion) {
+      applySearch(suggestion.dataset.searchSuggestion || "");
+      return;
+    }
+
+    if (event.target.closest("[data-search-clear]")) {
+      applySearch("");
+      return;
+    }
+
     const nationButton = event.target.closest("[data-nation]");
     if (nationButton) {
       state.selectedNation = nationButton.dataset.nation;
-      nationSelect.value = state.selectedNation;
       render();
       return;
     }
@@ -2047,6 +2163,12 @@
   });
 
   app.addEventListener("change", (event) => {
+    if (event.target.id === "editorNationSelect") {
+      state.selectedNation = event.target.value;
+      render();
+      return;
+    }
+
     const edit = event.target.closest("[data-edit]");
     if (edit && !isAdmin) {
       state.notice = "Editor access is restricted.";
