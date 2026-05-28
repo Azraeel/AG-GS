@@ -248,6 +248,12 @@
     return value === null || value === undefined || value === "" ? "Unknown" : `${value}%`;
   }
 
+  function fmtDecimalPercent(value) {
+    if (value === null || value === undefined || value === "") return "Unknown";
+    const percent = Engine.number(value, 0) * 100;
+    return `${Number(percent.toFixed(4)).toLocaleString("en-US", { maximumFractionDigits: 4 })}%`;
+  }
+
   function fmtSigned(value) {
     if (value === null || value === undefined || value === "") return "Unknown";
     return value > 0 ? `+${fmtNumber(value)}` : fmtNumber(value);
@@ -262,6 +268,44 @@
     const numeric = typeof value === "number" || (typeof value === "string" && value.trim() !== "" && Number.isFinite(Number(value)));
     if (!numeric) return String(value);
     return Number(value).toLocaleString("en-US", { maximumFractionDigits: 4 });
+  }
+
+  const decimalPercentFields = new Set(["national.taxRate"]);
+
+  function fieldKey(dataset, path) {
+    return `${dataset}.${path}`;
+  }
+
+  function isDecimalPercentField(dataset, path) {
+    return decimalPercentFields.has(fieldKey(dataset, path));
+  }
+
+  function isDecimalPercentChangeKey(key) {
+    return decimalPercentFields.has(key);
+  }
+
+  function trimInputNumber(value, maximumFractionDigits = 6) {
+    const number = Number(value);
+    return Number.isFinite(number) ? String(Number(number.toFixed(maximumFractionDigits))) : "";
+  }
+
+  function editFieldValue(dataset, path, value) {
+    if (!isDecimalPercentField(dataset, path)) return value ?? "";
+    return trimInputNumber(Engine.number(value, 0) * 100);
+  }
+
+  function historyFieldValue(dataset, path, value) {
+    return isDecimalPercentField(dataset, path) ? fmtDecimalPercent(value) : value;
+  }
+
+  function fmtHistoryChangeValue(key, value) {
+    return isDecimalPercentChangeKey(key) ? fmtDecimalPercent(value) : fmtHistoryValue(value);
+  }
+
+  function fmtHistoryDelta(key, value) {
+    if (!isDecimalPercentChangeKey(key)) return fmtSigned(value);
+    const percentDelta = Engine.number(value, 0) * 100;
+    return `${fmtSigned(Number(percentDelta.toFixed(4)))} pts`;
   }
 
   function populationFor(id, year = data.meta.currentYear) {
@@ -487,7 +531,11 @@
       markSync("online");
       state.notice = message;
       fetchSnapshots(true);
-      render();
+      if (document.activeElement?.closest?.("[data-edit]")) {
+        updateSourceNote();
+      } else {
+        render();
+      }
     } catch (error) {
       sharedSync.isPublishing = false;
       markSync("offline", error.message || "Shared publish failed.");
@@ -794,7 +842,7 @@
         { key: "debt", label: "Debt", numeric: true, render: fmtPercent },
         { key: "economicHealth", label: "Health", render: (v) => safeStatus(v, v === "Prosperity" ? "positive" : v === "Recovery" ? "warning" : "") },
         { key: "immigrationRate", label: "Immigration", numeric: true, secondary: true, render: fmtNumber },
-        { key: "taxRate", label: "Tax Rate", numeric: true, secondary: true, render: fmtNumber }
+        { key: "taxRate", label: "Tax Rate", numeric: true, secondary: true, render: fmtDecimalPercent }
       ],
       "national"
     );
@@ -997,6 +1045,7 @@
     const fieldClass = ["control-field", type === "text" ? "is-text" : "", type === "select" ? "is-select" : ""]
       .filter(Boolean)
       .join(" ");
+    const renderedValue = editFieldValue(dataset, path, value);
     if (type === "select") {
       return `
         <label class="${fieldClass}" for="${id}">
@@ -1009,7 +1058,7 @@
     return `
       <label class="${fieldClass}" for="${id}">
         <span>${safeText(label)}</span>
-        <input id="${id}" type="${type}" value="${escapeHtml(value ?? "")}" data-edit data-dataset="${dataset}" data-path="${path}">
+        <input id="${id}" type="${type}" value="${escapeHtml(renderedValue)}" inputmode="decimal" step="any" data-edit data-dataset="${dataset}" data-path="${path}">
       </label>`;
   }
 
@@ -1404,7 +1453,7 @@
               ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}
               ${fieldControl("national", "economicHealth", "Economic Health", national.economicHealth, "select", economicHealthOptions)}
               ${fieldControl("national", "immigrationRate", "Immigration", national.immigrationRate)}
-              ${fieldControl("national", "taxRate", "Tax Rate", national.taxRate ?? 0)}
+              ${fieldControl("national", "taxRate", "Tax Rate %", national.taxRate ?? 0)}
             </section>
             <section class="editor-section editor-section-trade">
               <h3>Trade</h3>
@@ -1695,8 +1744,8 @@
     const computedDelta = storedDelta ?? (Number.isFinite(beforeNumber) && Number.isFinite(afterNumber) ? afterNumber - beforeNumber : null);
     const signed = computedDelta !== null && computedDelta !== 0;
     const valueText = signed
-      ? `${fmtSigned(computedDelta)} (${fmtHistoryValue(change.before)} -> ${fmtHistoryValue(change.after)})`
-      : `${fmtHistoryValue(change.before)} -> ${fmtHistoryValue(change.after)}`;
+      ? `${fmtHistoryDelta(change.key, computedDelta)} (${fmtHistoryChangeValue(change.key, change.before)} -> ${fmtHistoryChangeValue(change.key, change.after)})`
+      : `${fmtHistoryChangeValue(change.key, change.before)} -> ${fmtHistoryChangeValue(change.key, change.after)}`;
     const tone = signed ? (computedDelta >= 0 ? "positive" : "negative") : "";
     return `<span class="status ${tone}">${escapeHtml(change.label)} ${escapeHtml(valueText)}</span>`;
   }
@@ -2185,12 +2234,16 @@
     const path = edit.dataset.path;
     const id = edit.dataset.id || state.selectedNation;
     const rawValue = edit.value;
-    const value = edit.tagName === "SELECT" || edit.type === "text" ? rawValue : Engine.number(rawValue, 0);
+    const value = edit.tagName === "SELECT" || edit.type === "text"
+      ? rawValue
+      : isDecimalPercentField(dataset, path)
+        ? Engine.number(rawValue, 0) / 100
+        : Engine.number(rawValue, 0);
     const entryKey = `${id}:${dataset}:${path}`;
     if (!pendingEdits.has(entryKey)) {
       pendingEdits.set(entryKey, {
         historyKey: `${entryKey}:${Date.now()}`,
-        beforeValue: readFieldValue(data, dataset, id, path),
+        beforeValue: historyFieldValue(dataset, path, readFieldValue(data, dataset, id, path)),
         beforeSnapshot: nationSnapshot(data, id),
         timer: null
       });
@@ -2201,7 +2254,7 @@
       if (dataset === "industrial" && data.military[id]) data.military[id].mobilizationLevel = value;
     }
     Engine.recalculateAll(data);
-    const afterValue = readFieldValue(data, dataset, id, path);
+    const afterValue = historyFieldValue(dataset, path, readFieldValue(data, dataset, id, path));
     const changes = recordChange(entryKey, id, dataset, path, afterValue, nationSnapshot(data, id));
     const bcDelta = changes.find((change) => change.key === "national.budgetCapacity");
     state.notice = `${byId(id)?.name || "Nation"} updated${bcDelta ? `; BC ${fmtSigned(bcDelta.delta)}` : ""}.`;
@@ -2213,7 +2266,6 @@
       render();
     } else {
       clearTimeout(editRenderTimer);
-      editRenderTimer = setTimeout(() => render(), 700);
     }
   }
 
