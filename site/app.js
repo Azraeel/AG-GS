@@ -1854,7 +1854,7 @@
     const selectedCoverage = coverageFor(selected.id).filter((set) => set.hasData).length;
     const intelligenceTotal = intelligence ? Object.values(intelligence).reduce((total, value) => total + (Number(value) || 0), 0) : null;
     const militaryPersonnel = activeMilitary(military);
-    const budgetTone = national?.budgetBalance >= 0 ? "positive" : "negative";
+    const balanceTone = national?.primaryBalance >= 0 ? "positive" : "negative";
     const tradeTone = trade?.tradeBalance >= 0 ? "positive" : "negative";
 
     app.innerHTML = `
@@ -1903,7 +1903,7 @@
           </div>
           <div class="nation-stat-strip">
             ${dossierMetric("Population", fmtCompact(populationFor(selected.id, currentYear)), `${fmtNumber(populationFor(selected.id, currentYear))} in ${currentYear}`)}
-            ${dossierMetric("Budget Capacity", fmtNumber(national?.budgetCapacity), national ? `${fmtSigned(national.budgetBalance)} effective balance` : "No national row")}
+            ${dossierMetric("Budget Capacity", fmtNumber(national?.budgetCapacity), national ? `${fmtSigned(national.primaryBalance)} balance` : "No national row")}
             ${dossierMetric("Trade Flow", fmtCompact(trade?.tradeFlow), trade ? `${fmtSigned(trade.tradeBalance)} balance` : "No trade row")}
             ${dossierMetric("Active Personnel", fmtCompact(militaryPersonnel), "Military total")}
             ${dossierMetric("Fleet", fmtNumber(naval?.total), "Tracked naval assets")}
@@ -1912,8 +1912,7 @@
             ${dossierSection("National", [
               dossierRow("Stability", fmtPercent(national?.governmentalStability)),
               dossierRow("Development", fmtNumber(national?.developmentLevel)),
-              dossierRow("Primary Balance", national ? fmtSigned(national.primaryBalance) : "Unknown", national?.primaryBalance >= 0 ? "positive" : "negative"),
-              dossierRow("Effective Balance", national ? fmtSigned(national.budgetBalance) : "Unknown", budgetTone),
+              dossierRow("Balance", national ? fmtSigned(national.primaryBalance) : "Unknown", balanceTone),
               dossierRow("Debt", fmtPercent(national?.debt)),
               dossierRow("Interest Rate", fmtPercent(national?.interestRate)),
               dossierRow("Debt Service", fmtNumber(national?.debtService)),

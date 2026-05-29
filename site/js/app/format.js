@@ -63,7 +63,10 @@
     }
 
     function fmtPercent(value) {
-      return value === null || value === undefined || value === "" ? "Unknown" : `${value}%`;
+      if (value === null || value === undefined || value === "") return "Unknown";
+      const percent = Engine.number(value, NaN);
+      if (!Number.isFinite(percent)) return `${value}%`;
+      return `${Math.floor(percent).toLocaleString("en-US")}%`;
     }
 
     function fmtDecimalPercent(value) {
