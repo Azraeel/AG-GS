@@ -13,7 +13,6 @@
       "preview-budget-rebalance",
       "apply-budget-rebalance",
       "export-budget-rebalance",
-      "apply-unrest-suggestion",
       "create-nation",
       "archive-nation",
       "restore-nation",
