@@ -1115,7 +1115,7 @@ tbody td {
 
 .roster-create-card {
   grid-template-columns: minmax(150px, 1fr) 66px minmax(160px, 0.85fr) auto;
-  align-items: center;
+  align-items: end;
 }
 
 .roster-archive-card,
@@ -1129,6 +1129,7 @@ tbody td {
 }
 
 .roster-create-command {
+  align-self: end;
   min-width: 124px;
 }
 
