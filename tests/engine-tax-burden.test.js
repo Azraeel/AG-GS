@@ -107,6 +107,62 @@ assert.ok(
   "corruption should worsen high-tax collection losses"
 );
 
+const standardSuperpower = Engine.normalizeState(baseData(0.42, {
+  national: {
+    governmentalStability: 97,
+    publicUnrest: 1,
+    corruption: 13,
+    developmentLevel: 20,
+    economicHealth: "Prosperity",
+    immigrationRate: 3,
+    fiscalModel: "Standard"
+  }
+}));
+const welfareSuperpower = Engine.normalizeState(baseData(0.42, {
+  national: {
+    governmentalStability: 97,
+    publicUnrest: 1,
+    corruption: 13,
+    developmentLevel: 20,
+    economicHealth: "Prosperity",
+    immigrationRate: 3,
+    fiscalModel: "Welfare State"
+  }
+}));
+const standardSuperpowerBurden = Engine.calculateTaxBurdenForNation(standardSuperpower, "khalindar");
+const welfareSuperpowerBurden = Engine.calculateTaxBurdenForNation(welfareSuperpower, "khalindar");
+assert.strictEqual(welfareSuperpowerBurden.fiscalModel, "Welfare State");
+assert.ok(
+  welfareSuperpowerBurden.sustainableTaxRate > standardSuperpowerBurden.sustainableTaxRate,
+  "welfare states should sustain a higher tax rate before pressure begins"
+);
+assert.ok(
+  welfareSuperpowerBurden.collectionMultiplier > standardSuperpowerBurden.collectionMultiplier,
+  "welfare states should collect high taxes more effectively than standard states"
+);
+assert.ok(
+  welfareSuperpowerBurden.immigrationPenalty < standardSuperpowerBurden.immigrationPenalty,
+  "welfare states should soften high-tax immigration penalties"
+);
+assert.ok(
+  welfareSuperpowerBurden.industryGrowthMultiplier > standardSuperpowerBurden.industryGrowthMultiplier,
+  "welfare states should protect long-term industry growth better than standard states"
+);
+
+const inferredSuperpower = Engine.normalizeState(baseData(0.42, {
+  national: {
+    governmentalStability: 97,
+    publicUnrest: 1,
+    corruption: 13,
+    developmentLevel: 20,
+    economicHealth: "Prosperity",
+    immigrationRate: 3
+  }
+}));
+inferredSuperpower.industrial.khalindar.civilianFactories = 1032;
+const inferredBurden = Engine.calculateTaxBurdenForNation(inferredSuperpower, "khalindar");
+assert.strictEqual(inferredBurden.fiscalModel, "Welfare State", "advanced high-capacity high-tax states should infer welfare-state handling");
+
 const sustainable = Engine.normalizeState(baseData(0.12));
 const highTaxPopulation = Engine.clone(highTax);
 const sustainablePopulation = Engine.clone(sustainable);

@@ -884,7 +884,7 @@
                   <div><dt>Tax</dt><dd>${fmtPercent(burden.taxRatePercent)}</dd></div>
                   <div><dt>Sustainable</dt><dd>${fmtPercent(burden.sustainableTaxRate)}</dd></div>
                   <div><dt>GM unrest</dt><dd>${burden.suggestedUnrestChange ? `+${fmtNumber(burden.suggestedUnrestChange)}` : "Hold"}</dd></div>
-                  <div><dt>Collection</dt><dd>${fmtPercent(Engine.number(burden.collectionMultiplier, 1) * 100)}</dd></div>
+                  <div><dt>Model</dt><dd>${safeText(burden.fiscalModel || "Standard")}</dd></div>
                 </dl>
                 <p>${safeText((burden.warnings || [])[0] || "No warning text recorded.")}</p>
               </article>`).join("")}
@@ -967,7 +967,7 @@
                     <td>
                       <div class="rebalance-burden-cell">
                         ${safeStatus(row.taxBurdenTier || "Stable", taxBurdenTone(row.taxBurdenTier))}
-                        <small>${fmtPercent(row.taxRatePercent)} tax / ${fmtPercent(row.sustainableTaxRate)} sustainable</small>
+                        <small>${safeText(row.fiscalModel || "Standard")} / ${fmtPercent(row.taxRatePercent)} tax / ${fmtPercent(row.sustainableTaxRate)} sustainable</small>
                       </div>
                     </td>
                     <td class="numeric">${row.suggestedUnrestChange ? safeStatus(`+${fmtNumber(row.suggestedUnrestChange)}`, "warning") : safeStatus("Hold", "positive")}</td>
@@ -1169,6 +1169,7 @@
         debtService: 0,
         debtRepayment: 0,
         projectedDebt: 0,
+        fiscalModel: "Standard",
         economicHealth: data.meta.worldEconomicHealth || "Expansion",
         immigrationRate: 0,
         taxRate: 0.02
@@ -1526,6 +1527,7 @@
               ${fieldControl("national", "warSupport", "War Support %", national.warSupport)}
               ${fieldControl("national", "corruption", "Corruption %", national.corruption)}
               ${fieldControl("national", "developmentLevel", "Development", national.developmentLevel)}
+              ${fieldControl("national", "fiscalModel", "Fiscal Model", Engine.fiscalModelForNation(data, nation.id), "select", Object.keys(Engine.constants.FISCAL_MODELS))}
               ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}
               ${fieldControl("national", "debt", "Debt %", national.debt ?? 0)}
               ${fieldControl("national", "interestRate", "Interest Rate %", national.interestRate ?? national.computedInterestRate ?? Engine.constants.DEBT_RULES.baseInterestRate)}
@@ -1716,6 +1718,7 @@
       warSupport: "War Support",
       corruption: "Corruption",
       developmentLevel: "Development",
+      fiscalModel: "Fiscal Model",
       budgetExpenditure: "Expenditure",
       debt: "Debt",
       economicHealth: "Economic Health",
