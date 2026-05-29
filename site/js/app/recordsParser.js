@@ -181,11 +181,36 @@
     return cleanLine(value).replace(/\*\*/g, "").replace(/^#+\s*/, "");
   }
 
+  function cleanHeading(value) {
+    return stripMarkdown(value).replace(/^\[(.*)]$/, "$1").trim();
+  }
+
   function parseFieldLine(line) {
     const cleaned = cleanLine(line).replace(/\*\*/g, "");
     const match = cleaned.match(/^([^:]+):\s*(.*)$/);
     if (!match) return null;
     return { label: stripMarkdown(match[1]), value: cleanLine(match[2]) };
+  }
+
+  function templateKind(title) {
+    const lowerTitle = String(title || "").toLowerCase();
+    if (/\b(ship|naval|submarine|frigate|destroyer|carrier)\b/.test(lowerTitle)) return "Ship";
+    if (/\b(aircraft|plane|fighter|bomber|helicopter|uav|drone)\b/.test(lowerTitle)) return "Aircraft";
+    if (/\b(tank|afv|armor|armour|vehicle)\b/.test(lowerTitle)) return "Vehicle";
+    if (/\b(missile|rocket|sam|atgm)\b/.test(lowerTitle)) return "Missile";
+    if (/\b(infantry|gear|helmet|vest|nvg|crbn)\b/.test(lowerTitle)) return "Infantry Gear";
+    return "Equipment";
+  }
+
+  function templateDefaultName(title, options = {}) {
+    const baseTitle = cleanHeading(title).replace(/\s*custom template$/i, "").trim();
+    const kind = templateKind(title);
+    if (options.name) return options.name;
+    if (baseTitle && baseTitle.toLowerCase() !== kind.toLowerCase()) {
+      const generic = /^(ship|aircraft|aircraft custom|tank|afv|tank \/ afv|vehicle|missile|infantry|infantry gear|equipment)$/i;
+      if (!generic.test(baseTitle)) return baseTitle;
+    }
+    return `Untitled ${kind}`;
   }
 
   function parseDetailedTemplate(text, options = {}) {
@@ -199,22 +224,34 @@
     rows.forEach((row) => {
       const trimmed = row.trim();
       if (!trimmed) return;
-      if (/^#\s+/.test(trimmed)) {
-        title = stripMarkdown(trimmed);
+      if (/^-{3,}$/.test(trimmed)) return;
+
+      const heading = trimmed.match(/^(#{1,6})\s+(.+)$/);
+      if (heading) {
+        const level = heading[1].length;
+        const rawHeading = heading[2];
+        const headingText = cleanHeading(rawHeading);
+        const bracketHeading = /^\*\*\[.*]\*\*$|^\[.*]$/.test(rawHeading.trim());
+
+        if (level === 1) {
+          title = headingText;
+          return;
+        }
+        if (level === 2 || (level === 3 && bracketHeading)) {
+          currentSection = headingText;
+          currentSubsection = "";
+          sections[currentSection] = sections[currentSection] || {};
+          return;
+        }
+        if (level >= 3) {
+          currentSubsection = headingText;
+          sections[currentSection] = sections[currentSection] || {};
+          sections[currentSection][currentSubsection] = sections[currentSection][currentSubsection] || {};
+          return;
+        }
         return;
       }
-      if (/^##\s+/.test(trimmed)) {
-        currentSection = stripMarkdown(trimmed);
-        currentSubsection = "";
-        sections[currentSection] = sections[currentSection] || {};
-        return;
-      }
-      if (/^###\s+/.test(trimmed)) {
-        currentSubsection = stripMarkdown(trimmed);
-        sections[currentSection] = sections[currentSection] || {};
-        sections[currentSection][currentSubsection] = sections[currentSection][currentSubsection] || {};
-        return;
-      }
+
       const field = parseFieldLine(trimmed);
       if (!field) return;
       sections[currentSection] = sections[currentSection] || {};
@@ -223,14 +260,14 @@
       fields[field.label.toLowerCase()] = field.value;
     });
 
-    const name = fields.name || options.name || title.replace(/\s*custom template$/i, "").trim() || "Untitled Equipment";
+    const name = fields.name || templateDefaultName(title, options);
     const category = options.category || templateCategory(title);
     return {
       id: "",
       name,
       category,
       subcategory: fields.designation || "",
-      role: fields.type || "",
+      role: fields.type || templateKind(title),
       status: fields["year introduced"] ? "Fielded" : "Concept",
       origin: fields["country of origin"] || "Detailed Template",
       notes: title || "Detailed template import",

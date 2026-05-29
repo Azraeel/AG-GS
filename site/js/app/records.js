@@ -879,9 +879,11 @@
       record.updatedAt = new Date().toISOString();
       ensureDesigns(nation.id).push(record);
       state.selectedEquipmentDesignId = record.id;
+      state.equipmentCategoryFilter = record.category || "all";
       pushHistory(nation, "Imported Detailed Template", "None", record.name, record.id);
       data.meta.updatedAt = record.updatedAt;
       state.templateImportText = "";
+      state.tab = "equipment";
       saveWorkingState(`${record.name} imported for ${nation.name}.`);
       return true;
     }
