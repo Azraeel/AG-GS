@@ -53,7 +53,7 @@
 
   function cleanLine(line) {
     return String(line || "")
-      .replace(/^\s*[-*]\s+/, "")
+      .replace(/^\s*[-*\u2022]\s+/, "")
       .replace(/\s+/g, " ")
       .trim();
   }
@@ -178,7 +178,7 @@
   }
 
   function stripMarkdown(value) {
-    return cleanLine(value).replace(/\*\*/g, "").replace(/^#+\s*/, "");
+    return cleanLine(value).replace(/\*\*/g, "").replace(/__/g, "").replace(/^#+\s*/, "");
   }
 
   function cleanHeading(value) {
@@ -188,8 +188,156 @@
   function parseFieldLine(line) {
     const cleaned = cleanLine(line).replace(/\*\*/g, "");
     const match = cleaned.match(/^([^:]+):\s*(.*)$/);
-    if (!match) return null;
-    return { label: stripMarkdown(match[1]), value: cleanLine(match[2]) };
+    if (match) return { label: stripMarkdown(match[1]), value: cleanLine(match[2]) };
+    const dashMatch = cleaned.match(/^([^\u2013\u2014-]+?)\s+[\u2013\u2014-]\s+(.+)$/);
+    if (!dashMatch) return null;
+    return { label: stripMarkdown(dashMatch[1]), value: cleanLine(dashMatch[2]) };
+  }
+
+  const majorTemplateSections = new Map([
+    ["general information", "General Information"],
+    ["technical specifications", "Technical Specifications"],
+    ["performance", "Performance"],
+    ["performance characteristics", "Performance Characteristics"],
+    ["dimensions", "Dimensions"],
+    ["flight characteristics", "Flight Characteristics"],
+    ["armament", "Armament"],
+    ["firepower", "Firepower"],
+    ["electronics", "Electronics"],
+    ["electronics & systems", "Electronics & Systems"],
+    ["electronics and systems", "Electronics & Systems"],
+    ["avionics & electronics", "Avionics & Electronics"],
+    ["avionics and electronics", "Avionics & Electronics"],
+    ["electronics, sensors & systems", "Electronics, Sensors & Systems"],
+    ["electronics sensors & systems", "Electronics, Sensors & Systems"],
+    ["navigation & targeting", "Navigation & Targeting"],
+    ["navigation & targeting systems", "Navigation & Targeting"],
+    ["navigation and targeting", "Navigation & Targeting"],
+    ["payload options", "Payload Options"],
+    ["defensive & survival systems", "Defensive & Survival Systems"],
+    ["defensive and survival systems", "Defensive & Survival Systems"],
+    ["short description", "Short Description"],
+    ["additional remarks", "Additional Remarks"],
+    ["materials & construction", "Materials & Construction"],
+    ["materials and construction", "Materials & Construction"],
+    ["optics & targeting systems", "Optics & Targeting Systems"],
+    ["optics and targeting systems", "Optics & Targeting Systems"],
+    ["ergonomics & handling", "Ergonomics & Handling"],
+    ["ergonomics and handling", "Ergonomics & Handling"],
+    ["reliability & environmental performance", "Reliability & Environmental Performance"],
+    ["reliability and environmental performance", "Reliability & Environmental Performance"],
+    ["variants & modular options", "Variants & Modular Options"],
+    ["variants and modular options", "Variants & Modular Options"],
+    ["logistics & operational details", "Logistics & Operational Details"],
+    ["logistics and operational details", "Logistics & Operational Details"],
+    ["cost & economic considerations", "Cost & Economic Considerations"],
+    ["cost and economic considerations", "Cost & Economic Considerations"],
+    ["mobility systems", "Mobility Systems"],
+    ["visual enhancements", "Visual Enhancements"],
+    ["protection systems", "Protection Systems"],
+    ["armour & protection", "Armour & Protection"],
+    ["armour and protection", "Armour & Protection"],
+    ["armor & protection", "Armour & Protection"],
+    ["armor and protection", "Armour & Protection"],
+    ["logistics & maintenance systems", "Logistics & Maintenance Systems"],
+    ["logistics and maintenance systems", "Logistics & Maintenance Systems"],
+    ["capabilities", "Capabilities"],
+    ["cost & operational aspects", "Cost & Operational Aspects"],
+    ["cost and operational aspects", "Cost & Operational Aspects"],
+    ["propulsion & maneuvering systems", "Propulsion & Maneuvering Systems"],
+    ["propulsion and maneuvering systems", "Propulsion & Maneuvering Systems"],
+    ["firepower & armament", "Firepower & Armament"],
+    ["firepower and armament", "Firepower & Armament"],
+    ["protection & armor", "Protection & Armor"],
+    ["protection and armor", "Protection & Armor"]
+  ]);
+
+  const templateSubsections = new Map([
+    ["internal", "Internal"],
+    ["internal armament", "Internal Armament"],
+    ["external hard-points", "External Hardpoints"],
+    ["external hardpoints", "External Hardpoints"],
+    ["air-to-air", "Air-to-Air"],
+    ["air to air", "Air-to-Air"],
+    ["air-to-ground", "Air-to-Ground"],
+    ["air to ground", "Air-to-Ground"],
+    ["auxiliary", "Auxiliary"],
+    ["primary armament", "Primary Armament"],
+    ["primary weapon", "Primary Weapon"],
+    ["primary weapon ngap", "Primary Weapon (NGAP)"],
+    ["primary weapon janissary options", "Primary Weapon (Janissary Options)"],
+    ["secondary armament", "Secondary Armament"],
+    ["secondary weapons", "Secondary Weapons"],
+    ["missile systems", "Missile Systems"],
+    ["anti-aircraft weapons", "Anti-Aircraft Weapons"],
+    ["missiles", "Missiles"],
+    ["anti-submarine warfare", "Anti-Submarine Warfare"],
+    ["aircraft/helicopter support", "Aircraft/Helicopter Support"],
+    ["weight", "Weight"],
+    ["mobility", "Mobility"],
+    ["suspension system", "Suspension System"],
+    ["radar", "Radar"],
+    ["active protection systems aps", "Active Protection Systems (APS)"],
+    ["countermeasures", "Countermeasures"],
+    ["hull armor", "Hull Armor"],
+    ["hull armour", "Hull Armour"],
+    ["hull", "Hull"],
+    ["turret protection", "Turret Protection"],
+    ["turret protection ngap", "Turret Protection (NGAP)"],
+    ["conning tower armor", "Conning Tower Armor"],
+    ["additional protection systems", "Additional Protection Systems"],
+    ["additional protection", "Additional Protection"],
+    ["misc protection", "Misc Protection"],
+    ["battlefield role", "Battlefield Role"]
+  ]);
+
+  function normalizedHeadingKey(value) {
+    return cleanHeading(value)
+      .toLowerCase()
+      .replace(/[()[\]{}]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function plainTemplateHeading(line) {
+    const key = normalizedHeadingKey(line);
+    if (majorTemplateSections.has(key)) return { type: "section", label: majorTemplateSections.get(key) };
+    if (templateSubsections.has(key)) return { type: "subsection", label: templateSubsections.get(key) };
+    return null;
+  }
+
+  function isDiscordNoise(line) {
+    const cleaned = cleanLine(line);
+    if (/^OP$/i.test(cleaned)) return true;
+    if (/^\u2014?\s*\d{1,2}\/\d{1,2}\/\d{4}\s+\d{1,2}:\d{2}/.test(cleaned)) return true;
+    if (/^image$/i.test(cleaned)) return true;
+    if (/^[\w .,'-]+\s+\[[^\]]+],?$/.test(cleaned) && !cleaned.includes(":")) return true;
+    return false;
+  }
+
+  function standaloneSubsection(line, currentSection) {
+    if (!currentSection || currentSection === "General Information" || currentSection === "Short Description" || currentSection === "Additional Remarks") return "";
+    const key = normalizedHeadingKey(line);
+    if (templateSubsections.has(key)) return templateSubsections.get(key);
+    const cleaned = cleanHeading(line);
+    if (cleaned.length > 64 || /[:.;]/.test(cleaned) || /\d/.test(cleaned)) return "";
+    if (!/^[A-Z][A-Za-z /&()'-]+$/.test(cleaned)) return "";
+    const words = cleaned.split(/\s+/).filter(Boolean);
+    if (words.length > 5) return "";
+    return cleaned;
+  }
+
+  function appendNarrativeLine(sections, currentSection, currentSubsection, line) {
+    const section = currentSection || "General Information";
+    sections[section] = sections[section] || {};
+    const target = currentSubsection ? (sections[section][currentSubsection] = sections[section][currentSubsection] || {}) : sections[section];
+    const key = section === "Short Description" ? "Description" : section === "Additional Remarks" ? "Remarks" : "Details";
+    target[key] = target[key] ? `${target[key]}\n${cleanLine(line)}` : cleanLine(line);
+  }
+
+  function firstFieldStarting(fields, prefix) {
+    const key = Object.keys(fields).find((field) => field.startsWith(prefix));
+    return key ? fields[key] : "";
   }
 
   function templateKind(title) {
@@ -197,7 +345,8 @@
     if (/\b(ship|naval|submarine|frigate|destroyer|carrier)\b/.test(lowerTitle)) return "Ship";
     if (/\b(aircraft|plane|fighter|bomber|helicopter|uav|drone)\b/.test(lowerTitle)) return "Aircraft";
     if (/\b(tank|afv|armor|armour|vehicle)\b/.test(lowerTitle)) return "Vehicle";
-    if (/\b(missile|rocket|sam|atgm)\b/.test(lowerTitle)) return "Missile";
+    if (/\b(missile|rocket|sam|atgm|srbm|ballistic)\b/.test(lowerTitle)) return "Missile";
+    if (/\b(rifle|pistol|smg|machine gun|carbine|shotgun|launcher|small arm)\b/.test(lowerTitle)) return "Small Arm";
     if (/\b(infantry|gear|helmet|vest|nvg|crbn)\b/.test(lowerTitle)) return "Infantry Gear";
     return "Equipment";
   }
@@ -224,6 +373,7 @@
     rows.forEach((row) => {
       const trimmed = row.trim();
       if (!trimmed) return;
+      if (isDiscordNoise(trimmed)) return;
       if (/^-{3,}$/.test(trimmed)) return;
 
       const heading = trimmed.match(/^(#{1,6})\s+(.+)$/);
@@ -252,25 +402,65 @@
         return;
       }
 
+      const plainHeading = plainTemplateHeading(trimmed);
+      if (plainHeading) {
+        if (plainHeading.type === "section") {
+          currentSection = plainHeading.label;
+          currentSubsection = "";
+          sections[currentSection] = sections[currentSection] || {};
+        } else {
+          sections[currentSection] = sections[currentSection] || {};
+          currentSubsection = plainHeading.label;
+          sections[currentSection][currentSubsection] = sections[currentSection][currentSubsection] || {};
+        }
+        return;
+      }
+
+      const looseSubsection = currentSubsection ? "" : standaloneSubsection(trimmed, currentSection);
+      if (looseSubsection) {
+        sections[currentSection] = sections[currentSection] || {};
+        currentSubsection = looseSubsection;
+        sections[currentSection][currentSubsection] = sections[currentSection][currentSubsection] || {};
+        return;
+      }
+
       const field = parseFieldLine(trimmed);
-      if (!field) return;
+      if (!field) {
+        if (!title && currentSection === "General Information" && !currentSubsection) {
+          title = cleanHeading(trimmed);
+          return;
+        }
+        appendNarrativeLine(sections, currentSection, currentSubsection, trimmed);
+        return;
+      }
       sections[currentSection] = sections[currentSection] || {};
+      if (!field.value && currentSection !== "General Information") {
+        currentSubsection = field.label;
+        sections[currentSection][currentSubsection] = sections[currentSection][currentSubsection] || {};
+        return;
+      }
       const target = currentSubsection ? (sections[currentSection][currentSubsection] = sections[currentSection][currentSubsection] || {}) : sections[currentSection];
       target[field.label] = field.value;
       fields[field.label.toLowerCase()] = field.value;
     });
 
     const name = fields.name || templateDefaultName(title, options);
-    const category = options.category || templateCategory(title);
+    const type = fields.type || "";
+    const subcategory = fields.designation || fields.class || "";
+    const categoryText = `${title} ${name} ${type} ${subcategory}`;
+    const category = options.category || templateCategory(categoryText);
+    const introduced = firstFieldStarting(fields, "year introduced");
+    const hasIntroducedYear = introduced && !/^tbd$/i.test(introduced);
+    const shortDescription = sections["Short Description"]?.Description || fields.description || "";
     return {
       id: "",
       name,
       category,
-      subcategory: fields.designation || "",
-      role: fields.type || templateKind(title),
-      status: fields["year introduced"] ? "Fielded" : "Concept",
+      subcategory,
+      role: type || subcategory || templateKind(`${title} ${type} ${subcategory}`),
+      status: hasIntroducedYear ? "Fielded" : "Concept",
       origin: fields["country of origin"] || "Detailed Template",
-      notes: title || "Detailed template import",
+      notes: shortDescription || title || "Detailed template import",
       detailLevel: "template",
       templateName: title || options.templateName || "Detailed Template",
       sections,
@@ -281,10 +471,11 @@
 
   function templateCategory(title) {
     const lowerTitle = String(title || "").toLowerCase();
+    if (/\b(ship|naval|submarine|frigate|destroyer|carrier)\b/.test(lowerTitle)) return "Naval";
     if (/\b(tank|afv|armor|armour|vehicle)\b/.test(lowerTitle)) return "Armored Vehicles";
     if (/\b(aircraft|plane|fighter|bomber|helicopter|uav|drone)\b/.test(lowerTitle)) return "Aeroplanes";
-    if (/\b(missile|rocket|sam|atgm)\b/.test(lowerTitle)) return "Missiles";
-    if (/\b(ship|naval|submarine|frigate|destroyer|carrier)\b/.test(lowerTitle)) return "Naval";
+    if (/\b(missile|rocket|sam|atgm|srbm|ballistic)\b/.test(lowerTitle)) return "Missiles";
+    if (/\b(rifle|pistol|smg|machine gun|carbine|shotgun|launcher|small arm)\b/.test(lowerTitle)) return "Small Arms";
     if (/\b(infantry|gear|helmet|vest|nvg|crbn)\b/.test(lowerTitle)) return "Infantry Equipment";
     const match = defaultTemplates.find((template) => lowerTitle.includes(template.key.split("_")[0]));
     return match?.category || "Other";

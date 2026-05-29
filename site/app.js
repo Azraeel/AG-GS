@@ -1985,7 +1985,7 @@
     saveWorkingState,
     render
   });
-  const { renderNaval, renderEquipment, renderRosterImport, renderTemplates, renderTemplateImport, renderAudit, auditRows } = recordsViews;
+  const { renderNaval, renderEquipment, renderRosterImport, renderTemplateImport, renderAudit, auditRows } = recordsViews;
 
   let editRenderTimer = null;
   let deferredRenderTimer = null;
@@ -2035,7 +2035,6 @@
       naval: renderNaval,
       equipment: renderEquipment,
       rosterImport: renderRosterImport,
-      templates: renderTemplates,
       templateImport: renderTemplateImport,
       audit: renderAudit
     };

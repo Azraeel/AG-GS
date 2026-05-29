@@ -52,7 +52,6 @@
       { key: "intelligence", label: "Intelligence Status" },
       { key: "equipment", label: "Equipment Library" },
       { key: "rosterImport", label: "Roster Import", adminOnly: true },
-      { key: "templates", label: "Template Library" },
       { key: "templateImport", label: "Detailed Template", adminOnly: true },
       { key: "naval", label: "Naval Inventory" },
       { key: "eclipse", label: "Eclipse Status" },

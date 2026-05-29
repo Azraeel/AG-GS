@@ -30,7 +30,6 @@
     const recordTabs = [
       { key: "equipment", label: "Equipment Library" },
       { key: "rosterImport", label: "Roster Import", adminOnly: true },
-      { key: "templates", label: "Template Library" },
       { key: "templateImport", label: "Detailed Template", adminOnly: true },
       { key: "naval", label: "Navy Inventory" },
       { key: "audit", label: "Coverage Audit" }
@@ -209,7 +208,6 @@
           ${isAdmin ? `<button type="button" class="command primary compact" data-records-view="rosterImport">Paste Roster</button>` : ""}
           ${isAdmin ? `<button type="button" class="command compact" data-records-view="templateImport">Paste Detailed Template</button>` : ""}
           ${isAdmin ? `<button type="button" class="command compact" data-new-equipment-design>New Record</button>` : ""}
-          <button type="button" class="command compact" data-records-view="templates">Template Library</button>
           <button type="button" class="command compact" data-records-view="naval">Navy Inventory (${fmtNumber(fleet.total || 0)})</button>
         </div>`;
     }
@@ -217,55 +215,84 @@
     function equipmentTableHtml(nation, designs, selectedId, hiddenCount = 0) {
       if (!designs.length) return `<div class="empty compact">No records match this category.</div>`;
       return `
-        <div class="equipment-table-wrap">
-          <table class="equipment-table">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Category</th>
-                <th>Subcategory</th>
-                <th>Status</th>
-                <th>Notes</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${designs
-                .map((design) => `
-                  <tr class="equipment-record-row ${design.id === selectedId ? "is-active" : ""}" data-equipment-design="${escapeHtml(design.id)}">
-                    <td>
-                      <span class="equipment-item-name">
-                        <span class="swatch" style="background:${safeColor(nation.color)}"></span>
-                        <strong>${safeText(design.name, "Untitled Equipment")}</strong>
-                      </span>
-                    </td>
-                    <td>${safeText(design.category || "Other")}</td>
-                    <td>${safeText(design.subcategory || design.role || "General")}</td>
-                    <td>${safeStatus(designStatus(design))}</td>
-                    <td>${safeText(design.notes || "No notes")}</td>
-                  </tr>`)
-                .join("")}
-            </tbody>
-          </table>
+        <div class="equipment-table-wrap equipment-list-wrap">
+          ${designs
+            .map((design) => `
+              <button type="button" class="equipment-record-row equipment-record-card ${design.id === selectedId ? "is-active" : ""}" data-equipment-design="${escapeHtml(design.id)}">
+                <span class="equipment-item-name">
+                  <span class="swatch" style="background:${safeColor(nation.color)}"></span>
+                  <strong>${safeText(design.name, "Untitled Equipment")}</strong>
+                </span>
+                <span class="equipment-record-meta">${safeText(design.category || "Other")} / ${safeText(design.subcategory || design.role || "General")}</span>
+                <span class="equipment-record-footer">
+                  ${safeStatus(designStatus(design))}
+                  <em>${safeText(design.detailLevel === "template" ? "Detailed specs" : design.notes || "Rostered")}</em>
+                </span>
+              </button>`)
+            .join("")}
           ${hiddenCount > 0 ? `<div class="equipment-table-limit">Showing the first ${fmtNumber(designs.length)} records in this filter. Narrow by category for the remaining ${fmtNumber(hiddenCount)}.</div>` : ""}
         </div>`;
     }
 
+    function specValueHtml(value) {
+      return `<strong>${safeText(value || "Unfilled")}</strong>`;
+    }
+
+    function specFieldRows(fields) {
+      return Object.entries(fields || "")
+        .filter(([, value]) => value !== "")
+        .map(([key, value]) => {
+          if (value && typeof value === "object") {
+            const nestedRows = specFieldRows(value);
+            return `
+              <div class="equipment-spec-subsection">
+                <h5>${safeText(key)}</h5>
+                ${nestedRows || `<p><span>Fields</span>${specValueHtml("Unfilled")}</p>`}
+              </div>`;
+          }
+          return `<p><span>${safeText(key)}</span>${specValueHtml(value)}</p>`;
+        })
+        .join("");
+    }
+
     function designSectionsHtml(design) {
       if (!design?.sections) return "";
-      const sectionRows = Object.entries(design.sections).slice(0, 5).map(([sectionName, fields]) => {
-        const flatFields = Object.entries(fields || {}).flatMap(([key, value]) => {
-          if (value && typeof value === "object") {
-            return Object.entries(value).map(([subKey, subValue]) => [`${key} / ${subKey}`, subValue]);
-          }
-          return [[key, value]];
-        }).filter(([, value]) => value !== "");
+      const sectionRows = Object.entries(design.sections).map(([sectionName, fields]) => {
+        const rows = specFieldRows(fields);
         return `
-          <div class="template-section-preview">
+          <div class="equipment-spec-card">
             <h4>${safeText(sectionName)}</h4>
-            ${flatFields.slice(0, 4).map(([key, value]) => `<p><span>${safeText(key)}</span><strong>${safeText(value || "Unfilled")}</strong></p>`).join("") || `<p><span>Fields</span><strong>Unfilled</strong></p>`}
+            ${rows || `<p><span>Fields</span>${specValueHtml("Unfilled")}</p>`}
           </div>`;
       });
-      return sectionRows.length ? `<div class="template-section-grid">${sectionRows.join("")}</div>` : "";
+      return sectionRows.length ? `<div class="equipment-spec-grid">${sectionRows.join("")}</div>` : "";
+    }
+
+    function equipmentDossierReadout(design) {
+      return `
+        <div class="equipment-dossier-readout">
+          <div class="equipment-dossier-heading">
+            <div>
+              <span class="section-kicker">${safeText(design.detailLevel === "template" ? "Custom Equipment Dossier" : "Equipment Record")}</span>
+              <h3>${safeText(design.name)}</h3>
+              <p>${safeText(design.notes || "No description has been entered yet.")}</p>
+            </div>
+          </div>
+          <div class="design-detail-grid equipment-dossier-meta">
+            ${summaryFact("Category", design.category || "Other")}
+            ${summaryFact("Subcategory", design.subcategory || design.role || "Unassigned")}
+            ${summaryFact("Status", designStatus(design))}
+            ${summaryFact("Origin", design.origin || "In-game")}
+            ${summaryFact("Detail Level", design.detailLevel || "custom")}
+            ${summaryFact("Updated", fmtDateTime(design.updatedAt))}
+          </div>
+          ${designSectionsHtml(design) || `<div class="empty compact">No detailed specs are attached to this equipment record.</div>`}
+          ${design.rawTemplate ? `
+            <details class="raw-template-details">
+              <summary>Original pasted text</summary>
+              <pre>${safeText(design.rawTemplate)}</pre>
+            </details>` : ""}
+        </div>`;
     }
 
     function designForm(nation, design) {
@@ -275,34 +302,21 @@
       const era = design?.era || "Digital";
       if (!isAdmin) {
         if (!design) return `<div class="empty compact">No custom equipment records have been entered for ${safeText(nation.name)}.</div>`;
-        return `
-          <div class="design-readout">
-            <div>
-              <span class="section-kicker">${safeText(design.detailLevel === "template" ? "Detailed Template" : "Equipment Record")}</span>
-              <h3>${safeText(design.name)}</h3>
-              <p>${safeText(design.notes || "No notes have been entered yet.")}</p>
-            </div>
-            <div class="design-detail-grid">
-              ${summaryFact("Category", design.category || "Other")}
-              ${summaryFact("Subcategory", design.subcategory || design.role || "Unassigned")}
-              ${summaryFact("Status", designStatus(design))}
-              ${summaryFact("Origin", design.origin || "In-game")}
-              ${summaryFact("Detail Level", design.detailLevel || "custom")}
-              ${summaryFact("Updated", fmtDateTime(design.updatedAt))}
-            </div>
-            ${designSectionsHtml(design)}
-          </div>`;
+        return equipmentDossierReadout(design);
       }
 
       return `
         <div class="design-editor-form">
           <div class="design-editor-title">
             <div>
-              <span class="section-kicker">${isExisting ? "Editing Record" : "New Record"}</span>
+              <span class="section-kicker">${isExisting ? design.detailLevel === "template" ? "Custom Equipment Dossier" : "Equipment Dossier" : "New Record"}</span>
               <h3>${safeText(isExisting ? design.name : "Create Equipment Record")}</h3>
             </div>
             ${isExisting ? `<button type="button" class="command danger compact" data-action="delete-equipment-design">Delete Record</button>` : ""}
           </div>
+          ${isExisting ? equipmentDossierReadout(design) : ""}
+          <details class="equipment-core-editor" ${isExisting ? "" : "open"}>
+            <summary>${isExisting ? "Edit core record fields" : "Core record fields"}</summary>
           <div class="design-form-grid">
             <label class="control-field is-text">
               <span>Name</span>
@@ -343,11 +357,11 @@
               <textarea id="equipmentDesignNotes" rows="5" placeholder="Variants, rarity, active status, doctrine notes...">${escapeHtml(design?.notes || "")}</textarea>
             </label>
           </div>
-          ${designSectionsHtml(design)}
           <div class="design-actions">
             <button type="button" class="command primary" data-action="save-equipment-design">${isExisting ? "Save Record" : "Create Record"}</button>
             <button type="button" class="command" data-new-equipment-design>Clear Form</button>
           </div>
+          </details>
         </div>`;
     }
 
@@ -410,16 +424,16 @@
             <div class="panel-head compact-head">
               <div>
                 <h2>${safeText(nation.name)} Equipment</h2>
-                <p>${fmtNumber(designs.length)} records in a compact inventory browser. Filter by category, then edit the selected record in the inspector.</p>
+                <p>${fmtNumber(designs.length)} records. Filter by category, then open a full equipment dossier.</p>
               </div>
               ${equipmentActionsHtml(fleet)}
             </div>
             ${categoryFilterHtml(designs, activeCategory)}
             ${designs.length ? equipmentTableHtml(nation, filteredDesigns, design?.id || "", hiddenCount) : `<div class="empty compact">No records yet. Use Roster Import for large lists.</div>`}
           </section>
-          <aside class="panel equipment-inspector-panel">
+          <section class="panel equipment-dossier-panel">
             ${designForm(nation, design)}
-          </aside>
+          </section>
         </div>
         ${costReferenceHtml()}
       `;
@@ -493,29 +507,6 @@
               <button type="button" class="command" data-action="apply-roster-import-new" ${preview ? "" : "disabled"}>Add New Only</button>
             </div>
           </section>
-        </div>
-      `;
-    }
-
-    function renderTemplates() {
-      const templates = parser.defaultTemplates || [];
-      app.innerHTML = `
-        ${recordsHeader("templates", "Template Library", "Reusable structures for detailed custom equipment. Templates guide full records without forcing every roster item into a giant form.", state.notice || syncText())}
-        <div class="template-library-grid">
-          ${templates.map((template) => `
-            <section class="panel template-card">
-              <div class="panel-head compact-head">
-                <div>
-                  <h2>${safeText(template.name)}</h2>
-                  <p>${safeText(template.category)} records with optional detailed sections.</p>
-                </div>
-              </div>
-              <div class="template-card-body">
-                ${summaryFact("Import Mode", "Paste filled template", "One detailed equipment record")}
-                ${summaryFact("Library Mode", "Reusable", "Keeps raw text and parsed fields")}
-                ${isAdmin ? `<button type="button" class="command" data-records-view="templateImport">Use Template</button>` : ""}
-              </div>
-            </section>`).join("")}
         </div>
       `;
     }
@@ -1027,7 +1018,6 @@
       renderNaval,
       renderEquipment,
       renderRosterImport,
-      renderTemplates,
       renderTemplateImport,
       renderAudit,
       auditRows,
