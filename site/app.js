@@ -1,6 +1,29 @@
 (function () {
   const baseData = window.AGGS_DATA;
   const Engine = window.AGGS_ENGINE;
+  const AppConfig = window.AGGS_APP_CONFIG;
+  const Format = window.AGGS_APP_FORMAT(Engine);
+  const {
+    escapeHtml,
+    safeText,
+    safeColor,
+    safeStatus,
+    fmtNumber,
+    fmtYear,
+    fmtCompact,
+    fmtDateTime,
+    fmtPercent,
+    fmtDecimalPercent,
+    fmtSigned,
+    fmtCost,
+    fmtHistoryValue,
+    fieldKey,
+    isDecimalPercentField,
+    editFieldValue,
+    historyFieldValue,
+    fmtHistoryChangeValue,
+    fmtHistoryDelta
+  } = Format;
   let data = Engine.load(baseData);
   Engine.recalculateAll(data);
   const app = document.getElementById("app");
@@ -9,23 +32,9 @@
   const sourcePill = document.querySelector(".source-pill");
   const themeToggle = document.getElementById("themeToggle");
   const isAdmin = document.body.dataset.appMode === "admin";
-  const THEME_KEY = "aggs-theme";
-  const adminOnlyTabs = new Set(["editor", "simulation", "history"]);
-  const adminOnlyActions = new Set([
-    "advance-one",
-    "advance-target",
-    "recalculate",
-    "reset-state",
-    "export-json",
-    "export-data-js",
-    "publish-live-state",
-    "create-nation",
-    "archive-nation",
-    "restore-nation",
-    "refresh-snapshots",
-    "snapshot-revert",
-    "snapshot-export"
-  ]);
+  const THEME_KEY = AppConfig.THEME_KEY;
+  const adminOnlyTabs = new Set(AppConfig.adminOnlyTabs);
+  const adminOnlyActions = new Set(AppConfig.adminOnlyActions);
   const sharedSync = {
     enabled: location.protocol.startsWith("http") && !["localhost", "127.0.0.1", "::1"].includes(location.hostname),
     endpoint: window.AGGS_API_URL || (isAdmin ? "/admin/api/state" : "/api/state"),
@@ -44,37 +53,10 @@
     pollTimer: null
   };
 
-  const datasets = [
-    { key: "national", label: "National" },
-    { key: "trade", label: "Trade" },
-    { key: "industrial", label: "Industrial" },
-    { key: "population", label: "Population" },
-    { key: "military", label: "Military" },
-    { key: "intelligence", label: "Intelligence" },
-    { key: "eclipse", label: "Eclipse" },
-    { key: "elections", label: "Elections" },
-    { key: "naval", label: "Naval" }
-  ];
-  const viewOptions = [
-    { key: "overview", label: "Overview" },
-    { key: "editor", label: "Editor", adminOnly: true },
-    { key: "nations", label: "Nations" },
-    { key: "simulation", label: "Simulation", adminOnly: true },
-    { key: "history", label: "Change History", adminOnly: true },
-    { key: "national", label: "National Status" },
-    { key: "trade", label: "Trade Status" },
-    { key: "industrial", label: "Industrial Status" },
-    { key: "population", label: "Population Tracker" },
-    { key: "military", label: "Military Status" },
-    { key: "intelligence", label: "Intelligence Status" },
-    { key: "naval", label: "Naval Inventory" },
-    { key: "equipment", label: "Equipment Costs" },
-    { key: "eclipse", label: "Eclipse Status" },
-    { key: "elections", label: "Election Tracker" },
-    { key: "audit", label: "Audit" }
-  ];
-  const economicHealthOptions = ["Prosperity", "Expansion", "Recovery", "Slowdown", "Recession", "Depression"];
-  const statusTableKeys = new Set(["industrial", "intelligence", "military", "national", "population", "trade"]);
+  const datasets = AppConfig.datasets;
+  const viewOptions = AppConfig.viewOptions;
+  const economicHealthOptions = AppConfig.economicHealthOptions;
+  const statusTableKeys = new Set(AppConfig.statusTableKeys);
 
   const state = {
     tab: "overview",
@@ -199,146 +181,6 @@
 
   function populateNationSelect() {
     ensureSelectedNation();
-  }
-
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  function safeText(value, fallback = "Unknown") {
-    return escapeHtml(value === null || value === undefined || value === "" ? fallback : value);
-  }
-
-  function safeColor(value) {
-    const color = String(value || "").trim();
-    return /^#[0-9a-f]{3,8}$/i.test(color) ? color : "#8a94a6";
-  }
-
-  function safeStatus(value, tone = "") {
-    const className = tone ? ` ${escapeHtml(tone)}` : "";
-    return `<span class="status${className}">${safeText(value)}</span>`;
-  }
-
-  function fmtNumber(value) {
-    return value === null || value === undefined || value === "" ? "Unknown" : Number(value).toLocaleString("en-US");
-  }
-
-  function fmtYear(value) {
-    const year = Number(value);
-    return Number.isFinite(year) ? String(Math.trunc(year)) : "Unknown";
-  }
-
-  function fmtCompact(value) {
-    if (value === null || value === undefined || value === "") return "Unknown";
-    return Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(value);
-  }
-
-  function fmtDateTime(value) {
-    if (!value) return "Not recorded";
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return "Not recorded";
-    return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(date);
-  }
-
-  function fmtPercent(value) {
-    return value === null || value === undefined || value === "" ? "Unknown" : `${value}%`;
-  }
-
-  function fmtDecimalPercent(value) {
-    if (value === null || value === undefined || value === "") return "Unknown";
-    const percent = Engine.number(value, 0) * 100;
-    return `${Number(percent.toFixed(4)).toLocaleString("en-US", { maximumFractionDigits: 4 })}%`;
-  }
-
-  function isPercentText(value) {
-    return typeof value === "string" && value.trim().endsWith("%");
-  }
-
-  function fmtSigned(value) {
-    if (value === null || value === undefined || value === "") return "Unknown";
-    return value > 0 ? `+${fmtNumber(value)}` : fmtNumber(value);
-  }
-
-  function fmtCost(value) {
-    return value === null || value === undefined ? "Unknown" : Number(value).toLocaleString("en-US", { maximumFractionDigits: 6 });
-  }
-
-  function fmtHistoryValue(value) {
-    if (value === null || value === undefined || value === "") return "Unknown";
-    const numeric = typeof value === "number" || (typeof value === "string" && value.trim() !== "" && Number.isFinite(Number(value)));
-    if (!numeric) return String(value);
-    return Number(value).toLocaleString("en-US", { maximumFractionDigits: 4 });
-  }
-
-  const decimalPercentFields = new Set(["national.taxRate"]);
-  const wholePercentFields = new Set([
-    "national.debt",
-    "national.computedInterestRate",
-    "national.interestRateAdjustment",
-    "national.interestRate",
-    "national.projectedDebt",
-    "national.debtRisk",
-    "national.stabilityRisk",
-    "national.healthRisk",
-    "national.corruptionRisk",
-    "national.deficitRisk",
-    "national.sanctionsRisk",
-    "national.mobilizationRisk",
-    "national.tradeBalanceRisk",
-    "national.debtTrendRisk"
-  ]);
-
-  function fieldKey(dataset, path) {
-    return `${dataset}.${path}`;
-  }
-
-  function isDecimalPercentField(dataset, path) {
-    return decimalPercentFields.has(fieldKey(dataset, path));
-  }
-
-  function isDecimalPercentChangeKey(key) {
-    return decimalPercentFields.has(key);
-  }
-
-  function isWholePercentChangeKey(key) {
-    return wholePercentFields.has(key);
-  }
-
-  function trimInputNumber(value, maximumFractionDigits = 6) {
-    const number = Number(value);
-    return Number.isFinite(number) ? String(Number(number.toFixed(maximumFractionDigits))) : "";
-  }
-
-  function editFieldValue(dataset, path, value) {
-    if (!isDecimalPercentField(dataset, path)) return value ?? "";
-    return trimInputNumber(Engine.number(value, 0) * 100);
-  }
-
-  function historyFieldValue(dataset, path, value) {
-    const key = fieldKey(dataset, path);
-    if (isDecimalPercentChangeKey(key)) return fmtDecimalPercent(value);
-    if (isWholePercentChangeKey(key)) return fmtPercent(fmtHistoryValue(value));
-    return value;
-  }
-
-  function fmtHistoryChangeValue(key, value) {
-    if (isDecimalPercentChangeKey(key)) return isPercentText(value) ? fmtHistoryValue(value) : fmtDecimalPercent(value);
-    if (isWholePercentChangeKey(key)) return isPercentText(value) ? fmtHistoryValue(value) : fmtPercent(fmtHistoryValue(value));
-    return fmtHistoryValue(value);
-  }
-
-  function fmtHistoryDelta(key, value) {
-    if (isDecimalPercentChangeKey(key)) {
-      const percentDelta = Engine.number(value, 0) * 100;
-      return `${fmtSigned(Number(percentDelta.toFixed(4)))} pts`;
-    }
-    if (isWholePercentChangeKey(key)) return `${fmtSigned(value)} pts`;
-    return fmtSigned(value);
   }
 
   function populationFor(id, year = data.meta.currentYear) {
@@ -2077,165 +1919,22 @@
     `;
   }
 
-  function renderNaval() {
-    const q = state.query.trim().toLowerCase();
-    const entries = Object.entries(data.naval).filter(([id, fleet]) => {
-      if (!isVisibleNation(id)) return false;
-      const nation = byId(id);
-      const text = [
-        nation?.name,
-        ...fleet.categories.flatMap((category) => [category.name, ...category.ships.map((ship) => ship.name)])
-      ]
-        .join(" ")
-        .toLowerCase();
-      return !q || text.includes(q);
-    });
-
-    app.innerHTML = `
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <h2>Naval Inventory</h2>
-            <p>Tracked fleet classes and force totals for active nations with naval records.</p>
-          </div>
-          <span class="status">${fmtNumber(entries.length)} fleets</span>
-        </div>
-        ${entries.length ? entries
-          .map(([id, fleet]) => `
-            <article class="fleet">
-              <div class="fleet-head">
-                <h2>${nationCell(id)}</h2>
-                <span class="fleet-total">${fmtNumber(fleet.total)}</span>
-              </div>
-              ${fleet.totalNote ? `<p class="note">${safeText(fleet.totalNote)}</p>` : ""}
-              ${fleet.categories
-                .map(
-                  (category) => `
-                    <div class="ship-category">
-                      <h3>${safeText(category.name)}</h3>
-                      <div class="ship-list">
-                        ${category.ships
-                          .map((ship) => `<div class="ship-row"><span>${safeText(ship.name)}</span><span>${fmtNumber(ship.count)}</span></div>`)
-                          .join("")}
-                      </div>
-                    </div>`
-                )
-                .join("")}
-            </article>`
-          )
-          .join("") : `<div class="empty">No fleets match the current search.</div>`}
-      </section>
-    `;
-  }
-
-  function renderEquipment() {
-    const q = state.query.trim().toLowerCase();
-    const costRows = data.equipmentCosts.filter((row) => [row.category, row.name].join(" ").toLowerCase().includes(q));
-    app.innerHTML = `
-      <div class="equipment-grid">
-        <section class="panel">
-          <div class="panel-head">
-            <div>
-              <h2>Equipment Costs</h2>
-              <p>Production and maintenance cost references used for equipment planning.</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Category</th><th>Equipment</th><th class="numeric">Production</th><th class="numeric">Maintenance</th></tr></thead>
-              <tbody>
-                ${costRows
-                  .map((row) => `<tr><td>${safeText(row.category)}</td><td>${safeText(row.name)}</td><td class="numeric">${fmtCost(row.productionCost)}</td><td class="numeric">${fmtCost(row.maintenanceCost)}</td></tr>`)
-                  .join("")}
-              </tbody>
-            </table>
-          </div>
-        </section>
-        <section class="panel">
-          <div class="panel-head">
-            <div>
-              <h2>Cost Modifiers</h2>
-              <p>Era, design, storage, and maintenance modifiers for equipment cost calculations.</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Group</th><th>Modifier</th><th class="numeric">Value</th></tr></thead>
-              <tbody>
-                ${data.eraMultipliers.map((row) => `<tr><td>Era</td><td>${safeText(row.label)}</td><td class="numeric">${fmtCost(row.multiplier)}x</td></tr>`).join("")}
-                ${data.costAdditionModifiers.map((row) => `<tr><td>Addition</td><td>${safeText(row.label)}</td><td class="numeric">${fmtCost(row.multiplier)}x</td></tr>`).join("")}
-                ${data.costReductionModifiers.map((row) => `<tr><td>Reduction</td><td>${safeText(row.label)}</td><td class="numeric">${fmtPercent(row.reduction)}</td></tr>`).join("")}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
-    `;
-  }
-
-  function auditRows() {
-    return visibleNations().map((nation) => {
-      const present = coverageFor(nation.id).filter((set) => set.hasData).map((set) => set.label);
-      const missing = coverageFor(nation.id).filter((set) => !set.hasData).map((set) => set.label);
-      return { nation, present, missing };
-    });
-  }
-
-  function renderAudit() {
-    const rows = auditRows().filter((row) => !state.query || row.nation.name.toLowerCase().includes(state.query.toLowerCase()));
-    const active = visibleNations();
-    const datasetCounts = datasets.map((set) => ({
-      label: set.label,
-      count: active.filter((nation) => Boolean(data[set.key]?.[nation.id])).length,
-      missing: active.filter((nation) => !data[set.key]?.[nation.id]).length
-    }));
-
-    app.innerHTML = `
-      <div class="audit-grid">
-        <section class="panel">
-          <div class="panel-head">
-            <div>
-              <h2>Dataset Coverage</h2>
-              <p>Coverage across active operational datasets.</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Dataset</th><th class="numeric">Rows Entered</th><th class="numeric">Missing Nations</th></tr></thead>
-              <tbody>
-                ${datasetCounts.map((row) => `<tr><td>${safeText(row.label)}</td><td class="numeric">${fmtNumber(row.count)}</td><td class="numeric">${fmtNumber(row.missing)}</td></tr>`).join("")}
-              </tbody>
-            </table>
-          </div>
-        </section>
-        <section class="panel">
-          <div class="panel-head">
-            <div>
-              <h2>Nation Completeness</h2>
-              <p>Dataset availability for every active nation in the ledger.</p>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Nation</th><th>Present</th><th>Missing</th></tr></thead>
-              <tbody>
-                ${rows
-                  .map(
-                    (row) => `
-                      <tr>
-                        <td>${nationCell(row.nation.id)}</td>
-                        <td>${row.present.map((label) => safeStatus(label, "positive")).join(" ")}</td>
-                        <td>${row.missing.length ? row.missing.map((label) => safeStatus(label, "warning")).join(" ") : safeStatus("Complete", "positive")}</td>
-                      </tr>`
-                  )
-                  .join("")}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
-    `;
-  }
+  const recordsViews = window.AGGS_APP_MODULES.createRecordsViews({
+    getData: () => data,
+    app,
+    state,
+    datasets,
+    visibleNations,
+    isVisibleNation,
+    coverageFor,
+    nationCell,
+    safeText,
+    safeStatus,
+    fmtNumber,
+    fmtPercent,
+    fmtCost
+  });
+  const { renderNaval, renderEquipment, renderAudit, auditRows } = recordsViews;
 
   let editRenderTimer = null;
   let deferredRenderTimer = null;
