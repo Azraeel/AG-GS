@@ -27,6 +27,8 @@
     maxDebtPaydownRate: 0.1
   };
   const HEALTH_INTEREST_RISK = { Prosperity: 0, Expansion: 0, Recovery: 0, Slowdown: 1, Recession: 3, Depression: 6 };
+  const SANCTIONS_INTEREST_RISK = { None: 0, Light: 1, Moderate: 2, Heavy: 4, Total: 7 };
+  const MOBILIZATION_INTEREST_RISK = { None: 0, Partial: 1, Full: 2, Total: 4 };
 
   function clone(value) {
     return JSON.parse(JSON.stringify(value));
@@ -321,31 +323,93 @@
     return 0;
   }
 
-  function calculateFiscalForNation(data, id, options = {}) {
-    const national = data.national?.[id];
-    if (!national) return null;
-    const budgetCapacity = roundCurrency(options.budgetCapacity ?? national.budgetCapacity);
-    const budgetExpenditure = roundCurrency(national.budgetExpenditure);
-    const debtPercent = Math.max(0, number(national.debt, 0));
-    const debtPrincipal = roundCurrency(budgetCapacity * (debtPercent / 100));
-    const debtRisk = debtRiskForPercent(debtPercent);
-    const stabilityRisk = stabilityRiskForPercent(national.governmentalStability);
-    const healthRisk = HEALTH_INTEREST_RISK[national.economicHealth] || 0;
-    const corruptionRisk = corruptionRiskForPercent(national.corruption);
-    const computedInterestRate = roundPercent(DEBT_RULES.baseInterestRate + debtRisk + stabilityRisk + healthRisk + corruptionRisk);
-    const interestRateAdjustment = roundPercent(national.interestRateAdjustment);
-    const interestRate = Math.max(0, roundPercent(computedInterestRate + interestRateAdjustment));
-    const debtService = roundCurrency(debtPrincipal * (interestRate / 100));
-    const primaryBalance = roundCurrency(budgetCapacity - budgetExpenditure);
+  function deficitRiskForBalance(primaryBalance, budgetCapacity) {
+    if (primaryBalance >= 0) return 0;
+    if (budgetCapacity <= 0) return 4;
+    const deficitRatio = (Math.abs(primaryBalance) / budgetCapacity) * 100;
+    if (deficitRatio >= 30) return 4;
+    if (deficitRatio >= 15) return 3;
+    if (deficitRatio >= 5) return 2;
+    return 1;
+  }
+
+  function sanctionsRiskForLevel(level) {
+    return SANCTIONS_INTEREST_RISK[level] || 0;
+  }
+
+  function mobilizationRiskForLevel(level) {
+    return MOBILIZATION_INTEREST_RISK[level] || 0;
+  }
+
+  function tradeBalanceRiskForBalance(tradeBalance, budgetCapacity) {
+    if (budgetCapacity <= 0) return 0;
+    const tradeRatio = (number(tradeBalance, 0) / budgetCapacity) * 100;
+    if (tradeRatio >= 15) return -1;
+    if (tradeRatio <= -50) return 3;
+    if (tradeRatio <= -25) return 2;
+    if (tradeRatio <= -10) return 1;
+    return 0;
+  }
+
+  function debtTrendRiskForChange(currentDebtPercent, nextDebtPercent) {
+    const trend = number(nextDebtPercent, currentDebtPercent) - number(currentDebtPercent, 0);
+    if (trend <= -1) return -1;
+    if (trend <= 1) return 0;
+    if (trend <= 10) return 1;
+    if (trend <= 25) return 2;
+    return 3;
+  }
+
+  function debtProjectionForInterest({ budgetCapacity, primaryBalance, debtPrincipal, interestRate }) {
+    const debtService = roundCurrency(debtPrincipal * (Math.max(0, interestRate) / 100));
     const effectiveBalance = roundCurrency(primaryBalance - debtService);
     const surplusForRepayment = Math.max(effectiveBalance, 0);
     const repaymentShareLimit = roundCurrency(surplusForRepayment * DEBT_RULES.repaymentShare);
     const maxDebtPaydown = roundCurrency(debtPrincipal * DEBT_RULES.maxDebtPaydownRate);
-    const repayment = Math.min(repaymentShareLimit, maxDebtPaydown, debtPrincipal);
+    const debtRepayment = Math.min(repaymentShareLimit, maxDebtPaydown, debtPrincipal);
     const deficitBorrowing = Math.max(-effectiveBalance, 0);
-    const nextDebtPrincipal = Math.max(roundCurrency(debtPrincipal + deficitBorrowing - repayment), 0);
+    const nextDebtPrincipal = Math.max(roundCurrency(debtPrincipal + deficitBorrowing - debtRepayment), 0);
     const nextDebtPercent = budgetCapacity > 0 ? roundPercent((nextDebtPrincipal / budgetCapacity) * 100) : 0;
     const debtChange = roundCurrency(nextDebtPrincipal - debtPrincipal);
+    return {
+      debtService,
+      effectiveBalance,
+      repaymentShareLimit,
+      maxDebtPaydown,
+      debtRepayment,
+      deficitBorrowing,
+      nextDebtPrincipal,
+      nextDebtPercent,
+      debtChange
+    };
+  }
+
+  function calculateFiscalForNation(data, id, options = {}) {
+    const national = data.national?.[id];
+    if (!national) return null;
+    const trade = data.trade?.[id] || {};
+    const military = data.military?.[id] || {};
+    const industrial = data.industrial?.[id] || {};
+    const budgetCapacity = roundCurrency(options.budgetCapacity ?? national.budgetCapacity);
+    const budgetExpenditure = roundCurrency(national.budgetExpenditure);
+    const debtPercent = Math.max(0, number(national.debt, 0));
+    const debtPrincipal = roundCurrency(budgetCapacity * (debtPercent / 100));
+    const primaryBalance = roundCurrency(budgetCapacity - budgetExpenditure);
+    const debtRisk = debtRiskForPercent(debtPercent);
+    const stabilityRisk = stabilityRiskForPercent(national.governmentalStability);
+    const healthRisk = HEALTH_INTEREST_RISK[national.economicHealth] || 0;
+    const corruptionRisk = corruptionRiskForPercent(national.corruption);
+    const deficitRisk = deficitRiskForBalance(primaryBalance, budgetCapacity);
+    const sanctionsRisk = sanctionsRiskForLevel(trade.sanctionsLevel || "None");
+    const mobilizationRisk = mobilizationRiskForLevel(military.mobilizationLevel || industrial.mobilizationLevel || "None");
+    const tradeBalanceRisk = tradeBalanceRiskForBalance(trade.tradeBalance, budgetCapacity);
+    const preliminaryInterestRate = Math.max(0, roundPercent(DEBT_RULES.baseInterestRate + debtRisk + stabilityRisk + healthRisk + corruptionRisk + deficitRisk + sanctionsRisk + mobilizationRisk + tradeBalanceRisk));
+    const preliminaryProjection = debtProjectionForInterest({ budgetCapacity, primaryBalance, debtPrincipal, interestRate: preliminaryInterestRate });
+    const debtTrendRisk = debtTrendRiskForChange(debtPercent, preliminaryProjection.nextDebtPercent);
+    const computedInterestRate = Math.max(0, roundPercent(preliminaryInterestRate + debtTrendRisk));
+    const interestRateAdjustment = roundPercent(national.interestRateAdjustment);
+    const interestRate = Math.max(0, roundPercent(computedInterestRate + interestRateAdjustment));
+    const projection = debtProjectionForInterest({ budgetCapacity, primaryBalance, debtPrincipal, interestRate });
     return {
       budgetCapacity,
       budgetExpenditure,
@@ -359,15 +423,20 @@
       stabilityRisk,
       healthRisk,
       corruptionRisk,
-      debtService,
-      effectiveBalance,
-      repaymentShareLimit,
-      maxDebtPaydown,
-      debtRepayment: repayment,
-      deficitBorrowing,
-      debtChange,
-      nextDebtPrincipal,
-      nextDebtPercent,
+      deficitRisk,
+      sanctionsRisk,
+      mobilizationRisk,
+      tradeBalanceRisk,
+      debtTrendRisk,
+      debtService: projection.debtService,
+      effectiveBalance: projection.effectiveBalance,
+      repaymentShareLimit: projection.repaymentShareLimit,
+      maxDebtPaydown: projection.maxDebtPaydown,
+      debtRepayment: projection.debtRepayment,
+      deficitBorrowing: projection.deficitBorrowing,
+      debtChange: projection.debtChange,
+      nextDebtPrincipal: projection.nextDebtPrincipal,
+      nextDebtPercent: projection.nextDebtPercent,
       repaymentShare: DEBT_RULES.repaymentShare * 100,
       maxDebtPaydownRate: DEBT_RULES.maxDebtPaydownRate * 100
     };
@@ -383,6 +452,11 @@
     national.stabilityRisk = fiscal.stabilityRisk;
     national.healthRisk = fiscal.healthRisk;
     national.corruptionRisk = fiscal.corruptionRisk;
+    national.deficitRisk = fiscal.deficitRisk;
+    national.sanctionsRisk = fiscal.sanctionsRisk;
+    national.mobilizationRisk = fiscal.mobilizationRisk;
+    national.tradeBalanceRisk = fiscal.tradeBalanceRisk;
+    national.debtTrendRisk = fiscal.debtTrendRisk;
     national.debtService = fiscal.debtService;
     national.budgetBalance = fiscal.effectiveBalance;
     national.debtRepayment = fiscal.debtRepayment;
