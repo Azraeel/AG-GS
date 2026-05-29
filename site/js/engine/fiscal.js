@@ -205,7 +205,10 @@
       const shouldUpdateDebt = options.updateDebt === true;
       for (const id of Object.keys(data.national || {})) {
         const national = data.national[id];
-        const budgetCapacity = calculateBudgetForNation(data, id, { version: options.budgetFormulaVersion });
+        const budgetCapacity = calculateBudgetForNation(data, id, {
+          version: options.budgetFormulaVersion,
+          tariffFormulaVersion: options.tariffFormulaVersion
+        });
         if (budgetCapacity === null) continue;
         national.budgetCapacity = budgetCapacity;
         let fiscal = calculateFiscalForNation(data, id, { budgetCapacity });
