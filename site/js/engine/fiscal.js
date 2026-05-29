@@ -106,7 +106,7 @@
       const military = data.military?.[id] || {};
       const industrial = data.industrial?.[id] || {};
       const budgetCapacity = roundCurrency(options.budgetCapacity ?? national.budgetCapacity);
-      const budgetExpenditure = roundCurrency(national.budgetExpenditure);
+      const budgetExpenditure = roundCurrency(options.budgetExpenditure ?? national.budgetExpenditure);
       const debtPercent = Math.max(0, number(national.debt, 0));
       const debtPrincipal = roundCurrency(budgetCapacity * (debtPercent / 100));
       const primaryBalance = roundCurrency(budgetCapacity - budgetExpenditure);
@@ -205,7 +205,7 @@
       const shouldUpdateDebt = options.updateDebt === true;
       for (const id of Object.keys(data.national || {})) {
         const national = data.national[id];
-        const budgetCapacity = calculateBudgetForNation(data, id);
+        const budgetCapacity = calculateBudgetForNation(data, id, { version: options.budgetFormulaVersion });
         if (budgetCapacity === null) continue;
         national.budgetCapacity = budgetCapacity;
         let fiscal = calculateFiscalForNation(data, id, { budgetCapacity });

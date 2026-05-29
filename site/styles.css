@@ -1787,6 +1787,108 @@ tbody td {
   min-height: 42px;
 }
 
+.economy-rebalance-panel {
+  margin-bottom: 14px;
+}
+
+.economy-rebalance-head {
+  align-items: center;
+}
+
+.rebalance-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.rebalance-metric {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 16px 18px;
+  border-right: 1px solid var(--line);
+}
+
+.rebalance-metric:last-child {
+  border-right: 0;
+}
+
+.rebalance-metric span,
+.rebalance-metric small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.rebalance-metric strong {
+  font-size: 28px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-positive {
+  color: var(--positive-ink);
+}
+
+.metric-negative {
+  color: var(--negative-ink);
+}
+
+.rebalance-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.rebalance-controls > div:first-child {
+  display: grid;
+  gap: 5px;
+  max-width: 760px;
+}
+
+.rebalance-controls span {
+  color: var(--muted);
+  line-height: 1.45;
+  font-weight: 750;
+}
+
+.rebalance-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.rebalance-buttons .command {
+  min-height: 42px;
+}
+
+.command:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.rebalance-table-wrap {
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+.rebalance-table {
+  min-width: 1080px;
+}
+
+.rebalance-nation-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+}
+
 .compact-head {
   padding-block: 14px;
 }
@@ -2888,6 +2990,26 @@ tbody td {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .rebalance-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rebalance-metric:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .rebalance-metric:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+
+  .rebalance-controls {
+    display: grid;
+  }
+
+  .rebalance-buttons {
+    justify-content: flex-start;
+  }
+
   .pipeline-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -3051,6 +3173,25 @@ tbody td {
   }
 
   .simulation-action-group {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .rebalance-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .rebalance-metric,
+  .rebalance-metric:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .rebalance-metric + .rebalance-metric,
+  .rebalance-metric:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+
+  .rebalance-buttons {
     display: grid;
     grid-template-columns: 1fr;
   }

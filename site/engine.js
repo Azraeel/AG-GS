@@ -26,6 +26,10 @@
     repaymentShare: 0.25,
     maxDebtPaydownRate: 0.1
   };
+  const BUDGET_FORMULAS = {
+    legacy: "Legacy workbook formula",
+    tax2026: "Tax calibration model"
+  };
   const HEALTH_INTEREST_RISK = { Prosperity: 0, Expansion: 0, Recovery: 0, Slowdown: 1, Recession: 3, Depression: 6 };
   const SANCTIONS_INTEREST_RISK = { None: 0, Light: 1, Moderate: 2, Heavy: 4, Total: 7 };
   const MOBILIZATION_INTEREST_RISK = { None: 0, Partial: 1, Full: 2, Total: 4 };
@@ -65,6 +69,7 @@
     data.meta.title = data.meta.title || "AG-GS Global Ledger";
     data.meta.currentYear = number(data.meta.currentYear, 2021);
     data.meta.worldEconomicHealth = data.meta.worldEconomicHealth || "Expansion";
+    data.meta.budgetFormulaVersion = data.meta.budgetFormulaVersion || "legacy";
     data.meta.archivedNationIds = Array.isArray(data.meta.archivedNationIds) ? data.meta.archivedNationIds : [];
     data.meta.lastSimulationLog = data.meta.lastSimulationLog || [];
     data.meta.changeHistory = Array.isArray(data.meta.changeHistory) ? data.meta.changeHistory : [];
@@ -264,7 +269,12 @@
     return data;
   }
 
-  function calculateBudgetForNation(data, id) {
+  function budgetFormulaVersion(data, options = {}) {
+    const version = options.version || data.meta?.budgetFormulaVersion || "legacy";
+    return BUDGET_FORMULAS[version] ? version : "legacy";
+  }
+
+  function budgetInputsForNation(data, id) {
     const national = data.national[id];
     const industrial = data.industrial[id];
     const military = data.military[id];
@@ -279,18 +289,100 @@
     const corruption = number(national.corruption, 0);
     const economicHealth = national.economicHealth || "Recovery";
     const taxRate = number(national.taxRate, 0);
+    const taxRatePercent = taxRate > 1 ? taxRate : taxRate * 100;
     const mobilization = MOBILIZATION[military.mobilizationLevel || industrial.mobilizationLevel || "None"] || MOBILIZATION.None;
     const tradeBalance = number(trade.tradeBalance, 0);
+    const stability = number(national.governmentalStability, 70);
+    return {
+      national,
+      industrial,
+      military,
+      trade,
+      civFactories,
+      militaryFactories,
+      shipyards,
+      developmentLevel,
+      population,
+      corruption,
+      economicHealth,
+      taxRate,
+      taxRatePercent,
+      mobilization,
+      tradeBalance,
+      stability
+    };
+  }
+
+  function industrialBudgetContribution(inputs) {
+    const { civFactories, militaryFactories, shipyards, developmentLevel, mobilization } = inputs;
     const effectiveContributionRate = 5 + developmentLevel * 0.75;
     const developmentMultiplier = 1 + developmentLevel * 0.25;
-    const industrialContribution = ((civFactories * effectiveContributionRate) + (militaryFactories * effectiveContributionRate * mobilization.militaryFactoryMultiplier) + (shipyards * effectiveContributionRate * 1.5)) / (1 + (civFactories + militaryFactories + shipyards) * 0.0025) * developmentMultiplier;
-    const developmentImpact = Math.pow(developmentLevel / 10, 3) * (1 + developmentLevel / 20);
-    const taxRateScalingFactor = 1 + Math.sqrt(Math.max(0, (taxRate * 100 - 1) / 100));
-    const populationContribution = (Math.log(Math.max(population, 1)) + population / 250000) * taxRateScalingFactor * developmentImpact * ((100 - corruption) / 100) * (HEALTH_BUDGET[economicHealth] || 1);
+    return ((civFactories * effectiveContributionRate) + (militaryFactories * effectiveContributionRate * mobilization.militaryFactoryMultiplier) + (shipyards * effectiveContributionRate * 1.5)) / (1 + (civFactories + militaryFactories + shipyards) * 0.0025) * developmentMultiplier;
+  }
+
+  function budgetCapacityFromBreakdown(inputs, industrialContribution, populationContribution) {
+    const { civFactories, militaryFactories, shipyards, mobilization, national, tradeBalance } = inputs;
     const maintenanceCost = (civFactories + shipyards + militaryFactories * mobilization.maintenanceCost) * 0.1;
     const baseBudgetTotal = 10 + industrialContribution + populationContribution - maintenanceCost;
     const tradeImpactOnBudget = clamp(1 + (tradeBalance / Math.max(baseBudgetTotal, 100)) * 0.1, 0.1, 2);
-    return Math.round(baseBudgetTotal * tradeImpactOnBudget) + number(national.budgetAdjustment, 0);
+    const budgetCapacity = Math.max(0, Math.round(baseBudgetTotal * tradeImpactOnBudget) + number(national.budgetAdjustment, 0));
+    return {
+      budgetCapacity,
+      industrialContribution,
+      populationContribution,
+      maintenanceCost,
+      baseBudgetTotal,
+      tradeImpactOnBudget
+    };
+  }
+
+  function legacyBudgetBreakdown(data, id) {
+    const inputs = budgetInputsForNation(data, id);
+    if (!inputs) return null;
+    const { developmentLevel, population, taxRate, corruption, economicHealth } = inputs;
+    const developmentImpact = Math.pow(developmentLevel / 10, 3) * (1 + developmentLevel / 20);
+    const taxRateScalingFactor = 1 + Math.sqrt(Math.max(0, (taxRate * 100 - 1) / 100));
+    const populationContribution = (Math.log(Math.max(population, 1)) + population / 250000) * taxRateScalingFactor * developmentImpact * ((100 - corruption) / 100) * (HEALTH_BUDGET[economicHealth] || 1);
+    return {
+      formulaVersion: "legacy",
+      taxRevenue: populationContribution,
+      ...budgetCapacityFromBreakdown(inputs, industrialBudgetContribution(inputs), populationContribution)
+    };
+  }
+
+  function tax2026BudgetBreakdown(data, id) {
+    const inputs = budgetInputsForNation(data, id);
+    if (!inputs) return null;
+    const { developmentLevel, population, taxRatePercent, corruption, economicHealth, stability } = inputs;
+    const developmentCollection = clamp(0.18 + Math.pow(clamp(developmentLevel, 0, 20) / 20, 1.35) * 0.95, 0.18, 1.15);
+    const stabilityFactor = clamp(0.55 + stability / 200, 0.4, 1.1);
+    const corruptionFactor = clamp((100 - corruption) / 100, 0.05, 1);
+    const healthFactor = HEALTH_BUDGET[economicHealth] || 1;
+    const collectionEfficiency = clamp(developmentCollection * stabilityFactor * corruptionFactor * healthFactor, 0.05, 1.25);
+    const sustainableTaxRate = 8 + developmentLevel * 0.8;
+    const taxDrag = clamp(1 - Math.max(0, taxRatePercent - sustainableTaxRate) * 0.012, 0.6, 1);
+    const taxRevenue = (population / 125000) * clamp(taxRatePercent, 0, 60) * collectionEfficiency * taxDrag;
+    const legacyPopulationContribution = legacyBudgetBreakdown(data, id)?.populationContribution || 0;
+    const populationContribution = Math.max(legacyPopulationContribution, taxRevenue);
+    return {
+      formulaVersion: "tax2026",
+      taxRevenue,
+      developmentCollection,
+      collectionEfficiency,
+      taxDrag,
+      ...budgetCapacityFromBreakdown(inputs, industrialBudgetContribution(inputs), populationContribution)
+    };
+  }
+
+  function calculateBudgetBreakdownForNation(data, id, options = {}) {
+    return budgetFormulaVersion(data, options) === "tax2026"
+      ? tax2026BudgetBreakdown(data, id)
+      : legacyBudgetBreakdown(data, id);
+  }
+
+  function calculateBudgetForNation(data, id, options = {}) {
+    const breakdown = calculateBudgetBreakdownForNation(data, id, options);
+    return breakdown ? breakdown.budgetCapacity : null;
   }
 
   const fiscalFactory = window.AGGS_ENGINE_MODULES?.createFiscal;
@@ -395,6 +487,132 @@
     return data;
   }
 
+  function solveExpenditureForBalance(data, id, budgetCapacity, targetBalance) {
+    const working = ensureState(clone(data));
+    const national = working.national?.[id];
+    if (!national) return null;
+    national.budgetCapacity = roundCurrency(budgetCapacity);
+    let budgetExpenditure = roundCurrency(national.budgetExpenditure);
+    for (let index = 0; index < 6; index += 1) {
+      const fiscal = calculateFiscalForNation(working, id, { budgetCapacity, budgetExpenditure });
+      if (!fiscal) return null;
+      const nextExpenditure = Math.max(0, roundCurrency(budgetCapacity - fiscal.debtService - targetBalance));
+      if (Math.abs(nextExpenditure - budgetExpenditure) <= 1) {
+        budgetExpenditure = nextExpenditure;
+        break;
+      }
+      budgetExpenditure = nextExpenditure;
+    }
+    const fiscal = calculateFiscalForNation(working, id, { budgetCapacity, budgetExpenditure });
+    return fiscal ? { budgetExpenditure, fiscal } : null;
+  }
+
+  function previewBudgetRebalance(data) {
+    const current = ensureState(clone(data));
+    const fromFormulaVersion = budgetFormulaVersion(current);
+
+    const modeled = ensureState(clone(data));
+    modeled.meta.budgetFormulaVersion = "tax2026";
+    recalculateAll(modeled, { budgetFormulaVersion: "tax2026" });
+
+    const rows = visibleNationIds(current).map((id) => {
+      const nation = current.nations.find((entry) => entry.id === id) || { id, name: id };
+      const currentNational = current.national[id] || {};
+      const modeledNational = modeled.national[id] || {};
+      const oldBudgetCapacity = roundCurrency(currentNational.budgetCapacity);
+      const oldBudgetExpenditure = roundCurrency(currentNational.budgetExpenditure);
+      const oldBudgetBalance = roundCurrency(currentNational.budgetBalance);
+      const oldPrimaryBalance = roundCurrency(currentNational.primaryBalance ?? oldBudgetCapacity - oldBudgetExpenditure);
+      const newBudgetCapacity = roundCurrency(modeledNational.budgetCapacity);
+      const solved = solveExpenditureForBalance(modeled, id, newBudgetCapacity, oldBudgetBalance);
+      const newBudgetExpenditure = solved ? solved.budgetExpenditure : Math.max(0, roundCurrency(newBudgetCapacity - oldPrimaryBalance));
+      const appliedBudgetBalance = solved ? solved.fiscal.effectiveBalance : roundCurrency(newBudgetCapacity - newBudgetExpenditure);
+      const breakdown = calculateBudgetBreakdownForNation(modeled, id, { version: "tax2026" }) || {};
+      return {
+        id,
+        name: nation.name,
+        color: nation.color,
+        oldBudgetCapacity,
+        newBudgetCapacity,
+        budgetCapacityDelta: roundCurrency(newBudgetCapacity - oldBudgetCapacity),
+        oldBudgetExpenditure,
+        newBudgetExpenditure,
+        budgetExpenditureDelta: roundCurrency(newBudgetExpenditure - oldBudgetExpenditure),
+        oldBudgetBalance,
+        appliedBudgetBalance,
+        budgetBalanceDelta: roundCurrency(appliedBudgetBalance - oldBudgetBalance),
+        oldPrimaryBalance,
+        newPrimaryBalance: roundCurrency(newBudgetCapacity - newBudgetExpenditure),
+        taxRevenue: roundCurrency(breakdown.taxRevenue),
+        collectionEfficiency: roundPercent((breakdown.collectionEfficiency || 0) * 100),
+        taxDrag: roundPercent((breakdown.taxDrag || 1) * 100)
+      };
+    });
+
+    const totals = rows.reduce((total, row) => {
+      total.currentBudgetCapacity += row.oldBudgetCapacity;
+      total.modeledBudgetCapacity += row.newBudgetCapacity;
+      total.budgetCapacityDelta += row.budgetCapacityDelta;
+      total.currentExpenditure += row.oldBudgetExpenditure;
+      total.newExpenditure += row.newBudgetExpenditure;
+      total.expenditureDelta += row.budgetExpenditureDelta;
+      total.balanceDelta += row.budgetBalanceDelta;
+      return total;
+    }, {
+      currentBudgetCapacity: 0,
+      modeledBudgetCapacity: 0,
+      budgetCapacityDelta: 0,
+      currentExpenditure: 0,
+      newExpenditure: 0,
+      expenditureDelta: 0,
+      balanceDelta: 0
+    });
+
+    Object.keys(totals).forEach((key) => {
+      totals[key] = roundCurrency(totals[key]);
+    });
+
+    return {
+      fromFormulaVersion,
+      formulaVersion: "tax2026",
+      generatedAt: new Date().toISOString(),
+      rows,
+      totals
+    };
+  }
+
+  function applyBudgetRebalance(data) {
+    ensureState(data);
+    const preview = previewBudgetRebalance(data);
+    data.meta.budgetFormulaVersion = "tax2026";
+    for (const row of preview.rows) {
+      if (data.national?.[row.id]) {
+        data.national[row.id].budgetExpenditure = row.newBudgetExpenditure;
+      }
+    }
+    recalculateAll(data, { budgetFormulaVersion: "tax2026" });
+    const appliedAt = new Date().toISOString();
+    const rows = preview.rows.map((row) => {
+      const national = data.national?.[row.id] || {};
+      return {
+        ...row,
+        newBudgetCapacity: roundCurrency(national.budgetCapacity ?? row.newBudgetCapacity),
+        newBudgetExpenditure: roundCurrency(national.budgetExpenditure ?? row.newBudgetExpenditure),
+        appliedBudgetBalance: roundCurrency(national.budgetBalance ?? row.appliedBudgetBalance),
+        budgetBalanceDelta: roundCurrency((national.budgetBalance ?? row.appliedBudgetBalance) - row.oldBudgetBalance)
+      };
+    });
+    data.meta.lastBudgetRebalance = {
+      appliedAt,
+      fromFormulaVersion: preview.fromFormulaVersion,
+      formulaVersion: preview.formulaVersion,
+      rowCount: rows.length,
+      totals: preview.totals
+    };
+    data.meta.updatedAt = appliedAt;
+    return { ...preview, appliedAt, rows };
+  }
+
   function snapshot(data, year) {
     const ids = visibleNationIds(data);
     const totalPopulation = ids.reduce((total, id) => total + getPopulation(data, id, year), 0);
@@ -482,16 +700,19 @@
     visibleNationIds,
     currentPopulationKey,
     calculateTradeForNation,
+    calculateBudgetBreakdownForNation,
     calculateBudgetForNation,
     calculateFiscalForNation,
     calculateAnnualDebtUpdate,
     recalculateAll,
     recalculateTrade,
     recalculateBudgets,
+    previewBudgetRebalance,
+    applyBudgetRebalance,
     advanceToYear,
     updateValue,
     snapshot,
     exportDataJs,
-    constants: { HEALTH_GROWTH, HEALTH_POPULATION, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES }
+    constants: { HEALTH_GROWTH, HEALTH_POPULATION, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS }
   };
 })();

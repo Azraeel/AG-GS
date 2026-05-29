@@ -69,6 +69,7 @@
     rosterImportText: "",
     rosterImportPreview: null,
     templateImportText: "",
+    budgetRebalancePreview: null,
     sort: {},
     tableScroll: {},
     showDetails: false,
@@ -249,6 +250,7 @@
     data = Engine.normalizeState(Engine.clone(payload.data));
     Engine.recalculateAll(data);
     pendingEdits.clear();
+    state.budgetRebalancePreview = null;
     sharedSync.revision = nextRevision || sharedSync.revision;
     sharedSync.updatedAt = payload.updatedAt || data.meta?.updatedAt || "";
     sharedSync.updatedBy = payload.updatedBy || data.meta?.updatedBy || "";
@@ -839,6 +841,84 @@
       </article>`;
   }
 
+  function formulaLabel(version) {
+    return Engine.constants.BUDGET_FORMULAS?.[version] || version || "Legacy workbook formula";
+  }
+
+  function rebalanceMetric(label, value, note, tone = "") {
+    return `
+      <div class="rebalance-metric">
+        <span>${safeText(label)}</span>
+        <strong class="${tone ? `metric-${tone}` : ""}">${safeText(value)}</strong>
+        <small>${safeText(note)}</small>
+      </div>`;
+  }
+
+  function renderBudgetRebalancePanel(snapshot) {
+    const preview = state.budgetRebalancePreview;
+    const formulaVersion = data.meta.budgetFormulaVersion || "legacy";
+    const isTaxModelLive = formulaVersion === "tax2026";
+    const rows = [...(preview?.rows || [])].sort((left, right) => Math.abs(right.budgetCapacityDelta) - Math.abs(left.budgetCapacityDelta)).slice(0, 12);
+    const totals = preview?.totals || {};
+    const movementTone = Engine.number(totals.budgetCapacityDelta, 0) >= 0 ? "positive" : "negative";
+    const balanceNote = preview
+      ? Math.abs(Engine.number(totals.balanceDelta, 0)) <= 2 ? "Visible balances preserved" : `${fmtSigned(totals.balanceDelta)} net balance movement`
+      : "Preview before applying";
+    return `
+      <section class="panel economy-rebalance-panel">
+        <div class="panel-head economy-rebalance-head">
+          <div>
+            <h2>Economy Rebalance</h2>
+            <p>Preview the tax calibration model, then apply expenditure offsets so current budget balances stay stable.</p>
+          </div>
+          <span class="status ${isTaxModelLive ? "positive" : ""}">${safeText(formulaLabel(formulaVersion))}</span>
+        </div>
+        <div class="rebalance-metrics">
+          ${rebalanceMetric("Current World BC", fmtNumber(preview ? totals.currentBudgetCapacity : snapshot.budgetCapacity), "Live ledger total")}
+          ${rebalanceMetric("Modeled World BC", preview ? fmtNumber(totals.modeledBudgetCapacity) : "Not previewed", "Tax calibration")}
+          ${rebalanceMetric("Net Movement", preview ? fmtSigned(totals.budgetCapacityDelta) : "Pending", "Before expenditure offsets", preview ? movementTone : "")}
+          ${rebalanceMetric("Balance Lock", preview ? fmtSigned(totals.balanceDelta) : "Pending", balanceNote, preview && Math.abs(Engine.number(totals.balanceDelta, 0)) <= 2 ? "positive" : "")}
+        </div>
+        <div class="rebalance-controls">
+          <div>
+            <strong>Tax model rollout</strong>
+            <span>Nothing changes live until Apply is used. The apply step switches the budget formula and adjusts expenditures to keep each nation close to its current balance.</span>
+          </div>
+          <div class="rebalance-buttons">
+            <button class="command primary" type="button" data-action="preview-budget-rebalance">Preview Tax Rebalance</button>
+            <button class="command" type="button" data-action="export-budget-rebalance" ${preview ? "" : "disabled"}>Export Preview</button>
+            <button class="command danger" type="button" data-action="apply-budget-rebalance" ${preview && !isTaxModelLive ? "" : "disabled"}>Apply Rebalance</button>
+          </div>
+        </div>
+        <div class="rebalance-table-wrap">
+          ${preview ? `
+            <table class="rebalance-table">
+              <thead>
+                <tr>
+                  <th>Nation</th>
+                  <th class="numeric">Current BC</th>
+                  <th class="numeric">Modeled BC</th>
+                  <th class="numeric">Current Balance</th>
+                  <th class="numeric">New Expenditure</th>
+                  <th class="numeric">Applied Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows.map((row) => `
+                  <tr>
+                    <td><span class="rebalance-nation-cell"><span class="swatch" style="background:${safeColor(row.color)}"></span>${safeText(row.name)}</span></td>
+                    <td class="numeric">${fmtNumber(row.oldBudgetCapacity)}</td>
+                    <td class="numeric">${safeStatus(`${fmtNumber(row.newBudgetCapacity)} (${fmtSigned(row.budgetCapacityDelta)})`, row.budgetCapacityDelta >= 0 ? "positive" : "negative")}</td>
+                    <td class="numeric">${fmtSigned(row.oldBudgetBalance)}</td>
+                    <td class="numeric">${fmtNumber(row.newBudgetExpenditure)}</td>
+                    <td class="numeric">${safeStatus(fmtSigned(row.appliedBudgetBalance), Math.abs(row.budgetBalanceDelta) <= 2 ? "positive" : "negative")}</td>
+                  </tr>`).join("")}
+              </tbody>
+            </table>` : `<div class="empty">Run a preview to see the largest budget capacity movements before anything is applied.</div>`}
+        </div>
+      </section>`;
+  }
+
   function renderSimulation() {
     const currentYear = Number(data.meta.currentYear) || 2021;
     const snapshot = Engine.snapshot(data, currentYear);
@@ -900,6 +980,7 @@
           </div>
         </div>
       </section>
+      ${renderBudgetRebalancePanel(snapshot)}
       <section class="panel simulation-pipeline">
         <div class="panel-head compact-head">
           <div>
@@ -2130,6 +2211,7 @@
       if (dataset === "industrial" && data.military[id]) data.military[id].mobilizationLevel = value;
     }
     Engine.recalculateAll(data);
+    state.budgetRebalancePreview = null;
     const afterValue = historyFieldValue(dataset, path, readFieldValue(data, dataset, id, path));
     const changes = recordChange(entryKey, id, dataset, path, afterValue, nationSnapshot(data, id));
     const bcDelta = changes.find((change) => change.key === "national.budgetCapacity");
@@ -2196,21 +2278,38 @@
         await revertSelectedSnapshot();
       } else if (action === "snapshot-export") {
         await exportSelectedSnapshot();
+      } else if (action === "preview-budget-rebalance") {
+        state.budgetRebalancePreview = Engine.previewBudgetRebalance(data);
+        state.notice = `Previewed ${fmtNumber(state.budgetRebalancePreview.rows.length)} nations under the tax calibration model.`;
+        render();
+      } else if (action === "export-budget-rebalance") {
+        const preview = state.budgetRebalancePreview || Engine.previewBudgetRebalance(data);
+        downloadText(`ag-gs-budget-rebalance-${data.meta.currentYear}.json`, JSON.stringify(preview, null, 2));
+      } else if (action === "apply-budget-rebalance") {
+        if (!state.budgetRebalancePreview) state.budgetRebalancePreview = Engine.previewBudgetRebalance(data);
+        const ok = window.confirm("Apply the tax calibration model and adjust expenditures to preserve current budget balances?");
+        if (!ok) return;
+        state.budgetRebalancePreview = Engine.applyBudgetRebalance(data);
+        saveWorkingState(`Applied tax calibration to ${fmtNumber(state.budgetRebalancePreview.rows.length)} nations.`);
       } else if (action === "advance-one") {
         const result = Engine.advanceToYear(data, Number(data.meta.currentYear) + 1);
+        state.budgetRebalancePreview = null;
         saveWorkingState(result.message);
       } else if (action === "advance-target") {
         const result = Engine.advanceToYear(data, Number(targetInput?.value || data.meta.currentYear + 1));
+        state.budgetRebalancePreview = null;
         saveWorkingState(result.message);
       } else if (action === "recalculate") {
         data.meta.currentYear = Number(currentInput?.value || data.meta.currentYear);
         Engine.recalculateAll(data);
+        state.budgetRebalancePreview = null;
         saveWorkingState(`Recalculated ${data.meta.currentYear}.`);
       } else if (action === "toggle-detail-columns") {
         rememberVisibleTableScroll();
         state.showDetails = !state.showDetails;
         render();
       } else if (action === "reset-state") {
+        state.budgetRebalancePreview = null;
         resetWorkingState();
       } else if (action === "export-json") {
         downloadText(`ag-gs-${data.meta.currentYear}.json`, JSON.stringify(data, null, 2));
@@ -2267,10 +2366,12 @@
         updateSimulationPreview(event.target.id);
         data.meta.worldEconomicHealth = event.target.value;
         Engine.recalculateAll(data);
+        state.budgetRebalancePreview = null;
         saveWorkingState("World economy updated.");
       } else if (event.target.id === "currentYearInput") {
         updateSimulationPreview(event.target.id);
         data.meta.currentYear = Number(event.target.value || data.meta.currentYear);
+        state.budgetRebalancePreview = null;
         saveWorkingState(`Working year set to ${data.meta.currentYear}.`);
       } else if (event.target.id === "targetYearInput") {
         updateSimulationPreview(event.target.id);
