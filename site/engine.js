@@ -313,6 +313,54 @@
     };
   }
 
+  function calculateTaxBurdenForNation(data, id) {
+    const inputs = budgetInputsForNation(data, id);
+    if (!inputs) return null;
+    const { taxRatePercent, developmentLevel, corruption, economicHealth, stability, national } = inputs;
+    const sustainableTaxRate = roundPercent(clamp(8 + developmentLevel * 0.8, 8, 24));
+    const taxPressure = roundPercent(Math.max(0, taxRatePercent - sustainableTaxRate));
+    const healthPressure = { Prosperity: 0.75, Expansion: 0.9, Recovery: 1, Slowdown: 1.35, Recession: 1.75, Depression: 2.25 }[economicHealth] || 1;
+    const stabilityPressure = 1 + clamp((70 - stability) / 60, 0, 1.25);
+    const corruptionPressure = 1 + clamp(corruption / 180, 0, 0.75);
+    const pressureScore = roundPercent(taxPressure * healthPressure * stabilityPressure * corruptionPressure);
+    let tier = "Stable";
+    if (pressureScore > 16) tier = "Crisis";
+    else if (pressureScore > 9) tier = "Volatile";
+    else if (pressureScore > 4) tier = "Agitated";
+    else if (taxPressure > 0) tier = "Strained";
+
+    const baseUnrestChange = tier === "Crisis" ? 3 : tier === "Volatile" ? 2 : tier === "Agitated" ? 1 : 0;
+    const currentUnrest = clamp(number(national.publicUnrest, 0), 0, 10);
+    const suggestedUnrestChange = clamp(baseUnrestChange, 0, Math.max(0, 10 - currentUnrest));
+    const saturationMultiplier = clamp(1 / (1 + pressureScore * 0.08), 0.3, 1);
+    const avoidanceMultiplier = clamp(1 - taxPressure * (0.005 + corruption / 12000), 0.45, 1);
+    const collectionMultiplier = roundPercent(clamp(saturationMultiplier * avoidanceMultiplier, 0.25, 1));
+    const populationGrowthPenalty = roundPercent(clamp(taxPressure * 0.08 * healthPressure, 0, 3));
+    const immigrationPenalty = roundPercent(clamp(Math.max(0, taxPressure - 4) * 0.08 * healthPressure, 0, 3));
+    const industryGrowthMultiplier = roundPercent(clamp(1 - taxPressure * 0.025 * healthPressure, 0.35, 1));
+    const warnings = [];
+    if (taxPressure > 0) warnings.push(`Tax rate is ${roundPercent(taxPressure)} points above the sustainable rate.`);
+    if (suggestedUnrestChange > 0) warnings.push(`Consider +${suggestedUnrestChange} public unrest if this tax level persists.`);
+    if (collectionMultiplier < 0.8) warnings.push("High tax pressure is reducing collection efficiency.");
+    if (populationGrowthPenalty > 0) warnings.push("Population growth and immigration are under tax pressure.");
+    if (industryGrowthMultiplier < 0.9) warnings.push("Long-term industry growth is under tax pressure.");
+
+    return {
+      taxRatePercent: roundPercent(taxRatePercent),
+      sustainableTaxRate,
+      taxPressure,
+      pressureScore,
+      tier,
+      suggestedUnrestChange,
+      currentUnrest,
+      collectionMultiplier,
+      populationGrowthPenalty,
+      immigrationPenalty,
+      industryGrowthMultiplier,
+      warnings
+    };
+  }
+
   function industrialBudgetContribution(inputs) {
     const { civFactories, militaryFactories, shipyards, developmentLevel, mobilization } = inputs;
     const effectiveContributionRate = 5 + developmentLevel * 0.75;
@@ -354,13 +402,13 @@
     const inputs = budgetInputsForNation(data, id);
     if (!inputs) return null;
     const { developmentLevel, population, taxRatePercent, corruption, economicHealth, stability } = inputs;
+    const taxBurden = calculateTaxBurdenForNation(data, id);
     const developmentCollection = clamp(0.18 + Math.pow(clamp(developmentLevel, 0, 20) / 20, 1.35) * 0.95, 0.18, 1.15);
     const stabilityFactor = clamp(0.55 + stability / 200, 0.4, 1.1);
     const corruptionFactor = clamp((100 - corruption) / 100, 0.05, 1);
     const healthFactor = HEALTH_BUDGET[economicHealth] || 1;
     const collectionEfficiency = clamp(developmentCollection * stabilityFactor * corruptionFactor * healthFactor, 0.05, 1.25);
-    const sustainableTaxRate = 8 + developmentLevel * 0.8;
-    const taxDrag = clamp(1 - Math.max(0, taxRatePercent - sustainableTaxRate) * 0.012, 0.6, 1);
+    const taxDrag = taxBurden?.collectionMultiplier ?? 1;
     const taxRevenue = (population / 125000) * clamp(taxRatePercent, 0, 60) * collectionEfficiency * taxDrag;
     const legacyPopulationContribution = legacyBudgetBreakdown(data, id)?.populationContribution || 0;
     const populationContribution = Math.max(legacyPopulationContribution, taxRevenue);
@@ -370,6 +418,7 @@
       developmentCollection,
       collectionEfficiency,
       taxDrag,
+      taxBurden,
       ...budgetCapacityFromBreakdown(inputs, industrialBudgetContribution(inputs), populationContribution)
     };
   }
@@ -416,13 +465,15 @@
     const unrest = number(national.publicUnrest, 0);
     const development = number(national.developmentLevel, 0);
     const immigrationRate = number(national.immigrationRate, 0);
+    const taxBurden = calculateTaxBurdenForNation(data, id) || {};
+    const effectiveImmigrationRate = immigrationRate - number(taxBurden.immigrationPenalty, 0);
     const policy = populationRow.mandatoryChildPolicy || "No Policy";
     const scalingFactor = Math.max(0.2, 1 - (Math.log10(currentPopulation) / Math.log10(175000000)) * 0.8);
     let developmentImpact = 0;
     if (development <= 7) developmentImpact = Math.min(0.1 * (7 - development), 0.5);
     else if (development >= 15) developmentImpact = Math.max(-0.1 * (development - 15), -0.5);
     const baseGrowth = HEALTH_POPULATION[economicHealth];
-    const growthRate = (baseGrowth + (stability / 100) * baseGrowth + (CHILD_POLICY[policy] || 0) + developmentImpact + immigrationRate * 0.5 - unrest * 0.1) * scalingFactor;
+    const growthRate = (baseGrowth + (stability / 100) * baseGrowth + (CHILD_POLICY[policy] || 0) + developmentImpact + effectiveImmigrationRate * 0.5 - unrest * 0.1 - number(taxBurden.populationGrowthPenalty, 0)) * scalingFactor;
     const nextPopulation = Math.round(currentPopulation * (1 + growthRate / 100));
     setPopulation(data, id, toYear, nextPopulation);
     return { from: currentPopulation, to: nextPopulation, growthRate };
@@ -455,7 +506,9 @@
     let impactFromTradeBalance = (tradeBalance / 1000) * (economicImpactScore / 50) * tradeImpactScaling * industrialGrowthModifier - Math.abs(tradeVolatility) * 0.1 - importDependencyPenalty;
     if (tradeBalance < 0) impactFromTradeBalance *= 1.5;
     impactFromTradeBalance = clamp(impactFromTradeBalance, -3, 5);
-    const baseGrowth = impactFromHealth + Math.max(impactFromTradeBalance, 0);
+    const taxBurden = calculateTaxBurdenForNation(data, id) || {};
+    const growthMultiplier = number(taxBurden.industryGrowthMultiplier, 1) || 1;
+    const baseGrowth = impactFromHealth + Math.max(impactFromTradeBalance, 0) * growthMultiplier;
     industrial.civilianFactories = Math.max(currentFactories + Math.floor(baseGrowth * (1 + mobilization.civilianPenalty)), 0);
     industrial.militaryFactories = Math.max(currentMilitaryFactories + Math.floor(baseGrowth * mobilization.militaryGrowthMultiplier), 0);
     industrial.shipyards = Math.max(currentShipyards + Math.floor(baseGrowth / 3), 0);
@@ -528,6 +581,7 @@
       const newBudgetExpenditure = solved ? solved.budgetExpenditure : Math.max(0, roundCurrency(newBudgetCapacity - oldPrimaryBalance));
       const appliedBudgetBalance = solved ? solved.fiscal.effectiveBalance : roundCurrency(newBudgetCapacity - newBudgetExpenditure);
       const breakdown = calculateBudgetBreakdownForNation(modeled, id, { version: "tax2026" }) || {};
+      const taxBurden = breakdown.taxBurden || calculateTaxBurdenForNation(modeled, id) || {};
       return {
         id,
         name: nation.name,
@@ -545,7 +599,16 @@
         newPrimaryBalance: roundCurrency(newBudgetCapacity - newBudgetExpenditure),
         taxRevenue: roundCurrency(breakdown.taxRevenue),
         collectionEfficiency: roundPercent((breakdown.collectionEfficiency || 0) * 100),
-        taxDrag: roundPercent((breakdown.taxDrag || 1) * 100)
+        taxDrag: roundPercent((breakdown.taxDrag || 1) * 100),
+        taxRatePercent: taxBurden.taxRatePercent,
+        sustainableTaxRate: taxBurden.sustainableTaxRate,
+        taxBurdenTier: taxBurden.tier,
+        taxPressure: taxBurden.taxPressure,
+        suggestedUnrestChange: taxBurden.suggestedUnrestChange,
+        collectionMultiplier: roundPercent((taxBurden.collectionMultiplier || 1) * 100),
+        populationGrowthPenalty: taxBurden.populationGrowthPenalty,
+        industryGrowthMultiplier: roundPercent((taxBurden.industryGrowthMultiplier || 1) * 100),
+        taxBurdenWarnings: taxBurden.warnings || []
       };
     });
 
@@ -700,6 +763,7 @@
     visibleNationIds,
     currentPopulationKey,
     calculateTradeForNation,
+    calculateTaxBurdenForNation,
     calculateBudgetBreakdownForNation,
     calculateBudgetForNation,
     calculateFiscalForNation,
@@ -709,6 +773,8 @@
     recalculateBudgets,
     previewBudgetRebalance,
     applyBudgetRebalance,
+    advancePopulation,
+    advanceIndustry,
     advanceToYear,
     updateValue,
     snapshot,

@@ -1836,6 +1836,103 @@ tbody td {
   color: var(--negative-ink);
 }
 
+.metric-warning {
+  color: var(--warning-ink);
+}
+
+.tax-burden-watchlist {
+  border-bottom: 1px solid var(--line);
+}
+
+.tax-burden-watchlist-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 18px 10px;
+}
+
+.tax-burden-watchlist-head > div {
+  display: grid;
+  gap: 4px;
+}
+
+.tax-burden-watchlist-head strong {
+  font-size: 18px;
+}
+
+.tax-burden-watchlist-head span:not(.status) {
+  color: var(--muted);
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.tax-burden-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0 18px 16px;
+}
+
+.tax-burden-card {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--subtle-bg);
+}
+
+.tax-burden-title {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.tax-burden-title strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tax-burden-card dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+}
+
+.tax-burden-card dl div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.tax-burden-card dt,
+.tax-burden-card p {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.tax-burden-card dd {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 950;
+  font-variant-numeric: tabular-nums;
+}
+
+.tax-burden-card p {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.compact-empty {
+  padding-block: 18px;
+}
+
 .rebalance-controls {
   display: flex;
   justify-content: space-between;
@@ -1879,7 +1976,7 @@ tbody td {
 }
 
 .rebalance-table {
-  min-width: 1080px;
+  min-width: 1280px;
 }
 
 .rebalance-nation-cell {
@@ -1887,6 +1984,17 @@ tbody td {
   align-items: center;
   gap: 10px;
   font-weight: 900;
+}
+
+.rebalance-burden-cell {
+  display: grid;
+  gap: 4px;
+}
+
+.rebalance-burden-cell small {
+  color: var(--muted);
+  font-weight: 800;
+  white-space: nowrap;
 }
 
 .compact-head {

@@ -845,6 +845,53 @@
     return Engine.constants.BUDGET_FORMULAS?.[version] || version || "Legacy workbook formula";
   }
 
+  function taxBurdenTone(tier = "") {
+    if (tier === "Crisis" || tier === "Volatile") return "negative";
+    if (tier === "Agitated" || tier === "Strained") return "warning";
+    return "positive";
+  }
+
+  function taxBurdenRows() {
+    return visibleNations()
+      .map((nation) => ({ nation, burden: Engine.calculateTaxBurdenForNation(data, nation.id) }))
+      .filter((row) => row.burden)
+      .sort((left, right) => Engine.number(right.burden.pressureScore, 0) - Engine.number(left.burden.pressureScore, 0));
+  }
+
+  function renderTaxBurdenWatchlist(rows) {
+    const watchRows = rows
+      .filter((row) => Engine.number(row.burden.taxPressure, 0) > 0 || Engine.number(row.burden.suggestedUnrestChange, 0) > 0)
+      .slice(0, 6);
+    return `
+      <div class="tax-burden-watchlist">
+        <div class="tax-burden-watchlist-head">
+          <div>
+            <strong>GM Tax Burden Warnings</strong>
+            <span>Public unrest remains GM-controlled. These warnings show when tax policy is pushing collection, migration, and industry too hard.</span>
+          </div>
+          <span class="status ${watchRows.length ? "warning" : "positive"}">${watchRows.length ? `${fmtNumber(watchRows.length)} watch` : "Stable"}</span>
+        </div>
+        ${watchRows.length ? `
+          <div class="tax-burden-grid">
+            ${watchRows.map(({ nation, burden }) => `
+              <article class="tax-burden-card">
+                <div class="tax-burden-title">
+                  <span class="swatch" style="background:${safeColor(nation.color)}"></span>
+                  <strong>${safeText(nation.name)}</strong>
+                  ${safeStatus(burden.tier, taxBurdenTone(burden.tier))}
+                </div>
+                <dl>
+                  <div><dt>Tax</dt><dd>${fmtPercent(burden.taxRatePercent)}</dd></div>
+                  <div><dt>Sustainable</dt><dd>${fmtPercent(burden.sustainableTaxRate)}</dd></div>
+                  <div><dt>GM unrest</dt><dd>${burden.suggestedUnrestChange ? `+${fmtNumber(burden.suggestedUnrestChange)}` : "Hold"}</dd></div>
+                  <div><dt>Collection</dt><dd>${fmtPercent(Engine.number(burden.collectionMultiplier, 1) * 100)}</dd></div>
+                </dl>
+                <p>${safeText((burden.warnings || [])[0] || "No warning text recorded.")}</p>
+              </article>`).join("")}
+          </div>` : `<div class="empty compact-empty">No active tax pressure warnings for the current ledger.</div>`}
+      </div>`;
+  }
+
   function rebalanceMetric(label, value, note, tone = "") {
     return `
       <div class="rebalance-metric">
@@ -859,6 +906,8 @@
     const formulaVersion = data.meta.budgetFormulaVersion || "legacy";
     const isTaxModelLive = formulaVersion === "tax2026";
     const rows = [...(preview?.rows || [])].sort((left, right) => Math.abs(right.budgetCapacityDelta) - Math.abs(left.budgetCapacityDelta)).slice(0, 12);
+    const burdenRows = taxBurdenRows();
+    const burdenWarningCount = burdenRows.filter((row) => ["Agitated", "Volatile", "Crisis"].includes(row.burden.tier)).length;
     const totals = preview?.totals || {};
     const movementTone = Engine.number(totals.budgetCapacityDelta, 0) >= 0 ? "positive" : "negative";
     const balanceNote = preview
@@ -877,12 +926,13 @@
           ${rebalanceMetric("Current World BC", fmtNumber(preview ? totals.currentBudgetCapacity : snapshot.budgetCapacity), "Live ledger total")}
           ${rebalanceMetric("Modeled World BC", preview ? fmtNumber(totals.modeledBudgetCapacity) : "Not previewed", "Tax calibration")}
           ${rebalanceMetric("Net Movement", preview ? fmtSigned(totals.budgetCapacityDelta) : "Pending", "Before expenditure offsets", preview ? movementTone : "")}
-          ${rebalanceMetric("Balance Lock", preview ? fmtSigned(totals.balanceDelta) : "Pending", balanceNote, preview && Math.abs(Engine.number(totals.balanceDelta, 0)) <= 2 ? "positive" : "")}
+          ${rebalanceMetric("Tax Warnings", burdenWarningCount ? fmtNumber(burdenWarningCount) : "None", "GM review queue", burdenWarningCount ? "warning" : "positive")}
         </div>
+        ${renderTaxBurdenWatchlist(burdenRows)}
         <div class="rebalance-controls">
           <div>
             <strong>Tax model rollout</strong>
-            <span>Nothing changes live until Apply is used. The apply step switches the budget formula and adjusts expenditures to keep each nation close to its current balance.</span>
+            <span>Nothing changes live until Apply is used. The apply step switches the budget formula and adjusts expenditures to keep each nation close to its current balance. ${safeText(balanceNote)}</span>
           </div>
           <div class="rebalance-buttons">
             <button class="command primary" type="button" data-action="preview-budget-rebalance">Preview Tax Rebalance</button>
@@ -901,6 +951,8 @@
                   <th class="numeric">Current Balance</th>
                   <th class="numeric">New Expenditure</th>
                   <th class="numeric">Applied Balance</th>
+                  <th>Tax Burden</th>
+                  <th class="numeric">GM Unrest</th>
                 </tr>
               </thead>
               <tbody>
@@ -912,6 +964,13 @@
                     <td class="numeric">${fmtSigned(row.oldBudgetBalance)}</td>
                     <td class="numeric">${fmtNumber(row.newBudgetExpenditure)}</td>
                     <td class="numeric">${safeStatus(fmtSigned(row.appliedBudgetBalance), Math.abs(row.budgetBalanceDelta) <= 2 ? "positive" : "negative")}</td>
+                    <td>
+                      <div class="rebalance-burden-cell">
+                        ${safeStatus(row.taxBurdenTier || "Stable", taxBurdenTone(row.taxBurdenTier))}
+                        <small>${fmtPercent(row.taxRatePercent)} tax / ${fmtPercent(row.sustainableTaxRate)} sustainable</small>
+                      </div>
+                    </td>
+                    <td class="numeric">${row.suggestedUnrestChange ? safeStatus(`+${fmtNumber(row.suggestedUnrestChange)}`, "warning") : safeStatus("Hold", "positive")}</td>
                   </tr>`).join("")}
               </tbody>
             </table>` : `<div class="empty">Run a preview to see the largest budget capacity movements before anything is applied.</div>`}
