@@ -1937,7 +1937,7 @@ tbody td {
 
 .equipment-library-layout {
   display: grid;
-  grid-template-columns: minmax(360px, 500px) minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: 14px;
   align-items: start;
   margin-bottom: 14px;
@@ -1991,13 +1991,14 @@ tbody td {
 }
 
 .equipment-table-wrap {
-  max-height: min(660px, calc(100vh - 330px));
-  min-height: 360px;
+  max-height: min(520px, calc(100vh - 330px));
+  min-height: 0;
   overflow: auto;
 }
 
 .equipment-list-wrap {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   align-content: start;
   gap: 8px;
   padding: 12px;
@@ -2041,6 +2042,7 @@ tbody td {
   display: grid;
   gap: 7px;
   width: 100%;
+  min-height: 96px;
   padding: 13px 14px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -2219,7 +2221,8 @@ tbody td {
 
 .equipment-dossier-panel > .design-editor-form,
 .equipment-dossier-panel > .equipment-dossier-readout {
-  padding: 16px;
+  gap: 0;
+  padding: 0;
 }
 
 .design-editor-form .equipment-dossier-readout {
@@ -2231,11 +2234,12 @@ tbody td {
   justify-content: space-between;
   gap: 14px;
   align-items: flex-start;
+  padding: 16px;
 }
 
 .equipment-dossier-heading h3 {
   margin: 3px 0 8px;
-  font-size: clamp(30px, 3.8vw, 52px);
+  font-size: clamp(28px, 3.4vw, 46px);
   line-height: 0.95;
 }
 
@@ -2251,22 +2255,30 @@ tbody td {
 }
 
 .equipment-core-editor {
-  margin-top: 16px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  border-top: 1px solid var(--line);
   background: var(--subtle-bg);
 }
 
-.equipment-core-editor summary {
-  padding: 12px 14px;
-  color: var(--ink);
-  cursor: pointer;
-  font-weight: 950;
+.equipment-core-editor-head {
+  padding: 14px 16px 10px;
+}
+
+.equipment-core-editor-head h4 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.equipment-core-editor-head p {
+  max-width: 900px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.4;
+  font-size: 13px;
 }
 
 .equipment-core-editor .design-form-grid,
 .equipment-core-editor .design-actions {
-  padding: 0 14px 14px;
+  padding: 0 16px 16px;
 }
 
 .design-notes-field {
@@ -2310,7 +2322,24 @@ tbody td {
 }
 
 .equipment-spec-grid {
-  margin-top: 16px;
+  margin: 0;
+  padding: 0 16px 16px;
+}
+
+.equipment-roster-note {
+  display: grid;
+  gap: 4px;
+  margin: 0 16px 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--subtle-bg);
+  color: var(--muted);
+}
+
+.equipment-roster-note strong {
+  color: var(--ink);
+  font-size: 15px;
 }
 
 .template-section-preview h4,

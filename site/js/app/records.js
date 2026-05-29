@@ -234,6 +234,19 @@
         </div>`;
     }
 
+    function hasDetailedSpecs(design) {
+      return Boolean(design?.sections && Object.keys(design.sections).length);
+    }
+
+    function recordMetaLine(design) {
+      return [
+        design.category || "Other",
+        design.subcategory || design.role || "General",
+        designStatus(design),
+        hasDetailedSpecs(design) ? "" : design.notes || ""
+      ].filter(Boolean).join(" / ");
+    }
+
     function specValueHtml(value) {
       return `<strong>${safeText(value || "Unfilled")}</strong>`;
     }
@@ -269,25 +282,23 @@
     }
 
     function equipmentDossierReadout(design) {
+      const detailed = hasDetailedSpecs(design);
       return `
         <div class="equipment-dossier-readout">
           <div class="equipment-dossier-heading">
             <div>
-              <span class="section-kicker">${safeText(design.detailLevel === "template" ? "Custom Equipment Dossier" : "Equipment Record")}</span>
+              <span class="section-kicker">${safeText(detailed ? "Custom Equipment Specification" : "Selected Roster Record")}</span>
               <h3>${safeText(design.name)}</h3>
-              <p>${safeText(design.notes || "No description has been entered yet.")}</p>
+              <p>${safeText(recordMetaLine(design))}</p>
             </div>
+            ${isAdmin ? `<button type="button" class="command danger compact" data-action="delete-equipment-design">Delete Record</button>` : ""}
           </div>
-          <div class="design-detail-grid equipment-dossier-meta">
-            ${summaryFact("Category", design.category || "Other")}
-            ${summaryFact("Subcategory", design.subcategory || design.role || "Unassigned")}
-            ${summaryFact("Status", designStatus(design))}
-            ${summaryFact("Origin", design.origin || "In-game")}
-            ${summaryFact("Detail Level", design.detailLevel || "custom")}
-            ${summaryFact("Updated", fmtDateTime(design.updatedAt))}
-          </div>
-          ${designSectionsHtml(design) || `<div class="empty compact">No detailed specs are attached to this equipment record.</div>`}
-          ${design.rawTemplate ? `
+          ${detailed ? designSectionsHtml(design) : `
+            <div class="equipment-roster-note">
+              <strong>Roster-only record</strong>
+              <span>This item is tracked in the inventory list, but no custom specification has been attached.</span>
+            </div>`}
+          ${detailed && design.rawTemplate ? `
             <details class="raw-template-details">
               <summary>Original pasted text</summary>
               <pre>${safeText(design.rawTemplate)}</pre>
@@ -307,16 +318,18 @@
 
       return `
         <div class="design-editor-form">
-          <div class="design-editor-title">
-            <div>
-              <span class="section-kicker">${isExisting ? design.detailLevel === "template" ? "Custom Equipment Dossier" : "Equipment Dossier" : "New Record"}</span>
-              <h3>${safeText(isExisting ? design.name : "Create Equipment Record")}</h3>
+          ${isExisting ? equipmentDossierReadout(design) : `
+            <div class="equipment-dossier-heading">
+              <div>
+                <span class="section-kicker">New Record</span>
+                <h3>Create Equipment Record</h3>
+              </div>
+            </div>`}
+          <div class="equipment-core-editor">
+            <div class="equipment-core-editor-head">
+              <h4>${isExisting ? "Core Record Fields" : "New Record Fields"}</h4>
+              <p>${isExisting ? "Use these fields for inventory classification. Detailed specs stay in the imported specification above." : "Create a lightweight inventory item, or paste a detailed template for a full specification."}</p>
             </div>
-            ${isExisting ? `<button type="button" class="command danger compact" data-action="delete-equipment-design">Delete Record</button>` : ""}
-          </div>
-          ${isExisting ? equipmentDossierReadout(design) : ""}
-          <details class="equipment-core-editor" ${isExisting ? "" : "open"}>
-            <summary>${isExisting ? "Edit core record fields" : "Core record fields"}</summary>
           <div class="design-form-grid">
             <label class="control-field is-text">
               <span>Name</span>
@@ -361,7 +374,7 @@
             <button type="button" class="command primary" data-action="save-equipment-design">${isExisting ? "Save Record" : "Create Record"}</button>
             <button type="button" class="command" data-new-equipment-design>Clear Form</button>
           </div>
-          </details>
+          </div>
         </div>`;
     }
 
@@ -424,7 +437,7 @@
             <div class="panel-head compact-head">
               <div>
                 <h2>${safeText(nation.name)} Equipment</h2>
-                <p>${fmtNumber(designs.length)} records. Filter by category, then open a full equipment dossier.</p>
+                <p>${fmtNumber(designs.length)} records. Filter by category, then open the selected item below.</p>
               </div>
               ${equipmentActionsHtml(fleet)}
             </div>
