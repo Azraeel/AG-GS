@@ -63,6 +63,7 @@
     query: "",
     selectedNation: "solara",
     sort: {},
+    tableScroll: {},
     showDetails: false,
     notice: ""
   };
@@ -647,7 +648,7 @@
     });
 
     app.innerHTML = `
-      <section class="panel">
+      <section class="panel ${isStatusTable ? "status-table-panel" : ""}">
         <div class="panel-head">
           <div>
             <h2>${safeText(title)}</h2>
@@ -659,7 +660,7 @@
             <span class="status">${fmtNumber(sortedRows.length)} rows</span>
           </div>
         </div>
-        <div class="table-wrap">
+        <div class="table-wrap ${isStatusTable ? "status-table-wrap" : ""}" data-table-scroll="${escapeHtml(id)}">
           <table>
             <thead>
               <tr>
@@ -692,6 +693,31 @@
         ${hasSecondaryColumns && !state.showDetails ? `<div class="table-note">Showing the most-used columns. Use Detailed Columns for the full ledger view.</div>` : ""}
       </section>
     `;
+    restoreTableScroll(id);
+  }
+
+  function rememberTableScroll(id, element) {
+    if (!id || !element) return;
+    state.tableScroll[id] = {
+      left: element.scrollLeft,
+      top: element.scrollTop
+    };
+  }
+
+  function rememberVisibleTableScroll() {
+    const tableWrap = app.querySelector("[data-table-scroll]");
+    if (tableWrap) rememberTableScroll(tableWrap.dataset.tableScroll, tableWrap);
+  }
+
+  function restoreTableScroll(id) {
+    const saved = state.tableScroll[id];
+    if (!saved) return;
+    requestAnimationFrame(() => {
+      const tableWrap = Array.from(app.querySelectorAll("[data-table-scroll]")).find((element) => element.dataset.tableScroll === id);
+      if (!tableWrap) return;
+      tableWrap.scrollLeft = saved.left || 0;
+      tableWrap.scrollTop = saved.top || 0;
+    });
   }
 
   function tableRowsFor(datasetKey) {
@@ -2109,6 +2135,11 @@
     if (edit) applyEdit(edit, false);
   });
 
+  app.addEventListener("scroll", (event) => {
+    const tableWrap = event.target.closest?.("[data-table-scroll]");
+    if (tableWrap) rememberTableScroll(tableWrap.dataset.tableScroll, tableWrap);
+  }, true);
+
   app.addEventListener("click", async (event) => {
     const actionButton = event.target.closest("[data-action]");
     if (actionButton) {
@@ -2145,6 +2176,7 @@
         Engine.recalculateAll(data);
         saveWorkingState(`Recalculated ${data.meta.currentYear}.`);
       } else if (action === "toggle-detail-columns") {
+        rememberVisibleTableScroll();
         state.showDetails = !state.showDetails;
         render();
       } else if (action === "reset-state") {
@@ -2169,6 +2201,7 @@
 
     const header = event.target.closest("th[data-table]");
     if (header) {
+      rememberVisibleTableScroll();
       const table = header.dataset.table;
       const key = header.dataset.key;
       const current = state.sort[table] || {};
