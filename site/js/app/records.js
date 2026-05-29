@@ -965,8 +965,16 @@
 
       const designButton = event.target.closest("[data-equipment-design]");
       if (designButton) {
+        const tableWrap = designButton.closest(".equipment-table-wrap");
+        const scrollTop = tableWrap?.scrollTop || 0;
+        const scrollLeft = tableWrap?.scrollLeft || 0;
         state.selectedEquipmentDesignId = designButton.dataset.equipmentDesign;
         render();
+        const nextTableWrap = app.querySelector(".equipment-table-wrap");
+        if (nextTableWrap) {
+          nextTableWrap.scrollTop = scrollTop;
+          nextTableWrap.scrollLeft = scrollLeft;
+        }
         return true;
       }
 
