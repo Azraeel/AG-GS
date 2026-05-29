@@ -7,7 +7,6 @@ window.AGGS_DATA = {
     currentYear: 2021,
     currentMonth: "January",
     worldEconomicHealth: "Expansion",
-    hiddenNationIds: ["zhensanovian_commonwealth"],
     archivedNationIds: [],
     worldCurrencies: [],
     currencyBonusByNation: {},

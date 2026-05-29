@@ -1303,7 +1303,6 @@
     const color = safeColor(colorInput?.value || "#63a4ff");
     const sourceId = templateInput?.value === "copy" ? state.selectedNation : "";
     data.nations.push({ id, name, color });
-    data.meta.hiddenNationIds = (data.meta.hiddenNationIds || []).filter((hiddenId) => hiddenId !== id);
     data.meta.archivedNationIds = (data.meta.archivedNationIds || []).filter((archivedId) => archivedId !== id);
     applyNationRecords(id, recordsFromTemplate(sourceId, id));
     Engine.recalculateAll(data);

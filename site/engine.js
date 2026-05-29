@@ -65,7 +65,6 @@
     data.meta.title = data.meta.title || "AG-GS Global Ledger";
     data.meta.currentYear = number(data.meta.currentYear, 2021);
     data.meta.worldEconomicHealth = data.meta.worldEconomicHealth || "Expansion";
-    data.meta.hiddenNationIds = Array.isArray(data.meta.hiddenNationIds) ? data.meta.hiddenNationIds : [];
     data.meta.archivedNationIds = Array.isArray(data.meta.archivedNationIds) ? data.meta.archivedNationIds : [];
     data.meta.lastSimulationLog = data.meta.lastSimulationLog || [];
     data.meta.changeHistory = Array.isArray(data.meta.changeHistory) ? data.meta.changeHistory : [];
@@ -80,16 +79,12 @@
     return data;
   }
 
-  function hiddenNationIds(data) {
-    return new Set(data.meta?.hiddenNationIds || []);
-  }
-
   function archivedNationIds(data) {
     return new Set(data.meta?.archivedNationIds || []);
   }
 
   function inactiveNationIds(data) {
-    return new Set([...hiddenNationIds(data), ...archivedNationIds(data)]);
+    return archivedNationIds(data);
   }
 
   function visibleNations(data) {

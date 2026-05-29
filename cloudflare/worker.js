@@ -96,14 +96,13 @@ async function getState(env, isAdmin = false) {
 function snapshotSummary(snapshot) {
   const nations = Array.isArray(snapshot.data?.nations) ? snapshot.data.nations : [];
   const archived = new Set(snapshot.data?.meta?.archivedNationIds || []);
-  const hidden = new Set(snapshot.data?.meta?.hiddenNationIds || []);
   return {
     revision: number(snapshot.revision),
     updatedAt: snapshot.updatedAt || "",
     updatedBy: snapshot.updatedBy || "",
     snapshotAt: snapshot.snapshotAt || "",
     nationCount: nations.length,
-    activeNationCount: nations.filter((nation) => !archived.has(nation.id) && !hidden.has(nation.id)).length
+    activeNationCount: nations.filter((nation) => !archived.has(nation.id)).length
   };
 }
 
