@@ -1,7 +1,7 @@
 (function () {
   window.AGGS_APP_CONFIG = {
     THEME_KEY: "aggs-theme",
-    adminOnlyTabs: ["editor", "simulation", "history"],
+    adminOnlyTabs: ["editor", "simulation", "history", "rosterImport", "templateImport"],
     adminOnlyActions: [
       "advance-one",
       "advance-target",
@@ -17,6 +17,12 @@
       "delete-equipment-design",
       "add-naval-ship",
       "delete-naval-ship",
+      "preview-roster-import",
+      "apply-roster-import",
+      "apply-roster-import-new",
+      "clear-roster-import",
+      "import-template-record",
+      "clear-template-import",
       "refresh-snapshots",
       "snapshot-revert",
       "snapshot-export"
@@ -44,8 +50,11 @@
       { key: "population", label: "Population Tracker" },
       { key: "military", label: "Military Status" },
       { key: "intelligence", label: "Intelligence Status" },
+      { key: "equipment", label: "Equipment Library" },
+      { key: "rosterImport", label: "Roster Import", adminOnly: true },
+      { key: "templates", label: "Template Library" },
+      { key: "templateImport", label: "Detailed Template", adminOnly: true },
       { key: "naval", label: "Naval Inventory" },
-      { key: "equipment", label: "Equipment Designs" },
       { key: "eclipse", label: "Eclipse Status" },
       { key: "elections", label: "Election Tracker" },
       { key: "audit", label: "Audit" }

@@ -2039,12 +2039,64 @@ tbody td {
   gap: 10px;
 }
 
+.records-action-list {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
 .design-detail-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
+}
+
+.template-section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.template-section-preview {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--subtle-bg);
+  padding: 12px;
+}
+
+.template-section-preview h4 {
+  margin: 0 0 10px;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.template-section-preview p {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  padding: 7px 0;
+  border-top: 1px solid var(--line);
+}
+
+.template-section-preview p:first-of-type {
+  border-top: 0;
+}
+
+.template-section-preview span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.template-section-preview strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-align: right;
 }
 
 .design-detail-grid .records-fact {
@@ -2066,6 +2118,99 @@ tbody td {
 
 .record-reference-panel {
   margin-top: 14px;
+}
+
+.records-import-grid {
+  display: grid;
+  grid-template-columns: minmax(420px, 1.05fr) minmax(360px, 0.95fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.import-paste-body {
+  display: grid;
+  gap: 12px;
+  padding: 14px 16px 16px;
+}
+
+.import-paste-body textarea {
+  min-height: 440px;
+  resize: vertical;
+  line-height: 1.45;
+  font-family: "Aptos", "Segoe UI", Arial, sans-serif;
+}
+
+.import-preview-panel {
+  min-height: 520px;
+}
+
+.import-preview-list {
+  display: grid;
+  max-height: 520px;
+  overflow: auto;
+  border-top: 1px solid var(--line);
+}
+
+.import-preview-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.8fr) minmax(120px, 0.8fr) minmax(0, 1.25fr) auto;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.import-preview-row span,
+.import-preview-row strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.import-preview-row span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.import-apply-actions {
+  padding: 14px 16px 16px;
+  border-top: 1px solid var(--line);
+}
+
+.template-library-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.template-card-body,
+.template-explain-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+}
+
+.template-card-body .records-fact,
+.template-explain-list .records-fact {
+  border-left: 0;
+  border-top: 1px solid var(--line);
+}
+
+.template-card-body .records-fact:nth-child(-n + 2),
+.template-explain-list .records-fact:nth-child(-n + 2) {
+  border-top: 0;
+}
+
+.template-card-body .records-fact:nth-child(even),
+.template-explain-list .records-fact:nth-child(even) {
+  border-left: 1px solid var(--line);
+}
+
+.template-card-body .command {
+  align-self: center;
+  margin: 13px 16px;
 }
 
 .compact-table table {
@@ -2169,6 +2314,8 @@ tbody td {
   .nation-layout,
   .simulation-grid,
   .records-workspace-grid,
+  .records-import-grid,
+  .template-library-grid,
   .naval-grid,
   .equipment-grid,
   .audit-grid {
@@ -2235,18 +2382,31 @@ tbody td {
 
   .design-form-grid,
   .design-detail-grid,
+  .template-section-grid,
+  .template-card-body,
+  .template-explain-list,
   .naval-add-row {
     grid-template-columns: 1fr;
   }
 
   .design-detail-grid .records-fact,
-  .design-detail-grid .records-fact:not(:nth-child(3n + 1)) {
+  .design-detail-grid .records-fact:not(:nth-child(3n + 1)),
+  .template-card-body .records-fact,
+  .template-card-body .records-fact:nth-child(even),
+  .template-explain-list .records-fact,
+  .template-explain-list .records-fact:nth-child(even) {
     border-left: 0;
     border-top: 1px solid var(--line);
   }
 
-  .design-detail-grid .records-fact:first-child {
+  .design-detail-grid .records-fact:first-child,
+  .template-card-body .records-fact:first-child,
+  .template-explain-list .records-fact:first-child {
     border-top: 0;
+  }
+
+  .import-preview-row {
+    grid-template-columns: 1fr;
   }
 
   .history-list-head {

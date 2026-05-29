@@ -2,6 +2,7 @@
   const baseData = window.AGGS_DATA;
   const Engine = window.AGGS_ENGINE;
   const AppConfig = window.AGGS_APP_CONFIG;
+  const RecordsParser = window.AGGS_RECORDS_PARSER;
   const Format = window.AGGS_APP_FORMAT(Engine);
   const {
     escapeHtml,
@@ -63,6 +64,9 @@
     query: "",
     selectedNation: "solara",
     selectedEquipmentDesignId: "",
+    rosterImportText: "",
+    rosterImportPreview: null,
+    templateImportText: "",
     sort: {},
     tableScroll: {},
     showDetails: false,
@@ -1976,10 +1980,11 @@
     fmtCost,
     isAdmin,
     Engine,
+    Parser: RecordsParser,
     saveWorkingState,
     render
   });
-  const { renderNaval, renderEquipment, renderAudit, auditRows } = recordsViews;
+  const { renderNaval, renderEquipment, renderRosterImport, renderTemplates, renderTemplateImport, renderAudit, auditRows } = recordsViews;
 
   let editRenderTimer = null;
   let deferredRenderTimer = null;
@@ -2028,6 +2033,9 @@
       elections: renderElections,
       naval: renderNaval,
       equipment: renderEquipment,
+      rosterImport: renderRosterImport,
+      templates: renderTemplates,
+      templateImport: renderTemplateImport,
       audit: renderAudit
     };
     renderers[state.tab]();

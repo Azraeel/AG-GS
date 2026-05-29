@@ -8,7 +8,6 @@
       state,
       datasets,
       visibleNations,
-      isVisibleNation,
       coverageFor,
       nationCell,
       nationOptionsHtml,
@@ -19,20 +18,24 @@
       safeStatus,
       fmtDateTime,
       fmtNumber,
-      fmtPercent,
       fmtCost,
       isAdmin,
       Engine,
+      Parser,
       saveWorkingState,
       render
     } = ctx;
 
+    const parser = Parser || window.AGGS_RECORDS_PARSER;
     const recordTabs = [
-      { key: "equipment", label: "Equipment Designs" },
+      { key: "equipment", label: "Equipment Library" },
+      { key: "rosterImport", label: "Roster Import", adminOnly: true },
+      { key: "templates", label: "Template Library" },
+      { key: "templateImport", label: "Detailed Template", adminOnly: true },
       { key: "naval", label: "Navy Inventory" },
       { key: "audit", label: "Coverage Audit" }
     ];
-    const designStatuses = ["Concept", "Prototype", "Fielded", "Reserve", "Retired"];
+    const designStatuses = ["Concept", "Prototype", "Fielded", "Active", "Reserve", "Retired", "Rostered"];
     const designEras = ["Great War", "Atomic", "Information", "Digital", "Near Future"];
     const newDesignId = "__new_equipment_design__";
     const fallbackCategories = [
@@ -40,6 +43,8 @@
       "Support Weapons",
       "Armored Vehicles",
       "Aeroplanes",
+      "Infantry Equipment",
+      "Missiles",
       "Naval",
       "Cyber",
       "Strategic",
@@ -71,7 +76,8 @@
         .slice()
         .sort((left, right) => {
           const category = String(left.category || "").localeCompare(String(right.category || ""), "en", { sensitivity: "base" });
-          return category || String(left.name || "").localeCompare(String(right.name || ""), "en", { sensitivity: "base" });
+          const subcategory = String(left.subcategory || left.role || "").localeCompare(String(right.subcategory || right.role || ""), "en", { sensitivity: "base" });
+          return category || subcategory || String(left.name || "").localeCompare(String(right.name || ""), "en", { sensitivity: "base" });
         });
     }
 
@@ -89,6 +95,9 @@
       (data.equipmentCosts || []).forEach((row) => {
         if (row.category) set.add(row.category);
       });
+      visibleDesignEntries().forEach(({ design }) => {
+        if (design.category) set.add(design.category);
+      });
       return Array.from(set).sort((left, right) => left.localeCompare(right, "en", { sensitivity: "base" }));
     }
 
@@ -102,6 +111,7 @@
       return `
         <div class="records-local-tabs" aria-label="Records views">
           ${recordTabs
+            .filter((tab) => isAdmin || !tab.adminOnly)
             .map((tab) => `<button type="button" class="record-tab ${tab.key === activeKey ? "is-active" : ""}" data-records-view="${escapeHtml(tab.key)}">${safeText(tab.label)}</button>`)
             .join("")}
         </div>`;
@@ -138,14 +148,41 @@
         </div>`;
     }
 
+    function recordId(prefix = "record") {
+      return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`;
+    }
+
+    function designStatus(design) {
+      return design.status || (design.detailLevel === "template" ? "Concept" : "Rostered");
+    }
+
     function designCard(nation, design, active) {
+      const detailLabel = design.detailLevel === "template" ? "Detailed" : design.detailLevel === "roster" ? "Roster" : "Custom";
       return `
         <button type="button" class="design-card ${active ? "is-active" : ""}" data-equipment-design="${escapeHtml(design.id)}">
           <span class="swatch" style="background:${safeColor(nation.color)}"></span>
-          <strong>${safeText(design.name, "Untitled Design")}</strong>
-          <small>${safeText(design.category, "Uncategorized")} / ${safeText(design.status, "Concept")}</small>
-          ${design.role ? `<em>${safeText(design.role)}</em>` : ""}
+          <strong>${safeText(design.name, "Untitled Equipment")}</strong>
+          <small>${safeText(design.category, "Uncategorized")} / ${safeText(design.subcategory || design.role || detailLabel, detailLabel)}</small>
+          <em>${safeText(designStatus(design))}${design.notes ? ` - ${safeText(design.notes)}` : ""}</em>
         </button>`;
+    }
+
+    function designSectionsHtml(design) {
+      if (!design?.sections) return "";
+      const sectionRows = Object.entries(design.sections).slice(0, 5).map(([sectionName, fields]) => {
+        const flatFields = Object.entries(fields || {}).flatMap(([key, value]) => {
+          if (value && typeof value === "object") {
+            return Object.entries(value).map(([subKey, subValue]) => [`${key} / ${subKey}`, subValue]);
+          }
+          return [[key, value]];
+        }).filter(([, value]) => value !== "");
+        return `
+          <div class="template-section-preview">
+            <h4>${safeText(sectionName)}</h4>
+            ${flatFields.slice(0, 4).map(([key, value]) => `<p><span>${safeText(key)}</span><strong>${safeText(value || "Unfilled")}</strong></p>`).join("") || `<p><span>Fields</span><strong>Unfilled</strong></p>`}
+          </div>`;
+      });
+      return sectionRows.length ? `<div class="template-section-grid">${sectionRows.join("")}</div>` : "";
     }
 
     function designForm(nation, design) {
@@ -154,22 +191,23 @@
       const status = design?.status || "Concept";
       const era = design?.era || "Digital";
       if (!isAdmin) {
-        if (!design) return `<div class="empty compact">No custom equipment designs have been recorded for ${safeText(nation.name)}.</div>`;
+        if (!design) return `<div class="empty compact">No custom equipment records have been entered for ${safeText(nation.name)}.</div>`;
         return `
           <div class="design-readout">
             <div>
-              <span class="section-kicker">Design Record</span>
+              <span class="section-kicker">${safeText(design.detailLevel === "template" ? "Detailed Template" : "Equipment Record")}</span>
               <h3>${safeText(design.name)}</h3>
-              <p>${safeText(design.notes || "No design notes have been entered yet.")}</p>
+              <p>${safeText(design.notes || "No notes have been entered yet.")}</p>
             </div>
             <div class="design-detail-grid">
               ${summaryFact("Category", design.category || "Other")}
-              ${summaryFact("Role", design.role || "Unassigned")}
-              ${summaryFact("Era", design.era || "Unknown")}
-              ${summaryFact("Status", design.status || "Concept")}
+              ${summaryFact("Subcategory", design.subcategory || design.role || "Unassigned")}
+              ${summaryFact("Status", designStatus(design))}
               ${summaryFact("Origin", design.origin || "In-game")}
+              ${summaryFact("Detail Level", design.detailLevel || "custom")}
               ${summaryFact("Updated", fmtDateTime(design.updatedAt))}
             </div>
+            ${designSectionsHtml(design)}
           </div>`;
       }
 
@@ -177,10 +215,10 @@
         <div class="design-editor-form">
           <div class="design-editor-title">
             <div>
-              <span class="section-kicker">${isExisting ? "Editing Design" : "New Design"}</span>
-              <h3>${safeText(isExisting ? design.name : "Create Equipment Design")}</h3>
+              <span class="section-kicker">${isExisting ? "Editing Record" : "New Record"}</span>
+              <h3>${safeText(isExisting ? design.name : "Create Equipment Record")}</h3>
             </div>
-            ${isExisting ? `<button type="button" class="command danger compact" data-action="delete-equipment-design">Delete Design</button>` : ""}
+            ${isExisting ? `<button type="button" class="command danger compact" data-action="delete-equipment-design">Delete Record</button>` : ""}
           </div>
           <div class="design-form-grid">
             <label class="control-field is-text">
@@ -192,6 +230,10 @@
               <select id="equipmentDesignCategory">
                 ${optionHtml(equipmentCategories(), category)}
               </select>
+            </label>
+            <label class="control-field is-text">
+              <span>Subcategory</span>
+              <input id="equipmentDesignSubcategory" type="text" value="${escapeHtml(design?.subcategory || design?.role || "")}" placeholder="Tanks, Pistols, Fighters..." autocomplete="off">
             </label>
             <label class="control-field is-text">
               <span>Role</span>
@@ -211,15 +253,16 @@
             </label>
             <label class="control-field is-text">
               <span>Origin</span>
-              <input id="equipmentDesignOrigin" type="text" value="${escapeHtml(design?.origin || "In-game")}" placeholder="In-game domestic" autocomplete="off">
+              <input id="equipmentDesignOrigin" type="text" value="${escapeHtml(design?.origin || "In-game")}" placeholder="Roster Import" autocomplete="off">
             </label>
             <label class="control-field is-text design-notes-field">
               <span>Notes</span>
-              <textarea id="equipmentDesignNotes" rows="5" placeholder="Doctrine notes, special systems, upgrades, export restrictions...">${escapeHtml(design?.notes || "")}</textarea>
+              <textarea id="equipmentDesignNotes" rows="5" placeholder="Variants, rarity, active status, doctrine notes...">${escapeHtml(design?.notes || "")}</textarea>
             </label>
           </div>
+          ${designSectionsHtml(design)}
           <div class="design-actions">
-            <button type="button" class="command primary" data-action="save-equipment-design">${isExisting ? "Save Design" : "Create Design"}</button>
+            <button type="button" class="command primary" data-action="save-equipment-design">${isExisting ? "Save Record" : "Create Record"}</button>
             <button type="button" class="command" data-new-equipment-design>Clear Form</button>
           </div>
         </div>`;
@@ -228,35 +271,23 @@
     function costReferenceHtml() {
       const data = getData();
       const rows = (data.equipmentCosts || []).slice(0, 12);
-      if (!rows.length) {
-        return `
-          <section class="panel record-reference-panel">
-            <div class="panel-head compact-head">
-              <div>
-                <h2>Cost Reference</h2>
-                <p>No cost reference rows are loaded in the local shell.</p>
-              </div>
-            </div>
-          </section>`;
-      }
       return `
         <section class="panel record-reference-panel">
           <div class="panel-head compact-head">
             <div>
               <h2>Cost Reference</h2>
-              <p>Reference values stay global. Custom equipment designs stay attached to countries.</p>
+              <p>Reference values stay global. Country equipment records stay attached to nations.</p>
             </div>
           </div>
-          <div class="table-wrap compact-table">
-            <table>
-              <thead><tr><th>Category</th><th>Equipment</th><th class="numeric">Production</th><th class="numeric">Maintenance</th></tr></thead>
-              <tbody>
-                ${rows
-                  .map((row) => `<tr><td>${safeText(row.category)}</td><td>${safeText(row.name)}</td><td class="numeric">${fmtCost(row.productionCost)}</td><td class="numeric">${fmtCost(row.maintenanceCost)}</td></tr>`)
-                  .join("")}
-              </tbody>
-            </table>
-          </div>
+          ${rows.length ? `
+            <div class="table-wrap compact-table">
+              <table>
+                <thead><tr><th>Category</th><th>Equipment</th><th class="numeric">Production</th><th class="numeric">Maintenance</th></tr></thead>
+                <tbody>
+                  ${rows.map((row) => `<tr><td>${safeText(row.category)}</td><td>${safeText(row.name)}</td><td class="numeric">${fmtCost(row.productionCost)}</td><td class="numeric">${fmtCost(row.maintenanceCost)}</td></tr>`).join("")}
+                </tbody>
+              </table>
+            </div>` : `<div class="empty compact">No cost reference rows are loaded in the local shell.</div>`}
         </section>`;
     }
 
@@ -272,26 +303,27 @@
       const fleet = data.naval?.[nation.id] || { total: 0, categories: [] };
       const allDesigns = visibleDesignEntries();
       const categories = new Set(designs.map((item) => item.category).filter(Boolean));
+      const detailedCount = designs.filter((item) => item.detailLevel === "template").length;
 
       app.innerHTML = `
-        ${recordsHeader("equipment", "Equipment Designs", "Store country-owned custom equipment created in-game without forcing quantity tracking.", state.notice || syncText())}
+        ${recordsHeader("equipment", "Equipment Library", "Browse and edit country-owned equipment records from quick entries, roster imports, and detailed templates.", state.notice || syncText())}
         <div class="records-summary-strip">
-          ${summaryFact("Country Designs", fmtNumber(designs.length), `${fmtNumber(categories.size)} categories`)}
-          ${summaryFact("World Designs", fmtNumber(allDesigns.length), "Across active countries")}
+          ${summaryFact("Country Records", fmtNumber(designs.length), `${fmtNumber(categories.size)} categories`)}
+          ${summaryFact("Detailed Templates", fmtNumber(detailedCount), "Full specification records")}
+          ${summaryFact("World Records", fmtNumber(allDesigns.length), "Across active countries")}
           ${summaryFact("Navy Counted", fmtNumber(fleet.total || 0), "Only navy carries quantities")}
-          ${summaryFact("Selected Country", nation.name, "Local Records selector")}
         </div>
         <div class="records-workspace-grid">
           <section class="panel design-roster-panel">
             <div class="panel-head compact-head">
               <div>
-                <h2>${safeText(nation.name)} Designs</h2>
-                <p>${fmtNumber(designs.length)} custom records. No stockpile counts are stored here.</p>
+                <h2>${safeText(nation.name)} Library</h2>
+                <p>${fmtNumber(designs.length)} records. Imported rosters and detailed templates live together here.</p>
               </div>
               ${isAdmin ? `<button type="button" class="command compact" data-new-equipment-design>New</button>` : ""}
             </div>
             <div class="design-card-list">
-              ${designs.length ? designs.map((item) => designCard(nation, item, item.id === design?.id)).join("") : `<div class="empty compact">No designs recorded yet.</div>`}
+              ${designs.length ? designs.map((item) => designCard(nation, item, item.id === design?.id)).join("") : `<div class="empty compact">No records yet. Use Roster Import for large lists.</div>`}
             </div>
           </section>
           <section class="panel design-editor-panel">
@@ -300,18 +332,159 @@
           <aside class="panel navy-record-rail">
             <div class="panel-head compact-head">
               <div>
-                <h2>Navy Inventory</h2>
-                <p>Fleet classes keep numeric counts.</p>
+                <h2>Fast Actions</h2>
+                <p>Import and template tools keep manual entry light.</p>
               </div>
-              <strong class="fleet-total">${fmtNumber(fleet.total || 0)}</strong>
             </div>
-            <div class="navy-glance-list">
-              ${(fleet.categories || []).slice(0, 6).map((category) => summaryFact(category.name, fmtNumber((category.ships || []).reduce((total, ship) => total + Engine.number(ship.count, 0), 0)))).join("") || `<div class="empty compact">No fleet classes entered.</div>`}
+            <div class="records-action-list">
+              ${isAdmin ? `<button type="button" class="command primary" data-records-view="rosterImport">Paste Roster</button>` : ""}
+              ${isAdmin ? `<button type="button" class="command" data-records-view="templateImport">Paste Detailed Template</button>` : ""}
+              <button type="button" class="command" data-records-view="templates">Template Library</button>
+              <button type="button" class="command" data-records-view="naval">Navy Inventory (${fmtNumber(fleet.total || 0)})</button>
             </div>
-            <button type="button" class="command" data-records-view="naval">Open Navy Editor</button>
           </aside>
         </div>
         ${costReferenceHtml()}
+      `;
+    }
+
+    function previewRowsHtml(preview) {
+      const rows = [
+        ...preview.newItems.map((item) => ({ tone: "positive", state: "New", item })),
+        ...preview.updates.map((entry) => ({ tone: "warning", state: "Merge Notes", item: entry.item })),
+        ...preview.duplicates.map((entry) => ({ tone: "", state: "Duplicate", item: entry.item }))
+      ];
+      if (!rows.length) return `<div class="empty compact">Nothing parsed yet.</div>`;
+      return `
+        <div class="import-preview-list">
+          ${rows.slice(0, 120).map(({ tone, state: rowState, item }) => `
+            <div class="import-preview-row">
+              <span>${safeText(item.category)}</span>
+              <span>${safeText(item.subcategory || item.role || "General")}</span>
+              <strong>${safeText(item.name)}</strong>
+              ${safeStatus(rowState, tone)}
+            </div>`).join("")}
+        </div>`;
+    }
+
+    function renderRosterImport() {
+      const nation = selectedNation();
+      if (!nation) {
+        app.innerHTML = `<section class="panel"><div class="empty">No active countries are loaded.</div></section>`;
+        return;
+      }
+      const preview = state.rosterImportPreview;
+      const parsed = preview?.parsed;
+      app.innerHTML = `
+        ${recordsHeader("rosterImport", "Roster Import", "Paste full country arsenals. The importer detects categories, subcategories, records, notes, and duplicates before saving.", state.notice || "Importer ready")}
+        <div class="records-summary-strip">
+          ${summaryFact("Parsed Records", fmtNumber(parsed?.items?.length || 0), "Unique records in paste")}
+          ${summaryFact("Paste Duplicates", fmtNumber(parsed?.sourceDuplicates?.length || 0), "Repeated inside pasted text")}
+          ${summaryFact("New Records", fmtNumber(preview?.preview?.newItems?.length || 0), "Will be created")}
+          ${summaryFact("Merge Notes", fmtNumber(preview?.preview?.updates?.length || 0), "Existing records with new notes")}
+        </div>
+        <div class="records-import-grid">
+          <section class="panel import-paste-panel">
+            <div class="panel-head compact-head">
+              <div>
+                <h2>Paste Equipment Roster</h2>
+                <p>Messy lists are fine. Keep headings and line breaks; the parser does the sorting.</p>
+              </div>
+            </div>
+            <div class="import-paste-body">
+              <label class="control-field is-text">
+                <span>Roster Text</span>
+                <textarea id="rosterImportText" rows="22" spellcheck="false" placeholder="Orinian Empire Equipment&#10;Pistols&#10;FEG 37M&#10;Frommer Stop&#10;Armored Vehicles&#10;Tanks&#10;T-72M1">${escapeHtml(state.rosterImportText || "")}</textarea>
+              </label>
+              <div class="design-actions">
+                <button type="button" class="command primary" data-action="preview-roster-import">Preview Import</button>
+                <button type="button" class="command" data-action="clear-roster-import">Clear</button>
+              </div>
+            </div>
+          </section>
+          <section class="panel import-preview-panel">
+            <div class="panel-head compact-head">
+              <div>
+                <h2>Import Preview</h2>
+                <p>Review grouped records. Duplicates are skipped unless they bring new notes.</p>
+              </div>
+              ${preview ? `<span class="status">${fmtNumber(preview.preview.newItems.length + preview.preview.updates.length)} changes</span>` : ""}
+            </div>
+            ${previewRowsHtml(preview?.preview || { newItems: [], updates: [], duplicates: [] })}
+            <div class="design-actions import-apply-actions">
+              <button type="button" class="command primary" data-action="apply-roster-import" ${preview ? "" : "disabled"}>Apply Import</button>
+              <button type="button" class="command" data-action="apply-roster-import-new" ${preview ? "" : "disabled"}>Add New Only</button>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    function renderTemplates() {
+      const templates = parser.defaultTemplates || [];
+      app.innerHTML = `
+        ${recordsHeader("templates", "Template Library", "Reusable structures for detailed custom equipment. Templates guide full records without forcing every roster item into a giant form.", state.notice || syncText())}
+        <div class="template-library-grid">
+          ${templates.map((template) => `
+            <section class="panel template-card">
+              <div class="panel-head compact-head">
+                <div>
+                  <h2>${safeText(template.name)}</h2>
+                  <p>${safeText(template.category)} records with optional detailed sections.</p>
+                </div>
+              </div>
+              <div class="template-card-body">
+                ${summaryFact("Import Mode", "Paste filled template", "One detailed equipment record")}
+                ${summaryFact("Library Mode", "Reusable", "Keeps raw text and parsed fields")}
+                ${isAdmin ? `<button type="button" class="command" data-records-view="templateImport">Use Template</button>` : ""}
+              </div>
+            </section>`).join("")}
+        </div>
+      `;
+    }
+
+    function renderTemplateImport() {
+      const nation = selectedNation();
+      if (!nation) {
+        app.innerHTML = `<section class="panel"><div class="empty">No active countries are loaded.</div></section>`;
+        return;
+      }
+      app.innerHTML = `
+        ${recordsHeader("templateImport", "Detailed Template Import", "Paste one filled template to create a detailed country equipment record with parsed sections and preserved raw text.", state.notice || "Template importer ready")}
+        <div class="records-import-grid">
+          <section class="panel import-paste-panel">
+            <div class="panel-head compact-head">
+              <div>
+                <h2>Paste Filled Template</h2>
+                <p>Aircraft, armor, missile, ship, or infantry gear templates can be pasted here.</p>
+              </div>
+            </div>
+            <div class="import-paste-body">
+              <label class="control-field is-text">
+                <span>Template Text</span>
+                <textarea id="templateImportText" rows="24" spellcheck="false" placeholder="# AIRCRAFT CUSTOM TEMPLATE&#10;&#10;## General Information&#10;- **Name:** Ravenstrike UAV&#10;- **Type:** Recon Drone">${escapeHtml(state.templateImportText || "")}</textarea>
+              </label>
+              <div class="design-actions">
+                <button type="button" class="command primary" data-action="import-template-record">Import Template Record</button>
+                <button type="button" class="command" data-action="clear-template-import">Clear</button>
+              </div>
+            </div>
+          </section>
+          <section class="panel import-preview-panel">
+            <div class="panel-head compact-head">
+              <div>
+                <h2>What Gets Stored</h2>
+                <p>One detailed equipment record, attached to ${safeText(nation.name)}.</p>
+              </div>
+            </div>
+            <div class="template-explain-list">
+              ${summaryFact("Core Fields", "Name, type, origin", "Pulled from General Information")}
+              ${summaryFact("Sections", "Parsed headings", "Performance, armament, avionics, and more")}
+              ${summaryFact("Raw Template", "Preserved", "No pasted detail gets lost")}
+              ${summaryFact("Quantities", "Not tracked", "Except navy inventory")}
+            </div>
+          </section>
+        </div>
       `;
     }
 
@@ -419,9 +592,10 @@
         missing: active.filter((nation) => !data[set.key]?.[nation.id]).length
       }));
       const totalDesigns = rows.reduce((total, row) => total + row.designs.length, 0);
+      const detailed = rows.reduce((total, row) => total + row.designs.filter((item) => item.detailLevel === "template").length, 0);
 
       app.innerHTML = `
-        ${recordsHeader("audit", "Coverage Audit", "Review core dataset coverage and custom design records across active countries.", state.notice || syncText())}
+        ${recordsHeader("audit", "Coverage Audit", "Review core dataset coverage, imported roster records, and detailed equipment templates.", state.notice || syncText())}
         <div class="audit-grid">
           <section class="panel">
             <div class="panel-head">
@@ -429,14 +603,14 @@
                 <h2>Dataset Coverage</h2>
                 <p>Coverage across active operational datasets.</p>
               </div>
-              <span class="status">${fmtNumber(totalDesigns)} designs</span>
+              <span class="status">${fmtNumber(totalDesigns)} records / ${fmtNumber(detailed)} detailed</span>
             </div>
             <div class="table-wrap">
               <table>
                 <thead><tr><th>Dataset</th><th class="numeric">Rows Entered</th><th class="numeric">Missing Nations</th></tr></thead>
                 <tbody>
                   ${datasetCounts.map((row) => `<tr><td>${safeText(row.label)}</td><td class="numeric">${fmtNumber(row.count)}</td><td class="numeric">${fmtNumber(row.missing)}</td></tr>`).join("")}
-                  <tr><td>Equipment Designs</td><td class="numeric">${fmtNumber(totalDesigns)}</td><td class="numeric">Optional</td></tr>
+                  <tr><td>Equipment Library</td><td class="numeric">${fmtNumber(totalDesigns)}</td><td class="numeric">Optional</td></tr>
                 </tbody>
               </table>
             </div>
@@ -445,12 +619,12 @@
             <div class="panel-head">
               <div>
                 <h2>Nation Completeness</h2>
-                <p>Dataset availability and country-owned custom equipment counts.</p>
+                <p>Dataset availability and country-owned equipment record counts.</p>
               </div>
             </div>
             <div class="table-wrap">
               <table>
-                <thead><tr><th>Nation</th><th>Present</th><th>Missing</th><th class="numeric">Designs</th></tr></thead>
+                <thead><tr><th>Nation</th><th>Present</th><th>Missing</th><th class="numeric">Records</th></tr></thead>
                 <tbody>
                   ${rows
                     .map(
@@ -502,7 +676,7 @@
       if (!nation) return false;
       const name = readFormValue("equipmentDesignName");
       if (!name) {
-        state.notice = "Enter an equipment design name first.";
+        state.notice = "Enter an equipment record name first.";
         render();
         return true;
       }
@@ -510,21 +684,25 @@
       const list = ensureDesigns(nation.id);
       const existingIndex = list.findIndex((design) => design.id === state.selectedEquipmentDesignId);
       const existing = existingIndex >= 0 ? list[existingIndex] : null;
+      const subcategory = readFormValue("equipmentDesignSubcategory");
       const record = {
-        id: existing?.id || `design_${Date.now().toString(36)}`,
+        ...(existing || {}),
+        id: existing?.id || recordId("equipment"),
         name,
         category: readFormValue("equipmentDesignCategory") || "Other",
-        role: readFormValue("equipmentDesignRole"),
+        subcategory,
+        role: readFormValue("equipmentDesignRole") || subcategory,
         era: readFormValue("equipmentDesignEra") || "Digital",
         status: readFormValue("equipmentDesignStatus") || "Concept",
         origin: readFormValue("equipmentDesignOrigin") || "In-game",
         notes: readFormValue("equipmentDesignNotes"),
+        detailLevel: existing?.detailLevel || "custom",
         updatedAt: new Date().toISOString()
       };
       if (existing) list[existingIndex] = record;
       else list.push(record);
       state.selectedEquipmentDesignId = record.id;
-      pushHistory(nation, existing ? "Updated Equipment Design" : "Created Equipment Design", existing?.name || "None", record.name, record.id);
+      pushHistory(nation, existing ? "Updated Equipment Record" : "Created Equipment Record", existing?.name || "None", record.name, record.id);
       data.meta.updatedAt = new Date().toISOString();
       saveWorkingState(`${record.name} saved for ${nation.name}.`);
       return true;
@@ -540,10 +718,101 @@
       if (!window.confirm(`Delete ${design.name} from ${nation.name}?`)) return true;
       const data = getData();
       data.equipmentDesigns[nation.id] = list.filter((item) => item.id !== design.id);
-      pushHistory(nation, "Deleted Equipment Design", design.name, "Deleted", design.id);
+      pushHistory(nation, "Deleted Equipment Record", design.name, "Deleted", design.id);
       state.selectedEquipmentDesignId = "";
       data.meta.updatedAt = new Date().toISOString();
       saveWorkingState(`${design.name} deleted from ${nation.name}.`);
+      return true;
+    }
+
+    function previewRosterImport() {
+      if (!isAdmin) return false;
+      const nation = selectedNation();
+      if (!nation) return false;
+      const text = readFormValue("rosterImportText");
+      state.rosterImportText = text;
+      if (!text) {
+        state.notice = "Paste a roster before previewing.";
+        render();
+        return true;
+      }
+      const parsed = parser.parseRoster(text, { nationName: nation.name });
+      const preview = parser.buildImportPreview(parsed.items, ensureDesigns(nation.id), nation.id);
+      state.rosterImportPreview = { parsed, preview };
+      state.notice = `Parsed ${fmtNumber(parsed.items.length)} unique records.`;
+      render();
+      return true;
+    }
+
+    function clearRosterImport() {
+      state.rosterImportText = "";
+      state.rosterImportPreview = null;
+      state.notice = "Roster import cleared.";
+      render();
+      return true;
+    }
+
+    function applyRosterImport(mergeUpdates = true) {
+      if (!isAdmin) return false;
+      const nation = selectedNation();
+      if (!nation) return false;
+      if (!state.rosterImportPreview) {
+        previewRosterImport();
+        return true;
+      }
+      const data = getData();
+      const list = ensureDesigns(nation.id);
+      const { preview } = state.rosterImportPreview;
+      const now = new Date().toISOString();
+      preview.newItems.forEach((item, index) => {
+        list.push({ ...item, id: recordId(`roster_${index}`), updatedAt: now });
+      });
+      if (mergeUpdates) {
+        preview.updates.forEach(({ existing, item }) => {
+          const target = list.find((record) => parser.recordKey({ ...record, nationId: nation.id }) === parser.recordKey({ ...existing, nationId: nation.id }));
+          if (target) {
+            target.notes = item.notes;
+            target.status = item.status || target.status;
+            target.updatedAt = now;
+          }
+        });
+      }
+      pushHistory(nation, "Imported Equipment Roster", "Preview", `${preview.newItems.length} new / ${mergeUpdates ? preview.updates.length : 0} updated`, "roster-import");
+      data.meta.updatedAt = now;
+      state.rosterImportText = "";
+      state.rosterImportPreview = null;
+      saveWorkingState(`Imported ${fmtNumber(preview.newItems.length)} new records for ${nation.name}.`);
+      return true;
+    }
+
+    function importTemplateRecord() {
+      if (!isAdmin) return false;
+      const nation = selectedNation();
+      if (!nation) return false;
+      const text = readFormValue("templateImportText");
+      state.templateImportText = text;
+      if (!text) {
+        state.notice = "Paste a filled template before importing.";
+        render();
+        return true;
+      }
+      const data = getData();
+      const record = parser.parseDetailedTemplate(text);
+      record.id = recordId("template");
+      record.updatedAt = new Date().toISOString();
+      ensureDesigns(nation.id).push(record);
+      state.selectedEquipmentDesignId = record.id;
+      pushHistory(nation, "Imported Detailed Template", "None", record.name, record.id);
+      data.meta.updatedAt = record.updatedAt;
+      state.templateImportText = "";
+      saveWorkingState(`${record.name} imported for ${nation.name}.`);
+      return true;
+    }
+
+    function clearTemplateImport() {
+      state.templateImportText = "";
+      state.notice = "Template import cleared.";
+      render();
       return true;
     }
 
@@ -609,7 +878,9 @@
     function handleClick(event) {
       const viewButton = event.target.closest("[data-records-view]");
       if (viewButton) {
-        state.tab = viewButton.dataset.recordsView;
+        const nextTab = viewButton.dataset.recordsView;
+        if (!isAdmin && recordTabs.find((tab) => tab.key === nextTab)?.adminOnly) return true;
+        state.tab = nextTab;
         if (state.tab !== "equipment" && state.selectedEquipmentDesignId === newDesignId) state.selectedEquipmentDesignId = "";
         render();
         return true;
@@ -637,6 +908,7 @@
       if (!nationSelect) return false;
       state.selectedNation = nationSelect.value;
       state.selectedEquipmentDesignId = "";
+      state.rosterImportPreview = null;
       render();
       return true;
     }
@@ -644,6 +916,12 @@
     function handleAction(action, button) {
       if (action === "save-equipment-design") return saveEquipmentDesign();
       if (action === "delete-equipment-design") return deleteEquipmentDesign();
+      if (action === "preview-roster-import") return previewRosterImport();
+      if (action === "apply-roster-import") return applyRosterImport(true);
+      if (action === "apply-roster-import-new") return applyRosterImport(false);
+      if (action === "clear-roster-import") return clearRosterImport();
+      if (action === "import-template-record") return importTemplateRecord();
+      if (action === "clear-template-import") return clearTemplateImport();
       if (action === "add-naval-ship") return addNavalShip();
       if (action === "delete-naval-ship") return deleteNavalShip(button);
       return false;
@@ -652,6 +930,9 @@
     return {
       renderNaval,
       renderEquipment,
+      renderRosterImport,
+      renderTemplates,
+      renderTemplateImport,
       renderAudit,
       auditRows,
       handleClick,
