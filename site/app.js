@@ -64,6 +64,7 @@
     query: "",
     selectedNation: "solara",
     selectedEquipmentDesignId: "",
+    equipmentCategoryFilter: "all",
     rosterImportText: "",
     rosterImportPreview: null,
     templateImportText: "",

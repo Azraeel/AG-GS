@@ -167,6 +167,89 @@
         </button>`;
     }
 
+    function equipmentCategoryOptions(designs) {
+      const counts = new Map();
+      designs.forEach((design) => {
+        const category = design.category || "Other";
+        counts.set(category, (counts.get(category) || 0) + 1);
+      });
+      return Array.from(counts.entries())
+        .map(([category, count]) => ({ category, count }))
+        .sort((left, right) => right.count - left.count || left.category.localeCompare(right.category, "en", { sensitivity: "base" }));
+    }
+
+    function selectedEquipmentCategory(designs) {
+      const categories = new Set(designs.map((design) => design.category || "Other"));
+      if (!state.equipmentCategoryFilter || state.equipmentCategoryFilter === "all" || !categories.has(state.equipmentCategoryFilter)) {
+        state.equipmentCategoryFilter = "all";
+        return "all";
+      }
+      return state.equipmentCategoryFilter;
+    }
+
+    function filteredEquipmentDesigns(designs, category) {
+      if (category === "all") return designs;
+      return designs.filter((design) => (design.category || "Other") === category);
+    }
+
+    function categoryFilterHtml(designs, activeCategory) {
+      const categories = equipmentCategoryOptions(designs);
+      return `
+        <div class="equipment-filter-bar" aria-label="Equipment category filters">
+          <button type="button" class="equipment-filter-chip ${activeCategory === "all" ? "is-active" : ""}" data-equipment-category="all">All ${fmtNumber(designs.length)}</button>
+          ${categories
+            .map(({ category, count }) => `<button type="button" class="equipment-filter-chip ${activeCategory === category ? "is-active" : ""}" data-equipment-category="${escapeHtml(category)}">${safeText(category)} ${fmtNumber(count)}</button>`)
+            .join("")}
+        </div>`;
+    }
+
+    function equipmentActionsHtml(fleet) {
+      return `
+        <div class="equipment-action-bar">
+          ${isAdmin ? `<button type="button" class="command primary compact" data-records-view="rosterImport">Paste Roster</button>` : ""}
+          ${isAdmin ? `<button type="button" class="command compact" data-records-view="templateImport">Paste Detailed Template</button>` : ""}
+          ${isAdmin ? `<button type="button" class="command compact" data-new-equipment-design>New Record</button>` : ""}
+          <button type="button" class="command compact" data-records-view="templates">Template Library</button>
+          <button type="button" class="command compact" data-records-view="naval">Navy Inventory (${fmtNumber(fleet.total || 0)})</button>
+        </div>`;
+    }
+
+    function equipmentTableHtml(nation, designs, selectedId, hiddenCount = 0) {
+      if (!designs.length) return `<div class="empty compact">No records match this category.</div>`;
+      return `
+        <div class="equipment-table-wrap">
+          <table class="equipment-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Category</th>
+                <th>Subcategory</th>
+                <th>Status</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${designs
+                .map((design) => `
+                  <tr class="equipment-record-row ${design.id === selectedId ? "is-active" : ""}" data-equipment-design="${escapeHtml(design.id)}">
+                    <td>
+                      <span class="equipment-item-name">
+                        <span class="swatch" style="background:${safeColor(nation.color)}"></span>
+                        <strong>${safeText(design.name, "Untitled Equipment")}</strong>
+                      </span>
+                    </td>
+                    <td>${safeText(design.category || "Other")}</td>
+                    <td>${safeText(design.subcategory || design.role || "General")}</td>
+                    <td>${safeStatus(designStatus(design))}</td>
+                    <td>${safeText(design.notes || "No notes")}</td>
+                  </tr>`)
+                .join("")}
+            </tbody>
+          </table>
+          ${hiddenCount > 0 ? `<div class="equipment-table-limit">Showing the first ${fmtNumber(designs.length)} records in this filter. Narrow by category for the remaining ${fmtNumber(hiddenCount)}.</div>` : ""}
+        </div>`;
+    }
+
     function designSectionsHtml(design) {
       if (!design?.sections) return "";
       const sectionRows = Object.entries(design.sections).slice(0, 5).map(([sectionName, fields]) => {
@@ -299,11 +382,20 @@
         return;
       }
       const designs = sortedDesigns(nation.id);
-      const design = selectedDesign(nation.id);
+      const activeCategory = selectedEquipmentCategory(designs);
+      let filteredDesigns = filteredEquipmentDesigns(designs, activeCategory);
+      let design = selectedDesign(nation.id);
+      if (activeCategory !== "all" && design && !filteredDesigns.some((item) => item.id === design.id) && filteredDesigns[0]) {
+        state.selectedEquipmentDesignId = filteredDesigns[0].id;
+        design = filteredDesigns[0];
+      }
       const fleet = data.naval?.[nation.id] || { total: 0, categories: [] };
       const allDesigns = visibleDesignEntries();
       const categories = new Set(designs.map((item) => item.category).filter(Boolean));
       const detailedCount = designs.filter((item) => item.detailLevel === "template").length;
+      const visibleLimit = 140;
+      const hiddenCount = Math.max(0, filteredDesigns.length - visibleLimit);
+      filteredDesigns = filteredDesigns.slice(0, visibleLimit);
 
       app.innerHTML = `
         ${recordsHeader("equipment", "Equipment Library", "Browse and edit country-owned equipment records from quick entries, roster imports, and detailed templates.", state.notice || syncText())}
@@ -313,35 +405,20 @@
           ${summaryFact("World Records", fmtNumber(allDesigns.length), "Across active countries")}
           ${summaryFact("Navy Counted", fmtNumber(fleet.total || 0), "Only navy carries quantities")}
         </div>
-        <div class="records-workspace-grid">
-          <section class="panel design-roster-panel">
+        <div class="equipment-library-layout">
+          <section class="panel equipment-browser-panel">
             <div class="panel-head compact-head">
               <div>
-                <h2>${safeText(nation.name)} Library</h2>
-                <p>${fmtNumber(designs.length)} records. Imported rosters and detailed templates live together here.</p>
+                <h2>${safeText(nation.name)} Equipment</h2>
+                <p>${fmtNumber(designs.length)} records in a compact inventory browser. Filter by category, then edit the selected record in the inspector.</p>
               </div>
-              ${isAdmin ? `<button type="button" class="command compact" data-new-equipment-design>New</button>` : ""}
+              ${equipmentActionsHtml(fleet)}
             </div>
-            <div class="design-card-list">
-              ${designs.length ? designs.map((item) => designCard(nation, item, item.id === design?.id)).join("") : `<div class="empty compact">No records yet. Use Roster Import for large lists.</div>`}
-            </div>
+            ${categoryFilterHtml(designs, activeCategory)}
+            ${designs.length ? equipmentTableHtml(nation, filteredDesigns, design?.id || "", hiddenCount) : `<div class="empty compact">No records yet. Use Roster Import for large lists.</div>`}
           </section>
-          <section class="panel design-editor-panel">
+          <aside class="panel equipment-inspector-panel">
             ${designForm(nation, design)}
-          </section>
-          <aside class="panel navy-record-rail">
-            <div class="panel-head compact-head">
-              <div>
-                <h2>Fast Actions</h2>
-                <p>Import and template tools keep manual entry light.</p>
-              </div>
-            </div>
-            <div class="records-action-list">
-              ${isAdmin ? `<button type="button" class="command primary" data-records-view="rosterImport">Paste Roster</button>` : ""}
-              ${isAdmin ? `<button type="button" class="command" data-records-view="templateImport">Paste Detailed Template</button>` : ""}
-              <button type="button" class="command" data-records-view="templates">Template Library</button>
-              <button type="button" class="command" data-records-view="naval">Navy Inventory (${fmtNumber(fleet.total || 0)})</button>
-            </div>
           </aside>
         </div>
         ${costReferenceHtml()}
@@ -893,6 +970,14 @@
         return true;
       }
 
+      const categoryButton = event.target.closest("[data-equipment-category]");
+      if (categoryButton) {
+        state.equipmentCategoryFilter = categoryButton.dataset.equipmentCategory || "all";
+        state.selectedEquipmentDesignId = "";
+        render();
+        return true;
+      }
+
       const newDesignButton = event.target.closest("[data-new-equipment-design]");
       if (newDesignButton) {
         state.selectedEquipmentDesignId = newDesignId;
@@ -908,6 +993,7 @@
       if (!nationSelect) return false;
       state.selectedNation = nationSelect.value;
       state.selectedEquipmentDesignId = "";
+      state.equipmentCategoryFilter = "all";
       state.rosterImportPreview = null;
       render();
       return true;
