@@ -744,6 +744,8 @@
         { key: "debt", label: "Debt", numeric: true, render: fmtPercent },
         { key: "interestRate", label: "Interest Rate", numeric: true, render: fmtPercent },
         { key: "debtService", label: "Debt Service", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "negative" : "") },
+        { key: "debtRepayment", label: "Debt Repayment", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "positive" : "") },
+        { key: "maxDebtPaydown", label: "Paydown Cap", numeric: true, secondary: true, render: fmtNumber },
         { key: "projectedDebt", label: "Projected Debt", numeric: true, secondary: true, render: fmtPercent },
         { key: "economicHealth", label: "Health", render: (v) => safeStatus(v, v === "Prosperity" ? "positive" : v === "Recovery" ? "warning" : "") },
         { key: "immigrationRate", label: "Immigration", numeric: true, secondary: true, render: fmtNumber },
@@ -1537,8 +1539,8 @@
       debtChange: "Debt Change",
       projectedDebt: "Projected Debt",
       projectedDebtPrincipal: "Projected Debt Principal",
-      maxDebtPaydown: "Maximum Debt Paydown",
-      repaymentShareLimit: "Repayment Share Limit",
+      maxDebtPaydown: "Debt Paydown Cap",
+      repaymentShareLimit: "Surplus Repayment Limit",
       debtRisk: "Debt Risk",
       stabilityRisk: "Stability Risk",
       healthRisk: "Health Risk",
@@ -1656,7 +1658,6 @@
     "national.mobilizationRisk",
     "national.tradeBalanceRisk",
     "national.debtTrendRisk",
-    "national.maxDebtPaydown",
     "national.repaymentShareLimit"
   ]);
 
