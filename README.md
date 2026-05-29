@@ -4,6 +4,8 @@ Global Ledger is the operational dashboard for the AG-GS world: a live reference
 
 [Open Global Ledger](https://aggsworld.net/)
 
+[Join the AG-GS Discord](https://discord.gg/baVd8qVgqB)
+
 ## Overview
 
 Global Ledger brings the AG-GS world state into a fast, readable web application. Public users can browse active nations, compare records, search datasets, and follow the current state of the world without touching the administrative tools.
@@ -38,3 +40,7 @@ The live ledger is served through the AG-GS API, keeping the deployed website fo
 [Open Admin Workspace](https://aggsworld.net/admin/)
 
 The admin workspace is reserved for approved editors and world administrators.
+
+## Community
+
+The public ledger is the reference point for the current world state. The Discord server is where players coordinate claims, diplomacy, events, and nation planning.

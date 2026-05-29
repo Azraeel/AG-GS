@@ -4,7 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AG-GS Global Ledger</title>
-    <meta name="description" content="GitHub Pages dashboard for AG-GS nation, trade, industrial, population, intelligence, military, naval, and equipment stats.">
+    <meta name="description" content="AG-GS Global Ledger tracks nations, economies, militaries, trade, and custom equipment for the AG-GS roleplay world.">
+    <link rel="canonical" href="https://aggsworld.net/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="AG-GS Global Ledger">
+    <meta property="og:description" content="Track nations, economies, militaries, trade, and custom equipment for the AG-GS roleplay world.">
+    <meta property="og:url" content="https://aggsworld.net/">
+    <meta property="og:image" content="https://aggsworld.net/assets/aggs-social-card.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AG-GS Global Ledger">
+    <meta name="twitter:description" content="Track nations, economies, militaries, trade, and custom equipment for the AG-GS roleplay world.">
+    <meta name="twitter:image" content="https://aggsworld.net/assets/aggs-social-card.png">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; upgrade-insecure-requests">
     <script>
       (function () {
@@ -18,7 +28,7 @@
       })();
     </script>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%2314171a'/%3E%3Cpath d='M8 8h32L8 40z' fill='%23f0c33b'/%3E%3Cpath d='M56 56H24l32-32z' fill='%230d65d9'/%3E%3C/svg%3E">
-    <link rel="stylesheet" href="styles.css?v=20260529-records-v8">
+    <link rel="stylesheet" href="styles.css?v=20260529-community-v1">
   </head>
   <body data-app-mode="public">
     <header class="topbar">
@@ -30,6 +40,7 @@
         <h1>Global Ledger</h1>
       </div>
       <div class="top-actions">
+        <a class="top-cta" href="https://discord.gg/baVd8qVgqB" target="_blank" rel="noopener noreferrer">Join Discord</a>
         <div class="source-pill">Read-only public ledger</div>
         <button class="theme-toggle" id="themeToggle" type="button" title="Toggle color theme" aria-label="Toggle color theme" aria-pressed="false">
           <span class="theme-toggle-label">Theme</span>
@@ -52,15 +63,19 @@
 
     <footer class="footer">
       <span id="sourceNote"></span>
+      <span class="footer-links" aria-label="Community links">
+        <a class="footer-link" href="https://discord.gg/baVd8qVgqB" target="_blank" rel="noopener noreferrer">Discord</a>
+        <a class="footer-link" href="https://github.com/Azraeel/AG-GS" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </span>
     </footer>
 
-    <script src="data.js?v=20260529-records-v8"></script>
-    <script src="js/engine/fiscal.js?v=20260529-records-v8"></script>
-    <script src="engine.js?v=20260529-records-v8"></script>
-    <script src="js/app/config.js?v=20260529-records-v8"></script>
-    <script src="js/app/format.js?v=20260529-records-v8"></script>
-    <script src="js/app/recordsParser.js?v=20260529-records-v8"></script>
-    <script src="js/app/records.js?v=20260529-records-v8"></script>
-    <script src="app.js?v=20260529-records-v8"></script>
+    <script src="data.js?v=20260529-community-v1"></script>
+    <script src="js/engine/fiscal.js?v=20260529-community-v1"></script>
+    <script src="engine.js?v=20260529-community-v1"></script>
+    <script src="js/app/config.js?v=20260529-community-v1"></script>
+    <script src="js/app/format.js?v=20260529-community-v1"></script>
+    <script src="js/app/recordsParser.js?v=20260529-community-v1"></script>
+    <script src="js/app/records.js?v=20260529-community-v1"></script>
+    <script src="app.js?v=20260529-community-v1"></script>
   </body>
 </html>

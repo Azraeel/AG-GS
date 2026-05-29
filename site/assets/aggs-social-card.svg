@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">AG-GS Global Ledger</title>
+  <desc id="desc">Social preview card for the AG-GS Global Ledger website.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#11171f"/>
+      <stop offset="0.55" stop-color="#101a24"/>
+      <stop offset="1" stop-color="#080e15"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f2c631"/>
+      <stop offset="1" stop-color="#5f9fff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="52" y="52" width="1096" height="526" rx="28" fill="#151e27" stroke="#304154" stroke-width="2"/>
+  <rect x="92" y="94" width="82" height="82" rx="14" fill="#eff6ff" stroke="#6fa8ff" stroke-width="2"/>
+  <path d="M100 102h54L100 156z" fill="#f2c631"/>
+  <path d="M166 168h-54l54-54z" fill="#5f9fff"/>
+  <text x="208" y="125" fill="#63a5ff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24" font-weight="800">AG-GS</text>
+  <text x="208" y="176" fill="#eef5ff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="64" font-weight="900">Global Ledger</text>
+  <text x="94" y="286" fill="#eef5ff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="48" font-weight="900">Roleplay nations, economies,</text>
+  <text x="94" y="346" fill="#eef5ff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="48" font-weight="900">trade, and equipment.</text>
+  <text x="96" y="396" fill="#c6d7ee" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="28" font-weight="700">A live world state for AG-GS.</text>
+  <g transform="translate(94 438)">
+    <rect width="176" height="58" rx="14" fill="#f2c631"/>
+    <text x="88" y="38" text-anchor="middle" fill="#09111a" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="22" font-weight="900">Join Discord</text>
+  </g>
+  <text x="302" y="476" fill="#75aaff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="26" font-weight="800">discord.gg/baVd8qVgqB</text>
+  <rect x="828" y="92" width="280" height="380" rx="20" fill="#101a24" stroke="#3a4c61" stroke-width="2"/>
+  <text x="860" y="156" fill="#aecaee" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="22" font-weight="800">LIVE LEDGER</text>
+  <text x="860" y="232" fill="#eef5ff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="58" font-weight="900">2021</text>
+  <rect x="860" y="278" width="216" height="2" fill="#304154"/>
+  <text x="860" y="330" fill="#eef5ff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="30" font-weight="900">49 nations</text>
+  <text x="860" y="382" fill="#eef5ff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="30" font-weight="900">8.8B pop.</text>
+  <text x="860" y="434" fill="#eef5ff" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="30" font-weight="900">10.5M trade</text>
+  <rect x="52" y="574" width="1096" height="4" fill="url(#accent)" opacity="0.9"/>
+</svg>

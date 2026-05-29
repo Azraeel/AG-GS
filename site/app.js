@@ -53,6 +53,7 @@
     publishTimer: null,
     pollTimer: null
   };
+  const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
 
   const datasets = AppConfig.datasets;
   const viewOptions = AppConfig.viewOptions;
@@ -546,6 +547,12 @@
           ${overviewFact("Fleet", fmtNumber(totals.fleet))}
           ${overviewFact("Personnel", fmtCompact(totals.activePersonnel))}
         </div>
+        <aside class="community-card" aria-labelledby="community-title">
+          <span class="section-kicker">Join the roleplay</span>
+          <h2 id="community-title">Create a nation, follow global events, and join the AG-GS Discord.</h2>
+          <p>The public ledger shows the world state. Discord is where diplomacy, claims, events, and nation planning happen.</p>
+          <a class="community-card-link" href="${DISCORD_INVITE_URL}" target="_blank" rel="noopener noreferrer">Join Discord</a>
+        </aside>
       </section>`;
   }
 
