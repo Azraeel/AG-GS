@@ -278,6 +278,8 @@
   const decimalPercentFields = new Set(["national.taxRate"]);
   const wholePercentFields = new Set([
     "national.debt",
+    "national.computedInterestRate",
+    "national.interestRateAdjustment",
     "national.interestRate",
     "national.projectedDebt",
     "national.debtRisk",
@@ -870,7 +872,7 @@
         { key: "budgetBalance", label: "Effective Balance", numeric: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
         { key: "debt", label: "Debt", numeric: true, render: fmtPercent },
         { key: "debtPrincipal", label: "Debt Principal", numeric: true, secondary: true, render: fmtNumber },
-        { key: "interestRate", label: "Interest", numeric: true, secondary: true, render: fmtPercent },
+        { key: "interestRate", label: "Interest Rate", numeric: true, secondary: true, render: fmtPercent },
         { key: "debtRepayment", label: "Repayment Cap", numeric: true, secondary: true, render: fmtNumber },
         { key: "projectedDebt", label: "Projected Debt", numeric: true, secondary: true, render: fmtPercent },
         { key: "economicHealth", label: "Health", render: (v) => safeStatus(v, v === "Prosperity" ? "positive" : v === "Recovery" ? "warning" : "") },
@@ -1131,6 +1133,8 @@
         budgetBalance: 0,
         debt: 0,
         debtPrincipal: 0,
+        computedInterestRate: Engine.constants.DEBT_RULES.baseInterestRate,
+        interestRateAdjustment: 0,
         interestRate: Engine.constants.DEBT_RULES.baseInterestRate,
         debtService: 0,
         debtRepayment: 0,
@@ -1493,6 +1497,7 @@
               ${fieldControl("national", "developmentLevel", "Development", national.developmentLevel)}
               ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}
               ${fieldControl("national", "debt", "Debt %", national.debt ?? 0)}
+              ${fieldControl("national", "interestRate", "Interest Rate %", national.interestRate ?? national.computedInterestRate ?? Engine.constants.DEBT_RULES.baseInterestRate)}
               ${fieldControl("national", "economicHealth", "Economic Health", national.economicHealth, "select", economicHealthOptions)}
               ${fieldControl("national", "immigrationRate", "Immigration", national.immigrationRate)}
               ${fieldControl("national", "taxRate", "Tax Rate %", national.taxRate ?? 0)}
@@ -1650,6 +1655,8 @@
       budgetBalance: "Effective Balance",
       debtPrincipal: "Debt Principal",
       debtService: "Debt Service",
+      computedInterestRate: "Stat Interest",
+      interestRateAdjustment: "GM Interest",
       interestRate: "Interest Rate",
       debtRepayment: "Debt Repayment",
       deficitBorrowing: "Deficit Borrowing",
@@ -2317,11 +2324,17 @@
     const path = edit.dataset.path;
     const id = edit.dataset.id || state.selectedNation;
     const rawValue = edit.value;
-    const value = edit.tagName === "SELECT" || edit.type === "text"
+    let writePath = path;
+    let value = edit.tagName === "SELECT" || edit.type === "text"
       ? rawValue
       : isDecimalPercentField(dataset, path)
         ? Engine.number(rawValue, 0) / 100
         : Engine.number(rawValue, 0);
+    if (dataset === "national" && path === "interestRate") {
+      const statRate = Engine.number(data.national?.[id]?.computedInterestRate, Engine.constants.DEBT_RULES.baseInterestRate);
+      writePath = "interestRateAdjustment";
+      value = Number((Engine.number(rawValue, statRate) - statRate).toFixed(2));
+    }
     const entryKey = `${id}:${dataset}:${path}`;
     if (!pendingEdits.has(entryKey)) {
       pendingEdits.set(entryKey, {
@@ -2331,7 +2344,7 @@
         timer: null
       });
     }
-    Engine.updateValue(data, dataset, id, path, value);
+    Engine.updateValue(data, dataset, id, writePath, value);
     if (path === "mobilizationLevel") {
       if (dataset === "military" && data.industrial[id]) data.industrial[id].mobilizationLevel = value;
       if (dataset === "industrial" && data.military[id]) data.military[id].mobilizationLevel = value;

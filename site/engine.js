@@ -332,7 +332,9 @@
     const stabilityRisk = stabilityRiskForPercent(national.governmentalStability);
     const healthRisk = HEALTH_INTEREST_RISK[national.economicHealth] || 0;
     const corruptionRisk = corruptionRiskForPercent(national.corruption);
-    const interestRate = roundPercent(DEBT_RULES.baseInterestRate + debtRisk + stabilityRisk + healthRisk + corruptionRisk);
+    const computedInterestRate = roundPercent(DEBT_RULES.baseInterestRate + debtRisk + stabilityRisk + healthRisk + corruptionRisk);
+    const interestRateAdjustment = roundPercent(national.interestRateAdjustment);
+    const interestRate = Math.max(0, roundPercent(computedInterestRate + interestRateAdjustment));
     const debtService = roundCurrency(debtPrincipal * (interestRate / 100));
     const primaryBalance = roundCurrency(budgetCapacity - budgetExpenditure);
     const effectiveBalance = roundCurrency(primaryBalance - debtService);
@@ -350,6 +352,8 @@
       primaryBalance,
       debtPercent: roundPercent(debtPercent),
       debtPrincipal,
+      computedInterestRate,
+      interestRateAdjustment,
       interestRate,
       debtRisk,
       stabilityRisk,
@@ -372,6 +376,8 @@
   function applyFiscalFields(national, fiscal) {
     national.primaryBalance = fiscal.primaryBalance;
     national.debtPrincipal = fiscal.debtPrincipal;
+    national.computedInterestRate = fiscal.computedInterestRate;
+    national.interestRateAdjustment = fiscal.interestRateAdjustment;
     national.interestRate = fiscal.interestRate;
     national.debtRisk = fiscal.debtRisk;
     national.stabilityRisk = fiscal.stabilityRisk;
@@ -393,6 +399,8 @@
     if (!fiscal) return null;
     return {
       debtPrincipal: fiscal.debtPrincipal,
+      computedInterestRate: fiscal.computedInterestRate,
+      interestRateAdjustment: fiscal.interestRateAdjustment,
       interestRate: fiscal.interestRate,
       debtService: fiscal.debtService,
       effectiveBalance: fiscal.effectiveBalance,
