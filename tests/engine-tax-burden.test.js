@@ -172,6 +172,12 @@ const sustainableGrowth = Engine.advancePopulation(sustainablePopulation, "khali
 assert.ok(highGrowth.growthRate < sustainableGrowth.growthRate, "high tax should slow population growth and immigration");
 assert.strictEqual(highTaxPopulation.national.khalindar.publicUnrest, originalUnrest, "tax burden warnings must not auto-edit GM unrest");
 
+const unrestApplication = Engine.applyTaxBurdenUnrestSuggestion(highTax, "khalindar");
+assert.strictEqual(unrestApplication.applied, true, "GM action should apply the suggested unrest change");
+assert.strictEqual(unrestApplication.before, 8);
+assert.strictEqual(unrestApplication.after, 10);
+assert.strictEqual(highTax.national.khalindar.publicUnrest, 10);
+
 const highTaxIndustry = Engine.clone(highTax);
 const sustainableIndustry = Engine.clone(sustainable);
 Engine.advanceIndustry(highTaxIndustry, "khalindar", 1);

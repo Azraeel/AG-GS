@@ -456,6 +456,55 @@
     };
   }
 
+  function calculateTariffRevenueForNation(data, id) {
+    const inputs = budgetInputsForNation(data, id);
+    if (!inputs) return null;
+    const { national, trade, developmentLevel, corruption, stability } = inputs;
+    const tariffRate = clamp(number(trade.tariffRate, 0), 0, 50);
+    const tradeFlow = Math.max(0, number(trade.tradeFlow, 0));
+    const importReliance = Math.max(0, number(trade.importReliance, 0));
+    const exportReliance = Math.max(0, number(trade.exportReliance, 0));
+    const importExposure = clamp(importReliance / Math.max(importReliance + exportReliance, 1), 0.05, 0.95);
+    const frictionMultiplier = clamp(1 - Math.pow(tariffRate / 70, 1.25), 0.22, 1);
+    const collectionMultiplier = clamp(0.45 + developmentLevel / 30 + stability / 250 - corruption / 250, 0.25, 1.15);
+    const policyMultiplier = (TRADE_POLICY[trade.tradePolicy || "Balanced"] || TRADE_POLICY.Balanced).efficiency >= 10 ? 1.05 : 1;
+    const sanctionsMultiplier = trade.sanctionsLevel === "None" ? 1 : trade.sanctionsLevel === "Light" ? 0.9 : trade.sanctionsLevel === "Moderate" ? 0.75 : trade.sanctionsLevel === "Heavy" ? 0.55 : 0.35;
+    const tariffRevenue = roundCurrency(tradeFlow * importExposure * (tariffRate / 100) * frictionMultiplier * collectionMultiplier * policyMultiplier * sanctionsMultiplier);
+    let tier = "Stable";
+    if (tariffRate >= 45) tier = "Shock";
+    else if (tariffRate >= 30) tier = "Distortion";
+    else if (tariffRate >= 15) tier = "Friction";
+    else if (tariffRate > 5) tier = "Revenue";
+    const warnings = [];
+    if (tariffRate >= 15) warnings.push("High tariffs are creating trade friction and avoidance.");
+    if (frictionMultiplier < 0.75) warnings.push("Diminishing returns are reducing tariff yield.");
+    if (trade.sanctionsLevel && trade.sanctionsLevel !== "None") warnings.push("Sanctions are reducing collectible tariff volume.");
+    if ((national.economicHealth === "Recession" || national.economicHealth === "Depression") && tariffRate >= 10) warnings.push("Tariffs during weak economic health may worsen trade conditions.");
+    return {
+      tariffRate,
+      tariffRevenue,
+      tradeFlow,
+      importExposure: roundPercent(importExposure * 100),
+      frictionMultiplier,
+      collectionMultiplier,
+      tier,
+      warnings
+    };
+  }
+
+  function applyTaxBurdenUnrestSuggestion(data, id) {
+    const national = data.national?.[id];
+    if (!national) return { applied: false, before: 0, after: 0, delta: 0, message: "Nation has no national record." };
+    const burden = calculateTaxBurdenForNation(data, id);
+    const before = clamp(number(national.publicUnrest, 0), 0, 10);
+    const delta = clamp(Math.round(number(burden?.suggestedUnrestChange, 0)), 0, 10 - before);
+    if (delta <= 0) return { applied: false, before, after: before, delta: 0, burden, message: "No unrest suggestion is currently available." };
+    const after = before + delta;
+    national.publicUnrest = after;
+    data.meta.updatedAt = new Date().toISOString();
+    return { applied: true, before, after, delta, burden, message: `Applied +${delta} public unrest.` };
+  }
+
   function industrialBudgetContribution(inputs) {
     const { civFactories, militaryFactories, shipyards, developmentLevel, mobilization } = inputs;
     const effectiveContributionRate = 5 + developmentLevel * 0.75;
@@ -463,16 +512,17 @@
     return ((civFactories * effectiveContributionRate) + (militaryFactories * effectiveContributionRate * mobilization.militaryFactoryMultiplier) + (shipyards * effectiveContributionRate * 1.5)) / (1 + (civFactories + militaryFactories + shipyards) * 0.0025) * developmentMultiplier;
   }
 
-  function budgetCapacityFromBreakdown(inputs, industrialContribution, populationContribution) {
+  function budgetCapacityFromBreakdown(inputs, industrialContribution, populationContribution, tariffRevenue = 0) {
     const { civFactories, militaryFactories, shipyards, mobilization, national, tradeBalance } = inputs;
     const maintenanceCost = (civFactories + shipyards + militaryFactories * mobilization.maintenanceCost) * 0.1;
-    const baseBudgetTotal = 10 + industrialContribution + populationContribution - maintenanceCost;
+    const baseBudgetTotal = 10 + industrialContribution + populationContribution + tariffRevenue - maintenanceCost;
     const tradeImpactOnBudget = clamp(1 + (tradeBalance / Math.max(baseBudgetTotal, 100)) * 0.1, 0.1, 2);
     const budgetCapacity = Math.max(0, Math.round(baseBudgetTotal * tradeImpactOnBudget) + number(national.budgetAdjustment, 0));
     return {
       budgetCapacity,
       industrialContribution,
       populationContribution,
+      tariffRevenue,
       maintenanceCost,
       baseBudgetTotal,
       tradeImpactOnBudget
@@ -498,6 +548,7 @@
     if (!inputs) return null;
     const { developmentLevel, population, taxRatePercent, corruption, economicHealth, stability, fiscalProfile } = inputs;
     const taxBurden = calculateTaxBurdenForNation(data, id);
+    const tariff = calculateTariffRevenueForNation(data, id);
     const developmentCollection = clamp(0.18 + Math.pow(clamp(developmentLevel, 0, 20) / 20, 1.35) * 0.95, 0.18, 1.15);
     const stabilityFactor = clamp(0.55 + stability / 200, 0.4, 1.1);
     const corruptionFactor = clamp((100 - corruption) / 100, 0.05, 1);
@@ -514,7 +565,8 @@
       collectionEfficiency,
       taxDrag,
       taxBurden,
-      ...budgetCapacityFromBreakdown(inputs, industrialBudgetContribution(inputs), populationContribution)
+      tariff,
+      ...budgetCapacityFromBreakdown(inputs, industrialBudgetContribution(inputs), populationContribution, tariff?.tariffRevenue || 0)
     };
   }
 
@@ -693,6 +745,7 @@
         oldPrimaryBalance,
         newPrimaryBalance: roundCurrency(newBudgetCapacity - newBudgetExpenditure),
         taxRevenue: roundCurrency(breakdown.taxRevenue),
+        tariffRevenue: roundCurrency(breakdown.tariffRevenue),
         collectionEfficiency: roundPercent((breakdown.collectionEfficiency || 0) * 100),
         taxDrag: roundPercent((breakdown.taxDrag || 1) * 100),
         fiscalModel: taxBurden.fiscalModel,
@@ -861,6 +914,8 @@
     calculateTradeForNation,
     fiscalModelForNation,
     calculateTaxBurdenForNation,
+    calculateTariffRevenueForNation,
+    applyTaxBurdenUnrestSuggestion,
     calculateBudgetBreakdownForNation,
     calculateBudgetForNation,
     calculateFiscalForNation,

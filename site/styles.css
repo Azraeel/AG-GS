@@ -1370,6 +1370,18 @@ tbody td {
   background: var(--positive-bg);
 }
 
+.command.warning {
+  color: var(--warning-ink);
+  border-color: var(--warning-border);
+  background: var(--warning-bg);
+}
+
+.compact-command {
+  min-height: 34px;
+  justify-self: start;
+  padding-inline: 12px;
+}
+
 .command:disabled {
   opacity: 0.55;
   cursor: not-allowed;
@@ -1838,6 +1850,74 @@ tbody td {
 
 .metric-warning {
   color: var(--warning-ink);
+}
+
+.tariff-revenue-panel {
+  border-bottom: 1px solid var(--line);
+}
+
+.tariff-revenue-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 18px 10px;
+}
+
+.tariff-revenue-head > div {
+  display: grid;
+  gap: 4px;
+}
+
+.tariff-revenue-head strong {
+  font-size: 18px;
+}
+
+.tariff-revenue-head span:not(.status) {
+  color: var(--muted);
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.tariff-revenue-list {
+  display: grid;
+  gap: 8px;
+  padding: 0 18px 16px;
+}
+
+.tariff-revenue-row {
+  display: grid;
+  grid-template-columns: auto minmax(190px, 1fr) 90px 110px 120px minmax(220px, 1.2fr);
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--subtle-bg);
+}
+
+.tariff-revenue-row strong,
+.tariff-revenue-row span,
+.tariff-revenue-row small {
+  min-width: 0;
+}
+
+.tariff-revenue-row strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tariff-revenue-row span:not(.status) {
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.tariff-revenue-row small {
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.25;
 }
 
 .tax-burden-watchlist {
