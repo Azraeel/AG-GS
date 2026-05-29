@@ -62,6 +62,7 @@
     tab: "overview",
     query: "",
     selectedNation: "solara",
+    selectedEquipmentDesignId: "",
     sort: {},
     tableScroll: {},
     showDetails: false,
@@ -1070,7 +1071,8 @@
       },
       eclipse: { eclipseStatus: "" },
       elections: { leaderElections: "", parliamentElections: "" },
-      naval: { total: 0, totalNote: "No fleet entered.", categories: [] }
+      naval: { total: 0, totalNote: "No fleet entered.", categories: [] },
+      equipmentDesigns: []
     };
   }
 
@@ -1086,12 +1088,13 @@
       intelligence: Engine.clone(data.intelligence[sourceId] || defaults.intelligence),
       eclipse: Engine.clone(data.eclipse[sourceId] || defaults.eclipse),
       elections: Engine.clone(data.elections[sourceId] || defaults.elections),
-      naval: Engine.clone(data.naval[sourceId] || defaults.naval)
+      naval: Engine.clone(data.naval[sourceId] || defaults.naval),
+      equipmentDesigns: Engine.clone(data.equipmentDesigns?.[sourceId] || defaults.equipmentDesigns)
     };
   }
 
   function applyNationRecords(id, records) {
-    ["national", "trade", "industrial", "population", "military", "intelligence", "eclipse", "elections", "naval"].forEach((key) => {
+    ["national", "trade", "industrial", "population", "military", "intelligence", "eclipse", "elections", "naval", "equipmentDesigns"].forEach((key) => {
       data[key][id] = records[key];
     });
   }
@@ -1961,11 +1964,20 @@
     isVisibleNation,
     coverageFor,
     nationCell,
+    nationOptionsHtml,
+    byId,
     safeText,
+    escapeHtml,
+    safeColor,
     safeStatus,
+    fmtDateTime,
     fmtNumber,
     fmtPercent,
-    fmtCost
+    fmtCost,
+    isAdmin,
+    Engine,
+    saveWorkingState,
+    render
   });
   const { renderNaval, renderEquipment, renderAudit, auditRows } = recordsViews;
 
@@ -2141,6 +2153,8 @@
   }, true);
 
   app.addEventListener("click", async (event) => {
+    if (recordsViews.handleClick?.(event)) return;
+
     const actionButton = event.target.closest("[data-action]");
     if (actionButton) {
       const action = actionButton.dataset.action;
@@ -2153,7 +2167,9 @@
       const currentInput = document.getElementById("currentYearInput");
       const worldHealthInput = document.getElementById("worldHealthInput");
       if (worldHealthInput) data.meta.worldEconomicHealth = worldHealthInput.value;
-      if (action === "create-nation") {
+      if (recordsViews.handleAction?.(action, actionButton)) {
+        return;
+      } else if (action === "create-nation") {
         createNationFromEditor();
       } else if (action === "archive-nation") {
         archiveSelectedNationFromEditor();
@@ -2211,6 +2227,8 @@
   });
 
   app.addEventListener("change", (event) => {
+    if (recordsViews.handleChange?.(event)) return;
+
     const viewSelect = event.target.closest("[data-view-select]");
     if (viewSelect) {
       applyView(viewSelect.value);

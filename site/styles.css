@@ -1213,7 +1213,8 @@ tbody td {
 }
 
 .control-field input,
-.control-field select {
+.control-field select,
+.control-field textarea {
   width: 100%;
   min-height: 40px;
   border: 1px solid var(--line);
@@ -1222,12 +1223,20 @@ tbody td {
   color: var(--ink);
   padding: 8px 10px;
   outline: 0;
+  font: inherit;
 }
 
 .control-field input:focus,
-.control-field select:focus {
+.control-field select:focus,
+.control-field textarea:focus {
   border-color: var(--blue);
   box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.control-field textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.45;
 }
 
 .command-row {
@@ -1807,6 +1816,327 @@ tbody td {
   font-variant-numeric: tabular-nums;
 }
 
+.records-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.records-hero h2 {
+  margin: 4px 0 4px;
+  font-size: clamp(26px, 3vw, 42px);
+  line-height: 0.95;
+}
+
+.records-hero p {
+  margin: 0;
+  max-width: 780px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.records-hero-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  align-items: center;
+}
+
+.records-nation-picker {
+  min-width: min(360px, 48vw);
+  background: var(--input-bg);
+  box-shadow: none;
+}
+
+.records-local-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.record-tab {
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--button-bg);
+  color: var(--ink);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.record-tab:hover,
+.record-tab:focus-visible {
+  border-color: var(--blue);
+}
+
+.record-tab.is-active {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--on-gold);
+}
+
+.records-summary-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--panel);
+}
+
+.records-fact {
+  min-width: 0;
+  padding: 13px 16px;
+}
+
+.records-fact + .records-fact {
+  border-left: 1px solid var(--line);
+}
+
+.records-fact span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.records-fact strong {
+  display: block;
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.records-fact small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-weight: 750;
+}
+
+.records-workspace-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(420px, 1.35fr) minmax(260px, 0.72fr);
+  gap: 14px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.design-card-list,
+.navy-glance-list {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.design-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 10px;
+  width: 100%;
+  min-height: 74px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.design-card:hover,
+.design-card:focus-visible,
+.design-card.is-active {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--selected-ring);
+}
+
+.design-card .swatch {
+  grid-row: 1 / span 3;
+  margin-top: 3px;
+}
+
+.design-card strong,
+.design-card small,
+.design-card em {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.design-card strong {
+  font-size: 16px;
+  line-height: 1.15;
+}
+
+.design-card small {
+  color: var(--blue);
+  font-weight: 900;
+}
+
+.design-card em {
+  color: var(--muted);
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.design-editor-panel {
+  min-height: 420px;
+}
+
+.design-editor-form,
+.design-readout {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.design-editor-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.design-editor-title h3,
+.design-readout h3 {
+  margin: 3px 0 0;
+  font-size: 28px;
+  line-height: 1.05;
+}
+
+.design-readout p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.design-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.design-notes-field {
+  grid-column: 1 / -1;
+}
+
+.design-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.design-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.design-detail-grid .records-fact {
+  border-left: 0;
+  border-top: 1px solid var(--line);
+}
+
+.design-detail-grid .records-fact:nth-child(-n + 3) {
+  border-top: 0;
+}
+
+.design-detail-grid .records-fact:not(:nth-child(3n + 1)) {
+  border-left: 1px solid var(--line);
+}
+
+.navy-record-rail .command {
+  margin: 0 12px 12px;
+}
+
+.record-reference-panel {
+  margin-top: 14px;
+}
+
+.compact-table table {
+  font-size: 13px;
+}
+
+.fleet-editor {
+  padding: 4px 16px 14px;
+}
+
+.editable-ship-category {
+  grid-template-columns: 160px minmax(0, 1fr);
+}
+
+.editable-ship-row {
+  grid-template-columns: minmax(0, 1fr) minmax(82px, 110px) auto;
+  align-items: center;
+}
+
+.ship-count-cell {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ship-count-input {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--input-bg);
+  color: var(--ink);
+  padding: 6px 8px;
+  text-align: right;
+  font: inherit;
+  font-weight: 900;
+}
+
+.ship-count-input:focus {
+  border-color: var(--blue);
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.icon-command {
+  min-height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--button-bg);
+  color: var(--ink);
+  padding: 5px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.icon-command.danger {
+  color: var(--negative-ink);
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
+}
+
+.naval-add-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.9fr) minmax(260px, 1.3fr) minmax(100px, 0.35fr) auto;
+  gap: 10px;
+  align-items: end;
+  padding: 14px 16px 16px;
+  border-top: 1px solid var(--line);
+  background: var(--subtle-bg);
+}
+
 .note {
   color: var(--muted);
   font-size: 13px;
@@ -1832,11 +2162,13 @@ tbody td {
 
 @media (max-width: 980px) {
   .overview-hero,
+  .records-hero,
   .overview-panels,
   .dashboard-grid,
   .split,
   .nation-layout,
   .simulation-grid,
+  .records-workspace-grid,
   .naval-grid,
   .equipment-grid,
   .audit-grid {
@@ -1879,6 +2211,42 @@ tbody td {
 
   .pipeline-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .records-hero-controls {
+    justify-content: stretch;
+  }
+
+  .records-nation-picker {
+    min-width: 0;
+  }
+
+  .records-summary-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .records-summary-strip .records-fact:nth-child(odd) {
+    border-left: 0;
+  }
+
+  .records-summary-strip .records-fact:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+
+  .design-form-grid,
+  .design-detail-grid,
+  .naval-add-row {
+    grid-template-columns: 1fr;
+  }
+
+  .design-detail-grid .records-fact,
+  .design-detail-grid .records-fact:not(:nth-child(3n + 1)) {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .design-detail-grid .records-fact:first-child {
+    border-top: 0;
   }
 
   .history-list-head {
@@ -1990,6 +2358,30 @@ tbody td {
   .snapshot-summary-strip .overview-fact + .overview-fact {
     border-left: 0;
     border-top: 1px solid var(--line);
+  }
+
+  .records-summary-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .records-summary-strip .records-fact + .records-fact,
+  .records-summary-strip .records-fact:nth-child(n + 3) {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .records-local-tabs {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .editable-ship-category,
+  .editable-ship-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ship-count-cell {
+    justify-content: stretch;
   }
 
   .editor-section-national,

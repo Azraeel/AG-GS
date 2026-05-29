@@ -70,7 +70,7 @@
     data.meta.changeHistory = Array.isArray(data.meta.changeHistory) ? data.meta.changeHistory : [];
     data.meta.updatedAt = data.meta.updatedAt || new Date().toISOString();
     data.nations = Array.isArray(data.nations) ? data.nations : [];
-    ["national", "trade", "industrial", "population", "military", "intelligence", "naval", "eclipse", "elections"].forEach((key) => {
+    ["national", "trade", "industrial", "population", "military", "intelligence", "naval", "equipmentDesigns", "eclipse", "elections"].forEach((key) => {
       data[key] = data[key] && typeof data[key] === "object" && !Array.isArray(data[key]) ? data[key] : {};
     });
     ["populationColumns", "equipmentCosts", "eraMultipliers", "costAdditionModifiers", "costReductionModifiers"].forEach((key) => {

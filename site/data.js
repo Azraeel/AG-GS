@@ -23,6 +23,7 @@ window.AGGS_DATA = {
   military: {},
   intelligence: {},
   naval: {},
+  equipmentDesigns: {},
   equipmentCosts: [],
   eraMultipliers: [],
   costAdditionModifiers: [],

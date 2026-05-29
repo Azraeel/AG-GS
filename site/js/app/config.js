@@ -13,6 +13,10 @@
       "create-nation",
       "archive-nation",
       "restore-nation",
+      "save-equipment-design",
+      "delete-equipment-design",
+      "add-naval-ship",
+      "delete-naval-ship",
       "refresh-snapshots",
       "snapshot-revert",
       "snapshot-export"
@@ -41,7 +45,7 @@
       { key: "military", label: "Military Status" },
       { key: "intelligence", label: "Intelligence Status" },
       { key: "naval", label: "Naval Inventory" },
-      { key: "equipment", label: "Equipment Costs" },
+      { key: "equipment", label: "Equipment Designs" },
       { key: "eclipse", label: "Eclipse Status" },
       { key: "elections", label: "Election Tracker" },
       { key: "audit", label: "Audit" }
