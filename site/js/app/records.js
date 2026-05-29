@@ -215,22 +215,33 @@
     function equipmentTableHtml(nation, designs, selectedId, hiddenCount = 0) {
       if (!designs.length) return `<div class="empty compact">No records match this category.</div>`;
       return `
-        <div class="equipment-table-wrap equipment-list-wrap">
+        <div class="equipment-table-wrap">
+          <div class="equipment-list-wrap" role="list">
+          <div class="equipment-record-header" aria-hidden="true">
+            <span>Equipment</span>
+            <span>Type</span>
+            <span>Notes</span>
+            <span>Detail</span>
+          </div>
           ${designs
-            .map((design) => `
+            .map((design) => {
+              const detailed = hasDetailedSpecs(design);
+              const detailLabel = detailed ? "Detailed specs" : "Roster only";
+              const detailTone = detailed ? "warning" : "";
+              return `
               <button type="button" class="equipment-record-row equipment-record-card ${design.id === selectedId ? "is-active" : ""}" data-equipment-design="${escapeHtml(design.id)}">
                 <span class="equipment-item-name">
                   <span class="swatch" style="background:${safeColor(nation.color)}"></span>
                   <strong>${safeText(design.name, "Untitled Equipment")}</strong>
                 </span>
                 <span class="equipment-record-meta">${safeText(design.category || "Other")} / ${safeText(design.subcategory || design.role || "General")}</span>
-                <span class="equipment-record-footer">
-                  ${safeStatus(designStatus(design))}
-                  <em>${safeText(design.detailLevel === "template" ? "Detailed specs" : design.notes || "Rostered")}</em>
-                </span>
-              </button>`)
+                <span class="equipment-record-note">${safeText(design.notes || designStatus(design))}</span>
+                <span class="equipment-record-detail">${safeStatus(detailLabel, detailTone)}</span>
+              </button>`;
+            })
             .join("")}
           ${hiddenCount > 0 ? `<div class="equipment-table-limit">Showing the first ${fmtNumber(designs.length)} records in this filter. Narrow by category for the remaining ${fmtNumber(hiddenCount)}.</div>` : ""}
+          </div>
         </div>`;
     }
 
@@ -437,7 +448,7 @@
             <div class="panel-head compact-head">
               <div>
                 <h2>${safeText(nation.name)} Equipment</h2>
-                <p>${fmtNumber(designs.length)} records. Filter by category, then open the selected item below.</p>
+                <p>${fmtNumber(designs.length)} records. Filter by category, then edit the selected item in the inspector.</p>
               </div>
               ${equipmentActionsHtml(fleet)}
             </div>

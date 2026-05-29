@@ -1937,7 +1937,7 @@ tbody td {
 
 .equipment-library-layout {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(760px, 1fr) minmax(420px, 560px);
   gap: 14px;
   align-items: start;
   margin-bottom: 14px;
@@ -1949,6 +1949,10 @@ tbody td {
 
 .equipment-dossier-panel {
   min-width: 0;
+  position: sticky;
+  top: 12px;
+  max-height: calc(100vh - 24px);
+  overflow: auto;
 }
 
 .equipment-action-bar {
@@ -1991,17 +1995,39 @@ tbody td {
 }
 
 .equipment-table-wrap {
-  max-height: min(520px, calc(100vh - 330px));
+  max-height: min(690px, calc(100vh - 300px));
   min-height: 0;
   overflow: auto;
 }
 
 .equipment-list-wrap {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   align-content: start;
-  gap: 8px;
-  padding: 12px;
+  gap: 6px;
+  padding: 10px;
+}
+
+.equipment-record-header,
+.equipment-record-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.25fr) minmax(170px, 0.85fr) minmax(130px, 0.7fr) minmax(96px, auto);
+  gap: 12px;
+  align-items: center;
+}
+
+.equipment-record-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  min-height: 34px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 950;
+  text-transform: uppercase;
 }
 
 .equipment-table {
@@ -2039,11 +2065,9 @@ tbody td {
 }
 
 .equipment-record-card {
-  display: grid;
-  gap: 7px;
   width: 100%;
-  min-height: 96px;
-  padding: 13px 14px;
+  min-height: 50px;
+  padding: 8px 14px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--input-bg);
@@ -2062,9 +2086,29 @@ tbody td {
 .equipment-record-meta {
   min-width: 0;
   color: var(--blue);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 900;
   overflow-wrap: anywhere;
+}
+
+.equipment-record-note {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
+.equipment-record-detail {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.equipment-record-detail .status {
+  min-height: 24px;
+  padding: 3px 8px;
+  font-size: 10px;
+  white-space: nowrap;
 }
 
 .equipment-record-footer {
@@ -2095,9 +2139,20 @@ tbody td {
 .equipment-item-name {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 9px;
+  gap: 8px;
   align-items: center;
   min-width: 0;
+}
+
+.equipment-item-name .swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.equipment-item-name strong {
+  font-size: 14px;
+  line-height: 1.15;
 }
 
 .equipment-item-name strong,
@@ -2243,6 +2298,10 @@ tbody td {
   line-height: 0.95;
 }
 
+.equipment-dossier-panel .equipment-dossier-heading h3 {
+  font-size: clamp(26px, 3vw, 34px);
+}
+
 .equipment-dossier-heading p {
   max-width: 980px;
   margin: 0;
@@ -2279,6 +2338,14 @@ tbody td {
 .equipment-core-editor .design-form-grid,
 .equipment-core-editor .design-actions {
   padding: 0 16px 16px;
+}
+
+.equipment-dossier-panel .design-form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.equipment-dossier-panel .equipment-spec-grid {
+  grid-template-columns: 1fr;
 }
 
 .design-notes-field {
@@ -2622,6 +2689,34 @@ tbody td {
 .empty.compact {
   padding: 14px 0;
   font-size: 13px;
+}
+
+@media (max-width: 1240px) {
+  .equipment-library-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .equipment-dossier-panel {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 760px) {
+  .equipment-record-header {
+    display: none;
+  }
+
+  .equipment-record-card {
+    grid-template-columns: 1fr;
+    gap: 5px;
+    min-height: 0;
+  }
+
+  .equipment-record-detail {
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 980px) {
