@@ -714,20 +714,10 @@
         { key: "developmentLevel", label: "Development", numeric: true, render: fmtNumber },
         { key: "budgetCapacity", label: "Budget Capacity", numeric: true, render: fmtNumber },
         { key: "budgetExpenditure", label: "Expenditure", numeric: true, secondary: true, render: fmtNumber },
-        { key: "primaryBalance", label: "Primary Balance", numeric: true, secondary: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
-        { key: "debtService", label: "Debt Service", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "negative" : "") },
-        { key: "budgetBalance", label: "Effective Balance", numeric: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
+        { key: "budgetBalance", label: "Budget Balance", numeric: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
         { key: "debt", label: "Debt", numeric: true, render: fmtPercent },
-        { key: "debtPrincipal", label: "Debt Principal", numeric: true, secondary: true, render: fmtNumber },
-        { key: "interestRate", label: "Interest Rate", numeric: true, secondary: true, render: fmtPercent },
-        { key: "computedInterestRate", label: "Stat Interest", numeric: true, secondary: true, render: fmtPercent },
-        { key: "interestRateAdjustment", label: "GM Interest", numeric: true, secondary: true, render: fmtPercent },
-        { key: "deficitRisk", label: "Deficit Risk", numeric: true, secondary: true, render: fmtPercent },
-        { key: "sanctionsRisk", label: "Sanctions Risk", numeric: true, secondary: true, render: fmtPercent },
-        { key: "mobilizationRisk", label: "Mobilization Risk", numeric: true, secondary: true, render: fmtPercent },
-        { key: "tradeBalanceRisk", label: "Trade Risk", numeric: true, secondary: true, render: fmtPercent },
-        { key: "debtTrendRisk", label: "Trend Risk", numeric: true, secondary: true, render: fmtPercent },
-        { key: "debtRepayment", label: "Repayment Cap", numeric: true, secondary: true, render: fmtNumber },
+        { key: "interestRate", label: "Interest Rate", numeric: true, render: fmtPercent },
+        { key: "debtService", label: "Debt Service", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "negative" : "") },
         { key: "projectedDebt", label: "Projected Debt", numeric: true, secondary: true, render: fmtPercent },
         { key: "economicHealth", label: "Health", render: (v) => safeStatus(v, v === "Prosperity" ? "positive" : v === "Recovery" ? "warning" : "") },
         { key: "immigrationRate", label: "Immigration", numeric: true, secondary: true, render: fmtNumber },
@@ -1513,8 +1503,8 @@
       budgetBalance: "Effective Balance",
       debtPrincipal: "Debt Principal",
       debtService: "Debt Service",
-      computedInterestRate: "Stat Interest",
-      interestRateAdjustment: "GM Interest",
+      computedInterestRate: "Modeled Interest",
+      interestRateAdjustment: "Manual Interest Adjustment",
       interestRate: "Interest Rate",
       debtRepayment: "Debt Repayment",
       deficitBorrowing: "Deficit Borrowing",
@@ -1628,6 +1618,22 @@
     }, {});
   }
 
+  const internalChangeKeys = new Set([
+    "national.computedInterestRate",
+    "national.interestRateAdjustment",
+    "national.debtRisk",
+    "national.stabilityRisk",
+    "national.healthRisk",
+    "national.corruptionRisk",
+    "national.deficitRisk",
+    "national.sanctionsRisk",
+    "national.mobilizationRisk",
+    "national.tradeBalanceRisk",
+    "national.debtTrendRisk",
+    "national.maxDebtPaydown",
+    "national.repaymentShareLimit"
+  ]);
+
   function valuesMatch(left, right) {
     if (left === right) return true;
     const leftNumber = Engine.number(left, NaN);
@@ -1644,6 +1650,7 @@
 
   function snapshotChanges(before, after) {
     return Array.from(new Set([...Object.keys(before || {}), ...Object.keys(after || {})]))
+      .filter((key) => !internalChangeKeys.has(key))
       .filter((key) => !valuesMatch(before?.[key], after?.[key]))
       .map((key) => {
         const beforeValue = before?.[key];
@@ -1696,7 +1703,7 @@
         <div class="panel-head">
           <div>
             <h2>Change History</h2>
-            <p>Recent admin edits and every changed field after recalculation.</p>
+            <p>Recent admin edits and visible outcomes after recalculation.</p>
           </div>
         </div>
         ${rows.length ? `
@@ -1709,7 +1716,7 @@
               <span>Impact</span>
             </div>
             ${rows.map((entry) => {
-              const impacts = entry.changes || entry.deltas || [];
+              const impacts = (entry.changes || entry.deltas || []).filter((change) => !internalChangeKeys.has(change.key));
               return `
                 <article class="history-list-row" role="row">
                   <div class="history-time" role="cell">${historyTime(entry.changedAt)}</div>
