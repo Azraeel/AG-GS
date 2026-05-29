@@ -21,6 +21,12 @@
     Total: { efficiency: -70, capacity: -50, flow: -80, balance: -85 }
   };
   const COMPLEXITY = { 1: 3, 2: 2, 3: 1.5, 4: 1, 5: 0.8, 6: 0.5, 7: 0.35, 8: 0.25, 9: 0.15, 10: 0.1, 11: 0.05 };
+  const DEBT_RULES = {
+    baseInterestRate: 2,
+    repaymentShare: 0.25,
+    maxDebtPaydownRate: 0.1
+  };
+  const HEALTH_INTEREST_RISK = { Prosperity: 0, Expansion: 0, Recovery: 0, Slowdown: 1, Recession: 3, Depression: 6 };
 
   function clone(value) {
     return JSON.parse(JSON.stringify(value));
@@ -42,6 +48,14 @@
 
   function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
+  }
+
+  function roundCurrency(value) {
+    return Math.round(number(value, 0));
+  }
+
+  function roundPercent(value) {
+    return Number(number(value, 0).toFixed(2));
   }
 
   function ensureState(data = {}) {
@@ -282,22 +296,128 @@
     return Math.round(baseBudgetTotal * tradeImpactOnBudget) + number(national.budgetAdjustment, 0);
   }
 
+  function debtRiskForPercent(debtPercent) {
+    const debt = number(debtPercent, 0);
+    if (debt >= 200) return 10;
+    if (debt >= 100) return 6;
+    if (debt >= 50) return 3;
+    if (debt >= 25) return 1;
+    return 0;
+  }
+
+  function stabilityRiskForPercent(stabilityPercent) {
+    const stability = number(stabilityPercent, 100);
+    if (stability < 40) return 3;
+    if (stability < 60) return 2;
+    if (stability < 75) return 1;
+    return 0;
+  }
+
+  function corruptionRiskForPercent(corruptionPercent) {
+    const corruption = number(corruptionPercent, 0);
+    if (corruption >= 75) return 3;
+    if (corruption >= 50) return 2;
+    if (corruption >= 30) return 1;
+    return 0;
+  }
+
+  function calculateFiscalForNation(data, id, options = {}) {
+    const national = data.national?.[id];
+    if (!national) return null;
+    const budgetCapacity = roundCurrency(options.budgetCapacity ?? national.budgetCapacity);
+    const budgetExpenditure = roundCurrency(national.budgetExpenditure);
+    const debtPercent = Math.max(0, number(national.debt, 0));
+    const debtPrincipal = roundCurrency(budgetCapacity * (debtPercent / 100));
+    const debtRisk = debtRiskForPercent(debtPercent);
+    const stabilityRisk = stabilityRiskForPercent(national.governmentalStability);
+    const healthRisk = HEALTH_INTEREST_RISK[national.economicHealth] || 0;
+    const corruptionRisk = corruptionRiskForPercent(national.corruption);
+    const interestRate = roundPercent(DEBT_RULES.baseInterestRate + debtRisk + stabilityRisk + healthRisk + corruptionRisk);
+    const debtService = roundCurrency(debtPrincipal * (interestRate / 100));
+    const primaryBalance = roundCurrency(budgetCapacity - budgetExpenditure);
+    const effectiveBalance = roundCurrency(primaryBalance - debtService);
+    const surplusForRepayment = Math.max(effectiveBalance, 0);
+    const repaymentShareLimit = roundCurrency(surplusForRepayment * DEBT_RULES.repaymentShare);
+    const maxDebtPaydown = roundCurrency(debtPrincipal * DEBT_RULES.maxDebtPaydownRate);
+    const repayment = Math.min(repaymentShareLimit, maxDebtPaydown, debtPrincipal);
+    const deficitBorrowing = Math.max(-effectiveBalance, 0);
+    const nextDebtPrincipal = Math.max(roundCurrency(debtPrincipal + deficitBorrowing - repayment), 0);
+    const nextDebtPercent = budgetCapacity > 0 ? roundPercent((nextDebtPrincipal / budgetCapacity) * 100) : 0;
+    const debtChange = roundCurrency(nextDebtPrincipal - debtPrincipal);
+    return {
+      budgetCapacity,
+      budgetExpenditure,
+      primaryBalance,
+      debtPercent: roundPercent(debtPercent),
+      debtPrincipal,
+      interestRate,
+      debtRisk,
+      stabilityRisk,
+      healthRisk,
+      corruptionRisk,
+      debtService,
+      effectiveBalance,
+      repaymentShareLimit,
+      maxDebtPaydown,
+      debtRepayment: repayment,
+      deficitBorrowing,
+      debtChange,
+      nextDebtPrincipal,
+      nextDebtPercent,
+      repaymentShare: DEBT_RULES.repaymentShare * 100,
+      maxDebtPaydownRate: DEBT_RULES.maxDebtPaydownRate * 100
+    };
+  }
+
+  function applyFiscalFields(national, fiscal) {
+    national.primaryBalance = fiscal.primaryBalance;
+    national.debtPrincipal = fiscal.debtPrincipal;
+    national.interestRate = fiscal.interestRate;
+    national.debtRisk = fiscal.debtRisk;
+    national.stabilityRisk = fiscal.stabilityRisk;
+    national.healthRisk = fiscal.healthRisk;
+    national.corruptionRisk = fiscal.corruptionRisk;
+    national.debtService = fiscal.debtService;
+    national.budgetBalance = fiscal.effectiveBalance;
+    national.debtRepayment = fiscal.debtRepayment;
+    national.deficitBorrowing = fiscal.deficitBorrowing;
+    national.debtChange = fiscal.debtChange;
+    national.projectedDebt = fiscal.nextDebtPercent;
+    national.projectedDebtPrincipal = fiscal.nextDebtPrincipal;
+    national.maxDebtPaydown = fiscal.maxDebtPaydown;
+    national.repaymentShareLimit = fiscal.repaymentShareLimit;
+  }
+
+  function calculateAnnualDebtUpdate(data, id) {
+    const fiscal = calculateFiscalForNation(data, id);
+    if (!fiscal) return null;
+    return {
+      debtPrincipal: fiscal.debtPrincipal,
+      interestRate: fiscal.interestRate,
+      debtService: fiscal.debtService,
+      effectiveBalance: fiscal.effectiveBalance,
+      repayment: fiscal.debtRepayment,
+      deficitBorrowing: fiscal.deficitBorrowing,
+      nextDebtPrincipal: fiscal.nextDebtPrincipal,
+      nextDebtPercent: fiscal.nextDebtPercent,
+      debtChange: fiscal.debtChange
+    };
+  }
+
   function recalculateBudgets(data, options = {}) {
     const shouldUpdateDebt = options.updateDebt === true;
     for (const id of Object.keys(data.national || {})) {
       const national = data.national[id];
-      const previousCapacity = number(national.budgetCapacity, 0);
-      const previousBalance = number(national.budgetBalance, 0);
-      const currentDebtPercent = number(national.debt, 0);
       const budgetCapacity = calculateBudgetForNation(data, id);
       if (budgetCapacity === null) continue;
       national.budgetCapacity = budgetCapacity;
-      national.budgetBalance = budgetCapacity - number(national.budgetExpenditure, 0);
+      let fiscal = calculateFiscalForNation(data, id, { budgetCapacity });
+      if (!fiscal) continue;
+      applyFiscalFields(national, fiscal);
       if (shouldUpdateDebt) {
-        let absoluteDebt = (currentDebtPercent / 100) * previousCapacity;
-        if (previousBalance < 0) absoluteDebt += Math.abs(previousBalance);
-        else absoluteDebt = Math.max(absoluteDebt - previousBalance, 0);
-        national.debt = budgetCapacity > 0 ? Number(((absoluteDebt / budgetCapacity) * 100).toFixed(2)) : 0;
+        national.debt = fiscal.nextDebtPercent;
+        fiscal = calculateFiscalForNation(data, id, { budgetCapacity });
+        if (fiscal) applyFiscalFields(national, fiscal);
       }
     }
     return data;
@@ -410,9 +530,11 @@
       data.meta.currentYear = year;
       recalculateTrade(data);
       for (const nation of activeNations) advanceIndustry(data, nation.id, 1);
-      recalculateBudgets(data, { updateDebt: true });
+      recalculateBudgets(data);
       recalculateTrade(data);
       recalculateBudgets(data, { updateDebt: true });
+      recalculateTrade(data);
+      recalculateBudgets(data);
       for (const nation of activeNations) advanceMilitarySupply(data, nation.id, 12);
       log.push(snapshot(data, year));
     }
@@ -474,6 +596,8 @@
     currentPopulationKey,
     calculateTradeForNation,
     calculateBudgetForNation,
+    calculateFiscalForNation,
+    calculateAnnualDebtUpdate,
     recalculateAll,
     recalculateTrade,
     recalculateBudgets,
@@ -481,6 +605,6 @@
     updateValue,
     snapshot,
     exportDataJs,
-    constants: { HEALTH_GROWTH, HEALTH_POPULATION, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, MOBILIZATION, TRADE_POLICY, SANCTIONS }
+    constants: { HEALTH_GROWTH, HEALTH_POPULATION, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES }
   };
 })();

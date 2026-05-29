@@ -2,6 +2,7 @@
   const baseData = window.AGGS_DATA;
   const Engine = window.AGGS_ENGINE;
   let data = Engine.load(baseData);
+  Engine.recalculateAll(data);
   const app = document.getElementById("app");
   const tabs = Array.from(document.querySelectorAll(".tab"));
   const sourceNote = document.getElementById("sourceNote");
@@ -254,6 +255,10 @@
     return `${Number(percent.toFixed(4)).toLocaleString("en-US", { maximumFractionDigits: 4 })}%`;
   }
 
+  function isPercentText(value) {
+    return typeof value === "string" && value.trim().endsWith("%");
+  }
+
   function fmtSigned(value) {
     if (value === null || value === undefined || value === "") return "Unknown";
     return value > 0 ? `+${fmtNumber(value)}` : fmtNumber(value);
@@ -271,6 +276,15 @@
   }
 
   const decimalPercentFields = new Set(["national.taxRate"]);
+  const wholePercentFields = new Set([
+    "national.debt",
+    "national.interestRate",
+    "national.projectedDebt",
+    "national.debtRisk",
+    "national.stabilityRisk",
+    "national.healthRisk",
+    "national.corruptionRisk"
+  ]);
 
   function fieldKey(dataset, path) {
     return `${dataset}.${path}`;
@@ -284,6 +298,10 @@
     return decimalPercentFields.has(key);
   }
 
+  function isWholePercentChangeKey(key) {
+    return wholePercentFields.has(key);
+  }
+
   function trimInputNumber(value, maximumFractionDigits = 6) {
     const number = Number(value);
     return Number.isFinite(number) ? String(Number(number.toFixed(maximumFractionDigits))) : "";
@@ -295,17 +313,25 @@
   }
 
   function historyFieldValue(dataset, path, value) {
-    return isDecimalPercentField(dataset, path) ? fmtDecimalPercent(value) : value;
+    const key = fieldKey(dataset, path);
+    if (isDecimalPercentChangeKey(key)) return fmtDecimalPercent(value);
+    if (isWholePercentChangeKey(key)) return fmtPercent(fmtHistoryValue(value));
+    return value;
   }
 
   function fmtHistoryChangeValue(key, value) {
-    return isDecimalPercentChangeKey(key) ? fmtDecimalPercent(value) : fmtHistoryValue(value);
+    if (isDecimalPercentChangeKey(key)) return isPercentText(value) ? fmtHistoryValue(value) : fmtDecimalPercent(value);
+    if (isWholePercentChangeKey(key)) return isPercentText(value) ? fmtHistoryValue(value) : fmtPercent(fmtHistoryValue(value));
+    return fmtHistoryValue(value);
   }
 
   function fmtHistoryDelta(key, value) {
-    if (!isDecimalPercentChangeKey(key)) return fmtSigned(value);
-    const percentDelta = Engine.number(value, 0) * 100;
-    return `${fmtSigned(Number(percentDelta.toFixed(4)))} pts`;
+    if (isDecimalPercentChangeKey(key)) {
+      const percentDelta = Engine.number(value, 0) * 100;
+      return `${fmtSigned(Number(percentDelta.toFixed(4)))} pts`;
+    }
+    if (isWholePercentChangeKey(key)) return `${fmtSigned(value)} pts`;
+    return fmtSigned(value);
   }
 
   function populationFor(id, year = data.meta.currentYear) {
@@ -364,6 +390,7 @@
     const nextRevision = Number(payload.revision || 0);
     if (nextRevision && nextRevision === sharedSync.revision) return false;
     data = Engine.normalizeState(Engine.clone(payload.data));
+    Engine.recalculateAll(data);
     pendingEdits.clear();
     sharedSync.revision = nextRevision || sharedSync.revision;
     sharedSync.updatedAt = payload.updatedAt || data.meta?.updatedAt || "";
@@ -838,8 +865,14 @@
         { key: "developmentLevel", label: "Development", numeric: true, render: fmtNumber },
         { key: "budgetCapacity", label: "Budget Capacity", numeric: true, render: fmtNumber },
         { key: "budgetExpenditure", label: "Expenditure", numeric: true, secondary: true, render: fmtNumber },
-        { key: "budgetBalance", label: "Balance", numeric: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
+        { key: "primaryBalance", label: "Primary Balance", numeric: true, secondary: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
+        { key: "debtService", label: "Debt Service", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "negative" : "") },
+        { key: "budgetBalance", label: "Effective Balance", numeric: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
         { key: "debt", label: "Debt", numeric: true, render: fmtPercent },
+        { key: "debtPrincipal", label: "Debt Principal", numeric: true, secondary: true, render: fmtNumber },
+        { key: "interestRate", label: "Interest", numeric: true, secondary: true, render: fmtPercent },
+        { key: "debtRepayment", label: "Repayment Cap", numeric: true, secondary: true, render: fmtNumber },
+        { key: "projectedDebt", label: "Projected Debt", numeric: true, secondary: true, render: fmtPercent },
         { key: "economicHealth", label: "Health", render: (v) => safeStatus(v, v === "Prosperity" ? "positive" : v === "Recovery" ? "warning" : "") },
         { key: "immigrationRate", label: "Immigration", numeric: true, secondary: true, render: fmtNumber },
         { key: "taxRate", label: "Tax Rate", numeric: true, secondary: true, render: fmtDecimalPercent }
@@ -1094,8 +1127,14 @@
         developmentLevel: 10,
         budgetCapacity: 0,
         budgetExpenditure: 0,
+        primaryBalance: 0,
         budgetBalance: 0,
         debt: 0,
+        debtPrincipal: 0,
+        interestRate: Engine.constants.DEBT_RULES.baseInterestRate,
+        debtService: 0,
+        debtRepayment: 0,
+        projectedDebt: 0,
         economicHealth: data.meta.worldEconomicHealth || "Expansion",
         immigrationRate: 0,
         taxRate: 0.02
@@ -1369,11 +1408,13 @@
           </div>
           <div class="rail-detail-grid">
             ${detailItem("Budget Capacity", fmtNumber(national.budgetCapacity))}
-            ${detailItem("Budget Balance", fmtSigned(national.budgetBalance))}
-            ${detailItem("Trade Balance", fmtSigned(trade.tradeBalance))}
+            ${detailItem("Primary Balance", fmtSigned(national.primaryBalance))}
+            ${detailItem("Debt Service", fmtNumber(national.debtService))}
+            ${detailItem("Effective Balance", fmtSigned(national.budgetBalance))}
+            ${detailItem("Debt", fmtPercent(national.debt))}
+            ${detailItem("Interest Rate", fmtPercent(national.interestRate))}
+            ${detailItem("Projected Debt", fmtPercent(national.projectedDebt))}
             ${detailItem("Trade Flow", fmtNumber(trade.tradeFlow))}
-            ${detailItem("Economic Impact", fmtNumber(trade.economicImpactScore))}
-            ${detailItem("Coverage", `${coverageFor(nation.id).filter((set) => set.hasData).length}/${datasets.length}`)}
           </div>
         </section>
         <section class="editor-rail-panel">
@@ -1451,6 +1492,7 @@
               ${fieldControl("national", "corruption", "Corruption %", national.corruption)}
               ${fieldControl("national", "developmentLevel", "Development", national.developmentLevel)}
               ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}
+              ${fieldControl("national", "debt", "Debt %", national.debt ?? 0)}
               ${fieldControl("national", "economicHealth", "Economic Health", national.economicHealth, "select", economicHealthOptions)}
               ${fieldControl("national", "immigrationRate", "Immigration", national.immigrationRate)}
               ${fieldControl("national", "taxRate", "Tax Rate %", national.taxRate ?? 0)}
@@ -1604,7 +1646,22 @@
   function fieldLabel(dataset, path) {
     const labels = {
       budgetCapacity: "Budget Capacity",
-      budgetBalance: "Budget Balance",
+      primaryBalance: "Primary Balance",
+      budgetBalance: "Effective Balance",
+      debtPrincipal: "Debt Principal",
+      debtService: "Debt Service",
+      interestRate: "Interest Rate",
+      debtRepayment: "Debt Repayment",
+      deficitBorrowing: "Deficit Borrowing",
+      debtChange: "Debt Change",
+      projectedDebt: "Projected Debt",
+      projectedDebtPrincipal: "Projected Debt Principal",
+      maxDebtPaydown: "Maximum Debt Paydown",
+      repaymentShareLimit: "Repayment Share Limit",
+      debtRisk: "Debt Risk",
+      stabilityRisk: "Stability Risk",
+      healthRisk: "Health Risk",
+      corruptionRisk: "Corruption Risk",
       tradeBalance: "Trade Balance",
       tradeFlow: "Trade Flow",
       tradePower: "Trade Power",
@@ -1788,7 +1845,7 @@
                   <div class="history-time" role="cell">${historyTime(entry.changedAt)}</div>
                   <div role="cell">${nationCell(entry.nationId)}</div>
                   <div class="history-edit" role="cell">${escapeHtml(entry.label || entry.field)}</div>
-                  <div role="cell"><span class="history-value">${escapeHtml(fmtHistoryValue(entry.beforeValue))}<span aria-hidden="true"> &rarr; </span>${escapeHtml(fmtHistoryValue(entry.afterValue))}</span></div>
+                  <div role="cell"><span class="history-value">${escapeHtml(fmtHistoryChangeValue(fieldKey(entry.dataset, entry.field), entry.beforeValue))}<span aria-hidden="true"> &rarr; </span>${escapeHtml(fmtHistoryChangeValue(fieldKey(entry.dataset, entry.field), entry.afterValue))}</span></div>
                   <div class="history-impact ${impacts.length ? "" : "is-empty"}" role="cell">${impacts.length ? impacts.map(renderChangeBadge).join("") : "No calculated impact"}</div>
                 </article>`;
             }).join("")}
@@ -1942,7 +1999,7 @@
           </div>
           <div class="nation-stat-strip">
             ${dossierMetric("Population", fmtCompact(populationFor(selected.id, currentYear)), `${fmtNumber(populationFor(selected.id, currentYear))} in ${currentYear}`)}
-            ${dossierMetric("Budget Capacity", fmtNumber(national?.budgetCapacity), national ? `${fmtSigned(national.budgetBalance)} balance` : "No national row")}
+            ${dossierMetric("Budget Capacity", fmtNumber(national?.budgetCapacity), national ? `${fmtSigned(national.budgetBalance)} effective balance` : "No national row")}
             ${dossierMetric("Trade Flow", fmtCompact(trade?.tradeFlow), trade ? `${fmtSigned(trade.tradeBalance)} balance` : "No trade row")}
             ${dossierMetric("Active Personnel", fmtCompact(militaryPersonnel), "Military total")}
             ${dossierMetric("Fleet", fmtNumber(naval?.total), "Tracked naval assets")}
@@ -1951,8 +2008,12 @@
             ${dossierSection("National", [
               dossierRow("Stability", fmtPercent(national?.governmentalStability)),
               dossierRow("Development", fmtNumber(national?.developmentLevel)),
-              dossierRow("Budget Balance", national ? fmtSigned(national.budgetBalance) : "Unknown", budgetTone),
-              dossierRow("Debt", fmtPercent(national?.debt))
+              dossierRow("Primary Balance", national ? fmtSigned(national.primaryBalance) : "Unknown", national?.primaryBalance >= 0 ? "positive" : "negative"),
+              dossierRow("Effective Balance", national ? fmtSigned(national.budgetBalance) : "Unknown", budgetTone),
+              dossierRow("Debt", fmtPercent(national?.debt)),
+              dossierRow("Interest Rate", fmtPercent(national?.interestRate)),
+              dossierRow("Debt Service", fmtNumber(national?.debtService)),
+              dossierRow("Projected Debt", fmtPercent(national?.projectedDebt))
             ])}
             ${dossierSection("Trade", [
               dossierRow("Policy", trade?.tradePolicy || "Unknown"),
