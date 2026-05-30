@@ -862,26 +862,21 @@ tbody td {
 .nation-layout {
   display: grid;
   grid-template-columns: minmax(280px, 330px) minmax(0, 1fr);
-  gap: clamp(28px, 4vw, 54px);
+  gap: 12px;
   align-items: start;
 }
 
 .nation-roster {
   position: sticky;
   top: 154px;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  overflow: visible;
 }
 
 .nation-list {
   display: grid;
-  gap: 0;
+  gap: 6px;
   max-height: calc(100vh - 250px);
   overflow: auto;
-  padding: 0;
+  padding: 8px;
 }
 
 .nation-roster-head {
@@ -889,7 +884,7 @@ tbody td {
   justify-content: space-between;
   gap: 12px;
   align-items: flex-start;
-  padding: 0 0 14px;
+  padding: 14px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -910,12 +905,11 @@ tbody td {
   gap: 10px;
   align-items: center;
   width: 100%;
-  min-height: 62px;
-  padding: 12px 0;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
+  min-height: 56px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--table-row-bg);
   color: var(--ink);
   cursor: pointer;
   text-align: left;
@@ -923,7 +917,7 @@ tbody td {
 
 .nation-button:hover,
 .nation-button:focus-visible {
-  color: var(--blue);
+  border-color: var(--blue);
   outline: 0;
 }
 
@@ -948,20 +942,15 @@ tbody td {
 }
 
 .nation-button.is-selected {
-  border-color: var(--line);
+  border-color: var(--blue);
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--blue) 14%, transparent), transparent 62%),
-    transparent;
-  box-shadow: inset 4px 0 0 var(--blue);
+    linear-gradient(90deg, color-mix(in srgb, var(--blue) 16%, transparent), transparent 70%),
+    var(--table-row-bg);
+  box-shadow: 0 0 0 3px var(--selected-ring);
 }
 
 .nation-dossier {
   --nation-color: var(--blue);
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  overflow: visible;
 }
 
 .nation-dossier-hero {
@@ -969,10 +958,11 @@ tbody td {
   gap: 16px;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0 0 26px 18px;
+  padding: 18px;
   border-bottom: 1px solid var(--line);
-  background: transparent;
-  box-shadow: inset 4px 0 0 var(--nation-color);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--nation-color) 18%, transparent), transparent 48%),
+    linear-gradient(180deg, var(--panel), var(--subtle-bg));
 }
 
 .nation-dossier-title {
@@ -1006,18 +996,16 @@ tbody td {
 .nation-stat-strip {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: clamp(16px, 2.5vw, 34px);
-  padding: 22px 0;
   border-bottom: 1px solid var(--line);
 }
 
 .dossier-metric {
   min-width: 0;
-  padding: 0;
+  padding: 13px 14px;
 }
 
 .dossier-metric + .dossier-metric {
-  border-left: 0;
+  border-left: 1px solid var(--line);
 }
 
 .dossier-metric span,
@@ -1049,23 +1037,23 @@ tbody td {
 .nation-dossier-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(22px, 3vw, 42px);
-  padding: 26px 0 0;
+  gap: 10px;
+  padding: 12px;
 }
 
 .dossier-section {
   min-width: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  overflow: visible;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--subtle-bg);
+  overflow: hidden;
 }
 
 .dossier-section h3 {
   margin: 0;
-  padding: 0 0 10px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--line);
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .dossier-rows {
@@ -1078,7 +1066,7 @@ tbody td {
   gap: 12px;
   align-items: center;
   min-height: 38px;
-  padding: 10px 0;
+  padding: 8px 12px;
 }
 
 .dossier-row + .dossier-row {
@@ -1106,7 +1094,7 @@ tbody td {
 }
 
 .dossier-section-wide .coverage {
-  padding: 12px 0 0;
+  padding: 12px;
 }
 
 .coverage {
@@ -1168,15 +1156,15 @@ tbody td {
 .editor-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(300px, 340px);
-  gap: clamp(24px, 3.5vw, 46px);
+  gap: 12px;
   align-items: start;
-  padding: 24px 0 0;
+  padding: 12px;
 }
 
 .editor-sections {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: clamp(22px, 3vw, 40px);
+  gap: 10px;
   align-items: start;
   min-width: 0;
 }
@@ -1196,11 +1184,13 @@ tbody td {
 .editor-summary {
   display: grid;
   grid-template-columns: repeat(6, minmax(96px, 1fr));
-  gap: clamp(14px, 2vw, 30px);
+  gap: 10px;
   align-items: stretch;
-  padding: 18px 0;
+  padding: 10px 14px;
   border-bottom: 1px solid var(--line);
-  background: transparent;
+  background:
+    linear-gradient(135deg, var(--hero-wash), transparent 42%),
+    var(--subtle-bg);
 }
 
 .editor-summary .overview-fact {
@@ -1223,20 +1213,17 @@ tbody td {
 }
 
 .roster-manager {
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  overflow: visible;
+  box-shadow: var(--metric-shadow);
 }
 
 .roster-tools-grid {
   display: grid;
   grid-template-columns: minmax(520px, 1fr) minmax(250px, 0.34fr) minmax(250px, 0.34fr);
-  gap: clamp(20px, 3vw, 34px);
-  padding: 16px 0 22px;
-  background: transparent;
-  border-bottom: 1px solid var(--line);
+  gap: 12px;
+  padding: 12px;
+  background:
+    linear-gradient(135deg, var(--hero-wash), transparent 46%),
+    var(--subtle-bg);
 }
 
 .roster-create-card,
@@ -1246,11 +1233,10 @@ tbody td {
   gap: 10px;
   align-items: end;
   min-width: 0;
-  padding: 14px 0 0;
-  border: 0;
-  border-top: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
 }
 
 .roster-create-card {
@@ -1275,18 +1261,6 @@ tbody td {
 
 .editor-panel-head {
   align-items: center;
-}
-
-.editor-panel {
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  overflow: visible;
-}
-
-.editor-panel > .panel-head {
-  padding: 0 0 18px;
 }
 
 .editor-head-controls {
@@ -1551,10 +1525,10 @@ tbody td {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 0 16px;
   align-content: start;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
+  padding: 12px 14px 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--subtle-bg);
 }
 
 .editor-section-national,
@@ -1579,10 +1553,10 @@ tbody td {
 
 .editor-section h3 {
   grid-column: 1 / -1;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   color: var(--ink);
   font-size: 16px;
-  padding-bottom: 10px;
+  padding-bottom: 7px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -1630,11 +1604,10 @@ tbody td {
 .editor-rail-panel {
   display: grid;
   gap: 12px;
-  padding: 0 0 18px;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--subtle-bg);
 }
 
 .editor-rail-head {
@@ -1677,11 +1650,10 @@ tbody td {
 .rail-change-row {
   display: grid;
   gap: 8px;
-  padding: 10px 0;
-  border: 0;
-  border-top: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--input-bg);
 }
 
 .rail-change-row strong {
@@ -1701,11 +1673,13 @@ tbody td {
 }
 
 .derived-preview {
-  background: transparent;
+  background:
+    linear-gradient(135deg, var(--hero-wash), transparent 48%),
+    var(--subtle-bg);
 }
 
 .derived-preview .detail-item {
-  background: transparent;
+  background: var(--panel);
 }
 
 .simulation-cockpit,
