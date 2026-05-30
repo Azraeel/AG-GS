@@ -53,8 +53,6 @@
     publishTimer: null,
     pollTimer: null
   };
-  const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
-
   const datasets = AppConfig.datasets;
   const viewOptions = AppConfig.viewOptions;
   const economicHealthOptions = AppConfig.economicHealthOptions;
@@ -531,28 +529,73 @@
       </label>`;
   }
 
+  function renderWorldPulse(active) {
+    const rows = active
+      .map((nation) => {
+        const national = data.national[nation.id] || {};
+        const trade = data.trade[nation.id] || {};
+        return {
+          nation,
+          budget: Number(national.budgetCapacity) || 0,
+          tradeFlow: Number(trade.tradeFlow) || 0
+        };
+      })
+      .sort((left, right) => right.budget - left.budget)
+      .slice(0, 4);
+
+    return `
+      <aside class="world-pulse" aria-labelledby="world-pulse-title">
+        <div class="world-pulse-copy">
+          <h2 id="world-pulse-title">World pulse</h2>
+          <p>Live budget leaders, trade scale, and power shifts without status badges everywhere.</p>
+        </div>
+        <div class="pulse-sparkline" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="pulse-list">
+          ${rows.map(({ nation, budget, tradeFlow }) => `
+            <div class="pulse-row" style="--nation-color:${safeColor(nation.color)}">
+              <span>${safeText(nation.name)}</span>
+              <strong>${safeText(fmtCompact(budget))} BC</strong>
+              <small>${safeText(fmtCompact(tradeFlow))} trade</small>
+            </div>`).join("")}
+        </div>
+      </aside>`;
+  }
+
   function renderOverviewHero(currentYear, active, totals) {
-    const revision = sharedSync.revision ? `#${sharedSync.revision}` : syncLabel(true);
+    const nextYear = currentYear + 1;
 
     return `
       <section class="overview-hero">
-        <div class="overview-identity">
-          <span class="section-kicker">Global Year State</span>
-          <h2>${fmtYear(currentYear)}</h2>
-          <p>${safeText(fmtNumber(active.length))} active nations / ${safeText(fmtCompact(totals.population))} population / ${safeText(fmtCompact(totals.tradeFlow))} trade flow</p>
+        <div class="hero-main">
+          <div class="overview-identity">
+            <span class="section-kicker">Global Year State</span>
+            <h2><span>${fmtYear(currentYear)}</span><span class="hero-year-arrow" aria-hidden="true">&rarr;</span><span>${fmtYear(nextYear)}</span></h2>
+            <p>A live strategy atlas for budgets, trade, debt pressure, records, and yearly simulation.</p>
+          </div>
+          <div class="atlas-chamber" aria-hidden="true">
+            <div class="atlas-readout">
+              <span>Live Trade Routes</span>
+              <strong>${safeText(fmtCompact(totals.tradeFlow))}</strong>
+              <small>animated flow layer</small>
+            </div>
+            <span class="atlas-route route-primary"></span>
+            <span class="atlas-route route-secondary"></span>
+            <span class="atlas-route route-warning"></span>
+            <span class="atlas-node node-a"></span>
+            <span class="atlas-node node-b"></span>
+            <span class="atlas-node node-c"></span>
+            <span class="atlas-node node-d"></span>
+            <span class="atlas-node node-e"></span>
+          </div>
+          <div class="hero-micro-metrics">
+            ${renderMetric("Active Nations", fmtNumber(active.length), "live profiles")}
+            ${renderMetric("Trade Flow", fmtCompact(totals.tradeFlow), "after trade v2")}
+            ${renderMetric("Budget Capacity", fmtCompact(totals.budget), "current calculation")}
+          </div>
         </div>
-        <div class="overview-facts" aria-label="Ledger state">
-          ${overviewFact("Revision", revision)}
-          ${overviewFact("Updated", fmtDateTime(data.meta.updatedAt || sharedSync.updatedAt))}
-          ${overviewFact("Fleet", fmtNumber(totals.fleet))}
-          ${overviewFact("Personnel", fmtCompact(totals.activePersonnel))}
-        </div>
-        <aside class="community-card" aria-labelledby="community-title">
-          <span class="section-kicker">Join the roleplay</span>
-          <h2 id="community-title">Create a nation, follow global events, and join the AG-GS Discord.</h2>
-          <p>The public ledger shows the world state. Discord is where diplomacy, claims, events, and nation planning happen.</p>
-          <a class="community-card-link" href="${DISCORD_INVITE_URL}" target="_blank" rel="noopener noreferrer">Join Discord</a>
-        </aside>
+        ${renderWorldPulse(active)}
       </section>`;
   }
 
@@ -608,24 +651,34 @@
 
     app.innerHTML = `
       ${renderOverviewHero(currentYear, active, totals)}
-      <section class="dashboard-grid overview-metrics">
-        ${renderMetric("Active Nations", fmtNumber(active.length), "Countries currently shown in the ledger")}
-        ${renderMetric(`${currentYear} Population`, fmtCompact(totalPopulation), "Combined active population")}
-        ${renderMetric("Budget Capacity", fmtNumber(totalBudget), "Combined national budget capacity")}
-        ${renderMetric("Fleet Inventory", fmtNumber(totalFleet), "Tracked naval assets")}
-        ${renderMetric("Trade Flow", fmtCompact(totalTradeFlow), "Aggregate active trade flow")}
-        ${renderMetric("Active Personnel", fmtCompact(totalActive), "Combat, support, air, naval, irregular")}
-        ${renderMetric("National Profiles", fmtNumber(active.filter((nation) => data.national[nation.id]).length), "Active records with national data")}
-        ${renderMetric("Coverage Gaps", fmtNumber(auditRows().filter((row) => row.missing.length).length), "Active nations missing a dataset")}
+      <section class="command-workspace">
+        <div class="command-workspace-head">
+          <div>
+            <h2>Command workspace</h2>
+            <p>Scan the economy, jump into operational records, and watch the live state move without stacked boxes everywhere.</p>
+          </div>
+          <div class="workspace-pills" aria-label="Workspace areas">
+            <span>Status tables</span>
+            <span>Records</span>
+            <span>Editor</span>
+            <span>History</span>
+          </div>
+        </div>
+        <section class="dashboard-grid overview-metrics">
+          ${renderMetric(`${currentYear} Population`, fmtCompact(totalPopulation), "Combined active population")}
+          ${renderMetric("Fleet Inventory", fmtNumber(totalFleet), "Tracked naval assets")}
+          ${renderMetric("Active Personnel", fmtCompact(totalActive), "Combat, support, air, naval, irregular")}
+          ${renderMetric("Coverage Gaps", fmtNumber(auditRows().filter((row) => row.missing.length).length), "Active nations missing a dataset")}
+        </section>
+        <div class="overview-panels">
+          ${topList("Largest Populations", `Population (${currentYear})`, dataId => populationFor(dataId, currentYear), fmtCompact)}
+          ${topList("Budget Capacity", "National Status", dataId => data.national[dataId]?.budgetCapacity, fmtNumber)}
+        </div>
+        <div class="overview-panels">
+          ${topList("Trade Flow", "Trade Status", dataId => data.trade[dataId]?.tradeFlow, fmtCompact)}
+          ${topList("Active Military Personnel", "Military Status", dataId => activeMilitary(data.military[dataId]), fmtCompact)}
+        </div>
       </section>
-      <div class="overview-panels">
-        ${topList("Largest Populations", `Population (${currentYear})`, dataId => populationFor(dataId, currentYear), fmtCompact)}
-        ${topList("Budget Capacity", "National Status", dataId => data.national[dataId]?.budgetCapacity, fmtNumber)}
-      </div>
-      <div class="overview-panels">
-        ${topList("Trade Flow", "Trade Status", dataId => data.trade[dataId]?.tradeFlow, fmtCompact)}
-        ${topList("Active Military Personnel", "Military Status", dataId => activeMilitary(data.military[dataId]), fmtCompact)}
-      </div>
     `;
   }
 
