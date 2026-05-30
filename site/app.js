@@ -1038,7 +1038,9 @@
   function renderTariffRebalancePanel(snapshot) {
     const preview = state.tariffRebalancePreview;
     const formulaVersion = data.meta.tariffFormulaVersion || "legacy";
+    const isTradeModelLive = (data.meta.tradeFormulaVersion || "legacy") === "trade2026";
     const isTariffModelLive = formulaVersion === "tariff2026";
+    const canApplyStandaloneTariff = preview && isTradeModelLive && !isTariffModelLive;
     const rows = [...(preview?.rows || [])].sort((left, right) => Math.abs(right.tariffRevenue) - Math.abs(left.tariffRevenue)).slice(0, 12);
     const liveRows = tariffRows();
     const warningCount = liveRows.filter((row) => row.tariff.warnings?.length).length;
@@ -1051,8 +1053,8 @@
       <section class="panel economy-rebalance-panel tariff-rebalance-panel">
         <div class="panel-head economy-rebalance-head">
           <div>
-            <h2>Tariff Calibration</h2>
-            <p>Preview tariff revenue from trade flow before applying it to budget capacity.</p>
+            <h2>Tariff Review</h2>
+            <p>Tariff revenue is part of the Trade v2 rollout. Use this panel to inspect customs revenue and warnings.</p>
           </div>
           <span class="status ${isTariffModelLive ? "positive" : ""}">${safeText(tariffFormulaLabel(formulaVersion))}</span>
         </div>
@@ -1065,13 +1067,13 @@
         ${renderTariffWatchlist(liveRows)}
         <div class="rebalance-controls">
           <div>
-            <strong>Tariff model rollout</strong>
-            <span>Nothing changes live until Apply is used. The apply step switches tariff revenue on and adjusts expenditures to keep each nation close to its current balance. ${safeText(balanceNote)}</span>
+            <strong>Included with Trade v2</strong>
+            <span>Trade v2 applies tariff revenue and expenditure offsets together. Standalone tariff apply is only available for rare recovery cases after Trade v2 is already live. ${safeText(balanceNote)}</span>
           </div>
           <div class="rebalance-buttons">
-            <button class="command primary" type="button" data-action="preview-tariff-rebalance">Preview Tariff Calibration</button>
+            <button class="command primary" type="button" data-action="preview-tariff-rebalance">Preview Tariff Review</button>
             <button class="command" type="button" data-action="export-tariff-rebalance" ${preview ? "" : "disabled"}>Export Preview</button>
-            <button class="command danger" type="button" data-action="apply-tariff-rebalance" ${preview && !isTariffModelLive ? "" : "disabled"}>${isTariffModelLive ? "Applied" : "Apply Calibration"}</button>
+            <button class="command danger" type="button" data-action="apply-tariff-rebalance" ${canApplyStandaloneTariff ? "" : "disabled"}>${isTariffModelLive ? "Included" : isTradeModelLive ? "Apply Recovery" : "Apply via Trade v2"}</button>
           </div>
         </div>
         <div class="rebalance-table-wrap">
@@ -1099,7 +1101,7 @@
                     <td class="numeric">${fmtNumber(row.oldBudgetCapacity)}</td>
                     <td class="numeric">${safeStatus(`${fmtNumber(row.newBudgetCapacity)} (${fmtSigned(row.budgetCapacityDelta)})`, row.budgetCapacityDelta >= 0 ? "positive" : "negative")}</td>
                     <td class="numeric">${fmtNumber(row.newBudgetExpenditure)}</td>
-                    <td>${safeText((row.tariffWarnings || [])[0] || "Ready to apply.")}</td>
+                    <td>${safeText((row.tariffWarnings || [])[0] || (isTradeModelLive ? "Included in Trade v2." : "Apply through Trade v2."))}</td>
                   </tr>`).join("")}
               </tbody>
             </table>` : `<div class="empty">Run a preview to inspect tariff revenue and expenditure offsets before anything is applied.</div>`}
@@ -1125,7 +1127,7 @@
         <div class="panel-head economy-rebalance-head">
           <div>
             <h2>Trade v2 Preview</h2>
-            <p>Preview the formula-only trade model. It widens trade power from market scale, exports, imports, logistics, openness, and financial depth without hidden nation calibration.</p>
+            <p>Preview the combined trade and tariff model. It widens trade power, calculates customs revenue from a taxable trade slice, and solves expenditures once.</p>
           </div>
           <span class="status ${isTradeModelLive ? "positive" : ""}">${safeText(tradeFormulaLabel(formulaVersion))}</span>
         </div>
@@ -1135,13 +1137,14 @@
           ${rebalanceMetric("Flow Movement", preview ? fmtSigned(totals.tradeFlowDelta) : "Pending", "Formula-only change", preview ? flowTone : "")}
           ${rebalanceMetric("Superpower Tier", fmtNumber(superpowerCount), "Nations above threshold", superpowerCount ? "positive" : "")}
           ${rebalanceMetric("BC Movement", preview ? fmtSigned(totals.budgetCapacityDelta) : "Pending", "After recalculation", preview ? bcTone : "")}
+          ${rebalanceMetric("Tariff Revenue", preview ? fmtSigned(totals.tariffRevenue) : "Included", "Customs slice inside Trade v2", preview ? "positive" : "")}
           ${rebalanceMetric("Expenditure Offset", preview ? fmtSigned(totals.budgetExpenditureDelta) : "Pending", "Keeps balances stable", preview ? expenditureTone : "")}
           ${rebalanceMetric("Balance Lock", preview ? fmtSigned(totals.budgetBalanceDelta) : "Pending", "Should stay near zero", preview ? balanceTone : "")}
         </div>
         <div class="rebalance-controls">
           <div>
             <strong>Trade formula rollout</strong>
-            <span>Preview first, then apply when the modeled rankings look right. Legacy manual adjustments stay available on old data, but Trade v2 does not carry them into the formula.</span>
+            <span>Preview first, then apply when the modeled rankings, tariff revenue, and balance lock look right. This one action also enables the tariff model.</span>
           </div>
           <div class="rebalance-buttons">
             <button class="command primary" type="button" data-action="preview-trade-rebalance">Preview Trade v2</button>
@@ -1158,6 +1161,7 @@
                   <th class="numeric">Rank</th>
                   <th class="numeric">Trade Flow</th>
                   <th class="numeric">Budget Capacity</th>
+                  <th class="numeric">Tariff Revenue</th>
                   <th class="numeric">New Expenditure</th>
                   <th class="numeric">Applied Balance</th>
                   <th>Tier</th>
@@ -1173,13 +1177,14 @@
                       <td class="numeric">${safeStatus(`#${fmtNumber(row.currentRank)} -> #${fmtNumber(row.modeledRank)}${row.rankChange ? ` (${fmtSigned(row.rankChange)})` : ""}`, rankTone)}</td>
                       <td class="numeric">${safeStatus(`${fmtNumber(row.modeledTradeFlow)} (${fmtSigned(row.tradeFlowDelta)})`, row.tradeFlowDelta >= 0 ? "positive" : "negative")}</td>
                       <td class="numeric">${safeStatus(`${fmtNumber(row.modeledBudgetCapacity)} (${fmtSigned(row.budgetCapacityDelta)})`, row.budgetCapacityDelta >= 0 ? "positive" : "negative")}</td>
+                      <td class="numeric">${safeStatus(fmtSigned(row.tariffRevenue), row.tariffRevenue >= 0 ? "positive" : "negative")}</td>
                       <td class="numeric">${safeStatus(`${fmtNumber(row.newBudgetExpenditure)} (${fmtSigned(row.budgetExpenditureDelta)})`, row.budgetExpenditureDelta >= 0 ? "positive" : "negative")}</td>
                       <td class="numeric">${safeStatus(`${fmtSigned(row.appliedBudgetBalance)} (${fmtSigned(row.budgetBalanceDelta)})`, Math.abs(Engine.number(row.budgetBalanceDelta, 0)) <= 2 ? "positive" : "negative")}</td>
                       <td>${safeStatus(row.tradeTier || "Unranked", row.tradeTier === "Superpower" ? "positive" : "")}</td>
                       <td>
                         <div class="rebalance-burden-cell">
                           <small>Market ${fmtNumber(row.marketSize)} / Export ${fmtNumber(row.exportStrength)} / Import ${fmtNumber(row.importDemand)}</small>
-                          <small>Logistics ${fmtNumber(row.modeledTradeCapacity)} / Openness ${fmtPercent(row.tradeOpenness)} / Finance ${fmtPercent(row.financialDepth)} / Throughput ${fmtPercent(row.scaleThroughput)}</small>
+                          <small>Customs ${fmtNumber(row.customsTradeBase)} / Logistics ${fmtNumber(row.modeledTradeCapacity)} / Openness ${fmtPercent(row.tradeOpenness)} / Finance ${fmtPercent(row.financialDepth)}</small>
                         </div>
                       </td>
                     </tr>`;
@@ -2571,7 +2576,7 @@
         saveWorkingState(`Applied tax calibration to ${fmtNumber(state.budgetRebalancePreview.rows.length)} nations.`);
       } else if (action === "preview-trade-rebalance") {
         state.tradeRebalancePreview = Engine.previewTradeRebalance(data);
-        state.notice = `Previewed ${fmtNumber(state.tradeRebalancePreview.rows.length)} nations under Trade v2.`;
+        state.notice = `Previewed ${fmtNumber(state.tradeRebalancePreview.rows.length)} nations under the combined Trade v2 and tariff model.`;
         render();
       } else if (action === "export-trade-rebalance") {
         const preview = state.tradeRebalancePreview || Engine.previewTradeRebalance(data);
@@ -2583,7 +2588,7 @@
         state.tradeRebalancePreview = Engine.applyTradeRebalance(data);
         state.budgetRebalancePreview = null;
         state.tariffRebalancePreview = null;
-        saveWorkingState(`Applied Trade v2 to ${fmtNumber(state.tradeRebalancePreview.rows.length)} nations.`);
+        saveWorkingState(`Applied combined Trade v2 and tariff rollout to ${fmtNumber(state.tradeRebalancePreview.rows.length)} nations.`);
       } else if (action === "preview-tariff-rebalance") {
         state.tariffRebalancePreview = Engine.previewTariffRebalance(data);
         state.notice = `Previewed ${fmtNumber(state.tariffRebalancePreview.rows.length)} nations under the tariff revenue model.`;
@@ -2593,7 +2598,12 @@
         downloadText(`ag-gs-tariff-rebalance-${data.meta.currentYear}.json`, JSON.stringify(preview, null, 2));
       } else if (action === "apply-tariff-rebalance") {
         if (!state.tariffRebalancePreview) state.tariffRebalancePreview = Engine.previewTariffRebalance(data);
-        const ok = window.confirm("Apply the tariff revenue model and adjust expenditures to preserve current budget balances?");
+        if ((data.meta.tradeFormulaVersion || "legacy") !== "trade2026") {
+          state.notice = "Tariff revenue now applies through Trade v2. Preview and apply Trade v2 first.";
+          render();
+          return;
+        }
+        const ok = window.confirm("Apply the tariff recovery pass and adjust expenditures to preserve current budget balances?");
         if (!ok) return;
         state.tariffRebalancePreview = Engine.applyTariffRebalance(data);
         state.budgetRebalancePreview = null;

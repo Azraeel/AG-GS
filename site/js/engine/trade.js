@@ -8,6 +8,7 @@
       SANCTIONS,
       budgetFormulaVersion,
       tariffFormulaVersion,
+      calculateTariffRevenueForNation,
       ensureState,
       clone,
       visibleNationIds,
@@ -245,13 +246,15 @@
     function previewTradeRebalance(data) {
       const current = ensureState(clone(data));
       const fromTradeFormulaVersion = tradeFormulaVersion(current);
+      const fromTariffFormulaVersion = tariffFormulaVersion(current);
 
       const modeled = ensureState(clone(data));
       modeled.meta.tradeFormulaVersion = "trade2026";
+      modeled.meta.tariffFormulaVersion = "tariff2026";
       recalculateAll(modeled, {
         tradeFormulaVersion: "trade2026",
         budgetFormulaVersion: budgetFormulaVersion(modeled),
-        tariffFormulaVersion: tariffFormulaVersion(modeled)
+        tariffFormulaVersion: "tariff2026"
       });
 
       const currentRows = visibleNationIds(current).map((id) => ({
@@ -271,6 +274,7 @@
         const modeledTrade = modeled.trade[id] || {};
         const currentNational = current.national[id] || {};
         const modeledNational = modeled.national[id] || {};
+        const tariff = calculateTariffRevenueForNation?.(modeled, id) || {};
         const oldBudgetCapacity = roundCurrency(currentNational.budgetCapacity);
         const newBudgetCapacity = roundCurrency(modeledNational.budgetCapacity);
         const oldBudgetExpenditure = roundCurrency(currentNational.budgetExpenditure);
@@ -301,6 +305,13 @@
           oldBudgetBalance,
           appliedBudgetBalance,
           budgetBalanceDelta: roundCurrency(appliedBudgetBalance - oldBudgetBalance),
+          tariffRate: tariff.tariffRate,
+          tradeTaxableShare: tariff.taxableTradeShare,
+          customsTradeBase: tariff.customsTradeBase,
+          grossTariffBase: tariff.grossTariffBase,
+          collectionEfficiency: tariff.collectionEfficiency,
+          tariffRevenue: roundCurrency(tariff.tariffRevenue),
+          tariffWarnings: tariff.warnings || [],
           currentTradePower: roundCurrency(currentTrade.tradePower),
           modeledTradePower: roundCurrency(modeledTrade.tradePower),
           currentTradeCapacity: roundCurrency(currentTrade.tradeCapacity),
@@ -334,6 +345,7 @@
         total.currentBudgetBalance += row.oldBudgetBalance;
         total.appliedBudgetBalance += row.appliedBudgetBalance;
         total.budgetBalanceDelta += row.budgetBalanceDelta;
+        total.tariffRevenue += row.tariffRevenue;
         return total;
       }, {
         currentTradeFlow: 0,
@@ -350,7 +362,8 @@
         budgetExpenditureDelta: 0,
         currentBudgetBalance: 0,
         appliedBudgetBalance: 0,
-        budgetBalanceDelta: 0
+        budgetBalanceDelta: 0,
+        tariffRevenue: 0
       });
 
       Object.keys(totals).forEach((key) => {
@@ -359,7 +372,9 @@
 
       return {
         fromTradeFormulaVersion,
+        fromTariffFormulaVersion,
         tradeFormulaVersion: "trade2026",
+        tariffFormulaVersion: "tariff2026",
         generatedAt: new Date().toISOString(),
         rows,
         totals
@@ -370,6 +385,7 @@
       ensureState(data);
       const preview = previewTradeRebalance(data);
       data.meta.tradeFormulaVersion = "trade2026";
+      data.meta.tariffFormulaVersion = "tariff2026";
       for (const row of preview.rows) {
         if (data.national?.[row.id] && Number.isFinite(row.newBudgetExpenditure)) {
           data.national[row.id].budgetExpenditure = row.newBudgetExpenditure;
@@ -378,12 +394,13 @@
       recalculateAll(data, {
         tradeFormulaVersion: "trade2026",
         budgetFormulaVersion: budgetFormulaVersion(data),
-        tariffFormulaVersion: tariffFormulaVersion(data)
+        tariffFormulaVersion: "tariff2026"
       });
       const appliedAt = new Date().toISOString();
       const rows = preview.rows.map((row) => {
         const trade = data.trade?.[row.id] || {};
         const national = data.national?.[row.id] || {};
+        const tariff = calculateTariffRevenueForNation?.(data, row.id) || {};
         return {
           ...row,
           modeledTradeFlow: roundCurrency(trade.tradeFlow ?? row.modeledTradeFlow),
@@ -392,13 +409,21 @@
           newBudgetCapacity: roundCurrency(national.budgetCapacity ?? row.newBudgetCapacity),
           newBudgetExpenditure: roundCurrency(national.budgetExpenditure ?? row.newBudgetExpenditure),
           appliedBudgetBalance: roundCurrency(national.budgetBalance ?? row.appliedBudgetBalance),
-          budgetBalanceDelta: roundCurrency(number(national.budgetBalance, row.appliedBudgetBalance) - row.oldBudgetBalance)
+          budgetBalanceDelta: roundCurrency(number(national.budgetBalance, row.appliedBudgetBalance) - row.oldBudgetBalance),
+          tradeTaxableShare: tariff.taxableTradeShare ?? row.tradeTaxableShare,
+          customsTradeBase: tariff.customsTradeBase ?? row.customsTradeBase,
+          grossTariffBase: tariff.grossTariffBase ?? row.grossTariffBase,
+          collectionEfficiency: tariff.collectionEfficiency ?? row.collectionEfficiency,
+          tariffRevenue: roundCurrency(tariff.tariffRevenue ?? row.tariffRevenue),
+          tariffWarnings: tariff.warnings || row.tariffWarnings || []
         };
       });
       data.meta.lastTradeRebalance = {
         appliedAt,
         fromTradeFormulaVersion: preview.fromTradeFormulaVersion,
+        fromTariffFormulaVersion: preview.fromTariffFormulaVersion,
         tradeFormulaVersion: preview.tradeFormulaVersion,
+        tariffFormulaVersion: preview.tariffFormulaVersion,
         rowCount: rows.length,
         totals: preview.totals
       };

@@ -33,7 +33,7 @@ function fixture() {
       currentYear: 2021,
       worldEconomicHealth: "Expansion",
       budgetFormulaVersion: "tax2026",
-      tariffFormulaVersion: "tariff2026",
+      tariffFormulaVersion: "legacy",
       archivedNationIds: [],
       lastSimulationLog: [],
       changeHistory: []
@@ -231,7 +231,9 @@ assert.strictEqual(adjustedV2.tradeFlow, aurendaleV2.tradeFlow, "Trade v2 must n
 const preview = Engine.previewTradeRebalance(source);
 assert.strictEqual(JSON.stringify(source), beforeSerialized, "trade preview should not mutate live data");
 assert.strictEqual(preview.tradeFormulaVersion, "trade2026");
+assert.strictEqual(preview.tariffFormulaVersion, "tariff2026");
 assert.ok(preview.totals.modeledTradeFlow > preview.totals.currentTradeFlow * 3);
+assert.ok(preview.totals.tariffRevenue > 0, "Trade v2 preview should include tariff revenue in the same rollout");
 
 const topThree = preview.rows
   .slice()
@@ -242,10 +244,12 @@ assert.deepStrictEqual([...topThree], ["aurendale", "xanaqu", "solara"]);
 
 const applied = Engine.applyTradeRebalance(source);
 assert.strictEqual(source.meta.tradeFormulaVersion, "trade2026");
+assert.strictEqual(source.meta.tariffFormulaVersion, "tariff2026");
 assert.strictEqual(applied.rows.length, 4);
 assert.ok(source.trade.aurendale.tradeFlow > source.trade.orinian.tradeFlow * 3);
 assert.ok(source.national.aurendale.budgetCapacity > 100000, "Trade v2 should let superpower trade strength widen BC separation");
 assert.ok(source.meta.lastTradeRebalance?.appliedAt, "apply should store a trade rebalance audit marker");
+assert.ok(applied.rows.every((row) => Number.isFinite(row.tariffRevenue)), "trade apply should carry tariff revenue rows");
 assert.ok(applied.rows.every((row) => Number.isFinite(row.newBudgetExpenditure)), "trade apply should solve expenditure offsets");
 for (const id of Engine.visibleNationIds(source)) {
   assert.ok(
@@ -253,6 +257,13 @@ for (const id of Engine.visibleNationIds(source)) {
     `${id} budget balance should remain near ${beforeBalances[id]}, got ${source.national[id].budgetBalance}`
   );
 }
+
+const postTradeTariffPreview = Engine.previewTariffRebalance(source);
+const aurendaleTariffAfterTrade = postTradeTariffPreview.rows.find((row) => row.id === "aurendale");
+assert.ok(
+  Math.abs(aurendaleTariffAfterTrade.budgetCapacityDelta) <= 2,
+  `tariff preview should not add a second rollout after Trade v2; got ${aurendaleTariffAfterTrade.budgetCapacityDelta}`
+);
 
 const stableFlow = source.trade.aurendale.tradeFlow;
 const stableBudgetCapacity = source.national.aurendale.budgetCapacity;

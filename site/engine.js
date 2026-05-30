@@ -419,7 +419,14 @@
     const corruptionCollection = clamp(1 - corruption / 160, 0.45, 1);
     const highTariffFriction = clamp(1 - Math.max(0, tariffRate - 8) * 0.025 - Math.max(0, tariffRate - 20) * 0.035, 0.3, 1);
     const collectionEfficiency = clamp(policyCollection * sanctionsCollection * developmentCollection * corruptionCollection * highTariffFriction, 0, 1.2);
-    const grossTariffBase = tradeFlow * (tariffRate / 100);
+    const isTradeV2 = (data.meta?.tradeFormulaVersion || tradeRow.tradeFormulaVersion) === "trade2026";
+    const importReliance = Math.max(0, number(tradeRow.importReliance, 0));
+    const exportReliance = Math.max(0, number(tradeRow.exportReliance, 0));
+    const importShare = clamp(importReliance / Math.max(importReliance + exportReliance, 1), 0.25, 0.75);
+    const policyTaxableShare = { "Free Trade": 0.18, "Open Market": 0.2, Balanced: 0.22, Protectionist: 0.26 }[tradePolicy] || 0.22;
+    const taxableTradeShare = isTradeV2 ? importShare * policyTaxableShare : 1;
+    const customsTradeBase = tradeFlow * taxableTradeShare;
+    const grossTariffBase = customsTradeBase * (tariffRate / 100);
     const tariffRevenue = roundCurrency(grossTariffBase * collectionEfficiency);
     const warnings = [];
     if (tariffRate >= 20) warnings.push("High tariff rates are reducing collection efficiency and trade competitiveness.");
@@ -430,6 +437,8 @@
     return {
       tariffRate,
       tradeFlow: roundCurrency(tradeFlow),
+      taxableTradeShare: roundPercent(taxableTradeShare * 100),
+      customsTradeBase: roundCurrency(customsTradeBase),
       grossTariffBase: roundCurrency(grossTariffBase),
       collectionEfficiency: roundPercent(collectionEfficiency * 100),
       tariffRevenue,
@@ -648,6 +657,7 @@
     SANCTIONS,
     budgetFormulaVersion,
     tariffFormulaVersion,
+    calculateTariffRevenueForNation,
     ensureState,
     clone,
     visibleNationIds,
