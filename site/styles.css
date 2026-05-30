@@ -723,23 +723,15 @@ select optgroup {
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 178px);
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  overflow: visible;
 }
 
 .status-table-panel .panel-head {
   flex: 0 0 auto;
-  padding: 0 0 14px;
-  border-bottom: 1px solid var(--line-strong);
 }
 
 .status-table-wrap {
   max-height: clamp(360px, calc(100vh - 310px), 680px);
   overscroll-behavior: contain;
-  border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 
@@ -2027,7 +2019,7 @@ tbody td {
 }
 
 .fleet {
-  padding: 16px 0;
+  padding: 16px;
 }
 
 .fleet + .fleet {
@@ -2083,15 +2075,14 @@ tbody td {
 .records-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(22px, 4vw, 58px);
+  gap: 18px;
   align-items: center;
-  padding: 8px 0 24px;
-  margin-bottom: 16px;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
 }
 
 .records-hero h2 {
@@ -2124,18 +2115,16 @@ tbody td {
 .records-local-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 22px;
-  margin-bottom: 22px;
-  border-bottom: 1px solid var(--line);
+  gap: 10px;
+  margin-bottom: 14px;
 }
 
 .record-tab {
-  min-height: 40px;
-  padding: 8px 0 10px;
-  border: 0;
-  border-bottom: 3px solid transparent;
-  border-radius: 0;
-  background: transparent;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--button-bg);
   color: var(--ink);
   font-weight: 900;
   cursor: pointer;
@@ -2143,37 +2132,32 @@ tbody td {
 
 .record-tab:hover,
 .record-tab:focus-visible {
-  color: var(--blue);
-  border-bottom-color: color-mix(in srgb, var(--blue) 58%, transparent);
-  outline: 0;
+  border-color: var(--blue);
 }
 
 .record-tab.is-active {
-  border-bottom-color: var(--gold);
-  background: transparent;
-  color: var(--gold);
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--on-gold);
 }
 
 .records-summary-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(18px, 3vw, 44px);
-  margin-bottom: 24px;
-  padding: 0 0 18px;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  overflow: visible;
-  background: transparent;
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--panel);
 }
 
 .records-fact {
   min-width: 0;
-  padding: 0;
+  padding: 13px 16px;
 }
 
 .records-fact + .records-fact {
-  border-left: 0;
+  border-left: 1px solid var(--line);
 }
 
 .records-fact span {
@@ -2202,17 +2186,17 @@ tbody td {
 .records-workspace-grid {
   display: grid;
   grid-template-columns: minmax(280px, 0.8fr) minmax(420px, 1.35fr) minmax(260px, 0.72fr);
-  gap: clamp(22px, 3vw, 42px);
+  gap: 14px;
   align-items: start;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 .equipment-library-layout {
   display: grid;
-  grid-template-columns: minmax(560px, 0.92fr) minmax(640px, 1.08fr);
-  gap: clamp(24px, 4vw, 58px);
+  grid-template-columns: minmax(760px, 1fr) minmax(420px, 560px);
+  gap: 14px;
   align-items: start;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 .equipment-browser-panel {
@@ -2227,19 +2211,6 @@ tbody td {
   overflow: auto;
 }
 
-.records-open-panel {
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  overflow: visible;
-}
-
-.records-open-panel > .panel-head {
-  padding: 0 0 16px;
-  border-bottom: 1px solid var(--line);
-}
-
 .equipment-action-bar {
   display: flex;
   flex-wrap: wrap;
@@ -2250,11 +2221,11 @@ tbody td {
 .equipment-filter-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  padding: 14px 0;
-  border-top: 0;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  background: transparent;
+  background: var(--subtle-bg);
 }
 
 .equipment-filter-chip {
@@ -2288,8 +2259,8 @@ tbody td {
 .equipment-list-wrap {
   display: grid;
   align-content: start;
-  gap: 0;
-  padding: 0;
+  gap: 6px;
+  padding: 10px;
 }
 
 .equipment-record-header,
@@ -2305,11 +2276,10 @@ tbody td {
   top: 0;
   z-index: 2;
   min-height: 34px;
-  padding: 10px 0;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  background: var(--page-bg);
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel);
   color: var(--muted);
   font-size: 11px;
   font-weight: 950;
@@ -2352,12 +2322,11 @@ tbody td {
 
 .equipment-record-card {
   width: 100%;
-  min-height: 46px;
-  padding: 10px 0;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
+  min-height: 50px;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--input-bg);
   color: var(--ink);
   text-align: left;
 }
@@ -2365,11 +2334,9 @@ tbody td {
 .equipment-record-card:hover,
 .equipment-record-card:focus-visible,
 .equipment-record-card.is-active {
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--blue) 10%, transparent), transparent 58%),
-    transparent;
-  box-shadow: inset 4px 0 0 var(--blue);
-  outline: 0;
+  border-color: var(--blue);
+  background: var(--selected-bg);
+  box-shadow: 0 0 0 3px var(--selected-ring);
 }
 
 .equipment-record-meta {
@@ -2460,8 +2427,8 @@ tbody td {
 .design-card-list,
 .navy-glance-list {
   display: grid;
-  gap: 0;
-  padding: 0;
+  gap: 10px;
+  padding: 12px;
 }
 
 .design-card {
@@ -2469,12 +2436,11 @@ tbody td {
   grid-template-columns: auto minmax(0, 1fr);
   gap: 4px 10px;
   width: 100%;
-  min-height: 64px;
-  padding: 12px 0;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
+  min-height: 74px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--input-bg);
   color: var(--ink);
   text-align: left;
   cursor: pointer;
@@ -2483,11 +2449,8 @@ tbody td {
 .design-card:hover,
 .design-card:focus-visible,
 .design-card.is-active {
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--blue) 10%, transparent), transparent 58%),
-    transparent;
-  box-shadow: inset 4px 0 0 var(--blue);
-  outline: 0;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--selected-ring);
 }
 
 .design-card .swatch {
@@ -2527,7 +2490,7 @@ tbody td {
 .design-readout {
   display: grid;
   gap: 14px;
-  padding: 0;
+  padding: 16px;
 }
 
 .design-editor-title {
@@ -2582,8 +2545,7 @@ tbody td {
   justify-content: space-between;
   gap: 14px;
   align-items: flex-start;
-  padding: 0 0 18px;
-  border-bottom: 1px solid var(--line);
+  padding: 16px;
 }
 
 .equipment-dossier-heading h3 {
@@ -2609,11 +2571,11 @@ tbody td {
 
 .equipment-core-editor {
   border-top: 1px solid var(--line);
-  background: transparent;
+  background: var(--subtle-bg);
 }
 
 .equipment-core-editor-head {
-  padding: 14px 0 10px;
+  padding: 14px 16px 10px;
 }
 
 .equipment-core-editor-head h4 {
@@ -2631,7 +2593,7 @@ tbody td {
 
 .equipment-core-editor .design-form-grid,
 .equipment-core-editor .design-actions {
-  padding: 0 0 16px;
+  padding: 0 16px 16px;
 }
 
 .equipment-dossier-panel .design-form-grid {
@@ -2655,19 +2617,15 @@ tbody td {
 .records-action-list {
   display: grid;
   gap: 10px;
-  padding: 14px 0 0;
+  padding: 12px;
 }
 
 .design-detail-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(16px, 2.5vw, 34px);
-  padding: 12px 0;
-  border: 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  overflow: visible;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .template-section-grid,
@@ -2680,27 +2638,25 @@ tbody td {
 .template-section-preview,
 .equipment-spec-card {
   min-width: 0;
-  border: 0;
-  border-top: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
-  padding: 14px 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--subtle-bg);
+  padding: 12px;
 }
 
 .equipment-spec-grid {
   margin: 0;
-  padding: 0 0 16px;
+  padding: 0 16px 16px;
 }
 
 .equipment-roster-note {
   display: grid;
   gap: 4px;
-  margin: 0 0 16px;
-  padding: 14px 0;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
+  margin: 0 16px 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--subtle-bg);
   color: var(--muted);
 }
 
@@ -2764,14 +2720,13 @@ tbody td {
 
 .raw-template-details {
   margin-top: 16px;
-  border: 0;
-  border-top: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--input-bg);
 }
 
 .raw-template-details summary {
-  padding: 12px 0;
+  padding: 12px 14px;
   cursor: pointer;
   font-weight: 950;
 }
@@ -2779,7 +2734,7 @@ tbody td {
 .raw-template-details pre {
   max-height: 420px;
   margin: 0;
-  padding: 14px 0;
+  padding: 14px;
   overflow: auto;
   border-top: 1px solid var(--line);
   color: var(--muted);
@@ -2800,24 +2755,24 @@ tbody td {
 }
 
 .navy-record-rail .command {
-  margin: 0 0 12px;
+  margin: 0 12px 12px;
 }
 
 .record-reference-panel {
-  margin-top: 24px;
+  margin-top: 14px;
 }
 
 .records-import-grid {
   display: grid;
   grid-template-columns: minmax(420px, 1.05fr) minmax(360px, 0.95fr);
-  gap: clamp(24px, 4vw, 58px);
+  gap: 14px;
   align-items: start;
 }
 
 .import-paste-body {
   display: grid;
   gap: 12px;
-  padding: 14px 0 16px;
+  padding: 14px 16px 16px;
 }
 
 .import-paste-body textarea {
@@ -2844,7 +2799,7 @@ tbody td {
   gap: 12px;
   align-items: center;
   min-width: 0;
-  padding: 10px 0;
+  padding: 10px 16px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -2862,7 +2817,7 @@ tbody td {
 }
 
 .import-apply-actions {
-  padding: 14px 0 16px;
+  padding: 14px 16px 16px;
   border-top: 1px solid var(--line);
 }
 
@@ -2905,7 +2860,7 @@ tbody td {
 }
 
 .fleet-editor {
-  padding: 4px 0 14px;
+  padding: 4px 16px 14px;
 }
 
 .editable-ship-category {
@@ -2964,9 +2919,9 @@ tbody td {
   grid-template-columns: minmax(180px, 0.9fr) minmax(260px, 1.3fr) minmax(100px, 0.35fr) auto;
   gap: 10px;
   align-items: end;
-  padding: 14px 0 16px;
+  padding: 14px 16px 16px;
   border-top: 1px solid var(--line);
-  background: transparent;
+  background: var(--subtle-bg);
 }
 
 .note {
