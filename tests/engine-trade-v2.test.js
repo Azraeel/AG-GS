@@ -228,6 +228,33 @@ changedAdjustment.trade.aurendale.adjustments.tradeFlow = 999999999;
 const adjustedV2 = Engine.calculateTradeForNation(changedAdjustment, "aurendale", { tradeFormulaVersion: "trade2026" });
 assert.strictEqual(adjustedV2.tradeFlow, aurendaleV2.tradeFlow, "Trade v2 must not include legacy adjustments or hidden calibration");
 
+const openDiverseTrade = Engine.clone(source);
+openDiverseTrade.trade.orinian = {
+  ...openDiverseTrade.trade.orinian,
+  autarkyIndex: 5,
+  importReliance: 286,
+  exportReliance: 95,
+  economicTradeDiversity: 260,
+  tradePolicy: "Balanced",
+  tariffRate: 3
+};
+const closedDiverseTrade = Engine.clone(openDiverseTrade);
+closedDiverseTrade.trade.orinian.autarkyIndex = 79;
+const openDiverseV2 = Engine.calculateTradeForNation(openDiverseTrade, "orinian", { tradeFormulaVersion: "trade2026" });
+const closedDiverseV2 = Engine.calculateTradeForNation(closedDiverseTrade, "orinian", { tradeFormulaVersion: "trade2026" });
+assert.ok(
+  closedDiverseV2.tradeFlow < openDiverseV2.tradeFlow * 0.75,
+  `high autarky should sharply limit global trade flow even with high diversity; ${openDiverseV2.tradeFlow} -> ${closedDiverseV2.tradeFlow}`
+);
+assert.ok(
+  closedDiverseV2.tradeBalance < openDiverseV2.tradeBalance * 0.75,
+  `high autarky should sharply limit trade balance even with high diversity; ${openDiverseV2.tradeBalance} -> ${closedDiverseV2.tradeBalance}`
+);
+assert.ok(
+  closedDiverseV2.tradeOpenness < openDiverseV2.tradeOpenness,
+  "high autarky should reduce modeled trade openness"
+);
+
 const preview = Engine.previewTradeRebalance(source);
 assert.strictEqual(JSON.stringify(source), beforeSerialized, "trade preview should not mutate live data");
 assert.strictEqual(preview.tradeFormulaVersion, "trade2026");
