@@ -143,6 +143,7 @@
     data.meta.worldEconomicHealth = data.meta.worldEconomicHealth || "Expansion";
     data.meta.budgetFormulaVersion = data.meta.budgetFormulaVersion || "legacy";
     data.meta.tariffFormulaVersion = TARIFF_FORMULAS[data.meta.tariffFormulaVersion] ? data.meta.tariffFormulaVersion : "legacy";
+    data.meta.tradeFormulaVersion = TRADE_FORMULAS[data.meta.tradeFormulaVersion] ? data.meta.tradeFormulaVersion : "legacy";
     data.meta.archivedNationIds = Array.isArray(data.meta.archivedNationIds) ? data.meta.archivedNationIds : [];
     data.meta.lastSimulationLog = data.meta.lastSimulationLog || [];
     data.meta.changeHistory = Array.isArray(data.meta.changeHistory) ? data.meta.changeHistory : [];
@@ -261,87 +262,6 @@
     return 1 + 10 * Math.pow((dev - 1) / 19, 1.5);
   }
 
-  function calculateTradeForNation(data, id) {
-    const national = data.national[id];
-    const trade = data.trade[id];
-    const industrial = data.industrial[id];
-    if (!national || !trade || !industrial) return null;
-    if ([trade.autarkyIndex, trade.importReliance, trade.exportReliance, trade.economicTradeDiversity].some(isBlank)) return null;
-
-    const budgetCapacity = number(national.budgetCapacity, 0);
-    const corruption = number(national.corruption, 0) / 100;
-    const population = getPopulation(data, id);
-    const civilianFactories = number(industrial.civilianFactories, 0);
-    const militaryFactories = number(industrial.militaryFactories, 0);
-    const shipyards = number(industrial.shipyards, 0);
-    const development = number(national.developmentLevel, 0);
-    const importReliance = number(trade.importReliance, 0);
-    const exportReliance = number(trade.exportReliance, 0);
-    const tradeDiversity = number(trade.economicTradeDiversity, 0);
-    const economicHealth = national.economicHealth || "Recovery";
-    const tradePolicy = trade.tradePolicy || "Balanced";
-    const sanctionsLevel = trade.sanctionsLevel || "None";
-    const tariffRate = clamp(number(trade.tariffRate, 5), 0, 50);
-    const globalEconomicHealth = data.meta.worldEconomicHealth || "Expansion";
-    const currencyBonusImpact = number(data.meta.currencyBonusByNation?.[id], 0);
-    const policyEffect = TRADE_POLICY[tradePolicy] || TRADE_POLICY.Balanced;
-    const sanctionEffect = SANCTIONS[sanctionsLevel] || SANCTIONS.None;
-    const tariffEfficiency = Math.max(-30, -tariffRate * 2);
-    const tariffCapacity = Math.max(-25, -tariffRate * 1.5);
-    const tariffRevenue = tariffRate * 0.01;
-    const diversityBonus = (tradeDiversity / 500) * 100;
-    const exportMultiplier = 1 + tradeDiversity / 250;
-
-    let tradePower = budgetCapacity * 0.5 + exportReliance * 150 * exportMultiplier + development * 50 + civilianFactories * 25 + shipyards * 40 + currencyBonusImpact + diversityBonus;
-    let tradeCapacity = (development * 100 + shipyards * 200) * (1 + (policyEffect.capacity + sanctionEffect.capacity + tariffCapacity) / 100);
-    let tradeEfficiency = 50 - corruption * 50 + development * 1.5 + (HEALTH_TRADE[economicHealth] || 0) + (HEALTH_TRADE[globalEconomicHealth] || 0);
-    tradeEfficiency = clamp(tradeEfficiency + policyEffect.efficiency + sanctionEffect.efficiency + tariffEfficiency, 0, 100);
-
-    const autarkyIndex = clamp(number(trade.autarkyIndex, 50), 0, 100);
-    let tradeFlow = tradePower * (tradeCapacity / 1000) * (tradeEfficiency / 100) * (1 + currencyBonusImpact / 100);
-    tradeFlow *= 1 + sanctionEffect.flow / 100;
-
-    const populationNeeds = Math.sqrt(population / 1000000) * 8;
-    const factoryNeeds = Math.sqrt(civilianFactories + militaryFactories * 1.5) * 3;
-    const minimumImports = Math.max(populationNeeds + factoryNeeds + 10, 15);
-    const autarkyReduction = Math.pow(autarkyIndex / 100, 1.5) * 0.6;
-    const effectiveImports = Math.max(importReliance * (1 - autarkyReduction), minimumImports * 0.5);
-    const exportValue = exportReliance * exportMultiplier;
-    const importCost = effectiveImports * (1 + development * 0.01);
-    const tradeBalanceRatio = (exportValue - importCost) / Math.max(exportValue + importCost, 1);
-    const tradeVolumeBase = Math.sqrt(exportReliance + effectiveImports) * 200;
-    let tradeBalance = tradeBalanceRatio * tradeVolumeBase * 100 + tradeFlow * 0.01;
-    tradeBalance *= 1 + sanctionEffect.balance / 100;
-    tradeBalance += Math.abs(tradeBalance) * tariffRevenue;
-    const economicImpactScore = Math.round((Math.abs(tradeBalance) / Math.max(budgetCapacity, 1)) * 100 + (importReliance + exportReliance) / 2 + (100 - autarkyIndex) * 0.5);
-
-    const adjustments = trade.adjustments || {};
-
-    return {
-      tradeCapacity: Math.round(tradeCapacity) + number(adjustments.tradeCapacity, 0),
-      tradeEfficiency: Math.round(tradeEfficiency) + number(adjustments.tradeEfficiency, 0),
-      autarkyIndex,
-      tradeBalance: Math.round(tradeBalance) + number(adjustments.tradeBalance, 0),
-      tradeFlow: Math.round(tradeFlow) + number(adjustments.tradeFlow, 0),
-      tradePower: Math.round(tradePower) + number(adjustments.tradePower, 0),
-      importReliance,
-      exportReliance,
-      economicTradeDiversity: tradeDiversity,
-      tradePolicy,
-      sanctionsLevel,
-      tariffRate,
-      economicImpactScore: Math.round(economicImpactScore + number(adjustments.economicImpactScore, 0))
-    };
-  }
-
-  function recalculateTrade(data) {
-    for (const id of Object.keys(data.trade || {})) {
-      const next = calculateTradeForNation(data, id);
-      if (next) data.trade[id] = { ...data.trade[id], ...next };
-    }
-    return data;
-  }
-
   function budgetFormulaVersion(data, options = {}) {
     const version = options.version || data.meta?.budgetFormulaVersion || "legacy";
     return BUDGET_FORMULAS[version] ? version : "legacy";
@@ -351,6 +271,33 @@
     const version = options.tariffFormulaVersion || options.tariffVersion || data.meta?.tariffFormulaVersion || "legacy";
     return TARIFF_FORMULAS[version] ? version : "legacy";
   }
+
+  const tradeFactory = window.AGGS_ENGINE_MODULES?.createTrade;
+  if (!tradeFactory) throw new Error("AG-GS trade engine module failed to load.");
+  const {
+    TRADE_FORMULAS,
+    calculateTradeForNation,
+    recalculateTrade,
+    tradeTierForFlow,
+    previewTradeRebalance,
+    applyTradeRebalance
+  } = tradeFactory({
+    HEALTH_TRADE,
+    TRADE_POLICY,
+    SANCTIONS,
+    budgetFormulaVersion,
+    tariffFormulaVersion,
+    ensureState,
+    clone,
+    visibleNationIds,
+    getPopulation,
+    isBlank,
+    number,
+    clamp,
+    roundCurrency,
+    roundPercent,
+    recalculateAll
+  });
 
   function normalizeFiscalModel(value) {
     return FISCAL_MODELS[value] ? value : "";
@@ -687,9 +634,9 @@
   }
 
   function recalculateAll(data, options = {}) {
-    recalculateTrade(data);
+    recalculateTrade(data, options);
     recalculateBudgets(data, options);
-    recalculateTrade(data);
+    recalculateTrade(data, options);
     return data;
   }
 
@@ -1044,6 +991,7 @@
     visibleNationIds,
     currentPopulationKey,
     calculateTradeForNation,
+    tradeTierForFlow,
     fiscalModelForNation,
     calculateTaxBurdenForNation,
     calculateTariffRevenueForNation,
@@ -1058,12 +1006,14 @@
     applyBudgetRebalance,
     previewTariffRebalance,
     applyTariffRebalance,
+    previewTradeRebalance,
+    applyTradeRebalance,
     advancePopulation,
     advanceIndustry,
     advanceToYear,
     updateValue,
     snapshot,
     exportDataJs,
-    constants: { HEALTH_GROWTH, HEALTH_POPULATION, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, FISCAL_MODELS }
+    constants: { HEALTH_GROWTH, HEALTH_POPULATION, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, TRADE_FORMULAS, FISCAL_MODELS }
   };
 })();

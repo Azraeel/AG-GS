@@ -20,7 +20,7 @@ function loadEngine() {
   context.window.window = context.window;
   context.window.localStorage = context.localStorage;
   vm.createContext(context);
-  for (const file of ["site/js/engine/fiscal.js", "site/engine.js"]) {
+  for (const file of ["site/js/engine/fiscal.js", "site/js/engine/trade.js", "site/engine.js"]) {
     vm.runInContext(fs.readFileSync(path.join(root, file), "utf8"), context, { filename: file });
   }
   return context.window.AGGS_ENGINE;
