@@ -1445,7 +1445,7 @@
     if (!nation) {
       app.innerHTML = `
         ${renderNationManagement(null)}
-        <section class="panel">
+        <section class="panel editor-panel">
           <div class="panel-head">
             <div>
               <h2>Nation Editor</h2>
@@ -1470,7 +1470,7 @@
 
     app.innerHTML = `
       ${renderNationManagement(nation)}
-      <section class="panel">
+      <section class="panel editor-panel">
         <div class="panel-head editor-panel-head">
           <div>
             <h2>Nation Editor</h2>
