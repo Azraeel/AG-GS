@@ -450,17 +450,14 @@ select optgroup {
 .overview-hero {
   display: grid;
   grid-template-columns: minmax(280px, 1fr) minmax(300px, 0.66fr) minmax(320px, 0.72fr);
-  gap: 20px;
+  gap: clamp(24px, 4vw, 58px);
   align-items: center;
-  margin-bottom: 12px;
-  padding: 16px 18px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background:
-    linear-gradient(135deg, var(--hero-wash), transparent 46%),
-    linear-gradient(180deg, var(--panel), var(--subtle-bg));
-  box-shadow: var(--shadow);
-  overflow: hidden;
+  margin-bottom: 24px;
+  padding: 28px 0 30px;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
 }
 
 .section-kicker {
@@ -505,7 +502,7 @@ select optgroup {
 
 .overview-fact {
   min-width: 0;
-  padding: 10px 0;
+  padding: 12px 0;
   border-top: 1px solid var(--line);
 }
 
@@ -531,12 +528,9 @@ select optgroup {
   gap: 8px 16px;
   align-items: end;
   min-width: 0;
-  padding: 18px;
-  border: 1px solid var(--line-strong);
-  border-radius: 10px;
-  background:
-    linear-gradient(135deg, rgba(240, 195, 59, 0.12), transparent 42%),
-    var(--input-bg);
+  padding: 2px 0 2px 18px;
+  border-left: 4px solid var(--gold);
+  background: transparent;
 }
 
 .community-card .section-kicker,
@@ -592,15 +586,18 @@ select optgroup {
 
 .overview-metrics {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(18px, 3vw, 36px);
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
 }
 
 .metric {
-  min-height: 112px;
-  padding: 16px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: linear-gradient(180deg, var(--panel), var(--subtle-bg));
-  box-shadow: var(--metric-shadow);
+  min-height: 0;
+  padding: 4px 0 14px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .metric span {
@@ -632,31 +629,45 @@ select optgroup {
 .overview-panels {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 0.95fr);
-  gap: 14px;
-  margin-top: 14px;
+  gap: clamp(28px, 4vw, 54px);
+  margin-top: 26px;
+}
+
+.overview-panels .panel {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.overview-panels .panel-head {
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--line);
 }
 
 .leaderboard-list {
   display: grid;
-  gap: 8px;
-  padding: 14px 16px 16px;
+  gap: 0;
+  padding: 0;
 }
 
 .leaderboard-row {
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr) max-content;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
   min-height: 42px;
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--table-row-bg);
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
   box-shadow: inset 3px 0 0 var(--nation-color);
 }
 
 .leaderboard-row:nth-child(even) {
-  background: var(--table-row-alt);
+  background: transparent;
 }
 
 .leaderboard-rank {
@@ -664,9 +675,9 @@ select optgroup {
   place-items: center;
   width: 28px;
   height: 28px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--subtle-bg);
+  border: 0;
+  border-radius: 7px;
+  background: var(--status-bg);
   color: var(--muted);
   font-size: 12px;
   font-weight: 900;
@@ -696,7 +707,7 @@ select optgroup {
 }
 
 .leaderboard-value {
-  color: var(--ink);
+  color: var(--blue);
   font-variant-numeric: tabular-nums;
   font-weight: 900;
   white-space: nowrap;
@@ -1674,19 +1685,27 @@ tbody td {
 .simulation-cockpit,
 .simulation-pipeline,
 .simulation-log-panel {
-  margin-bottom: 14px;
+  margin-bottom: 26px;
+}
+
+.simulation-cockpit,
+.simulation-pipeline,
+.simulation-log-panel {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
 }
 
 .simulation-hero {
   display: flex;
-  gap: 16px;
+  gap: clamp(24px, 4vw, 58px);
   justify-content: space-between;
   align-items: flex-start;
-  padding: 18px;
+  padding: 28px 0 30px;
   border-bottom: 1px solid var(--line);
-  background:
-    linear-gradient(135deg, var(--hero-wash), transparent 48%),
-    linear-gradient(180deg, var(--panel), var(--subtle-bg));
+  background: transparent;
 }
 
 .simulation-hero h2 {
@@ -1711,7 +1730,8 @@ tbody td {
 .simulation-grid {
   display: grid;
   grid-template-columns: minmax(460px, 0.86fr) minmax(0, 1.14fr);
-  gap: 0;
+  gap: clamp(24px, 3.5vw, 48px);
+  padding: 22px 0 4px;
 }
 
 .simulation-snapshot {
@@ -1719,7 +1739,7 @@ tbody td {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(150px, 1fr));
   align-content: stretch;
-  border-right: 1px solid var(--line);
+  border-right: 0;
 }
 
 .simulation-snapshot .dossier-metric {
@@ -1737,9 +1757,9 @@ tbody td {
 
 .simulation-control-surface {
   display: grid;
-  gap: 14px;
+  gap: 16px;
   align-content: start;
-  padding: 16px;
+  padding: 0;
 }
 
 .simulation-control-head {
@@ -1837,18 +1857,19 @@ tbody td {
 .tax-burden-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  padding: 0 18px 16px;
+  gap: 0 28px;
+  padding: 0 0 10px;
 }
 
 .tax-burden-card {
   display: grid;
   gap: 10px;
   min-width: 0;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--subtle-bg);
+  padding: 14px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
 }
 
 .tax-burden-title {
@@ -1918,8 +1939,8 @@ tbody td {
 .pipeline-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 10px;
-  padding: 12px;
+  gap: 22px;
+  padding: 0 0 6px;
 }
 
 .pipeline-step {
@@ -1927,10 +1948,11 @@ tbody td {
   grid-template-columns: auto minmax(0, 1fr);
   gap: 10px;
   min-width: 0;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--subtle-bg);
+  padding: 14px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
 }
 
 .pipeline-step > span {
