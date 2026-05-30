@@ -856,42 +856,47 @@
     const watchRows = rows
       .filter((row) => Engine.number(row.burden.taxPressure, 0) > 0 || Engine.number(row.burden.suggestedUnrestChange, 0) > 0)
       .slice(0, 6);
-    const actionableRows = rows.filter((row) => Engine.number(row.burden.suggestedUnrestChange, 0) > 0);
     return `
       <section class="panel tax-burden-watchlist gm-warning-center">
         <div class="tax-burden-watchlist-head">
           <div>
             <strong>GM Tax Burden Warnings</strong>
-            <span>Public unrest remains GM-controlled. Apply only updates the recommended unrest numbers, capped at 10.</span>
+            <span>Public unrest remains GM-controlled. Apply recommendations per nation, capped at 10.</span>
           </div>
           <div class="tax-burden-actions">
             <span class="status ${watchRows.length ? "warning" : "positive"}">${watchRows.length ? `${fmtNumber(watchRows.length)} watch` : "Stable"}</span>
-            <button class="command primary" type="button" data-action="apply-tax-unrest" ${actionableRows.length ? "" : "disabled"}>Apply Recommended Unrest</button>
           </div>
         </div>
         ${watchRows.length ? `
           <div class="tax-burden-grid">
-            ${watchRows.map(({ nation, burden }) => `
-              <article class="tax-burden-card">
-                <div class="tax-burden-title">
-                  <span class="swatch" style="background:${safeColor(nation.color)}"></span>
-                  <strong>${safeText(nation.name)}</strong>
-                  ${safeStatus(burden.tier, taxBurdenTone(burden.tier))}
-                </div>
-                <dl>
-                  <div><dt>Tax</dt><dd>${fmtPercent(burden.taxRatePercent)}</dd></div>
-                  <div><dt>Sustainable</dt><dd>${fmtPercent(burden.sustainableTaxRate)}</dd></div>
-                  <div><dt>GM unrest</dt><dd>${burden.suggestedUnrestChange ? `+${fmtNumber(burden.suggestedUnrestChange)}` : "Hold"}</dd></div>
-                  <div><dt>Model</dt><dd>${safeText(burden.fiscalModel || "Standard")}</dd></div>
-                </dl>
-                <p>${safeText((burden.warnings || [])[0] || "No warning text recorded.")}</p>
-              </article>`).join("")}
+            ${watchRows.map(({ nation, burden }) => {
+              const suggestedUnrest = Engine.number(burden.suggestedUnrestChange, 0);
+              return `
+                <article class="tax-burden-card">
+                  <div class="tax-burden-title">
+                    <span class="swatch" style="background:${safeColor(nation.color)}"></span>
+                    <strong>${safeText(nation.name)}</strong>
+                    ${safeStatus(burden.tier, taxBurdenTone(burden.tier))}
+                  </div>
+                  <dl>
+                    <div><dt>Tax</dt><dd>${fmtPercent(burden.taxRatePercent)}</dd></div>
+                    <div><dt>Sustainable</dt><dd>${fmtPercent(burden.sustainableTaxRate)}</dd></div>
+                    <div><dt>GM unrest</dt><dd>${suggestedUnrest ? `+${fmtNumber(suggestedUnrest)}` : "Hold"}</dd></div>
+                    <div><dt>Model</dt><dd>${safeText(burden.fiscalModel || "Standard")}</dd></div>
+                  </dl>
+                  <p>${safeText((burden.warnings || [])[0] || "No warning text recorded.")}</p>
+                  <div class="tax-burden-card-actions">
+                    <button class="command accent compact" type="button" data-action="apply-tax-unrest" data-nation-id="${safeText(nation.id)}" ${suggestedUnrest ? "" : "disabled"}>${suggestedUnrest ? `Apply +${fmtNumber(suggestedUnrest)}` : "No Action"}</button>
+                  </div>
+                </article>`;
+            }).join("")}
           </div>` : `<div class="empty compact-empty">No active tax pressure warnings for the current ledger.</div>`}
       </section>`;
   }
 
-  function applyRecommendedTaxUnrest() {
+  function applyRecommendedTaxUnrest(nationId = "") {
     const rows = taxBurdenRows()
+      .filter((row) => !nationId || row.nation.id === nationId)
       .filter((row) => Engine.number(row.burden.suggestedUnrestChange, 0) > 0)
       .map((row) => {
         const national = data.national[row.nation.id] || {};
@@ -912,8 +917,10 @@
       return;
     }
 
-    const ok = window.confirm(`Apply recommended unrest to ${fmtNumber(rows.length)} nations?`);
-    if (!ok) return;
+    if (!nationId) {
+      const ok = window.confirm(`Apply recommended unrest to ${fmtNumber(rows.length)} nations?`);
+      if (!ok) return;
+    }
 
     rows.forEach((row) => {
       data.national[row.nation.id].publicUnrest = row.afterValue;
@@ -938,7 +945,9 @@
       };
     });
     data.meta.changeHistory = [...entries, ...(data.meta.changeHistory || [])].slice(0, 60);
-    saveWorkingState(`Applied recommended unrest to ${fmtNumber(rows.length)} nations.`);
+    saveWorkingState(nationId
+      ? `Applied recommended unrest to ${rows[0].nation.name}.`
+      : `Applied recommended unrest to ${fmtNumber(rows.length)} nations.`);
   }
 
   function renderSimulation() {
@@ -2303,7 +2312,7 @@
       } else if (action === "snapshot-export") {
         await exportSelectedSnapshot();
       } else if (action === "apply-tax-unrest") {
-        applyRecommendedTaxUnrest();
+        applyRecommendedTaxUnrest(actionButton.dataset.nationId || "");
       } else if (action === "advance-one") {
         const result = Engine.advanceToYear(data, Number(data.meta.currentYear) + 1);
         saveWorkingState(result.message);

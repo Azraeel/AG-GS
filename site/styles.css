@@ -1358,6 +1358,12 @@ tbody td {
   border-color: var(--blue);
 }
 
+.command.accent {
+  color: var(--on-gold);
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
 .command.danger {
   color: var(--negative-ink);
   border-color: var(--danger-border);
@@ -1890,6 +1896,12 @@ tbody td {
 .tax-burden-card p {
   margin: 0;
   line-height: 1.35;
+}
+
+.tax-burden-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2px;
 }
 
 .compact-empty {
