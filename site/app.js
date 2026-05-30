@@ -963,7 +963,7 @@
             <h2><span class="sim-year" data-sim-current-year>${fmtYear(currentYear)}</span> <span class="sim-year-separator" aria-hidden="true">to</span> <span class="sim-year" data-sim-target-year>${fmtYear(targetYear)}</span></h2>
             <p>${fmtNumber(visibleNations().length)} active nations / <span data-sim-world-economy>${safeText(data.meta.worldEconomicHealth || "Expansion")}</span> world economy</p>
           </div>
-          <span class="status ${state.notice ? "positive" : ""}">${safeText(state.notice || "Ready")}</span>
+          ${state.notice ? `<span class="status positive">${safeText(state.notice)}</span>` : ""}
         </div>
         <div class="simulation-grid">
           <div class="simulation-snapshot">
@@ -975,7 +975,6 @@
           <div class="simulation-control-surface">
             <div class="simulation-control-head">
               <h3>Run Controls</h3>
-              <span class="status" data-sim-target-chip>${safeText(`Target ${targetYear}`)}</span>
             </div>
             <div class="simulation-control-grid">
               <label class="control-field">
@@ -1064,11 +1063,9 @@
 
     const currentLabel = document.querySelector("[data-sim-current-year]");
     const targetLabel = document.querySelector("[data-sim-target-year]");
-    const targetChip = document.querySelector("[data-sim-target-chip]");
     const economyLabel = document.querySelector("[data-sim-world-economy]");
     if (currentLabel) currentLabel.textContent = fmtYear(currentYear);
     if (targetLabel) targetLabel.textContent = fmtYear(targetYear);
-    if (targetChip) targetChip.textContent = `Target ${fmtYear(targetYear)}`;
     if (economyLabel && worldHealthInput) economyLabel.textContent = worldHealthInput.value || "Expansion";
   }
 
