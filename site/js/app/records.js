@@ -436,7 +436,7 @@
       filteredDesigns = filteredDesigns.slice(0, visibleLimit);
 
       app.innerHTML = `
-        ${recordsHeader("equipment", "Equipment Library", "Browse and edit country-owned equipment records from quick entries, roster imports, and detailed templates.", state.notice || syncText())}
+        ${recordsHeader("equipment", "Equipment Library", "Browse and edit country-owned equipment records from quick entries, roster imports, and detailed templates.", state.notice)}
         <div class="records-summary-strip">
           ${summaryFact("Country Records", fmtNumber(designs.length), `${fmtNumber(categories.size)} categories`)}
           ${summaryFact("Detailed Templates", fmtNumber(detailedCount), "Full specification records")}
@@ -491,7 +491,7 @@
       const preview = state.rosterImportPreview;
       const parsed = preview?.parsed;
       app.innerHTML = `
-        ${recordsHeader("rosterImport", "Roster Import", "Paste full country arsenals. The importer detects categories, subcategories, records, notes, and duplicates before saving.", state.notice || "Importer ready")}
+        ${recordsHeader("rosterImport", "Roster Import", "Paste full country arsenals. The importer detects categories, subcategories, records, notes, and duplicates before saving.", state.notice)}
         <div class="records-summary-strip">
           ${summaryFact("Parsed Records", fmtNumber(parsed?.items?.length || 0), "Unique records in paste")}
           ${summaryFact("Paste Duplicates", fmtNumber(parsed?.sourceDuplicates?.length || 0), "Repeated inside pasted text")}
@@ -542,7 +542,7 @@
         return;
       }
       app.innerHTML = `
-        ${recordsHeader("templateImport", "Detailed Template Import", "Paste one filled template to create a detailed country equipment record with parsed sections and preserved raw text.", state.notice || "Template importer ready")}
+        ${recordsHeader("templateImport", "Detailed Template Import", "Paste one filled template to create a detailed country equipment record with parsed sections and preserved raw text.", state.notice)}
         <div class="records-import-grid">
           <section class="panel import-paste-panel">
             <div class="panel-head compact-head">
@@ -609,7 +609,7 @@
       const fleetCount = visibleNations().filter((item) => Boolean(data.naval?.[item.id])).length;
 
       app.innerHTML = `
-        ${recordsHeader("naval", "Navy Inventory", "Track fleet classes and quantities. Numeric inventory is intentionally limited to naval records.", state.notice || syncText())}
+        ${recordsHeader("naval", "Navy Inventory", "Track fleet classes and quantities. Numeric inventory is intentionally limited to naval records.", state.notice)}
         <div class="records-summary-strip">
           ${summaryFact("Selected Fleet", fmtNumber(fleet.total || 0), nation.name)}
           ${summaryFact("World Fleets", fmtNumber(fleetCount), "Active countries with records")}
@@ -687,7 +687,7 @@
       const detailed = rows.reduce((total, row) => total + row.designs.filter((item) => item.detailLevel === "template").length, 0);
 
       app.innerHTML = `
-        ${recordsHeader("audit", "Coverage Audit", "Review core dataset coverage, imported roster records, and detailed equipment templates.", state.notice || syncText())}
+        ${recordsHeader("audit", "Coverage Audit", "Review core dataset coverage, imported roster records, and detailed equipment templates.", state.notice)}
         <div class="audit-grid">
           <section class="panel">
             <div class="panel-head">
@@ -735,10 +735,6 @@
           </section>
         </div>
       `;
-    }
-
-    function syncText() {
-      return "Records ready";
     }
 
     function pushHistory(nation, label, beforeValue, afterValue, field) {

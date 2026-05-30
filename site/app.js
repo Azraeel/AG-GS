@@ -1412,7 +1412,7 @@
               <span class="section-kicker">Live Calculation Preview</span>
               <h3>Derived State</h3>
             </div>
-            <span class="status ${state.notice ? "positive" : ""}">${safeText(state.notice || "Ready")}</span>
+            ${state.notice ? `<span class="status positive">${safeText(state.notice)}</span>` : ""}
           </div>
           <div class="rail-detail-grid">
             ${detailItem("Budget Capacity", fmtNumber(national.budgetCapacity))}
@@ -1486,7 +1486,7 @@
                 ${nationOptionsHtml(nation.id)}
               </select>
             </label>
-            <span class="status ${state.notice ? "positive" : ""}">${safeText(state.notice || "Editor ready")}</span>
+            ${state.notice ? `<span class="status positive">${safeText(state.notice)}</span>` : ""}
           </div>
         </div>
         ${renderEditorSummary(nation, national, trade, industrial, military, currentYear)}
