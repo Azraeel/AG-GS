@@ -393,7 +393,7 @@
       const data = getData();
       const rows = (data.equipmentCosts || []).slice(0, 12);
       return `
-        <section class="panel record-reference-panel">
+        <section class="panel records-open-panel record-reference-panel">
           <div class="panel-head compact-head">
             <div>
               <h2>Cost Reference</h2>
@@ -444,7 +444,7 @@
           ${summaryFact("Navy Counted", fmtNumber(fleet.total || 0), "Only navy carries quantities")}
         </div>
         <div class="equipment-library-layout">
-          <section class="panel equipment-browser-panel">
+          <section class="panel records-open-panel equipment-browser-panel">
             <div class="panel-head compact-head">
               <div>
                 <h2>${safeText(nation.name)} Equipment</h2>
@@ -455,7 +455,7 @@
             ${categoryFilterHtml(designs, activeCategory)}
             ${designs.length ? equipmentTableHtml(nation, filteredDesigns, design?.id || "", hiddenCount) : `<div class="empty compact">No records yet. Use Roster Import for large lists.</div>`}
           </section>
-          <section class="panel equipment-dossier-panel">
+          <section class="panel records-open-panel equipment-dossier-panel">
             ${designForm(nation, design)}
           </section>
         </div>
@@ -499,7 +499,7 @@
           ${summaryFact("Merge Notes", fmtNumber(preview?.preview?.updates?.length || 0), "Existing records with new notes")}
         </div>
         <div class="records-import-grid">
-          <section class="panel import-paste-panel">
+          <section class="panel records-open-panel import-paste-panel">
             <div class="panel-head compact-head">
               <div>
                 <h2>Paste Equipment Roster</h2>
@@ -517,7 +517,7 @@
               </div>
             </div>
           </section>
-          <section class="panel import-preview-panel">
+          <section class="panel records-open-panel import-preview-panel">
             <div class="panel-head compact-head">
               <div>
                 <h2>Import Preview</h2>
@@ -544,7 +544,7 @@
       app.innerHTML = `
         ${recordsHeader("templateImport", "Detailed Template Import", "Paste one filled template to create a detailed country equipment record with parsed sections and preserved raw text.", state.notice)}
         <div class="records-import-grid">
-          <section class="panel import-paste-panel">
+          <section class="panel records-open-panel import-paste-panel">
             <div class="panel-head compact-head">
               <div>
                 <h2>Paste Filled Template</h2>
@@ -562,7 +562,7 @@
               </div>
             </div>
           </section>
-          <section class="panel import-preview-panel">
+          <section class="panel records-open-panel import-preview-panel">
             <div class="panel-head compact-head">
               <div>
                 <h2>What Gets Stored</h2>
@@ -615,7 +615,7 @@
           ${summaryFact("World Fleets", fmtNumber(fleetCount), "Active countries with records")}
           ${summaryFact("Categories", fmtNumber((fleet.categories || []).length), "Ship groupings")}
         </div>
-        <section class="panel">
+        <section class="panel records-open-panel naval-record-panel">
           <div class="panel-head">
             <div>
               <h2>${nationCell(nation.id)}</h2>
@@ -689,7 +689,7 @@
       app.innerHTML = `
         ${recordsHeader("audit", "Coverage Audit", "Review core dataset coverage, imported roster records, and detailed equipment templates.", state.notice)}
         <div class="audit-grid">
-          <section class="panel">
+          <section class="panel records-open-panel">
             <div class="panel-head">
               <div>
                 <h2>Dataset Coverage</h2>
@@ -707,7 +707,7 @@
               </table>
             </div>
           </section>
-          <section class="panel">
+          <section class="panel records-open-panel">
             <div class="panel-head">
               <div>
                 <h2>Nation Completeness</h2>
