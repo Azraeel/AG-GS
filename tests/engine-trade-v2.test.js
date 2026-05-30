@@ -211,6 +211,9 @@ const Engine = loadEngine();
 const source = Engine.normalizeState(fixture());
 Engine.recalculateAll(source);
 const beforeSerialized = JSON.stringify(source);
+const beforeBalances = Object.fromEntries(
+  Engine.visibleNationIds(source).map((id) => [id, source.national[id].budgetBalance])
+);
 
 assert.strictEqual(source.meta.tradeFormulaVersion, "legacy");
 
@@ -243,5 +246,25 @@ assert.strictEqual(applied.rows.length, 4);
 assert.ok(source.trade.aurendale.tradeFlow > source.trade.orinian.tradeFlow * 3);
 assert.ok(source.national.aurendale.budgetCapacity > 100000, "Trade v2 should let superpower trade strength widen BC separation");
 assert.ok(source.meta.lastTradeRebalance?.appliedAt, "apply should store a trade rebalance audit marker");
+assert.ok(applied.rows.every((row) => Number.isFinite(row.newBudgetExpenditure)), "trade apply should solve expenditure offsets");
+for (const id of Engine.visibleNationIds(source)) {
+  assert.ok(
+    Math.abs(source.national[id].budgetBalance - beforeBalances[id]) <= 2,
+    `${id} budget balance should remain near ${beforeBalances[id]}, got ${source.national[id].budgetBalance}`
+  );
+}
+
+const stableFlow = source.trade.aurendale.tradeFlow;
+const stableBudgetCapacity = source.national.aurendale.budgetCapacity;
+Engine.recalculateAll(source);
+Engine.recalculateAll(source);
+assert.ok(
+  Math.abs(source.trade.aurendale.tradeFlow - stableFlow) <= 2,
+  `Trade v2 should be idempotent across recalculations; ${stableFlow} became ${source.trade.aurendale.tradeFlow}`
+);
+assert.ok(
+  Math.abs(source.national.aurendale.budgetCapacity - stableBudgetCapacity) <= 2,
+  `Trade v2 budget capacity should be idempotent; ${stableBudgetCapacity} became ${source.national.aurendale.budgetCapacity}`
+);
 
 console.log("engine trade v2 tests passed");

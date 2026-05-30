@@ -1115,6 +1115,8 @@
     const totals = preview?.totals || {};
     const flowTone = Engine.number(totals.tradeFlowDelta, 0) >= 0 ? "positive" : "negative";
     const bcTone = Engine.number(totals.budgetCapacityDelta, 0) >= 0 ? "positive" : "negative";
+    const expenditureTone = Engine.number(totals.budgetExpenditureDelta, 0) >= 0 ? "positive" : "negative";
+    const balanceTone = Math.abs(Engine.number(totals.budgetBalanceDelta, 0)) <= 2 ? "positive" : "negative";
     const superpowerCount = preview
       ? preview.rows.filter((row) => row.tradeTier === "Superpower").length
       : visibleNations().filter((nation) => Engine.tradeTierForFlow(data.trade?.[nation.id]?.tradeFlow) === "Superpower").length;
@@ -1133,6 +1135,8 @@
           ${rebalanceMetric("Flow Movement", preview ? fmtSigned(totals.tradeFlowDelta) : "Pending", "Formula-only change", preview ? flowTone : "")}
           ${rebalanceMetric("Superpower Tier", fmtNumber(superpowerCount), "Nations above threshold", superpowerCount ? "positive" : "")}
           ${rebalanceMetric("BC Movement", preview ? fmtSigned(totals.budgetCapacityDelta) : "Pending", "After recalculation", preview ? bcTone : "")}
+          ${rebalanceMetric("Expenditure Offset", preview ? fmtSigned(totals.budgetExpenditureDelta) : "Pending", "Keeps balances stable", preview ? expenditureTone : "")}
+          ${rebalanceMetric("Balance Lock", preview ? fmtSigned(totals.budgetBalanceDelta) : "Pending", "Should stay near zero", preview ? balanceTone : "")}
         </div>
         <div class="rebalance-controls">
           <div>
@@ -1153,8 +1157,9 @@
                   <th>Nation</th>
                   <th class="numeric">Rank</th>
                   <th class="numeric">Trade Flow</th>
-                  <th class="numeric">Trade Balance</th>
                   <th class="numeric">Budget Capacity</th>
+                  <th class="numeric">New Expenditure</th>
+                  <th class="numeric">Applied Balance</th>
                   <th>Tier</th>
                   <th>Drivers</th>
                 </tr>
@@ -1167,13 +1172,14 @@
                       <td><span class="rebalance-nation-cell"><span class="swatch" style="background:${safeColor(row.color)}"></span>${safeText(row.name)}</span></td>
                       <td class="numeric">${safeStatus(`#${fmtNumber(row.currentRank)} -> #${fmtNumber(row.modeledRank)}${row.rankChange ? ` (${fmtSigned(row.rankChange)})` : ""}`, rankTone)}</td>
                       <td class="numeric">${safeStatus(`${fmtNumber(row.modeledTradeFlow)} (${fmtSigned(row.tradeFlowDelta)})`, row.tradeFlowDelta >= 0 ? "positive" : "negative")}</td>
-                      <td class="numeric">${safeStatus(`${fmtSigned(row.modeledTradeBalance)} (${fmtSigned(row.tradeBalanceDelta)})`, row.tradeBalanceDelta >= 0 ? "positive" : "negative")}</td>
                       <td class="numeric">${safeStatus(`${fmtNumber(row.modeledBudgetCapacity)} (${fmtSigned(row.budgetCapacityDelta)})`, row.budgetCapacityDelta >= 0 ? "positive" : "negative")}</td>
+                      <td class="numeric">${safeStatus(`${fmtNumber(row.newBudgetExpenditure)} (${fmtSigned(row.budgetExpenditureDelta)})`, row.budgetExpenditureDelta >= 0 ? "positive" : "negative")}</td>
+                      <td class="numeric">${safeStatus(`${fmtSigned(row.appliedBudgetBalance)} (${fmtSigned(row.budgetBalanceDelta)})`, Math.abs(Engine.number(row.budgetBalanceDelta, 0)) <= 2 ? "positive" : "negative")}</td>
                       <td>${safeStatus(row.tradeTier || "Unranked", row.tradeTier === "Superpower" ? "positive" : "")}</td>
                       <td>
                         <div class="rebalance-burden-cell">
                           <small>Market ${fmtNumber(row.marketSize)} / Export ${fmtNumber(row.exportStrength)} / Import ${fmtNumber(row.importDemand)}</small>
-                          <small>Logistics ${fmtNumber(row.modeledTradeCapacity)} / Openness ${fmtPercent(row.tradeOpenness)} / Finance ${fmtPercent(row.financialDepth)}</small>
+                          <small>Logistics ${fmtNumber(row.modeledTradeCapacity)} / Openness ${fmtPercent(row.tradeOpenness)} / Finance ${fmtPercent(row.financialDepth)} / Throughput ${fmtPercent(row.scaleThroughput)}</small>
                         </div>
                       </td>
                     </tr>`;

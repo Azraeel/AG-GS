@@ -17,7 +17,8 @@
       clamp,
       roundCurrency,
       roundPercent,
-      recalculateAll
+      recalculateAll,
+      solveExpenditureForBalance
     } = deps;
 
     const TRADE_FORMULAS = {
@@ -118,6 +119,24 @@
       return "Minor Power";
     }
 
+    function stableFiscalScale(national, population, productionStrength) {
+      const taxRate = number(national.taxRate, 0);
+      const taxRatePercent = taxRate > 1 ? taxRate : taxRate * 100;
+      const development = clamp(number(national.developmentLevel, 0), 0, 20);
+      const stability = number(national.governmentalStability, 50);
+      const corruption = number(national.corruption, 0);
+      const health = national.economicHealth || "Recovery";
+      const healthMultiplier = { Prosperity: 1.08, Expansion: 1.04, Recovery: 1, Slowdown: 0.92, Recession: 0.78, Depression: 0.62 }[health] || 1;
+      const populationBase = Math.sqrt(Math.max(population, 0) / 1000000) * 3600;
+      const developmentFactor = clamp(0.58 + Math.pow(development / 20, 1.25) * 0.62, 0.55, 1.22);
+      const stabilityFactor = clamp(0.78 + stability / 500, 0.75, 1.02);
+      const corruptionFactor = clamp(1 - corruption / 350, 0.62, 1);
+      const taxSignal = clamp(0.9 + Math.sqrt(clamp(taxRatePercent, 1, 60)) / 70, 0.92, 1.02);
+      const marketBase = populationBase * developmentFactor * stabilityFactor * corruptionFactor * taxSignal * healthMultiplier;
+      const industrialBase = productionStrength * 0.31;
+      return Math.max(1000, marketBase + industrialBase + number(national.budgetAdjustment, 0));
+    }
+
     function calculateTradeV2ForNation(data, id) {
       const national = data.national[id];
       const trade = data.trade[id];
@@ -125,7 +144,6 @@
       if (!national || !trade || !industrial) return null;
       if ([trade.autarkyIndex, trade.importReliance, trade.exportReliance, trade.economicTradeDiversity].some(isBlank)) return null;
 
-      const budgetCapacity = number(national.budgetCapacity, 0);
       const corruption = number(national.corruption, 0);
       const population = getPopulation(data, id);
       const civilianFactories = number(industrial.civilianFactories, 0);
@@ -149,9 +167,10 @@
       const healthEffect = HEALTH_TRADE[economicHealth] || 0;
       const worldHealthEffect = HEALTH_TRADE[data.meta.worldEconomicHealth] || 0;
 
-      const marketSize = Math.sqrt(Math.max(population, 0) / 1000000) * 620 + budgetCapacity * 1.05 + Math.pow(development, 1.8) * 145;
       const productionStrength = civilianFactories * 112 + militaryFactories * 35 + shipyards * 255 + Math.pow(development, 2) * 175;
-      const logisticsCapacity = (shipyards * 255 + development * 850 + Math.sqrt(Math.max(budgetCapacity, 0)) * 95)
+      const fiscalScale = stableFiscalScale(national, population, productionStrength);
+      const marketSize = Math.sqrt(Math.max(population, 0) / 1000000) * 620 + fiscalScale * 1.05 + Math.pow(development, 1.8) * 145;
+      const logisticsCapacity = (shipyards * 255 + development * 850 + Math.sqrt(Math.max(fiscalScale, 0)) * 95)
         * (1 + (policyEffect.capacity + sanctionEffect.capacity - Math.min(25, tariffRate * 1.2)) / 100)
         * clamp(0.8 + tradeDiversity / 360, 0.78, 1.38);
       const importDemand = (importReliance * 640 + Math.sqrt(Math.max(population, 0) / 1000000) * 560 + Math.sqrt(civilianFactories + militaryFactories * 1.5) * 275)
@@ -165,12 +184,14 @@
         0.15,
         1.28
       );
-      const financialDepth = clamp(0.78 + Math.pow(Math.max(budgetCapacity, 1) / 120000, 0.82) * 0.5, 0.78, 2.05);
-      const tradeFlow = (marketSize * 0.95 + productionStrength * 0.52 + importDemand * 0.88 + exportStrength * 1.18)
+      const financialDepth = clamp(0.78 + Math.pow(Math.max(fiscalScale, 1) / 120000, 0.82) * 0.65, 0.78, 2.05);
+      const scaleThroughput = clamp(Math.pow(Math.max(fiscalScale, 1) / 115000, 0.8), 0.62, 1.3);
+      const tradeFlow = (marketSize * 0.95 + productionStrength * 0.52 + importDemand * 1.05 + exportStrength * 1.18)
         * (logisticsCapacity / 12500)
         * efficiency
         * openness
         * financialDepth
+        * scaleThroughput
         * (1 + sanctionEffect.flow / 100);
 
       const importCost = importDemand * (1 + development / 70) * (1 + tariffRate / 250);
@@ -178,7 +199,7 @@
       const servicesPremium = (marketSize + logisticsCapacity) * 0.14 * policyOpenness * (tradeDiversity / 95) * clamp(1 - autarkyIndex / 210, 0.35, 1);
       const tradeBalance = (exportValue - importCost + servicesPremium + tradeFlow * 0.016) * (1 + sanctionEffect.balance / 100);
       const tradePower = marketSize * 0.42 + productionStrength * 0.5 + exportStrength * 0.42;
-      const economicImpactScore = Math.round((Math.abs(tradeBalance) / Math.max(budgetCapacity, 1)) * 58 + tradeFlow / 56000 + tradeDiversity * 0.52 + (100 - autarkyIndex) * 0.3);
+      const economicImpactScore = Math.round((Math.abs(tradeBalance) / Math.max(fiscalScale, 1)) * 58 + tradeFlow / 56000 + tradeDiversity * 0.52 + (100 - autarkyIndex) * 0.3);
 
       return {
         tradeFormulaVersion: "trade2026",
@@ -198,11 +219,13 @@
         tradeTier: tradeTierForFlow(tradeFlow),
         marketSize: Math.round(marketSize),
         productionStrength: Math.round(productionStrength),
+        fiscalScale: Math.round(fiscalScale),
         logisticsCapacity: Math.round(logisticsCapacity),
         importDemand: Math.round(importDemand),
         exportStrength: Math.round(exportStrength),
         tradeOpenness: roundPercent(openness * 100),
-        financialDepth: roundPercent(financialDepth * 100)
+        financialDepth: roundPercent(financialDepth * 100),
+        scaleThroughput: roundPercent(scaleThroughput * 100)
       };
     }
 
@@ -248,6 +271,13 @@
         const modeledTrade = modeled.trade[id] || {};
         const currentNational = current.national[id] || {};
         const modeledNational = modeled.national[id] || {};
+        const oldBudgetCapacity = roundCurrency(currentNational.budgetCapacity);
+        const newBudgetCapacity = roundCurrency(modeledNational.budgetCapacity);
+        const oldBudgetExpenditure = roundCurrency(currentNational.budgetExpenditure);
+        const oldBudgetBalance = roundCurrency(currentNational.budgetBalance);
+        const solved = solveExpenditureForBalance?.(modeled, id, newBudgetCapacity, oldBudgetBalance);
+        const newBudgetExpenditure = roundCurrency(solved?.budgetExpenditure ?? modeledNational.budgetExpenditure);
+        const appliedBudgetBalance = roundCurrency(solved?.fiscal?.effectiveBalance ?? modeledNational.budgetBalance);
         return {
           id,
           name: nation.name,
@@ -261,9 +291,16 @@
           currentTradeBalance: roundCurrency(currentTrade.tradeBalance),
           modeledTradeBalance: roundCurrency(modeledTrade.tradeBalance),
           tradeBalanceDelta: roundCurrency(number(modeledTrade.tradeBalance, 0) - number(currentTrade.tradeBalance, 0)),
-          currentBudgetCapacity: roundCurrency(currentNational.budgetCapacity),
-          modeledBudgetCapacity: roundCurrency(modeledNational.budgetCapacity),
-          budgetCapacityDelta: roundCurrency(number(modeledNational.budgetCapacity, 0) - number(currentNational.budgetCapacity, 0)),
+          currentBudgetCapacity: oldBudgetCapacity,
+          modeledBudgetCapacity: newBudgetCapacity,
+          newBudgetCapacity,
+          budgetCapacityDelta: roundCurrency(newBudgetCapacity - oldBudgetCapacity),
+          oldBudgetExpenditure,
+          newBudgetExpenditure,
+          budgetExpenditureDelta: roundCurrency(newBudgetExpenditure - oldBudgetExpenditure),
+          oldBudgetBalance,
+          appliedBudgetBalance,
+          budgetBalanceDelta: roundCurrency(appliedBudgetBalance - oldBudgetBalance),
           currentTradePower: roundCurrency(currentTrade.tradePower),
           modeledTradePower: roundCurrency(modeledTrade.tradePower),
           currentTradeCapacity: roundCurrency(currentTrade.tradeCapacity),
@@ -276,6 +313,7 @@
           exportStrength: modeledTrade.exportStrength,
           tradeOpenness: modeledTrade.tradeOpenness,
           financialDepth: modeledTrade.financialDepth,
+          scaleThroughput: modeledTrade.scaleThroughput,
           tradeTier: modeledTrade.tradeTier || tradeTierForFlow(modeledTrade.tradeFlow)
         };
       });
@@ -290,6 +328,12 @@
         total.currentBudgetCapacity += row.currentBudgetCapacity;
         total.modeledBudgetCapacity += row.modeledBudgetCapacity;
         total.budgetCapacityDelta += row.budgetCapacityDelta;
+        total.currentBudgetExpenditure += row.oldBudgetExpenditure;
+        total.modeledBudgetExpenditure += row.newBudgetExpenditure;
+        total.budgetExpenditureDelta += row.budgetExpenditureDelta;
+        total.currentBudgetBalance += row.oldBudgetBalance;
+        total.appliedBudgetBalance += row.appliedBudgetBalance;
+        total.budgetBalanceDelta += row.budgetBalanceDelta;
         return total;
       }, {
         currentTradeFlow: 0,
@@ -300,7 +344,13 @@
         tradeBalanceDelta: 0,
         currentBudgetCapacity: 0,
         modeledBudgetCapacity: 0,
-        budgetCapacityDelta: 0
+        budgetCapacityDelta: 0,
+        currentBudgetExpenditure: 0,
+        modeledBudgetExpenditure: 0,
+        budgetExpenditureDelta: 0,
+        currentBudgetBalance: 0,
+        appliedBudgetBalance: 0,
+        budgetBalanceDelta: 0
       });
 
       Object.keys(totals).forEach((key) => {
@@ -320,6 +370,11 @@
       ensureState(data);
       const preview = previewTradeRebalance(data);
       data.meta.tradeFormulaVersion = "trade2026";
+      for (const row of preview.rows) {
+        if (data.national?.[row.id] && Number.isFinite(row.newBudgetExpenditure)) {
+          data.national[row.id].budgetExpenditure = row.newBudgetExpenditure;
+        }
+      }
       recalculateAll(data, {
         tradeFormulaVersion: "trade2026",
         budgetFormulaVersion: budgetFormulaVersion(data),
@@ -333,7 +388,11 @@
           ...row,
           modeledTradeFlow: roundCurrency(trade.tradeFlow ?? row.modeledTradeFlow),
           modeledTradeBalance: roundCurrency(trade.tradeBalance ?? row.modeledTradeBalance),
-          modeledBudgetCapacity: roundCurrency(national.budgetCapacity ?? row.modeledBudgetCapacity)
+          modeledBudgetCapacity: roundCurrency(national.budgetCapacity ?? row.modeledBudgetCapacity),
+          newBudgetCapacity: roundCurrency(national.budgetCapacity ?? row.newBudgetCapacity),
+          newBudgetExpenditure: roundCurrency(national.budgetExpenditure ?? row.newBudgetExpenditure),
+          appliedBudgetBalance: roundCurrency(national.budgetBalance ?? row.appliedBudgetBalance),
+          budgetBalanceDelta: roundCurrency(number(national.budgetBalance, row.appliedBudgetBalance) - row.oldBudgetBalance)
         };
       });
       data.meta.lastTradeRebalance = {

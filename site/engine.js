@@ -272,33 +272,6 @@
     return TARIFF_FORMULAS[version] ? version : "legacy";
   }
 
-  const tradeFactory = window.AGGS_ENGINE_MODULES?.createTrade;
-  if (!tradeFactory) throw new Error("AG-GS trade engine module failed to load.");
-  const {
-    TRADE_FORMULAS,
-    calculateTradeForNation,
-    recalculateTrade,
-    tradeTierForFlow,
-    previewTradeRebalance,
-    applyTradeRebalance
-  } = tradeFactory({
-    HEALTH_TRADE,
-    TRADE_POLICY,
-    SANCTIONS,
-    budgetFormulaVersion,
-    tariffFormulaVersion,
-    ensureState,
-    clone,
-    visibleNationIds,
-    getPopulation,
-    isBlank,
-    number,
-    clamp,
-    roundCurrency,
-    roundPercent,
-    recalculateAll
-  });
-
   function normalizeFiscalModel(value) {
     return FISCAL_MODELS[value] ? value : "";
   }
@@ -659,6 +632,34 @@
     const fiscal = calculateFiscalForNation(working, id, { budgetCapacity, budgetExpenditure });
     return fiscal ? { budgetExpenditure, fiscal } : null;
   }
+
+  const tradeFactory = window.AGGS_ENGINE_MODULES?.createTrade;
+  if (!tradeFactory) throw new Error("AG-GS trade engine module failed to load.");
+  const {
+    TRADE_FORMULAS,
+    calculateTradeForNation,
+    recalculateTrade,
+    tradeTierForFlow,
+    previewTradeRebalance,
+    applyTradeRebalance
+  } = tradeFactory({
+    HEALTH_TRADE,
+    TRADE_POLICY,
+    SANCTIONS,
+    budgetFormulaVersion,
+    tariffFormulaVersion,
+    ensureState,
+    clone,
+    visibleNationIds,
+    getPopulation,
+    isBlank,
+    number,
+    clamp,
+    roundCurrency,
+    roundPercent,
+    recalculateAll,
+    solveExpenditureForBalance
+  });
 
   function previewBudgetRebalance(data) {
     const current = ensureState(clone(data));
