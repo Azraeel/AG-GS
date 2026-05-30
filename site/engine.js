@@ -34,6 +34,8 @@
     legacy: "Legacy tariff handling",
     tariff2026: "Tariff revenue calibration model"
   };
+  const TARIFF_POLICY_LIMITS = { "Free Trade": 3, "Open Market": 5, Balanced: 8, Protectionist: 12 };
+  const TARIFF_POLICY_SENSITIVITY = { "Free Trade": 1.35, "Open Market": 1.18, Balanced: 1, Protectionist: 0.78 };
   const FISCAL_MODELS = {
     Standard: {
       sustainableTaxBonus: 0,
@@ -398,6 +400,45 @@
     return ((civFactories * effectiveContributionRate) + (militaryFactories * effectiveContributionRate * mobilization.militaryFactoryMultiplier) + (shipyards * effectiveContributionRate * 1.5)) / (1 + (civFactories + militaryFactories + shipyards) * 0.0025) * developmentMultiplier;
   }
 
+  function calculateTariffBurdenForNation(data, id) {
+    const national = data.national?.[id] || {};
+    const tradeRow = data.trade?.[id] || {};
+    const tariffRate = clamp(number(tradeRow.tariffRate, 0), 0, 50);
+    const tradePolicy = tradeRow.tradePolicy || "Balanced";
+    const sustainableTariffRate = TARIFF_POLICY_LIMITS[tradePolicy] ?? TARIFF_POLICY_LIMITS.Balanced;
+    const tariffPressure = roundPercent(Math.max(0, tariffRate - sustainableTariffRate));
+    const health = national.economicHealth || "Recovery";
+    const healthPressure = { Prosperity: 0.9, Expansion: 1, Recovery: 1.1, Slowdown: 1.35, Recession: 1.7, Depression: 2.1 }[health] || 1.1;
+    const stabilityPressure = 1 + clamp((70 - number(national.governmentalStability, 70)) / 90, 0, 0.8);
+    const corruptionPressure = 1 + clamp(number(national.corruption, 0) / 220, 0, 0.55);
+    const importReliance = Math.max(0, number(tradeRow.importReliance, 0));
+    const exportReliance = Math.max(0, number(tradeRow.exportReliance, 0));
+    const importShare = clamp(importReliance / Math.max(importReliance + exportReliance, 1), 0.25, 0.75);
+    const importExposure = clamp(0.85 + importShare * 0.55, 0.95, 1.25);
+    const policySensitivity = TARIFF_POLICY_SENSITIVITY[tradePolicy] ?? TARIFF_POLICY_SENSITIVITY.Balanced;
+    const tariffShockScore = roundPercent(tariffPressure * healthPressure * stabilityPressure * corruptionPressure * importExposure * policySensitivity);
+    const collectionFriction = clamp(1 - tariffPressure * 0.06 - Math.max(0, tariffPressure - 6) * 0.045 - Math.max(0, tariffPressure - 14) * 0.07, 0.12, 1);
+    const warnings = [];
+    if (tariffPressure > 0) warnings.push(`Tariff is ${roundPercent(tariffPressure)} points above the ${tradePolicy} comfort line.`);
+    if (tariffShockScore >= 18) warnings.push("Tariff shock is severely reducing trade competitiveness.");
+    else if (tariffShockScore >= 8) warnings.push("Tariff shock is reducing trade competitiveness.");
+    return {
+      tariffRate,
+      tradePolicy,
+      sustainableTariffRate,
+      tariffPressure,
+      tariffShockScore,
+      collectionFriction: roundPercent(collectionFriction),
+      tradeFlowMultiplier: roundPercent(clamp(1 - tariffShockScore * 0.018, 0.42, 1)),
+      capacityMultiplier: roundPercent(clamp(1 - tariffShockScore * 0.014, 0.48, 1)),
+      exportAccessMultiplier: roundPercent(clamp(1 - tariffShockScore * 0.012, 0.55, 1)),
+      importDemandMultiplier: roundPercent(clamp(1 - tariffShockScore * 0.009, 0.58, 1)),
+      importCostMultiplier: roundPercent(1 + tariffRate / 260 + tariffShockScore / 135),
+      servicesMultiplier: roundPercent(clamp(1 - tariffShockScore * 0.015, 0.5, 1)),
+      warnings
+    };
+  }
+
   function calculateTariffRevenueForNation(data, id) {
     const national = data.national?.[id];
     const tradeRow = data.trade?.[id];
@@ -411,6 +452,7 @@
         warnings: ["Missing national or trade data."]
       };
     }
+    const tariffBurden = calculateTariffBurdenForNation(data, id);
     const calculatedTrade = calculateTradeForNation(data, id) || {};
     const tariffRate = clamp(number(tradeRow.tariffRate, 0), 0, 50);
     const tradeFlow = Math.max(0, number(tradeRow.tradeFlow, number(calculatedTrade.tradeFlow, 0)));
@@ -422,7 +464,7 @@
     const sanctionsCollection = { None: 1, Light: 0.85, Moderate: 0.65, Heavy: 0.42, Total: 0.2 }[sanctionsLevel] || 1;
     const developmentCollection = clamp(0.45 + developmentLevel / 32, 0.45, 1.05);
     const corruptionCollection = clamp(1 - corruption / 160, 0.45, 1);
-    const highTariffFriction = clamp(1 - Math.max(0, tariffRate - 8) * 0.025 - Math.max(0, tariffRate - 20) * 0.035, 0.3, 1);
+    const highTariffFriction = tariffBurden.collectionFriction;
     const collectionEfficiency = clamp(policyCollection * sanctionsCollection * developmentCollection * corruptionCollection * highTariffFriction, 0, 1.2);
     const isTradeV2 = (data.meta?.tradeFormulaVersion || tradeRow.tradeFormulaVersion) === "trade2026";
     const importReliance = Math.max(0, number(tradeRow.importReliance, 0));
@@ -433,7 +475,7 @@
     const customsTradeBase = tradeFlow * taxableTradeShare;
     const grossTariffBase = customsTradeBase * (tariffRate / 100);
     const tariffRevenue = roundCurrency(grossTariffBase * collectionEfficiency);
-    const warnings = [];
+    const warnings = [...tariffBurden.warnings];
     if (tariffRate >= 20) warnings.push("High tariff rates are reducing collection efficiency and trade competitiveness.");
     else if (tariffRate >= 10) warnings.push("Elevated tariff rates may slow trade growth if kept long-term.");
     if (sanctionsLevel !== "None") warnings.push(`${sanctionsLevel} sanctions are reducing collectible tariff revenue.`);
@@ -447,6 +489,10 @@
       grossTariffBase: roundCurrency(grossTariffBase),
       collectionEfficiency: roundPercent(collectionEfficiency * 100),
       tariffRevenue,
+      sustainableTariffRate: tariffBurden.sustainableTariffRate,
+      tariffPressure: tariffBurden.tariffPressure,
+      tariffShockScore: tariffBurden.tariffShockScore,
+      collectionFriction: roundPercent(tariffBurden.collectionFriction * 100),
       warnings
     };
   }
@@ -662,6 +708,7 @@
     SANCTIONS,
     budgetFormulaVersion,
     tariffFormulaVersion,
+    calculateTariffBurdenForNation,
     calculateTariffRevenueForNation,
     ensureState,
     clone,
@@ -1010,6 +1057,7 @@
     tradeTierForFlow,
     fiscalModelForNation,
     calculateTaxBurdenForNation,
+    calculateTariffBurdenForNation,
     calculateTariffRevenueForNation,
     calculateBudgetBreakdownForNation,
     calculateBudgetForNation,
@@ -1030,6 +1078,6 @@
     updateValue,
     snapshot,
     exportDataJs,
-    constants: { HEALTH_GROWTH, HEALTH_POPULATION, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, TRADE_FORMULAS, FISCAL_MODELS }
+    constants: { HEALTH_GROWTH, HEALTH_POPULATION, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, TRADE_FORMULAS, FISCAL_MODELS, TARIFF_POLICY_LIMITS }
   };
 })();

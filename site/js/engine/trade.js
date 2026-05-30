@@ -8,6 +8,7 @@
       SANCTIONS,
       budgetFormulaVersion,
       tariffFormulaVersion,
+      calculateTariffBurdenForNation,
       calculateTariffRevenueForNation,
       ensureState,
       clone,
@@ -159,6 +160,7 @@
       const tradePolicy = trade.tradePolicy || "Balanced";
       const sanctionsLevel = trade.sanctionsLevel || "None";
       const tariffRate = clamp(number(trade.tariffRate, 5), 0, 50);
+      const tariffBurden = calculateTariffBurdenForNation ? calculateTariffBurdenForNation(data, id) : {};
       const policyEffect = TRADE_POLICY[tradePolicy] || TRADE_POLICY.Balanced;
       const sanctionEffect = SANCTIONS[sanctionsLevel] || SANCTIONS.None;
       const policyOpenness = { Protectionist: 0.68, Balanced: 0.88, "Open Market": 1.06, "Free Trade": 1.18 }[tradePolicy] || 0.88;
@@ -173,15 +175,18 @@
       const marketSize = Math.sqrt(Math.max(population, 0) / 1000000) * 620 + fiscalScale * 1.05 + Math.pow(development, 1.8) * 145;
       const logisticsCapacity = (shipyards * 255 + development * 850 + Math.sqrt(Math.max(fiscalScale, 0)) * 95)
         * (1 + (policyEffect.capacity + sanctionEffect.capacity - Math.min(25, tariffRate * 1.2)) / 100)
-        * clamp(0.8 + tradeDiversity / 360, 0.78, 1.38);
+        * clamp(0.8 + tradeDiversity / 360, 0.78, 1.38)
+        * number(tariffBurden.capacityMultiplier, 1);
       const importDemand = (importReliance * 640 + Math.sqrt(Math.max(population, 0) / 1000000) * 560 + Math.sqrt(civilianFactories + militaryFactories * 1.5) * 275)
         * (1 + development / 44)
-        * clamp(1 - Math.pow(autarkyIndex / 100, 1.35) * 0.44, 0.45, 1);
+        * clamp(1 - Math.pow(autarkyIndex / 100, 1.35) * 0.44, 0.45, 1)
+        * number(tariffBurden.importDemandMultiplier, 1);
       const exportStrength = (exportReliance * 820 * (0.75 + tradeDiversity / 130) + productionStrength * 0.42)
         * (1 + healthEffect / 100)
-        * policyOpenness;
+        * policyOpenness
+        * number(tariffBurden.exportAccessMultiplier, 1);
       const efficiency = clamp(
-        0.52 + development / 36 + (100 - corruption) / 175 + healthEffect / 130 + worldHealthEffect / 170 + policyEffect.efficiency / 125 + sanctionEffect.efficiency / 130 - tariffRate / 125,
+        0.52 + development / 36 + (100 - corruption) / 175 + healthEffect / 130 + worldHealthEffect / 170 + policyEffect.efficiency / 125 + sanctionEffect.efficiency / 130 - tariffRate / 125 - number(tariffBurden.tariffShockScore, 0) / 160,
         0.15,
         1.28
       );
@@ -193,11 +198,12 @@
         * openness
         * financialDepth
         * scaleThroughput
+        * number(tariffBurden.tradeFlowMultiplier, 1)
         * (1 + sanctionEffect.flow / 100);
 
-      const importCost = importDemand * (1 + development / 70) * (1 + tariffRate / 250);
+      const importCost = importDemand * (1 + development / 70) * number(tariffBurden.importCostMultiplier, 1 + tariffRate / 250);
       const exportValue = exportStrength * (1 + tradeDiversity / 230) * clamp(1 - autarkyIndex / 390, 0.72, 1.05) * (1 + sanctionEffect.balance / 100);
-      const servicesPremium = (marketSize + logisticsCapacity) * 0.14 * policyOpenness * (tradeDiversity / 95) * clamp(1 - autarkyIndex / 210, 0.35, 1);
+      const servicesPremium = (marketSize + logisticsCapacity) * 0.14 * policyOpenness * (tradeDiversity / 95) * clamp(1 - autarkyIndex / 210, 0.35, 1) * number(tariffBurden.servicesMultiplier, 1);
       const tradeBalance = (exportValue - importCost + servicesPremium + tradeFlow * 0.016) * (1 + sanctionEffect.balance / 100);
       const tradePower = marketSize * 0.42 + productionStrength * 0.5 + exportStrength * 0.42;
       const economicImpactScore = Math.round((Math.abs(tradeBalance) / Math.max(fiscalScale, 1)) * 58 + tradeFlow / 56000 + tradeDiversity * 0.52 + (100 - autarkyIndex) * 0.3);

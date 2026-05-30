@@ -128,6 +128,39 @@ assert.strictEqual(source.meta.tariffFormulaVersion, "legacy");
 const solaraTariff = Engine.calculateTariffRevenueForNation(source, "solara");
 assert.ok(solaraTariff.tariffRevenue > 10000, `expected Solara tariff revenue to matter, got ${solaraTariff.tariffRevenue}`);
 assert.ok(solaraTariff.tariffRevenue < 50000, `expected Solara tariff revenue to stay calibrated, got ${solaraTariff.tariffRevenue}`);
+assert.strictEqual(solaraTariff.sustainableTariffRate, 3);
+assert.strictEqual(solaraTariff.tariffPressure, 0);
+
+const solaraBase = Engine.clone(source);
+solaraBase.meta.tradeFormulaVersion = "trade2026";
+solaraBase.meta.tariffFormulaVersion = "tariff2026";
+Engine.recalculateAll(solaraBase, { budgetFormulaVersion: "tax2026", tradeFormulaVersion: "trade2026", tariffFormulaVersion: "tariff2026" });
+const solaraAtTen = Engine.clone(source);
+solaraAtTen.meta.tradeFormulaVersion = "trade2026";
+solaraAtTen.meta.tariffFormulaVersion = "tariff2026";
+solaraAtTen.trade.solara.tariffRate = 10;
+Engine.recalculateAll(solaraAtTen, { budgetFormulaVersion: "tax2026", tradeFormulaVersion: "trade2026", tariffFormulaVersion: "tariff2026" });
+const solaraAtTwenty = Engine.clone(source);
+solaraAtTwenty.meta.tradeFormulaVersion = "trade2026";
+solaraAtTwenty.meta.tariffFormulaVersion = "tariff2026";
+solaraAtTwenty.trade.solara.tariffRate = 20;
+Engine.recalculateAll(solaraAtTwenty, { budgetFormulaVersion: "tax2026", tradeFormulaVersion: "trade2026", tariffFormulaVersion: "tariff2026" });
+const tenTariff = Engine.calculateTariffRevenueForNation(solaraAtTen, "solara");
+const twentyTariff = Engine.calculateTariffRevenueForNation(solaraAtTwenty, "solara");
+assert.ok(tenTariff.tariffPressure > 0, "free-trade nations should treat 10% tariffs as over-sustainable");
+assert.ok(tenTariff.tariffShockScore > 0, "over-sustainable tariffs should create tariff shock");
+assert.ok(
+  solaraAtTen.national.solara.budgetCapacity - solaraBase.national.solara.budgetCapacity < 35000,
+  "a 10% tariff should not be an obvious free-money min-max upgrade for a free-trade power"
+);
+assert.ok(
+  twentyTariff.tariffRevenue <= tenTariff.tariffRevenue * 1.1,
+  "very high tariffs should hit diminishing returns hard enough to stop runaway revenue"
+);
+assert.ok(
+  solaraAtTwenty.trade.solara.tradeFlow < solaraAtTen.trade.solara.tradeFlow,
+  "very high tariffs should visibly damage trade flow"
+);
 
 const legacyTariffBudget = Engine.calculateBudgetForNation(source, "solara", { version: "tax2026", tariffFormulaVersion: "legacy" });
 const modeledTariffBudget = Engine.calculateBudgetForNation(source, "solara", { version: "tax2026", tariffFormulaVersion: "tariff2026" });
