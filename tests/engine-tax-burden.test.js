@@ -91,12 +91,30 @@ const Engine = loadEngine();
 const highTax = Engine.normalizeState(baseData());
 Engine.recalculateAll(highTax);
 const burden = Engine.calculateTaxBurdenForNation(highTax, "khalindar");
-assert.strictEqual(burden.sustainableTaxRate, 16);
+assert.strictEqual(burden.sustainableTaxRate, 8);
 assert.ok(["Volatile", "Crisis"].includes(burden.tier), `expected serious burden tier, got ${burden.tier}`);
 assert.ok(burden.suggestedUnrestChange > 0, "high tax should recommend unrest pressure");
 assert.ok(burden.suggestedUnrestChange <= 2, "suggested unrest must respect 0-10 unrest ceiling");
 assert.ok(burden.collectionMultiplier < 0.65, `expected strong collection drag, got ${burden.collectionMultiplier}`);
 assert.ok(burden.industryGrowthMultiplier < 0.75, `expected investment drag, got ${burden.industryGrowthMultiplier}`);
+
+const dev15Standard = Engine.normalizeState(baseData(0.1, {
+  national: {
+    governmentalStability: 85,
+    publicUnrest: 0,
+    corruption: 20,
+    developmentLevel: 15,
+    economicHealth: "Prosperity"
+  }
+}));
+const dev15Burden = Engine.calculateTaxBurdenForNation(dev15Standard, "khalindar");
+assert.strictEqual(dev15Burden.sustainableTaxRate, 10, "Dev 15 standard states should only sustain roughly 10% before pressure");
+assert.strictEqual(dev15Burden.taxPressure, 0, "10% tax at Dev 15 should not count as over-sustainable pressure");
+assert.strictEqual(dev15Burden.tier, "Stable", "sustainable taxes should avoid major political warnings");
+assert.ok(dev15Burden.collectionMultiplier < 1, "taxes inside the sustainable band should still create collection drag");
+assert.ok(dev15Burden.populationGrowthPenalty > 0, "taxes inside the sustainable band should still slow population growth");
+assert.ok(dev15Burden.immigrationPenalty > 0, "taxes inside the sustainable band should still slow immigration");
+assert.ok(dev15Burden.industryGrowthMultiplier < 1, "taxes inside the sustainable band should still slow long-term industry growth");
 
 const lowCorruption = Engine.normalizeState(baseData(0.27, { national: { corruption: 10 } }));
 const highCorruption = Engine.normalizeState(baseData(0.27, { national: { corruption: 75 } }));
