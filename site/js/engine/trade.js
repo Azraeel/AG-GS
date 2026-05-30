@@ -6,21 +6,13 @@
       HEALTH_TRADE,
       TRADE_POLICY,
       SANCTIONS,
-      budgetFormulaVersion,
-      tariffFormulaVersion,
       calculateTariffBurdenForNation,
-      calculateTariffRevenueForNation,
-      ensureState,
-      clone,
-      visibleNationIds,
       getPopulation,
       isBlank,
       number,
       clamp,
       roundCurrency,
-      roundPercent,
-      recalculateAll,
-      solveExpenditureForBalance
+      roundPercent
     } = deps;
 
     const TRADE_FORMULAS = {
@@ -257,206 +249,11 @@
       return data;
     }
 
-    function tradeRanksByFlow(rows, valueKey = "tradeFlow") {
-      const sorted = [...rows].sort((left, right) => number(right[valueKey], 0) - number(left[valueKey], 0));
-      return Object.fromEntries(sorted.map((row, index) => [row.id, index + 1]));
-    }
-
-    function previewTradeRebalance(data) {
-      const current = ensureState(clone(data));
-      const fromTradeFormulaVersion = tradeFormulaVersion(current);
-      const fromTariffFormulaVersion = tariffFormulaVersion(current);
-
-      const modeled = ensureState(clone(data));
-      modeled.meta.tradeFormulaVersion = "trade2026";
-      modeled.meta.tariffFormulaVersion = "tariff2026";
-      recalculateAll(modeled, {
-        tradeFormulaVersion: "trade2026",
-        budgetFormulaVersion: budgetFormulaVersion(modeled),
-        tariffFormulaVersion: "tariff2026"
-      });
-
-      const currentRows = visibleNationIds(current).map((id) => ({
-        id,
-        tradeFlow: number(current.trade?.[id]?.tradeFlow, 0)
-      }));
-      const modeledRows = visibleNationIds(modeled).map((id) => ({
-        id,
-        tradeFlow: number(modeled.trade?.[id]?.tradeFlow, 0)
-      }));
-      const currentRanks = tradeRanksByFlow(currentRows);
-      const modeledRanks = tradeRanksByFlow(modeledRows);
-
-      const rows = visibleNationIds(current).map((id) => {
-        const nation = current.nations.find((entry) => entry.id === id) || { id, name: id };
-        const currentTrade = current.trade[id] || {};
-        const modeledTrade = modeled.trade[id] || {};
-        const currentNational = current.national[id] || {};
-        const modeledNational = modeled.national[id] || {};
-        const tariff = calculateTariffRevenueForNation?.(modeled, id) || {};
-        const oldBudgetCapacity = roundCurrency(currentNational.budgetCapacity);
-        const newBudgetCapacity = roundCurrency(modeledNational.budgetCapacity);
-        const oldBudgetExpenditure = roundCurrency(currentNational.budgetExpenditure);
-        const oldBudgetBalance = roundCurrency(currentNational.budgetBalance);
-        const solved = solveExpenditureForBalance?.(modeled, id, newBudgetCapacity, oldBudgetBalance);
-        const newBudgetExpenditure = roundCurrency(solved?.budgetExpenditure ?? modeledNational.budgetExpenditure);
-        const appliedBudgetBalance = roundCurrency(solved?.fiscal?.effectiveBalance ?? modeledNational.budgetBalance);
-        return {
-          id,
-          name: nation.name,
-          color: nation.color,
-          currentRank: currentRanks[id],
-          modeledRank: modeledRanks[id],
-          rankChange: (currentRanks[id] || 0) - (modeledRanks[id] || 0),
-          currentTradeFlow: roundCurrency(currentTrade.tradeFlow),
-          modeledTradeFlow: roundCurrency(modeledTrade.tradeFlow),
-          tradeFlowDelta: roundCurrency(number(modeledTrade.tradeFlow, 0) - number(currentTrade.tradeFlow, 0)),
-          currentTradeBalance: roundCurrency(currentTrade.tradeBalance),
-          modeledTradeBalance: roundCurrency(modeledTrade.tradeBalance),
-          tradeBalanceDelta: roundCurrency(number(modeledTrade.tradeBalance, 0) - number(currentTrade.tradeBalance, 0)),
-          currentBudgetCapacity: oldBudgetCapacity,
-          modeledBudgetCapacity: newBudgetCapacity,
-          newBudgetCapacity,
-          budgetCapacityDelta: roundCurrency(newBudgetCapacity - oldBudgetCapacity),
-          oldBudgetExpenditure,
-          newBudgetExpenditure,
-          budgetExpenditureDelta: roundCurrency(newBudgetExpenditure - oldBudgetExpenditure),
-          oldBudgetBalance,
-          appliedBudgetBalance,
-          budgetBalanceDelta: roundCurrency(appliedBudgetBalance - oldBudgetBalance),
-          tariffRate: tariff.tariffRate,
-          tradeTaxableShare: tariff.taxableTradeShare,
-          customsTradeBase: tariff.customsTradeBase,
-          grossTariffBase: tariff.grossTariffBase,
-          collectionEfficiency: tariff.collectionEfficiency,
-          tariffRevenue: roundCurrency(tariff.tariffRevenue),
-          tariffWarnings: tariff.warnings || [],
-          currentTradePower: roundCurrency(currentTrade.tradePower),
-          modeledTradePower: roundCurrency(modeledTrade.tradePower),
-          currentTradeCapacity: roundCurrency(currentTrade.tradeCapacity),
-          modeledTradeCapacity: roundCurrency(modeledTrade.tradeCapacity),
-          currentTradeEfficiency: roundPercent(currentTrade.tradeEfficiency),
-          modeledTradeEfficiency: roundPercent(modeledTrade.tradeEfficiency),
-          marketSize: modeledTrade.marketSize,
-          productionStrength: modeledTrade.productionStrength,
-          importDemand: modeledTrade.importDemand,
-          exportStrength: modeledTrade.exportStrength,
-          tradeOpenness: modeledTrade.tradeOpenness,
-          financialDepth: modeledTrade.financialDepth,
-          scaleThroughput: modeledTrade.scaleThroughput,
-          tradeTier: modeledTrade.tradeTier || tradeTierForFlow(modeledTrade.tradeFlow)
-        };
-      });
-
-      const totals = rows.reduce((total, row) => {
-        total.currentTradeFlow += row.currentTradeFlow;
-        total.modeledTradeFlow += row.modeledTradeFlow;
-        total.tradeFlowDelta += row.tradeFlowDelta;
-        total.currentTradeBalance += row.currentTradeBalance;
-        total.modeledTradeBalance += row.modeledTradeBalance;
-        total.tradeBalanceDelta += row.tradeBalanceDelta;
-        total.currentBudgetCapacity += row.currentBudgetCapacity;
-        total.modeledBudgetCapacity += row.modeledBudgetCapacity;
-        total.budgetCapacityDelta += row.budgetCapacityDelta;
-        total.currentBudgetExpenditure += row.oldBudgetExpenditure;
-        total.modeledBudgetExpenditure += row.newBudgetExpenditure;
-        total.budgetExpenditureDelta += row.budgetExpenditureDelta;
-        total.currentBudgetBalance += row.oldBudgetBalance;
-        total.appliedBudgetBalance += row.appliedBudgetBalance;
-        total.budgetBalanceDelta += row.budgetBalanceDelta;
-        total.tariffRevenue += row.tariffRevenue;
-        return total;
-      }, {
-        currentTradeFlow: 0,
-        modeledTradeFlow: 0,
-        tradeFlowDelta: 0,
-        currentTradeBalance: 0,
-        modeledTradeBalance: 0,
-        tradeBalanceDelta: 0,
-        currentBudgetCapacity: 0,
-        modeledBudgetCapacity: 0,
-        budgetCapacityDelta: 0,
-        currentBudgetExpenditure: 0,
-        modeledBudgetExpenditure: 0,
-        budgetExpenditureDelta: 0,
-        currentBudgetBalance: 0,
-        appliedBudgetBalance: 0,
-        budgetBalanceDelta: 0,
-        tariffRevenue: 0
-      });
-
-      Object.keys(totals).forEach((key) => {
-        totals[key] = roundCurrency(totals[key]);
-      });
-
-      return {
-        fromTradeFormulaVersion,
-        fromTariffFormulaVersion,
-        tradeFormulaVersion: "trade2026",
-        tariffFormulaVersion: "tariff2026",
-        generatedAt: new Date().toISOString(),
-        rows,
-        totals
-      };
-    }
-
-    function applyTradeRebalance(data) {
-      ensureState(data);
-      const preview = previewTradeRebalance(data);
-      data.meta.tradeFormulaVersion = "trade2026";
-      data.meta.tariffFormulaVersion = "tariff2026";
-      for (const row of preview.rows) {
-        if (data.national?.[row.id] && Number.isFinite(row.newBudgetExpenditure)) {
-          data.national[row.id].budgetExpenditure = row.newBudgetExpenditure;
-        }
-      }
-      recalculateAll(data, {
-        tradeFormulaVersion: "trade2026",
-        budgetFormulaVersion: budgetFormulaVersion(data),
-        tariffFormulaVersion: "tariff2026"
-      });
-      const appliedAt = new Date().toISOString();
-      const rows = preview.rows.map((row) => {
-        const trade = data.trade?.[row.id] || {};
-        const national = data.national?.[row.id] || {};
-        const tariff = calculateTariffRevenueForNation?.(data, row.id) || {};
-        return {
-          ...row,
-          modeledTradeFlow: roundCurrency(trade.tradeFlow ?? row.modeledTradeFlow),
-          modeledTradeBalance: roundCurrency(trade.tradeBalance ?? row.modeledTradeBalance),
-          modeledBudgetCapacity: roundCurrency(national.budgetCapacity ?? row.modeledBudgetCapacity),
-          newBudgetCapacity: roundCurrency(national.budgetCapacity ?? row.newBudgetCapacity),
-          newBudgetExpenditure: roundCurrency(national.budgetExpenditure ?? row.newBudgetExpenditure),
-          appliedBudgetBalance: roundCurrency(national.budgetBalance ?? row.appliedBudgetBalance),
-          budgetBalanceDelta: roundCurrency(number(national.budgetBalance, row.appliedBudgetBalance) - row.oldBudgetBalance),
-          tradeTaxableShare: tariff.taxableTradeShare ?? row.tradeTaxableShare,
-          customsTradeBase: tariff.customsTradeBase ?? row.customsTradeBase,
-          grossTariffBase: tariff.grossTariffBase ?? row.grossTariffBase,
-          collectionEfficiency: tariff.collectionEfficiency ?? row.collectionEfficiency,
-          tariffRevenue: roundCurrency(tariff.tariffRevenue ?? row.tariffRevenue),
-          tariffWarnings: tariff.warnings || row.tariffWarnings || []
-        };
-      });
-      data.meta.lastTradeRebalance = {
-        appliedAt,
-        fromTradeFormulaVersion: preview.fromTradeFormulaVersion,
-        fromTariffFormulaVersion: preview.fromTariffFormulaVersion,
-        tradeFormulaVersion: preview.tradeFormulaVersion,
-        tariffFormulaVersion: preview.tariffFormulaVersion,
-        rowCount: rows.length,
-        totals: preview.totals
-      };
-      data.meta.updatedAt = appliedAt;
-      return { ...preview, appliedAt, rows };
-    }
-
     return {
       TRADE_FORMULAS,
       calculateTradeForNation,
       recalculateTrade,
-      tradeTierForFlow,
-      previewTradeRebalance,
-      applyTradeRebalance
+      tradeTierForFlow
     };
   };
 })();

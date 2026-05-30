@@ -69,20 +69,11 @@
     rosterImportText: "",
     rosterImportPreview: null,
     templateImportText: "",
-    budgetRebalancePreview: null,
-    tradeRebalancePreview: null,
-    tariffRebalancePreview: null,
     sort: {},
     tableScroll: {},
     showDetails: false,
     notice: ""
   };
-
-  function clearRebalancePreviews() {
-    state.budgetRebalancePreview = null;
-    state.tradeRebalancePreview = null;
-    state.tariffRebalancePreview = null;
-  }
 
   function canAccessTab(tabKey) {
     return isAdmin || !adminOnlyTabs.has(tabKey);
@@ -258,7 +249,6 @@
     data = Engine.normalizeState(Engine.clone(payload.data));
     Engine.recalculateAll(data);
     pendingEdits.clear();
-    clearRebalancePreviews();
     sharedSync.revision = nextRevision || sharedSync.revision;
     sharedSync.updatedAt = payload.updatedAt || data.meta?.updatedAt || "";
     sharedSync.updatedBy = payload.updatedBy || data.meta?.updatedBy || "";
@@ -849,18 +839,6 @@
       </article>`;
   }
 
-  function formulaLabel(version) {
-    return Engine.constants.BUDGET_FORMULAS?.[version] || version || "Legacy workbook formula";
-  }
-
-  function tariffFormulaLabel(version) {
-    return Engine.constants.TARIFF_FORMULAS?.[version] || version || "Legacy tariff handling";
-  }
-
-  function tradeFormulaLabel(version) {
-    return Engine.constants.TRADE_FORMULAS?.[version] || version || "Legacy workbook trade formula";
-  }
-
   function taxBurdenTone(tier = "") {
     if (tier === "Crisis" || tier === "Volatile") return "negative";
     if (tier === "Agitated" || tier === "Strained") return "warning";
@@ -878,14 +856,18 @@
     const watchRows = rows
       .filter((row) => Engine.number(row.burden.taxPressure, 0) > 0 || Engine.number(row.burden.suggestedUnrestChange, 0) > 0)
       .slice(0, 6);
+    const actionableRows = rows.filter((row) => Engine.number(row.burden.suggestedUnrestChange, 0) > 0);
     return `
-      <div class="tax-burden-watchlist">
+      <section class="panel tax-burden-watchlist gm-warning-center">
         <div class="tax-burden-watchlist-head">
           <div>
             <strong>GM Tax Burden Warnings</strong>
-            <span>Public unrest remains GM-controlled. These warnings show when tax policy is pushing collection, migration, and industry too hard.</span>
+            <span>Public unrest remains GM-controlled. Apply only updates the recommended unrest numbers, capped at 10.</span>
           </div>
-          <span class="status ${watchRows.length ? "warning" : "positive"}">${watchRows.length ? `${fmtNumber(watchRows.length)} watch` : "Stable"}</span>
+          <div class="tax-burden-actions">
+            <span class="status ${watchRows.length ? "warning" : "positive"}">${watchRows.length ? `${fmtNumber(watchRows.length)} watch` : "Stable"}</span>
+            <button class="command primary" type="button" data-action="apply-tax-unrest" ${actionableRows.length ? "" : "disabled"}>Apply Recommended Unrest</button>
+          </div>
         </div>
         ${watchRows.length ? `
           <div class="tax-burden-grid">
@@ -905,294 +887,58 @@
                 <p>${safeText((burden.warnings || [])[0] || "No warning text recorded.")}</p>
               </article>`).join("")}
           </div>` : `<div class="empty compact-empty">No active tax pressure warnings for the current ledger.</div>`}
-      </div>`;
-  }
-
-  function rebalanceMetric(label, value, note, tone = "") {
-    return `
-      <div class="rebalance-metric">
-        <span>${safeText(label)}</span>
-        <strong class="${tone ? `metric-${tone}` : ""}">${safeText(value)}</strong>
-        <small>${safeText(note)}</small>
-      </div>`;
-  }
-
-  function renderBudgetRebalancePanel(snapshot) {
-    const preview = state.budgetRebalancePreview;
-    const formulaVersion = data.meta.budgetFormulaVersion || "legacy";
-    const isTaxModelLive = formulaVersion === "tax2026";
-    const rows = [...(preview?.rows || [])].sort((left, right) => Math.abs(right.budgetCapacityDelta) - Math.abs(left.budgetCapacityDelta)).slice(0, 12);
-    const burdenRows = taxBurdenRows();
-    const burdenWarningCount = burdenRows.filter((row) => ["Agitated", "Volatile", "Crisis"].includes(row.burden.tier)).length;
-    const totals = preview?.totals || {};
-    const movementTone = Engine.number(totals.budgetCapacityDelta, 0) >= 0 ? "positive" : "negative";
-    const balanceNote = preview
-      ? Math.abs(Engine.number(totals.balanceDelta, 0)) <= 2 ? "Visible balances preserved" : `${fmtSigned(totals.balanceDelta)} net balance movement`
-      : "Preview before applying";
-    return `
-      <section class="panel economy-rebalance-panel">
-        <div class="panel-head economy-rebalance-head">
-          <div>
-            <h2>Economy Rebalance</h2>
-            <p>Preview the tax calibration model, then apply expenditure offsets so current budget balances stay stable.</p>
-          </div>
-          <span class="status ${isTaxModelLive ? "positive" : ""}">${safeText(formulaLabel(formulaVersion))}</span>
-        </div>
-        <div class="rebalance-metrics">
-          ${rebalanceMetric("Current World BC", fmtNumber(preview ? totals.currentBudgetCapacity : snapshot.budgetCapacity), "Live ledger total")}
-          ${rebalanceMetric("Modeled World BC", preview ? fmtNumber(totals.modeledBudgetCapacity) : "Not previewed", "Tax calibration")}
-          ${rebalanceMetric("Net Movement", preview ? fmtSigned(totals.budgetCapacityDelta) : "Pending", "Before expenditure offsets", preview ? movementTone : "")}
-          ${rebalanceMetric("Tax Warnings", burdenWarningCount ? fmtNumber(burdenWarningCount) : "None", "GM review queue", burdenWarningCount ? "warning" : "positive")}
-        </div>
-        ${renderTaxBurdenWatchlist(burdenRows)}
-        <div class="rebalance-controls">
-          <div>
-            <strong>Tax model rollout</strong>
-            <span>Nothing changes live until Apply is used. The apply step switches the budget formula and adjusts expenditures to keep each nation close to its current balance. ${safeText(balanceNote)}</span>
-          </div>
-          <div class="rebalance-buttons">
-            <button class="command primary" type="button" data-action="preview-budget-rebalance">Preview Tax Rebalance</button>
-            <button class="command" type="button" data-action="export-budget-rebalance" ${preview ? "" : "disabled"}>Export Preview</button>
-            <button class="command danger" type="button" data-action="apply-budget-rebalance" ${preview && !isTaxModelLive ? "" : "disabled"}>Apply Rebalance</button>
-          </div>
-        </div>
-        <div class="rebalance-table-wrap">
-          ${preview ? `
-            <table class="rebalance-table">
-              <thead>
-                <tr>
-                  <th>Nation</th>
-                  <th class="numeric">Current BC</th>
-                  <th class="numeric">Modeled BC</th>
-                  <th class="numeric">Current Balance</th>
-                  <th class="numeric">New Expenditure</th>
-                  <th class="numeric">Applied Balance</th>
-                  <th>Tax Burden</th>
-                  <th class="numeric">GM Unrest</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${rows.map((row) => `
-                  <tr>
-                    <td><span class="rebalance-nation-cell"><span class="swatch" style="background:${safeColor(row.color)}"></span>${safeText(row.name)}</span></td>
-                    <td class="numeric">${fmtNumber(row.oldBudgetCapacity)}</td>
-                    <td class="numeric">${safeStatus(`${fmtNumber(row.newBudgetCapacity)} (${fmtSigned(row.budgetCapacityDelta)})`, row.budgetCapacityDelta >= 0 ? "positive" : "negative")}</td>
-                    <td class="numeric">${fmtSigned(row.oldBudgetBalance)}</td>
-                    <td class="numeric">${fmtNumber(row.newBudgetExpenditure)}</td>
-                    <td class="numeric">${safeStatus(fmtSigned(row.appliedBudgetBalance), Math.abs(row.budgetBalanceDelta) <= 2 ? "positive" : "negative")}</td>
-                    <td>
-                      <div class="rebalance-burden-cell">
-                        ${safeStatus(row.taxBurdenTier || "Stable", taxBurdenTone(row.taxBurdenTier))}
-                        <small>${safeText(row.fiscalModel || "Standard")} / ${fmtPercent(row.taxRatePercent)} tax / ${fmtPercent(row.sustainableTaxRate)} sustainable</small>
-                      </div>
-                    </td>
-                    <td class="numeric">${row.suggestedUnrestChange ? safeStatus(`+${fmtNumber(row.suggestedUnrestChange)}`, "warning") : safeStatus("Hold", "positive")}</td>
-                  </tr>`).join("")}
-              </tbody>
-            </table>` : `<div class="empty">Run a preview to see the largest budget capacity movements before anything is applied.</div>`}
-        </div>
       </section>`;
   }
 
-  function tariffRows() {
-    return visibleNations()
-      .map((nation) => ({ nation, tariff: Engine.calculateTariffRevenueForNation(data, nation.id) }))
-      .filter((row) => row.tariff)
-      .sort((left, right) => Engine.number(right.tariff.tariffRevenue, 0) - Engine.number(left.tariff.tariffRevenue, 0));
-  }
+  function applyRecommendedTaxUnrest() {
+    const rows = taxBurdenRows()
+      .filter((row) => Engine.number(row.burden.suggestedUnrestChange, 0) > 0)
+      .map((row) => {
+        const national = data.national[row.nation.id] || {};
+        const beforeValue = Engine.number(national.publicUnrest, 0);
+        const delta = Engine.number(row.burden.suggestedUnrestChange, 0);
+        return {
+          nation: row.nation,
+          beforeValue,
+          afterValue: Math.min(10, beforeValue + delta),
+          beforeSnapshot: nationSnapshot(data, row.nation.id)
+        };
+      })
+      .filter((row) => row.afterValue > row.beforeValue);
 
-  function renderTariffWatchlist(rows) {
-    const watchRows = rows
-      .filter((row) => Engine.number(row.tariff.tariffRevenue, 0) > 0 || row.tariff.warnings?.length)
-      .slice(0, 6);
-    return `
-      <div class="tax-burden-watchlist tariff-watchlist">
-        <div class="tax-burden-watchlist-head">
-          <div>
-            <strong>Tariff Revenue Preview</strong>
-            <span>Tariffs are modeled from trade flow, tariff rate, corruption, development, sanctions, and tariff friction. They stay pending until applied.</span>
-          </div>
-          <span class="status ${watchRows.some((row) => row.tariff.warnings?.length) ? "warning" : "positive"}">${fmtNumber(watchRows.length)} review</span>
-        </div>
-        ${watchRows.length ? `
-          <div class="tax-burden-grid tariff-preview-grid">
-            ${watchRows.map(({ nation, tariff }) => `
-              <article class="tax-burden-card">
-                <div class="tax-burden-title">
-                  <span class="swatch" style="background:${safeColor(nation.color)}"></span>
-                  <strong>${safeText(nation.name)}</strong>
-                  ${safeStatus(fmtPercent(tariff.tariffRate), tariff.warnings?.length ? "warning" : "positive")}
-                </div>
-                <dl>
-                  <div><dt>Flow</dt><dd>${fmtCompact(tariff.tradeFlow)}</dd></div>
-                  <div><dt>Revenue</dt><dd>${fmtNumber(tariff.tariffRevenue)}</dd></div>
-                  <div><dt>Collect</dt><dd>${fmtPercent(tariff.collectionEfficiency)}</dd></div>
-                  <div><dt>Gross</dt><dd>${fmtNumber(tariff.grossTariffBase)}</dd></div>
-                </dl>
-                <p>${safeText((tariff.warnings || [])[0] || "Tariff revenue is within the normal collection range.")}</p>
-              </article>`).join("")}
-          </div>` : `<div class="empty compact-empty">No tariff revenue is available from the current trade data.</div>`}
-      </div>`;
-  }
+    if (!rows.length) {
+      state.notice = "No recommended unrest changes are pending.";
+      render();
+      return;
+    }
 
-  function renderTariffRebalancePanel(snapshot) {
-    const preview = state.tariffRebalancePreview;
-    const formulaVersion = data.meta.tariffFormulaVersion || "legacy";
-    const isTradeModelLive = (data.meta.tradeFormulaVersion || "legacy") === "trade2026";
-    const isTariffModelLive = formulaVersion === "tariff2026";
-    const canApplyStandaloneTariff = preview && isTradeModelLive && !isTariffModelLive;
-    const rows = [...(preview?.rows || [])].sort((left, right) => Math.abs(right.tariffRevenue) - Math.abs(left.tariffRevenue)).slice(0, 12);
-    const liveRows = tariffRows();
-    const warningCount = liveRows.filter((row) => row.tariff.warnings?.length).length;
-    const totals = preview?.totals || {};
-    const movementTone = Engine.number(totals.budgetCapacityDelta, 0) >= 0 ? "positive" : "negative";
-    const balanceNote = preview
-      ? Math.abs(Engine.number(totals.balanceDelta, 0)) <= 2 ? "Visible balances preserved" : `${fmtSigned(totals.balanceDelta)} net balance movement`
-      : "Preview before applying";
-    return `
-      <section class="panel economy-rebalance-panel tariff-rebalance-panel">
-        <div class="panel-head economy-rebalance-head">
-          <div>
-            <h2>Tariff Review</h2>
-            <p>Tariff revenue is part of the Trade v2 rollout. Use this panel to inspect customs revenue and warnings.</p>
-          </div>
-          <span class="status ${isTariffModelLive ? "positive" : ""}">${safeText(tariffFormulaLabel(formulaVersion))}</span>
-        </div>
-        <div class="rebalance-metrics">
-          ${rebalanceMetric("Current World BC", fmtNumber(preview ? totals.currentBudgetCapacity : snapshot.budgetCapacity), "Live ledger total")}
-          ${rebalanceMetric("Modeled World BC", preview ? fmtNumber(totals.modeledBudgetCapacity) : "Not previewed", "After tariff revenue")}
-          ${rebalanceMetric("Tariff Revenue", preview ? fmtSigned(totals.tariffRevenue) : "Pending", "Collectible revenue", preview ? movementTone : "")}
-          ${rebalanceMetric("Tariff Warnings", warningCount ? fmtNumber(warningCount) : "None", "GM review queue", warningCount ? "warning" : "positive")}
-        </div>
-        ${renderTariffWatchlist(liveRows)}
-        <div class="rebalance-controls">
-          <div>
-            <strong>Included with Trade v2</strong>
-            <span>Trade v2 applies tariff revenue and expenditure offsets together. Standalone tariff apply is only available for rare recovery cases after Trade v2 is already live. ${safeText(balanceNote)}</span>
-          </div>
-          <div class="rebalance-buttons">
-            <button class="command primary" type="button" data-action="preview-tariff-rebalance">Preview Tariff Review</button>
-            <button class="command" type="button" data-action="export-tariff-rebalance" ${preview ? "" : "disabled"}>Export Preview</button>
-            <button class="command danger" type="button" data-action="apply-tariff-rebalance" ${canApplyStandaloneTariff ? "" : "disabled"}>${isTariffModelLive ? "Included" : isTradeModelLive ? "Apply Recovery" : "Apply via Trade v2"}</button>
-          </div>
-        </div>
-        <div class="rebalance-table-wrap">
-          ${preview ? `
-            <table class="rebalance-table tariff-rebalance-table">
-              <thead>
-                <tr>
-                  <th>Nation</th>
-                  <th class="numeric">Tariff</th>
-                  <th class="numeric">Trade Flow</th>
-                  <th class="numeric">Revenue</th>
-                  <th class="numeric">Current BC</th>
-                  <th class="numeric">Modeled BC</th>
-                  <th class="numeric">New Expenditure</th>
-                  <th>Review</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${rows.map((row) => `
-                  <tr>
-                    <td><span class="rebalance-nation-cell"><span class="swatch" style="background:${safeColor(row.color)}"></span>${safeText(row.name)}</span></td>
-                    <td class="numeric">${fmtPercent(row.tariffRate)}</td>
-                    <td class="numeric">${fmtNumber(row.tradeFlow)}</td>
-                    <td class="numeric">${safeStatus(fmtSigned(row.tariffRevenue), row.tariffRevenue >= 0 ? "positive" : "negative")}</td>
-                    <td class="numeric">${fmtNumber(row.oldBudgetCapacity)}</td>
-                    <td class="numeric">${safeStatus(`${fmtNumber(row.newBudgetCapacity)} (${fmtSigned(row.budgetCapacityDelta)})`, row.budgetCapacityDelta >= 0 ? "positive" : "negative")}</td>
-                    <td class="numeric">${fmtNumber(row.newBudgetExpenditure)}</td>
-                    <td>${safeText((row.tariffWarnings || [])[0] || (isTradeModelLive ? "Included in Trade v2." : "Apply through Trade v2."))}</td>
-                  </tr>`).join("")}
-              </tbody>
-            </table>` : `<div class="empty">Run a preview to inspect tariff revenue and expenditure offsets before anything is applied.</div>`}
-        </div>
-      </section>`;
-  }
+    const ok = window.confirm(`Apply recommended unrest to ${fmtNumber(rows.length)} nations?`);
+    if (!ok) return;
 
-  function renderTradeRebalancePanel(snapshot) {
-    const preview = state.tradeRebalancePreview;
-    const formulaVersion = data.meta.tradeFormulaVersion || "legacy";
-    const isTradeModelLive = formulaVersion === "trade2026";
-    const rows = [...(preview?.rows || [])].sort((left, right) => left.modeledRank - right.modeledRank).slice(0, 12);
-    const totals = preview?.totals || {};
-    const flowTone = Engine.number(totals.tradeFlowDelta, 0) >= 0 ? "positive" : "negative";
-    const bcTone = Engine.number(totals.budgetCapacityDelta, 0) >= 0 ? "positive" : "negative";
-    const expenditureTone = Engine.number(totals.budgetExpenditureDelta, 0) >= 0 ? "positive" : "negative";
-    const balanceTone = Math.abs(Engine.number(totals.budgetBalanceDelta, 0)) <= 2 ? "positive" : "negative";
-    const superpowerCount = preview
-      ? preview.rows.filter((row) => row.tradeTier === "Superpower").length
-      : visibleNations().filter((nation) => Engine.tradeTierForFlow(data.trade?.[nation.id]?.tradeFlow) === "Superpower").length;
-    return `
-      <section class="panel economy-rebalance-panel trade-rebalance-panel">
-        <div class="panel-head economy-rebalance-head">
-          <div>
-            <h2>Trade v2 Preview</h2>
-            <p>Preview the combined trade and tariff model. It widens trade power, calculates customs revenue from a taxable trade slice, and solves expenditures once.</p>
-          </div>
-          <span class="status ${isTradeModelLive ? "positive" : ""}">${safeText(tradeFormulaLabel(formulaVersion))}</span>
-        </div>
-        <div class="rebalance-metrics">
-          ${rebalanceMetric("Current Trade Flow", fmtCompact(preview ? totals.currentTradeFlow : snapshot.tradeFlow), "Live ledger total")}
-          ${rebalanceMetric("Trade v2 Flow", preview ? fmtCompact(totals.modeledTradeFlow) : "Not previewed", "Modeled global flow")}
-          ${rebalanceMetric("Flow Movement", preview ? fmtSigned(totals.tradeFlowDelta) : "Pending", "Formula-only change", preview ? flowTone : "")}
-          ${rebalanceMetric("Superpower Tier", fmtNumber(superpowerCount), "Nations above threshold", superpowerCount ? "positive" : "")}
-          ${rebalanceMetric("BC Movement", preview ? fmtSigned(totals.budgetCapacityDelta) : "Pending", "After recalculation", preview ? bcTone : "")}
-          ${rebalanceMetric("Tariff Revenue", preview ? fmtSigned(totals.tariffRevenue) : "Included", "Customs slice inside Trade v2", preview ? "positive" : "")}
-          ${rebalanceMetric("Expenditure Offset", preview ? fmtSigned(totals.budgetExpenditureDelta) : "Pending", "Keeps balances stable", preview ? expenditureTone : "")}
-          ${rebalanceMetric("Balance Lock", preview ? fmtSigned(totals.budgetBalanceDelta) : "Pending", "Should stay near zero", preview ? balanceTone : "")}
-        </div>
-        <div class="rebalance-controls">
-          <div>
-            <strong>Trade formula rollout</strong>
-            <span>Preview first, then apply when the modeled rankings, tariff revenue, and balance lock look right. This one action also enables the tariff model.</span>
-          </div>
-          <div class="rebalance-buttons">
-            <button class="command primary" type="button" data-action="preview-trade-rebalance">Preview Trade v2</button>
-            <button class="command" type="button" data-action="export-trade-rebalance" ${preview ? "" : "disabled"}>Export Preview</button>
-            <button class="command danger" type="button" data-action="apply-trade-rebalance" ${preview && !isTradeModelLive ? "" : "disabled"}>${isTradeModelLive ? "Applied" : "Apply Trade v2"}</button>
-          </div>
-        </div>
-        <div class="rebalance-table-wrap">
-          ${preview ? `
-            <table class="rebalance-table trade-rebalance-table">
-              <thead>
-                <tr>
-                  <th>Nation</th>
-                  <th class="numeric">Rank</th>
-                  <th class="numeric">Trade Flow</th>
-                  <th class="numeric">Budget Capacity</th>
-                  <th class="numeric">Tariff Revenue</th>
-                  <th class="numeric">New Expenditure</th>
-                  <th class="numeric">Applied Balance</th>
-                  <th>Tier</th>
-                  <th>Drivers</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${rows.map((row) => {
-                  const rankTone = row.rankChange > 0 ? "positive" : row.rankChange < 0 ? "negative" : "";
-                  return `
-                    <tr>
-                      <td><span class="rebalance-nation-cell"><span class="swatch" style="background:${safeColor(row.color)}"></span>${safeText(row.name)}</span></td>
-                      <td class="numeric">${safeStatus(`#${fmtNumber(row.currentRank)} -> #${fmtNumber(row.modeledRank)}${row.rankChange ? ` (${fmtSigned(row.rankChange)})` : ""}`, rankTone)}</td>
-                      <td class="numeric">${safeStatus(`${fmtNumber(row.modeledTradeFlow)} (${fmtSigned(row.tradeFlowDelta)})`, row.tradeFlowDelta >= 0 ? "positive" : "negative")}</td>
-                      <td class="numeric">${safeStatus(`${fmtNumber(row.modeledBudgetCapacity)} (${fmtSigned(row.budgetCapacityDelta)})`, row.budgetCapacityDelta >= 0 ? "positive" : "negative")}</td>
-                      <td class="numeric">${safeStatus(fmtSigned(row.tariffRevenue), row.tariffRevenue >= 0 ? "positive" : "negative")}</td>
-                      <td class="numeric">${safeStatus(`${fmtNumber(row.newBudgetExpenditure)} (${fmtSigned(row.budgetExpenditureDelta)})`, row.budgetExpenditureDelta >= 0 ? "positive" : "negative")}</td>
-                      <td class="numeric">${safeStatus(`${fmtSigned(row.appliedBudgetBalance)} (${fmtSigned(row.budgetBalanceDelta)})`, Math.abs(Engine.number(row.budgetBalanceDelta, 0)) <= 2 ? "positive" : "negative")}</td>
-                      <td>${safeStatus(row.tradeTier || "Unranked", row.tradeTier === "Superpower" ? "positive" : "")}</td>
-                      <td>
-                        <div class="rebalance-burden-cell">
-                          <small>Market ${fmtNumber(row.marketSize)} / Export ${fmtNumber(row.exportStrength)} / Import ${fmtNumber(row.importDemand)}</small>
-                          <small>Customs ${fmtNumber(row.customsTradeBase)} / Logistics ${fmtNumber(row.modeledTradeCapacity)} / Openness ${fmtPercent(row.tradeOpenness)} / Finance ${fmtPercent(row.financialDepth)}</small>
-                        </div>
-                      </td>
-                    </tr>`;
-                }).join("")}
-              </tbody>
-            </table>` : `<div class="empty">Run a preview to compare current trade flow against Trade v2 before anything is applied.</div>`}
-        </div>
-      </section>`;
+    rows.forEach((row) => {
+      data.national[row.nation.id].publicUnrest = row.afterValue;
+    });
+    Engine.recalculateAll(data);
+
+    const changedAt = new Date().toISOString();
+    const entries = rows.map((row) => {
+      const changes = snapshotChanges(row.beforeSnapshot, nationSnapshot(data, row.nation.id));
+      return {
+        key: `tax-unrest:${row.nation.id}:${Date.now()}`,
+        nationId: row.nation.id,
+        nationName: row.nation.name,
+        dataset: "national",
+        field: "publicUnrest",
+        label: "Applied Tax Burden Unrest",
+        beforeValue: row.beforeValue,
+        afterValue: row.afterValue,
+        changedAt,
+        changes,
+        deltas: changes.filter((change) => change.numeric && change.delta !== 0)
+      };
+    });
+    data.meta.changeHistory = [...entries, ...(data.meta.changeHistory || [])].slice(0, 60);
+    saveWorkingState(`Applied recommended unrest to ${fmtNumber(rows.length)} nations.`);
   }
 
   function renderSimulation() {
@@ -1256,9 +1002,7 @@
           </div>
         </div>
       </section>
-      ${renderBudgetRebalancePanel(snapshot)}
-      ${renderTradeRebalancePanel(snapshot)}
-      ${renderTariffRebalancePanel(snapshot)}
+      ${renderTaxBurdenWatchlist(taxBurdenRows())}
       <section class="panel simulation-pipeline">
         <div class="panel-head compact-head">
           <div>
@@ -2492,7 +2236,6 @@
       if (dataset === "industrial" && data.military[id]) data.military[id].mobilizationLevel = value;
     }
     Engine.recalculateAll(data);
-    clearRebalancePreviews();
     const afterValue = historyFieldValue(dataset, path, readFieldValue(data, dataset, id, path));
     const changes = recordChange(entryKey, id, dataset, path, afterValue, nationSnapshot(data, id));
     const bcDelta = changes.find((change) => change.key === "national.budgetCapacity");
@@ -2559,75 +2302,23 @@
         await revertSelectedSnapshot();
       } else if (action === "snapshot-export") {
         await exportSelectedSnapshot();
-      } else if (action === "preview-budget-rebalance") {
-        state.budgetRebalancePreview = Engine.previewBudgetRebalance(data);
-        state.notice = `Previewed ${fmtNumber(state.budgetRebalancePreview.rows.length)} nations under the tax calibration model.`;
-        render();
-      } else if (action === "export-budget-rebalance") {
-        const preview = state.budgetRebalancePreview || Engine.previewBudgetRebalance(data);
-        downloadText(`ag-gs-budget-rebalance-${data.meta.currentYear}.json`, JSON.stringify(preview, null, 2));
-      } else if (action === "apply-budget-rebalance") {
-        if (!state.budgetRebalancePreview) state.budgetRebalancePreview = Engine.previewBudgetRebalance(data);
-        const ok = window.confirm("Apply the tax calibration model and adjust expenditures to preserve current budget balances?");
-        if (!ok) return;
-        state.budgetRebalancePreview = Engine.applyBudgetRebalance(data);
-        state.tradeRebalancePreview = null;
-        state.tariffRebalancePreview = null;
-        saveWorkingState(`Applied tax calibration to ${fmtNumber(state.budgetRebalancePreview.rows.length)} nations.`);
-      } else if (action === "preview-trade-rebalance") {
-        state.tradeRebalancePreview = Engine.previewTradeRebalance(data);
-        state.notice = `Previewed ${fmtNumber(state.tradeRebalancePreview.rows.length)} nations under the combined Trade v2 and tariff model.`;
-        render();
-      } else if (action === "export-trade-rebalance") {
-        const preview = state.tradeRebalancePreview || Engine.previewTradeRebalance(data);
-        downloadText(`ag-gs-trade-v2-${data.meta.currentYear}.json`, JSON.stringify(preview, null, 2));
-      } else if (action === "apply-trade-rebalance") {
-        if (!state.tradeRebalancePreview) state.tradeRebalancePreview = Engine.previewTradeRebalance(data);
-        const ok = window.confirm("Apply Trade v2? This recalculates trade flow, trade balance, budget impact, and tariff revenue without hidden calibration offsets.");
-        if (!ok) return;
-        state.tradeRebalancePreview = Engine.applyTradeRebalance(data);
-        state.budgetRebalancePreview = null;
-        state.tariffRebalancePreview = null;
-        saveWorkingState(`Applied combined Trade v2 and tariff rollout to ${fmtNumber(state.tradeRebalancePreview.rows.length)} nations.`);
-      } else if (action === "preview-tariff-rebalance") {
-        state.tariffRebalancePreview = Engine.previewTariffRebalance(data);
-        state.notice = `Previewed ${fmtNumber(state.tariffRebalancePreview.rows.length)} nations under the tariff revenue model.`;
-        render();
-      } else if (action === "export-tariff-rebalance") {
-        const preview = state.tariffRebalancePreview || Engine.previewTariffRebalance(data);
-        downloadText(`ag-gs-tariff-rebalance-${data.meta.currentYear}.json`, JSON.stringify(preview, null, 2));
-      } else if (action === "apply-tariff-rebalance") {
-        if (!state.tariffRebalancePreview) state.tariffRebalancePreview = Engine.previewTariffRebalance(data);
-        if ((data.meta.tradeFormulaVersion || "legacy") !== "trade2026") {
-          state.notice = "Tariff revenue now applies through Trade v2. Preview and apply Trade v2 first.";
-          render();
-          return;
-        }
-        const ok = window.confirm("Apply the tariff recovery pass and adjust expenditures to preserve current budget balances?");
-        if (!ok) return;
-        state.tariffRebalancePreview = Engine.applyTariffRebalance(data);
-        state.budgetRebalancePreview = null;
-        state.tradeRebalancePreview = null;
-        saveWorkingState(`Applied tariff calibration to ${fmtNumber(state.tariffRebalancePreview.rows.length)} nations.`);
+      } else if (action === "apply-tax-unrest") {
+        applyRecommendedTaxUnrest();
       } else if (action === "advance-one") {
         const result = Engine.advanceToYear(data, Number(data.meta.currentYear) + 1);
-        clearRebalancePreviews();
         saveWorkingState(result.message);
       } else if (action === "advance-target") {
         const result = Engine.advanceToYear(data, Number(targetInput?.value || data.meta.currentYear + 1));
-        clearRebalancePreviews();
         saveWorkingState(result.message);
       } else if (action === "recalculate") {
         data.meta.currentYear = Number(currentInput?.value || data.meta.currentYear);
         Engine.recalculateAll(data);
-        clearRebalancePreviews();
         saveWorkingState(`Recalculated ${data.meta.currentYear}.`);
       } else if (action === "toggle-detail-columns") {
         rememberVisibleTableScroll();
         state.showDetails = !state.showDetails;
         render();
       } else if (action === "reset-state") {
-        clearRebalancePreviews();
         resetWorkingState();
       } else if (action === "export-json") {
         downloadText(`ag-gs-${data.meta.currentYear}.json`, JSON.stringify(data, null, 2));
@@ -2684,12 +2375,10 @@
         updateSimulationPreview(event.target.id);
         data.meta.worldEconomicHealth = event.target.value;
         Engine.recalculateAll(data);
-        clearRebalancePreviews();
         saveWorkingState("World economy updated.");
       } else if (event.target.id === "currentYearInput") {
         updateSimulationPreview(event.target.id);
         data.meta.currentYear = Number(event.target.value || data.meta.currentYear);
-        clearRebalancePreviews();
         saveWorkingState(`Working year set to ${data.meta.currentYear}.`);
       } else if (event.target.id === "targetYearInput") {
         updateSimulationPreview(event.target.id);

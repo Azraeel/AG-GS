@@ -673,299 +673,25 @@
     return data;
   }
 
-  function solveExpenditureForBalance(data, id, budgetCapacity, targetBalance) {
-    const working = ensureState(clone(data));
-    const national = working.national?.[id];
-    if (!national) return null;
-    national.budgetCapacity = roundCurrency(budgetCapacity);
-    let budgetExpenditure = roundCurrency(national.budgetExpenditure);
-    for (let index = 0; index < 6; index += 1) {
-      const fiscal = calculateFiscalForNation(working, id, { budgetCapacity, budgetExpenditure });
-      if (!fiscal) return null;
-      const nextExpenditure = Math.max(0, roundCurrency(budgetCapacity - fiscal.debtService - targetBalance));
-      if (Math.abs(nextExpenditure - budgetExpenditure) <= 1) {
-        budgetExpenditure = nextExpenditure;
-        break;
-      }
-      budgetExpenditure = nextExpenditure;
-    }
-    const fiscal = calculateFiscalForNation(working, id, { budgetCapacity, budgetExpenditure });
-    return fiscal ? { budgetExpenditure, fiscal } : null;
-  }
-
   const tradeFactory = window.AGGS_ENGINE_MODULES?.createTrade;
   if (!tradeFactory) throw new Error("AG-GS trade engine module failed to load.");
   const {
     TRADE_FORMULAS,
     calculateTradeForNation,
     recalculateTrade,
-    tradeTierForFlow,
-    previewTradeRebalance,
-    applyTradeRebalance
+    tradeTierForFlow
   } = tradeFactory({
     HEALTH_TRADE,
     TRADE_POLICY,
     SANCTIONS,
-    budgetFormulaVersion,
-    tariffFormulaVersion,
     calculateTariffBurdenForNation,
-    calculateTariffRevenueForNation,
-    ensureState,
-    clone,
-    visibleNationIds,
     getPopulation,
     isBlank,
     number,
     clamp,
     roundCurrency,
-    roundPercent,
-    recalculateAll,
-    solveExpenditureForBalance
+    roundPercent
   });
-
-  function previewBudgetRebalance(data) {
-    const current = ensureState(clone(data));
-    const fromFormulaVersion = budgetFormulaVersion(current);
-    const currentTariffFormulaVersion = tariffFormulaVersion(current);
-
-    const modeled = ensureState(clone(data));
-    modeled.meta.budgetFormulaVersion = "tax2026";
-    modeled.meta.tariffFormulaVersion = currentTariffFormulaVersion;
-    recalculateAll(modeled, { budgetFormulaVersion: "tax2026", tariffFormulaVersion: currentTariffFormulaVersion });
-
-    const rows = visibleNationIds(current).map((id) => {
-      const nation = current.nations.find((entry) => entry.id === id) || { id, name: id };
-      const currentNational = current.national[id] || {};
-      const modeledNational = modeled.national[id] || {};
-      const oldBudgetCapacity = roundCurrency(currentNational.budgetCapacity);
-      const oldBudgetExpenditure = roundCurrency(currentNational.budgetExpenditure);
-      const oldBudgetBalance = roundCurrency(currentNational.budgetBalance);
-      const oldPrimaryBalance = roundCurrency(currentNational.primaryBalance ?? oldBudgetCapacity - oldBudgetExpenditure);
-      const newBudgetCapacity = roundCurrency(modeledNational.budgetCapacity);
-      const solved = solveExpenditureForBalance(modeled, id, newBudgetCapacity, oldBudgetBalance);
-      const newBudgetExpenditure = solved ? solved.budgetExpenditure : Math.max(0, roundCurrency(newBudgetCapacity - oldPrimaryBalance));
-      const appliedBudgetBalance = solved ? solved.fiscal.effectiveBalance : roundCurrency(newBudgetCapacity - newBudgetExpenditure);
-      const breakdown = calculateBudgetBreakdownForNation(modeled, id, { version: "tax2026", tariffFormulaVersion: currentTariffFormulaVersion }) || {};
-      const taxBurden = breakdown.taxBurden || calculateTaxBurdenForNation(modeled, id) || {};
-      return {
-        id,
-        name: nation.name,
-        color: nation.color,
-        oldBudgetCapacity,
-        newBudgetCapacity,
-        budgetCapacityDelta: roundCurrency(newBudgetCapacity - oldBudgetCapacity),
-        oldBudgetExpenditure,
-        newBudgetExpenditure,
-        budgetExpenditureDelta: roundCurrency(newBudgetExpenditure - oldBudgetExpenditure),
-        oldBudgetBalance,
-        appliedBudgetBalance,
-        budgetBalanceDelta: roundCurrency(appliedBudgetBalance - oldBudgetBalance),
-        oldPrimaryBalance,
-        newPrimaryBalance: roundCurrency(newBudgetCapacity - newBudgetExpenditure),
-        taxRevenue: roundCurrency(breakdown.taxRevenue),
-        collectionEfficiency: roundPercent((breakdown.collectionEfficiency || 0) * 100),
-        taxDrag: roundPercent((breakdown.taxDrag || 1) * 100),
-        fiscalModel: taxBurden.fiscalModel,
-        taxRatePercent: taxBurden.taxRatePercent,
-        sustainableTaxRate: taxBurden.sustainableTaxRate,
-        taxBurdenTier: taxBurden.tier,
-        taxPressure: taxBurden.taxPressure,
-        suggestedUnrestChange: taxBurden.suggestedUnrestChange,
-        collectionMultiplier: roundPercent((taxBurden.collectionMultiplier || 1) * 100),
-        populationGrowthPenalty: taxBurden.populationGrowthPenalty,
-        industryGrowthMultiplier: roundPercent((taxBurden.industryGrowthMultiplier || 1) * 100),
-        taxBurdenWarnings: taxBurden.warnings || []
-      };
-    });
-
-    const totals = rows.reduce((total, row) => {
-      total.currentBudgetCapacity += row.oldBudgetCapacity;
-      total.modeledBudgetCapacity += row.newBudgetCapacity;
-      total.budgetCapacityDelta += row.budgetCapacityDelta;
-      total.currentExpenditure += row.oldBudgetExpenditure;
-      total.newExpenditure += row.newBudgetExpenditure;
-      total.expenditureDelta += row.budgetExpenditureDelta;
-      total.balanceDelta += row.budgetBalanceDelta;
-      return total;
-    }, {
-      currentBudgetCapacity: 0,
-      modeledBudgetCapacity: 0,
-      budgetCapacityDelta: 0,
-      currentExpenditure: 0,
-      newExpenditure: 0,
-      expenditureDelta: 0,
-      balanceDelta: 0
-    });
-
-    Object.keys(totals).forEach((key) => {
-      totals[key] = roundCurrency(totals[key]);
-    });
-
-    return {
-      fromFormulaVersion,
-      formulaVersion: "tax2026",
-      generatedAt: new Date().toISOString(),
-      rows,
-      totals
-    };
-  }
-
-  function applyBudgetRebalance(data) {
-    ensureState(data);
-    const preview = previewBudgetRebalance(data);
-    data.meta.budgetFormulaVersion = "tax2026";
-    data.meta.tariffFormulaVersion = tariffFormulaVersion(data);
-    for (const row of preview.rows) {
-      if (data.national?.[row.id]) {
-        data.national[row.id].budgetExpenditure = row.newBudgetExpenditure;
-      }
-    }
-    recalculateAll(data, { budgetFormulaVersion: "tax2026", tariffFormulaVersion: data.meta.tariffFormulaVersion });
-    const appliedAt = new Date().toISOString();
-    const rows = preview.rows.map((row) => {
-      const national = data.national?.[row.id] || {};
-      return {
-        ...row,
-        newBudgetCapacity: roundCurrency(national.budgetCapacity ?? row.newBudgetCapacity),
-        newBudgetExpenditure: roundCurrency(national.budgetExpenditure ?? row.newBudgetExpenditure),
-        appliedBudgetBalance: roundCurrency(national.budgetBalance ?? row.appliedBudgetBalance),
-        budgetBalanceDelta: roundCurrency((national.budgetBalance ?? row.appliedBudgetBalance) - row.oldBudgetBalance)
-      };
-    });
-    data.meta.lastBudgetRebalance = {
-      appliedAt,
-      fromFormulaVersion: preview.fromFormulaVersion,
-      formulaVersion: preview.formulaVersion,
-      rowCount: rows.length,
-      totals: preview.totals
-    };
-    data.meta.updatedAt = appliedAt;
-    return { ...preview, appliedAt, rows };
-  }
-
-  function previewTariffRebalance(data) {
-    const current = ensureState(clone(data));
-    const fromBudgetFormulaVersion = budgetFormulaVersion(current);
-    const fromTariffFormulaVersion = tariffFormulaVersion(current);
-
-    const modeled = ensureState(clone(data));
-    modeled.meta.tariffFormulaVersion = "tariff2026";
-    recalculateAll(modeled, {
-      budgetFormulaVersion: fromBudgetFormulaVersion,
-      tariffFormulaVersion: "tariff2026"
-    });
-
-    const rows = visibleNationIds(current).map((id) => {
-      const nation = current.nations.find((entry) => entry.id === id) || { id, name: id };
-      const currentNational = current.national[id] || {};
-      const modeledNational = modeled.national[id] || {};
-      const oldBudgetCapacity = roundCurrency(currentNational.budgetCapacity);
-      const oldBudgetExpenditure = roundCurrency(currentNational.budgetExpenditure);
-      const oldBudgetBalance = roundCurrency(currentNational.budgetBalance);
-      const oldPrimaryBalance = roundCurrency(currentNational.primaryBalance ?? oldBudgetCapacity - oldBudgetExpenditure);
-      const newBudgetCapacity = roundCurrency(modeledNational.budgetCapacity);
-      const solved = solveExpenditureForBalance(modeled, id, newBudgetCapacity, oldBudgetBalance);
-      const newBudgetExpenditure = solved ? solved.budgetExpenditure : Math.max(0, roundCurrency(newBudgetCapacity - oldPrimaryBalance));
-      const appliedBudgetBalance = solved ? solved.fiscal.effectiveBalance : roundCurrency(newBudgetCapacity - newBudgetExpenditure);
-      const breakdown = calculateBudgetBreakdownForNation(modeled, id, {
-        version: fromBudgetFormulaVersion,
-        tariffFormulaVersion: "tariff2026"
-      }) || {};
-      const tariff = breakdown.tariff || calculateTariffRevenueForNation(modeled, id);
-      return {
-        id,
-        name: nation.name,
-        color: nation.color,
-        oldBudgetCapacity,
-        newBudgetCapacity,
-        budgetCapacityDelta: roundCurrency(newBudgetCapacity - oldBudgetCapacity),
-        oldBudgetExpenditure,
-        newBudgetExpenditure,
-        budgetExpenditureDelta: roundCurrency(newBudgetExpenditure - oldBudgetExpenditure),
-        oldBudgetBalance,
-        appliedBudgetBalance,
-        budgetBalanceDelta: roundCurrency(appliedBudgetBalance - oldBudgetBalance),
-        oldPrimaryBalance,
-        newPrimaryBalance: roundCurrency(newBudgetCapacity - newBudgetExpenditure),
-        tariffRate: tariff.tariffRate,
-        tradeFlow: tariff.tradeFlow,
-        grossTariffBase: tariff.grossTariffBase,
-        collectionEfficiency: tariff.collectionEfficiency,
-        tariffRevenue: tariff.tariffRevenue,
-        tariffWarnings: tariff.warnings || []
-      };
-    });
-
-    const totals = rows.reduce((total, row) => {
-      total.currentBudgetCapacity += row.oldBudgetCapacity;
-      total.modeledBudgetCapacity += row.newBudgetCapacity;
-      total.budgetCapacityDelta += row.budgetCapacityDelta;
-      total.currentExpenditure += row.oldBudgetExpenditure;
-      total.newExpenditure += row.newBudgetExpenditure;
-      total.expenditureDelta += row.budgetExpenditureDelta;
-      total.balanceDelta += row.budgetBalanceDelta;
-      total.tariffRevenue += row.tariffRevenue;
-      return total;
-    }, {
-      currentBudgetCapacity: 0,
-      modeledBudgetCapacity: 0,
-      budgetCapacityDelta: 0,
-      currentExpenditure: 0,
-      newExpenditure: 0,
-      expenditureDelta: 0,
-      balanceDelta: 0,
-      tariffRevenue: 0
-    });
-
-    Object.keys(totals).forEach((key) => {
-      totals[key] = roundCurrency(totals[key]);
-    });
-
-    return {
-      fromBudgetFormulaVersion,
-      fromTariffFormulaVersion,
-      tariffFormulaVersion: "tariff2026",
-      generatedAt: new Date().toISOString(),
-      rows,
-      totals
-    };
-  }
-
-  function applyTariffRebalance(data) {
-    ensureState(data);
-    const preview = previewTariffRebalance(data);
-    data.meta.tariffFormulaVersion = "tariff2026";
-    for (const row of preview.rows) {
-      if (data.national?.[row.id]) {
-        data.national[row.id].budgetExpenditure = row.newBudgetExpenditure;
-      }
-    }
-    recalculateAll(data, {
-      budgetFormulaVersion: budgetFormulaVersion(data),
-      tariffFormulaVersion: "tariff2026"
-    });
-    const appliedAt = new Date().toISOString();
-    const rows = preview.rows.map((row) => {
-      const national = data.national?.[row.id] || {};
-      return {
-        ...row,
-        newBudgetCapacity: roundCurrency(national.budgetCapacity ?? row.newBudgetCapacity),
-        newBudgetExpenditure: roundCurrency(national.budgetExpenditure ?? row.newBudgetExpenditure),
-        appliedBudgetBalance: roundCurrency(national.budgetBalance ?? row.appliedBudgetBalance),
-        budgetBalanceDelta: roundCurrency((national.budgetBalance ?? row.appliedBudgetBalance) - row.oldBudgetBalance)
-      };
-    });
-    data.meta.lastTariffRebalance = {
-      appliedAt,
-      fromBudgetFormulaVersion: preview.fromBudgetFormulaVersion,
-      fromTariffFormulaVersion: preview.fromTariffFormulaVersion,
-      tariffFormulaVersion: preview.tariffFormulaVersion,
-      rowCount: rows.length,
-      totals: preview.totals
-    };
-    data.meta.updatedAt = appliedAt;
-    return { ...preview, appliedAt, rows };
-  }
 
   function snapshot(data, year) {
     const ids = visibleNationIds(data);
@@ -1066,12 +792,6 @@
     recalculateAll,
     recalculateTrade,
     recalculateBudgets,
-    previewBudgetRebalance,
-    applyBudgetRebalance,
-    previewTariffRebalance,
-    applyTariffRebalance,
-    previewTradeRebalance,
-    applyTradeRebalance,
     advancePopulation,
     advanceIndustry,
     advanceToYear,
