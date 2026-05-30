@@ -1,1 +1,0 @@
-Create a universal budget calculation function for both economic and trade sheets so we dont have to deal with two versions that might get out of sync also
