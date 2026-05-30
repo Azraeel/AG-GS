@@ -959,14 +959,8 @@ tbody td {
   align-items: flex-start;
 }
 
-.nation-dossier-title .swatch {
-  width: 22px;
-  height: 22px;
-  margin-top: 5px;
-}
-
 .nation-dossier-title h2 {
-  margin: 2px 0 6px;
+  margin: 0 0 6px;
   font-size: clamp(26px, 3vw, 38px);
   line-height: 1;
   overflow-wrap: anywhere;

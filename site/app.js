@@ -255,7 +255,7 @@
     Engine.save(data, { touch: false });
     populateNationSelect();
     updateSourceNote();
-    state.notice = sharedSync.updatedBy ? `Live update from ${sharedSync.updatedBy}.` : "Live update received.";
+    state.notice = "";
     render();
     return true;
   }
@@ -581,7 +581,7 @@
               ({ nation, value }, index) => `
                 <div class="leaderboard-row" style="--nation-color:${safeColor(nation.color)}">
                   <span class="leaderboard-rank">${index + 1}</span>
-                  <span class="leaderboard-name"><span class="swatch" style="background:${safeColor(nation.color)}"></span><span class="leaderboard-label">${safeText(nation.name)}</span></span>
+                  <span class="leaderboard-name"><span class="leaderboard-label">${safeText(nation.name)}</span></span>
                   <span class="leaderboard-value">${safeText(formatter(value))}</span>
                 </div>`
             )
@@ -2019,9 +2019,7 @@
         <section class="panel nation-dossier" style="--nation-color:${safeColor(selected.color)}">
           <div class="nation-dossier-hero">
             <div class="nation-dossier-title">
-              <span class="swatch" style="background:${safeColor(selected.color)}"></span>
               <div>
-                <span class="section-kicker">Nation Dossier</span>
                 <h2>${safeText(selected.name)}</h2>
                 <p>${safeText(currentYear)} ledger profile / ${selectedCoverage} of ${datasets.length} datasets connected</p>
               </div>
