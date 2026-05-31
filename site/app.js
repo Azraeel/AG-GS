@@ -754,12 +754,16 @@
         { key: "budgetCapacity", label: "Budget Capacity", numeric: true, render: fmtNumber },
         { key: "budgetExpenditure", label: "Expenditure", numeric: true, secondary: true, render: fmtNumber },
         { key: "budgetBalance", label: "Budget Balance", numeric: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
+        { key: "treasuryReserve", label: "Treasury Reserve", numeric: true, render: fmtNumber },
         { key: "debt", label: "Debt", numeric: true, render: fmtPercent },
         { key: "interestRate", label: "Interest Rate", numeric: true, render: fmtPercent },
         { key: "debtService", label: "Debt Service", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "negative" : "") },
         { key: "debtRepayment", label: "Debt Repayment", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "positive" : "") },
+        { key: "treasuryDeposit", label: "Reserve Deposit", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "positive" : "") },
+        { key: "treasuryDrawdown", label: "Reserve Drawdown", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "warning" : "") },
         { key: "maxDebtPaydown", label: "Paydown Cap", numeric: true, secondary: true, render: fmtNumber },
         { key: "projectedDebt", label: "Projected Debt", numeric: true, secondary: true, render: fmtPercent },
+        { key: "projectedTreasuryReserve", label: "Projected Reserve", numeric: true, secondary: true, render: fmtNumber },
         { key: "economicHealth", label: "Health", render: (v) => safeStatus(v, v === "Prosperity" ? "positive" : v === "Recovery" ? "warning" : "") },
         { key: "immigrationRate", label: "Immigration", numeric: true, secondary: true, render: fmtNumber },
         { key: "taxRate", label: "Tax Rate", numeric: true, secondary: true, render: fmtDecimalPercent }
@@ -1125,6 +1129,12 @@
         budgetExpenditure: 0,
         primaryBalance: 0,
         budgetBalance: 0,
+        treasuryReserve: 0,
+        treasuryDeposit: 0,
+        deficitBeforeReserve: 0,
+        treasuryDrawdown: 0,
+        treasuryChange: 0,
+        projectedTreasuryReserve: 0,
         debt: 0,
         debtPrincipal: 0,
         computedInterestRate: Engine.constants.DEBT_RULES.baseInterestRate,
@@ -1416,6 +1426,8 @@
             ${detailItem("Primary Balance", fmtSigned(national.primaryBalance))}
             ${detailItem("Debt Service", fmtNumber(national.debtService))}
             ${detailItem("Effective Balance", fmtSigned(national.budgetBalance))}
+            ${detailItem("Treasury Reserve", fmtNumber(national.treasuryReserve))}
+            ${detailItem("Reserve Change", fmtSigned(national.treasuryChange))}
             ${detailItem("Debt", fmtPercent(national.debt))}
             ${detailItem("Interest Rate", fmtPercent(national.interestRate))}
             ${detailItem("Projected Debt", fmtPercent(national.projectedDebt))}
@@ -1498,6 +1510,7 @@
               ${fieldControl("national", "developmentLevel", "Development", national.developmentLevel)}
               ${fieldControl("national", "fiscalModel", "Fiscal Model", Engine.fiscalModelForNation(data, nation.id), "select", Object.keys(Engine.constants.FISCAL_MODELS))}
               ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}
+              ${fieldControl("national", "treasuryReserve", "Treasury Reserve", national.treasuryReserve ?? 0)}
               ${fieldControl("national", "debt", "Debt %", national.debt ?? 0)}
               ${fieldControl("national", "interestRate", "Interest Rate %", national.interestRate ?? national.computedInterestRate ?? Engine.constants.DEBT_RULES.baseInterestRate)}
               ${fieldControl("national", "economicHealth", "Economic Health", national.economicHealth, "select", economicHealthOptions)}
@@ -1655,6 +1668,11 @@
       budgetCapacity: "Budget Capacity",
       primaryBalance: "Primary Balance",
       budgetBalance: "Effective Balance",
+      treasuryReserve: "Treasury Reserve",
+      treasuryDeposit: "Treasury Reserve Deposit",
+      deficitBeforeReserve: "Deficit Before Reserve",
+      treasuryDrawdown: "Treasury Reserve Drawdown",
+      treasuryChange: "Treasury Reserve Change",
       debtPrincipal: "Debt Principal",
       debtService: "Debt Service",
       computedInterestRate: "Modeled Interest",
@@ -1665,6 +1683,7 @@
       debtChange: "Debt Change",
       projectedDebt: "Projected Debt",
       projectedDebtPrincipal: "Projected Debt Principal",
+      projectedTreasuryReserve: "Projected Treasury Reserve",
       maxDebtPaydown: "Debt Paydown Cap",
       repaymentShareLimit: "Surplus Repayment Limit",
       debtRisk: "Debt Risk",
@@ -1785,7 +1804,12 @@
     "national.mobilizationRisk",
     "national.tradeBalanceRisk",
     "national.debtTrendRisk",
-    "national.repaymentShareLimit"
+    "national.repaymentShareLimit",
+    "national.treasuryDeposit",
+    "national.deficitBeforeReserve",
+    "national.treasuryDrawdown",
+    "national.treasuryChange",
+    "national.projectedTreasuryReserve"
   ]);
 
   function valuesMatch(left, right) {
@@ -2038,6 +2062,7 @@
               dossierRow("Stability", fmtPercent(national?.governmentalStability)),
               dossierRow("Development", fmtNumber(national?.developmentLevel)),
               dossierRow("Balance", national ? fmtSigned(national.primaryBalance) : "Unknown", balanceTone),
+              dossierRow("Treasury Reserve", fmtNumber(national?.treasuryReserve)),
               dossierRow("Debt", fmtPercent(national?.debt)),
               dossierRow("Interest Rate", fmtPercent(national?.interestRate)),
               dossierRow("Debt Service", fmtNumber(national?.debtService)),

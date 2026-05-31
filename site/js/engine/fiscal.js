@@ -75,14 +75,19 @@
       return 3;
     }
 
-    function debtProjectionForInterest({ budgetCapacity, primaryBalance, debtPrincipal, interestRate }) {
+    function debtProjectionForInterest({ budgetCapacity, primaryBalance, debtPrincipal, interestRate, treasuryReserve }) {
       const debtService = roundCurrency(debtPrincipal * (Math.max(0, interestRate) / 100));
       const effectiveBalance = roundCurrency(primaryBalance - debtService);
       const surplusForRepayment = Math.max(effectiveBalance, 0);
       const repaymentShareLimit = roundCurrency(surplusForRepayment * DEBT_RULES.repaymentShare);
       const maxDebtPaydown = roundCurrency(debtPrincipal * DEBT_RULES.maxDebtPaydownRate);
       const debtRepayment = Math.min(repaymentShareLimit, maxDebtPaydown, debtPrincipal);
-      const deficitBorrowing = Math.max(-effectiveBalance, 0);
+      const treasuryDeposit = Math.max(roundCurrency(surplusForRepayment - debtRepayment), 0);
+      const deficitBeforeReserve = Math.max(-effectiveBalance, 0);
+      const treasuryDrawdown = Math.min(Math.max(roundCurrency(treasuryReserve), 0), deficitBeforeReserve);
+      const deficitBorrowing = Math.max(roundCurrency(deficitBeforeReserve - treasuryDrawdown), 0);
+      const treasuryChange = roundCurrency(treasuryDeposit - treasuryDrawdown);
+      const nextTreasuryReserve = Math.max(roundCurrency(treasuryReserve + treasuryChange), 0);
       const nextDebtPrincipal = Math.max(roundCurrency(debtPrincipal + deficitBorrowing - debtRepayment), 0);
       const nextDebtPercent = budgetCapacity > 0 ? roundPercent((nextDebtPrincipal / budgetCapacity) * 100) : 0;
       const debtChange = roundCurrency(nextDebtPrincipal - debtPrincipal);
@@ -92,6 +97,11 @@
         repaymentShareLimit,
         maxDebtPaydown,
         debtRepayment,
+        treasuryDeposit,
+        deficitBeforeReserve,
+        treasuryDrawdown,
+        treasuryChange,
+        nextTreasuryReserve,
         deficitBorrowing,
         nextDebtPrincipal,
         nextDebtPercent,
@@ -109,6 +119,7 @@
       const budgetExpenditure = roundCurrency(options.budgetExpenditure ?? national.budgetExpenditure);
       const debtPercent = Math.max(0, number(national.debt, 0));
       const debtPrincipal = roundCurrency(budgetCapacity * (debtPercent / 100));
+      const treasuryReserve = Math.max(0, roundCurrency(national.treasuryReserve));
       const primaryBalance = roundCurrency(budgetCapacity - budgetExpenditure);
       const debtRisk = debtRiskForPercent(debtPercent);
       const stabilityRisk = stabilityRiskForPercent(national.governmentalStability);
@@ -119,18 +130,19 @@
       const mobilizationRisk = mobilizationRiskForLevel(military.mobilizationLevel || industrial.mobilizationLevel || "None");
       const tradeBalanceRisk = tradeBalanceRiskForBalance(trade.tradeBalance, budgetCapacity);
       const preliminaryInterestRate = Math.max(0, roundPercent(DEBT_RULES.baseInterestRate + debtRisk + stabilityRisk + healthRisk + corruptionRisk + deficitRisk + sanctionsRisk + mobilizationRisk + tradeBalanceRisk));
-      const preliminaryProjection = debtProjectionForInterest({ budgetCapacity, primaryBalance, debtPrincipal, interestRate: preliminaryInterestRate });
+      const preliminaryProjection = debtProjectionForInterest({ budgetCapacity, primaryBalance, debtPrincipal, treasuryReserve, interestRate: preliminaryInterestRate });
       const debtTrendRisk = debtTrendRiskForChange(debtPercent, preliminaryProjection.nextDebtPercent);
       const computedInterestRate = Math.max(0, roundPercent(preliminaryInterestRate + debtTrendRisk));
       const interestRateAdjustment = roundPercent(national.interestRateAdjustment);
       const interestRate = Math.max(0, roundPercent(computedInterestRate + interestRateAdjustment));
-      const projection = debtProjectionForInterest({ budgetCapacity, primaryBalance, debtPrincipal, interestRate });
+      const projection = debtProjectionForInterest({ budgetCapacity, primaryBalance, debtPrincipal, treasuryReserve, interestRate });
       return {
         budgetCapacity,
         budgetExpenditure,
         primaryBalance,
         debtPercent: roundPercent(debtPercent),
         debtPrincipal,
+        treasuryReserve,
         computedInterestRate,
         interestRateAdjustment,
         interestRate,
@@ -148,6 +160,11 @@
         repaymentShareLimit: projection.repaymentShareLimit,
         maxDebtPaydown: projection.maxDebtPaydown,
         debtRepayment: projection.debtRepayment,
+        treasuryDeposit: projection.treasuryDeposit,
+        deficitBeforeReserve: projection.deficitBeforeReserve,
+        treasuryDrawdown: projection.treasuryDrawdown,
+        treasuryChange: projection.treasuryChange,
+        nextTreasuryReserve: projection.nextTreasuryReserve,
         deficitBorrowing: projection.deficitBorrowing,
         debtChange: projection.debtChange,
         nextDebtPrincipal: projection.nextDebtPrincipal,
@@ -160,6 +177,7 @@
     function applyFiscalFields(national, fiscal) {
       national.primaryBalance = fiscal.primaryBalance;
       national.debtPrincipal = fiscal.debtPrincipal;
+      national.treasuryReserve = fiscal.treasuryReserve;
       national.computedInterestRate = fiscal.computedInterestRate;
       national.interestRateAdjustment = fiscal.interestRateAdjustment;
       national.interestRate = fiscal.interestRate;
@@ -175,6 +193,11 @@
       national.debtService = fiscal.debtService;
       national.budgetBalance = fiscal.effectiveBalance;
       national.debtRepayment = fiscal.debtRepayment;
+      national.treasuryDeposit = fiscal.treasuryDeposit;
+      national.deficitBeforeReserve = fiscal.deficitBeforeReserve;
+      national.treasuryDrawdown = fiscal.treasuryDrawdown;
+      national.treasuryChange = fiscal.treasuryChange;
+      national.projectedTreasuryReserve = fiscal.nextTreasuryReserve;
       national.deficitBorrowing = fiscal.deficitBorrowing;
       national.debtChange = fiscal.debtChange;
       national.projectedDebt = fiscal.nextDebtPercent;
@@ -194,6 +217,9 @@
         debtService: fiscal.debtService,
         effectiveBalance: fiscal.effectiveBalance,
         repayment: fiscal.debtRepayment,
+        treasuryDeposit: fiscal.treasuryDeposit,
+        treasuryDrawdown: fiscal.treasuryDrawdown,
+        nextTreasuryReserve: fiscal.nextTreasuryReserve,
         deficitBorrowing: fiscal.deficitBorrowing,
         nextDebtPrincipal: fiscal.nextDebtPrincipal,
         nextDebtPercent: fiscal.nextDebtPercent,
@@ -216,6 +242,7 @@
         applyFiscalFields(national, fiscal);
         if (shouldUpdateDebt) {
           national.debt = fiscal.nextDebtPercent;
+          national.treasuryReserve = fiscal.nextTreasuryReserve;
           fiscal = calculateFiscalForNation(data, id, { budgetCapacity });
           if (fiscal) applyFiscalFields(national, fiscal);
         }
