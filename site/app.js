@@ -759,11 +759,8 @@
         { key: "interestRate", label: "Interest Rate", numeric: true, render: fmtPercent },
         { key: "debtService", label: "Debt Service", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "negative" : "") },
         { key: "debtRepayment", label: "Debt Repayment", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "positive" : "") },
-        { key: "treasuryDeposit", label: "Reserve Deposit", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "positive" : "") },
-        { key: "treasuryDrawdown", label: "Reserve Drawdown", numeric: true, secondary: true, render: (v) => safeStatus(fmtNumber(v), v > 0 ? "warning" : "") },
         { key: "maxDebtPaydown", label: "Paydown Cap", numeric: true, secondary: true, render: fmtNumber },
         { key: "projectedDebt", label: "Projected Debt", numeric: true, secondary: true, render: fmtPercent },
-        { key: "projectedTreasuryReserve", label: "Projected Reserve", numeric: true, secondary: true, render: fmtNumber },
         { key: "economicHealth", label: "Health", render: (v) => safeStatus(v, v === "Prosperity" ? "positive" : v === "Recovery" ? "warning" : "") },
         { key: "immigrationRate", label: "Immigration", numeric: true, secondary: true, render: fmtNumber },
         { key: "taxRate", label: "Tax Rate", numeric: true, secondary: true, render: fmtDecimalPercent }
