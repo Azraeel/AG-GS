@@ -2,10 +2,18 @@
   const STORAGE_KEY = "aggs-operations-state-v4";
 
   const HEALTH_GROWTH = { Depression: -3, Recession: -2, Slowdown: -1, Recovery: 1, Expansion: 2, Prosperity: 3 };
-  const HEALTH_POPULATION = { Prosperity: 2, Expansion: 1.5, Recovery: 1, Slowdown: 0.5, Recession: -1, Depression: -2 };
+  const HEALTH_DEMOGRAPHICS = {
+    Prosperity: { naturalGrowth: 0.12, migration: 0.12 },
+    Expansion: { naturalGrowth: 0.04, migration: 0.06 },
+    Recovery: { naturalGrowth: 0, migration: 0 },
+    Slowdown: { naturalGrowth: -0.22, migration: -0.12 },
+    Recession: { naturalGrowth: -0.55, migration: -0.28 },
+    Depression: { naturalGrowth: -1, migration: -0.55 }
+  };
   const HEALTH_BUDGET = { Prosperity: 1.1, Expansion: 1.05, Recovery: 1, Slowdown: 0.9, Recession: 0.8, Depression: 0.6 };
   const HEALTH_TRADE = { Prosperity: 5, Expansion: 3.5, Recovery: 2, Slowdown: -2, Recession: -5, Depression: -10 };
   const CHILD_POLICY = { "5 Child Policy": 5, "4 Child Policy": 3.75, "3 Child Policy": 2.5, "2 Child Policy": 0.5, "1 Child Policy": 0.25, "No Policy": 0 };
+  const CHILD_POLICY_POPULATION_EFFECT = { "5 Child Policy": 0.65, "4 Child Policy": 0.5, "3 Child Policy": 0.34, "2 Child Policy": 0.12, "1 Child Policy": 0.05, "No Policy": 0 };
   const MOBILIZATION = {
     None: { militaryGrowthMultiplier: 0.25, civilianPenalty: 0, militaryFactoryMultiplier: 0.4, maintenanceCost: 1, supplyMultiplier: 1 },
     Partial: { militaryGrowthMultiplier: 0.5, civilianPenalty: -0.2, militaryFactoryMultiplier: 0.6, maintenanceCost: 1.5, supplyMultiplier: 1.25 },
@@ -33,6 +41,9 @@
   const TARIFF_FORMULAS = {
     legacy: "Legacy tariff handling",
     tariff2026: "Tariff revenue calibration model"
+  };
+  const POPULATION_FORMULAS = {
+    population2026: "Demographic pressure model"
   };
   const TARIFF_POLICY_LIMITS = { "Free Trade": 3, "Open Market": 5, Balanced: 8, Protectionist: 12 };
   const TARIFF_POLICY_SENSITIVITY = { "Free Trade": 1.35, "Open Market": 1.18, Balanced: 1, Protectionist: 0.78 };
@@ -146,6 +157,7 @@
     data.meta.budgetFormulaVersion = data.meta.budgetFormulaVersion || "legacy";
     data.meta.tariffFormulaVersion = TARIFF_FORMULAS[data.meta.tariffFormulaVersion] ? data.meta.tariffFormulaVersion : "legacy";
     data.meta.tradeFormulaVersion = TRADE_FORMULAS[data.meta.tradeFormulaVersion] ? data.meta.tradeFormulaVersion : "legacy";
+    data.meta.populationFormulaVersion = POPULATION_FORMULAS[data.meta.populationFormulaVersion] ? data.meta.populationFormulaVersion : "population2026";
     data.meta.archivedNationIds = Array.isArray(data.meta.archivedNationIds) ? data.meta.archivedNationIds : [];
     data.meta.lastSimulationLog = data.meta.lastSimulationLog || [];
     data.meta.changeHistory = Array.isArray(data.meta.changeHistory) ? data.meta.changeHistory : [];
@@ -590,26 +602,60 @@
     if (!national || !populationRow) return null;
     const currentPopulation = getPopulation(data, id, fromYear);
     const economicHealth = national.economicHealth || "Recovery";
-    if (!currentPopulation || !(economicHealth in HEALTH_POPULATION)) {
+    if (!currentPopulation || !(economicHealth in HEALTH_DEMOGRAPHICS)) {
       setPopulation(data, id, toYear, currentPopulation);
       return { from: currentPopulation, to: currentPopulation, growthRate: 0 };
     }
     const stability = number(national.governmentalStability, 0);
     const unrest = number(national.publicUnrest, 0);
     const development = number(national.developmentLevel, 0);
+    const corruption = number(national.corruption, 0);
     const immigrationRate = number(national.immigrationRate, 0);
     const taxBurden = calculateTaxBurdenForNation(data, id) || {};
     const effectiveImmigrationRate = immigrationRate - number(taxBurden.immigrationPenalty, 0);
     const policy = populationRow.mandatoryChildPolicy || "No Policy";
-    const scalingFactor = Math.max(0.2, 1 - (Math.log10(currentPopulation) / Math.log10(175000000)) * 0.8);
-    let developmentImpact = 0;
-    if (development <= 7) developmentImpact = Math.min(0.1 * (7 - development), 0.5);
-    else if (development >= 15) developmentImpact = Math.max(-0.1 * (development - 15), -0.5);
-    const baseGrowth = HEALTH_POPULATION[economicHealth];
-    const growthRate = (baseGrowth + (stability / 100) * baseGrowth + (CHILD_POLICY[policy] || 0) + developmentImpact + effectiveImmigrationRate * 0.5 - unrest * 0.1 - number(taxBurden.populationGrowthPenalty, 0)) * scalingFactor;
+    const healthProfile = HEALTH_DEMOGRAPHICS[economicHealth] || HEALTH_DEMOGRAPHICS.Recovery;
+    const maturity = clamp(development / 20, 0, 1);
+    const demographicBase = 1.72 - maturity * 1.9;
+    const stabilityEffect = clamp((stability - 65) * 0.0038, -0.32, 0.22);
+    const policyEffect = (CHILD_POLICY_POPULATION_EFFECT[policy] || 0) * clamp(1 - maturity * 0.25, 0.72, 1.05);
+    const taxGrowthPenalty = number(taxBurden.populationGrowthPenalty, 0) * 0.55;
+    const stressPenalty = unrest * 0.045 + corruption * 0.004 + taxGrowthPenalty;
+    const sizeDamping = clamp(1 - Math.max(0, Math.log10(currentPopulation / 6000000)) * 0.2, 0.5, 1);
+    const maturityStabilizer = economicHealth === "Prosperity" ? maturity * 0.18 : 0;
+    const naturalGrowth = (demographicBase + healthProfile.naturalGrowth + maturityStabilizer + stabilityEffect + policyEffect - stressPenalty) * sizeDamping;
+    const migrationDamping = clamp(1 - Math.max(0, Math.log10(currentPopulation / 25000000)) * 0.26, 0.28, 1) * clamp(1 - maturity * 0.35, 0.55, 1);
+    const migrationAttractiveness = healthProfile.migration
+      + clamp((stability - 60) * 0.007, -0.35, 0.28)
+      + clamp((development - 10) * 0.025, -0.15, 0.28)
+      - unrest * 0.045
+      - corruption * 0.006
+      - number(taxBurden.immigrationPenalty, 0) * 0.4;
+    const migrationGrowth = clamp((effectiveImmigrationRate * 0.15 + migrationAttractiveness * 0.08) * migrationDamping, -0.9, 0.9);
+    const rawGrowthRate = clamp(naturalGrowth + migrationGrowth, -4.5, 3.5);
+    const rawPopulationChange = currentPopulation * (rawGrowthRate / 100);
+    const normalAnnualMovement = 150000 + Math.sqrt(currentPopulation) * 30;
+    const inertiaPressure = Math.max(0, Math.abs(rawPopulationChange) / Math.max(normalAnnualMovement, 1) - 1);
+    const inertiaMultiplier = 1 / (1 + Math.pow(inertiaPressure, 1.25) * 1.5);
+    const growthRate = roundPercent(rawGrowthRate * inertiaMultiplier);
     const nextPopulation = Math.round(currentPopulation * (1 + growthRate / 100));
     setPopulation(data, id, toYear, nextPopulation);
-    return { from: currentPopulation, to: nextPopulation, growthRate };
+    return {
+      from: currentPopulation,
+      to: nextPopulation,
+      growthRate,
+      populationFormulaVersion: "population2026",
+      naturalGrowth: roundPercent(naturalGrowth),
+      migrationGrowth: roundPercent(migrationGrowth),
+      demographicMaturity: roundPercent(maturity * 100),
+      sizeDamping: roundPercent(sizeDamping * 100),
+      migrationDamping: roundPercent(migrationDamping * 100),
+      inertiaDamping: roundPercent(inertiaMultiplier * 100),
+      normalAnnualMovement: roundCurrency(normalAnnualMovement),
+      maturityStabilizer: roundPercent(maturityStabilizer),
+      policyEffect: roundPercent(policyEffect),
+      stressPenalty: roundPercent(stressPenalty)
+    };
   }
 
   function advanceIndustry(data, id, yearDifference = 1) {
@@ -798,6 +844,6 @@
     updateValue,
     snapshot,
     exportDataJs,
-    constants: { HEALTH_GROWTH, HEALTH_POPULATION, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, TRADE_FORMULAS, FISCAL_MODELS, TARIFF_POLICY_LIMITS }
+    constants: { HEALTH_GROWTH, HEALTH_DEMOGRAPHICS, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, CHILD_POLICY_POPULATION_EFFECT, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, TRADE_FORMULAS, POPULATION_FORMULAS, FISCAL_MODELS, TARIFF_POLICY_LIMITS }
   };
 })();
