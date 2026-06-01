@@ -5,7 +5,7 @@ const MAX_SNAPSHOTS = 50;
 const DEFAULT_ALLOWED_HOSTS = ["aggsworld.net"];
 
 function json(body, init = {}) {
-  return new Response(JSON.stringify(body, null, 2), {
+  return new Response(JSON.stringify(body), {
     ...init,
     headers: {
       "content-type": "application/json; charset=utf-8",
@@ -63,11 +63,10 @@ function number(value, fallback = 0) {
 }
 
 function redactPublicData(data) {
-  const redacted = clone(data);
-  if (redacted.meta) {
-    delete redacted.meta.updatedBy;
-    redacted.meta.changeHistory = [];
-  }
+  const meta = { ...(data.meta || {}) };
+  delete meta.updatedBy;
+  meta.changeHistory = [];
+  const redacted = { ...data, meta };
   return redacted;
 }
 
