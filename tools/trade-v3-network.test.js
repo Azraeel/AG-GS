@@ -390,19 +390,43 @@ test("general tariffs shrink the import pool and unified trade flow", () => {
   assert.ok(data.trade.aurendale.tradeFlow < baselineTradeFlow, `${data.trade.aurendale.tradeFlow} should fall from ${baselineTradeFlow}`);
 });
 
-test("Trade v3 snapshot baseline allows demand to grow beyond the old 2x limiter", () => {
+test("Trade v3 global pool makes demand compete instead of creating unlimited world flow", () => {
   const data = buildTradeV3Scenario();
   Engine.recalculateAll(data);
   const baselineNetwork = Engine.calculateTradeNetwork(data);
+  const baselineWorldImportFlow = Object.values(baselineNetwork.nations).reduce((total, row) => total + row.importFlow, 0);
   const baselineImportFlow = baselineNetwork.nations.aurendale.importFlow;
+  const baselineImportShare = baselineImportFlow / baselineWorldImportFlow;
   const snapshotImportReliance = data.tradeNetwork.baseline.nations.aurendale.importReliance;
 
   Engine.updateValue(data, "trade", "aurendale", "importReliance", 1200);
   Engine.recalculateAll(data);
 
   const network = Engine.calculateTradeNetwork(data);
+  const worldImportFlow = Object.values(network.nations).reduce((total, row) => total + row.importFlow, 0);
+  const importShare = network.nations.aurendale.importFlow / worldImportFlow;
+
   assert.equal(data.tradeNetwork.baseline.nations.aurendale.importReliance, snapshotImportReliance);
-  assert.ok(network.nations.aurendale.importFlow > baselineImportFlow * 3, `${network.nations.aurendale.importFlow} should grow naturally from ${baselineImportFlow}`);
+  assert.ok(importShare > baselineImportShare * 1.4, `Aurendale import share should rise from ${baselineImportShare} to ${importShare}`);
+  assert.ok(worldImportFlow < baselineWorldImportFlow * 1.85, `${worldImportFlow} should stay inside the world pool from ${baselineWorldImportFlow}`);
+});
+
+test("Trade v3 shipyard expansion grows the global trade pool", () => {
+  const data = buildTradeV3Scenario();
+  Engine.recalculateAll(data);
+  const baselineNetwork = Engine.calculateTradeNetwork(data);
+  const baselineWorldImportFlow = Object.values(baselineNetwork.nations).reduce((total, row) => total + row.importFlow, 0);
+  const baselineSolaraExport = baselineNetwork.nations.solara.exportFlow;
+
+  Engine.updateValue(data, "industrial", "solara", "shipyards", 240);
+  Engine.recalculateAll(data);
+
+  const network = Engine.calculateTradeNetwork(data);
+  const worldImportFlow = Object.values(network.nations).reduce((total, row) => total + row.importFlow, 0);
+
+  assert.ok(worldImportFlow > baselineWorldImportFlow * 1.08, `${worldImportFlow} should grow from ${baselineWorldImportFlow}`);
+  assert.ok(network.worldPool.currentImportPool > baselineNetwork.worldPool.currentImportPool * 1.08, "World pool summary should show the logistics expansion");
+  assert.ok(network.nations.solara.exportFlow > baselineSolaraExport, "Solara should capture more export flow after adding shipyards");
 });
 
 test("embargoed bilateral lanes are forced to zero and reduce the exporter", () => {

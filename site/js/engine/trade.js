@@ -286,12 +286,49 @@
       return Math.max(1, (input.exportReliance * diversity + production) * policyNetworkAccess(input.tradePolicy) * sanctionNetworkAccess(input.sanctionsLevel) * autarkyAccess);
     }
 
+    function worldPoolCapacityScore(input) {
+      const openness = policyNetworkAccess(input.tradePolicy) * sanctionNetworkAccess(input.sanctionsLevel);
+      const autarkyAccess = clamp(1 - Math.pow(input.autarkyIndex / 100, 1.12) * 0.38, 0.48, 1);
+      const logistics = input.civilianFactories * 0.72
+        + input.militaryFactories * 0.24
+        + input.shipyards * 4.8
+        + input.developmentLevel * 10
+        + input.economicTradeDiversity * 0.46
+        + input.exportReliance * 0.32
+        + input.tradeCapacity / 9000;
+      const marketDepth = Math.sqrt(Math.max(input.population, 0) / 1000000) * 1.8;
+      return Math.max(1, (logistics + marketDepth) * openness * autarkyAccess);
+    }
+
+    function worldPoolCapacityTotal(inputsById, useBaseline = false) {
+      return Object.values(inputsById).reduce((total, input) => {
+        const row = useBaseline ? input.baselineInput || input : input;
+        return total + worldPoolCapacityScore(row);
+      }, 0);
+    }
+
     function importPoolFor(input, baselineInput = input, inputDemandScore = importDemandScore(input), baselineDemandScore = importDemandScore(baselineInput)) {
       const importShare = clamp(input.importReliance / Math.max(input.importReliance + input.exportReliance, 1), 0.25, 0.75);
       const baselinePool = Math.max(0, baselineInput.tradeFlow) * clamp(baselineInput.importReliance / Math.max(baselineInput.importReliance + baselineInput.exportReliance, 1), 0.25, 0.75);
       const demandRatio = inputDemandScore / Math.max(baselineDemandScore, 1);
       const tariffRatio = tariffDemandAccess(input.tariffRate) / Math.max(tariffDemandAccess(baselineInput.tariffRate), 0.01);
       return baselinePool * Math.max(0.35, demandRatio) * clamp(tariffRatio, 0.38, 1.08) * clamp(0.85 + importShare * 0.3, 0.9, 1.08);
+    }
+
+    function baselineWorldImportPool(inputsById, baselineDemandScores) {
+      return Object.entries(inputsById).reduce((total, [id, input]) => {
+        const baseline = input.baselineInput || input;
+        const baselineDemand = baselineDemandScores[id] || importDemandScore(baseline);
+        return total + importPoolFor(baseline, baseline, baselineDemand, baselineDemand);
+      }, 0);
+    }
+
+    function constrainedWorldTradePool(rawWorldPool, capacityWorldPool) {
+      const raw = Math.max(0, rawWorldPool);
+      const capacity = Math.max(0, capacityWorldPool);
+      if (raw <= 0 || capacity <= 0) return 0;
+      if (raw > capacity) return capacity * Math.pow(raw / capacity, 0.28);
+      return raw * Math.pow(capacity / raw, 0.45);
     }
 
     function targetedTariffFor(targetedTariffs, importerId, exporterId, fallbackRate) {
@@ -443,6 +480,7 @@
       const demandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id])]));
       const baselineDemandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id].baselineInput || inputsById[id])]));
       const supplyScores = Object.fromEntries(ids.map((id) => [id, exportSupplyScore(inputsById[id])]));
+      const importerRows = [];
 
       for (const importerId of ids) {
         const importer = inputsById[importerId];
@@ -462,9 +500,22 @@
         const deniedWeight = weighted.reduce((total, row) => total + row.baseWeight * (1 - row.policyMultiplier), 0);
         const policyAccess = clamp(1 - (deniedWeight / totalBaseWeight) * 0.82, 0.18, 1);
         const adjustedPool = pool * policyAccess;
+        importerRows.push({ importerId, importer, adjustedPool, weighted });
+      }
+
+      const rawWorldPool = importerRows.reduce((total, row) => total + row.adjustedPool, 0);
+      const baselineWorldPool = baselineWorldImportPool(inputsById, baselineDemandScores);
+      const capacityRatio = worldPoolCapacityTotal(inputsById) / Math.max(worldPoolCapacityTotal(inputsById, true), 1);
+      const capacityWorldPool = baselineWorldPool * Math.max(0.05, capacityRatio);
+      const currentWorldPool = constrainedWorldTradePool(rawWorldPool, capacityWorldPool);
+      const poolScale = rawWorldPool > 0 ? currentWorldPool / rawWorldPool : 0;
+
+      for (const importerRow of importerRows) {
+        const { importerId, importer, weighted } = importerRow;
+        const scaledPool = importerRow.adjustedPool * poolScale;
         const totalWeight = weighted.reduce((total, row) => total + row.weight, 0) || 1;
         for (const row of weighted) {
-          const flow = adjustedPool * (row.weight / totalWeight);
+          const flow = scaledPool * (row.weight / totalWeight);
           const tariffRevenue = laneTariffRevenue(flow, row.tariffRate, importer);
           const importCost = flow * Math.max(0, row.tariffRate - importer.tariffRate) * 0.0022;
           if (trackLanes) {
@@ -501,7 +552,17 @@
           row.importCost = roundCurrency(row.importCost);
         });
       }
-      return { lanes: includeLanes ? lanes : [], nations };
+      return {
+        lanes: includeLanes ? lanes : [],
+        nations,
+        worldPool: {
+          baselineImportPool: roundCurrency(baselineWorldPool),
+          rawImportPool: roundCurrency(rawWorldPool),
+          capacityImportPool: roundCurrency(capacityWorldPool),
+          currentImportPool: roundCurrency(currentWorldPool),
+          scale: roundPercent(poolScale * 100)
+        }
+      };
     }
 
     function baselineInputsById(data) {
@@ -600,7 +661,16 @@
           })
         : [];
 
-      return { lanes, nations, baselineCreatedAt: baseline.createdAt };
+      const worldPool = {
+        baselineImportPool: roundCurrency(baselineFlows.worldPool?.currentImportPool),
+        rawImportPool: roundCurrency(currentFlows.worldPool?.rawImportPool),
+        capacityImportPool: roundCurrency(currentFlows.worldPool?.capacityImportPool),
+        currentImportPool: roundCurrency(currentFlows.worldPool?.currentImportPool),
+        importPoolDelta: roundCurrency(number(currentFlows.worldPool?.currentImportPool, 0) - number(baselineFlows.worldPool?.currentImportPool, 0)),
+        scale: roundPercent(currentFlows.worldPool?.scale)
+      };
+
+      return { lanes, nations, baselineCreatedAt: baseline.createdAt, worldPool };
     }
 
     const TRADE_ANCHOR_PATTERNS = {
