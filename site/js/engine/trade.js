@@ -401,16 +401,107 @@
       }
     }
 
-    function significantLaneForDisplay(lane, nations, worldPool) {
-      if (lane.targeted || lane.exportAnchorShare || lane.importAnchorShare || lane.embargoed || lane.sanctionsLevel !== "None") return true;
-      const flow = number(lane.currentFlow, 0);
-      if (flow <= 0) return false;
-      const importerFlow = number(nations[lane.importerId]?.importFlow, 0);
-      const exporterFlow = number(nations[lane.exporterId]?.exportFlow, 0);
-      const importerShare = importerFlow > 0 ? (flow / importerFlow) * 100 : 0;
-      const exporterShare = exporterFlow > 0 ? (flow / exporterFlow) * 100 : 0;
-      const worldShare = worldPool > 0 ? (flow / worldPool) * 100 : 0;
-      return importerShare >= 3.5 || exporterShare >= 4 || worldShare >= 0.25 || flow >= 100000;
+    function laneKey(lane) {
+      return `${lane.importerId}:${lane.exporterId}`;
+    }
+
+    function forcedVisibleLane(lane) {
+      return lane.targeted || lane.exportAnchorShare || lane.importAnchorShare || lane.embargoed || lane.sanctionsLevel !== "None";
+    }
+
+    function directReachScore(input, worldPool, nationCount) {
+      const tradeFlow = Math.max(0, number(input.tradeFlow, 0));
+      const openness = policyNetworkAccess(input.tradePolicy) * sanctionNetworkAccess(input.sanctionsLevel);
+      const diversity = Math.sqrt(Math.max(0, number(input.economicTradeDiversity, 0))) / 8.5;
+      const globalShare = worldPool > 0 ? (tradeFlow / worldPool) * Math.max(1, nationCount) : 0;
+      const scale = Math.log10(Math.max(tradeFlow, 1000)) - 5.7;
+      const autarkyDrag = number(input.autarkyIndex, 50) / 68;
+      return Math.max(0, scale * 1.15 + diversity + Math.sqrt(Math.max(0, globalShare)) * 0.85 + (openness - 1) * 1.45 - autarkyDrag);
+    }
+
+    function directImportPartnerLimit(input, worldPool, nationCount) {
+      if (nationCount <= 1) return 0;
+      const reach = directReachScore(input, worldPool, nationCount);
+      const importBias = Math.sqrt(Math.max(0, number(input.importReliance, 0))) / 36;
+      const autarkyDrag = number(input.autarkyIndex, 50) / 120;
+      const extraReach = Math.max(0, reach - 1.45) * 0.92 + importBias - autarkyDrag;
+      return clamp(1 + Math.floor(Math.max(0, extraReach)), 1, Math.min(18, nationCount - 1));
+    }
+
+    function directExportPartnerLimit(input, worldPool, nationCount) {
+      if (nationCount <= 1) return 0;
+      const reach = directReachScore(input, worldPool, nationCount);
+      const exportBias = Math.sqrt(Math.max(0, number(input.exportReliance, 0))) / 14;
+      return clamp(Math.round(1 + reach * 0.55 + exportBias), 1, Math.min(22, nationCount - 1));
+    }
+
+    function selectVisibleLaneKeys(lanes, nations, inputsById, worldPool, ids) {
+      const visible = new Set();
+      const importerCounts = Object.fromEntries(ids.map((id) => [id, 0]));
+      const exporterCounts = Object.fromEntries(ids.map((id) => [id, 0]));
+      const lanesByImporter = Object.fromEntries(ids.map((id) => [id, []]));
+      const lanesByExporter = Object.fromEntries(ids.map((id) => [id, []]));
+
+      const addLane = (lane) => {
+        const key = laneKey(lane);
+        if (visible.has(key)) return;
+        visible.add(key);
+        importerCounts[lane.importerId] = (importerCounts[lane.importerId] || 0) + 1;
+        exporterCounts[lane.exporterId] = (exporterCounts[lane.exporterId] || 0) + 1;
+      };
+
+      for (const lane of lanes) {
+        if (number(lane.currentFlow, 0) <= 0 && !forcedVisibleLane(lane)) continue;
+        lanesByImporter[lane.importerId]?.push(lane);
+        lanesByExporter[lane.exporterId]?.push(lane);
+        if (forcedVisibleLane(lane)) addLane(lane);
+      }
+
+      for (const importerId of ids) {
+        const limit = directImportPartnerLimit(inputsById[importerId], worldPool, ids.length);
+        const candidates = (lanesByImporter[importerId] || [])
+          .filter((lane) => number(lane.currentFlow, 0) > 0)
+          .sort((a, b) => number(b.currentFlow, 0) - number(a.currentFlow, 0));
+        for (const lane of candidates) {
+          if (importerCounts[importerId] >= limit) break;
+          addLane(lane);
+        }
+      }
+
+      for (const exporterId of ids) {
+        if (exporterCounts[exporterId] > 0 || number(nations[exporterId]?.exportFlow, 0) <= 0) continue;
+        const limit = directExportPartnerLimit(inputsById[exporterId], worldPool, ids.length);
+        const candidates = (lanesByExporter[exporterId] || [])
+          .filter((lane) => number(lane.currentFlow, 0) > 0)
+          .sort((a, b) => {
+            const aImporterLimit = directImportPartnerLimit(inputsById[a.importerId], worldPool, ids.length);
+            const bImporterLimit = directImportPartnerLimit(inputsById[b.importerId], worldPool, ids.length);
+            const aRoom = Math.max(0, aImporterLimit - (importerCounts[a.importerId] || 0));
+            const bRoom = Math.max(0, bImporterLimit - (importerCounts[b.importerId] || 0));
+            if (bRoom !== aRoom) return bRoom - aRoom;
+            return number(b.currentFlow, 0) - number(a.currentFlow, 0);
+          });
+        let added = 0;
+        for (const lane of candidates) {
+          if (added >= limit) break;
+          const importerLimit = directImportPartnerLimit(inputsById[lane.importerId], worldPool, ids.length);
+          if ((importerCounts[lane.importerId] || 0) >= importerLimit) continue;
+          addLane(lane);
+          added += 1;
+        }
+      }
+
+      for (const lane of lanes) {
+        const flow = number(lane.currentFlow, 0);
+        const worldShare = worldPool > 0 ? (flow / worldPool) * 100 : 0;
+        const importerFlow = number(nations[lane.importerId]?.importFlow, 0);
+        const exporterFlow = number(nations[lane.exporterId]?.exportFlow, 0);
+        const importerShare = importerFlow > 0 ? (flow / importerFlow) * 100 : 0;
+        const exporterShare = exporterFlow > 0 ? (flow / exporterFlow) * 100 : 0;
+        if (worldShare >= 0.45 || (worldShare >= 0.18 && importerShare >= 18 && exporterShare >= 12)) addLane(lane);
+      }
+
+      return visible;
     }
 
     function networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies) {
@@ -630,8 +721,9 @@
       applyExportAnchorsToLanes(lanes, exportAnchors, lanePolicies);
       applyImportAnchorsToLanes(lanes, importAnchors, lanePolicies);
       nations = summarizeTrackedLanes(ids, lanes, targetedTariffs, exportAnchors, importAnchors, lanePolicies);
+      const visibleLaneKeys = includeLanes ? selectVisibleLaneKeys(lanes, nations, inputsById, currentWorldPool, ids) : null;
       const visibleLanes = includeLanes
-        ? lanes.filter((lane) => significantLaneForDisplay(lane, nations, currentWorldPool))
+        ? lanes.filter((lane) => visibleLaneKeys.has(laneKey(lane)))
         : [];
       return {
         lanes: visibleLanes,

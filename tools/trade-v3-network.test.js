@@ -471,6 +471,33 @@ test("Trade v3 balanced gravity gives active exporters buyers without showing a 
   assert.ok(network.lanes.length < 50 * 49 * 0.45, `display lanes should stay sparse; got ${network.lanes.length}`);
 });
 
+test("Trade v4 direct lanes concentrate small countries instead of listing every global hub", () => {
+  const data = buildLargeTradeV3Scenario(50);
+  data.trade.nation_48.tradeFlow = 14500000;
+  data.trade.nation_48.exportReliance = 160;
+  data.trade.nation_48.tradePolicy = "Free Trade";
+  data.trade.nation_49.tradeFlow = 17700000;
+  data.trade.nation_49.exportReliance = 175;
+  data.trade.nation_49.tradePolicy = "Free Trade";
+  Engine.recalculateAll(data);
+
+  const network = Engine.calculateTradeNetwork(data);
+  const smallImporters = data.nations
+    .map((nation) => nation.id)
+    .filter((id) => data.trade[id].tradeFlow < 750000);
+  const smallPartnerRows = smallImporters.map((id) => {
+    const directImportLanes = network.lanes.filter((lane) => lane.importerId === id);
+    const directHubImports = directImportLanes.filter((lane) => ["nation_48", "nation_49"].includes(lane.exporterId));
+    return { id, directCount: directImportLanes.length, directHubCount: directHubImports.length };
+  });
+  const smallCountriesListingBothHubs = smallPartnerRows.filter((row) => row.directHubCount >= 2);
+  const concentratedSmallCountries = smallPartnerRows.filter((row) => row.directCount <= 2);
+
+  assert.ok(smallCountriesListingBothHubs.length <= Math.ceil(smallImporters.length * 0.35), `${smallCountriesListingBothHubs.length} small countries listed both global hubs`);
+  assert.ok(concentratedSmallCountries.length >= Math.floor(smallImporters.length * 0.7), `${concentratedSmallCountries.length} small countries had concentrated direct lanes`);
+  assert.equal(Object.values(network.nations).filter((row) => row.exportFlow <= 0).length, 0);
+});
+
 test("Trade v3 shipyard expansion grows the global trade pool", () => {
   const data = buildTradeV3Scenario();
   Engine.recalculateAll(data);
