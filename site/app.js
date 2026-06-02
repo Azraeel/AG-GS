@@ -1086,6 +1086,7 @@
                   aria-label="${safeText(territory.name)}"
                   data-anchor-source="${escapeHtml(territory.anchorSource || "generated")}"
                   data-label-cluster-id="${escapeHtml(territory.labelClusterId || "")}"
+                  data-source-territory-id="${escapeHtml(territory.sourceTerritoryId || "")}"
                   data-trade-map-nation="${escapeHtml(territory.nationId)}">
                   <title>${safeText(territory.name)}</title>
                 </path>`).join("")}

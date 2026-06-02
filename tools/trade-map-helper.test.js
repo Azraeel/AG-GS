@@ -39,15 +39,17 @@ test("trade map helper creates clickable territory shapes for nations", () => {
 test("real SVG map uses label-aligned click anchors for every ledger nation", () => {
   const shapes = TradeMap.territoriesForNations(data.nations, "solara");
   const byId = Object.fromEntries(shapes.map((shape) => [shape.nationId, shape]));
+  const labelAnchoredShapes = shapes.filter((shape) => shape.nationId !== "astoria");
 
   assert.equal(shapes.length, 50);
-  assert.equal(shapes.every((shape) => shape.anchorSource === "svg-label"), true);
-  assert.equal(shapes.every((shape) => shape.labelClusterId && shape.labelClusterId.startsWith("svg_label_")), true);
-  assert.equal(shapes.every((shape) => Array.isArray(shape.labelPathIndices) && shape.labelPathIndices.length > 0), true);
+  assert.equal(labelAnchoredShapes.every((shape) => shape.anchorSource === "svg-label"), true);
+  assert.equal(labelAnchoredShapes.every((shape) => shape.labelClusterId && shape.labelClusterId.startsWith("svg_label_")), true);
+  assert.equal(labelAnchoredShapes.every((shape) => Array.isArray(shape.labelPathIndices) && shape.labelPathIndices.length > 0), true);
   assert.equal(shapes.every((shape) => shape.sourceBounds?.width > 0 && shape.sourceBounds?.height > 0), true);
-  assert.equal(byId.astoria.labelClusterId, "svg_label_2441");
-  assert.ok(byId.astoria.centroid.x > 2 && byId.astoria.centroid.x < 4, "Astoria click target should sit on the literal Astoria label");
-  assert.ok(byId.astoria.centroid.y > 38 && byId.astoria.centroid.y < 41, "Astoria click target should sit on the literal Astoria label");
+  assert.equal(byId.astoria.anchorSource, "svg-territory");
+  assert.equal(byId.astoria.sourceTerritoryId, "svg_path_23");
+  assert.ok(byId.astoria.centroid.x > 3.5 && byId.astoria.centroid.x < 5.5, "Astoria click target should sit inside the black Astoria territory");
+  assert.ok(byId.astoria.centroid.y > 38 && byId.astoria.centroid.y < 41, "Astoria click target should sit inside the black Astoria territory");
   assert.ok(byId.solara.centroid.x > 3 && byId.solara.centroid.x < 10, "Solara click target should sit on the visible bottom-left map label");
   assert.ok(byId.solara.centroid.y > 54 && byId.solara.centroid.y < 59, "Solara click target should sit on the visible bottom-left map label");
   assert.ok(byId.republic_of_aurendale.centroid.x > 47 && byId.republic_of_aurendale.centroid.x < 51);

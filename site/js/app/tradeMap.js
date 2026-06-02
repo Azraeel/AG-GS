@@ -23,7 +23,6 @@
   };
 
   const SVG_LABEL_BINDINGS = {
-    astoria: "svg_label_2441",
     baathist_republic_of_volgastan: "svg_label_307",
     baechong_democratic_republic: "svg_label_2113",
     benera_navine: "svg_label_359",
@@ -75,6 +74,10 @@
     zhensanovian_commonwealth: "svg_label_464"
   };
 
+  const SVG_TERRITORY_BINDINGS = {
+    astoria: { sourceId: "svg_path_23", x: 4.4, y: 39.2 }
+  };
+
   function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
   }
@@ -106,6 +109,10 @@
 
   function sourceTerritories() {
     return shapeManifest()?.territories || [];
+  }
+
+  function sourceTerritoryMap() {
+    return Object.fromEntries(sourceTerritories().map((territory) => [territory.id, territory]));
   }
 
   function sourceLabels() {
@@ -179,6 +186,36 @@
     ].join(" ");
   }
 
+  function territoryTargetForNation(nation) {
+    const binding = SVG_TERRITORY_BINDINGS[nation.id];
+    const territory = binding?.sourceId ? sourceTerritoryMap()[binding.sourceId] : null;
+    if (!binding || !territory?.bbox) return null;
+    const sourceBounds = {
+      x: Number(territory.bbox.x) || 0,
+      y: Number(territory.bbox.y) || 0,
+      width: Number(territory.bbox.width) || 0,
+      height: Number(territory.bbox.height) || 0
+    };
+    const x = clamp(Number(binding.x) || territory.centroid?.x || sourceBounds.x + sourceBounds.width / 2, 0, mapConfig().width);
+    const y = clamp(Number(binding.y) || territory.centroid?.y || sourceBounds.y + sourceBounds.height / 2, 0, mapConfig().height);
+    const pathX = clamp(Number(binding.pathX) || sourceBounds.x + sourceBounds.width / 2, 0, mapConfig().width);
+    const pathY = clamp(Number(binding.pathY) || sourceBounds.y + sourceBounds.height / 2, 0, mapConfig().height);
+    const width = clamp(Number(binding.width) || sourceBounds.width, 2.6, 10);
+    const height = clamp(Number(binding.height) || sourceBounds.height, 1.8, 10);
+    return {
+      x,
+      y,
+      path: roundedRectPath(pathX, pathY, width, height),
+      anchorSource: "svg-territory",
+      sourceTerritoryId: territory.id,
+      sourceTerritoryPathIndex: territory.sourcePathIndex,
+      labelClusterId: "",
+      labelPathIndices: [],
+      labelLineCount: 0,
+      sourceBounds
+    };
+  }
+
   function labelTargetForNation(nation) {
     const labelId = SVG_LABEL_BINDINGS[nation.id];
     const label = labelId ? sourceLabelMap()[labelId] : null;
@@ -207,6 +244,8 @@
 
   function visualTargetForNation(nation, geographyProfile, index) {
     const config = mapConfig();
+    const territoryTarget = config.hasRealSvg ? territoryTargetForNation(nation) : null;
+    if (territoryTarget) return territoryTarget;
     const labelTarget = config.hasRealSvg ? labelTargetForNation(nation) : null;
     if (labelTarget) return labelTarget;
     const visualProfile = profileForViewBox(geographyProfile);
@@ -255,6 +294,8 @@
         labelClusterId: visualTarget.labelClusterId || "",
         labelPathIndices: visualTarget.labelPathIndices || [],
         labelLineCount: visualTarget.labelLineCount || 0,
+        sourceTerritoryId: visualTarget.sourceTerritoryId || "",
+        sourceTerritoryPathIndex: visualTarget.sourceTerritoryPathIndex ?? null,
         sourceBounds: visualTarget.sourceBounds || null
       };
     });
