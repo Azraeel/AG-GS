@@ -733,6 +733,26 @@ select optgroup {
   min-width: 0;
 }
 
+.trade-map-scale {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  min-height: 34px;
+  padding-right: 4px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.trade-map-scale strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 950;
+  text-transform: none;
+}
+
 .trade-map-mode {
   display: inline-flex;
   align-items: center;

@@ -16,6 +16,10 @@ test("trade map helper exposes the real SVG map manifest", () => {
   assert.equal(config.assetPath, "assets/ag-political-map.svg");
   assert.equal(config.viewBox, "0 0 100 65.977273");
   assert.ok(config.sourceTerritoryCount >= 45);
+  assert.equal(config.surfaceAreaSqMi, 236_400_000);
+  assert.equal(Number(config.earthSurfaceScale.toFixed(1)), 1.2);
+  assert.ok(config.equatorialCircumferenceMi > 27_200 && config.equatorialCircumferenceMi < 27_300);
+  assert.ok(config.distancePerViewBoxUnitMi > 180 && config.distancePerViewBoxUnitMi < 200);
 });
 
 test("trade map helper creates clickable territory shapes for nations", () => {

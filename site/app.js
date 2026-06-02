@@ -1022,6 +1022,10 @@
   function tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool) {
     const mapConfig = TradeMap.mapConfig?.() || { hasRealSvg: false, assetPath: "assets/world-map.png", width: 100, height: 100, viewBox: "0 0 100 100", sourceTerritoryCount: 0 };
     const mapAssetHref = `${isAdmin ? "../" : ""}${mapConfig.assetPath}`;
+    const worldSurfaceLabel = mapConfig.surfaceAreaSqMi ? `${fmtCompact(mapConfig.surfaceAreaSqMi)} sq mi` : "Unknown scale";
+    const worldSurfaceTitle = mapConfig.equatorialCircumferenceMi
+      ? `${fmtNumber(Math.round(mapConfig.surfaceAreaSqMi))} sq mi surface / ${fmtNumber(Math.round(mapConfig.equatorialCircumferenceMi))} mi circumference`
+      : "World surface scale";
     const territories = TradeMap.territoriesForNations?.(sortedNations(), selected.id) || [];
     const routes = TradeMap.routesForRows?.(selected.id, rows, territories, 14) || [];
     const selectedTerritory = territories.find((territory) => territory.nationId === selected.id) || territories[0];
@@ -1043,6 +1047,7 @@
             </select>
           </label>
           <div class="trade-map-modebar" aria-label="Trade map layers">
+            <span class="trade-map-scale" title="${escapeHtml(worldSurfaceTitle)}"><span>World Surface</span><strong>${safeText(worldSurfaceLabel)}</strong></span>
             <span class="trade-map-mode is-active">Trade</span>
             <span class="trade-map-mode">Imports</span>
             <span class="trade-map-mode">Exports</span>

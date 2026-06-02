@@ -1,6 +1,8 @@
 (function () {
   const root = typeof window !== "undefined" ? window : globalThis;
   const DEFAULT_MAP_VIEWBOX = { width: 100, height: 100 };
+  const WORLD_SURFACE_AREA_SQ_MI = 236_400_000;
+  const EARTH_SURFACE_AREA_SQ_MI = 197_000_000;
 
   const SEED_GEOGRAPHY = {
     solara: { x: 8, y: 88, region: "southwest_ocean", coastal: true, portStrength: 9, routeAccess: ["deep_ocean", "ocean"] },
@@ -97,13 +99,21 @@
     const viewBox = manifest?.viewBox || DEFAULT_MAP_VIEWBOX;
     const width = Number(viewBox.width) || DEFAULT_MAP_VIEWBOX.width;
     const height = Number(viewBox.height) || DEFAULT_MAP_VIEWBOX.height;
+    const areaPerViewBoxUnitSqMi = WORLD_SURFACE_AREA_SQ_MI / Math.max(1, width * height);
+    const meanRadiusMi = Math.sqrt(WORLD_SURFACE_AREA_SQ_MI / (4 * Math.PI));
     return {
       hasRealSvg: Boolean(manifest),
       assetPath: manifest?.assetPath || "assets/world-map.png",
       width,
       height,
       viewBox: `0 0 ${formatMapNumber(width)} ${formatMapNumber(height)}`,
-      sourceTerritoryCount: manifest?.territories?.length || 0
+      sourceTerritoryCount: manifest?.territories?.length || 0,
+      surfaceAreaSqMi: WORLD_SURFACE_AREA_SQ_MI,
+      earthSurfaceScale: WORLD_SURFACE_AREA_SQ_MI / EARTH_SURFACE_AREA_SQ_MI,
+      meanRadiusMi,
+      equatorialCircumferenceMi: 2 * Math.PI * meanRadiusMi,
+      areaPerViewBoxUnitSqMi,
+      distancePerViewBoxUnitMi: Math.sqrt(areaPerViewBoxUnitSqMi)
     };
   }
 
