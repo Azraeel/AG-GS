@@ -1085,6 +1085,7 @@
                   role="button"
                   aria-label="${safeText(territory.name)}"
                   data-anchor-source="${escapeHtml(territory.anchorSource || "generated")}"
+                  data-label-cluster-id="${escapeHtml(territory.labelClusterId || "")}"
                   data-trade-map-nation="${escapeHtml(territory.nationId)}">
                   <title>${safeText(territory.name)}</title>
                 </path>`).join("")}

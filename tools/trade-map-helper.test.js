@@ -41,13 +41,17 @@ test("real SVG map uses label-aligned click anchors for every ledger nation", ()
   const byId = Object.fromEntries(shapes.map((shape) => [shape.nationId, shape]));
 
   assert.equal(shapes.length, 50);
-  assert.equal(shapes.every((shape) => shape.anchorSource === "map-label"), true);
-  assert.ok(byId.solara.centroid.x < 7, "Solara click target should sit on the visible bottom-left map label");
-  assert.ok(byId.solara.centroid.y > 58, "Solara click target should sit on the visible bottom-left map label");
-  assert.ok(byId.republic_of_aurendale.centroid.x > 50 && byId.republic_of_aurendale.centroid.x < 57);
-  assert.ok(byId.republic_of_aurendale.centroid.y > 39 && byId.republic_of_aurendale.centroid.y < 47);
+  assert.equal(shapes.every((shape) => shape.anchorSource === "svg-label"), true);
+  assert.equal(shapes.every((shape) => shape.labelClusterId && shape.labelClusterId.startsWith("svg_label_")), true);
+  assert.equal(shapes.every((shape) => Array.isArray(shape.labelPathIndices) && shape.labelPathIndices.length > 0), true);
+  assert.equal(shapes.every((shape) => shape.sourceBounds?.width > 0 && shape.sourceBounds?.height > 0), true);
+  assert.ok(byId.solara.centroid.x > 3 && byId.solara.centroid.x < 10, "Solara click target should sit on the visible bottom-left map label");
+  assert.ok(byId.solara.centroid.y > 54 && byId.solara.centroid.y < 59, "Solara click target should sit on the visible bottom-left map label");
+  assert.ok(byId.republic_of_aurendale.centroid.x > 47 && byId.republic_of_aurendale.centroid.x < 51);
+  assert.ok(byId.republic_of_aurendale.centroid.y > 38 && byId.republic_of_aurendale.centroid.y < 42);
   assert.ok(byId.karkalnadag_kingdom.centroid.x > 82 && byId.karkalnadag_kingdom.centroid.x < 88);
   assert.ok(byId.karkalnadag_kingdom.centroid.y > 10 && byId.karkalnadag_kingdom.centroid.y < 15);
+  assert.notEqual(byId.karkalnadag_kingdom.sourceBounds.x, byId.karkalnadag_kingdom.centroid.x);
 });
 
 test("trade map helper turns partner rows into route overlays", () => {

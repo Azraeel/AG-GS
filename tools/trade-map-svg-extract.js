@@ -127,6 +127,26 @@ function normalizedCentroid(bbox) {
   };
 }
 
+function normalizedBBoxCenter(bbox) {
+  return {
+    x: Number((bbox.x + bbox.width / 2).toFixed(6)),
+    y: Number((bbox.y + bbox.height / 2).toFixed(6))
+  };
+}
+
+function mergeNormalizedBBoxes(left, right) {
+  const x = Math.min(left.x, right.x);
+  const y = Math.min(left.y, right.y);
+  const maxX = Math.max(left.x + left.width, right.x + right.width);
+  const maxY = Math.max(left.y + left.height, right.y + right.height);
+  return {
+    x: Number(x.toFixed(6)),
+    y: Number(y.toFixed(6)),
+    width: Number((maxX - x).toFixed(6)),
+    height: Number((maxY - y).toFixed(6))
+  };
+}
+
 function normalizedTransform(transform) {
   const translate = parseTranslate(transform);
   const x = Number((translate.x * MAP_SCALE).toFixed(8));
@@ -187,6 +207,146 @@ function extractTerritoryCandidates(svg, options = {}) {
     .sort((left, right) => right.sourceArea - left.sourceArea);
 }
 
+function isLabelGlyphCandidate(entry, bbox, color) {
+  if (!entry.path || !color || !bbox) return false;
+  const normalized = normalizeBBox(bbox);
+  const area = normalized.width * normalized.height;
+  if (color.luminance > 18 || color.chroma > 8) return false;
+  const singleGlyph = normalized.width >= 0.08 &&
+    normalized.height >= 0.08 &&
+    normalized.width <= 1.5 &&
+    normalized.height <= 1.1 &&
+    area <= 0.9;
+  const compoundLabel = color.luminance <= 12 &&
+    normalized.width >= 0.3 &&
+    normalized.height >= 0.12 &&
+    normalized.width <= 5.2 &&
+    normalized.height <= 2.2 &&
+    area <= 3.2;
+  return singleGlyph || compoundLabel;
+}
+
+function extractLabelGlyphs(svg) {
+  return svg.paths
+    .map((entry) => {
+      const color = parseColor(entry.fill);
+      const bbox = pathBBox(entry.path, entry.transform);
+      if (!isLabelGlyphCandidate(entry, bbox, color)) return null;
+      const normalized = normalizeBBox(bbox);
+      return {
+        sourcePathIndex: entry.index,
+        fill: color.hex,
+        bbox: normalized,
+        centroid: normalizedBBoxCenter(normalized)
+      };
+    })
+    .filter(Boolean)
+    .sort((left, right) => left.centroid.y - right.centroid.y || left.centroid.x - right.centroid.x);
+}
+
+function clusterLabelLines(glyphs) {
+  const lines = [];
+
+  for (const glyph of glyphs) {
+    let best = null;
+    let bestScore = Infinity;
+
+    for (const line of lines) {
+      const lineCenter = normalizedBBoxCenter(line.bbox);
+      const sameLine = Math.abs(glyph.centroid.y - lineCenter.y) <= Math.max(0.23, Math.min(0.38, line.bbox.height * 0.7));
+      const horizontalGap = Math.max(
+        0,
+        Math.max(
+          line.bbox.x - glyph.bbox.x - glyph.bbox.width,
+          glyph.bbox.x - line.bbox.x - line.bbox.width
+        )
+      );
+      if (!sameLine || horizontalGap > 0.34) continue;
+      const score = horizontalGap + Math.abs(glyph.centroid.y - lineCenter.y);
+      if (score < bestScore) {
+        best = line;
+        bestScore = score;
+      }
+    }
+
+    if (best) {
+      best.bbox = mergeNormalizedBBoxes(best.bbox, glyph.bbox);
+      best.sourcePathIndices.push(glyph.sourcePathIndex);
+      continue;
+    }
+
+    lines.push({
+      bbox: { ...glyph.bbox },
+      sourcePathIndices: [glyph.sourcePathIndex]
+    });
+  }
+
+  return lines.filter((line) => line.sourcePathIndices.length >= 2 || line.bbox.width >= 0.8);
+}
+
+function clusterStackedLabelLines(lines) {
+  const labels = [];
+
+  for (const line of lines.sort((left, right) => left.bbox.y - right.bbox.y || left.bbox.x - right.bbox.x)) {
+    let best = null;
+    let bestScore = Infinity;
+
+    for (const label of labels) {
+      const labelCenter = normalizedBBoxCenter(label.bbox);
+      const lineCenter = normalizedBBoxCenter(line.bbox);
+      const verticalGap = Math.max(
+        0,
+        Math.max(
+          label.bbox.y - line.bbox.y - line.bbox.height,
+          line.bbox.y - label.bbox.y - label.bbox.height
+        )
+      );
+      const horizontalOverlap = Math.min(label.bbox.x + label.bbox.width, line.bbox.x + line.bbox.width) -
+        Math.max(label.bbox.x, line.bbox.x);
+      const centerClose = Math.abs(labelCenter.x - lineCenter.x) <= Math.max(1.9, Math.max(label.bbox.width, line.bbox.width) * 0.75);
+      if (verticalGap > 0.64 || (horizontalOverlap <= 0.1 && !centerClose)) continue;
+      const score = verticalGap + Math.abs(labelCenter.x - lineCenter.x) * 0.04;
+      if (score < bestScore) {
+        best = label;
+        bestScore = score;
+      }
+    }
+
+    if (best) {
+      best.bbox = mergeNormalizedBBoxes(best.bbox, line.bbox);
+      best.sourcePathIndices.push(...line.sourcePathIndices);
+      best.lines += 1;
+      continue;
+    }
+
+    labels.push({
+      bbox: { ...line.bbox },
+      sourcePathIndices: [...line.sourcePathIndices],
+      lines: 1
+    });
+  }
+
+  return labels;
+}
+
+function extractLabelClusters(svg) {
+  const labels = clusterStackedLabelLines(clusterLabelLines(extractLabelGlyphs(svg)))
+    .filter((label) => label.sourcePathIndices.length >= 3 || label.bbox.width >= 1.2)
+    .sort((left, right) => left.bbox.y - right.bbox.y || left.bbox.x - right.bbox.x);
+
+  return labels.map((label) => {
+    const sourcePathIndices = [...new Set(label.sourcePathIndices)].sort((left, right) => left - right);
+    const centroid = normalizedBBoxCenter(label.bbox);
+    return {
+      id: `svg_label_${sourcePathIndices[0]}`,
+      sourcePathIndices,
+      bbox: label.bbox,
+      centroid,
+      lines: label.lines
+    };
+  });
+}
+
 function buildShapeManifest(candidates, svg) {
   return {
     version: "20260602-real-svg-map",
@@ -203,7 +363,8 @@ function buildShapeManifest(candidates, svg) {
       sourceHeight: SOURCE_HEIGHT,
       scale: Number(MAP_SCALE.toFixed(10))
     },
-    territories: candidates
+    territories: candidates,
+    labels: extractLabelClusters(svg)
   };
 }
 
@@ -233,6 +394,7 @@ module.exports = {
   MAP_HEIGHT,
   MAP_SCALE,
   buildShapeManifest,
+  extractLabelClusters,
   extractTerritoryCandidates,
   readSvgMap,
   renderShapeManifestScript,

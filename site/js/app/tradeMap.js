@@ -22,57 +22,57 @@
     vesperan_federation: { x: 99, y: 76, region: "far_east", coastal: true, portStrength: 5, routeAccess: ["ocean"] }
   };
 
-  const MAP_LABEL_ANCHORS = {
-    astoria: { x: 3.2, y: 44.2, width: 4.2, height: 2.3 },
-    baathist_republic_of_volgastan: { x: 80.8, y: 43.6, width: 11.8, height: 4.3 },
-    baechong_democratic_republic: { x: 48.8, y: 24.9, width: 9.2, height: 3.9 },
-    benera_navine: { x: 51.8, y: 33.7, width: 5.8, height: 2.3 },
-    bingtau_kingdom: { x: 97.4, y: 55.2, width: 5.8, height: 2.5 },
-    butonian_state: { x: 14.8, y: 51.2, width: 5.6, height: 2.4 },
-    crovian_national_union: { x: 22.5, y: 44.8, width: 7.8, height: 3.5 },
-    democratic_republic_of_suzuharu: { x: 30.7, y: 36.9, width: 9.4, height: 3.9 },
-    dracoist_malonia: { x: 92.5, y: 41.9, width: 5.8, height: 2.6 },
-    duchy_of_hoogeveen: { x: 11.4, y: 30.9, width: 6.3, height: 2.6 },
-    duchy_of_ledostrov: { x: 57.4, y: 15.1, width: 5.9, height: 2.6 },
-    empire_of_hanazuki: { x: 37.2, y: 31.2, width: 6.8, height: 2.8 },
-    empire_of_hyeosu: { x: 39.9, y: 41.6, width: 6.5, height: 2.8 },
-    empire_of_khalindar: { x: 20.0, y: 61.7, width: 8.3, height: 2.9 },
-    federated_syndicates_of_veszprem: { x: 24.6, y: 39.5, width: 10.4, height: 4.2 },
-    federation_of_vinterholm: { x: 8.4, y: 29.4, width: 7.3, height: 3.2 },
-    fengu_people_s_federation: { x: 63.2, y: 17.8, width: 8.4, height: 3.7 },
-    fuji_shogunate: { x: 31.6, y: 10.4, width: 5.4, height: 2.2 },
-    hyelean_republic: { x: 93.0, y: 47.4, width: 6.0, height: 2.7 },
-    imperial_dynasty_of_saochai: { x: 35.2, y: 38.6, width: 8.7, height: 3.8 },
-    imperial_rhovland: { x: 10.3, y: 37.0, width: 6.1, height: 2.8 },
-    imperial_suomi: { x: 66.4, y: 20.5, width: 5.7, height: 2.4 },
-    judas_democratic_republic: { x: 80.2, y: 26.5, width: 8.3, height: 3.5 },
-    karkalnadag_kingdom: { x: 84.0, y: 11.4, width: 7.4, height: 3.1 },
-    khalari_emirates: { x: 88.0, y: 28.7, width: 5.6, height: 2.4 },
-    kingdom_of_lunaria: { x: 71.7, y: 18.7, width: 6.7, height: 2.8 },
-    kolkenlennan_empire: { x: 60.6, y: 21.5, width: 7.1, height: 2.8 },
-    mumoon_hamed_sultunate: { x: 70.2, y: 34.4, width: 8.4, height: 3.6 },
-    okudan_empire: { x: 35.5, y: 17.6, width: 6.5, height: 2.5 },
-    orinian_empire: { x: 74.4, y: 31.8, width: 6.0, height: 2.6 },
-    pdr_of_hoshigoru: { x: 38.1, y: 25.2, width: 8.0, height: 3.5 },
-    people_s_federation_of_xanaqu: { x: 38.5, y: 56.0, width: 9.0, height: 3.5 },
-    people_s_republic_of_mariposa: { x: 5.7, y: 41.4, width: 8.4, height: 3.6 },
-    republic_of_aurendale: { x: 52.4, y: 43.4, width: 7.1, height: 2.8 },
-    republic_of_belcanto: { x: 53.6, y: 11.7, width: 6.7, height: 2.7 },
-    republic_of_borealyan: { x: 55.6, y: 19.7, width: 6.9, height: 2.8 },
-    republic_of_calblanca: { x: 78.0, y: 37.8, width: 7.4, height: 2.8 },
-    republic_of_perzam: { x: 25.2, y: 54.8, width: 6.2, height: 2.6 },
-    republic_of_pestera: { x: 96.2, y: 18.2, width: 6.0, height: 2.5 },
-    republic_of_shangri_la: { x: 30.2, y: 48.0, width: 7.2, height: 2.8 },
-    serranova_military_junta: { x: 54.1, y: 41.6, width: 7.9, height: 3.5 },
-    solara: { x: 5.3, y: 60.6, width: 4.4, height: 2.2 },
-    templar_of_saxonia: { x: 50.8, y: 12.8, width: 6.8, height: 2.8 },
-    theorin_commonwealth: { x: 5.0, y: 16.6, width: 7.0, height: 3.2 },
-    tsardom_of_nogoyev: { x: 52.8, y: 19.2, width: 6.6, height: 2.8 },
-    vesperan_federation: { x: 96.8, y: 50.5, width: 6.7, height: 2.8 },
-    vinraarabeise_people_s_republic: { x: 63.2, y: 43.8, width: 9.2, height: 3.8 },
-    vorkutangrad: { x: 74.4, y: 12.1, width: 5.5, height: 2.4 },
-    xaojin_heavenly_kingdom: { x: 39.6, y: 52.8, width: 8.2, height: 3.4 },
-    zhensanovian_commonwealth: { x: 37.1, y: 8.2, width: 8.0, height: 3.2 }
+  const SVG_LABEL_BINDINGS = {
+    astoria: "svg_label_409",
+    baathist_republic_of_volgastan: "svg_label_307",
+    baechong_democratic_republic: "svg_label_2113",
+    benera_navine: "svg_label_359",
+    bingtau_kingdom: "svg_label_287",
+    butonian_state: "svg_label_188",
+    crovian_national_union: "svg_label_1107",
+    democratic_republic_of_suzuharu: "svg_label_2786",
+    dracoist_malonia: "svg_label_185",
+    duchy_of_hoogeveen: "svg_label_1095",
+    duchy_of_ledostrov: "svg_label_1007",
+    empire_of_hanazuki: "svg_label_501",
+    empire_of_hyeosu: "svg_label_433",
+    empire_of_khalindar: "svg_label_418",
+    federated_syndicates_of_veszprem: "svg_label_478",
+    federation_of_vinterholm: "svg_label_511",
+    fengu_people_s_federation: "svg_label_1141",
+    fuji_shogunate: "svg_label_2673",
+    hyelean_republic: "svg_label_214",
+    imperial_dynasty_of_saochai: "svg_label_830",
+    imperial_rhovland: "svg_label_468",
+    imperial_suomi: "svg_label_2020",
+    judas_democratic_republic: "svg_label_475",
+    karkalnadag_kingdom: "svg_label_242",
+    khalari_emirates: "svg_label_505",
+    kingdom_of_lunaria: "svg_label_476",
+    kolkenlennan_empire: "svg_label_431",
+    mumoon_hamed_sultunate: "svg_label_504",
+    okudan_empire: "svg_label_227",
+    orinian_empire: "svg_label_490",
+    pdr_of_hoshigoru: "svg_label_1006",
+    people_s_federation_of_xanaqu: "svg_label_2692",
+    people_s_republic_of_mariposa: "svg_label_1097",
+    republic_of_aurendale: "svg_label_1487",
+    republic_of_belcanto: "svg_label_954",
+    republic_of_borealyan: "svg_label_1858",
+    republic_of_calblanca: "svg_label_228",
+    republic_of_perzam: "svg_label_225",
+    republic_of_pestera: "svg_label_440",
+    republic_of_shangri_la: "svg_label_1720",
+    serranova_military_junta: "svg_label_455",
+    solara: "svg_label_294",
+    templar_of_saxonia: "svg_label_714",
+    theorin_commonwealth: "svg_label_2035",
+    tsardom_of_nogoyev: "svg_label_1426",
+    vesperan_federation: "svg_label_1130",
+    vinraarabeise_people_s_republic: "svg_label_193",
+    vorkutangrad: "svg_label_278",
+    xaojin_heavenly_kingdom: "svg_label_204",
+    zhensanovian_commonwealth: "svg_label_464"
   };
 
   function clamp(value, min, max) {
@@ -106,6 +106,14 @@
 
   function sourceTerritories() {
     return shapeManifest()?.territories || [];
+  }
+
+  function sourceLabels() {
+    return shapeManifest()?.labels || [];
+  }
+
+  function sourceLabelMap() {
+    return Object.fromEntries(sourceLabels().map((label) => [label.id, label]));
   }
 
   function slugHash(text) {
@@ -171,25 +179,45 @@
     ].join(" ");
   }
 
+  function labelTargetForNation(nation) {
+    const labelId = SVG_LABEL_BINDINGS[nation.id];
+    const label = labelId ? sourceLabelMap()[labelId] : null;
+    if (!label?.bbox || !label?.centroid) return null;
+    const sourceBounds = {
+      x: Number(label.bbox.x) || 0,
+      y: Number(label.bbox.y) || 0,
+      width: Number(label.bbox.width) || 0,
+      height: Number(label.bbox.height) || 0
+    };
+    const x = clamp(Number(label.centroid.x) || sourceBounds.x + sourceBounds.width / 2, 0, mapConfig().width);
+    const y = clamp(Number(label.centroid.y) || sourceBounds.y + sourceBounds.height / 2, 0, mapConfig().height);
+    const width = clamp(sourceBounds.width + 1.2, 2.4, 12);
+    const height = clamp(sourceBounds.height + 0.85, 1.4, 5);
+    return {
+      x,
+      y,
+      path: roundedRectPath(x, y, width, height),
+      anchorSource: "svg-label",
+      labelClusterId: label.id,
+      labelPathIndices: [...(label.sourcePathIndices || [])],
+      labelLineCount: label.lines || 1,
+      sourceBounds
+    };
+  }
+
   function visualTargetForNation(nation, geographyProfile, index) {
     const config = mapConfig();
-    const anchor = config.hasRealSvg ? MAP_LABEL_ANCHORS[nation.id] : null;
-    if (anchor) {
-      const width = anchor.width || clamp(String(nation.name || "").length * 0.32, 3.8, 10);
-      const height = anchor.height || 2.8;
-      return {
-        x: clamp(anchor.x, 0, config.width),
-        y: clamp(anchor.y, 0, config.height),
-        path: roundedRectPath(anchor.x, anchor.y, width, height),
-        anchorSource: "map-label"
-      };
-    }
+    const labelTarget = config.hasRealSvg ? labelTargetForNation(nation) : null;
+    if (labelTarget) return labelTarget;
     const visualProfile = profileForViewBox(geographyProfile);
     return {
       x: visualProfile.x,
       y: visualProfile.y,
       path: territoryPath(visualProfile, index),
-      anchorSource: config.hasRealSvg ? "generated-fallback" : "generated"
+      anchorSource: config.hasRealSvg ? "generated-fallback" : "generated",
+      labelClusterId: "",
+      labelPathIndices: [],
+      sourceBounds: null
     };
   }
 
@@ -223,7 +251,11 @@
         path: visualTarget.path,
         centroid: { x: visualTarget.x, y: visualTarget.y },
         geography: geographyProfile,
-        anchorSource: visualTarget.anchorSource
+        anchorSource: visualTarget.anchorSource,
+        labelClusterId: visualTarget.labelClusterId || "",
+        labelPathIndices: visualTarget.labelPathIndices || [],
+        labelLineCount: visualTarget.labelLineCount || 0,
+        sourceBounds: visualTarget.sourceBounds || null
       };
     });
   }
@@ -289,6 +321,7 @@
     assetPath: "assets/ag-political-map.svg",
     mapConfig,
     sourceTerritories,
+    sourceLabels,
     territoriesForNations,
     routesForRows,
     ensureGeography
