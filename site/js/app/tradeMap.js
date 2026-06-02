@@ -75,7 +75,7 @@
   };
 
   const SVG_TERRITORY_BINDINGS = {
-    astoria: { sourceId: "svg_path_23", x: 4.4, y: 39.2 }
+    astoria: { sourceId: "svg_path_15", x: 3.2, y: 30.1 }
   };
 
   function clamp(value, min, max) {

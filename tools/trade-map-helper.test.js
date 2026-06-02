@@ -47,9 +47,9 @@ test("real SVG map uses label-aligned click anchors for every ledger nation", ()
   assert.equal(labelAnchoredShapes.every((shape) => Array.isArray(shape.labelPathIndices) && shape.labelPathIndices.length > 0), true);
   assert.equal(shapes.every((shape) => shape.sourceBounds?.width > 0 && shape.sourceBounds?.height > 0), true);
   assert.equal(byId.astoria.anchorSource, "svg-territory");
-  assert.equal(byId.astoria.sourceTerritoryId, "svg_path_23");
-  assert.ok(byId.astoria.centroid.x > 3.5 && byId.astoria.centroid.x < 5.5, "Astoria click target should sit inside the black Astoria territory");
-  assert.ok(byId.astoria.centroid.y > 38 && byId.astoria.centroid.y < 41, "Astoria click target should sit inside the black Astoria territory");
+  assert.equal(byId.astoria.sourceTerritoryId, "svg_path_15");
+  assert.ok(byId.astoria.centroid.x > 2.5 && byId.astoria.centroid.x < 4, "Astoria click target should sit inside the black Astoria territory");
+  assert.ok(byId.astoria.centroid.y > 29 && byId.astoria.centroid.y < 31, "Astoria click target should sit inside the black Astoria territory");
   assert.ok(byId.solara.centroid.x > 3 && byId.solara.centroid.x < 10, "Solara click target should sit on the visible bottom-left map label");
   assert.ok(byId.solara.centroid.y > 54 && byId.solara.centroid.y < 59, "Solara click target should sit on the visible bottom-left map label");
   assert.ok(byId.republic_of_aurendale.centroid.x > 47 && byId.republic_of_aurendale.centroid.x < 51);

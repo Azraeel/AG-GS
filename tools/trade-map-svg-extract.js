@@ -9,6 +9,7 @@ const MAP_HEIGHT = SOURCE_HEIGHT * MAP_SCALE;
 
 const DEFAULT_SOURCE = path.join(__dirname, "..", "site", "assets", "ag-political-map.svg");
 const DEFAULT_OUTPUT = path.join(__dirname, "..", "site", "js", "app", "tradeMapShapes.js");
+const TERRITORY_PATH_ALLOWLIST = new Set([15]);
 
 function readAttr(tag, attr) {
   const pattern = new RegExp(`\\b${attr}\\s*=\\s*"([^"]*)"`, "i");
@@ -164,6 +165,7 @@ function candidateConfidence(bbox, color) {
 
 function isTerritoryCandidate(entry, bbox, color, options) {
   if (!entry.path || !color || !bbox) return false;
+  if (TERRITORY_PATH_ALLOWLIST.has(entry.index)) return true;
   if (color.chroma < options.minChroma) return false;
   if (color.luminance < options.minLuminance || color.luminance > options.maxLuminance) return false;
   if (bbox.area < options.minArea) return false;
