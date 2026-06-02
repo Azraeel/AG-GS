@@ -761,7 +761,8 @@ select optgroup {
 
 .trade-map-stage {
   position: relative;
-  min-height: clamp(500px, 66vh, 820px);
+  min-height: 620px;
+  aspect-ratio: 8800 / 5806;
   overflow: hidden;
   background:
     radial-gradient(circle at 24% 62%, color-mix(in srgb, var(--nation-color, var(--blue)) 18%, transparent), transparent 24%),
@@ -781,9 +782,17 @@ select optgroup {
   height: 100%;
 }
 
+.trade-map-basemap {
+  opacity: 0.96;
+}
+
 .trade-map-grid line {
   stroke: rgba(255, 255, 255, 0.08);
   stroke-width: 0.08;
+}
+
+.trade-map-svg.has-real-map .trade-map-grid {
+  opacity: 0.38;
 }
 
 :root[data-theme="light"] .trade-map-grid line {
@@ -815,6 +824,14 @@ select optgroup {
   transition: opacity 140ms ease, stroke-width 140ms ease, filter 140ms ease;
 }
 
+.trade-map-svg.has-real-map .trade-map-territory {
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 0.12;
+  opacity: 0.01;
+  pointer-events: all;
+}
+
 .trade-map-territory:hover,
 .trade-map-territory:focus-visible {
   opacity: 1;
@@ -824,11 +841,22 @@ select optgroup {
   filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.45));
 }
 
+.trade-map-svg.has-real-map .trade-map-territory:hover,
+.trade-map-svg.has-real-map .trade-map-territory:focus-visible {
+  fill: color-mix(in srgb, var(--territory-color, #67a9ff) 28%, transparent);
+  stroke-width: 0.28;
+}
+
 .trade-map-territory.is-selected {
   opacity: 1;
   stroke: #ffffff;
   stroke-width: 0.52;
   filter: drop-shadow(0 0 10px color-mix(in srgb, var(--nation-color, var(--blue)) 72%, transparent));
+}
+
+.trade-map-svg.has-real-map .trade-map-territory.is-selected {
+  fill: color-mix(in srgb, var(--territory-color, #67a9ff) 24%, transparent);
+  stroke-width: 0.34;
 }
 
 .trade-map-labels text {

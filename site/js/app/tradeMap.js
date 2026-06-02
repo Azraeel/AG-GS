@@ -1,5 +1,6 @@
 (function () {
   const root = typeof window !== "undefined" ? window : globalThis;
+  const DEFAULT_MAP_VIEWBOX = { width: 100, height: 100 };
 
   const SEED_GEOGRAPHY = {
     solara: { x: 8, y: 88, region: "southwest_ocean", coastal: true, portStrength: 9, routeAccess: ["deep_ocean", "ocean"] },
@@ -23,6 +24,35 @@
 
   function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
+  }
+
+  function shapeManifest() {
+    const manifest = root.AGGS_TRADE_MAP_SHAPES;
+    return manifest && manifest.viewBox && Array.isArray(manifest.territories) ? manifest : null;
+  }
+
+  function formatMapNumber(value) {
+    const rounded = Number(value.toFixed(6));
+    return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(6);
+  }
+
+  function mapConfig() {
+    const manifest = shapeManifest();
+    const viewBox = manifest?.viewBox || DEFAULT_MAP_VIEWBOX;
+    const width = Number(viewBox.width) || DEFAULT_MAP_VIEWBOX.width;
+    const height = Number(viewBox.height) || DEFAULT_MAP_VIEWBOX.height;
+    return {
+      hasRealSvg: Boolean(manifest),
+      assetPath: manifest?.assetPath || "assets/world-map.png",
+      width,
+      height,
+      viewBox: `0 0 ${formatMapNumber(width)} ${formatMapNumber(height)}`,
+      sourceTerritoryCount: manifest?.territories?.length || 0
+    };
+  }
+
+  function sourceTerritories() {
+    return shapeManifest()?.territories || [];
   }
 
   function slugHash(text) {
@@ -57,6 +87,15 @@
     return { ...fallbackProfile(nation, index, total), ...(SEED_GEOGRAPHY[nation.id] || {}) };
   }
 
+  function profileForViewBox(profile) {
+    const config = mapConfig();
+    return {
+      ...profile,
+      x: clamp((profile.x / 100) * config.width, 0, config.width),
+      y: clamp((profile.y / 100) * config.height, 0, config.height)
+    };
+  }
+
   function territoryPath(profile, index) {
     const rx = 3.4 + (index % 4) * 0.22;
     const ry = 2.7 + (index % 5) * 0.2;
@@ -76,16 +115,17 @@
 
   function territoriesForNations(nations = [], selectedId = "") {
     return nations.map((nation, index) => {
-      const profile = profileForNation(nation, index, nations.length);
+      const geographyProfile = profileForNation(nation, index, nations.length);
+      const visualProfile = profileForViewBox(geographyProfile);
       return {
         id: `territory_${nation.id}`,
         nationId: nation.id,
         name: nation.name,
         color: nation.color || "#5f7fa8",
         selected: nation.id === selectedId,
-        path: territoryPath(profile, index),
-        centroid: { x: profile.x, y: profile.y },
-        geography: profile
+        path: territoryPath(visualProfile, index),
+        centroid: { x: visualProfile.x, y: visualProfile.y },
+        geography: geographyProfile
       };
     });
   }
@@ -148,7 +188,9 @@
   }
 
   root.AGGS_TRADE_MAP = {
-    assetPath: "assets/world-map.png",
+    assetPath: "assets/ag-political-map.svg",
+    mapConfig,
+    sourceTerritories,
     territoriesForNations,
     routesForRows,
     ensureGeography

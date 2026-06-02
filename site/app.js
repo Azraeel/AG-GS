@@ -1020,6 +1020,8 @@
   }
 
   function tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool) {
+    const mapConfig = TradeMap.mapConfig?.() || { hasRealSvg: false, assetPath: "assets/world-map.png", width: 100, height: 100, viewBox: "0 0 100 100", sourceTerritoryCount: 0 };
+    const mapAssetHref = `${isAdmin ? "../" : ""}${mapConfig.assetPath}`;
     const territories = TradeMap.territoriesForNations?.(sortedNations(), selected.id) || [];
     const routes = TradeMap.routesForRows?.(selected.id, rows, territories, 14) || [];
     const selectedTerritory = territories.find((territory) => territory.nationId === selected.id) || territories[0];
@@ -1029,6 +1031,8 @@
       ? `${fmtNumber(routes.length)} direct routes shown`
       : "No direct routes visible";
     const worldPoolValue = fmtNumber(worldPool.currentTradeFlow || 0);
+    const gridColumns = Array.from({ length: 10 }, (_, index) => Number((((index + 1) / 11) * mapConfig.width).toFixed(2)));
+    const gridRows = Array.from({ length: 6 }, (_, index) => Number((((index + 1) / 7) * mapConfig.height).toFixed(2)));
     return `
       <div class="trade-map-shell" aria-label="Unified trade map">
         <div class="trade-map-command">
@@ -1047,7 +1051,7 @@
           </div>
         </div>
         <div class="trade-map-stage">
-          <svg class="trade-map-svg" viewBox="0 0 100 100" role="img" aria-label="Clickable AG-GS trade territories">
+          <svg class="trade-map-svg ${mapConfig.hasRealSvg ? "has-real-map" : ""}" viewBox="${safeText(mapConfig.viewBox)}" role="img" aria-label="Clickable AG-GS trade territories">
             <defs>
               <filter id="tradeMapGlow" x="-20%" y="-20%" width="140%" height="140%">
                 <feGaussianBlur stdDeviation="0.45" result="blur"></feGaussianBlur>
@@ -1057,9 +1061,10 @@
                 </feMerge>
               </filter>
             </defs>
+            ${mapConfig.hasRealSvg ? `<image class="trade-map-basemap" href="${escapeHtml(mapAssetHref)}" x="0" y="0" width="${mapConfig.width}" height="${mapConfig.height}" preserveAspectRatio="none"></image>` : ""}
             <g class="trade-map-grid" aria-hidden="true">
-              ${Array.from({ length: 10 }, (_, index) => `<line x1="${10 + index * 9}" y1="8" x2="${10 + index * 9}" y2="94"></line>`).join("")}
-              ${Array.from({ length: 7 }, (_, index) => `<line x1="4" y1="${14 + index * 12}" x2="96" y2="${14 + index * 12}"></line>`).join("")}
+              ${gridColumns.map((x) => `<line x1="${x}" y1="${(mapConfig.height * 0.08).toFixed(2)}" x2="${x}" y2="${(mapConfig.height * 0.94).toFixed(2)}"></line>`).join("")}
+              ${gridRows.map((y) => `<line x1="${(mapConfig.width * 0.04).toFixed(2)}" y1="${y}" x2="${(mapConfig.width * 0.96).toFixed(2)}" y2="${y}"></line>`).join("")}
             </g>
             <g class="trade-map-routes" aria-label="Trade routes">
               ${routes.map((route, index) => {
@@ -1075,6 +1080,7 @@
                 <path class="trade-map-territory ${territory.selected ? "is-selected" : ""}"
                   d="${escapeHtml(territory.path)}"
                   fill="${safeColor(territory.color)}"
+                  style="--territory-color:${safeColor(territory.color)}"
                   tabindex="0"
                   role="button"
                   aria-label="${safeText(territory.name)}"
@@ -1082,12 +1088,12 @@
                   <title>${safeText(territory.name)}</title>
                 </path>`).join("")}
             </g>
-            <g class="trade-map-labels" aria-hidden="true">
+            ${mapConfig.hasRealSvg ? "" : `<g class="trade-map-labels" aria-hidden="true">
               ${territories
                 .filter((territory) => territory.selected || topPartners.some((row) => row.partner.id === territory.nationId))
-                .map((territory) => `<text x="${territory.centroid.x.toFixed(2)}" y="${(territory.centroid.y - 4.2).toFixed(2)}">${safeText(territory.name.split(" ").slice(0, 2).join(" "))}</text>`)
+                .map((territory) => `<text x="${territory.centroid.x.toFixed(2)}" y="${Math.max(2.2, territory.centroid.y - 3.2).toFixed(2)}">${safeText(territory.name.split(" ").slice(0, 2).join(" "))}</text>`)
                 .join("")}
-            </g>
+            </g>`}
           </svg>
           <div class="trade-map-selected" style="--selected-color:${safeColor(selected.color)}">
             <span class="section-kicker">Selected Territory</span>
@@ -1108,9 +1114,6 @@
                 <span>${safeText(row.partner.name)}</span>
                 <strong>${fmtNumber(row.activity)}</strong>
               </button>`).join("") : `<p>No active direct partners.</p>`}
-          </div>
-          <div class="trade-map-asset-note">
-            Territory layer is generated from seed geography. Drop the full map into <strong>site/assets/world-map.png</strong> when ready.
           </div>
         </div>
       </div>`;
