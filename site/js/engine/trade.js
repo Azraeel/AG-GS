@@ -387,6 +387,91 @@
         || lanePolicies?.[importerId]?.[exporterId] !== undefined;
     }
 
+    function normalizeRouteAccess(value) {
+      if (Array.isArray(value)) return value.map((entry) => String(entry || "").toLowerCase()).filter(Boolean);
+      if (typeof value === "string") return value.split(/[,|]/).map((entry) => entry.trim().toLowerCase()).filter(Boolean);
+      return [];
+    }
+
+    function normalizeGeographyProfile(id, raw = {}) {
+      const x = Number(raw.x);
+      const y = Number(raw.y);
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+      const routeAccess = normalizeRouteAccess(raw.routeAccess);
+      const portStrength = clamp(number(raw.portStrength, 0), 0, 10);
+      const coastal = raw.coastal === true || portStrength > 0 || routeAccess.some((route) => route.includes("ocean") || route.includes("port"));
+      return {
+        id,
+        x: clamp(x, 0, 100),
+        y: clamp(y, 0, 100),
+        region: String(raw.region || "global").toLowerCase(),
+        coastal,
+        landlocked: raw.landlocked === true && !coastal,
+        portStrength,
+        routeAccess,
+        tradeHubWeight: clamp(number(raw.tradeHubWeight, 1), 0.25, 3)
+      };
+    }
+
+    function geographyProfiles(data) {
+      const network = tradeNetworkState(data);
+      const raw = network.geography?.nations || network.geography || {};
+      if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+      return Object.fromEntries(
+        Object.entries(raw)
+          .map(([id, profile]) => [id, normalizeGeographyProfile(id, profile)])
+          .filter(([, profile]) => profile)
+      );
+    }
+
+    function routeAccessOverlap(importerGeo, exporterGeo) {
+      const importerRoutes = new Set(importerGeo.routeAccess || []);
+      const exporterRoutes = new Set(exporterGeo.routeAccess || []);
+      if (!importerRoutes.size || !exporterRoutes.size) return 0;
+      let overlap = 0;
+      for (const route of importerRoutes) {
+        if (exporterRoutes.has(route)) overlap += 1;
+      }
+      return overlap;
+    }
+
+    function laneGeography(importerId, exporterId, geography) {
+      const importerGeo = geography?.[importerId];
+      const exporterGeo = geography?.[exporterId];
+      if (!importerGeo || !exporterGeo) {
+        return { multiplier: 1, routeDistance: null, routeType: "unmapped", routeConfidence: 0 };
+      }
+      const dx = importerGeo.x - exporterGeo.x;
+      const dy = importerGeo.y - exporterGeo.y;
+      const distance = clamp(Math.sqrt(dx * dx + dy * dy) / 141.4213562373, 0, 1);
+      const sameRegion = importerGeo.region && importerGeo.region === exporterGeo.region;
+      const bothCoastal = importerGeo.coastal && exporterGeo.coastal;
+      const sharedRoutes = routeAccessOverlap(importerGeo, exporterGeo);
+      const distantInland = distance > 0.42 && (importerGeo.landlocked || exporterGeo.landlocked);
+      const routeType = sameRegion || distance <= 0.16
+        ? "regional"
+        : bothCoastal
+          ? "ocean"
+          : distantInland
+            ? "distant-inland"
+            : "interregional";
+      const distanceScore = clamp(1.35 - distance * 1.24, 0.46, 1.32);
+      const regionScore = sameRegion ? 1.2 : distance <= 0.22 ? 1.04 : 0.86;
+      const portScore = bothCoastal
+        ? clamp(0.96 + (importerGeo.portStrength + exporterGeo.portStrength) / 34, 0.98, 1.42)
+        : distantInland
+          ? 0.56
+          : 0.92;
+      const routeScore = sharedRoutes ? clamp(1 + sharedRoutes * 0.08, 1.08, 1.28) : 1;
+      const hubScore = Math.sqrt(Math.max(0.25, importerGeo.tradeHubWeight) * Math.max(0.25, exporterGeo.tradeHubWeight));
+      return {
+        multiplier: clamp(distanceScore * regionScore * portScore * routeScore * hubScore, 0.3, 1.85),
+        routeDistance: roundPercent(distance * 100),
+        routeType,
+        routeConfidence: roundPercent(clamp(0.58 + (sameRegion ? 0.18 : 0) + (bothCoastal || sharedRoutes ? 0.14 : 0) - (distantInland ? 0.12 : 0), 0.35, 0.95) * 100)
+      };
+    }
+
     function normalizeTargets(targets, totalTarget) {
       const rawTotal = Object.values(targets).reduce((total, value) => total + Math.max(0, value), 0);
       if (rawTotal <= 0 || totalTarget <= 0) return Object.fromEntries(Object.keys(targets).map((id) => [id, 0]));
@@ -394,7 +479,7 @@
       return Object.fromEntries(Object.entries(targets).map(([id, value]) => [id, Math.max(0, value) * scale]));
     }
 
-    function laneAffinity(importer, exporter, tariffRate, policy, hubMultiplier) {
+    function laneAffinity(importer, exporter, tariffRate, policy, hubMultiplier, geography = {}) {
       if (policy.embargo) return 0;
       const importerAccess = policyNetworkAccess(importer.tradePolicy) * sanctionNetworkAccess(importer.sanctionsLevel);
       const exporterAccess = policyNetworkAccess(exporter.tradePolicy) * sanctionNetworkAccess(exporter.sanctionsLevel);
@@ -403,7 +488,7 @@
       const policyAccess = lanePolicyMultiplier(policy);
       const complementarity = clamp(0.72 + Math.sqrt(Math.max(0, importer.importReliance) + 1) / 42 + Math.sqrt(Math.max(0, exporter.exportReliance) + 1) / 46, 0.72, 1.42);
       const diversityBridge = clamp(0.84 + Math.sqrt(Math.max(0, exporter.economicTradeDiversity) + Math.max(0, importer.economicTradeDiversity) + 1) / 80, 0.84, 1.24);
-      return Math.max(0, hubMultiplier * openness * tariffAccess * policyAccess * complementarity * diversityBridge);
+      return Math.max(0, hubMultiplier * openness * tariffAccess * policyAccess * complementarity * diversityBridge * laneGeography(importer.id, exporter.id, geography).multiplier);
     }
 
     function balanceLanesToTargets(lanes, importTargets, exportTargets, iterations = 28) {
@@ -692,6 +777,7 @@
       const exportAnchors = options.exportAnchors || {};
       const importAnchors = options.importAnchors || {};
       const lanePolicies = options.lanePolicies || {};
+      const geography = geographyProfiles(data);
       const lanes = [];
       let nations = Object.fromEntries(ids.map((id) => [id, networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies)]));
       const demandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id])]));
@@ -726,8 +812,8 @@
           const importer = inputsById[importerId];
           const demandWeight = Math.max(0, rawImportTargets[importerId] || 0);
           const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
-          actualAccess += demandWeight * laneAffinity(importer, exporter, tariffRate, lanePolicyFor(lanePolicies, importerId, exporterId), hubMultipliers[exporterId]);
-          neutralAccess += demandWeight * laneAffinity(importer, exporter, importer.tariffRate, { embargo: false, sanctionsLevel: "None" }, hubMultipliers[exporterId]);
+          actualAccess += demandWeight * laneAffinity(importer, exporter, tariffRate, lanePolicyFor(lanePolicies, importerId, exporterId), hubMultipliers[exporterId], geography);
+          neutralAccess += demandWeight * laneAffinity(importer, exporter, importer.tariffRate, { embargo: false, sanctionsLevel: "None" }, hubMultipliers[exporterId], geography);
         }
         const marketAccess = neutralAccess > 0 ? actualAccess / neutralAccess : 0;
         rawExportTargets[exporterId] = rawExportBaseTargets[exporterId] * clamp(marketAccess, 0.05, 1.12);
@@ -751,7 +837,8 @@
           const exporter = inputsById[exporterId];
           const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
           const policy = lanePolicyFor(lanePolicies, importerId, exporterId);
-          const affinity = laneAffinity(importer, exporter, tariffRate, policy, hubMultipliers[exporterId]);
+          const geographyLane = laneGeography(importerId, exporterId, geography);
+          const affinity = laneAffinity(importer, exporter, tariffRate, policy, hubMultipliers[exporterId], geography);
           const targetProduct = Math.sqrt(Math.max(0, importTargets[importerId] || 0) * Math.max(0, exportTargets[exporterId] || 0));
           lanes.push({
             importerId,
@@ -763,6 +850,9 @@
             targeted: targetedTariffs?.[importerId]?.[exporterId] !== undefined,
             sanctionsLevel: policy.sanctionsLevel,
             embargoed: policy.embargo,
+            routeDistance: geographyLane.routeDistance,
+            routeType: geographyLane.routeType,
+            routeConfidence: geographyLane.routeConfidence,
             weight: targetProduct * affinity
           });
         }

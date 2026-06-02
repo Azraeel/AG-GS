@@ -706,6 +706,272 @@ select optgroup {
   scrollbar-width: thin;
 }
 
+.trade-map-shell {
+  min-width: 0;
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--nation-color, var(--blue)) 18%, transparent), transparent 38%),
+    color-mix(in srgb, var(--panel) 68%, var(--paper));
+}
+
+.trade-map-command {
+  display: grid;
+  grid-template-columns: minmax(240px, 540px) minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 12px clamp(12px, 2vw, 18px);
+  border-bottom: 1px solid var(--line);
+}
+
+.trade-map-modebar {
+  justify-self: end;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.trade-map-mode {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--input-bg) 72%, transparent);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.trade-map-mode.is-active {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--on-gold);
+}
+
+.trade-map-mode.admin {
+  border-color: color-mix(in srgb, var(--blue) 56%, var(--line));
+  color: var(--blue);
+}
+
+.trade-map-stage {
+  position: relative;
+  min-height: clamp(500px, 66vh, 820px);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 24% 62%, color-mix(in srgb, var(--nation-color, var(--blue)) 18%, transparent), transparent 24%),
+    linear-gradient(135deg, #23313a 0%, #152332 42%, #243641 100%);
+}
+
+:root[data-theme="light"] .trade-map-stage {
+  background:
+    radial-gradient(circle at 24% 62%, color-mix(in srgb, var(--nation-color, var(--blue)) 18%, transparent), transparent 24%),
+    linear-gradient(135deg, #c9d3d3 0%, #98a8aa 42%, #b9c2ba 100%);
+}
+
+.trade-map-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.trade-map-grid line {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 0.08;
+}
+
+:root[data-theme="light"] .trade-map-grid line {
+  stroke: rgba(20, 23, 26, 0.08);
+}
+
+.trade-map-route {
+  fill: none;
+  stroke: #67a9ff;
+  stroke-linecap: round;
+  opacity: 0.62;
+  filter: url("#tradeMapGlow");
+  pointer-events: none;
+}
+
+.trade-map-route.export {
+  stroke: #f0c33b;
+}
+
+.trade-map-route.import {
+  stroke: #68d391;
+}
+
+.trade-map-territory {
+  stroke: rgba(4, 8, 13, 0.82);
+  stroke-width: 0.22;
+  cursor: pointer;
+  opacity: 0.86;
+  transition: opacity 140ms ease, stroke-width 140ms ease, filter 140ms ease;
+}
+
+.trade-map-territory:hover,
+.trade-map-territory:focus-visible {
+  opacity: 1;
+  outline: 0;
+  stroke: #ffffff;
+  stroke-width: 0.42;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.45));
+}
+
+.trade-map-territory.is-selected {
+  opacity: 1;
+  stroke: #ffffff;
+  stroke-width: 0.52;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--nation-color, var(--blue)) 72%, transparent));
+}
+
+.trade-map-labels text {
+  fill: #f7fbff;
+  paint-order: stroke;
+  stroke: rgba(8, 12, 18, 0.86);
+  stroke-width: 0.42;
+  font-size: 2.2px;
+  font-weight: 950;
+  letter-spacing: 0;
+  text-anchor: middle;
+}
+
+.trade-map-selected,
+.trade-map-route-list,
+.trade-map-asset-note {
+  position: absolute;
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(11, 17, 25, 0.78);
+  color: #edf2f7;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.26);
+  backdrop-filter: blur(14px);
+}
+
+.trade-map-selected {
+  left: clamp(14px, 2.3vw, 30px);
+  top: clamp(14px, 2.3vw, 30px);
+  width: min(430px, calc(100% - 28px));
+  padding: clamp(16px, 2.4vw, 24px);
+  border-radius: 8px;
+}
+
+.trade-map-selected h2 {
+  margin: 6px 0 8px;
+  color: #ffffff;
+  font-size: clamp(32px, 4vw, 58px);
+  line-height: 0.94;
+}
+
+.trade-map-selected p {
+  margin-bottom: 16px;
+  color: #c7d4e4;
+  font-weight: 750;
+}
+
+.trade-map-statline {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-left: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.trade-map-statline div {
+  min-width: 0;
+  padding: 9px 10px;
+  border-right: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.trade-map-statline span {
+  display: block;
+  color: #9fb4cc;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.trade-map-statline strong {
+  display: block;
+  min-width: 0;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 950;
+  overflow-wrap: anywhere;
+}
+
+.trade-map-route-list {
+  right: clamp(14px, 2.3vw, 30px);
+  bottom: clamp(54px, 7vw, 82px);
+  width: min(360px, calc(100% - 28px));
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 8px;
+}
+
+.trade-map-route-list button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #edf2f7;
+  cursor: pointer;
+}
+
+.trade-map-route-list button:hover,
+.trade-map-route-list button:focus-visible {
+  outline: 0;
+  border-color: rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.trade-map-route-list button span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 900;
+}
+
+.trade-map-route-list button strong {
+  color: #ffffff;
+  font-weight: 950;
+  font-variant-numeric: tabular-nums;
+}
+
+.trade-map-route-list p {
+  margin: 0;
+  color: #c7d4e4;
+  font-weight: 750;
+}
+
+.trade-map-asset-note {
+  left: clamp(14px, 2.3vw, 30px);
+  right: clamp(14px, 2.3vw, 30px);
+  bottom: 14px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  color: #c7d4e4;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.trade-map-asset-note strong {
+  color: #ffffff;
+}
+
 .trade-network-workspace {
   min-width: 0;
   border-block: 1px solid var(--line);
@@ -1045,6 +1311,41 @@ select optgroup {
 }
 
 @media (max-width: 860px) {
+  .trade-map-command {
+    grid-template-columns: 1fr;
+  }
+
+  .trade-map-modebar {
+    justify-self: stretch;
+    justify-content: flex-start;
+  }
+
+  .trade-map-stage {
+    min-height: 760px;
+  }
+
+  .trade-map-selected,
+  .trade-map-route-list,
+  .trade-map-asset-note {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    width: auto;
+    margin: 12px;
+  }
+
+  .trade-map-svg {
+    position: relative;
+    display: block;
+    height: 420px;
+  }
+
+  .trade-map-statline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .trade-network-header {
     grid-template-columns: 1fr;
     align-items: start;

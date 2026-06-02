@@ -547,6 +547,45 @@ test("Trade v4 visible lanes keep active exporters visible without collapsing to
   assert.ok(largestExporterLaneCount < data.nations.length * 0.8, `one exporter dominates too many direct lanes: ${largestExporterLaneCount}`);
 });
 
+test("Trade map geography prioritizes nearby regional lanes over distant inland lanes", () => {
+  const data = buildLargeTradeV3Scenario(8);
+  for (const nation of data.nations) {
+    data.national[nation.id].developmentLevel = 12;
+    data.trade[nation.id].tradeFlow = 1000000;
+    data.trade[nation.id].importReliance = 100;
+    data.trade[nation.id].exportReliance = 100;
+    data.trade[nation.id].economicTradeDiversity = 100;
+    data.trade[nation.id].tradePolicy = "Balanced";
+    data.trade[nation.id].tariffRate = 4;
+    data.industrial[nation.id].shipyards = 0;
+  }
+  data.tradeNetwork = {
+    geography: {
+      nations: {
+        nation_0: { x: 10, y: 10, region: "west", coastal: false, landlocked: true, portStrength: 0, routeAccess: ["land"] },
+        nation_1: { x: 14, y: 11, region: "west", coastal: false, landlocked: true, portStrength: 0, routeAccess: ["land"] },
+        nation_2: { x: 86, y: 82, region: "east", coastal: false, landlocked: true, portStrength: 0, routeAccess: ["land"] },
+        nation_3: { x: 18, y: 15, region: "west", coastal: false, landlocked: true, portStrength: 0, routeAccess: ["land"] },
+        nation_4: { x: 21, y: 18, region: "west", coastal: false, landlocked: true, portStrength: 0, routeAccess: ["land"] },
+        nation_5: { x: 72, y: 78, region: "east", coastal: false, landlocked: true, portStrength: 0, routeAccess: ["land"] },
+        nation_6: { x: 76, y: 84, region: "east", coastal: false, landlocked: true, portStrength: 0, routeAccess: ["land"] },
+        nation_7: { x: 90, y: 88, region: "east", coastal: false, landlocked: true, portStrength: 0, routeAccess: ["land"] }
+      }
+    }
+  };
+
+  Engine.recalculateAll(data);
+  const network = Engine.calculateTradeNetwork(data);
+  const nearbyLane = network.lanes.find((lane) => lane.importerId === "nation_0" && lane.exporterId === "nation_1");
+  const distantLane = network.lanes.find((lane) => lane.importerId === "nation_0" && lane.exporterId === "nation_2");
+
+  assert.ok(nearbyLane, "nearby regional lane should be visible");
+  assert.ok(distantLane, "distant comparison lane should be visible");
+  assert.ok(nearbyLane.currentFlow > distantLane.currentFlow * 1.2, `${nearbyLane.currentFlow} should beat ${distantLane.currentFlow}`);
+  assert.equal(nearbyLane.routeType, "regional");
+  assert.ok(nearbyLane.routeDistance < distantLane.routeDistance, "nearby lane should report a shorter route");
+});
+
 test("Trade v3 shipyard expansion grows the global trade pool", () => {
   const data = buildTradeV3Scenario();
   Engine.recalculateAll(data);

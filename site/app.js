@@ -3,6 +3,7 @@
   const Engine = window.AGGS_ENGINE;
   const AppConfig = window.AGGS_APP_CONFIG;
   const RecordsParser = window.AGGS_RECORDS_PARSER;
+  const TradeMap = window.AGGS_TRADE_MAP || {};
   const Format = window.AGGS_APP_FORMAT(Engine);
   const {
     escapeHtml,
@@ -26,6 +27,7 @@
     fmtHistoryDelta
   } = Format;
   let data = Engine.load(baseData);
+  TradeMap.ensureGeography?.(data);
   Engine.recalculateAll(data);
   const app = document.getElementById("app");
   const tabs = Array.from(document.querySelectorAll(".tab"));
@@ -190,6 +192,10 @@
     document.querySelectorAll("[data-nation-select]").forEach((select) => {
       if (select.value !== state.selectedNation) select.value = state.selectedNation;
     });
+  }
+
+  function scrollToPageTop() {
+    requestAnimationFrame(() => window.scrollTo(0, 0));
   }
 
   function ensureSelectedNation() {
@@ -1013,8 +1019,106 @@
       ${tradeGeneratorPreviewHtml(preview)}`;
   }
 
+  function tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool) {
+    const territories = TradeMap.territoriesForNations?.(sortedNations(), selected.id) || [];
+    const routes = TradeMap.routesForRows?.(selected.id, rows, territories, 14) || [];
+    const selectedTerritory = territories.find((territory) => territory.nationId === selected.id) || territories[0];
+    const maxRouteFlow = Math.max(1, ...routes.map((route) => route.totalFlow || 0));
+    const topPartners = rows.slice(0, 4);
+    const routeSummary = routes.length
+      ? `${fmtNumber(routes.length)} direct routes shown`
+      : "No direct routes visible";
+    const worldPoolValue = fmtNumber(worldPool.currentTradeFlow || 0);
+    return `
+      <div class="trade-map-shell" aria-label="Unified trade map">
+        <div class="trade-map-command">
+          <label class="select-shell trade-network-selector" for="tradeNetworkNationSelect">
+            <span>Country</span>
+            <select id="tradeNetworkNationSelect" data-nation-select>
+              ${nationOptionsHtml(selected.id)}
+            </select>
+          </label>
+          <div class="trade-map-modebar" aria-label="Trade map layers">
+            <span class="trade-map-mode is-active">Trade</span>
+            <span class="trade-map-mode">Imports</span>
+            <span class="trade-map-mode">Exports</span>
+            <span class="trade-map-mode">Ports</span>
+            ${isAdmin ? `<span class="trade-map-mode admin">Admin edit</span>` : ""}
+          </div>
+        </div>
+        <div class="trade-map-stage">
+          <svg class="trade-map-svg" viewBox="0 0 100 100" role="img" aria-label="Clickable AG-GS trade territories">
+            <defs>
+              <filter id="tradeMapGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="0.45" result="blur"></feGaussianBlur>
+                <feMerge>
+                  <feMergeNode in="blur"></feMergeNode>
+                  <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+              </filter>
+            </defs>
+            <g class="trade-map-grid" aria-hidden="true">
+              ${Array.from({ length: 10 }, (_, index) => `<line x1="${10 + index * 9}" y1="8" x2="${10 + index * 9}" y2="94"></line>`).join("")}
+              ${Array.from({ length: 7 }, (_, index) => `<line x1="4" y1="${14 + index * 12}" x2="96" y2="${14 + index * 12}"></line>`).join("")}
+            </g>
+            <g class="trade-map-routes" aria-label="Trade routes">
+              ${routes.map((route, index) => {
+                const width = 0.24 + Math.sqrt((route.totalFlow || 0) / maxRouteFlow) * 0.72;
+                const tone = route.exportFlow > route.importFlow ? "export" : "import";
+                return `<path class="trade-map-route ${tone}" d="${escapeHtml(route.path)}" stroke-width="${width.toFixed(2)}">
+                  <title>${safeText(selected.name)} / ${safeText(route.partnerName)} ${safeText(route.routeType)} route, ${fmtNumber(route.totalFlow)} flow</title>
+                </path>`;
+              }).join("")}
+            </g>
+            <g class="trade-map-territories" aria-label="Clickable territories">
+              ${territories.map((territory) => `
+                <path class="trade-map-territory ${territory.selected ? "is-selected" : ""}"
+                  d="${escapeHtml(territory.path)}"
+                  fill="${safeColor(territory.color)}"
+                  tabindex="0"
+                  role="button"
+                  aria-label="${safeText(territory.name)}"
+                  data-trade-map-nation="${escapeHtml(territory.nationId)}">
+                  <title>${safeText(territory.name)}</title>
+                </path>`).join("")}
+            </g>
+            <g class="trade-map-labels" aria-hidden="true">
+              ${territories
+                .filter((territory) => territory.selected || topPartners.some((row) => row.partner.id === territory.nationId))
+                .map((territory) => `<text x="${territory.centroid.x.toFixed(2)}" y="${(territory.centroid.y - 4.2).toFixed(2)}">${safeText(territory.name.split(" ").slice(0, 2).join(" "))}</text>`)
+                .join("")}
+            </g>
+          </svg>
+          <div class="trade-map-selected" style="--selected-color:${safeColor(selected.color)}">
+            <span class="section-kicker">Selected Territory</span>
+            <h2>${safeText(selected.name)}</h2>
+            <p>${safeText(routeSummary)} · world pool ${safeText(worldPoolValue)}</p>
+            <div class="trade-map-statline">
+              ${tradeMetrics.slice(0, 6).map((metric) => `
+                <div>
+                  <span>${safeText(metric.label)}</span>
+                  <strong class="${metric.tone || ""}">${safeText(metric.value)}</strong>
+                </div>`).join("")}
+            </div>
+          </div>
+          <div class="trade-map-route-list" aria-label="Major trade partners">
+            <span class="section-kicker">Major Partners</span>
+            ${topPartners.length ? topPartners.map((row) => `
+              <button type="button" data-trade-map-nation="${escapeHtml(row.partner.id)}">
+                <span>${safeText(row.partner.name)}</span>
+                <strong>${fmtNumber(row.activity)}</strong>
+              </button>`).join("") : `<p>No active direct partners.</p>`}
+          </div>
+          <div class="trade-map-asset-note">
+            Territory layer is generated from seed geography. Drop the full map into <strong>site/assets/world-map.png</strong> when ready.
+          </div>
+        </div>
+      </div>`;
+  }
+
   function renderTradeNetwork() {
     Engine.ensureTradeV3Migration(data);
+    TradeMap.ensureGeography?.(data);
     const network = Engine.calculateTradeNetwork(data);
     const selected = byId(state.selectedNation) || sortedNations()[0];
     if (!selected) {
@@ -1056,25 +1160,7 @@
 
     app.innerHTML = `
       <section class="trade-network-workspace" style="--nation-color:${safeColor(selected.color)}">
-        <div class="trade-network-header">
-          <div class="trade-network-identity">
-            <label class="select-shell trade-network-selector" for="tradeNetworkNationSelect">
-              <span>Country</span>
-              <select id="tradeNetworkNationSelect" data-nation-select>
-                ${nationOptionsHtml(selected.id)}
-              </select>
-            </label>
-            <span class="section-kicker">Global Trade Network</span>
-            <h2>${safeText(selected.name)}</h2>
-          </div>
-          <div class="trade-network-metadata" aria-label="Trade network summary">
-            ${tradeMetrics.map((metric) => `
-              <div class="trade-network-metric">
-                <span>${safeText(metric.label)}</span>
-                <strong class="${metric.tone || ""}">${safeText(metric.value)}</strong>
-              </div>`).join("")}
-          </div>
-        </div>
+        ${tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool)}
         ${tradeGeneratorHtml(selected)}
         <div class="trade-network-table-wrap" data-table-scroll="tradeNetwork">
           <table class="trade-network-table">
@@ -2525,8 +2611,10 @@
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       if (!canAccessTab(tab.dataset.tab)) return;
+      const changedTab = state.tab !== tab.dataset.tab;
       state.tab = tab.dataset.tab;
       render();
+      if (changedTab) scrollToPageTop();
     });
   });
 
@@ -2775,6 +2863,15 @@
       return;
     }
 
+    const mapNation = event.target.closest("[data-trade-map-nation]");
+    if (mapNation) {
+      state.selectedNation = mapNation.dataset.tradeMapNation;
+      state.tradeAnchorPreview = null;
+      render();
+      scrollToPageTop();
+      return;
+    }
+
     const nationButton = event.target.closest("[data-nation]");
     if (nationButton) {
       state.selectedNation = nationButton.dataset.nation;
@@ -2792,6 +2889,16 @@
       state.sort[table] = { key, dir: current.key === key && current.dir === "asc" ? "desc" : "asc" };
       render();
     }
+  });
+
+  app.addEventListener("keydown", (event) => {
+    const mapNation = event.target.closest?.("[data-trade-map-nation]");
+    if (!mapNation || !["Enter", " "].includes(event.key)) return;
+    event.preventDefault();
+    state.selectedNation = mapNation.dataset.tradeMapNation;
+    state.tradeAnchorPreview = null;
+    render();
+    scrollToPageTop();
   });
 
   app.addEventListener("change", (event) => {
