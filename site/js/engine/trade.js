@@ -286,6 +286,22 @@
       return Math.max(1, (input.exportReliance * diversity + production) * policyNetworkAccess(input.tradePolicy) * sanctionNetworkAccess(input.sanctionsLevel) * autarkyAccess);
     }
 
+    function directionalTradeTilt(input, demandScore = importDemandScore(input), supplyScore = exportSupplyScore(input)) {
+      const scoreRatio = demandScore / Math.max(supplyScore, 1);
+      const relianceRatio = (Math.max(0, input.importReliance) + 18) / Math.max(Math.max(0, input.exportReliance) + 18, 1);
+      const combinedLogRatio = Math.log(Math.max(0.05, relianceRatio)) * 0.78
+        + Math.log(Math.max(0.05, scoreRatio)) * 0.22;
+      return clamp(Math.tanh(combinedLogRatio * 0.72), -0.48, 0.48);
+    }
+
+    function importDirectionMultiplier(input, demandScore = importDemandScore(input), supplyScore = exportSupplyScore(input)) {
+      return 1 + directionalTradeTilt(input, demandScore, supplyScore);
+    }
+
+    function exportDirectionMultiplier(input, demandScore = importDemandScore(input), supplyScore = exportSupplyScore(input)) {
+      return 1 - directionalTradeTilt(input, demandScore, supplyScore);
+    }
+
     function worldPoolCapacityScore(input) {
       const openness = policyNetworkAccess(input.tradePolicy) * sanctionNetworkAccess(input.sanctionsLevel);
       const autarkyAccess = clamp(1 - Math.pow(input.autarkyIndex / 100, 1.12) * 0.38, 0.48, 1);
@@ -308,16 +324,26 @@
     }
 
     function importPoolFor(input, baselineInput = input, inputDemandScore = importDemandScore(input), baselineDemandScore = importDemandScore(baselineInput)) {
-      const baselinePool = Math.max(0, baselineInput.tradeFlow);
+      const inputSupplyScore = exportSupplyScore(input);
+      const baselineSupplyScore = exportSupplyScore(baselineInput);
+      const baselineMultiplier = importDirectionMultiplier(baselineInput, baselineDemandScore, baselineSupplyScore);
+      const inputMultiplier = importDirectionMultiplier(input, inputDemandScore, inputSupplyScore);
+      const baselinePool = Math.max(0, baselineInput.tradeFlow) * baselineMultiplier;
       const demandRatio = inputDemandScore / Math.max(baselineDemandScore, 1);
+      const directionRatio = inputMultiplier / Math.max(baselineMultiplier, 0.01);
       const tariffRatio = tariffDemandAccess(input.tariffRate) / Math.max(tariffDemandAccess(baselineInput.tariffRate), 0.01);
-      return baselinePool * Math.max(0.35, demandRatio) * clamp(tariffRatio, 0.38, 1.08);
+      return baselinePool * Math.max(0.35, demandRatio) * clamp(directionRatio, 0.42, 2.15) * clamp(tariffRatio, 0.38, 1.08);
     }
 
     function exportPoolFor(input, baselineInput = input, inputSupplyScore = exportSupplyScore(input), baselineSupplyScore = exportSupplyScore(baselineInput)) {
-      const baselinePool = Math.max(0, baselineInput.tradeFlow);
+      const inputDemandScore = importDemandScore(input);
+      const baselineDemandScore = importDemandScore(baselineInput);
+      const baselineMultiplier = exportDirectionMultiplier(baselineInput, baselineDemandScore, baselineSupplyScore);
+      const inputMultiplier = exportDirectionMultiplier(input, inputDemandScore, inputSupplyScore);
+      const baselinePool = Math.max(0, baselineInput.tradeFlow) * baselineMultiplier;
       const supplyRatio = inputSupplyScore / Math.max(baselineSupplyScore, 1);
-      return baselinePool * Math.max(0.25, supplyRatio);
+      const directionRatio = inputMultiplier / Math.max(baselineMultiplier, 0.01);
+      return baselinePool * Math.max(0.25, supplyRatio) * clamp(directionRatio, 0.42, 2.15);
     }
 
     function baselineWorldTradeFlow(inputsById) {

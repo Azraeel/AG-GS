@@ -401,6 +401,26 @@ test("Trade v3 world pool equals global trade flow at baseline", () => {
   assert.equal(network.worldPool.currentTradeFlow, totalTradeFlow);
 });
 
+test("Trade v3 directional pools separate import-heavy and export-heavy economies", () => {
+  const data = buildTradeV3Scenario();
+  data.trade.aurendale.importReliance = 220;
+  data.trade.aurendale.exportReliance = 60;
+  data.trade.kolkelennan.importReliance = 55;
+  data.trade.kolkelennan.exportReliance = 230;
+  Engine.recalculateAll(data);
+
+  const network = Engine.calculateTradeNetwork(data);
+  const aurendale = network.nations.aurendale;
+  const kolkelennan = network.nations.kolkelennan;
+  const worldImports = Object.values(network.nations).reduce((total, row) => total + row.importFlow, 0);
+  const worldExports = Object.values(network.nations).reduce((total, row) => total + row.exportFlow, 0);
+
+  assert.ok(aurendale.importFlow > aurendale.exportFlow * 1.18, `Aurendale imports ${aurendale.importFlow} should exceed exports ${aurendale.exportFlow}`);
+  assert.ok(kolkelennan.exportFlow > kolkelennan.importFlow * 1.18, `Kolkelennan exports ${kolkelennan.exportFlow} should exceed imports ${kolkelennan.importFlow}`);
+  assert.ok(Math.abs(worldImports - network.worldPool.currentTradeFlow) <= data.nations.length, `${worldImports} should balance to ${network.worldPool.currentTradeFlow}`);
+  assert.ok(Math.abs(worldExports - network.worldPool.currentTradeFlow) <= data.nations.length, `${worldExports} should balance to ${network.worldPool.currentTradeFlow}`);
+});
+
 test("Trade v3 global pool makes demand compete instead of creating unlimited world flow", () => {
   const data = buildTradeV3Scenario();
   Engine.recalculateAll(data);
