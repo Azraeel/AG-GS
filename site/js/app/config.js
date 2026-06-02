@@ -26,7 +26,16 @@
       "clear-template-import",
       "refresh-snapshots",
       "snapshot-revert",
-      "snapshot-export"
+      "snapshot-export",
+      "set-targeted-tariff",
+      "clear-targeted-tariff",
+      "set-export-anchor",
+      "clear-export-anchor",
+      "set-import-anchor",
+      "clear-import-anchor",
+      "preview-trade-generator",
+      "apply-trade-generator",
+      "clear-trade-generator-preview"
     ],
     datasets: [
       { key: "national", label: "National" },
@@ -43,6 +52,7 @@
       { key: "overview", label: "Overview" },
       { key: "editor", label: "Editor", adminOnly: true },
       { key: "nations", label: "Nations" },
+      { key: "tradeNetwork", label: "Trade Network" },
       { key: "simulation", label: "Simulation", adminOnly: true },
       { key: "history", label: "Change History", adminOnly: true },
       { key: "national", label: "National Status" },

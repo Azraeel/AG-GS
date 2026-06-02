@@ -71,6 +71,18 @@
     templateImportText: "",
     sort: {},
     tableScroll: {},
+    tradeGenerator: {
+      pattern: "concentrated",
+      importPrimary: "",
+      importPrimaryShare: "",
+      importSecondary: "",
+      importSecondaryShare: "",
+      exportPrimary: "",
+      exportPrimaryShare: "",
+      exportSecondary: "",
+      exportSecondaryShare: ""
+    },
+    tradeAnchorPreview: null,
     showDetails: false,
     notice: ""
   };
@@ -792,6 +804,322 @@
       ],
       "trade"
     );
+  }
+
+  function tradeNetworkPartnerRows(selectedId, network) {
+    return sortedNations()
+      .filter((nation) => nation.id !== selectedId)
+      .map((partner) => {
+        const importLane = network.lanes.find((lane) => lane.importerId === selectedId && lane.exporterId === partner.id);
+        const exportLane = network.lanes.find((lane) => lane.importerId === partner.id && lane.exporterId === selectedId);
+        const override = data.tradeNetwork?.targetedTariffs?.[selectedId]?.[partner.id];
+        const exportAnchor = data.tradeNetwork?.exportAnchors?.[selectedId]?.[partner.id];
+        const importAnchor = data.tradeNetwork?.importAnchors?.[selectedId]?.[partner.id];
+        const lanePolicy = data.tradeNetwork?.lanePolicies?.[selectedId]?.[partner.id] || {};
+        const importFlow = Engine.number(importLane?.currentFlow, 0);
+        const exportFlow = Engine.number(exportLane?.currentFlow, 0);
+        return {
+          partner,
+          importLane,
+          exportLane,
+          importFlow,
+          exportFlow,
+          activity: importFlow + exportFlow,
+          flowDelta: Engine.number(importLane?.flowDelta, 0) + Engine.number(exportLane?.flowDelta, 0),
+          override,
+          exportAnchor,
+          importAnchor,
+          lanePolicy
+        };
+      })
+      .sort((left, right) => right.activity - left.activity);
+  }
+
+  function targetedTariffControl(selectedId, partnerId, lane, override) {
+    const inputId = `targeted-tariff-${selectedId}-${partnerId}`.replace(/[^a-z0-9_-]/gi, "-");
+    const value = override !== undefined ? override : Engine.number(lane?.tariffRate, data.trade?.[selectedId]?.tariffRate ?? 0);
+    if (!isAdmin) return `<span class="trade-network-rate">${fmtPercent(value)}</span>`;
+    return `
+      <div class="tariff-inline-control">
+        <input id="${escapeHtml(inputId)}" type="number" min="0" max="50" step="0.1" value="${escapeHtml(value)}" inputmode="decimal" data-targeted-tariff-input>
+        <button class="command compact" type="button" data-action="set-targeted-tariff" data-importer-id="${escapeHtml(selectedId)}" data-exporter-id="${escapeHtml(partnerId)}" data-input-id="${escapeHtml(inputId)}">Apply</button>
+        <button class="command compact" type="button" data-action="clear-targeted-tariff" data-importer-id="${escapeHtml(selectedId)}" data-exporter-id="${escapeHtml(partnerId)}" ${override === undefined ? "disabled" : ""}>Clear</button>
+      </div>`;
+  }
+
+  function exportAnchorControl(exporterId, importerId, share) {
+    const inputId = `export-anchor-${exporterId}-${importerId}`.replace(/[^a-z0-9_-]/gi, "-");
+    const value = share !== undefined ? share : "";
+    if (!isAdmin) return share !== undefined ? `<span class="trade-network-rate">${fmtPercent(share)}</span>` : `<span class="muted-text">Auto</span>`;
+    return `
+      <div class="anchor-inline-control">
+        <input id="${escapeHtml(inputId)}" type="number" min="0" max="95" step="1" value="${escapeHtml(value)}" placeholder="Auto" inputmode="decimal" data-export-anchor-input>
+        <button class="command compact" type="button" data-action="set-export-anchor" data-exporter-id="${escapeHtml(exporterId)}" data-importer-id="${escapeHtml(importerId)}" data-input-id="${escapeHtml(inputId)}">Lock</button>
+        <button class="command compact" type="button" data-action="clear-export-anchor" data-exporter-id="${escapeHtml(exporterId)}" data-importer-id="${escapeHtml(importerId)}" ${share === undefined ? "disabled" : ""}>Auto</button>
+      </div>`;
+  }
+
+  function importAnchorControl(importerId, exporterId, share) {
+    const inputId = `import-anchor-${importerId}-${exporterId}`.replace(/[^a-z0-9_-]/gi, "-");
+    const value = share !== undefined ? share : "";
+    if (!isAdmin) return share !== undefined ? `<span class="trade-network-rate">${fmtPercent(share)}</span>` : `<span class="muted-text">Auto</span>`;
+    return `
+      <div class="anchor-inline-control">
+        <input id="${escapeHtml(inputId)}" type="number" min="0" max="95" step="1" value="${escapeHtml(value)}" placeholder="Auto" inputmode="decimal" data-import-anchor-input>
+        <button class="command compact" type="button" data-action="set-import-anchor" data-importer-id="${escapeHtml(importerId)}" data-exporter-id="${escapeHtml(exporterId)}" data-input-id="${escapeHtml(inputId)}">Lock</button>
+        <button class="command compact" type="button" data-action="clear-import-anchor" data-importer-id="${escapeHtml(importerId)}" data-exporter-id="${escapeHtml(exporterId)}" ${share === undefined ? "disabled" : ""}>Auto</button>
+      </div>`;
+  }
+
+  function lanePolicyValue(policy = {}) {
+    if (policy.embargo === true) return "Embargo";
+    return policy.sanctionsLevel || "None";
+  }
+
+  function lanePolicyControl(importerId, exporterId, policy = {}) {
+    const value = lanePolicyValue(policy);
+    if (!isAdmin) return `<span class="trade-network-rate">${safeText(value)}</span>`;
+    return `
+      <select class="policy-inline-control" data-lane-policy-select data-importer-id="${escapeHtml(importerId)}" data-exporter-id="${escapeHtml(exporterId)}" aria-label="Lane policy">
+        ${["None", "Light", "Moderate", "Heavy", "Total", "Embargo"].map((option) => `<option value="${option}" ${option === value ? "selected" : ""}>${option}</option>`).join("")}
+      </select>`;
+  }
+
+  function tradeGeneratorPartnerOptions(selectedId, selectedValue = "") {
+    return [
+      `<option value="">Auto pick</option>`,
+      ...sortedNations()
+        .filter((nation) => nation.id !== selectedId)
+        .map((nation) => `<option value="${escapeHtml(nation.id)}" ${nation.id === selectedValue ? "selected" : ""}>${safeText(nation.name)}</option>`)
+    ].join("");
+  }
+
+  function tradeGeneratorSettingsFromValues(values = state.tradeGenerator) {
+    const partner = (key, shareKey) => {
+      const partnerId = values[key] || "";
+      if (!partnerId) return null;
+      return { partnerId, share: values[shareKey] };
+    };
+    return {
+      pattern: values.pattern || "concentrated",
+      importPartners: [partner("importPrimary", "importPrimaryShare"), partner("importSecondary", "importSecondaryShare")].filter(Boolean),
+      exportPartners: [partner("exportPrimary", "exportPrimaryShare"), partner("exportSecondary", "exportSecondaryShare")].filter(Boolean)
+    };
+  }
+
+  function readTradeGeneratorValues() {
+    const values = { ...state.tradeGenerator };
+    app.querySelectorAll("[data-trade-generator-input]").forEach((input) => {
+      values[input.dataset.tradeGeneratorInput] = input.value;
+    });
+    return values;
+  }
+
+  function tradeGeneratorPreviewHtml(preview) {
+    if (!preview?.changes?.length) return "";
+    return `
+      <div class="trade-generator-preview" aria-live="polite">
+        <div class="trade-generator-preview-head">
+          <span>${fmtNumber(preview.changes.length)} generated locks</span>
+          <strong>${safeText(preview.patternLabel)}</strong>
+        </div>
+        <div class="trade-generator-preview-list">
+          ${preview.changes.map((change) => `
+            <div class="trade-generator-preview-row">
+              <span>${change.type === "import_anchor" ? "Import from" : "Export to"}</span>
+              <strong>${safeText(change.partnerName)}</strong>
+              <em>${fmtPercent(change.beforeShare)} -> ${fmtPercent(change.afterShare)}</em>
+            </div>`).join("")}
+        </div>
+      </div>`;
+  }
+
+  function tradeGeneratorHtml(selected) {
+    if (!isAdmin) return "";
+    const generator = state.tradeGenerator;
+    const preview = state.tradeAnchorPreview?.countryId === selected.id ? state.tradeAnchorPreview : null;
+    return `
+      <div class="trade-generator-band">
+        <div class="trade-generator-title">
+          <span class="section-kicker">Trade Generator</span>
+          <strong>${preview ? `${fmtNumber(preview.changes.length)} locks ready` : "Bulk-build lanes"}</strong>
+        </div>
+        <label class="trade-generator-field">
+          <span>Pattern</span>
+          <select data-trade-generator-input="pattern">
+            ${[
+              ["concentrated", "Concentrated"],
+              ["balanced", "Balanced"],
+              ["globalized", "Globalized"],
+              ["isolated", "Isolated"],
+              ["manual", "Manual only"]
+            ].map(([value, label]) => `<option value="${value}" ${generator.pattern === value ? "selected" : ""}>${label}</option>`).join("")}
+          </select>
+        </label>
+        <div class="trade-generator-pair">
+          <label class="trade-generator-field">
+            <span>Import #1</span>
+            <select data-trade-generator-input="importPrimary">${tradeGeneratorPartnerOptions(selected.id, generator.importPrimary)}</select>
+          </label>
+          <label class="trade-generator-share">
+            <span>%</span>
+            <input type="number" min="0" max="95" step="1" placeholder="Auto" value="${escapeHtml(generator.importPrimaryShare)}" data-trade-generator-input="importPrimaryShare">
+          </label>
+        </div>
+        <div class="trade-generator-pair">
+          <label class="trade-generator-field">
+            <span>Import #2</span>
+            <select data-trade-generator-input="importSecondary">${tradeGeneratorPartnerOptions(selected.id, generator.importSecondary)}</select>
+          </label>
+          <label class="trade-generator-share">
+            <span>%</span>
+            <input type="number" min="0" max="95" step="1" placeholder="Auto" value="${escapeHtml(generator.importSecondaryShare)}" data-trade-generator-input="importSecondaryShare">
+          </label>
+        </div>
+        <div class="trade-generator-pair">
+          <label class="trade-generator-field">
+            <span>Export #1</span>
+            <select data-trade-generator-input="exportPrimary">${tradeGeneratorPartnerOptions(selected.id, generator.exportPrimary)}</select>
+          </label>
+          <label class="trade-generator-share">
+            <span>%</span>
+            <input type="number" min="0" max="95" step="1" placeholder="Auto" value="${escapeHtml(generator.exportPrimaryShare)}" data-trade-generator-input="exportPrimaryShare">
+          </label>
+        </div>
+        <div class="trade-generator-pair">
+          <label class="trade-generator-field">
+            <span>Export #2</span>
+            <select data-trade-generator-input="exportSecondary">${tradeGeneratorPartnerOptions(selected.id, generator.exportSecondary)}</select>
+          </label>
+          <label class="trade-generator-share">
+            <span>%</span>
+            <input type="number" min="0" max="95" step="1" placeholder="Auto" value="${escapeHtml(generator.exportSecondaryShare)}" data-trade-generator-input="exportSecondaryShare">
+          </label>
+        </div>
+        <div class="trade-generator-actions">
+          <button class="command compact" type="button" data-action="preview-trade-generator">Preview</button>
+          <button class="command compact" type="button" data-action="apply-trade-generator" ${preview ? "" : "disabled"}>Apply</button>
+          <button class="command compact" type="button" data-action="clear-trade-generator-preview" ${preview ? "" : "disabled"}>Clear</button>
+        </div>
+      </div>
+      ${tradeGeneratorPreviewHtml(preview)}`;
+  }
+
+  function renderTradeNetwork() {
+    Engine.ensureTradeV3Migration(data);
+    const network = Engine.calculateTradeNetwork(data);
+    const selected = byId(state.selectedNation) || sortedNations()[0];
+    if (!selected) {
+      app.innerHTML = `
+        <section class="trade-network-workspace">
+          <div class="trade-network-title">
+            <div>
+              <span class="section-kicker">Global Trade Network</span>
+              <h2>No active nations</h2>
+            </div>
+          </div>
+          <div class="empty">No trade network can be calculated.</div>
+        </section>`;
+      return;
+    }
+    if (selected.id !== state.selectedNation) state.selectedNation = selected.id;
+    const national = data.national[selected.id] || {};
+    const trade = data.trade[selected.id] || {};
+    const impact = network.nations[selected.id] || {};
+    const baseline = data.tradeNetwork?.baseline?.nations?.[selected.id] || {};
+    const budgetDelta = Engine.number(national.budgetCapacity, 0) - Engine.number(baseline.budgetCapacity, national.budgetCapacity);
+    const flowDelta = Engine.number(impact.tradeFlowDelta, 0);
+    const rows = tradeNetworkPartnerRows(selected.id, network);
+    const activeTargets = rows.filter((row) => row.override !== undefined).length;
+    const tradeMetrics = [
+      { label: "Partners", value: fmtNumber(rows.length) },
+      activeTargets ? { label: "Targeted", value: fmtNumber(activeTargets), tone: "attention" } : null,
+      Math.abs(budgetDelta) >= 1 ? { label: "Budget", value: fmtSigned(budgetDelta), tone: budgetDelta >= 0 ? "positive" : "negative" } : null,
+      Math.abs(flowDelta) >= 1 ? { label: "Flow", value: fmtSigned(flowDelta), tone: flowDelta >= 0 ? "positive" : "negative" } : null,
+      { label: "Policy", value: trade.tradePolicy || "Balanced" },
+      { label: "Tariff", value: fmtPercent(trade.tariffRate || 0) },
+      { label: "Import", value: fmtNumber(trade.importReliance || 0) },
+      { label: "Export", value: fmtNumber(trade.exportReliance || 0) },
+      { label: "Autarky", value: fmtNumber(trade.autarkyIndex || 0) }
+    ].filter(Boolean);
+
+    app.innerHTML = `
+      <section class="trade-network-workspace" style="--nation-color:${safeColor(selected.color)}">
+        <div class="trade-network-header">
+          <div class="trade-network-identity">
+            <label class="select-shell trade-network-selector" for="tradeNetworkNationSelect">
+              <span>Country</span>
+              <select id="tradeNetworkNationSelect" data-nation-select>
+                ${nationOptionsHtml(selected.id)}
+              </select>
+            </label>
+            <span class="section-kicker">Global Trade Network</span>
+            <h2>${safeText(selected.name)}</h2>
+          </div>
+          <div class="trade-network-metadata" aria-label="Trade network summary">
+            ${tradeMetrics.map((metric) => `
+              <div class="trade-network-metric">
+                <span>${safeText(metric.label)}</span>
+                <strong class="${metric.tone || ""}">${safeText(metric.value)}</strong>
+              </div>`).join("")}
+          </div>
+        </div>
+        ${tradeGeneratorHtml(selected)}
+        <div class="trade-network-table-wrap" data-table-scroll="tradeNetwork">
+          <table class="trade-network-table">
+            <thead>
+              <tr>
+                <th>Partner</th>
+                <th class="numeric">Imports From</th>
+                <th class="numeric">Import Share</th>
+                <th class="numeric">Exports To</th>
+                <th class="numeric">Export Share</th>
+                <th class="numeric">Lane Delta</th>
+                <th>Import Policy</th>
+                <th class="numeric">Tariff Applied</th>
+                <th class="numeric">Partner Tariff</th>
+                <th>${isAdmin ? "Targeted Tariff" : "Targeted"}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map((row) => {
+                const laneDeltaTone = row.flowDelta >= 0 ? "positive" : "negative";
+                const rowClasses = [
+                  row.override !== undefined ? "has-targeted-tariff" : "",
+                  row.exportAnchor !== undefined ? "has-export-anchor" : "",
+                  row.importAnchor !== undefined ? "has-import-anchor" : "",
+                  lanePolicyValue(row.lanePolicy) !== "None" ? "has-lane-policy" : ""
+                ].filter(Boolean).join(" ");
+                return `
+                  <tr class="${rowClasses}">
+                    <td>${nationCell(row.partner.id)}</td>
+                    <td class="numeric">${fmtNumber(row.importFlow)}</td>
+                    <td>
+                      <div class="relationship-control">
+                        <span>${fmtPercent(row.importLane?.importerShare || 0)} actual</span>
+                        ${importAnchorControl(selected.id, row.partner.id, row.importAnchor)}
+                      </div>
+                    </td>
+                    <td class="numeric">${fmtNumber(row.exportFlow)}</td>
+                    <td>
+                      <div class="relationship-control">
+                        <span>${fmtPercent(row.exportLane?.exporterShare || 0)} actual</span>
+                        ${exportAnchorControl(selected.id, row.partner.id, row.exportAnchor)}
+                      </div>
+                    </td>
+                    <td class="numeric"><span class="${laneDeltaTone}">${fmtSigned(row.flowDelta)}</span></td>
+                    <td>${lanePolicyControl(selected.id, row.partner.id, row.lanePolicy)}</td>
+                    <td class="numeric">${fmtPercent(row.importLane?.tariffRate ?? trade.tariffRate ?? 0)}</td>
+                    <td class="numeric">${fmtPercent(row.exportLane?.tariffRate ?? data.trade?.[row.partner.id]?.tariffRate ?? 0)}</td>
+                    <td>${targetedTariffControl(selected.id, row.partner.id, row.importLane, row.override)}</td>
+                  </tr>`;
+              }).join("")}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    `;
+    restoreTableScroll("tradeNetwork");
   }
 
   function renderIndustrial() {
@@ -2163,6 +2491,7 @@
       editor: renderEditor,
       history: renderHistory,
       nations: renderNations,
+      tradeNetwork: renderTradeNetwork,
       national: renderNational,
       trade: renderTrade,
       industrial: renderIndustrial,
@@ -2330,6 +2659,84 @@
         await exportSelectedSnapshot();
       } else if (action === "apply-tax-unrest") {
         applyRecommendedTaxUnrest(actionButton.dataset.nationId || "");
+      } else if (action === "preview-trade-generator") {
+        rememberVisibleTableScroll();
+        state.tradeGenerator = readTradeGeneratorValues();
+        state.tradeAnchorPreview = Engine.previewTradeAnchorPlan(data, state.selectedNation, tradeGeneratorSettingsFromValues(state.tradeGenerator));
+        render();
+      } else if (action === "apply-trade-generator") {
+        rememberVisibleTableScroll();
+        state.tradeGenerator = readTradeGeneratorValues();
+        const preview = state.tradeAnchorPreview?.countryId === state.selectedNation
+          ? state.tradeAnchorPreview
+          : Engine.previewTradeAnchorPlan(data, state.selectedNation, tradeGeneratorSettingsFromValues(state.tradeGenerator));
+        const result = Engine.applyTradeAnchorPlan(data, preview);
+        Engine.recalculateAll(data);
+        state.tradeAnchorPreview = null;
+        saveWorkingState(`${byId(state.selectedNation)?.name || "Country"} trade generator applied ${fmtNumber(result.totalCount)} lane locks.`);
+      } else if (action === "clear-trade-generator-preview") {
+        state.tradeAnchorPreview = null;
+        render();
+      } else if (action === "set-targeted-tariff") {
+        const importerId = actionButton.dataset.importerId || state.selectedNation;
+        const exporterId = actionButton.dataset.exporterId || "";
+        const input = document.getElementById(actionButton.dataset.inputId || "");
+        if (importerId && exporterId && input) {
+          rememberVisibleTableScroll();
+          const rate = Engine.number(input.value, data.trade?.[importerId]?.tariffRate ?? 0);
+          Engine.setTargetedTariff(data, importerId, exporterId, rate);
+          Engine.recalculateAll(data);
+          saveWorkingState(`${byId(importerId)?.name || "Country"} tariff on ${byId(exporterId)?.name || "partner"} set to ${fmtPercent(rate)}.`);
+        }
+      } else if (action === "clear-targeted-tariff") {
+        const importerId = actionButton.dataset.importerId || state.selectedNation;
+        const exporterId = actionButton.dataset.exporterId || "";
+        if (importerId && exporterId) {
+          rememberVisibleTableScroll();
+          Engine.clearTargetedTariff(data, importerId, exporterId);
+          Engine.recalculateAll(data);
+          saveWorkingState(`${byId(importerId)?.name || "Country"} targeted tariff cleared for ${byId(exporterId)?.name || "partner"}.`);
+        }
+      } else if (action === "set-export-anchor") {
+        const exporterId = actionButton.dataset.exporterId || state.selectedNation;
+        const importerId = actionButton.dataset.importerId || "";
+        const input = document.getElementById(actionButton.dataset.inputId || "");
+        if (exporterId && importerId && input) {
+          rememberVisibleTableScroll();
+          const share = Engine.number(input.value, 0);
+          Engine.setExportAnchor(data, exporterId, importerId, share);
+          Engine.recalculateAll(data);
+          saveWorkingState(`${byId(exporterId)?.name || "Country"} export lane to ${byId(importerId)?.name || "partner"} locked at ${fmtPercent(share)}.`);
+        }
+      } else if (action === "clear-export-anchor") {
+        const exporterId = actionButton.dataset.exporterId || state.selectedNation;
+        const importerId = actionButton.dataset.importerId || "";
+        if (exporterId && importerId) {
+          rememberVisibleTableScroll();
+          Engine.clearExportAnchor(data, exporterId, importerId);
+          Engine.recalculateAll(data);
+          saveWorkingState(`${byId(exporterId)?.name || "Country"} export lane to ${byId(importerId)?.name || "partner"} returned to auto.`);
+        }
+      } else if (action === "set-import-anchor") {
+        const importerId = actionButton.dataset.importerId || state.selectedNation;
+        const exporterId = actionButton.dataset.exporterId || "";
+        const input = document.getElementById(actionButton.dataset.inputId || "");
+        if (importerId && exporterId && input) {
+          rememberVisibleTableScroll();
+          const share = Engine.number(input.value, 0);
+          Engine.setImportAnchor(data, importerId, exporterId, share);
+          Engine.recalculateAll(data);
+          saveWorkingState(`${byId(importerId)?.name || "Country"} import lane from ${byId(exporterId)?.name || "partner"} locked at ${fmtPercent(share)}.`);
+        }
+      } else if (action === "clear-import-anchor") {
+        const importerId = actionButton.dataset.importerId || state.selectedNation;
+        const exporterId = actionButton.dataset.exporterId || "";
+        if (importerId && exporterId) {
+          rememberVisibleTableScroll();
+          Engine.clearImportAnchor(data, importerId, exporterId);
+          Engine.recalculateAll(data);
+          saveWorkingState(`${byId(importerId)?.name || "Country"} import lane from ${byId(exporterId)?.name || "partner"} returned to auto.`);
+        }
       } else if (action === "advance-one") {
         const result = Engine.advanceToYear(data, Number(data.meta.currentYear) + 1);
         saveWorkingState(result.message);
@@ -2360,6 +2767,7 @@
     const nationButton = event.target.closest("[data-nation]");
     if (nationButton) {
       state.selectedNation = nationButton.dataset.nation;
+      state.tradeAnchorPreview = null;
       render();
       return;
     }
@@ -2384,9 +2792,41 @@
       return;
     }
 
-    if (event.target.id === "editorNationSelect") {
-      state.selectedNation = event.target.value;
+    const nationSelect = event.target.closest("[data-nation-select]");
+    if (nationSelect) {
+      state.selectedNation = nationSelect.value;
+      state.tradeAnchorPreview = null;
       render();
+      return;
+    }
+
+    const tradeGeneratorInput = event.target.closest("[data-trade-generator-input]");
+    if (tradeGeneratorInput) {
+      state.tradeGenerator = readTradeGeneratorValues();
+      state.tradeAnchorPreview = null;
+      render();
+      return;
+    }
+
+    const lanePolicySelect = event.target.closest("[data-lane-policy-select]");
+    if (lanePolicySelect) {
+      if (!isAdmin) {
+        state.notice = "Admin access is required for this action.";
+        render();
+        return;
+      }
+      const importerId = lanePolicySelect.dataset.importerId || state.selectedNation;
+      const exporterId = lanePolicySelect.dataset.exporterId || "";
+      if (importerId && exporterId) {
+        rememberVisibleTableScroll();
+        const value = lanePolicySelect.value;
+        const policy = value === "Embargo"
+          ? { embargo: true, sanctionsLevel: "None" }
+          : { embargo: false, sanctionsLevel: value };
+        Engine.setLanePolicy(data, importerId, exporterId, policy);
+        Engine.recalculateAll(data);
+        saveWorkingState(`${byId(importerId)?.name || "Country"} import policy on ${byId(exporterId)?.name || "partner"} set to ${value}.`);
+      }
       return;
     }
 
