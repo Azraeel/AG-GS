@@ -23,7 +23,7 @@
   };
 
   const SVG_LABEL_BINDINGS = {
-    astoria: "svg_label_409",
+    astoria: "svg_label_207",
     baathist_republic_of_volgastan: "svg_label_307",
     baechong_democratic_republic: "svg_label_2113",
     benera_navine: "svg_label_359",
