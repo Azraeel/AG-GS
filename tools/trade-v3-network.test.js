@@ -370,9 +370,10 @@ test("unified trade flow follows bilateral lane totals when lane policy changes"
 
   const network = Engine.calculateTradeNetwork(data);
   const expectedTradeFlow = baselineTradeFlow + network.nations.aurendale.tradeFlowDelta;
+  const embargoedLane = network.lanes.find((lane) => lane.importerId === "aurendale" && lane.exporterId === "kolkelennan");
 
   assert.ok(Math.abs(data.trade.aurendale.tradeFlow - expectedTradeFlow) <= 1, `${data.trade.aurendale.tradeFlow} should match ${expectedTradeFlow} within rounding`);
-  assert.ok(network.nations.aurendale.tradeFlowDelta < 0, "Embargo should reduce Aurendale's unified lane total");
+  assert.equal(embargoedLane.currentFlow, 0);
 });
 
 test("general tariffs shrink the import pool and unified trade flow", () => {
@@ -439,10 +440,35 @@ test("Trade v3 concentrates automatic lanes around major trade hubs", () => {
   const topHubImporters = network.lanes
     .filter((lane) => lane.exporterId === topTradeHub)
     .map((lane) => lane.importerId);
+  const nonHubImporterPartnerCounts = [...lanesByImporter.entries()]
+    .filter(([importerId]) => importerId !== topTradeHub)
+    .map(([, partners]) => partners.size);
 
   assert.ok(network.lanes.length < 50 * 49 * 0.35, `network should not create every pair; got ${network.lanes.length}`);
-  assert.ok(Math.max(...importerPartnerCounts) <= 18, `automatic partner count should stay bounded: ${Math.max(...importerPartnerCounts)}`);
+  assert.ok(Math.max(...nonHubImporterPartnerCounts) <= 18, `non-hub partner count should stay bounded: ${Math.max(...nonHubImporterPartnerCounts)}`);
   assert.ok(topHubImporters.length >= 32, `${topTradeHub} should be a trade hub for most importers, got ${topHubImporters.length}`);
+});
+
+test("Trade v3 balanced gravity gives active exporters buyers without showing a full mesh", () => {
+  const data = buildLargeTradeV3Scenario(50);
+  Engine.recalculateAll(data);
+
+  const network = Engine.calculateTradeNetwork(data);
+  const worldImports = Object.values(network.nations).reduce((total, row) => total + row.importFlow, 0);
+  const worldExports = Object.values(network.nations).reduce((total, row) => total + row.exportFlow, 0);
+  const zeroExporters = data.nations
+    .map((nation) => ({
+      id: nation.id,
+      tradeFlow: data.trade[nation.id].tradeFlow,
+      exportReliance: data.trade[nation.id].exportReliance,
+      exportFlow: network.nations[nation.id]?.exportFlow || 0
+    }))
+    .filter((row) => row.tradeFlow >= 100000 && row.exportReliance >= 40 && row.exportFlow <= 0);
+
+  assert.equal(zeroExporters.length, 0, `active exporters with no buyers: ${zeroExporters.map((row) => row.id).join(", ")}`);
+  assert.ok(Math.abs(worldImports - network.worldPool.currentTradeFlow) <= data.nations.length, `${worldImports} should balance to ${network.worldPool.currentTradeFlow}`);
+  assert.ok(Math.abs(worldExports - network.worldPool.currentTradeFlow) <= data.nations.length, `${worldExports} should balance to ${network.worldPool.currentTradeFlow}`);
+  assert.ok(network.lanes.length < 50 * 49 * 0.45, `display lanes should stay sparse; got ${network.lanes.length}`);
 });
 
 test("Trade v3 shipyard expansion grows the global trade pool", () => {

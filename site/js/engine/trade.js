@@ -314,6 +314,12 @@
       return baselinePool * Math.max(0.35, demandRatio) * clamp(tariffRatio, 0.38, 1.08);
     }
 
+    function exportPoolFor(input, baselineInput = input, inputSupplyScore = exportSupplyScore(input), baselineSupplyScore = exportSupplyScore(baselineInput)) {
+      const baselinePool = Math.max(0, baselineInput.tradeFlow);
+      const supplyRatio = inputSupplyScore / Math.max(baselineSupplyScore, 1);
+      return baselinePool * Math.max(0.25, supplyRatio);
+    }
+
     function baselineWorldTradeFlow(inputsById) {
       return Object.values(inputsById).reduce((total, input) => {
         const baseline = input.baselineInput || input;
@@ -348,19 +354,63 @@
       return clamp(0.7 + Math.pow(normalizedShare, 0.82) * 0.42, 0.68, 2.9);
     }
 
-    function automaticPartnerLimit(importer, exporterCount) {
-      const openness = policyNetworkAccess(importer.tradePolicy) * sanctionNetworkAccess(importer.sanctionsLevel);
-      const tradeScale = clamp(Math.log10(Math.max(10, importer.tradeFlow)) - 5, 0, 2.6);
-      const autarkyPenalty = importer.autarkyIndex / 28;
-      const target = Math.round(8 + tradeScale * 2.1 + (openness - 0.9) * 5 - autarkyPenalty);
-      return Math.min(exporterCount, clamp(target, 5, 18));
-    }
-
     function forcedLaneFor(importerId, exporterId, targetedTariffs, exportAnchors, importAnchors, lanePolicies) {
       return targetedTariffs?.[importerId]?.[exporterId] !== undefined
         || number(importAnchors?.[importerId]?.[exporterId], 0) > 0
         || number(exportAnchors?.[exporterId]?.[importerId], 0) > 0
         || lanePolicies?.[importerId]?.[exporterId] !== undefined;
+    }
+
+    function normalizeTargets(targets, totalTarget) {
+      const rawTotal = Object.values(targets).reduce((total, value) => total + Math.max(0, value), 0);
+      if (rawTotal <= 0 || totalTarget <= 0) return Object.fromEntries(Object.keys(targets).map((id) => [id, 0]));
+      const scale = totalTarget / rawTotal;
+      return Object.fromEntries(Object.entries(targets).map(([id, value]) => [id, Math.max(0, value) * scale]));
+    }
+
+    function laneAffinity(importer, exporter, tariffRate, policy, hubMultiplier) {
+      if (policy.embargo) return 0;
+      const importerAccess = policyNetworkAccess(importer.tradePolicy) * sanctionNetworkAccess(importer.sanctionsLevel);
+      const exporterAccess = policyNetworkAccess(exporter.tradePolicy) * sanctionNetworkAccess(exporter.sanctionsLevel);
+      const openness = Math.sqrt(Math.max(0.05, importerAccess) * Math.max(0.05, exporterAccess));
+      const tariffAccess = laneTariffMultiplier(tariffRate);
+      const policyAccess = lanePolicyMultiplier(policy);
+      const complementarity = clamp(0.72 + Math.sqrt(Math.max(0, importer.importReliance) + 1) / 42 + Math.sqrt(Math.max(0, exporter.exportReliance) + 1) / 46, 0.72, 1.42);
+      const diversityBridge = clamp(0.84 + Math.sqrt(Math.max(0, exporter.economicTradeDiversity) + Math.max(0, importer.economicTradeDiversity) + 1) / 80, 0.84, 1.24);
+      return Math.max(0, hubMultiplier * openness * tariffAccess * policyAccess * complementarity * diversityBridge);
+    }
+
+    function balanceLanesToTargets(lanes, importTargets, exportTargets, iterations = 28) {
+      for (const lane of lanes) lane.currentFlow = Math.max(0, lane.weight);
+      for (let iteration = 0; iteration < iterations; iteration += 1) {
+        const importerTotals = {};
+        for (const lane of lanes) importerTotals[lane.importerId] = (importerTotals[lane.importerId] || 0) + lane.currentFlow;
+        for (const lane of lanes) {
+          const target = importTargets[lane.importerId] || 0;
+          const total = importerTotals[lane.importerId] || 0;
+          lane.currentFlow = total > 0 ? lane.currentFlow * (target / total) : 0;
+        }
+
+        const exporterTotals = {};
+        for (const lane of lanes) exporterTotals[lane.exporterId] = (exporterTotals[lane.exporterId] || 0) + lane.currentFlow;
+        for (const lane of lanes) {
+          const target = exportTargets[lane.exporterId] || 0;
+          const total = exporterTotals[lane.exporterId] || 0;
+          lane.currentFlow = total > 0 ? lane.currentFlow * (target / total) : 0;
+        }
+      }
+    }
+
+    function significantLaneForDisplay(lane, nations, worldPool) {
+      if (lane.targeted || lane.exportAnchorShare || lane.importAnchorShare || lane.embargoed || lane.sanctionsLevel !== "None") return true;
+      const flow = number(lane.currentFlow, 0);
+      if (flow <= 0) return false;
+      const importerFlow = number(nations[lane.importerId]?.importFlow, 0);
+      const exporterFlow = number(nations[lane.exporterId]?.exportFlow, 0);
+      const importerShare = importerFlow > 0 ? (flow / importerFlow) * 100 : 0;
+      const exporterShare = exporterFlow > 0 ? (flow / exporterFlow) * 100 : 0;
+      const worldShare = worldPool > 0 ? (flow / worldPool) * 100 : 0;
+      return importerShare >= 3.5 || exporterShare >= 4 || worldShare >= 0.25 || flow >= 100000;
     }
 
     function networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies) {
@@ -492,97 +542,99 @@
       const exportAnchors = options.exportAnchors || {};
       const importAnchors = options.importAnchors || {};
       const lanePolicies = options.lanePolicies || {};
-      const trackLanes = includeLanes || hasExportAnchors(exportAnchors) || hasImportAnchors(importAnchors);
       const lanes = [];
       let nations = Object.fromEntries(ids.map((id) => [id, networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies)]));
       const demandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id])]));
       const baselineDemandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id].baselineInput || inputsById[id])]));
       const supplyScores = Object.fromEntries(ids.map((id) => [id, exportSupplyScore(inputsById[id])]));
+      const baselineSupplyScores = Object.fromEntries(ids.map((id) => [id, exportSupplyScore(inputsById[id].baselineInput || inputsById[id])]));
       const hubInputs = Object.fromEntries(ids.map((id) => [id, inputsById[id].baselineInput || inputsById[id]]));
       const worldTradeFlow = ids.reduce((total, id) => total + Math.max(0, hubInputs[id].tradeFlow), 0);
       const hubMultipliers = Object.fromEntries(ids.map((id) => [id, tradeHubMultiplier(hubInputs[id], worldTradeFlow, ids.length)]));
-      const importerRows = [];
+      const rawImportTargets = {};
+      const rawExportBaseTargets = {};
+      const rawExportTargets = {};
 
       for (const importerId of ids) {
         const importer = inputsById[importerId];
-        const exporters = ids.filter((id) => id !== importerId);
-        if (!exporters.length) continue;
         const importerBaseline = inputsById[importerId].baselineInput || importer;
-        const pool = importPoolFor(importer, importerBaseline, demandScores[importerId], baselineDemandScores[importerId]);
-        const weighted = exporters.map((exporterId) => {
-          const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
-          const policy = lanePolicyFor(lanePolicies, importerId, exporterId);
-          const baseWeight = supplyScores[exporterId] * hubMultipliers[exporterId] * laneTariffMultiplier(tariffRate);
-          const policyMultiplier = lanePolicyMultiplier(policy);
-          const weight = baseWeight * policyMultiplier;
-          const forced = forcedLaneFor(importerId, exporterId, targetedTariffs, exportAnchors, importAnchors, lanePolicies);
-          return { exporterId, tariffRate, policy, baseWeight, policyMultiplier, weight, forced };
-        });
-        const totalBaseWeight = weighted.reduce((total, row) => total + row.baseWeight, 0) || 1;
-        const deniedWeight = weighted.reduce((total, row) => total + row.baseWeight * (1 - row.policyMultiplier), 0);
-        const policyAccess = clamp(1 - (deniedWeight / totalBaseWeight) * 0.82, 0.18, 1);
-        const adjustedPool = pool * policyAccess;
-        const partnerLimit = automaticPartnerLimit(importer, exporters.length);
-        const automaticPartners = new Set(weighted
-          .filter((row) => !row.policy.embargo)
-          .sort((left, right) => right.weight - left.weight)
-          .slice(0, partnerLimit)
-          .map((row) => row.exporterId));
-        const activeWeighted = weighted.filter((row) => automaticPartners.has(row.exporterId) || row.forced);
-        importerRows.push({ importerId, importer, adjustedPool, weighted: activeWeighted });
+        rawImportTargets[importerId] = importPoolFor(importer, importerBaseline, demandScores[importerId], baselineDemandScores[importerId]);
       }
 
-      const rawWorldPool = importerRows.reduce((total, row) => total + row.adjustedPool, 0);
+      for (const exporterId of ids) {
+        const exporter = inputsById[exporterId];
+        const exporterBaseline = inputsById[exporterId].baselineInput || exporter;
+        rawExportBaseTargets[exporterId] = exportPoolFor(exporter, exporterBaseline, supplyScores[exporterId], baselineSupplyScores[exporterId]);
+      }
+
+      for (const exporterId of ids) {
+        const exporter = inputsById[exporterId];
+        let actualAccess = 0;
+        let neutralAccess = 0;
+        for (const importerId of ids) {
+          if (exporterId === importerId) continue;
+          const importer = inputsById[importerId];
+          const demandWeight = Math.max(0, rawImportTargets[importerId] || 0);
+          const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
+          actualAccess += demandWeight * laneAffinity(importer, exporter, tariffRate, lanePolicyFor(lanePolicies, importerId, exporterId), hubMultipliers[exporterId]);
+          neutralAccess += demandWeight * laneAffinity(importer, exporter, importer.tariffRate, { embargo: false, sanctionsLevel: "None" }, hubMultipliers[exporterId]);
+        }
+        const marketAccess = neutralAccess > 0 ? actualAccess / neutralAccess : 0;
+        rawExportTargets[exporterId] = rawExportBaseTargets[exporterId] * clamp(marketAccess, 0.05, 1.12);
+      }
+
+      const rawImportTotal = Object.values(rawImportTargets).reduce((total, value) => total + Math.max(0, value), 0);
+      const rawExportTotal = Object.values(rawExportTargets).reduce((total, value) => total + Math.max(0, value), 0);
+      const rawWorldPool = (rawImportTotal + rawExportTotal) / 2;
       const baselineWorldPool = baselineWorldTradeFlow(inputsById);
       const capacityRatio = worldPoolCapacityTotal(inputsById) / Math.max(worldPoolCapacityTotal(inputsById, true), 1);
       const capacityWorldPool = baselineWorldPool * Math.max(0.05, capacityRatio);
       const currentWorldPool = constrainedWorldTradePool(rawWorldPool, capacityWorldPool);
       const poolScale = rawWorldPool > 0 ? currentWorldPool / rawWorldPool : 0;
+      const importTargets = normalizeTargets(rawImportTargets, currentWorldPool);
+      const exportTargets = normalizeTargets(rawExportTargets, currentWorldPool);
 
-      for (const importerRow of importerRows) {
-        const { importerId, importer, weighted } = importerRow;
-        const scaledPool = importerRow.adjustedPool * poolScale;
-        const totalWeight = weighted.reduce((total, row) => total + row.weight, 0) || 1;
-        for (const row of weighted) {
-          const flow = scaledPool * (row.weight / totalWeight);
-          const tariffRevenue = laneTariffRevenue(flow, row.tariffRate, importer);
-          const importCost = flow * Math.max(0, row.tariffRate - importer.tariffRate) * 0.0022;
-          if (trackLanes) {
-            lanes.push({
-              importerId,
-              exporterId: row.exporterId,
-              tariffRate: roundPercent(row.tariffRate),
-              currentFlow: roundCurrency(flow),
-              tariffRevenue: roundCurrency(tariffRevenue),
-              importCost: roundCurrency(importCost),
-              targeted: targetedTariffs?.[importerId]?.[row.exporterId] !== undefined,
-              sanctionsLevel: row.policy.sanctionsLevel,
-              embargoed: row.policy.embargo
-            });
-          }
-          if (!trackLanes) {
-            nations[importerId].importFlow += flow;
-            nations[importerId].tariffRevenue += tariffRevenue;
-            nations[importerId].importCost += importCost;
-            nations[row.exporterId].exportFlow += flow;
-          }
+      for (const importerId of ids) {
+        const importer = inputsById[importerId];
+        for (const exporterId of ids) {
+          if (exporterId === importerId) continue;
+          const exporter = inputsById[exporterId];
+          const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
+          const policy = lanePolicyFor(lanePolicies, importerId, exporterId);
+          const affinity = laneAffinity(importer, exporter, tariffRate, policy, hubMultipliers[exporterId]);
+          const targetProduct = Math.sqrt(Math.max(0, importTargets[importerId] || 0) * Math.max(0, exportTargets[exporterId] || 0));
+          lanes.push({
+            importerId,
+            exporterId,
+            tariffRate: roundPercent(tariffRate),
+            currentFlow: 0,
+            tariffRevenue: 0,
+            importCost: 0,
+            targeted: targetedTariffs?.[importerId]?.[exporterId] !== undefined,
+            sanctionsLevel: policy.sanctionsLevel,
+            embargoed: policy.embargo,
+            weight: targetProduct * affinity
+          });
         }
       }
 
-      if (trackLanes) {
-        applyExportAnchorsToLanes(lanes, exportAnchors, lanePolicies);
-        applyImportAnchorsToLanes(lanes, importAnchors, lanePolicies);
-        nations = summarizeTrackedLanes(ids, lanes, targetedTariffs, exportAnchors, importAnchors, lanePolicies);
-      } else {
-        Object.values(nations).forEach((row) => {
-          row.importFlow = roundCurrency(row.importFlow);
-          row.exportFlow = roundCurrency(row.exportFlow);
-          row.tariffRevenue = roundCurrency(row.tariffRevenue);
-          row.importCost = roundCurrency(row.importCost);
-        });
+      balanceLanesToTargets(lanes, importTargets, exportTargets);
+      for (const lane of lanes) {
+        const importer = inputsById[lane.importerId];
+        const flow = lane.currentFlow;
+        lane.currentFlow = roundCurrency(flow);
+        lane.tariffRevenue = roundCurrency(laneTariffRevenue(flow, lane.tariffRate, importer));
+        lane.importCost = roundCurrency(flow * Math.max(0, lane.tariffRate - importer.tariffRate) * 0.0022);
+        delete lane.weight;
       }
+      applyExportAnchorsToLanes(lanes, exportAnchors, lanePolicies);
+      applyImportAnchorsToLanes(lanes, importAnchors, lanePolicies);
+      nations = summarizeTrackedLanes(ids, lanes, targetedTariffs, exportAnchors, importAnchors, lanePolicies);
+      const visibleLanes = includeLanes
+        ? lanes.filter((lane) => significantLaneForDisplay(lane, nations, currentWorldPool))
+        : [];
       return {
-        lanes: includeLanes ? lanes : [],
+        lanes: visibleLanes,
         nations,
         worldPool: {
           baselineTradeFlow: roundCurrency(baselineWorldPool),
@@ -666,18 +718,6 @@
       const nationNames = includeLanes
         ? Object.fromEntries((data.nations || []).map((nation) => [nation.id, nation.name]))
         : {};
-      const exporterTotals = includeLanes
-        ? currentFlows.lanes.reduce((totals, lane) => {
-            totals[lane.exporterId] = (totals[lane.exporterId] || 0) + number(lane.currentFlow, 0);
-            return totals;
-          }, {})
-        : {};
-      const importerTotals = includeLanes
-        ? currentFlows.lanes.reduce((totals, lane) => {
-            totals[lane.importerId] = (totals[lane.importerId] || 0) + number(lane.currentFlow, 0);
-            return totals;
-          }, {})
-        : {};
       const lanes = includeLanes
         ? currentFlows.lanes.map((lane) => {
             const baselineLane = baselineLaneMap.get(`${lane.importerId}:${lane.exporterId}`) || {};
@@ -688,8 +728,8 @@
               baselineFlow: roundCurrency(baselineLane.currentFlow),
               flowDelta: roundCurrency(lane.currentFlow - number(baselineLane.currentFlow, 0)),
               baselineTariffRate: roundPercent(baselineLane.tariffRate ?? lane.tariffRate),
-              importerShare: roundPercent((number(lane.currentFlow, 0) / Math.max(importerTotals[lane.importerId] || 0, 1)) * 100),
-              exporterShare: roundPercent((number(lane.currentFlow, 0) / Math.max(exporterTotals[lane.exporterId] || 0, 1)) * 100)
+              importerShare: roundPercent((number(lane.currentFlow, 0) / Math.max(number(currentFlows.nations[lane.importerId]?.importFlow, 0), 1)) * 100),
+              exporterShare: roundPercent((number(lane.currentFlow, 0) / Math.max(number(currentFlows.nations[lane.exporterId]?.exportFlow, 0), 1)) * 100)
             };
           })
         : [];
