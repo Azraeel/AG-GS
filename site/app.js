@@ -36,8 +36,9 @@
   const THEME_KEY = AppConfig.THEME_KEY;
   const adminOnlyTabs = new Set(AppConfig.adminOnlyTabs);
   const adminOnlyActions = new Set(AppConfig.adminOnlyActions);
+  const forceLocalPreview = window.AGGS_DISABLE_SHARED_SYNC === true || location.hostname.endsWith(".pages.dev");
   const sharedSync = {
-    enabled: location.protocol.startsWith("http") && !["localhost", "127.0.0.1", "::1"].includes(location.hostname),
+    enabled: !forceLocalPreview && location.protocol.startsWith("http") && !["localhost", "127.0.0.1", "::1"].includes(location.hostname),
     endpoint: window.AGGS_API_URL || (isAdmin ? "/admin/api/state" : "/api/state"),
     pollMs: 2500,
     revision: null,
