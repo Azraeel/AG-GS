@@ -308,18 +308,16 @@
     }
 
     function importPoolFor(input, baselineInput = input, inputDemandScore = importDemandScore(input), baselineDemandScore = importDemandScore(baselineInput)) {
-      const importShare = clamp(input.importReliance / Math.max(input.importReliance + input.exportReliance, 1), 0.25, 0.75);
-      const baselinePool = Math.max(0, baselineInput.tradeFlow) * clamp(baselineInput.importReliance / Math.max(baselineInput.importReliance + baselineInput.exportReliance, 1), 0.25, 0.75);
+      const baselinePool = Math.max(0, baselineInput.tradeFlow);
       const demandRatio = inputDemandScore / Math.max(baselineDemandScore, 1);
       const tariffRatio = tariffDemandAccess(input.tariffRate) / Math.max(tariffDemandAccess(baselineInput.tariffRate), 0.01);
-      return baselinePool * Math.max(0.35, demandRatio) * clamp(tariffRatio, 0.38, 1.08) * clamp(0.85 + importShare * 0.3, 0.9, 1.08);
+      return baselinePool * Math.max(0.35, demandRatio) * clamp(tariffRatio, 0.38, 1.08);
     }
 
-    function baselineWorldImportPool(inputsById, baselineDemandScores) {
-      return Object.entries(inputsById).reduce((total, [id, input]) => {
+    function baselineWorldTradeFlow(inputsById) {
+      return Object.values(inputsById).reduce((total, input) => {
         const baseline = input.baselineInput || input;
-        const baselineDemand = baselineDemandScores[id] || importDemandScore(baseline);
-        return total + importPoolFor(baseline, baseline, baselineDemand, baselineDemand);
+        return total + Math.max(0, baseline.tradeFlow);
       }, 0);
     }
 
@@ -504,7 +502,7 @@
       }
 
       const rawWorldPool = importerRows.reduce((total, row) => total + row.adjustedPool, 0);
-      const baselineWorldPool = baselineWorldImportPool(inputsById, baselineDemandScores);
+      const baselineWorldPool = baselineWorldTradeFlow(inputsById);
       const capacityRatio = worldPoolCapacityTotal(inputsById) / Math.max(worldPoolCapacityTotal(inputsById, true), 1);
       const capacityWorldPool = baselineWorldPool * Math.max(0.05, capacityRatio);
       const currentWorldPool = constrainedWorldTradePool(rawWorldPool, capacityWorldPool);
@@ -556,6 +554,10 @@
         lanes: includeLanes ? lanes : [],
         nations,
         worldPool: {
+          baselineTradeFlow: roundCurrency(baselineWorldPool),
+          rawTradeFlow: roundCurrency(rawWorldPool),
+          capacityTradeFlow: roundCurrency(capacityWorldPool),
+          currentTradeFlow: roundCurrency(currentWorldPool),
           baselineImportPool: roundCurrency(baselineWorldPool),
           rawImportPool: roundCurrency(rawWorldPool),
           capacityImportPool: roundCurrency(capacityWorldPool),
@@ -662,11 +664,16 @@
         : [];
 
       const worldPool = {
-        baselineImportPool: roundCurrency(baselineFlows.worldPool?.currentImportPool),
-        rawImportPool: roundCurrency(currentFlows.worldPool?.rawImportPool),
-        capacityImportPool: roundCurrency(currentFlows.worldPool?.capacityImportPool),
-        currentImportPool: roundCurrency(currentFlows.worldPool?.currentImportPool),
-        importPoolDelta: roundCurrency(number(currentFlows.worldPool?.currentImportPool, 0) - number(baselineFlows.worldPool?.currentImportPool, 0)),
+        baselineTradeFlow: roundCurrency(baselineFlows.worldPool?.currentTradeFlow),
+        rawTradeFlow: roundCurrency(currentFlows.worldPool?.rawTradeFlow),
+        capacityTradeFlow: roundCurrency(currentFlows.worldPool?.capacityTradeFlow),
+        currentTradeFlow: roundCurrency(currentFlows.worldPool?.currentTradeFlow),
+        tradeFlowDelta: roundCurrency(number(currentFlows.worldPool?.currentTradeFlow, 0) - number(baselineFlows.worldPool?.currentTradeFlow, 0)),
+        baselineImportPool: roundCurrency(baselineFlows.worldPool?.currentTradeFlow),
+        rawImportPool: roundCurrency(currentFlows.worldPool?.rawTradeFlow),
+        capacityImportPool: roundCurrency(currentFlows.worldPool?.capacityTradeFlow),
+        currentImportPool: roundCurrency(currentFlows.worldPool?.currentTradeFlow),
+        importPoolDelta: roundCurrency(number(currentFlows.worldPool?.currentTradeFlow, 0) - number(baselineFlows.worldPool?.currentTradeFlow, 0)),
         scale: roundPercent(currentFlows.worldPool?.scale)
       };
 

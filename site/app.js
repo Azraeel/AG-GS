@@ -1031,7 +1031,7 @@
     const budgetDelta = Engine.number(national.budgetCapacity, 0) - Engine.number(baseline.budgetCapacity, national.budgetCapacity);
     const flowDelta = Engine.number(impact.tradeFlowDelta, 0);
     const worldPool = network.worldPool || {};
-    const worldPoolDelta = Engine.number(worldPool.importPoolDelta, 0);
+    const worldPoolDelta = Engine.number(worldPool.tradeFlowDelta, 0);
     const rows = tradeNetworkPartnerRows(selected.id, network);
     const activeTargets = rows.filter((row) => row.override !== undefined).length;
     const tradeMetrics = [
@@ -1039,7 +1039,7 @@
       activeTargets ? { label: "Targeted", value: fmtNumber(activeTargets), tone: "attention" } : null,
       Math.abs(budgetDelta) >= 1 ? { label: "Budget", value: fmtSigned(budgetDelta), tone: budgetDelta >= 0 ? "positive" : "negative" } : null,
       Math.abs(flowDelta) >= 1 ? { label: "Flow", value: fmtSigned(flowDelta), tone: flowDelta >= 0 ? "positive" : "negative" } : null,
-      { label: "World Pool", value: Math.abs(worldPoolDelta) >= 1 ? fmtSigned(worldPoolDelta) : fmtNumber(worldPool.currentImportPool || 0), tone: worldPoolDelta ? worldPoolDelta >= 0 ? "positive" : "negative" : "" },
+      { label: "World Pool", value: Math.abs(worldPoolDelta) >= 1 ? fmtSigned(worldPoolDelta) : fmtNumber(worldPool.currentTradeFlow || 0), tone: worldPoolDelta ? worldPoolDelta >= 0 ? "positive" : "negative" : "" },
       { label: "Policy", value: trade.tradePolicy || "Balanced" },
       { label: "Tariff", value: fmtPercent(trade.tariffRate || 0) },
       { label: "Import", value: fmtNumber(trade.importReliance || 0) },

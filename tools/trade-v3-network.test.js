@@ -371,7 +371,7 @@ test("unified trade flow follows bilateral lane totals when lane policy changes"
   const network = Engine.calculateTradeNetwork(data);
   const expectedTradeFlow = baselineTradeFlow + network.nations.aurendale.tradeFlowDelta;
 
-  assert.equal(data.trade.aurendale.tradeFlow, expectedTradeFlow);
+  assert.ok(Math.abs(data.trade.aurendale.tradeFlow - expectedTradeFlow) <= 1, `${data.trade.aurendale.tradeFlow} should match ${expectedTradeFlow} within rounding`);
   assert.ok(network.nations.aurendale.tradeFlowDelta < 0, "Embargo should reduce Aurendale's unified lane total");
 });
 
@@ -388,6 +388,16 @@ test("general tariffs shrink the import pool and unified trade flow", () => {
   const network = Engine.calculateTradeNetwork(data);
   assert.ok(network.nations.aurendale.importFlow < baselineImportFlow * 0.86, `${network.nations.aurendale.importFlow} should fall from ${baselineImportFlow}`);
   assert.ok(data.trade.aurendale.tradeFlow < baselineTradeFlow, `${data.trade.aurendale.tradeFlow} should fall from ${baselineTradeFlow}`);
+});
+
+test("Trade v3 world pool equals global trade flow at baseline", () => {
+  const data = buildTradeV3Scenario();
+  Engine.recalculateAll(data);
+
+  const network = Engine.calculateTradeNetwork(data);
+  const totalTradeFlow = Object.values(data.trade).reduce((total, row) => total + row.tradeFlow, 0);
+
+  assert.equal(network.worldPool.currentTradeFlow, totalTradeFlow);
 });
 
 test("Trade v3 global pool makes demand compete instead of creating unlimited world flow", () => {
@@ -425,7 +435,7 @@ test("Trade v3 shipyard expansion grows the global trade pool", () => {
   const worldImportFlow = Object.values(network.nations).reduce((total, row) => total + row.importFlow, 0);
 
   assert.ok(worldImportFlow > baselineWorldImportFlow * 1.08, `${worldImportFlow} should grow from ${baselineWorldImportFlow}`);
-  assert.ok(network.worldPool.currentImportPool > baselineNetwork.worldPool.currentImportPool * 1.08, "World pool summary should show the logistics expansion");
+  assert.ok(network.worldPool.currentTradeFlow > baselineNetwork.worldPool.currentTradeFlow * 1.08, "World pool summary should show the logistics expansion");
   assert.ok(network.nations.solara.exportFlow > baselineSolaraExport, "Solara should capture more export flow after adding shipyards");
 });
 
