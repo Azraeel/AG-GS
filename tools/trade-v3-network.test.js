@@ -491,11 +491,40 @@ test("Trade v4 direct lanes concentrate small countries instead of listing every
     return { id, directCount: directImportLanes.length, directHubCount: directHubImports.length };
   });
   const smallCountriesListingBothHubs = smallPartnerRows.filter((row) => row.directHubCount >= 2);
-  const concentratedSmallCountries = smallPartnerRows.filter((row) => row.directCount <= 2);
+  const concentratedSmallCountries = smallPartnerRows.filter((row) => row.directCount <= 4);
 
   assert.ok(smallCountriesListingBothHubs.length <= Math.ceil(smallImporters.length * 0.35), `${smallCountriesListingBothHubs.length} small countries listed both global hubs`);
   assert.ok(concentratedSmallCountries.length >= Math.floor(smallImporters.length * 0.7), `${concentratedSmallCountries.length} small countries had concentrated direct lanes`);
   assert.equal(Object.values(network.nations).filter((row) => row.exportFlow <= 0).length, 0);
+});
+
+test("Trade v4 visible lanes keep active exporters visible without collapsing to one hub", () => {
+  const data = buildLargeTradeV3Scenario(50);
+  data.trade.nation_48.tradeFlow = 14500000;
+  data.trade.nation_48.exportReliance = 160;
+  data.trade.nation_48.tradePolicy = "Free Trade";
+  data.trade.nation_49.tradeFlow = 17700000;
+  data.trade.nation_49.exportReliance = 175;
+  data.trade.nation_49.tradePolicy = "Free Trade";
+  Engine.recalculateAll(data);
+
+  const network = Engine.calculateTradeNetwork(data);
+  const visibleExportCounts = {};
+  const visibleImportCounts = {};
+  for (const lane of network.lanes) {
+    visibleExportCounts[lane.exporterId] = (visibleExportCounts[lane.exporterId] || 0) + 1;
+    visibleImportCounts[lane.importerId] = (visibleImportCounts[lane.importerId] || 0) + 1;
+  }
+  const activeExporters = data.nations
+    .map((nation) => nation.id)
+    .filter((id) => data.trade[id].tradeFlow >= 100000 && data.trade[id].exportReliance >= 40 && (network.nations[id]?.exportFlow || 0) > 0);
+  const hiddenActiveExporters = activeExporters.filter((id) => (visibleExportCounts[id] || 0) <= 0);
+  const importerPartnerCounts = Object.values(visibleImportCounts).sort((a, b) => a - b);
+  const largestExporterLaneCount = Math.max(...Object.values(visibleExportCounts));
+
+  assert.ok(hiddenActiveExporters.length <= Math.ceil(activeExporters.length * 0.18), `${hiddenActiveExporters.length} active exporters had no visible buyers`);
+  assert.ok(importerPartnerCounts[Math.floor(importerPartnerCounts.length / 2)] >= 2, "median importer should have at least two direct partners");
+  assert.ok(largestExporterLaneCount < data.nations.length * 0.8, `one exporter dominates too many direct lanes: ${largestExporterLaneCount}`);
 });
 
 test("Trade v3 shipyard expansion grows the global trade pool", () => {

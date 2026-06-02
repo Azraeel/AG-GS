@@ -421,18 +421,30 @@
 
     function directImportPartnerLimit(input, worldPool, nationCount) {
       if (nationCount <= 1) return 0;
-      const reach = directReachScore(input, worldPool, nationCount);
-      const importBias = Math.sqrt(Math.max(0, number(input.importReliance, 0))) / 36;
-      const autarkyDrag = number(input.autarkyIndex, 50) / 120;
-      const extraReach = Math.max(0, reach - 1.45) * 0.92 + importBias - autarkyDrag;
-      return clamp(1 + Math.floor(Math.max(0, extraReach)), 1, Math.min(18, nationCount - 1));
+      const tradeFlow = Math.max(0, number(input.tradeFlow, 0));
+      const globalShare = worldPool > 0 ? (tradeFlow / worldPool) * Math.max(1, nationCount) : 0;
+      const openness = policyNetworkAccess(input.tradePolicy) * sanctionNetworkAccess(input.sanctionsLevel);
+      const flowScale = Math.max(0, Math.log10(Math.max(tradeFlow, 1000)) - 5.05);
+      const diversityBonus = Math.sqrt(Math.max(0, number(input.economicTradeDiversity, 0))) / 19;
+      const importBias = Math.sqrt(Math.max(0, number(input.importReliance, 0))) / 18;
+      const autarkyDrag = number(input.autarkyIndex, 50) / 145;
+      const limit = 1.45 + flowScale * 1.1 + Math.sqrt(Math.max(0, globalShare)) * 1.45 + diversityBonus + importBias + (openness - 1) * 1.15 - autarkyDrag;
+      return clamp(Math.round(limit), Math.min(2, nationCount - 1), Math.min(18, nationCount - 1));
     }
 
     function directExportPartnerLimit(input, worldPool, nationCount) {
       if (nationCount <= 1) return 0;
       const reach = directReachScore(input, worldPool, nationCount);
-      const exportBias = Math.sqrt(Math.max(0, number(input.exportReliance, 0))) / 14;
-      return clamp(Math.round(1 + reach * 0.55 + exportBias), 1, Math.min(22, nationCount - 1));
+      const tradeFlow = Math.max(0, number(input.tradeFlow, 0));
+      const globalShare = worldPool > 0 ? (tradeFlow / worldPool) * Math.max(1, nationCount) : 0;
+      const exportBias = Math.sqrt(Math.max(0, number(input.exportReliance, 0))) / 12;
+      const limit = 1 + reach * 1.15 + Math.sqrt(Math.max(0, globalShare)) * 1.9 + exportBias;
+      return clamp(Math.round(limit), 1, Math.min(30, nationCount - 1));
+    }
+
+    function globalHubExposure(input, worldPool, nationCount) {
+      const tradeFlow = Math.max(0, number(input.tradeFlow, 0));
+      return worldPool > 0 ? (tradeFlow / worldPool) * Math.max(1, nationCount) : 0;
     }
 
     function selectVisibleLaneKeys(lanes, nations, inputsById, worldPool, ids) {
@@ -441,6 +453,9 @@
       const exporterCounts = Object.fromEntries(ids.map((id) => [id, 0]));
       const lanesByImporter = Object.fromEntries(ids.map((id) => [id, []]));
       const lanesByExporter = Object.fromEntries(ids.map((id) => [id, []]));
+      const importerLimits = Object.fromEntries(ids.map((id) => [id, directImportPartnerLimit(inputsById[id], worldPool, ids.length)]));
+      const exporterTargets = Object.fromEntries(ids.map((id) => [id, directExportPartnerLimit(inputsById[id], worldPool, ids.length)]));
+      const selectedExportersByImporter = Object.fromEntries(ids.map((id) => [id, new Set()]));
 
       const addLane = (lane) => {
         const key = laneKey(lane);
@@ -448,6 +463,22 @@
         visible.add(key);
         importerCounts[lane.importerId] = (importerCounts[lane.importerId] || 0) + 1;
         exporterCounts[lane.exporterId] = (exporterCounts[lane.exporterId] || 0) + 1;
+        selectedExportersByImporter[lane.importerId]?.add(lane.exporterId);
+      };
+
+      const candidateScore = (lane) => {
+        const exporter = inputsById[lane.exporterId];
+        const importerLimit = importerLimits[lane.importerId] || 1;
+        const selectedExporters = selectedExportersByImporter[lane.importerId] || new Set();
+        const exporterTarget = Math.max(1, exporterTargets[lane.exporterId] || 1);
+        const saturation = (exporterCounts[lane.exporterId] || 0) / exporterTarget;
+        const saturationPenalty = 1 + Math.pow(Math.max(0, saturation), 2.35) * 5.5;
+        const exporterExposure = globalHubExposure(exporter, worldPool, ids.length);
+        const hasGlobalHub = [...selectedExporters].some((exporterId) => globalHubExposure(inputsById[exporterId], worldPool, ids.length) >= 4);
+        let score = number(lane.currentFlow, 0) / saturationPenalty;
+        if (hasGlobalHub && exporterExposure >= 4 && importerLimit <= 4) score *= 0.18;
+        if (hasGlobalHub && exporterExposure >= 3 && importerLimit <= 3) score *= 0.45;
+        return score;
       };
 
       for (const lane of lanes) {
@@ -457,14 +488,15 @@
         if (forcedVisibleLane(lane)) addLane(lane);
       }
 
-      for (const importerId of ids) {
-        const limit = directImportPartnerLimit(inputsById[importerId], worldPool, ids.length);
-        const candidates = (lanesByImporter[importerId] || [])
-          .filter((lane) => number(lane.currentFlow, 0) > 0)
-          .sort((a, b) => number(b.currentFlow, 0) - number(a.currentFlow, 0));
-        for (const lane of candidates) {
-          if (importerCounts[importerId] >= limit) break;
-          addLane(lane);
+      const maxImporterLimit = Math.max(...Object.values(importerLimits), 0);
+      for (let round = 0; round < maxImporterLimit; round += 1) {
+        for (const importerId of ids) {
+          const limit = importerLimits[importerId] || 0;
+          if ((importerCounts[importerId] || 0) >= limit) continue;
+          const candidates = (lanesByImporter[importerId] || [])
+            .filter((lane) => number(lane.currentFlow, 0) > 0 && !visible.has(laneKey(lane)))
+            .sort((a, b) => candidateScore(b) - candidateScore(a));
+          if (candidates[0]) addLane(candidates[0]);
         }
       }
 
@@ -484,11 +516,12 @@
         let added = 0;
         for (const lane of candidates) {
           if (added >= limit) break;
-          const importerLimit = directImportPartnerLimit(inputsById[lane.importerId], worldPool, ids.length);
-          if ((importerCounts[lane.importerId] || 0) >= importerLimit) continue;
+          const importerLimit = importerLimits[lane.importerId] || 0;
+          if ((importerCounts[lane.importerId] || 0) >= importerLimit + 2) continue;
           addLane(lane);
           added += 1;
         }
+        if (exporterCounts[exporterId] <= 0 && candidates[0]) addLane(candidates[0]);
       }
 
       for (const lane of lanes) {
