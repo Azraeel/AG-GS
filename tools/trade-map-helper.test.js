@@ -2,10 +2,12 @@ const assert = require("node:assert/strict");
 const test = require("node:test");
 
 global.window = global;
+require("../site/data.js");
 require("../site/js/app/tradeMapShapes.js");
 require("../site/js/app/tradeMap.js");
 
 const TradeMap = global.AGGS_TRADE_MAP;
+const data = global.AGGS_DATA;
 
 test("trade map helper exposes the real SVG map manifest", () => {
   const config = TradeMap.mapConfig();
@@ -32,6 +34,20 @@ test("trade map helper creates clickable territory shapes for nations", () => {
   assert.ok(shapes[0].centroid.x < shapes[1].centroid.x, "Solara seed should sit west of Xanaqu");
   assert.ok(shapes[0].centroid.y <= TradeMap.mapConfig().height, "visual centroid should fit the real map viewBox");
   assert.equal(shapes[0].geography.y, 88, "trade geography should stay in the legacy 0-100 coordinate space");
+});
+
+test("real SVG map uses label-aligned click anchors for every ledger nation", () => {
+  const shapes = TradeMap.territoriesForNations(data.nations, "solara");
+  const byId = Object.fromEntries(shapes.map((shape) => [shape.nationId, shape]));
+
+  assert.equal(shapes.length, 50);
+  assert.equal(shapes.every((shape) => shape.anchorSource === "map-label"), true);
+  assert.ok(byId.solara.centroid.x < 7, "Solara click target should sit on the visible bottom-left map label");
+  assert.ok(byId.solara.centroid.y > 58, "Solara click target should sit on the visible bottom-left map label");
+  assert.ok(byId.republic_of_aurendale.centroid.x > 50 && byId.republic_of_aurendale.centroid.x < 57);
+  assert.ok(byId.republic_of_aurendale.centroid.y > 39 && byId.republic_of_aurendale.centroid.y < 47);
+  assert.ok(byId.karkalnadag_kingdom.centroid.x > 82 && byId.karkalnadag_kingdom.centroid.x < 88);
+  assert.ok(byId.karkalnadag_kingdom.centroid.y > 10 && byId.karkalnadag_kingdom.centroid.y < 15);
 });
 
 test("trade map helper turns partner rows into route overlays", () => {
