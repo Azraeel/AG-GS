@@ -343,6 +343,26 @@
       return flow * (tariffRate / 100) * 0.075 * collection;
     }
 
+    function tradeHubMultiplier(input, worldTradeFlow, nationCount) {
+      const normalizedShare = (Math.max(0, input.tradeFlow) / Math.max(worldTradeFlow, 1)) * Math.max(nationCount, 1);
+      return clamp(0.7 + Math.pow(normalizedShare, 0.82) * 0.42, 0.68, 2.9);
+    }
+
+    function automaticPartnerLimit(importer, exporterCount) {
+      const openness = policyNetworkAccess(importer.tradePolicy) * sanctionNetworkAccess(importer.sanctionsLevel);
+      const tradeScale = clamp(Math.log10(Math.max(10, importer.tradeFlow)) - 5, 0, 2.6);
+      const autarkyPenalty = importer.autarkyIndex / 28;
+      const target = Math.round(8 + tradeScale * 2.1 + (openness - 0.9) * 5 - autarkyPenalty);
+      return Math.min(exporterCount, clamp(target, 5, 18));
+    }
+
+    function forcedLaneFor(importerId, exporterId, targetedTariffs, exportAnchors, importAnchors, lanePolicies) {
+      return targetedTariffs?.[importerId]?.[exporterId] !== undefined
+        || number(importAnchors?.[importerId]?.[exporterId], 0) > 0
+        || number(exportAnchors?.[exporterId]?.[importerId], 0) > 0
+        || lanePolicies?.[importerId]?.[exporterId] !== undefined;
+    }
+
     function networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies) {
       return {
         importFlow: 0,
@@ -478,6 +498,9 @@
       const demandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id])]));
       const baselineDemandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id].baselineInput || inputsById[id])]));
       const supplyScores = Object.fromEntries(ids.map((id) => [id, exportSupplyScore(inputsById[id])]));
+      const hubInputs = Object.fromEntries(ids.map((id) => [id, inputsById[id].baselineInput || inputsById[id]]));
+      const worldTradeFlow = ids.reduce((total, id) => total + Math.max(0, hubInputs[id].tradeFlow), 0);
+      const hubMultipliers = Object.fromEntries(ids.map((id) => [id, tradeHubMultiplier(hubInputs[id], worldTradeFlow, ids.length)]));
       const importerRows = [];
 
       for (const importerId of ids) {
@@ -489,16 +512,24 @@
         const weighted = exporters.map((exporterId) => {
           const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
           const policy = lanePolicyFor(lanePolicies, importerId, exporterId);
-          const baseWeight = supplyScores[exporterId] * laneTariffMultiplier(tariffRate);
+          const baseWeight = supplyScores[exporterId] * hubMultipliers[exporterId] * laneTariffMultiplier(tariffRate);
           const policyMultiplier = lanePolicyMultiplier(policy);
           const weight = baseWeight * policyMultiplier;
-          return { exporterId, tariffRate, policy, baseWeight, policyMultiplier, weight };
+          const forced = forcedLaneFor(importerId, exporterId, targetedTariffs, exportAnchors, importAnchors, lanePolicies);
+          return { exporterId, tariffRate, policy, baseWeight, policyMultiplier, weight, forced };
         });
         const totalBaseWeight = weighted.reduce((total, row) => total + row.baseWeight, 0) || 1;
         const deniedWeight = weighted.reduce((total, row) => total + row.baseWeight * (1 - row.policyMultiplier), 0);
         const policyAccess = clamp(1 - (deniedWeight / totalBaseWeight) * 0.82, 0.18, 1);
         const adjustedPool = pool * policyAccess;
-        importerRows.push({ importerId, importer, adjustedPool, weighted });
+        const partnerLimit = automaticPartnerLimit(importer, exporters.length);
+        const automaticPartners = new Set(weighted
+          .filter((row) => !row.policy.embargo)
+          .sort((left, right) => right.weight - left.weight)
+          .slice(0, partnerLimit)
+          .map((row) => row.exporterId));
+        const activeWeighted = weighted.filter((row) => automaticPartners.has(row.exporterId) || row.forced);
+        importerRows.push({ importerId, importer, adjustedPool, weighted: activeWeighted });
       }
 
       const rawWorldPool = importerRows.reduce((total, row) => total + row.adjustedPool, 0);

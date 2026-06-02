@@ -421,6 +421,30 @@ test("Trade v3 global pool makes demand compete instead of creating unlimited wo
   assert.ok(worldImportFlow < baselineWorldImportFlow * 1.85, `${worldImportFlow} should stay inside the world pool from ${baselineWorldImportFlow}`);
 });
 
+test("Trade v3 concentrates automatic lanes around major trade hubs", () => {
+  const data = buildLargeTradeV3Scenario(50);
+  data.trade.nation_49.tradeFlow = 17700000;
+  data.trade.nation_49.exportReliance = 175;
+  data.trade.nation_49.tradePolicy = "Free Trade";
+  Engine.recalculateAll(data);
+
+  const network = Engine.calculateTradeNetwork(data);
+  const topTradeHub = "nation_49";
+  const lanesByImporter = new Map();
+  for (const lane of network.lanes) {
+    if (!lanesByImporter.has(lane.importerId)) lanesByImporter.set(lane.importerId, new Set());
+    lanesByImporter.get(lane.importerId).add(lane.exporterId);
+  }
+  const importerPartnerCounts = [...lanesByImporter.values()].map((partners) => partners.size);
+  const topHubImporters = network.lanes
+    .filter((lane) => lane.exporterId === topTradeHub)
+    .map((lane) => lane.importerId);
+
+  assert.ok(network.lanes.length < 50 * 49 * 0.35, `network should not create every pair; got ${network.lanes.length}`);
+  assert.ok(Math.max(...importerPartnerCounts) <= 18, `automatic partner count should stay bounded: ${Math.max(...importerPartnerCounts)}`);
+  assert.ok(topHubImporters.length >= 32, `${topTradeHub} should be a trade hub for most importers, got ${topHubImporters.length}`);
+});
+
 test("Trade v3 shipyard expansion grows the global trade pool", () => {
   const data = buildTradeV3Scenario();
   Engine.recalculateAll(data);

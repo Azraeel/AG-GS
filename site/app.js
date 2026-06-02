@@ -819,6 +819,11 @@
         const lanePolicy = data.tradeNetwork?.lanePolicies?.[selectedId]?.[partner.id] || {};
         const importFlow = Engine.number(importLane?.currentFlow, 0);
         const exportFlow = Engine.number(exportLane?.currentFlow, 0);
+        const hasPinnedControl = override !== undefined
+          || exportAnchor !== undefined
+          || importAnchor !== undefined
+          || lanePolicy.embargo === true
+          || (lanePolicy.sanctionsLevel && lanePolicy.sanctionsLevel !== "None");
         return {
           partner,
           importLane,
@@ -830,9 +835,11 @@
           override,
           exportAnchor,
           importAnchor,
-          lanePolicy
+          lanePolicy,
+          hasPinnedControl
         };
       })
+      .filter((row) => row.activity > 0 || row.hasPinnedControl)
       .sort((left, right) => right.activity - left.activity);
   }
 
