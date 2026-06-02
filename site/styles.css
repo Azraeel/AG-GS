@@ -923,6 +923,37 @@ select optgroup {
   font-weight: 750;
 }
 
+.trade-map-geography {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 14px;
+  margin-bottom: 16px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.trade-map-geography div {
+  min-width: 0;
+}
+
+.trade-map-geography span {
+  display: block;
+  color: #93a9c4;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.trade-map-geography strong {
+  display: block;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
 .trade-map-statline {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

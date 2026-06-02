@@ -174,6 +174,190 @@
     };
   }
 
+  function roundGeo(value, digits = 2) {
+    const factor = 10 ** digits;
+    return Math.round(value * factor) / factor;
+  }
+
+  function titleLabel(value) {
+    return String(value || "")
+      .split(/[_\s-]+/)
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ");
+  }
+
+  function positionFromVisualTarget(visualTarget) {
+    const config = mapConfig();
+    return {
+      x: roundGeo(clamp((visualTarget.x / Math.max(config.width, 1)) * 100, 0, 100), 2),
+      y: roundGeo(clamp((visualTarget.y / Math.max(config.height, 1)) * 100, 0, 100), 2)
+    };
+  }
+
+  function coordinateForPosition(position, label = "Capital") {
+    const longitude = roundGeo(position.x * 3.6 - 180, 2);
+    const latitude = roundGeo(90 - position.y * 1.8, 2);
+    return {
+      label,
+      x: position.x,
+      y: position.y,
+      latitude,
+      longitude
+    };
+  }
+
+  function regionForPosition(position) {
+    const column = position.x < 18
+      ? "far_west"
+      : position.x < 38
+        ? "west"
+        : position.x < 62
+          ? "central"
+          : position.x < 82
+            ? "east"
+            : "far_east";
+    const band = position.y < 24
+      ? "north"
+      : position.y < 48
+        ? "upper"
+        : position.y < 72
+          ? "lower"
+          : "south";
+    const continent = column === "far_west"
+      ? "Western Reach"
+      : column === "west"
+        ? "Western Mainland"
+        : column === "central"
+          ? "Central Belt"
+          : column === "east"
+            ? "Eastern Mainland"
+            : "Eastern Reach";
+    return {
+      region: `${band}_${column}`,
+      regionLabel: titleLabel(`${band}_${column}`),
+      continent
+    };
+  }
+
+  function inferCoast(position, baseProfile = {}) {
+    const routeAccess = Array.isArray(baseProfile.routeAccess) ? baseProfile.routeAccess : [];
+    const seededCoastal = baseProfile.coastal === true || Number(baseProfile.portStrength) > 0 || routeAccess.some((route) => String(route).includes("ocean") || String(route).includes("port"));
+    const edgeCoastal = position.x <= 12 || position.x >= 88 || position.y <= 16 || position.y >= 82;
+    const coastal = seededCoastal || edgeCoastal;
+    const west = position.x <= 18;
+    const east = position.x >= 82;
+    const south = position.y >= 72;
+    const north = position.y <= 24;
+    const oceanZone = !coastal
+      ? ""
+      : west
+        ? "Western Ocean"
+        : east
+          ? "Eastern Ocean"
+          : south
+            ? "Southern Ocean"
+            : north
+              ? "Northern Sea"
+              : "Central Sea";
+    const coastline = !coastal
+      ? "Landlocked"
+      : edgeCoastal
+        ? "Open Coast"
+        : "Connected Coast";
+    const portStrength = coastal ? clamp(Number(baseProfile.portStrength) || (edgeCoastal ? 5 : 3), 1, 10) : 0;
+    return {
+      coastal,
+      landlocked: !coastal,
+      coastline,
+      oceanZone,
+      portStrength,
+      routeAccess: coastal ? [...new Set([...routeAccess, "ocean", "land"])] : [...new Set([...routeAccess, "land"])]
+    };
+  }
+
+  function portForPosition(position, coast) {
+    if (!coast.coastal) return null;
+    const portPosition = { ...position };
+    if (coast.oceanZone === "Western Ocean") portPosition.x = clamp(portPosition.x - 2.4, 0, 100);
+    if (coast.oceanZone === "Eastern Ocean") portPosition.x = clamp(portPosition.x + 2.4, 0, 100);
+    if (coast.oceanZone === "Southern Ocean") portPosition.y = clamp(portPosition.y + 2.4, 0, 100);
+    if (coast.oceanZone === "Northern Sea") portPosition.y = clamp(portPosition.y - 2.4, 0, 100);
+    if (coast.oceanZone === "Central Sea") portPosition.y = clamp(portPosition.y + 1.6, 0, 100);
+    return coordinateForPosition({
+      x: roundGeo(portPosition.x, 2),
+      y: roundGeo(portPosition.y, 2)
+    }, "Primary Port");
+  }
+
+  function enrichGeography(baseProfile, visualTarget, nation, index) {
+    const position = positionFromVisualTarget(visualTarget);
+    const region = regionForPosition(position);
+    const coast = inferCoast(position, baseProfile);
+    const capital = coordinateForPosition(position, "Capital");
+    const primaryPort = portForPosition(position, coast);
+    return {
+      ...baseProfile,
+      x: position.x,
+      y: position.y,
+      legacyRegion: baseProfile.region || "",
+      region: region.region,
+      regionLabel: region.regionLabel,
+      continent: region.continent,
+      coastal: coast.coastal,
+      landlocked: coast.landlocked,
+      coastline: coast.coastline,
+      oceanZone: coast.oceanZone,
+      portStrength: coast.portStrength,
+      routeAccess: coast.routeAccess,
+      capital,
+      primaryPort,
+      mapPosition: {
+        x: position.x,
+        y: position.y,
+        source: visualTarget.anchorSource || "generated"
+      },
+      neighborIds: [],
+      borderCandidates: [],
+      geographySource: "svg-anchor-v1",
+      geographyIndex: index,
+      nationName: nation.name
+    };
+  }
+
+  function distanceBetweenGeography(left, right) {
+    const dx = Number(left.x) - Number(right.x);
+    const dy = Number(left.y) - Number(right.y);
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  function applyNeighborCandidates(territories) {
+    const geographyById = Object.fromEntries(territories.map((territory) => [territory.nationId, territory.geography]));
+    for (const territory of territories) {
+      const candidates = territories
+        .filter((candidate) => candidate.nationId !== territory.nationId)
+        .map((candidate) => {
+          const distance = distanceBetweenGeography(territory.geography, candidate.geography);
+          const sameRegion = territory.geography.region === candidate.geography.region;
+          const sameContinent = territory.geography.continent === candidate.geography.continent;
+          const borderScore = roundGeo(clamp(100 - distance * 3.4 + (sameRegion ? 18 : 0) + (sameContinent ? 8 : 0), 0, 100), 1);
+          return {
+            id: candidate.nationId,
+            name: candidate.name,
+            distance: roundGeo(distance, 2),
+            sameRegion,
+            sameContinent,
+            borderScore
+          };
+        })
+        .sort((left, right) => right.borderScore - left.borderScore || left.distance - right.distance)
+        .slice(0, 5);
+      geographyById[territory.nationId].neighborIds = candidates.slice(0, 4).map((candidate) => candidate.id);
+      geographyById[territory.nationId].borderCandidates = candidates;
+    }
+    return geographyById;
+  }
+
   function roundedRectPath(cx, cy, width, height) {
     const config = mapConfig();
     const rx = Math.min(width / 2, 0.9);
@@ -288,9 +472,10 @@
   }
 
   function territoriesForNations(nations = [], selectedId = "") {
-    return nations.map((nation, index) => {
+    const territories = nations.map((nation, index) => {
       const geographyProfile = profileForNation(nation, index, nations.length);
       const visualTarget = visualTargetForNation(nation, geographyProfile, index);
+      const geography = enrichGeography(geographyProfile, visualTarget, nation, index);
       return {
         id: `territory_${nation.id}`,
         nationId: nation.id,
@@ -299,7 +484,7 @@
         selected: nation.id === selectedId,
         path: visualTarget.path,
         centroid: { x: visualTarget.x, y: visualTarget.y },
-        geography: geographyProfile,
+        geography,
         anchorSource: visualTarget.anchorSource,
         labelClusterId: visualTarget.labelClusterId || "",
         labelPathIndices: visualTarget.labelPathIndices || [],
@@ -309,6 +494,8 @@
         sourceBounds: visualTarget.sourceBounds || null
       };
     });
+    applyNeighborCandidates(territories);
+    return territories;
   }
 
   function routePath(from, to, bend = 0.18) {

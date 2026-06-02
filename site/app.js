@@ -1019,6 +1019,40 @@
       ${tradeGeneratorPreviewHtml(preview)}`;
   }
 
+  function coordinateText(point) {
+    if (!point || !Number.isFinite(Number(point.latitude)) || !Number.isFinite(Number(point.longitude))) return "Unmapped";
+    const latitude = Number(point.latitude);
+    const longitude = Number(point.longitude);
+    const latText = `${Math.abs(latitude).toFixed(1)}${latitude >= 0 ? "N" : "S"}`;
+    const lonText = `${Math.abs(longitude).toFixed(1)}${longitude >= 0 ? "E" : "W"}`;
+    return `${latText}, ${lonText}`;
+  }
+
+  function compactNeighborNames(ids = []) {
+    const names = ids
+      .map((id) => byId(id)?.name)
+      .filter(Boolean);
+    if (!names.length) return "Unmapped";
+    const shown = names.slice(0, 3).join(", ");
+    return names.length > 3 ? `${shown} +${names.length - 3}` : shown;
+  }
+
+  function geographyItemsFor(id) {
+    const geo = data.tradeNetwork?.geography?.nations?.[id] || {};
+    const coastText = geo.coastal
+      ? `${geo.oceanZone || "Coastal"} / Port ${fmtNumber(geo.portStrength || 0)}`
+      : "Landlocked";
+    const items = [
+      { label: "Capital", value: coordinateText(geo.capital) },
+      { label: "Region", value: geo.regionLabel || geo.region || "Unmapped" },
+      { label: "Continent", value: geo.continent || "Unmapped" },
+      { label: "Coast", value: coastText },
+      { label: "Borders", value: compactNeighborNames(geo.neighborIds || []) }
+    ];
+    if (geo.primaryPort) items.splice(4, 0, { label: "Port", value: coordinateText(geo.primaryPort) });
+    return items;
+  }
+
   function tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool) {
     const mapConfig = TradeMap.mapConfig?.() || { hasRealSvg: false, assetPath: "assets/world-map.png", width: 100, height: 100, viewBox: "0 0 100 100", sourceTerritoryCount: 0 };
     const mapAssetHref = `${isAdmin ? "../" : ""}${mapConfig.assetPath}`;
@@ -1107,6 +1141,13 @@
             <span class="section-kicker">Selected Territory</span>
             <h2>${safeText(selected.name)}</h2>
             <p>${safeText(routeSummary)} · world pool ${safeText(worldPoolValue)}</p>
+            <div class="trade-map-geography">
+              ${geographyItemsFor(selected.id).map((item) => `
+                <div>
+                  <span>${safeText(item.label)}</span>
+                  <strong>${safeText(item.value)}</strong>
+                </div>`).join("")}
+            </div>
             <div class="trade-map-statline">
               ${tradeMetrics.slice(0, 6).map((metric) => `
                 <div>

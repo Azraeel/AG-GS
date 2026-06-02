@@ -405,11 +405,21 @@
         x: clamp(x, 0, 100),
         y: clamp(y, 0, 100),
         region: String(raw.region || "global").toLowerCase(),
+        regionLabel: raw.regionLabel || "",
+        continent: raw.continent || "",
         coastal,
         landlocked: raw.landlocked === true && !coastal,
+        coastline: raw.coastline || (coastal ? "Coastal" : "Landlocked"),
+        oceanZone: raw.oceanZone || "",
         portStrength,
         routeAccess,
-        tradeHubWeight: clamp(number(raw.tradeHubWeight, 1), 0.25, 3)
+        tradeHubWeight: clamp(number(raw.tradeHubWeight, 1), 0.25, 3),
+        capital: raw.capital || null,
+        primaryPort: raw.primaryPort || null,
+        neighborIds: Array.isArray(raw.neighborIds) ? raw.neighborIds : [],
+        borderCandidates: Array.isArray(raw.borderCandidates) ? raw.borderCandidates : [],
+        mapPosition: raw.mapPosition || null,
+        geographySource: raw.geographySource || ""
       };
     }
 

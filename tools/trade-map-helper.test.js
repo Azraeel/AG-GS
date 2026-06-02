@@ -37,7 +37,13 @@ test("trade map helper creates clickable territory shapes for nations", () => {
   assert.match(shapes[0].path, /^M /);
   assert.ok(shapes[0].centroid.x < shapes[1].centroid.x, "Solara seed should sit west of Xanaqu");
   assert.ok(shapes[0].centroid.y <= TradeMap.mapConfig().height, "visual centroid should fit the real map viewBox");
-  assert.equal(shapes[0].geography.y, 88, "trade geography should stay in the legacy 0-100 coordinate space");
+  assert.ok(shapes[0].geography.x >= 0 && shapes[0].geography.x <= 100, "trade geography should stay in the 0-100 coordinate space");
+  assert.ok(shapes[0].geography.y >= 0 && shapes[0].geography.y <= 100, "trade geography should stay in the 0-100 coordinate space");
+  assert.equal(shapes[0].geography.capital.label, "Capital");
+  assert.equal(shapes[0].geography.coastal, true);
+  assert.equal(shapes[0].geography.oceanZone, "Western Ocean");
+  assert.ok(shapes[0].geography.primaryPort.longitude < shapes[0].geography.capital.longitude, "western port should sit closer to the western ocean");
+  assert.ok(Array.isArray(shapes[0].geography.neighborIds) && shapes[0].geography.neighborIds.length >= 1);
 });
 
 test("real SVG map uses label-aligned click anchors for every ledger nation", () => {
@@ -52,6 +58,12 @@ test("real SVG map uses label-aligned click anchors for every ledger nation", ()
   assert.equal(shapes.every((shape) => shape.sourceBounds?.width > 0 && shape.sourceBounds?.height > 0), true);
   assert.equal(byId.astoria.anchorSource, "svg-territory");
   assert.equal(byId.astoria.sourceTerritoryId, "svg_path_15");
+  assert.equal(byId.astoria.geography.coastal, true);
+  assert.equal(byId.astoria.geography.oceanZone, "Western Ocean");
+  assert.equal(byId.astoria.geography.capital.label, "Capital");
+  assert.ok(byId.astoria.geography.neighborIds.includes("federation_of_vinterholm"));
+  assert.ok(shapes.every((shape) => shape.geography.continent && shape.geography.regionLabel));
+  assert.ok(shapes.every((shape) => Array.isArray(shape.geography.borderCandidates) && shape.geography.borderCandidates.length > 0));
   assert.ok(byId.astoria.centroid.x > 2.5 && byId.astoria.centroid.x < 4, "Astoria click target should sit inside the black Astoria territory");
   assert.ok(byId.astoria.centroid.y > 29 && byId.astoria.centroid.y < 31, "Astoria click target should sit inside the black Astoria territory");
   assert.ok(byId.solara.centroid.x > 3 && byId.solara.centroid.x < 10, "Solara click target should sit on the visible bottom-left map label");
