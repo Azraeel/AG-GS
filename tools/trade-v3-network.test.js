@@ -653,6 +653,69 @@ test("Trade route network reports Khalindar-calibrated map miles", () => {
   assert.ok(network.routeNetwork.scale.milesPerMapUnit > 130 && network.routeNetwork.scale.milesPerMapUnit < 140);
 });
 
+test("Trade route network uses A* route mesh paths instead of direct ocean lines", () => {
+  const data = buildLargeTradeV3Scenario(2);
+  const [exporter, importer] = data.nations.map((nation) => nation.id);
+  for (const id of [exporter, importer]) {
+    data.trade[id].tradeFlow = 1000000;
+    data.trade[id].importReliance = 100;
+    data.trade[id].exportReliance = 100;
+    data.trade[id].economicTradeDiversity = 100;
+    data.trade[id].tradePolicy = "Free Trade";
+    data.trade[id].tariffRate = 3;
+  }
+  data.trade[exporter].exportReliance = 220;
+  data.trade[importer].importReliance = 220;
+  data.tradeNetwork = {
+    geography: {
+      map: {
+        squareMilesPerMapUnit: 10000
+      },
+      routeMesh: {
+        version: "unit-test-route-mesh",
+        nodes: [
+          { id: "zone:west_sea", zoneId: "west_sea", type: "sea_zone", x: 20, y: 50 },
+          { id: "zone:middle_sea", zoneId: "middle_sea", type: "sea_zone", x: 50, y: 40 },
+          { id: "zone:east_sea", zoneId: "east_sea", type: "sea_zone", x: 80, y: 50 }
+        ],
+        edges: [
+          { from: "zone:west_sea", to: "zone:east_sea", cost: 120 },
+          { from: "zone:west_sea", to: "zone:middle_sea", cost: 24 },
+          { from: "zone:middle_sea", to: "zone:east_sea", cost: 24 }
+        ]
+      },
+      nations: {
+        [exporter]: {
+          x: 20,
+          y: 50,
+          coastal: true,
+          portStrength: 8,
+          routeAccess: ["ocean"],
+          primaryPort: { x: 20, y: 50 }
+        },
+        [importer]: {
+          x: 80,
+          y: 50,
+          coastal: true,
+          portStrength: 8,
+          routeAccess: ["ocean"],
+          primaryPort: { x: 80, y: 50 }
+        }
+      }
+    }
+  };
+
+  Engine.recalculateAll(data);
+  const network = Engine.calculateTradeNetwork(data);
+  const lane = network.lanes.find((entry) => entry.importerId === importer && entry.exporterId === exporter);
+
+  assert.equal(lane.routeMode, "maritime");
+  assert.equal(lane.routeMeshVersion, "unit-test-route-mesh");
+  assert.ok(lane.routeNodes.includes("zone:middle_sea"), `expected A* route through middle sea: ${lane.routeNodes.join(" > ")}`);
+  assert.ok(lane.routePath.length >= 5, "route should include start, mesh nodes, and end points");
+  assert.ok(lane.routeDistanceMiles < 6000, `A* should avoid the expensive direct edge, got ${lane.routeDistanceMiles}`);
+});
+
 test("Trade route network reroutes landlocked trade when a transit country blocks access", () => {
   const data = buildLargeTradeV3Scenario(4);
   const [inland, primaryPort, alternatePort, buyer] = data.nations.map((nation) => nation.id);

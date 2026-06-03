@@ -147,3 +147,41 @@ test("trade map helper turns partner rows into route overlays", () => {
   assert.equal(routes[0].routeType, "ocean");
   assert.match(routes[0].path, /^M /);
 });
+
+test("trade map helper draws solved route polylines when lane path points exist", () => {
+  const nations = [
+    { id: "solara", name: "Solara", color: "#c2b72e" },
+    { id: "people_s_federation_of_xanaqu", name: "People's Federation of Xanaqu", color: "#884b43" }
+  ];
+  const shapes = TradeMap.territoriesForNations(nations, "solara");
+  const rows = [{
+    partner: nations[1],
+    importFlow: 1200,
+    exportFlow: 400,
+    importLane: {
+      routeType: "ocean",
+      routeDistance: 44,
+      routePath: [
+        { x: 8, y: 88 },
+        { x: 24, y: 76 },
+        { x: 39, y: 75 }
+      ]
+    },
+    exportLane: {
+      routeType: "ocean",
+      routeDistance: 44,
+      routePath: [
+        { x: 39, y: 75 },
+        { x: 24, y: 76 },
+        { x: 8, y: 88 }
+      ]
+    }
+  }];
+
+  const routes = TradeMap.routesForRows("solara", rows, shapes);
+
+  assert.equal(routes.length, 1);
+  assert.match(routes[0].path, /^M /);
+  assert.match(routes[0].path, / L /, "solved routes should render as polylines");
+  assert.doesNotMatch(routes[0].path, / Q /, "solved routes should not use fallback quadratic arcs");
+});

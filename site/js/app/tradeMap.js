@@ -178,6 +178,11 @@
     return manifest && Array.isArray(manifest.zones) ? manifest : null;
   }
 
+  function tradeRouteMesh() {
+    const mesh = root.AGGS_TRADE_ROUTE_MESH;
+    return mesh && Array.isArray(mesh.nodes) && Array.isArray(mesh.edges) ? mesh : null;
+  }
+
   function sourceLabelMap() {
     return Object.fromEntries(sourceLabels().map((label) => [label.id, label]));
   }
@@ -605,6 +610,24 @@
     return `M ${from.x.toFixed(2)} ${from.y.toFixed(2)} Q ${curveX.toFixed(2)} ${curveY.toFixed(2)} ${to.x.toFixed(2)} ${to.y.toFixed(2)}`;
   }
 
+  function routePolylinePath(points = []) {
+    const config = mapConfig();
+    const validPoints = points
+      .map((point) => ({
+        x: Number(point?.x),
+        y: Number(point?.y)
+      }))
+      .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y))
+      .map((point) => ({
+        x: clamp((point.x / 100) * config.width, 0, config.width),
+        y: clamp((point.y / 100) * config.height, 0, config.height)
+      }));
+    if (validPoints.length < 2) return "";
+    return validPoints
+      .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`)
+      .join(" ");
+  }
+
   function routesForRows(selectedId, rows = [], territories = [], maxRoutes = 12) {
     const byId = Object.fromEntries(territories.map((territory) => [territory.nationId, territory]));
     const selected = byId[selectedId];
@@ -618,6 +641,7 @@
         const partner = byId[row.partner.id];
         const importHeavy = row.importFlow >= row.exportFlow;
         const lane = importHeavy ? row.importLane : row.exportLane;
+        const solvedPath = routePolylinePath(lane?.routePath || []);
         return {
           partnerId: row.partner.id,
           partnerName: row.partner.name,
@@ -626,7 +650,7 @@
           totalFlow: row.importFlow + row.exportFlow,
           routeType: lane?.routeType || "direct",
           routeDistance: lane?.routeDistance,
-          path: routePath(selected.centroid, partner.centroid, 0.12 + (index % 4) * 0.035)
+          path: solvedPath || routePath(selected.centroid, partner.centroid, 0.12 + (index % 4) * 0.035)
         };
       });
   }
@@ -642,6 +666,8 @@
     data.tradeNetwork.geography.nations = data.tradeNetwork.geography.nations && typeof data.tradeNetwork.geography.nations === "object" && !Array.isArray(data.tradeNetwork.geography.nations)
       ? data.tradeNetwork.geography.nations
       : {};
+    const mesh = tradeRouteMesh();
+    if (mesh) data.tradeNetwork.geography.routeMesh = mesh;
     const territories = territoriesForNations(data.nations);
     for (const territory of territories) {
       data.tradeNetwork.geography.nations[territory.nationId] = {
@@ -658,6 +684,7 @@
     sourceTerritories,
     sourceLabels,
     tradeZones,
+    tradeRouteMesh,
     territoriesForNations,
     routesForRows,
     ensureGeography

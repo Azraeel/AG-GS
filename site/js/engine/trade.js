@@ -597,6 +597,157 @@
       return [];
     }
 
+    function routeMeshForData(data) {
+      const mesh = tradeNetworkState(data).geography?.routeMesh;
+      if (!mesh || typeof mesh !== "object" || Array.isArray(mesh)) return null;
+      const nodes = Array.isArray(mesh.nodes)
+        ? mesh.nodes
+            .map((node) => ({
+              id: String(node.id || ""),
+              zoneId: String(node.zoneId || node.id || ""),
+              label: String(node.label || node.zoneId || node.id || ""),
+              type: String(node.type || "sea_zone"),
+              chokepoint: node.chokepoint === true || String(node.type || "") === "strait",
+              x: clamp(number(node.x, NaN), 0, 100),
+              y: clamp(number(node.y, NaN), 0, 100)
+            }))
+            .filter((node) => node.id && Number.isFinite(node.x) && Number.isFinite(node.y))
+        : [];
+      const nodeById = Object.fromEntries(nodes.map((node) => [node.id, node]));
+      const adjacency = Object.fromEntries(nodes.map((node) => [node.id, []]));
+      for (const edge of Array.isArray(mesh.edges) ? mesh.edges : []) {
+        const from = String(edge.from || "");
+        const to = String(edge.to || "");
+        if (!nodeById[from] || !nodeById[to]) continue;
+        const cost = Math.max(0.01, number(edge.cost, mapDistanceUnits(nodeById[from], nodeById[to], { width: 100, height: 100 }, false)));
+        const chokepoints = Array.isArray(edge.chokepoints) ? edge.chokepoints.map((id) => String(id)).filter(Boolean) : [];
+        adjacency[from].push({ id: to, cost, chokepoints });
+        adjacency[to].push({ id: from, cost, chokepoints });
+      }
+      if (!nodes.length) return null;
+      return {
+        version: mesh.version || "route-mesh",
+        nodes,
+        nodeById,
+        adjacency
+      };
+    }
+
+    function routePointForGeography(geo, preferPort = true) {
+      const source = preferPort && geo?.primaryPort ? geo.primaryPort : geo?.capital || geo;
+      return {
+        x: clamp(number(source?.x, geo?.x || 0), 0, 100),
+        y: clamp(number(source?.y, geo?.y || 0), 0, 100)
+      };
+    }
+
+    function pointDistanceUnits(left, right) {
+      if (!left || !right) return DEFAULT_MAP_DIAGONAL;
+      const dx = number(left.x, 0) - number(right.x, 0);
+      const dy = number(left.y, 0) - number(right.y, 0);
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function nearestRouteMeshNode(mesh, point) {
+      return mesh?.nodes
+        ?.slice()
+        .sort((left, right) => pointDistanceUnits(left, point) - pointDistanceUnits(right, point))[0] || null;
+    }
+
+    function solveRouteMeshPath(mesh, startPoint, endPoint) {
+      if (!mesh || !startPoint || !endPoint || !mesh.nodes.length) return null;
+      const startAnchor = nearestRouteMeshNode(mesh, startPoint);
+      const endAnchor = nearestRouteMeshNode(mesh, endPoint);
+      if (!startAnchor || !endAnchor) return null;
+      const startId = "__route_start";
+      const endId = "__route_end";
+      const pointById = {
+        [startId]: startPoint,
+        [endId]: endPoint,
+        ...Object.fromEntries(mesh.nodes.map((node) => [node.id, node]))
+      };
+      const open = new Set([startId]);
+      const closed = new Set();
+      const cameFrom = new Map();
+      const gScore = new Map([[startId, 0]]);
+      const routeChokes = new Map();
+
+      function heuristic(id) {
+        return pointDistanceUnits(pointById[id], endPoint);
+      }
+
+      function neighbors(id) {
+        if (id === startId) {
+          return [{ id: startAnchor.id, cost: Math.max(0.01, pointDistanceUnits(startPoint, startAnchor)), chokepoints: [] }];
+        }
+        if (id === endId) return [];
+        const base = mesh.adjacency[id] || [];
+        const list = base.slice();
+        if (id === endAnchor.id) {
+          list.push({ id: endId, cost: Math.max(0.01, pointDistanceUnits(pointById[id], endPoint)), chokepoints: [] });
+        }
+        return list;
+      }
+
+      while (open.size) {
+        let current = null;
+        let currentScore = Infinity;
+        for (const id of open) {
+          const score = (gScore.get(id) ?? Infinity) + heuristic(id);
+          if (score < currentScore) {
+            current = id;
+            currentScore = score;
+          }
+        }
+        if (current === endId) {
+          const ids = [];
+          let cursor = endId;
+          while (cursor) {
+            ids.unshift(cursor);
+            cursor = cameFrom.get(cursor);
+          }
+          const meshNodeIds = ids.filter((id) => id !== startId && id !== endId);
+          const chokepoints = [...new Set(meshNodeIds
+            .map((id) => mesh.nodeById[id])
+            .filter((node) => node?.chokepoint)
+            .map((node) => node.zoneId)
+            .concat(ids.flatMap((id) => routeChokes.get(id) || [])))];
+          return {
+            distanceUnits: roundPercent(gScore.get(endId) ?? 0),
+            routePath: ids.map((id) => ({
+              x: roundPercent(pointById[id].x),
+              y: roundPercent(pointById[id].y)
+            })),
+            routeNodes: meshNodeIds,
+            routeZones: meshNodeIds.map((id) => mesh.nodeById[id]?.zoneId).filter(Boolean),
+            chokepoints,
+            routeMeshVersion: mesh.version
+          };
+        }
+        open.delete(current);
+        closed.add(current);
+        for (const neighbor of neighbors(current)) {
+          if (closed.has(neighbor.id)) continue;
+          const tentative = (gScore.get(current) ?? Infinity) + Math.max(0.01, number(neighbor.cost, 0));
+          if (tentative >= (gScore.get(neighbor.id) ?? Infinity)) continue;
+          cameFrom.set(neighbor.id, current);
+          routeChokes.set(neighbor.id, neighbor.chokepoints || []);
+          gScore.set(neighbor.id, tentative);
+          open.add(neighbor.id);
+        }
+      }
+      return null;
+    }
+
+    function cachedRouteMeshPath(context, startPoint, endPoint) {
+      if (!context.routeMesh) return null;
+      const key = `${roundPercent(startPoint.x)},${roundPercent(startPoint.y)}>${roundPercent(endPoint.x)},${roundPercent(endPoint.y)}`;
+      if (context.routeMeshCache.has(key)) return context.routeMeshCache.get(key);
+      const route = solveRouteMeshPath(context.routeMesh, startPoint, endPoint);
+      context.routeMeshCache.set(key, route);
+      return route;
+    }
+
     function chokepointControlFor(chokepoints, id, importerId, exporterId) {
       const control = normalizeChokepointControl(chokepoints?.[id] || {});
       const targeted = control.targeted?.[importerId] || control.targeted?.[exporterId];
@@ -683,6 +834,10 @@
           routeConfidence: 0,
           routeEfficiency: 100,
           transitPath: [exporterId, importerId],
+          routePath: [],
+          routeNodes: [],
+          routeZones: [],
+          routeMeshVersion: "",
           chokepoints: [],
           chokepointSeverity: 0,
           transitBlocked: false,
@@ -699,6 +854,10 @@
         routeConfidence: 48,
         routeEfficiency: roundPercent(clamp(multiplier / 1.35, 0.04, 1.05) * 100),
         transitPath: [exporterId, importerId],
+        routePath: [],
+        routeNodes: [],
+        routeZones: [],
+        routeMeshVersion: "",
         chokepoints: [],
         chokepointSeverity: 0,
         transitBlocked: false,
@@ -707,7 +866,7 @@
     }
 
     function bestRouteForLane(importerId, exporterId, context) {
-      const { geography, scale, transitPolicies, chokepoints } = context;
+      const { geography, scale, transitPolicies, chokepoints, routeMesh } = context;
       const importerGeo = geography?.[importerId];
       const exporterGeo = geography?.[exporterId];
       if (!importerGeo || !exporterGeo) return fallbackRoute(importerId, exporterId, geography, scale);
@@ -724,6 +883,10 @@
           distanceUnits: units,
           multiplier,
           transitPath: [exporterId, importerId],
+          routePath: [],
+          routeNodes: [],
+          routeZones: [],
+          routeMeshVersion: "",
           chokepoints: [],
           chokepointSeverity: 0,
           transitBlockedBy: []
@@ -739,6 +902,10 @@
           distanceUnits: directMapUnits,
           multiplier,
           transitPath: [exporterId, importerId],
+          routePath: [],
+          routeNodes: [],
+          routeZones: [],
+          routeMeshVersion: "",
           chokepoints: [],
           chokepointSeverity: 0,
           transitBlockedBy: []
@@ -753,10 +920,17 @@
 
       for (const exportPort of exporterPorts.filter((option) => !option.blockedBy.length)) {
         for (const importPort of importerPorts.filter((option) => !option.blockedBy.length)) {
+          const meshRoute = exportPort.portId === importPort.portId
+            ? null
+            : cachedRouteMeshPath(context, routePointForGeography(exportPort.port), routePointForGeography(importPort.port));
           const oceanUnits = exportPort.portId === importPort.portId
             ? 0
-            : mapDistanceUnits(exportPort.port, importPort.port, scale, true) * 0.88;
-          const chokepointIds = routeChokepointsForOcean(exportPort.port, importPort.port);
+            : meshRoute
+              ? meshRoute.distanceUnits
+              : mapDistanceUnits(exportPort.port, importPort.port, scale, true) * 0.88;
+          const chokepointIds = meshRoute?.chokepoints?.length
+            ? meshRoute.chokepoints
+            : routeChokepointsForOcean(exportPort.port, importPort.port);
           const chokepoint = chokepointPenalty(chokepoints, chokepointIds, importerId, exporterId);
           if (chokepoint.blocked) continue;
           const distanceUnits = exportPort.landUnits + oceanUnits + importPort.landUnits;
@@ -772,6 +946,10 @@
             distanceUnits,
             multiplier,
             transitPath: uniqueRoutePath([...exportPort.path, ...importPort.path.slice().reverse()]),
+            routePath: meshRoute?.routePath || [],
+            routeNodes: meshRoute?.routeNodes || [],
+            routeZones: meshRoute?.routeZones || [],
+            routeMeshVersion: meshRoute?.routeMeshVersion || "",
             chokepoints: chokepointIds,
             chokepointSeverity: chokepoint.severity,
             transitBlockedBy: []
@@ -798,6 +976,10 @@
         routeConfidence: roundPercent(clamp(52 + best.multiplier * 25 - best.chokepointSeverity * 0.35, 25, 96)),
         routeEfficiency: roundPercent(clamp(best.multiplier / 1.35, 0.04, 1.08) * 100),
         transitPath: best.transitPath,
+        routePath: best.routePath || [],
+        routeNodes: best.routeNodes || [],
+        routeZones: best.routeZones || [],
+        routeMeshVersion: best.routeMeshVersion || "",
         chokepoints: best.chokepoints,
         chokepointSeverity: best.chokepointSeverity,
         transitBlocked: false,
@@ -811,7 +993,8 @@
       const chokepoints = cloneChokepoints(options.chokepoints || {});
       const ids = Object.keys(geography || {});
       const routes = {};
-      const context = { geography, scale, transitPolicies, chokepoints };
+      const routeMesh = routeMeshForData(data);
+      const context = { geography, scale, transitPolicies, chokepoints, routeMesh, routeMeshCache: new Map() };
       for (const importerId of ids) {
         for (const exporterId of ids) {
           if (importerId === exporterId) continue;
@@ -824,6 +1007,7 @@
           milesPerMapUnit: roundPercent(scale.milesPerMapUnit)
         },
         routes,
+        routeMesh: routeMesh ? { version: routeMesh.version, nodeCount: routeMesh.nodes.length } : null,
         chokepoints
       };
     }
@@ -1265,6 +1449,10 @@
             routeMode: route.routeMode || route.routeType,
             routeConfidence: route.routeConfidence,
             routeEfficiency: route.routeEfficiency,
+            routePath: route.routePath || [],
+            routeNodes: route.routeNodes || [],
+            routeZones: route.routeZones || [],
+            routeMeshVersion: route.routeMeshVersion || "",
             transitPath: route.transitPath || [exporterId, importerId],
             transitBlocked: route.transitBlocked === true,
             transitBlockedBy: route.transitBlockedBy || [],

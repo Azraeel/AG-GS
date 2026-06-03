@@ -57,6 +57,6 @@ test("trade map renders player drawn zone overlay instead of generated rectangle
   assert.match(appSource, /TradeMap\.tradeZones/);
   assert.doesNotMatch(appSource, /function tradeMapSeaZones/);
   assert.doesNotMatch(appSource, /tradeMapWaterMask/);
-  assert.match(publicHtml, /js\/app\/tradeZones\.js\?v=20260603-player-trade-zones/);
-  assert.match(adminHtml, /\.\.\/js\/app\/tradeZones\.js\?v=20260603-player-trade-zones/);
+  assert.match(publicHtml, /js\/app\/tradeZones\.js\?v=20260603-map-route-mesh/);
+  assert.match(adminHtml, /\.\.\/js\/app\/tradeZones\.js\?v=20260603-map-route-mesh/);
 });
