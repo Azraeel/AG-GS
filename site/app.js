@@ -1060,71 +1060,6 @@
     return items;
   }
 
-  function routeTypeLabel(value) {
-    return {
-      regional: "Regional",
-      ocean: "Ocean route",
-      interregional: "Interregional",
-      "distant-inland": "Distant inland",
-      unmapped: "Unmapped"
-    }[value] || safeStatus(value || "Unmapped");
-  }
-
-  function routePolicyLabel(row) {
-    if (row.lanePolicy?.embargo) return "Embargoed";
-    if (row.lanePolicy?.sanctionsLevel && row.lanePolicy.sanctionsLevel !== "None") return `${row.lanePolicy.sanctionsLevel} sanctions`;
-    if (row.override !== undefined) return "Targeted tariff";
-    if (row.importAnchor !== undefined && row.exportAnchor !== undefined) return "Two-way lock";
-    if (row.importAnchor !== undefined) return "Import lock";
-    if (row.exportAnchor !== undefined) return "Export lock";
-    return "Auto balanced";
-  }
-
-  function tradeMapRouteDetailsHtml(rows) {
-    if (!rows.length) {
-      return `
-        <div class="trade-map-route-detail" aria-label="Trade route detail">
-          <span class="section-kicker">Route Detail</span>
-          <p>No active corridors to inspect.</p>
-        </div>`;
-    }
-
-    const totalActivity = rows.reduce((total, row) => total + Math.max(0, row.activity || 0), 0);
-    const strongest = rows[0];
-    const strongestLane = strongest.importFlow >= strongest.exportFlow ? strongest.importLane : strongest.exportLane;
-    const importShare = totalActivity > 0 ? (strongest.importFlow / Math.max(strongest.activity, 1)) * 100 : 0;
-    const exportShare = Math.max(0, 100 - importShare);
-    const concentration = totalActivity > 0 ? (strongest.activity / totalActivity) * 100 : 0;
-    const routeLabel = routeTypeLabel(strongestLane?.routeType);
-    const tariffLabel = strongestLane?.tariffRate === undefined ? "No tariff data" : `${fmtPercent(strongestLane.tariffRate)} friction`;
-    const deltaTone = strongest.flowDelta >= 0 ? "positive" : "negative";
-
-    return `
-      <div class="trade-map-route-detail" aria-label="Trade route detail">
-        <span class="section-kicker">Route Detail</span>
-        <div class="trade-map-route-focus">
-          <span>Strongest corridor</span>
-          <strong>${safeText(strongest.partner.name)}</strong>
-          <em>${fmtNumber(strongest.activity)} flow · ${safeText(routeLabel)} · ${safeText(routePolicyLabel(strongest))}</em>
-        </div>
-        <div class="trade-map-route-split" style="--import-share:${Math.max(0, Math.min(100, importShare)).toFixed(2)}%; --export-share:${Math.max(0, Math.min(100, exportShare)).toFixed(2)}%;">
-          <div class="trade-map-route-split-track" aria-hidden="true">
-            <span class="import"></span>
-            <span class="export"></span>
-          </div>
-          <div class="trade-map-route-split-labels">
-            <span>Imports ${fmtNumber(strongest.importFlow)}</span>
-            <span>Exports ${fmtNumber(strongest.exportFlow)}</span>
-          </div>
-        </div>
-        <div class="trade-map-route-facts">
-          <div><span>Concentration</span><strong>${fmtPercent(concentration)}</strong></div>
-          <div><span>Delta</span><strong class="${deltaTone}">${fmtSigned(strongest.flowDelta)}</strong></div>
-          <div><span>Tariff</span><strong>${safeText(tariffLabel)}</strong></div>
-        </div>
-      </div>`;
-  }
-
   function tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool) {
     const mapConfig = TradeMap.mapConfig?.() || { hasRealSvg: false, assetPath: "assets/world-map.png", width: 100, height: 100, viewBox: "0 0 100 100", sourceTerritoryCount: 0 };
     const mapAssetHref = `${isAdmin ? "../" : ""}${mapConfig.assetPath}`;
@@ -1136,7 +1071,7 @@
     const routes = TradeMap.routesForRows?.(selected.id, rows, territories, 14) || [];
     const selectedTerritory = territories.find((territory) => territory.nationId === selected.id) || territories[0];
     const maxRouteFlow = Math.max(1, ...routes.map((route) => route.totalFlow || 0));
-    const topPartners = rows.slice(0, 2);
+    const topPartners = rows.slice(0, 4);
     const routeSummary = routes.length
       ? `${fmtNumber(routes.length)} direct routes shown`
       : "No direct routes visible";
@@ -1215,36 +1150,37 @@
             </g>`}
             </svg>
           </div>
-          <div class="trade-map-inspector">
-            <div class="trade-map-selected" style="--selected-color:${safeColor(selected.color)}">
-            <span class="section-kicker">Selected Territory</span>
-            <h2>${safeText(selected.name)}</h2>
-            <p>${safeText(routeSummary)} · world pool ${safeText(worldPoolValue)}</p>
-            <div class="trade-map-geography">
-              ${geographyItemsFor(selected.id).map((item) => `
-                <div>
-                  <span>${safeText(item.label)}</span>
-                  <strong>${safeText(item.value)}</strong>
-                </div>`).join("")}
+          <aside class="trade-map-rail" aria-label="Selected trade inspector">
+            <div class="trade-map-inspector">
+              <div class="trade-map-selected" style="--selected-color:${safeColor(selected.color)}">
+                <span class="section-kicker">Selected Territory</span>
+                <h2>${safeText(selected.name)}</h2>
+                <p>${safeText(routeSummary)} · world pool ${safeText(worldPoolValue)}</p>
+                <div class="trade-map-geography">
+                  ${geographyItemsFor(selected.id).map((item) => `
+                    <div>
+                      <span>${safeText(item.label)}</span>
+                      <strong>${safeText(item.value)}</strong>
+                    </div>`).join("")}
+                </div>
+                <div class="trade-map-statline">
+                  ${tradeMetrics.slice(0, 6).map((metric) => `
+                    <div>
+                      <span>${safeText(metric.label)}</span>
+                      <strong class="${metric.tone || ""}">${safeText(metric.value)}</strong>
+                    </div>`).join("")}
+                </div>
+              </div>
+              <div class="trade-map-route-list" aria-label="Major trade partners">
+                <span class="section-kicker">Major Partners</span>
+                ${topPartners.length ? topPartners.map((row) => `
+                  <button type="button" data-trade-map-nation="${escapeHtml(row.partner.id)}">
+                    <span>${safeText(row.partner.name)}</span>
+                    <strong>${fmtNumber(row.activity)}</strong>
+                  </button>`).join("") : `<p>No active direct partners.</p>`}
+              </div>
             </div>
-            <div class="trade-map-statline">
-              ${tradeMetrics.slice(0, 6).map((metric) => `
-                <div>
-                  <span>${safeText(metric.label)}</span>
-                  <strong class="${metric.tone || ""}">${safeText(metric.value)}</strong>
-                </div>`).join("")}
-            </div>
-          </div>
-            <div class="trade-map-route-list" aria-label="Major trade partners">
-              <span class="section-kicker">Major Partners</span>
-              ${topPartners.length ? topPartners.map((row) => `
-                <button type="button" data-trade-map-nation="${escapeHtml(row.partner.id)}">
-                  <span>${safeText(row.partner.name)}</span>
-                  <strong>${fmtNumber(row.activity)}</strong>
-                </button>`).join("") : `<p>No active direct partners.</p>`}
-            </div>
-            ${tradeMapRouteDetailsHtml(rows)}
-          </div>
+          </aside>
         </div>
       </div>`;
   }
