@@ -49,7 +49,14 @@ test("trade map helper creates clickable territory shapes for nations", () => {
 test("real SVG map uses label-aligned click anchors for every ledger nation", () => {
   const shapes = TradeMap.territoriesForNations(data.nations, "solara");
   const byId = Object.fromEntries(shapes.map((shape) => [shape.nationId, shape]));
-  const labelAnchoredShapes = shapes.filter((shape) => shape.nationId !== "astoria");
+  const territoryBoundIds = new Set([
+    "astoria",
+    "butonian_state",
+    "empire_of_hanazuki",
+    "imperial_dynasty_of_saochai",
+    "people_s_federation_of_xanaqu"
+  ]);
+  const labelAnchoredShapes = shapes.filter((shape) => !territoryBoundIds.has(shape.nationId));
 
   assert.equal(shapes.length, 50);
   assert.equal(labelAnchoredShapes.every((shape) => shape.anchorSource === "svg-label"), true);
@@ -64,8 +71,26 @@ test("real SVG map uses label-aligned click anchors for every ledger nation", ()
   assert.ok(byId.astoria.geography.neighborIds.includes("federation_of_vinterholm"));
   assert.ok(shapes.every((shape) => shape.geography.continent && shape.geography.regionLabel));
   assert.ok(shapes.every((shape) => Array.isArray(shape.geography.borderCandidates) && shape.geography.borderCandidates.length > 0));
+  assert.equal(byId.people_s_federation_of_xanaqu.anchorSource, "svg-territory");
+  assert.equal(byId.people_s_federation_of_xanaqu.sourceTerritoryId, "svg_path_14");
+  assert.equal(byId.butonian_state.anchorSource, "svg-territory");
+  assert.equal(byId.butonian_state.sourceTerritoryId, "svg_path_43");
+  assert.equal(byId.imperial_dynasty_of_saochai.anchorSource, "svg-territory");
+  assert.equal(byId.imperial_dynasty_of_saochai.sourceTerritoryId, "svg_path_11");
+  assert.equal(byId.empire_of_hanazuki.anchorSource, "svg-territory");
+  assert.equal(byId.empire_of_hanazuki.sourceTerritoryId, "svg_path_59");
+  assert.ok(byId.people_s_federation_of_xanaqu.transform);
+  assert.ok(byId.empire_of_hanazuki.transform);
   assert.ok(byId.astoria.centroid.x > 2.5 && byId.astoria.centroid.x < 4, "Astoria click target should sit inside the black Astoria territory");
   assert.ok(byId.astoria.centroid.y > 29 && byId.astoria.centroid.y < 31, "Astoria click target should sit inside the black Astoria territory");
+  assert.ok(byId.people_s_federation_of_xanaqu.centroid.x > 33 && byId.people_s_federation_of_xanaqu.centroid.x < 37);
+  assert.ok(byId.people_s_federation_of_xanaqu.centroid.y > 44 && byId.people_s_federation_of_xanaqu.centroid.y < 47);
+  assert.ok(byId.butonian_state.centroid.x > 14 && byId.butonian_state.centroid.x < 17);
+  assert.ok(byId.butonian_state.centroid.y > 42 && byId.butonian_state.centroid.y < 45);
+  assert.ok(byId.imperial_dynasty_of_saochai.centroid.x > 36 && byId.imperial_dynasty_of_saochai.centroid.x < 39);
+  assert.ok(byId.imperial_dynasty_of_saochai.centroid.y > 31 && byId.imperial_dynasty_of_saochai.centroid.y < 34);
+  assert.ok(byId.empire_of_hanazuki.centroid.x > 32 && byId.empire_of_hanazuki.centroid.x < 35);
+  assert.ok(byId.empire_of_hanazuki.centroid.y > 37 && byId.empire_of_hanazuki.centroid.y < 40);
   assert.ok(byId.solara.centroid.x > 3 && byId.solara.centroid.x < 10, "Solara click target should sit on the visible bottom-left map label");
   assert.ok(byId.solara.centroid.y > 54 && byId.solara.centroid.y < 59, "Solara click target should sit on the visible bottom-left map label");
   assert.ok(byId.republic_of_aurendale.centroid.x > 47 && byId.republic_of_aurendale.centroid.x < 51);

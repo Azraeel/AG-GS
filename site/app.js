@@ -1115,9 +1115,12 @@
               }).join("")}
             </g>
             <g class="trade-map-territories" aria-label="Clickable territories">
-              ${territories.map((territory) => `
+              ${territories.map((territory) => {
+                const transformAttr = territory.transform ? ` transform="${escapeHtml(territory.transform)}"` : "";
+                return `
                 <path class="trade-map-territory ${territory.selected ? "is-selected" : ""}"
                   d="${escapeHtml(territory.path)}"
+                  ${transformAttr}
                   fill="${safeColor(territory.color)}"
                   style="--territory-color:${safeColor(territory.color)}"
                   tabindex="0"
@@ -1128,7 +1131,8 @@
                   data-source-territory-id="${escapeHtml(territory.sourceTerritoryId || "")}"
                   data-trade-map-nation="${escapeHtml(territory.nationId)}">
                   <title>${safeText(territory.name)}</title>
-                </path>`).join("")}
+                </path>`;
+              }).join("")}
             </g>
             ${mapConfig.hasRealSvg ? "" : `<g class="trade-map-labels" aria-hidden="true">
               ${territories

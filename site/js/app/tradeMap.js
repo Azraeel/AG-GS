@@ -29,13 +29,11 @@
     baechong_democratic_republic: "svg_label_2113",
     benera_navine: "svg_label_359",
     bingtau_kingdom: "svg_label_287",
-    butonian_state: "svg_label_188",
     crovian_national_union: "svg_label_1107",
     democratic_republic_of_suzuharu: "svg_label_2786",
     dracoist_malonia: "svg_label_185",
     duchy_of_hoogeveen: "svg_label_1095",
     duchy_of_ledostrov: "svg_label_1007",
-    empire_of_hanazuki: "svg_label_501",
     empire_of_hyeosu: "svg_label_433",
     empire_of_khalindar: "svg_label_418",
     federated_syndicates_of_veszprem: "svg_label_478",
@@ -43,7 +41,6 @@
     fengu_people_s_federation: "svg_label_1141",
     fuji_shogunate: "svg_label_2673",
     hyelean_republic: "svg_label_214",
-    imperial_dynasty_of_saochai: "svg_label_830",
     imperial_rhovland: "svg_label_468",
     imperial_suomi: "svg_label_2020",
     judas_democratic_republic: "svg_label_475",
@@ -55,7 +52,6 @@
     okudan_empire: "svg_label_227",
     orinian_empire: "svg_label_490",
     pdr_of_hoshigoru: "svg_label_1006",
-    people_s_federation_of_xanaqu: "svg_label_2692",
     people_s_republic_of_mariposa: "svg_label_1097",
     republic_of_aurendale: "svg_label_1487",
     republic_of_belcanto: "svg_label_954",
@@ -77,7 +73,11 @@
   };
 
   const SVG_TERRITORY_BINDINGS = {
-    astoria: { sourceId: "svg_path_15", x: 3.2, y: 30.1 }
+    astoria: { sourceId: "svg_path_15", x: 3.2, y: 30.1 },
+    butonian_state: { sourceId: "svg_path_43" },
+    empire_of_hanazuki: { sourceId: "svg_path_59" },
+    imperial_dynasty_of_saochai: { sourceId: "svg_path_11" },
+    people_s_federation_of_xanaqu: { sourceId: "svg_path_14" }
   };
 
   function clamp(value, min, max) {
@@ -399,7 +399,8 @@
     return {
       x,
       y,
-      path: roundedRectPath(pathX, pathY, width, height),
+      path: binding.useRoundedBox ? roundedRectPath(pathX, pathY, width, height) : territory.path,
+      transform: binding.useRoundedBox ? "" : territory.transform,
       anchorSource: "svg-territory",
       sourceTerritoryId: territory.id,
       sourceTerritoryPathIndex: territory.sourcePathIndex,
@@ -428,6 +429,7 @@
       x,
       y,
       path: roundedRectPath(x, y, width, height),
+      transform: "",
       anchorSource: "svg-label",
       labelClusterId: label.id,
       labelPathIndices: [...(label.sourcePathIndices || [])],
@@ -447,6 +449,7 @@
       x: visualProfile.x,
       y: visualProfile.y,
       path: territoryPath(visualProfile, index),
+      transform: "",
       anchorSource: config.hasRealSvg ? "generated-fallback" : "generated",
       labelClusterId: "",
       labelPathIndices: [],
@@ -483,6 +486,7 @@
         color: nation.color || "#5f7fa8",
         selected: nation.id === selectedId,
         path: visualTarget.path,
+        transform: visualTarget.transform || "",
         centroid: { x: visualTarget.x, y: visualTarget.y },
         geography,
         anchorSource: visualTarget.anchorSource,
