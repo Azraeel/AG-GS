@@ -5,41 +5,39 @@ const test = require("node:test");
 
 const root = path.join(__dirname, "..");
 
-test("trade map inspector sits outside the clickable map stage", () => {
+test("trade map inspector renders as a compact overlay inside the map stage", () => {
   const source = fs.readFileSync(path.join(root, "site", "app.js"), "utf8");
   const layoutIndex = source.indexOf('<div class="trade-map-layout">');
   const stageIndex = source.indexOf('<div class="trade-map-stage">', layoutIndex);
   const svgCloseIndex = source.indexOf("</svg>", stageIndex);
-  const stageCloseIndex = source.indexOf("</div>", svgCloseIndex);
-  const railIndex = source.indexOf('<aside class="trade-map-rail"', stageCloseIndex);
-  const inspectorIndex = source.indexOf('<div class="trade-map-inspector">', railIndex);
+  const inspectorIndex = source.indexOf('<div class="trade-map-inspector"', svgCloseIndex);
   const selectedIndex = source.indexOf('<div class="trade-map-selected"', inspectorIndex);
   const partnersIndex = source.indexOf('<div class="trade-map-route-list"', inspectorIndex);
 
   assert.notEqual(layoutIndex, -1);
   assert.notEqual(stageIndex, -1);
   assert.notEqual(svgCloseIndex, -1);
-  assert.notEqual(stageCloseIndex, -1);
-  assert.notEqual(railIndex, -1);
   assert.notEqual(inspectorIndex, -1);
   assert.ok(stageIndex < svgCloseIndex, "the SVG should render inside the stage");
-  assert.ok(stageCloseIndex < railIndex, "the right rail should start after the stage closes");
-  assert.ok(railIndex < inspectorIndex, "the inspector should render inside the right rail");
+  assert.ok(svgCloseIndex < inspectorIndex, "the inspector should render after the map SVG inside the stage");
   assert.ok(inspectorIndex < selectedIndex, "selected territory details should render inside the inspector");
   assert.ok(inspectorIndex < partnersIndex, "partner controls should render inside the inspector");
-  assert.doesNotMatch(source, /tradeMapRouteDetailsHtml|trade-map-route-detail/);
+  assert.doesNotMatch(source, /tradeMapRouteDetailsHtml|trade-map-route-detail|trade-map-rail/);
 });
 
-test("trade map inspector panels are not overlay-positioned", () => {
+test("trade map inspector is a bounded overlay card with no full-height rail", () => {
   const source = fs.readFileSync(path.join(root, "site", "styles.css"), "utf8");
   const panelRule = source.match(/\.trade-map-selected,\s*\.trade-map-route-list,\s*\.trade-map-asset-note\s*\{[^}]+\}/);
-  const railRule = source.match(/\.trade-map-rail\s*\{[^}]+\}/);
+  const inspectorRule = source.match(/\.trade-map-inspector\s*\{[^}]+\}/);
   assert.ok(panelRule, "shared trade map panel rule should exist");
-  assert.ok(railRule, "trade map rail containment rule should exist");
+  assert.ok(inspectorRule, "trade map inspector rule should exist");
   assert.match(panelRule[0], /position:\s*relative/);
   assert.doesNotMatch(panelRule[0], /position:\s*absolute/);
-  assert.match(railRule[0], /overflow:\s*auto/);
-  assert.match(source, /\.trade-map-inspector\s*\{/);
+  assert.match(inspectorRule[0], /position:\s*absolute/);
+  assert.match(inspectorRule[0], /max-height:\s*calc/);
+  assert.match(inspectorRule[0], /overflow:\s*auto/);
+  assert.match(inspectorRule[0], /border:\s*1px solid/);
+  assert.doesNotMatch(source, /trade-map-rail/);
   assert.doesNotMatch(source, /trade-map-route-detail|trade-map-route-focus|trade-map-route-split|trade-map-route-facts/);
 });
 
@@ -76,11 +74,11 @@ test("trade map chrome stays compact instead of rendering filled dead space", ()
   assert.ok(tableWrapRule, "trade network table wrap rule should exist");
   assert.match(commandRule[0], /display:\s*flex/);
   assert.match(commandRule[0], /min-height:\s*64px/);
-  assert.match(layoutRule[0], /align-items:\s*stretch/);
   assert.match(layoutRule[0], /overflow:\s*hidden/);
+  assert.doesNotMatch(layoutRule[0], /grid-template-columns/);
   assert.match(stageRule[0], /aspect-ratio:\s*8800\s*\/\s*5806/);
   assert.match(modebarRule[0], /flex-wrap:\s*nowrap/);
-  assert.match(inspectorRule[0], /background:\s*transparent/);
+  assert.match(inspectorRule[0], /width:\s*min/);
   assert.match(tableWrapRule[0], /height:\s*clamp/);
   assert.doesNotMatch(tableWrapRule[0], /max-height/);
   assert.match(source, /:root\[data-theme="light"\]\s+\.trade-map-selected h2/);

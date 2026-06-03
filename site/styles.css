@@ -793,17 +793,13 @@ select optgroup {
 }
 
 .trade-map-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
   min-width: 0;
-  align-items: stretch;
   overflow: hidden;
 }
 
 .trade-map-stage {
   position: relative;
   width: 100%;
-  height: 100%;
   min-width: 0;
   min-height: 0;
   aspect-ratio: 8800 / 5806;
@@ -819,34 +815,32 @@ select optgroup {
     linear-gradient(135deg, #c9d3d3 0%, #98a8aa 42%, #b9c2ba 100%);
 }
 
-.trade-map-rail {
-  min-width: 0;
-  min-height: 0;
-  border-left: 1px solid rgba(255, 255, 255, 0.13);
-  background: color-mix(in srgb, var(--paper) 28%, transparent);
-  overflow: auto;
-  scrollbar-width: thin;
-}
-
-:root[data-theme="light"] .trade-map-rail {
-  border-left-color: rgba(20, 23, 26, 0.12);
-  background: color-mix(in srgb, var(--panel) 52%, transparent);
-}
-
 .trade-map-inspector {
+  position: absolute;
+  top: clamp(12px, 1.4vw, 18px);
+  right: clamp(12px, 1.4vw, 18px);
+  z-index: 4;
   display: grid;
   align-content: start;
   gap: 0;
+  width: min(380px, calc(100% - 24px));
+  max-height: calc(100% - clamp(24px, 2.8vw, 36px));
   min-width: 0;
   padding: clamp(14px, 1.6vw, 18px);
-  border-left: 0;
-  background: transparent;
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: color-mix(in srgb, #101923 88%, transparent);
   color: #edf2f7;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
+  scrollbar-width: thin;
 }
 
 :root[data-theme="light"] .trade-map-inspector {
-  background: transparent;
+  border-color: rgba(20, 23, 26, 0.16);
+  background: color-mix(in srgb, #f6f8fb 90%, transparent);
   color: var(--ink);
+  box-shadow: 0 18px 40px rgba(20, 23, 26, 0.16);
 }
 
 .trade-map-svg {
@@ -1508,31 +1502,12 @@ select optgroup {
 }
 
 @media (max-width: 1180px) {
-  .trade-map-layout {
-    grid-template-columns: 1fr;
-    height: auto;
-    min-height: 0;
-  }
-
   .trade-map-stage {
-    height: auto;
     min-height: 320px;
-    aspect-ratio: 8800 / 5806;
-  }
-
-  .trade-map-rail {
-    border-top: 1px solid rgba(255, 255, 255, 0.13);
-    border-left: 0;
-    overflow: visible;
-  }
-
-  :root[data-theme="light"] .trade-map-rail {
-    border-top-color: rgba(20, 23, 26, 0.12);
   }
 
   .trade-map-inspector {
-    grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
-    align-items: start;
+    width: min(360px, calc(100% - 24px));
   }
 }
 
@@ -1553,7 +1528,6 @@ select optgroup {
   }
 
   .trade-map-inspector {
-    grid-template-columns: 1fr;
     padding: 14px;
   }
 

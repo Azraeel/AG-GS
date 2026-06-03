@@ -1149,9 +1149,7 @@
                 .join("")}
             </g>`}
             </svg>
-          </div>
-          <aside class="trade-map-rail" aria-label="Selected trade inspector">
-            <div class="trade-map-inspector">
+            <div class="trade-map-inspector" aria-label="Selected trade inspector">
               <div class="trade-map-selected" style="--selected-color:${safeColor(selected.color)}">
                 <span class="section-kicker">Selected Territory</span>
                 <h2>${safeText(selected.name)}</h2>
@@ -1180,7 +1178,7 @@
                   </button>`).join("") : `<p>No active direct partners.</p>`}
               </div>
             </div>
-          </aside>
+          </div>
         </div>
       </div>`;
   }
