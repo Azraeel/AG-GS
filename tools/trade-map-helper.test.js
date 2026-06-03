@@ -81,7 +81,7 @@ test("real SVG map uses territory-first click targets for every ledger nation", 
   assert.equal(byId.butonian_state.sourceTerritoryId, "svg_path_43");
   assert.equal(byId.duchy_of_hoogeveen.sourceTerritoryId, "svg_path_86");
   assert.equal(byId.federation_of_vinterholm.sourceTerritoryId, "svg_path_29");
-  assert.equal(byId.fengu_people_s_federation.sourceTerritoryId, "svg_path_95");
+  assert.equal(byId.fengu_people_s_federation.sourceTerritoryId, "svg_path_109");
   assert.equal(byId.imperial_dynasty_of_saochai.anchorSource, "svg-territory");
   assert.equal(byId.imperial_dynasty_of_saochai.sourceTerritoryId, "svg_path_11");
   assert.equal(byId.empire_of_hanazuki.anchorSource, "svg-territory");
@@ -108,8 +108,15 @@ test("real SVG map uses territory-first click targets for every ledger nation", 
   assert.ok(byId.xaojin_heavenly_kingdom.centroid.y > 40 && byId.xaojin_heavenly_kingdom.centroid.y < 42);
   assert.ok(byId.baathist_republic_of_volgastan.centroid.x > 80 && byId.baathist_republic_of_volgastan.centroid.x < 87);
   assert.ok(byId.baathist_republic_of_volgastan.centroid.y > 38 && byId.baathist_republic_of_volgastan.centroid.y < 41);
-  assert.ok(byId.fengu_people_s_federation.centroid.x > 50 && byId.fengu_people_s_federation.centroid.x < 53);
-  assert.ok(byId.fengu_people_s_federation.centroid.y > 12 && byId.fengu_people_s_federation.centroid.y < 14);
+  assert.equal(byId.fengu_people_s_federation.sourceTerritoryId, "svg_path_109");
+  assert.ok(byId.fengu_people_s_federation.centroid.x > 47.5 && byId.fengu_people_s_federation.centroid.x < 49.5);
+  assert.ok(byId.fengu_people_s_federation.centroid.y > 27 && byId.fengu_people_s_federation.centroid.y < 29);
+  assert.equal(byId.vinraarabeise_people_s_republic.sourceTerritoryId, "svg_path_100");
+  assert.ok(byId.vinraarabeise_people_s_republic.centroid.x > 41 && byId.vinraarabeise_people_s_republic.centroid.x < 43.5);
+  assert.ok(byId.vinraarabeise_people_s_republic.centroid.y > 53.5 && byId.vinraarabeise_people_s_republic.centroid.y < 56);
+  assert.equal(Math.round(byId.empire_of_khalindar.geography.areaSqMi), 7_260_000);
+  assert.ok(byId.fengu_people_s_federation.geography.areaSqMi > 100_000);
+  assert.ok(byId.vinraarabeise_people_s_republic.geography.areaSqMi > 150_000);
   assert.ok(byId.solara.centroid.x > 3 && byId.solara.centroid.x < 10, "Solara click target should sit on the visible bottom-left map label");
   assert.ok(byId.solara.centroid.y > 54 && byId.solara.centroid.y < 59, "Solara click target should sit on the visible bottom-left map label");
   assert.ok(byId.republic_of_aurendale.centroid.x > 47 && byId.republic_of_aurendale.centroid.x < 51);

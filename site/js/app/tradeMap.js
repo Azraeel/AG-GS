@@ -3,6 +3,7 @@
   const DEFAULT_MAP_VIEWBOX = { width: 100, height: 100 };
   const WORLD_SURFACE_AREA_SQ_MI = 236_400_000;
   const EARTH_SURFACE_AREA_SQ_MI = 197_000_000;
+  const KHALINDAR_CALIBRATION_AREA_SQ_MI = 7_260_000;
 
   const SEED_GEOGRAPHY = {
     solara: { x: 8, y: 88, region: "southwest_ocean", coastal: true, portStrength: 9, routeAccess: ["deep_ocean", "ocean"] },
@@ -87,7 +88,7 @@
     empire_of_khalindar: { sourceId: "svg_path_6" },
     federated_syndicates_of_veszprem: { x: 24.3, y: 37.8, pathX: 24.3, pathY: 37.8, width: 6.4, height: 5.4, useRoundedBox: true },
     federation_of_vinterholm: { sourceId: "svg_path_29" },
-    fengu_people_s_federation: { sourceId: "svg_path_95" },
+    fengu_people_s_federation: { sourceId: "svg_path_109" },
     fuji_shogunate: { sourceId: "svg_path_134", width: 2.6, height: 1.8, useRoundedBox: true },
     hyelean_republic: { sourceId: "svg_path_163", width: 2.6, height: 2.2, useRoundedBox: true },
     imperial_dynasty_of_saochai: { sourceId: "svg_path_11" },
@@ -117,7 +118,7 @@
     theorin_commonwealth: { sourceId: "svg_path_24" },
     tsardom_of_nogoyev: { sourceId: "svg_path_33" },
     vesperan_federation: { sourceId: "svg_path_35" },
-    vinraarabeise_people_s_republic: { sourceId: "svg_path_132", width: 3.0, height: 2.0, useRoundedBox: true },
+    vinraarabeise_people_s_republic: { sourceId: "svg_path_100" },
     vorkutangrad: { sourceId: "svg_path_12" },
     xaojin_heavenly_kingdom: { x: 34.1, y: 40.9, pathX: 34.1, pathY: 40.3, width: 4.2, height: 5.8, useRoundedBox: true },
     zhensanovian_commonwealth: { x: 37.2, y: 7.9, pathX: 37.2, pathY: 7.9, width: 5.2, height: 2.6, useRoundedBox: true }
@@ -220,6 +221,33 @@
   function roundGeo(value, digits = 2) {
     const factor = 10 ** digits;
     return Math.round(value * factor) / factor;
+  }
+
+  function sourceAreaUnitsForBounds(bounds) {
+    if (!bounds) return 0;
+    return Math.max(0, Number(bounds.width) || 0) * Math.max(0, Number(bounds.height) || 0);
+  }
+
+  function territoryAreaUnits(territory) {
+    return sourceAreaUnitsForBounds(territory?.bbox);
+  }
+
+  function areaSqMiPerUnit() {
+    const khalindarBinding = SVG_TERRITORY_BINDINGS.empire_of_khalindar;
+    const khalindarTerritory = khalindarBinding?.sourceId ? sourceTerritoryMap()[khalindarBinding.sourceId] : null;
+    const khalindarUnits = territoryAreaUnits(khalindarTerritory);
+    return khalindarUnits > 0
+      ? KHALINDAR_CALIBRATION_AREA_SQ_MI / khalindarUnits
+      : WORLD_SURFACE_AREA_SQ_MI / Math.max(1, DEFAULT_MAP_VIEWBOX.width * DEFAULT_MAP_VIEWBOX.height);
+  }
+
+  function areaSummaryForUnits(areaUnits) {
+    const sqMi = areaUnits > 0 ? areaUnits * areaSqMiPerUnit() : 0;
+    return {
+      areaUnits: roundGeo(areaUnits, 4),
+      areaSqMi: Math.round(sqMi),
+      areaShare: roundGeo((sqMi / WORLD_SURFACE_AREA_SQ_MI) * 100, 3)
+    };
   }
 
   function titleLabel(value) {
@@ -339,10 +367,14 @@
     const coast = inferCoast(position, baseProfile);
     const capital = coordinateForPosition(position, "Capital");
     const primaryPort = portForPosition(position, coast);
+    const area = areaSummaryForUnits(Number(visualTarget.sourceAreaUnits) || sourceAreaUnitsForBounds(visualTarget.sourceBounds));
     return {
       ...baseProfile,
       x: position.x,
       y: position.y,
+      areaUnits: area.areaUnits,
+      areaSqMi: area.areaSqMi,
+      areaShare: area.areaShare,
       legacyRegion: baseProfile.region || "",
       region: region.region,
       regionLabel: region.regionLabel,
@@ -459,6 +491,7 @@
       anchorSource: territory ? "svg-territory" : "reviewed-map-target",
       sourceTerritoryId: territory?.id || "",
       sourceTerritoryPathIndex: territory?.sourcePathIndex,
+      sourceAreaUnits: territoryAreaUnits(territory) || sourceAreaUnitsForBounds(sourceBounds),
       labelClusterId: "",
       labelPathIndices: [],
       labelLineCount: 0,
@@ -607,8 +640,8 @@
     const territories = territoriesForNations(data.nations);
     for (const territory of territories) {
       data.tradeNetwork.geography.nations[territory.nationId] = {
-        ...territory.geography,
-        ...(data.tradeNetwork.geography.nations[territory.nationId] || {})
+        ...(data.tradeNetwork.geography.nations[territory.nationId] || {}),
+        ...territory.geography
       };
     }
     return data.tradeNetwork.geography.nations;

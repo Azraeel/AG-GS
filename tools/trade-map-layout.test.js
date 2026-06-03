@@ -115,10 +115,18 @@ test("trade network UI exposes route-network controls without adding panel chrom
   assert.match(appSource, /Engine\.setTransitPolicy/);
   assert.match(appSource, /routeDistanceMiles/);
   assert.match(appSource, /routeEfficiency/);
+  assert.match(appSource, /tradeMapPartnerDistance/);
+  assert.match(appSource, /areaSqMi/);
   assert.match(appSource, /data-trade-map-layer/);
   assert.match(appSource, /state\.tradeMapLayer/);
   assert.match(appSource, /trade-map-sea-zones/);
+  assert.match(appSource, /zone\.path/);
+  assert.match(appSource, /tradeMapWaterMask/);
+  assert.match(appSource, /mask="url\(#tradeMapWaterMask\)"/);
+  assert.doesNotMatch(appSource, /<rect x="\$\{zone\.x\.toFixed\(2\)\}"/);
   assert.doesNotMatch(appSource, /trade-map-rail/);
   assert.match(styleSource, /\.trade-map-zone/);
+  assert.match(styleSource, /\.trade-map-zone path/);
+  assert.match(styleSource, /\.trade-map-partner-meta/);
   assert.match(styleSource, /\.route-inline-facts/);
 });

@@ -999,6 +999,14 @@
       </div>`;
   }
 
+  function tradeMapPartnerDistance(row) {
+    const lane = row.importLane || row.exportLane;
+    const miles = Engine.number(lane?.routeDistanceMiles, 0);
+    if (miles <= 0) return "Route unmapped";
+    const mode = lane?.routeMode || lane?.routeType || "route";
+    return `${fmtNumber(Math.round(miles))} mi / ${safeText(mode)}`;
+  }
+
   function tradeGeneratorPartnerOptions(selectedId, selectedValue = "") {
     return [
       `<option value="">Auto pick</option>`,
@@ -1137,6 +1145,14 @@
     return names.length > 3 ? `${shown} +${names.length - 3}` : shown;
   }
 
+  function areaTextForGeography(geo = {}) {
+    const sqMi = Engine.number(geo.areaSqMi, 0);
+    if (sqMi <= 0) return "Unmapped";
+    const share = Engine.number(geo.areaShare, 0);
+    const shareText = share > 0 ? ` / ${Number(share.toFixed(2)).toLocaleString("en-US")}% world` : "";
+    return `${fmtCompact(sqMi)} sq mi${shareText}`;
+  }
+
   function geographyItemsFor(id) {
     const geo = data.tradeNetwork?.geography?.nations?.[id] || {};
     const coastText = geo.coastal
@@ -1144,6 +1160,7 @@
       : "Landlocked";
     const items = [
       { label: "Capital", value: coordinateText(geo.capital) },
+      { label: "Area", value: areaTextForGeography(geo) },
       { label: "Region", value: geo.regionLabel || geo.region || "Unmapped" },
       { label: "Continent", value: geo.continent || "Unmapped" },
       { label: "Coast", value: coastText },
@@ -1157,17 +1174,80 @@
     return `<button class="trade-map-mode ${state.tradeMapLayer === value ? "is-active" : ""}" type="button" data-trade-map-layer="${escapeHtml(value)}">${safeText(label)}</button>`;
   }
 
+  function zonePath(points, width, height) {
+    return points
+      .map(([x, y], index) => {
+        const px = (x / 100) * width;
+        const py = (y / 100) * height;
+        return `${index === 0 ? "M" : "L"} ${px.toFixed(2)} ${py.toFixed(2)}`;
+      })
+      .join(" ") + " Z";
+  }
+
+  function zoneLabel(point, width, height) {
+    return {
+      x: (point[0] / 100) * width,
+      y: (point[1] / 100) * height
+    };
+  }
+
   function tradeMapSeaZones(mapConfig) {
     const width = Engine.number(mapConfig.width, 100);
     const height = Engine.number(mapConfig.height, 100);
-    return [
-      { id: "far-west", label: "Far West Ocean", x: width * 0.02, y: height * 0.12, w: width * 0.18, h: height * 0.62 },
-      { id: "southwest", label: "Southwest Ocean", x: width * 0.03, y: height * 0.66, w: width * 0.28, h: height * 0.24 },
-      { id: "central", label: "Central Sea", x: width * 0.26, y: height * 0.28, w: width * 0.28, h: height * 0.36 },
-      { id: "vesperan-strait", label: "Vesperan Strait", x: width * 0.84, y: height * 0.66, w: width * 0.08, h: height * 0.12 },
-      { id: "east", label: "East Ocean", x: width * 0.68, y: height * 0.16, w: width * 0.28, h: height * 0.48 },
-      { id: "southern", label: "Southern Ocean", x: width * 0.28, y: height * 0.78, w: width * 0.44, h: height * 0.16 }
+    const zones = [
+      {
+        id: "far-west-ocean",
+        label: "Far West Ocean",
+        labelAt: [9, 54],
+        points: [[0, 4], [18, 4], [20, 13], [17, 24], [19, 36], [17, 50], [19, 63], [15, 77], [18, 91], [10, 99], [0, 99]]
+      },
+      {
+        id: "western-passage",
+        label: "Western Passage",
+        labelAt: [25, 49],
+        points: [[18, 6], [38, 7], [42, 18], [38, 27], [34, 38], [31, 51], [34, 65], [31, 78], [23, 86], [17, 75], [20, 62], [18, 50], [20, 37], [18, 24]]
+      },
+      {
+        id: "southwest-ocean",
+        label: "Southwest Ocean",
+        labelAt: [30, 86],
+        points: [[0, 76], [18, 72], [29, 78], [43, 73], [53, 79], [51, 91], [42, 99], [0, 99]]
+      },
+      {
+        id: "central-sea",
+        label: "Central Sea",
+        labelAt: [58, 47],
+        points: [[47, 22], [58, 24], [65, 31], [70, 42], [67, 54], [59, 61], [50, 56], [45, 45], [47, 34]]
+      },
+      {
+        id: "eastern-ocean",
+        label: "Eastern Ocean",
+        labelAt: [89, 42],
+        points: [[72, 10], [100, 5], [100, 72], [94, 79], [84, 75], [80, 64], [75, 55], [78, 43], [74, 31]]
+      },
+      {
+        id: "vesperan-strait",
+        label: "Vesperan Strait",
+        labelAt: [91, 78],
+        points: [[86, 70], [92, 68], [96, 74], [95, 84], [90, 88], [86, 82]]
+      },
+      {
+        id: "southern-ocean",
+        label: "Southern Ocean",
+        labelAt: [62, 90],
+        points: [[32, 78], [47, 72], [61, 70], [78, 72], [94, 78], [100, 83], [100, 99], [34, 99], [27, 91]]
+      }
     ];
+    return zones.map((zone) => {
+      const label = zoneLabel(zone.labelAt, width, height);
+      return {
+        id: zone.id,
+        label: zone.label,
+        path: zonePath(zone.points, width, height),
+        labelX: label.x,
+        labelY: label.y
+      };
+    });
   }
 
   function tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool) {
@@ -1218,6 +1298,13 @@
                   <feMergeNode in="SourceGraphic"></feMergeNode>
                 </feMerge>
               </filter>
+              <mask id="tradeMapWaterMask" maskUnits="userSpaceOnUse" x="0" y="0" width="${mapConfig.width}" height="${mapConfig.height}">
+                <rect x="0" y="0" width="${mapConfig.width}" height="${mapConfig.height}" fill="white"></rect>
+                ${territories.map((territory) => {
+                  const transformAttr = territory.transform ? ` transform="${escapeHtml(territory.transform)}"` : "";
+                  return `<path d="${escapeHtml(territory.path)}"${transformAttr} fill="black"></path>`;
+                }).join("")}
+              </mask>
             </defs>
             ${mapConfig.hasRealSvg ? `<image class="trade-map-basemap" href="${escapeHtml(mapAssetHref)}" x="0" y="0" width="${mapConfig.width}" height="${mapConfig.height}" preserveAspectRatio="none"></image>` : ""}
             <g class="trade-map-grid" aria-hidden="true">
@@ -1237,8 +1324,8 @@
               <g class="trade-map-sea-zones" aria-label="Sea zones">
                 ${tradeMapSeaZones(mapConfig).map((zone) => `
                   <g class="trade-map-zone ${zone.id === "vesperan-strait" ? "is-chokepoint" : ""}">
-                    <rect x="${zone.x.toFixed(2)}" y="${zone.y.toFixed(2)}" width="${zone.w.toFixed(2)}" height="${zone.h.toFixed(2)}"></rect>
-                    <text x="${(zone.x + zone.w / 2).toFixed(2)}" y="${(zone.y + zone.h / 2).toFixed(2)}">${safeText(zone.label)}</text>
+                    <path d="${escapeHtml(zone.path)}" mask="url(#tradeMapWaterMask)"></path>
+                    <text x="${zone.labelX.toFixed(2)}" y="${zone.labelY.toFixed(2)}">${safeText(zone.label)}</text>
                   </g>`).join("")}
               </g>` : ""}
             <g class="trade-map-territories" aria-label="Clickable territories">
@@ -1294,7 +1381,10 @@
                 <span class="section-kicker">Major Partners</span>
                 ${topPartners.length ? topPartners.map((row) => `
                   <button type="button" data-trade-map-nation="${escapeHtml(row.partner.id)}">
-                    <span>${safeText(row.partner.name)}</span>
+                    <span class="trade-map-partner-copy">
+                      <span>${safeText(row.partner.name)}</span>
+                      <em class="trade-map-partner-meta">${tradeMapPartnerDistance(row)}</em>
+                    </span>
                     <strong>${fmtNumber(row.activity)}</strong>
                   </button>`).join("") : `<p>No active direct partners.</p>`}
               </div>

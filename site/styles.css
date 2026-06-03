@@ -907,7 +907,7 @@ select optgroup {
   stroke: #68d391;
 }
 
-.trade-map-zone rect {
+.trade-map-zone path {
   fill: color-mix(in srgb, var(--blue) 12%, transparent);
   stroke: rgba(103, 169, 255, 0.48);
   stroke-width: 0.18;
@@ -915,7 +915,7 @@ select optgroup {
   pointer-events: none;
 }
 
-.trade-map-zone.is-chokepoint rect {
+.trade-map-zone.is-chokepoint path {
   fill: color-mix(in srgb, var(--gold) 16%, transparent);
   stroke: rgba(240, 195, 59, 0.72);
 }
@@ -1168,11 +1168,37 @@ select optgroup {
 
 .trade-map-route-list button span {
   min-width: 0;
+}
+
+.trade-map-partner-copy {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.trade-map-partner-copy span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: left;
   font-weight: 900;
+}
+
+.trade-map-partner-meta {
+  min-width: 0;
+  color: #9fb4cc;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 850;
+  line-height: 1.1;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:root[data-theme="light"] .trade-map-partner-meta {
+  color: var(--muted);
 }
 
 .trade-map-route-list button strong {
