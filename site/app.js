@@ -1089,8 +1089,9 @@
             ${isAdmin ? `<span class="trade-map-mode admin">Admin edit</span>` : ""}
           </div>
         </div>
-        <div class="trade-map-stage">
-          <svg class="trade-map-svg ${mapConfig.hasRealSvg ? "has-real-map" : ""}" viewBox="${safeText(mapConfig.viewBox)}" role="img" aria-label="Clickable AG-GS trade territories">
+        <div class="trade-map-layout">
+          <div class="trade-map-stage">
+            <svg class="trade-map-svg ${mapConfig.hasRealSvg ? "has-real-map" : ""}" viewBox="${safeText(mapConfig.viewBox)}" role="img" aria-label="Clickable AG-GS trade territories">
             <defs>
               <filter id="tradeMapGlow" x="-20%" y="-20%" width="140%" height="140%">
                 <feGaussianBlur stdDeviation="0.45" result="blur"></feGaussianBlur>
@@ -1140,8 +1141,10 @@
                 .map((territory) => `<text x="${territory.centroid.x.toFixed(2)}" y="${Math.max(2.2, territory.centroid.y - 3.2).toFixed(2)}">${safeText(territory.name.split(" ").slice(0, 2).join(" "))}</text>`)
                 .join("")}
             </g>`}
-          </svg>
-          <div class="trade-map-selected" style="--selected-color:${safeColor(selected.color)}">
+            </svg>
+          </div>
+          <div class="trade-map-inspector">
+            <div class="trade-map-selected" style="--selected-color:${safeColor(selected.color)}">
             <span class="section-kicker">Selected Territory</span>
             <h2>${safeText(selected.name)}</h2>
             <p>${safeText(routeSummary)} · world pool ${safeText(worldPoolValue)}</p>
@@ -1160,13 +1163,14 @@
                 </div>`).join("")}
             </div>
           </div>
-          <div class="trade-map-route-list" aria-label="Major trade partners">
-            <span class="section-kicker">Major Partners</span>
-            ${topPartners.length ? topPartners.map((row) => `
-              <button type="button" data-trade-map-nation="${escapeHtml(row.partner.id)}">
-                <span>${safeText(row.partner.name)}</span>
-                <strong>${fmtNumber(row.activity)}</strong>
-              </button>`).join("") : `<p>No active direct partners.</p>`}
+            <div class="trade-map-route-list" aria-label="Major trade partners">
+              <span class="section-kicker">Major Partners</span>
+              ${topPartners.length ? topPartners.map((row) => `
+                <button type="button" data-trade-map-nation="${escapeHtml(row.partner.id)}">
+                  <span>${safeText(row.partner.name)}</span>
+                  <strong>${fmtNumber(row.activity)}</strong>
+                </button>`).join("") : `<p>No active direct partners.</p>`}
+            </div>
           </div>
         </div>
       </div>`;

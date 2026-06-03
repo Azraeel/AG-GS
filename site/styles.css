@@ -779,9 +779,18 @@ select optgroup {
   color: var(--blue);
 }
 
+.trade-map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 360px);
+  min-width: 0;
+  align-items: start;
+}
+
 .trade-map-stage {
   position: relative;
-  min-height: 620px;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
   aspect-ratio: 8800 / 5806;
   overflow: hidden;
   background:
@@ -793,6 +802,27 @@ select optgroup {
   background:
     radial-gradient(circle at 24% 62%, color-mix(in srgb, var(--nation-color, var(--blue)) 18%, transparent), transparent 24%),
     linear-gradient(135deg, #c9d3d3 0%, #98a8aa 42%, #b9c2ba 100%);
+}
+
+.trade-map-inspector {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  min-width: 0;
+  padding: clamp(16px, 2vw, 22px);
+  border-left: 1px solid rgba(255, 255, 255, 0.13);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), transparent 34%),
+    rgba(11, 17, 25, 0.72);
+  color: #edf2f7;
+}
+
+:root[data-theme="light"] .trade-map-inspector {
+  border-left-color: rgba(20, 23, 26, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.52), transparent 38%),
+    rgba(28, 39, 46, 0.12);
+  color: var(--ink);
 }
 
 .trade-map-svg {
@@ -893,29 +923,29 @@ select optgroup {
 .trade-map-selected,
 .trade-map-route-list,
 .trade-map-asset-note {
-  position: absolute;
-  z-index: 2;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(11, 17, 25, 0.78);
-  color: #edf2f7;
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.26);
-  backdrop-filter: blur(14px);
+  position: relative;
+  z-index: 1;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .trade-map-selected {
-  left: clamp(14px, 2.3vw, 30px);
-  top: clamp(14px, 2.3vw, 30px);
-  width: min(430px, calc(100% - 28px));
-  padding: clamp(16px, 2.4vw, 24px);
-  border-radius: 8px;
-  pointer-events: none;
+  width: auto;
+  min-width: 0;
+  padding: 0;
+  border-radius: 0;
+  pointer-events: auto;
 }
 
 .trade-map-selected h2 {
   margin: 6px 0 8px;
   color: #ffffff;
-  font-size: clamp(32px, 4vw, 58px);
-  line-height: 0.94;
+  font-size: clamp(28px, 2.7vw, 44px);
+  line-height: 0.98;
+  overflow-wrap: anywhere;
 }
 
 .trade-map-selected p {
@@ -987,14 +1017,14 @@ select optgroup {
 }
 
 .trade-map-route-list {
-  right: clamp(14px, 2.3vw, 30px);
-  bottom: clamp(54px, 7vw, 82px);
-  width: min(360px, calc(100% - 28px));
+  width: auto;
+  min-width: 0;
   display: grid;
   gap: 8px;
-  padding: 14px;
-  border-radius: 8px;
-  pointer-events: none;
+  padding: 16px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 0;
+  pointer-events: auto;
 }
 
 .trade-map-route-list button {
@@ -1392,6 +1422,19 @@ select optgroup {
   color: var(--warning-ink);
 }
 
+@media (max-width: 1180px) {
+  .trade-map-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .trade-map-inspector {
+    grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+    align-items: start;
+    border-top: 1px solid rgba(255, 255, 255, 0.13);
+    border-left: 0;
+  }
+}
+
 @media (max-width: 860px) {
   .trade-map-command {
     grid-template-columns: 1fr;
@@ -1402,26 +1445,26 @@ select optgroup {
     justify-content: flex-start;
   }
 
-  .trade-map-stage {
-    min-height: 760px;
+  .trade-map-inspector {
+    grid-template-columns: 1fr;
+    padding: 14px;
   }
 
   .trade-map-selected,
   .trade-map-route-list,
   .trade-map-asset-note {
-    position: relative;
     left: auto;
     right: auto;
     top: auto;
     bottom: auto;
     width: auto;
-    margin: 12px;
+    margin: 0;
   }
 
   .trade-map-svg {
-    position: relative;
+    position: absolute;
     display: block;
-    height: 420px;
+    height: 100%;
   }
 
   .trade-map-statline {
