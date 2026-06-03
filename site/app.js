@@ -198,6 +198,13 @@
     requestAnimationFrame(() => window.scrollTo(0, 0));
   }
 
+  function renderPreservingPageScroll() {
+    const left = window.scrollX || window.pageXOffset || 0;
+    const top = window.scrollY || window.pageYOffset || 0;
+    render();
+    requestAnimationFrame(() => window.scrollTo(left, top));
+  }
+
   function ensureSelectedNation() {
     const active = visibleNations();
     if (!active.some((nation) => nation.id === state.selectedNation)) {
@@ -2927,8 +2934,7 @@
     if (mapNation) {
       state.selectedNation = mapNation.dataset.tradeMapNation;
       state.tradeAnchorPreview = null;
-      render();
-      scrollToPageTop();
+      renderPreservingPageScroll();
       return;
     }
 
@@ -2957,8 +2963,7 @@
     event.preventDefault();
     state.selectedNation = mapNation.dataset.tradeMapNation;
     state.tradeAnchorPreview = null;
-    render();
-    scrollToPageTop();
+    renderPreservingPageScroll();
   });
 
   app.addEventListener("change", (event) => {

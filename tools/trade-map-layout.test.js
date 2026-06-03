@@ -34,3 +34,35 @@ test("trade map inspector panels are not overlay-positioned", () => {
   assert.doesNotMatch(panelRule[0], /position:\s*absolute/);
   assert.match(source, /\.trade-map-inspector\s*\{/);
 });
+
+test("trade map nation clicks preserve page scroll", () => {
+  const source = fs.readFileSync(path.join(root, "site", "app.js"), "utf8");
+  const clickStart = source.indexOf('const mapNation = event.target.closest("[data-trade-map-nation]");');
+  const clickEnd = source.indexOf('const nationButton = event.target.closest("[data-nation]");', clickStart);
+  const clickBlock = source.slice(clickStart, clickEnd);
+  const keyStart = source.indexOf('app.addEventListener("keydown"', clickEnd);
+  const keyEnd = source.indexOf('app.addEventListener("change"', keyStart);
+  const keyBlock = source.slice(keyStart, keyEnd);
+
+  assert.match(source, /function renderPreservingPageScroll\(\)/);
+  assert.match(clickBlock, /renderPreservingPageScroll\(\)/);
+  assert.doesNotMatch(clickBlock, /scrollToPageTop\(\)/);
+  assert.match(keyBlock, /renderPreservingPageScroll\(\)/);
+  assert.doesNotMatch(keyBlock, /scrollToPageTop\(\)/);
+});
+
+test("trade map chrome stays compact instead of rendering filled dead space", () => {
+  const source = fs.readFileSync(path.join(root, "site", "styles.css"), "utf8");
+  const commandRule = source.match(/\.trade-map-command\s*\{[^}]+\}/);
+  const modebarRule = source.match(/\.trade-map-modebar\s*\{[^}]+\}/);
+  const inspectorRule = source.match(/\.trade-map-inspector\s*\{[^}]+\}/);
+
+  assert.ok(commandRule, "trade map command rule should exist");
+  assert.ok(modebarRule, "trade map modebar rule should exist");
+  assert.ok(inspectorRule, "trade map inspector rule should exist");
+  assert.match(commandRule[0], /display:\s*flex/);
+  assert.match(modebarRule[0], /flex-wrap:\s*nowrap/);
+  assert.match(inspectorRule[0], /background:\s*transparent/);
+  assert.match(source, /:root\[data-theme="light"\]\s+\.trade-map-selected h2/);
+  assert.match(source, /:root\[data-theme="light"\]\s+\.trade-map-route-list button/);
+});

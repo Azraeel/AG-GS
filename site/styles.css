@@ -715,30 +715,43 @@ select optgroup {
 }
 
 .trade-map-command {
-  display: grid;
-  grid-template-columns: minmax(240px, 540px) minmax(0, 1fr);
-  gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
   align-items: center;
+  justify-content: space-between;
   padding: 12px clamp(12px, 2vw, 18px);
   border-bottom: 1px solid var(--line);
 }
 
 .trade-map-modebar {
-  justify-self: end;
   display: flex;
-  gap: 8px;
+  gap: 3px;
   align-items: center;
   justify-content: flex-end;
-  flex-wrap: wrap;
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
   min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--input-bg) 62%, transparent);
+}
+
+.trade-map-modebar::-webkit-scrollbar {
+  display: none;
 }
 
 .trade-map-scale {
   display: inline-flex;
   align-items: baseline;
   gap: 7px;
-  min-height: 34px;
-  padding-right: 4px;
+  min-height: 30px;
+  padding: 0 11px 0 9px;
+  border-right: 1px solid var(--line);
   color: var(--muted);
   font-size: 10px;
   font-weight: 900;
@@ -757,11 +770,11 @@ select optgroup {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 34px;
-  padding: 7px 12px;
-  border: 1px solid var(--line);
+  min-height: 30px;
+  padding: 6px 11px;
+  border: 0;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--input-bg) 72%, transparent);
+  background: transparent;
   color: var(--ink);
   font-size: 12px;
   font-weight: 900;
@@ -807,21 +820,17 @@ select optgroup {
 .trade-map-inspector {
   display: grid;
   align-content: start;
-  gap: 18px;
+  gap: 12px;
   min-width: 0;
-  padding: clamp(16px, 2vw, 22px);
+  padding: clamp(12px, 1.5vw, 18px);
   border-left: 1px solid rgba(255, 255, 255, 0.13);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.055), transparent 34%),
-    rgba(11, 17, 25, 0.72);
+  background: transparent;
   color: #edf2f7;
 }
 
 :root[data-theme="light"] .trade-map-inspector {
   border-left-color: rgba(20, 23, 26, 0.12);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.52), transparent 38%),
-    rgba(28, 39, 46, 0.12);
+  background: transparent;
   color: var(--ink);
 }
 
@@ -941,27 +950,47 @@ select optgroup {
 }
 
 .trade-map-selected h2 {
-  margin: 6px 0 8px;
+  margin: 4px 0 7px;
   color: #ffffff;
-  font-size: clamp(28px, 2.7vw, 44px);
+  font-size: clamp(25px, 2.25vw, 36px);
   line-height: 0.98;
   overflow-wrap: anywhere;
 }
 
+:root[data-theme="light"] .trade-map-selected h2,
+:root[data-theme="light"] .trade-map-geography strong,
+:root[data-theme="light"] .trade-map-statline strong,
+:root[data-theme="light"] .trade-map-route-list button,
+:root[data-theme="light"] .trade-map-route-list button strong,
+:root[data-theme="light"] .trade-map-asset-note strong {
+  color: var(--ink);
+}
+
 .trade-map-selected p {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   color: #c7d4e4;
   font-weight: 750;
+}
+
+:root[data-theme="light"] .trade-map-selected p,
+:root[data-theme="light"] .trade-map-route-list p,
+:root[data-theme="light"] .trade-map-asset-note {
+  color: var(--muted);
 }
 
 .trade-map-geography {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 14px;
-  margin-bottom: 16px;
-  padding: 12px 0;
+  gap: 6px 12px;
+  margin-bottom: 12px;
+  padding: 8px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+:root[data-theme="light"] .trade-map-geography,
+:root[data-theme="light"] .trade-map-route-list {
+  border-color: rgba(20, 23, 26, 0.16);
 }
 
 .trade-map-geography div {
@@ -976,13 +1005,20 @@ select optgroup {
   text-transform: uppercase;
 }
 
+:root[data-theme="light"] .trade-map-geography span,
+:root[data-theme="light"] .trade-map-statline span {
+  color: color-mix(in srgb, var(--muted) 86%, var(--ink));
+}
+
 .trade-map-geography strong {
   display: block;
   color: #ffffff;
   font-size: 13px;
   font-weight: 900;
   line-height: 1.25;
-  overflow-wrap: anywhere;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .trade-map-statline {
@@ -992,11 +1028,21 @@ select optgroup {
   border-left: 1px solid rgba(255, 255, 255, 0.16);
 }
 
+:root[data-theme="light"] .trade-map-statline {
+  border-top-color: rgba(20, 23, 26, 0.16);
+  border-left-color: rgba(20, 23, 26, 0.16);
+}
+
 .trade-map-statline div {
   min-width: 0;
-  padding: 9px 10px;
+  padding: 7px 8px;
   border-right: 1px solid rgba(255, 255, 255, 0.16);
   border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+:root[data-theme="light"] .trade-map-statline div {
+  border-right-color: rgba(20, 23, 26, 0.16);
+  border-bottom-color: rgba(20, 23, 26, 0.16);
 }
 
 .trade-map-statline span {
@@ -1020,8 +1066,8 @@ select optgroup {
   width: auto;
   min-width: 0;
   display: grid;
-  gap: 8px;
-  padding: 16px 0 0;
+  gap: 0;
+  padding: 10px 0 0;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 0;
   pointer-events: auto;
@@ -1032,21 +1078,32 @@ select optgroup {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 12px;
   align-items: center;
-  min-height: 38px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 6px;
-  padding: 8px 10px;
-  background: rgba(255, 255, 255, 0.06);
+  min-height: 34px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 0;
+  padding: 7px 0;
+  background: transparent;
   color: #edf2f7;
   cursor: pointer;
   pointer-events: auto;
 }
 
+:root[data-theme="light"] .trade-map-route-list button {
+  border-bottom-color: rgba(20, 23, 26, 0.14);
+}
+
 .trade-map-route-list button:hover,
 .trade-map-route-list button:focus-visible {
   outline: 0;
-  border-color: rgba(255, 255, 255, 0.42);
-  background: rgba(255, 255, 255, 0.12);
+  border-bottom-color: rgba(255, 255, 255, 0.42);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent);
+}
+
+:root[data-theme="light"] .trade-map-route-list button:hover,
+:root[data-theme="light"] .trade-map-route-list button:focus-visible {
+  border-bottom-color: rgba(20, 23, 26, 0.36);
+  background: linear-gradient(90deg, rgba(20, 42, 68, 0.08), transparent);
 }
 
 .trade-map-route-list button span {
@@ -1108,12 +1165,18 @@ select optgroup {
 }
 
 .trade-network-selector {
+  flex: 1 1 280px;
   min-height: 44px;
-  width: min(100%, 640px);
+  width: auto;
+  max-width: min(420px, 100%);
   border: 1px solid var(--line-strong);
   border-radius: 6px;
   background: color-mix(in srgb, var(--input-bg) 86%, transparent);
   box-shadow: none;
+}
+
+.trade-network-selector select {
+  font-weight: 900;
 }
 
 .trade-network-header h2 {
@@ -1437,12 +1500,17 @@ select optgroup {
 
 @media (max-width: 860px) {
   .trade-map-command {
-    grid-template-columns: 1fr;
+    align-items: stretch;
   }
 
   .trade-map-modebar {
-    justify-self: stretch;
+    flex: 1 1 100%;
     justify-content: flex-start;
+  }
+
+  .trade-network-selector {
+    flex-basis: 100%;
+    max-width: none;
   }
 
   .trade-map-inspector {
