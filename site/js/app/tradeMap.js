@@ -71,13 +71,56 @@
   };
 
   const SVG_TERRITORY_BINDINGS = {
-    astoria: { sourceId: "svg_path_15", x: 3.2, y: 30.1 },
-    baechong_democratic_republic: { sourceId: "svg_path_13", x: 48.8, y: 22.8, pathX: 48.8, pathY: 23.3, width: 3.1, height: 3.6, useRoundedBox: true },
+    astoria: { sourceId: "svg_path_15" },
+    baathist_republic_of_volgastan: { x: 84.4, y: 39.2, pathX: 84.4, pathY: 39.2, width: 13.4, height: 8.4, useRoundedBox: true },
+    baechong_democratic_republic: { sourceId: "svg_path_62" },
+    benera_navine: { sourceId: "svg_path_88" },
+    bingtau_kingdom: { sourceId: "svg_path_158", width: 2.6, height: 2.2, useRoundedBox: true },
     butonian_state: { sourceId: "svg_path_43" },
+    crovian_national_union: { sourceId: "svg_path_46" },
+    democratic_republic_of_suzuharu: { sourceId: "svg_path_28" },
+    dracoist_malonia: { sourceId: "svg_path_38" },
+    duchy_of_hoogeveen: { sourceId: "svg_path_86" },
+    duchy_of_ledostrov: { sourceId: "svg_path_56" },
     empire_of_hanazuki: { sourceId: "svg_path_40" },
+    empire_of_hyeosu: { sourceId: "svg_path_25" },
+    empire_of_khalindar: { sourceId: "svg_path_6" },
+    federated_syndicates_of_veszprem: { x: 24.3, y: 37.8, pathX: 24.3, pathY: 37.8, width: 6.4, height: 5.4, useRoundedBox: true },
+    federation_of_vinterholm: { sourceId: "svg_path_29" },
+    fengu_people_s_federation: { sourceId: "svg_path_95" },
+    fuji_shogunate: { sourceId: "svg_path_134", width: 2.6, height: 1.8, useRoundedBox: true },
+    hyelean_republic: { sourceId: "svg_path_163", width: 2.6, height: 2.2, useRoundedBox: true },
     imperial_dynasty_of_saochai: { sourceId: "svg_path_11" },
+    imperial_rhovland: { sourceId: "svg_path_16" },
+    imperial_suomi: { sourceId: "svg_path_42" },
+    judas_democratic_republic: { sourceId: "svg_path_37" },
+    karkalnadag_kingdom: { sourceId: "svg_path_9" },
+    khalari_emirates: { sourceId: "svg_path_66" },
+    kingdom_of_lunaria: { sourceId: "svg_path_27" },
+    kolkenlennan_empire: { sourceId: "svg_path_45" },
+    mumoon_hamed_sultunate: { sourceId: "svg_path_17" },
+    okudan_empire: { sourceId: "svg_path_8" },
+    orinian_empire: { sourceId: "svg_path_7" },
+    pdr_of_hoshigoru: { sourceId: "svg_path_13" },
     people_s_federation_of_xanaqu: { sourceId: "svg_path_14" },
-    xaojin_heavenly_kingdom: { sourceId: "svg_path_14", x: 34.1, y: 40.9, pathX: 34.1, pathY: 40.9, width: 3.4, height: 4.6, useRoundedBox: true }
+    people_s_republic_of_mariposa: { sourceId: "svg_path_23" },
+    republic_of_aurendale: { sourceId: "svg_path_92" },
+    republic_of_belcanto: { x: 53.0, y: 9.0, pathX: 53.0, pathY: 9.0, width: 4.6, height: 2.2, useRoundedBox: true },
+    republic_of_borealyan: { sourceId: "svg_path_67" },
+    republic_of_calblanca: { sourceId: "svg_path_75" },
+    republic_of_perzam: { sourceId: "svg_path_53" },
+    republic_of_pestera: { sourceId: "svg_path_26" },
+    republic_of_shangri_la: { sourceId: "svg_path_93" },
+    serranova_military_junta: { sourceId: "svg_path_36" },
+    solara: { sourceId: "svg_path_19" },
+    templar_of_saxonia: { x: 48.6, y: 13.4, pathX: 48.6, pathY: 13.4, width: 5.1, height: 2.6, useRoundedBox: true },
+    theorin_commonwealth: { sourceId: "svg_path_24" },
+    tsardom_of_nogoyev: { sourceId: "svg_path_33" },
+    vesperan_federation: { sourceId: "svg_path_35" },
+    vinraarabeise_people_s_republic: { sourceId: "svg_path_132", width: 3.0, height: 2.0, useRoundedBox: true },
+    vorkutangrad: { sourceId: "svg_path_12" },
+    xaojin_heavenly_kingdom: { x: 34.1, y: 40.9, pathX: 34.1, pathY: 40.3, width: 4.2, height: 5.8, useRoundedBox: true },
+    zhensanovian_commonwealth: { x: 37.2, y: 7.9, pathX: 37.2, pathY: 7.9, width: 5.2, height: 2.6, useRoundedBox: true }
   };
 
   function clamp(value, min, max) {
@@ -383,27 +426,39 @@
   function territoryTargetForNation(nation) {
     const binding = SVG_TERRITORY_BINDINGS[nation.id];
     const territory = binding?.sourceId ? sourceTerritoryMap()[binding.sourceId] : null;
-    if (!binding || !territory?.bbox) return null;
-    const sourceBounds = {
-      x: Number(territory.bbox.x) || 0,
-      y: Number(territory.bbox.y) || 0,
-      width: Number(territory.bbox.width) || 0,
-      height: Number(territory.bbox.height) || 0
-    };
-    const x = clamp(Number(binding.x) || territory.centroid?.x || sourceBounds.x + sourceBounds.width / 2, 0, mapConfig().width);
-    const y = clamp(Number(binding.y) || territory.centroid?.y || sourceBounds.y + sourceBounds.height / 2, 0, mapConfig().height);
+    if (!binding || (binding.sourceId && !territory?.bbox && !binding.useRoundedBox)) return null;
+    const fallbackX = Number(binding.pathX ?? binding.x) || 0;
+    const fallbackY = Number(binding.pathY ?? binding.y) || 0;
+    const fallbackWidth = Number(binding.width) || 3.2;
+    const fallbackHeight = Number(binding.height) || 2.4;
+    const sourceBounds = territory?.bbox
+      ? {
+          x: Number(territory.bbox.x) || 0,
+          y: Number(territory.bbox.y) || 0,
+          width: Number(territory.bbox.width) || 0,
+          height: Number(territory.bbox.height) || 0
+        }
+      : {
+          x: clamp(fallbackX - fallbackWidth / 2, 0, mapConfig().width),
+          y: clamp(fallbackY - fallbackHeight / 2, 0, mapConfig().height),
+          width: fallbackWidth,
+          height: fallbackHeight
+        };
+    const x = clamp(Number(binding.x) || territory?.centroid?.x || sourceBounds.x + sourceBounds.width / 2, 0, mapConfig().width);
+    const y = clamp(Number(binding.y) || territory?.centroid?.y || sourceBounds.y + sourceBounds.height / 2, 0, mapConfig().height);
     const pathX = clamp(Number(binding.pathX) || sourceBounds.x + sourceBounds.width / 2, 0, mapConfig().width);
     const pathY = clamp(Number(binding.pathY) || sourceBounds.y + sourceBounds.height / 2, 0, mapConfig().height);
-    const width = clamp(Number(binding.width) || sourceBounds.width, 2.6, 10);
-    const height = clamp(Number(binding.height) || sourceBounds.height, 1.8, 10);
+    const width = clamp(Number(binding.width) || sourceBounds.width, 2.6, territory ? 10 : 18);
+    const height = clamp(Number(binding.height) || sourceBounds.height, 1.8, territory ? 10 : 12);
+    const rounded = binding.useRoundedBox || !territory?.path;
     return {
       x,
       y,
-      path: binding.useRoundedBox ? roundedRectPath(pathX, pathY, width, height) : territory.path,
-      transform: binding.useRoundedBox ? "" : territory.transform,
-      anchorSource: "svg-territory",
-      sourceTerritoryId: territory.id,
-      sourceTerritoryPathIndex: territory.sourcePathIndex,
+      path: rounded ? roundedRectPath(pathX, pathY, width, height) : territory.path,
+      transform: rounded ? "" : territory.transform,
+      anchorSource: territory ? "svg-territory" : "reviewed-map-target",
+      sourceTerritoryId: territory?.id || "",
+      sourceTerritoryPathIndex: territory?.sourcePathIndex,
       labelClusterId: "",
       labelPathIndices: [],
       labelLineCount: 0,

@@ -9,7 +9,11 @@ const MAP_HEIGHT = SOURCE_HEIGHT * MAP_SCALE;
 
 const DEFAULT_SOURCE = path.join(__dirname, "..", "site", "assets", "ag-political-map.svg");
 const DEFAULT_OUTPUT = path.join(__dirname, "..", "site", "js", "app", "tradeMapShapes.js");
-const TERRITORY_PATH_ALLOWLIST = new Set([13, 15, 40]);
+const TERRITORY_PATH_ALLOWLIST = new Set([
+  6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 19, 22, 23, 24, 25, 26, 27, 28, 29,
+  32, 33, 35, 36, 37, 38, 40, 42, 43, 45, 46, 53, 56, 62, 66, 67, 75, 86, 88,
+  92, 93, 95, 132, 134, 158, 163
+]);
 
 function readAttr(tag, attr) {
   const pattern = new RegExp(`\\b${attr}\\s*=\\s*"([^"]*)"`, "i");
