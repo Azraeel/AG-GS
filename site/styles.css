@@ -833,6 +833,7 @@ select optgroup {
   background: color-mix(in srgb, #101923 88%, transparent);
   color: #edf2f7;
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
+  overscroll-behavior: contain;
   scrollbar-width: thin;
 }
 
@@ -841,6 +842,20 @@ select optgroup {
   background: color-mix(in srgb, #f6f8fb 90%, transparent);
   color: var(--ink);
   box-shadow: 0 18px 40px rgba(20, 23, 26, 0.16);
+}
+
+.trade-map-inspector.is-dragging {
+  user-select: none;
+}
+
+.trade-map-drag-head {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.trade-map-inspector.is-dragging .trade-map-drag-head {
+  cursor: grabbing;
 }
 
 .trade-map-svg {

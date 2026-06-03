@@ -57,6 +57,7 @@
     pollTimer: null
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
+  const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
 
   const datasets = AppConfig.datasets;
   const viewOptions = AppConfig.viewOptions;
@@ -89,6 +90,7 @@
     showDetails: false,
     notice: ""
   };
+  let tradeMapPanelDrag = null;
 
   function canAccessTab(tabKey) {
     return isAdmin || !adminOnlyTabs.has(tabKey);
@@ -203,6 +205,64 @@
     const top = window.scrollY || window.pageYOffset || 0;
     render();
     requestAnimationFrame(() => window.scrollTo(left, top));
+  }
+
+  function readTradeMapPanelPosition() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(TRADE_MAP_PANEL_POSITION_KEY) || "null");
+      if (parsed && Number.isFinite(parsed.x) && Number.isFinite(parsed.y)) return parsed;
+    } catch (error) {
+      // Panel drag persistence is optional.
+    }
+    return null;
+  }
+
+  function writeTradeMapPanelPosition(position) {
+    try {
+      localStorage.setItem(TRADE_MAP_PANEL_POSITION_KEY, JSON.stringify({
+        x: Math.round(position.x),
+        y: Math.round(position.y)
+      }));
+    } catch (error) {
+      // Panel drag persistence is optional.
+    }
+  }
+
+  function clampValue(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function clampTradeMapPanelPosition(stage, panel, position) {
+    const margin = 12;
+    const maxX = Math.max(margin, stage.clientWidth - panel.offsetWidth - margin);
+    const maxY = Math.max(margin, stage.clientHeight - panel.offsetHeight - margin);
+    return {
+      x: clampValue(position.x, margin, maxX),
+      y: clampValue(position.y, margin, maxY)
+    };
+  }
+
+  function setTradeMapPanelPosition(stage, panel, position, persist = false) {
+    const clamped = clampTradeMapPanelPosition(stage, panel, position);
+    panel.style.left = `${clamped.x}px`;
+    panel.style.top = `${clamped.y}px`;
+    panel.style.right = "auto";
+    if (persist) writeTradeMapPanelPosition(clamped);
+    return clamped;
+  }
+
+  function applyTradeMapPanelPosition() {
+    const stage = app.querySelector(".trade-map-stage");
+    const panel = app.querySelector(".trade-map-inspector");
+    if (!stage || !panel) return;
+    const saved = readTradeMapPanelPosition();
+    if (!saved) {
+      panel.style.left = "";
+      panel.style.top = "";
+      panel.style.right = "";
+      return;
+    }
+    setTradeMapPanelPosition(stage, panel, saved, true);
   }
 
   function ensureSelectedNation() {
@@ -1151,9 +1211,11 @@
             </svg>
             <div class="trade-map-inspector" aria-label="Selected trade inspector">
               <div class="trade-map-selected" style="--selected-color:${safeColor(selected.color)}">
-                <span class="section-kicker">Selected Territory</span>
-                <h2>${safeText(selected.name)}</h2>
-                <p>${safeText(routeSummary)} · world pool ${safeText(worldPoolValue)}</p>
+                <div class="trade-map-drag-head" data-trade-map-panel-drag title="Drag to reposition panel" aria-label="Drag trade inspector panel">
+                  <span class="section-kicker">Selected Territory</span>
+                  <h2>${safeText(selected.name)}</h2>
+                  <p>${safeText(routeSummary)} · world pool ${safeText(worldPoolValue)}</p>
+                </div>
                 <div class="trade-map-geography">
                   ${geographyItemsFor(selected.id).map((item) => `
                     <div>
@@ -1283,6 +1345,7 @@
         </div>
       </section>
     `;
+    applyTradeMapPanelPosition();
     restoreTableScroll("tradeNetwork");
   }
 
@@ -2690,6 +2753,73 @@
       setTheme(currentTheme() === "dark" ? "light" : "dark");
     });
   }
+
+  app.addEventListener("pointerdown", (event) => {
+    const dragHandle = event.target.closest?.("[data-trade-map-panel-drag]");
+    if (!dragHandle || event.button !== 0) return;
+    const panel = dragHandle.closest(".trade-map-inspector");
+    const stage = panel?.closest(".trade-map-stage");
+    if (!panel || !stage) return;
+    const stageRect = stage.getBoundingClientRect();
+    const panelRect = panel.getBoundingClientRect();
+    tradeMapPanelDrag = {
+      stage,
+      panel,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      startLeft: panelRect.left - stageRect.left,
+      startTop: panelRect.top - stageRect.top
+    };
+    event.preventDefault();
+    event.stopPropagation();
+    panel.classList.add("is-dragging");
+    try {
+      panel.setPointerCapture?.(event.pointerId);
+    } catch (error) {
+      // Window-level move/up listeners still keep dragging functional.
+    }
+  });
+
+  window.addEventListener("pointermove", (event) => {
+    if (!tradeMapPanelDrag || event.pointerId !== tradeMapPanelDrag.pointerId) return;
+    const { stage, panel, startLeft, startTop, startX, startY } = tradeMapPanelDrag;
+    if (!stage.isConnected || !panel.isConnected) {
+      tradeMapPanelDrag = null;
+      return;
+    }
+    event.preventDefault();
+    setTradeMapPanelPosition(stage, panel, {
+      x: startLeft + event.clientX - startX,
+      y: startTop + event.clientY - startY
+    });
+  });
+
+  function finishTradeMapPanelDrag(event) {
+    if (!tradeMapPanelDrag || event.pointerId !== tradeMapPanelDrag.pointerId) return;
+    const { stage, panel } = tradeMapPanelDrag;
+    if (stage.isConnected && panel.isConnected) {
+      const stageRect = stage.getBoundingClientRect();
+      const panelRect = panel.getBoundingClientRect();
+      setTradeMapPanelPosition(stage, panel, {
+        x: panelRect.left - stageRect.left,
+        y: panelRect.top - stageRect.top
+      }, true);
+      panel.classList.remove("is-dragging");
+      try {
+        panel.releasePointerCapture?.(event.pointerId);
+      } catch (error) {
+        // Losing capture during a render should not leave the panel stuck.
+      }
+    }
+    tradeMapPanelDrag = null;
+  }
+
+  window.addEventListener("pointerup", finishTradeMapPanelDrag);
+  window.addEventListener("pointercancel", finishTradeMapPanelDrag);
+  window.addEventListener("resize", () => {
+    if (state.tab === "tradeNetwork") applyTradeMapPanelPosition();
+  });
 
   const pendingEdits = new Map();
 

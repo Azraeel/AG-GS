@@ -11,6 +11,7 @@ test("trade map inspector renders as a compact overlay inside the map stage", ()
   const stageIndex = source.indexOf('<div class="trade-map-stage">', layoutIndex);
   const svgCloseIndex = source.indexOf("</svg>", stageIndex);
   const inspectorIndex = source.indexOf('<div class="trade-map-inspector"', svgCloseIndex);
+  const dragHeadIndex = source.indexOf('data-trade-map-panel-drag', inspectorIndex);
   const selectedIndex = source.indexOf('<div class="trade-map-selected"', inspectorIndex);
   const partnersIndex = source.indexOf('<div class="trade-map-route-list"', inspectorIndex);
 
@@ -20,6 +21,7 @@ test("trade map inspector renders as a compact overlay inside the map stage", ()
   assert.notEqual(inspectorIndex, -1);
   assert.ok(stageIndex < svgCloseIndex, "the SVG should render inside the stage");
   assert.ok(svgCloseIndex < inspectorIndex, "the inspector should render after the map SVG inside the stage");
+  assert.ok(inspectorIndex < dragHeadIndex, "the draggable handle should render inside the inspector");
   assert.ok(inspectorIndex < selectedIndex, "selected territory details should render inside the inspector");
   assert.ok(inspectorIndex < partnersIndex, "partner controls should render inside the inspector");
   assert.doesNotMatch(source, /tradeMapRouteDetailsHtml|trade-map-route-detail|trade-map-rail/);
@@ -29,14 +31,18 @@ test("trade map inspector is a bounded overlay card with no full-height rail", (
   const source = fs.readFileSync(path.join(root, "site", "styles.css"), "utf8");
   const panelRule = source.match(/\.trade-map-selected,\s*\.trade-map-route-list,\s*\.trade-map-asset-note\s*\{[^}]+\}/);
   const inspectorRule = source.match(/\.trade-map-inspector\s*\{[^}]+\}/);
+  const dragHeadRule = source.match(/\.trade-map-drag-head\s*\{[^}]+\}/);
   assert.ok(panelRule, "shared trade map panel rule should exist");
   assert.ok(inspectorRule, "trade map inspector rule should exist");
+  assert.ok(dragHeadRule, "trade map drag handle rule should exist");
   assert.match(panelRule[0], /position:\s*relative/);
   assert.doesNotMatch(panelRule[0], /position:\s*absolute/);
   assert.match(inspectorRule[0], /position:\s*absolute/);
   assert.match(inspectorRule[0], /max-height:\s*calc/);
   assert.match(inspectorRule[0], /overflow:\s*auto/);
   assert.match(inspectorRule[0], /border:\s*1px solid/);
+  assert.match(dragHeadRule[0], /cursor:\s*grab/);
+  assert.match(dragHeadRule[0], /touch-action:\s*none/);
   assert.doesNotMatch(source, /trade-map-rail/);
   assert.doesNotMatch(source, /trade-map-route-detail|trade-map-route-focus|trade-map-route-split|trade-map-route-facts/);
 });
@@ -83,4 +89,19 @@ test("trade map chrome stays compact instead of rendering filled dead space", ()
   assert.doesNotMatch(tableWrapRule[0], /max-height/);
   assert.match(source, /:root\[data-theme="light"\]\s+\.trade-map-selected h2/);
   assert.match(source, /:root\[data-theme="light"\]\s+\.trade-map-route-list button/);
+});
+
+test("trade map inspector supports dragging with clamped local persistence", () => {
+  const source = fs.readFileSync(path.join(root, "site", "app.js"), "utf8");
+  assert.match(source, /TRADE_MAP_PANEL_POSITION_KEY/);
+  assert.match(source, /function clampTradeMapPanelPosition/);
+  assert.match(source, /function setTradeMapPanelPosition/);
+  assert.match(source, /function applyTradeMapPanelPosition/);
+  assert.match(source, /localStorage\.setItem\(TRADE_MAP_PANEL_POSITION_KEY/);
+  assert.match(source, /app\.addEventListener\("pointerdown"/);
+  assert.match(source, /window\.addEventListener\("pointermove"/);
+  assert.match(source, /window\.addEventListener\("pointerup"/);
+  assert.match(source, /window\.addEventListener\("resize"/);
+  assert.match(source, /panel\.style\.right\s*=\s*"auto"/);
+  assert.match(source, /applyTradeMapPanelPosition\(\);\s*\n\s*restoreTableScroll\("tradeNetwork"\)/);
 });
