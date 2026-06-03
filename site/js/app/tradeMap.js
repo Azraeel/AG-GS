@@ -26,7 +26,6 @@
 
   const SVG_LABEL_BINDINGS = {
     baathist_republic_of_volgastan: "svg_label_307",
-    baechong_democratic_republic: "svg_label_2113",
     benera_navine: "svg_label_359",
     bingtau_kingdom: "svg_label_287",
     crovian_national_union: "svg_label_1107",
@@ -68,16 +67,17 @@
     vesperan_federation: "svg_label_1130",
     vinraarabeise_people_s_republic: "svg_label_193",
     vorkutangrad: "svg_label_278",
-    xaojin_heavenly_kingdom: "svg_label_204",
     zhensanovian_commonwealth: "svg_label_464"
   };
 
   const SVG_TERRITORY_BINDINGS = {
     astoria: { sourceId: "svg_path_15", x: 3.2, y: 30.1 },
+    baechong_democratic_republic: { sourceId: "svg_path_13", x: 48.8, y: 22.8, pathX: 48.8, pathY: 23.3, width: 3.1, height: 3.6, useRoundedBox: true },
     butonian_state: { sourceId: "svg_path_43" },
-    empire_of_hanazuki: { sourceId: "svg_path_59" },
+    empire_of_hanazuki: { sourceId: "svg_path_40" },
     imperial_dynasty_of_saochai: { sourceId: "svg_path_11" },
-    people_s_federation_of_xanaqu: { sourceId: "svg_path_14" }
+    people_s_federation_of_xanaqu: { sourceId: "svg_path_14" },
+    xaojin_heavenly_kingdom: { sourceId: "svg_path_14", x: 34.1, y: 40.9, pathX: 34.1, pathY: 40.9, width: 3.4, height: 4.6, useRoundedBox: true }
   };
 
   function clamp(value, min, max) {
