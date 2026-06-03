@@ -907,31 +907,8 @@ select optgroup {
   stroke: #68d391;
 }
 
-.trade-map-zone path {
-  fill: color-mix(in srgb, var(--blue) 12%, transparent);
-  stroke: rgba(103, 169, 255, 0.48);
-  stroke-width: 0.18;
-  stroke-dasharray: 0.9 0.65;
-  pointer-events: none;
-}
-
-.trade-map-zone.is-chokepoint path {
-  fill: color-mix(in srgb, var(--gold) 16%, transparent);
-  stroke: rgba(240, 195, 59, 0.72);
-}
-
-.trade-map-zone text {
-  fill: rgba(237, 242, 247, 0.78);
-  font-size: 1.2px;
-  font-weight: 950;
-  letter-spacing: 0;
-  text-anchor: middle;
-  text-transform: uppercase;
-  pointer-events: none;
-}
-
-:root[data-theme="light"] .trade-map-zone text {
-  fill: rgba(20, 23, 26, 0.72);
+.trade-map-zone-overlay {
+  opacity: 1;
 }
 
 .trade-map-territory {

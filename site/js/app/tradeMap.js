@@ -173,6 +173,11 @@
     return shapeManifest()?.labels || [];
   }
 
+  function tradeZones() {
+    const manifest = root.AGGS_TRADE_ZONES;
+    return manifest && Array.isArray(manifest.zones) ? manifest : null;
+  }
+
   function sourceLabelMap() {
     return Object.fromEntries(sourceLabels().map((label) => [label.id, label]));
   }
@@ -652,6 +657,7 @@
     mapConfig,
     sourceTerritories,
     sourceLabels,
+    tradeZones,
     territoriesForNations,
     routesForRows,
     ensureGeography

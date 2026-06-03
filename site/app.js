@@ -1174,85 +1174,24 @@
     return `<button class="trade-map-mode ${state.tradeMapLayer === value ? "is-active" : ""}" type="button" data-trade-map-layer="${escapeHtml(value)}">${safeText(label)}</button>`;
   }
 
-  function zonePath(points, width, height) {
-    return points
-      .map(([x, y], index) => {
-        const px = (x / 100) * width;
-        const py = (y / 100) * height;
-        return `${index === 0 ? "M" : "L"} ${px.toFixed(2)} ${py.toFixed(2)}`;
-      })
-      .join(" ") + " Z";
-  }
-
-  function zoneLabel(point, width, height) {
+  function tradeZoneOverlayConfig() {
+    const manifest = TradeMap.tradeZones?.();
+    if (!manifest?.assetPath) return null;
+    const zones = Array.isArray(manifest.zones) ? manifest.zones : [];
     return {
-      x: (point[0] / 100) * width,
-      y: (point[1] / 100) * height
+      ...manifest,
+      zones,
+      straitCount: zones.filter((zone) => zone.type === "strait").length,
+      seaZoneCount: zones.filter((zone) => zone.type === "sea_zone").length
     };
-  }
-
-  function tradeMapSeaZones(mapConfig) {
-    const width = Engine.number(mapConfig.width, 100);
-    const height = Engine.number(mapConfig.height, 100);
-    const zones = [
-      {
-        id: "far-west-ocean",
-        label: "Far West Ocean",
-        labelAt: [9, 54],
-        points: [[0, 4], [18, 4], [20, 13], [17, 24], [19, 36], [17, 50], [19, 63], [15, 77], [18, 91], [10, 99], [0, 99]]
-      },
-      {
-        id: "western-passage",
-        label: "Western Passage",
-        labelAt: [25, 49],
-        points: [[18, 6], [38, 7], [42, 18], [38, 27], [34, 38], [31, 51], [34, 65], [31, 78], [23, 86], [17, 75], [20, 62], [18, 50], [20, 37], [18, 24]]
-      },
-      {
-        id: "southwest-ocean",
-        label: "Southwest Ocean",
-        labelAt: [30, 86],
-        points: [[0, 76], [18, 72], [29, 78], [43, 73], [53, 79], [51, 91], [42, 99], [0, 99]]
-      },
-      {
-        id: "central-sea",
-        label: "Central Sea",
-        labelAt: [58, 47],
-        points: [[47, 22], [58, 24], [65, 31], [70, 42], [67, 54], [59, 61], [50, 56], [45, 45], [47, 34]]
-      },
-      {
-        id: "eastern-ocean",
-        label: "Eastern Ocean",
-        labelAt: [89, 42],
-        points: [[72, 10], [100, 5], [100, 72], [94, 79], [84, 75], [80, 64], [75, 55], [78, 43], [74, 31]]
-      },
-      {
-        id: "vesperan-strait",
-        label: "Vesperan Strait",
-        labelAt: [91, 78],
-        points: [[86, 70], [92, 68], [96, 74], [95, 84], [90, 88], [86, 82]]
-      },
-      {
-        id: "southern-ocean",
-        label: "Southern Ocean",
-        labelAt: [62, 90],
-        points: [[32, 78], [47, 72], [61, 70], [78, 72], [94, 78], [100, 83], [100, 99], [34, 99], [27, 91]]
-      }
-    ];
-    return zones.map((zone) => {
-      const label = zoneLabel(zone.labelAt, width, height);
-      return {
-        id: zone.id,
-        label: zone.label,
-        path: zonePath(zone.points, width, height),
-        labelX: label.x,
-        labelY: label.y
-      };
-    });
   }
 
   function tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool) {
     const mapConfig = TradeMap.mapConfig?.() || { hasRealSvg: false, assetPath: "assets/world-map.png", width: 100, height: 100, viewBox: "0 0 100 100", sourceTerritoryCount: 0 };
     const mapAssetHref = `${isAdmin ? "../" : ""}${mapConfig.assetPath}`;
+    const tradeZoneOverlay = tradeZoneOverlayConfig();
+    const showTradeZoneOverlay = Boolean(tradeZoneOverlay) && (state.tradeMapLayer === "seaZones" || state.tradeMapLayer === "ports");
+    const activeMapHref = showTradeZoneOverlay ? `${isAdmin ? "../" : ""}${tradeZoneOverlay.assetPath}` : mapAssetHref;
     const worldSurfaceLabel = mapConfig.surfaceAreaSqMi ? `${fmtCompact(mapConfig.surfaceAreaSqMi)} sq mi` : "Unknown scale";
     const worldSurfaceTitle = mapConfig.equatorialCircumferenceMi
       ? `${fmtNumber(Math.round(mapConfig.surfaceAreaSqMi))} sq mi surface / ${fmtNumber(Math.round(mapConfig.equatorialCircumferenceMi))} mi circumference`
@@ -1298,15 +1237,10 @@
                   <feMergeNode in="SourceGraphic"></feMergeNode>
                 </feMerge>
               </filter>
-              <mask id="tradeMapWaterMask" maskUnits="userSpaceOnUse" x="0" y="0" width="${mapConfig.width}" height="${mapConfig.height}">
-                <rect x="0" y="0" width="${mapConfig.width}" height="${mapConfig.height}" fill="white"></rect>
-                ${territories.map((territory) => {
-                  const transformAttr = territory.transform ? ` transform="${escapeHtml(territory.transform)}"` : "";
-                  return `<path d="${escapeHtml(territory.path)}"${transformAttr} fill="black"></path>`;
-                }).join("")}
-              </mask>
             </defs>
-            ${mapConfig.hasRealSvg ? `<image class="trade-map-basemap" href="${escapeHtml(mapAssetHref)}" x="0" y="0" width="${mapConfig.width}" height="${mapConfig.height}" preserveAspectRatio="none"></image>` : ""}
+            ${mapConfig.hasRealSvg ? `<image class="trade-map-basemap ${showTradeZoneOverlay ? "trade-map-zone-overlay" : ""}" href="${escapeHtml(activeMapHref)}" x="0" y="0" width="${mapConfig.width}" height="${mapConfig.height}" preserveAspectRatio="none">
+              ${showTradeZoneOverlay ? `<title>${fmtNumber(tradeZoneOverlay.seaZoneCount)} sea zones / ${fmtNumber(tradeZoneOverlay.straitCount)} straits</title>` : ""}
+            </image>` : ""}
             <g class="trade-map-grid" aria-hidden="true">
               ${gridColumns.map((x) => `<line x1="${x}" y1="${(mapConfig.height * 0.08).toFixed(2)}" x2="${x}" y2="${(mapConfig.height * 0.94).toFixed(2)}"></line>`).join("")}
               ${gridRows.map((y) => `<line x1="${(mapConfig.width * 0.04).toFixed(2)}" y1="${y}" x2="${(mapConfig.width * 0.96).toFixed(2)}" y2="${y}"></line>`).join("")}
@@ -1320,14 +1254,6 @@
                 </path>`;
               }).join("")}
             </g>
-            ${state.tradeMapLayer === "seaZones" || state.tradeMapLayer === "ports" ? `
-              <g class="trade-map-sea-zones" aria-label="Sea zones">
-                ${tradeMapSeaZones(mapConfig).map((zone) => `
-                  <g class="trade-map-zone ${zone.id === "vesperan-strait" ? "is-chokepoint" : ""}">
-                    <path d="${escapeHtml(zone.path)}" mask="url(#tradeMapWaterMask)"></path>
-                    <text x="${zone.labelX.toFixed(2)}" y="${zone.labelY.toFixed(2)}">${safeText(zone.label)}</text>
-                  </g>`).join("")}
-              </g>` : ""}
             <g class="trade-map-territories" aria-label="Clickable territories">
               ${territories.map((territory) => {
                 const transformAttr = territory.transform ? ` transform="${escapeHtml(territory.transform)}"` : "";
