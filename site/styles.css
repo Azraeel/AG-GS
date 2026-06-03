@@ -931,6 +931,7 @@ select optgroup {
 
 .trade-map-selected,
 .trade-map-route-list,
+.trade-map-route-detail,
 .trade-map-asset-note {
   position: relative;
   z-index: 1;
@@ -962,6 +963,8 @@ select optgroup {
 :root[data-theme="light"] .trade-map-statline strong,
 :root[data-theme="light"] .trade-map-route-list button,
 :root[data-theme="light"] .trade-map-route-list button strong,
+:root[data-theme="light"] .trade-map-route-focus strong,
+:root[data-theme="light"] .trade-map-route-facts strong,
 :root[data-theme="light"] .trade-map-asset-note strong {
   color: var(--ink);
 }
@@ -974,6 +977,7 @@ select optgroup {
 
 :root[data-theme="light"] .trade-map-selected p,
 :root[data-theme="light"] .trade-map-route-list p,
+:root[data-theme="light"] .trade-map-route-detail p,
 :root[data-theme="light"] .trade-map-asset-note {
   color: var(--muted);
 }
@@ -989,7 +993,8 @@ select optgroup {
 }
 
 :root[data-theme="light"] .trade-map-geography,
-:root[data-theme="light"] .trade-map-route-list {
+:root[data-theme="light"] .trade-map-route-list,
+:root[data-theme="light"] .trade-map-route-detail {
   border-color: rgba(20, 23, 26, 0.16);
 }
 
@@ -1006,7 +1011,9 @@ select optgroup {
 }
 
 :root[data-theme="light"] .trade-map-geography span,
-:root[data-theme="light"] .trade-map-statline span {
+:root[data-theme="light"] .trade-map-statline span,
+:root[data-theme="light"] .trade-map-route-focus span,
+:root[data-theme="light"] .trade-map-route-facts span {
   color: color-mix(in srgb, var(--muted) 86%, var(--ink));
 }
 
@@ -1124,6 +1131,126 @@ select optgroup {
   margin: 0;
   color: #c7d4e4;
   font-weight: 750;
+}
+
+.trade-map-route-detail {
+  display: grid;
+  gap: 8px;
+  padding: 9px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  color: inherit;
+}
+
+.trade-map-route-detail p {
+  margin: 0;
+  color: #c7d4e4;
+  font-weight: 750;
+}
+
+.trade-map-route-focus {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.trade-map-route-focus span,
+.trade-map-route-facts span {
+  color: #93a9c4;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.trade-map-route-focus strong {
+  min-width: 0;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 950;
+  line-height: 1.05;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trade-map-route-focus em {
+  color: #c7d4e4;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 850;
+}
+
+:root[data-theme="light"] .trade-map-route-focus em {
+  color: var(--muted);
+}
+
+.trade-map-route-split {
+  display: grid;
+  gap: 5px;
+}
+
+.trade-map-route-split-track {
+  display: flex;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme="light"] .trade-map-route-split-track {
+  background: rgba(20, 23, 26, 0.1);
+}
+
+.trade-map-route-split-track .import {
+  width: var(--import-share);
+  background: #68d391;
+}
+
+.trade-map-route-split-track .export {
+  width: var(--export-share);
+  background: #f0c33b;
+}
+
+.trade-map-route-split-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: #c7d4e4;
+  font-size: 11px;
+  font-weight: 850;
+}
+
+:root[data-theme="light"] .trade-map-route-split-labels {
+  color: var(--muted);
+}
+
+.trade-map-route-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px 9px;
+  padding: 6px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+:root[data-theme="light"] .trade-map-route-facts {
+  border-top-color: rgba(20, 23, 26, 0.14);
+  border-bottom-color: rgba(20, 23, 26, 0.14);
+}
+
+.trade-map-route-facts div {
+  min-width: 0;
+}
+
+.trade-map-route-facts strong {
+  display: block;
+  min-width: 0;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 950;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .trade-map-asset-note {
@@ -1520,6 +1647,7 @@ select optgroup {
 
   .trade-map-selected,
   .trade-map-route-list,
+  .trade-map-route-detail,
   .trade-map-asset-note {
     left: auto;
     right: auto;

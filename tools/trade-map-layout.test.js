@@ -14,6 +14,7 @@ test("trade map inspector sits outside the clickable map stage", () => {
   const inspectorIndex = source.indexOf('<div class="trade-map-inspector">', stageCloseIndex);
   const selectedIndex = source.indexOf('<div class="trade-map-selected"', inspectorIndex);
   const partnersIndex = source.indexOf('<div class="trade-map-route-list"', inspectorIndex);
+  const detailIndex = source.indexOf('tradeMapRouteDetailsHtml(rows)', partnersIndex);
 
   assert.notEqual(layoutIndex, -1);
   assert.notEqual(stageIndex, -1);
@@ -24,11 +25,12 @@ test("trade map inspector sits outside the clickable map stage", () => {
   assert.ok(stageCloseIndex < inspectorIndex, "the inspector should start after the stage closes");
   assert.ok(inspectorIndex < selectedIndex, "selected territory details should render inside the inspector");
   assert.ok(inspectorIndex < partnersIndex, "partner controls should render inside the inspector");
+  assert.ok(partnersIndex < detailIndex, "route detail should continue the inspector after major partners");
 });
 
 test("trade map inspector panels are not overlay-positioned", () => {
   const source = fs.readFileSync(path.join(root, "site", "styles.css"), "utf8");
-  const panelRule = source.match(/\.trade-map-selected,\s*\.trade-map-route-list,\s*\.trade-map-asset-note\s*\{[^}]+\}/);
+  const panelRule = source.match(/\.trade-map-selected,\s*\.trade-map-route-list,\s*\.trade-map-route-detail,\s*\.trade-map-asset-note\s*\{[^}]+\}/);
   assert.ok(panelRule, "shared trade map panel rule should exist");
   assert.match(panelRule[0], /position:\s*relative/);
   assert.doesNotMatch(panelRule[0], /position:\s*absolute/);
@@ -65,4 +67,6 @@ test("trade map chrome stays compact instead of rendering filled dead space", ()
   assert.match(inspectorRule[0], /background:\s*transparent/);
   assert.match(source, /:root\[data-theme="light"\]\s+\.trade-map-selected h2/);
   assert.match(source, /:root\[data-theme="light"\]\s+\.trade-map-route-list button/);
+  assert.match(source, /:root\[data-theme="light"\]\s+\.trade-map-route-focus strong/);
+  assert.match(source, /\.trade-map-route-split-track \.import/);
 });
