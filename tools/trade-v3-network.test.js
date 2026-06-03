@@ -586,6 +586,206 @@ test("Trade map geography prioritizes nearby regional lanes over distant inland 
   assert.ok(nearbyLane.routeDistance < distantLane.routeDistance, "nearby lane should report a shorter route");
 });
 
+test("Trade route network reports Khalindar-calibrated map miles", () => {
+  const data = buildTradeV3Scenario();
+  data.nations = [
+    { id: "empire_of_khalindar", name: "Empire of Khalindar" },
+    { id: "solara", name: "Solara" },
+    { id: "aurendale", name: "Aurendale" }
+  ];
+  for (const id of ["empire_of_khalindar", "solara", "aurendale"]) {
+    data.national[id] = structuredClone(data.national.aurendale);
+    data.trade[id] = structuredClone(data.trade.aurendale);
+    data.industrial[id] = structuredClone(data.industrial.aurendale);
+    data.population[id] = structuredClone(data.population.aurendale);
+    data.military[id] = {};
+    data.intelligence[id] = {};
+    data.naval[id] = {};
+  }
+  data.tradeNetwork = {
+    geography: {
+      map: {
+        calibrationNationId: "empire_of_khalindar",
+        calibrationAreaSqMi: 7260000
+      },
+      nations: {
+        empire_of_khalindar: {
+          x: 20,
+          y: 80,
+          areaUnits: 400,
+          coastal: true,
+          portStrength: 7,
+          routeAccess: ["land", "ocean"],
+          neighborIds: ["solara"],
+          borderDistances: { solara: 0, aurendale: 60 }
+        },
+        solara: {
+          x: 24,
+          y: 80,
+          areaUnits: 90,
+          coastal: true,
+          portStrength: 9,
+          routeAccess: ["land", "ocean"],
+          neighborIds: ["empire_of_khalindar"],
+          borderDistances: { empire_of_khalindar: 0, aurendale: 55 }
+        },
+        aurendale: {
+          x: 80,
+          y: 30,
+          areaUnits: 120,
+          coastal: true,
+          portStrength: 9,
+          routeAccess: ["ocean"],
+          borderDistances: { empire_of_khalindar: 60, solara: 55 }
+        }
+      }
+    }
+  };
+
+  Engine.recalculateAll(data);
+  const network = Engine.calculateTradeNetwork(data);
+  const landLane = network.lanes.find((lane) => lane.importerId === "solara" && lane.exporterId === "empire_of_khalindar");
+  const oceanLane = network.lanes.find((lane) => lane.importerId === "aurendale" && lane.exporterId === "empire_of_khalindar");
+
+  assert.ok(landLane.routeDistanceMiles < 50, `border route should be near zero map miles, got ${landLane.routeDistanceMiles}`);
+  assert.ok(oceanLane.routeDistanceMiles > 9000 && oceanLane.routeDistanceMiles < 12000, `calibrated ocean route should be map miles, got ${oceanLane.routeDistanceMiles}`);
+  assert.equal(network.routeNetwork.scale.calibrationNationId, "empire_of_khalindar");
+  assert.ok(network.routeNetwork.scale.milesPerMapUnit > 130 && network.routeNetwork.scale.milesPerMapUnit < 140);
+});
+
+test("Trade route network reroutes landlocked trade when a transit country blocks access", () => {
+  const data = buildLargeTradeV3Scenario(4);
+  const [inland, primaryPort, alternatePort, buyer] = data.nations.map((nation) => nation.id);
+  for (const id of [inland, primaryPort, alternatePort, buyer]) {
+    data.trade[id].tradeFlow = 1000000;
+    data.trade[id].importReliance = 100;
+    data.trade[id].exportReliance = 100;
+    data.trade[id].economicTradeDiversity = 100;
+    data.trade[id].tradePolicy = "Open Market";
+    data.trade[id].tariffRate = 4;
+  }
+  data.trade[inland].exportReliance = 180;
+  data.trade[buyer].importReliance = 180;
+  data.tradeNetwork = {
+    geography: {
+      map: {
+        calibrationNationId: "empire_of_khalindar",
+        calibrationAreaSqMi: 7260000,
+        squareMilesPerMapUnit: 1
+      },
+      nations: {
+        [inland]: {
+          x: 20,
+          y: 20,
+          areaUnits: 10,
+          landlocked: true,
+          coastal: false,
+          portStrength: 0,
+          routeAccess: ["land"],
+          neighborIds: [primaryPort, alternatePort],
+          borderDistances: { [primaryPort]: 0, [alternatePort]: 0 }
+        },
+        [primaryPort]: {
+          x: 70,
+          y: 20,
+          areaUnits: 10,
+          coastal: true,
+          portStrength: 9,
+          routeAccess: ["land", "ocean"],
+          neighborIds: [inland],
+          oceanZone: "west_ocean",
+          borderDistances: { [inland]: 0 }
+        },
+        [alternatePort]: {
+          x: 35,
+          y: 20,
+          areaUnits: 10,
+          coastal: true,
+          portStrength: 4,
+          routeAccess: ["land", "ocean"],
+          neighborIds: [inland],
+          oceanZone: "west_ocean",
+          borderDistances: { [inland]: 0 }
+        },
+        [buyer]: {
+          x: 80,
+          y: 20,
+          areaUnits: 10,
+          coastal: true,
+          portStrength: 8,
+          routeAccess: ["ocean"],
+          oceanZone: "west_ocean"
+        }
+      }
+    }
+  };
+
+  Engine.recalculateAll(data);
+  const baseline = Engine.calculateTradeNetwork(data);
+  const baselineLane = baseline.lanes.find((lane) => lane.importerId === buyer && lane.exporterId === inland);
+  assert.ok(baselineLane.transitPath.includes(primaryPort), `baseline should use primary port path: ${baselineLane.transitPath.join(" > ")}`);
+
+  Engine.setTransitPolicy(data, primaryPort, inland, "Block All");
+  Engine.recalculateAll(data);
+  const blocked = Engine.calculateTradeNetwork(data);
+  const reroutedLane = blocked.lanes.find((lane) => lane.importerId === buyer && lane.exporterId === inland);
+
+  assert.equal(reroutedLane.transitBlocked, false);
+  assert.ok(reroutedLane.transitPath.includes(alternatePort), `blocked primary path should reroute through alternate port: ${reroutedLane.transitPath.join(" > ")}`);
+  assert.ok(reroutedLane.routeEfficiency < baselineLane.routeEfficiency, `${reroutedLane.routeEfficiency} should be less efficient than ${baselineLane.routeEfficiency}`);
+  assert.ok(blocked.nations[primaryPort].transitFlowLoss > 0, "blocking transit should cost the blocker some transit flow");
+});
+
+test("Vesperan Strait targeted disruption penalizes only lanes involving targeted countries", () => {
+  const data = buildLargeTradeV3Scenario(4);
+  const [targetedExporter, neutralExporter, importer, port] = data.nations.map((nation) => nation.id);
+  for (const id of [targetedExporter, neutralExporter, importer, port]) {
+    data.trade[id].tradeFlow = 1200000;
+    data.trade[id].importReliance = 90;
+    data.trade[id].exportReliance = 120;
+    data.trade[id].economicTradeDiversity = 100;
+    data.trade[id].tradePolicy = "Free Trade";
+    data.trade[id].tariffRate = 3;
+    data.industrial[id].shipyards = 30;
+  }
+  data.trade[importer].importReliance = 200;
+  data.trade[targetedExporter].exportReliance = 180;
+  data.trade[neutralExporter].exportReliance = 180;
+  data.tradeNetwork = {
+    chokepoints: {
+      vesperan_strait: {
+        status: "Open",
+        targeted: {
+          [targetedExporter]: { status: "Disrupted", severity: 70 }
+        }
+      }
+    },
+    geography: {
+      map: {
+        calibrationNationId: "empire_of_khalindar",
+        calibrationAreaSqMi: 7260000,
+        squareMilesPerMapUnit: 1
+      },
+      nations: {
+        [targetedExporter]: { x: 10, y: 50, coastal: true, portStrength: 8, routeAccess: ["ocean"], oceanZone: "west_ocean" },
+        [neutralExporter]: { x: 12, y: 55, coastal: true, portStrength: 8, routeAccess: ["ocean"], oceanZone: "west_ocean" },
+        [port]: { x: 55, y: 50, coastal: true, portStrength: 9, routeAccess: ["ocean"], oceanZone: "vesperan_strait" },
+        [importer]: { x: 90, y: 50, coastal: true, portStrength: 9, routeAccess: ["ocean"], oceanZone: "east_ocean" }
+      }
+    }
+  };
+
+  Engine.recalculateAll(data);
+  const network = Engine.calculateTradeNetwork(data);
+  const targetedLane = network.lanes.find((lane) => lane.importerId === importer && lane.exporterId === targetedExporter);
+  const neutralLane = network.lanes.find((lane) => lane.importerId === importer && lane.exporterId === neutralExporter);
+
+  assert.ok(targetedLane.chokepoints.includes("vesperan_strait"), "targeted lane should route through Vesperan Strait");
+  assert.equal(targetedLane.chokepointSeverity, 70);
+  assert.equal(neutralLane.chokepointSeverity, 0);
+  assert.ok(targetedLane.routeEfficiency < neutralLane.routeEfficiency * 0.75, `${targetedLane.routeEfficiency} should be far below ${neutralLane.routeEfficiency}`);
+});
+
 test("Trade v3 shipyard expansion grows the global trade pool", () => {
   const data = buildTradeV3Scenario();
   Engine.recalculateAll(data);

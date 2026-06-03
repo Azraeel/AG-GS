@@ -105,3 +105,20 @@ test("trade map inspector supports dragging with clamped local persistence", () 
   assert.match(source, /panel\.style\.right\s*=\s*"auto"/);
   assert.match(source, /applyTradeMapPanelPosition\(\);\s*\n\s*restoreTableScroll\("tradeNetwork"\)/);
 });
+
+test("trade network UI exposes route-network controls without adding panel chrome", () => {
+  const appSource = fs.readFileSync(path.join(root, "site", "app.js"), "utf8");
+  const styleSource = fs.readFileSync(path.join(root, "site", "styles.css"), "utf8");
+
+  assert.match(appSource, /function transitPolicyControl/);
+  assert.match(appSource, /data-transit-policy-select/);
+  assert.match(appSource, /Engine\.setTransitPolicy/);
+  assert.match(appSource, /routeDistanceMiles/);
+  assert.match(appSource, /routeEfficiency/);
+  assert.match(appSource, /data-trade-map-layer/);
+  assert.match(appSource, /state\.tradeMapLayer/);
+  assert.match(appSource, /trade-map-sea-zones/);
+  assert.doesNotMatch(appSource, /trade-map-rail/);
+  assert.match(styleSource, /\.trade-map-zone/);
+  assert.match(styleSource, /\.route-inline-facts/);
+});

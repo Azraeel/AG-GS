@@ -20,6 +20,12 @@
       trade2026: "Trade v2 formula",
       trade2027: "Trade v3 global network formula"
     };
+    const DEFAULT_MAP_WIDTH = 100;
+    const DEFAULT_MAP_HEIGHT = 100;
+    const DEFAULT_MAP_DIAGONAL = 141.4213562373;
+    const KHALINDAR_CALIBRATION_AREA_SQ_MI = 7_260_000;
+    const DEFAULT_SQ_MI_PER_MAP_AREA_UNIT = 18_150;
+    const TRANSIT_MODES = ["Open", "Block Land", "Block Maritime", "Block All"];
 
     function tradeFormulaVersion(data, options = {}) {
       const version = options.tradeFormulaVersion || options.tradeVersion || data.meta?.tradeFormulaVersion || "legacy";
@@ -137,6 +143,12 @@
       data.tradeNetwork.lanePolicies = data.tradeNetwork.lanePolicies && typeof data.tradeNetwork.lanePolicies === "object" && !Array.isArray(data.tradeNetwork.lanePolicies)
         ? data.tradeNetwork.lanePolicies
         : {};
+      data.tradeNetwork.transitPolicies = data.tradeNetwork.transitPolicies && typeof data.tradeNetwork.transitPolicies === "object" && !Array.isArray(data.tradeNetwork.transitPolicies)
+        ? data.tradeNetwork.transitPolicies
+        : {};
+      data.tradeNetwork.chokepoints = data.tradeNetwork.chokepoints && typeof data.tradeNetwork.chokepoints === "object" && !Array.isArray(data.tradeNetwork.chokepoints)
+        ? data.tradeNetwork.chokepoints
+        : {};
       data.tradeNetwork.baseline = data.tradeNetwork.baseline && typeof data.tradeNetwork.baseline === "object" && !Array.isArray(data.tradeNetwork.baseline)
         ? data.tradeNetwork.baseline
         : null;
@@ -178,12 +190,48 @@
       };
     }
 
+    function normalizeTransitMode(value) {
+      return TRANSIT_MODES.includes(value) ? value : "Open";
+    }
+
     function cloneLanePolicies(lanePolicies = {}) {
       return Object.fromEntries(
         Object.entries(lanePolicies || {}).map(([importerId, policies]) => [
           importerId,
           Object.fromEntries(Object.entries(policies || {}).map(([exporterId, policy]) => [exporterId, normalizeLanePolicy(policy)]))
         ])
+      );
+    }
+
+    function cloneTransitPolicies(transitPolicies = {}) {
+      return Object.fromEntries(
+        Object.entries(transitPolicies || {}).map(([blockerId, policies]) => [
+          blockerId,
+          Object.fromEntries(Object.entries(policies || {}).map(([targetId, value]) => [targetId, normalizeTransitMode(value)]))
+        ])
+      );
+    }
+
+    function normalizeChokepointStatus(value) {
+      return ["Open", "Disrupted", "Blockaded"].includes(value) ? value : "Open";
+    }
+
+    function normalizeChokepointControl(control = {}) {
+      const status = normalizeChokepointStatus(control.status);
+      const severity = status === "Blockaded"
+        ? 100
+        : status === "Disrupted"
+          ? clamp(number(control.severity, 35), 0, 100)
+          : 0;
+      const targeted = Object.fromEntries(
+        Object.entries(control.targeted || {}).map(([nationId, targetControl]) => [nationId, normalizeChokepointControl(targetControl)])
+      );
+      return { status, severity, targeted };
+    }
+
+    function cloneChokepoints(chokepoints = {}) {
+      return Object.fromEntries(
+        Object.entries(chokepoints || {}).map(([id, control]) => [id, normalizeChokepointControl(control)])
       );
     }
 
@@ -236,6 +284,8 @@
           exportAnchors: cloneExportAnchors(network.exportAnchors),
           importAnchors: cloneImportAnchors(network.importAnchors),
           lanePolicies: cloneLanePolicies(network.lanePolicies),
+          transitPolicies: cloneTransitPolicies(network.transitPolicies),
+          chokepoints: cloneChokepoints(network.chokepoints),
           nations: {}
         };
       }
@@ -400,10 +450,14 @@
       const routeAccess = normalizeRouteAccess(raw.routeAccess);
       const portStrength = clamp(number(raw.portStrength, 0), 0, 10);
       const coastal = raw.coastal === true || portStrength > 0 || routeAccess.some((route) => route.includes("ocean") || route.includes("port"));
+      const borderDistances = raw.borderDistances && typeof raw.borderDistances === "object" && !Array.isArray(raw.borderDistances)
+        ? Object.fromEntries(Object.entries(raw.borderDistances).map(([nationId, value]) => [nationId, Math.max(0, number(value, 0))]))
+        : {};
       return {
         id,
         x: clamp(x, 0, 100),
         y: clamp(y, 0, 100),
+        areaUnits: Math.max(0, number(raw.areaUnits ?? raw.area ?? raw.sourceAreaUnits, 0)),
         region: String(raw.region || "global").toLowerCase(),
         regionLabel: raw.regionLabel || "",
         continent: raw.continent || "",
@@ -417,6 +471,7 @@
         capital: raw.capital || null,
         primaryPort: raw.primaryPort || null,
         neighborIds: Array.isArray(raw.neighborIds) ? raw.neighborIds : [],
+        borderDistances,
         borderCandidates: Array.isArray(raw.borderCandidates) ? raw.borderCandidates : [],
         mapPosition: raw.mapPosition || null,
         geographySource: raw.geographySource || ""
@@ -443,6 +498,338 @@
         if (exporterRoutes.has(route)) overlap += 1;
       }
       return overlap;
+    }
+
+    function geographyMapOptions(data) {
+      const network = tradeNetworkState(data);
+      return network.geography?.map && typeof network.geography.map === "object" && !Array.isArray(network.geography.map)
+        ? network.geography.map
+        : {};
+    }
+
+    function routeScale(data, geography) {
+      const map = geographyMapOptions(data);
+      const calibrationNationId = map.calibrationNationId || "empire_of_khalindar";
+      const calibrationAreaSqMi = Math.max(1, number(map.calibrationAreaSqMi, KHALINDAR_CALIBRATION_AREA_SQ_MI));
+      const calibrationAreaUnits = Math.max(0, number(geography?.[calibrationNationId]?.areaUnits, 0));
+      const squareMilesPerMapUnit = Math.max(
+        1,
+        number(
+          map.squareMilesPerMapUnit,
+          calibrationAreaUnits > 0
+            ? calibrationAreaSqMi / calibrationAreaUnits
+            : DEFAULT_SQ_MI_PER_MAP_AREA_UNIT
+        )
+      );
+      return {
+        width: Math.max(1, number(map.width, DEFAULT_MAP_WIDTH)),
+        height: Math.max(1, number(map.height, DEFAULT_MAP_HEIGHT)),
+        calibrationNationId,
+        calibrationAreaSqMi: roundCurrency(calibrationAreaSqMi),
+        calibrationAreaUnits: roundPercent(calibrationAreaUnits),
+        squareMilesPerMapUnit: roundCurrency(squareMilesPerMapUnit),
+        milesPerMapUnit: Math.sqrt(squareMilesPerMapUnit)
+      };
+    }
+
+    function mapDistanceUnits(left, right, scale, wrap = true) {
+      if (!left || !right) return DEFAULT_MAP_DIAGONAL;
+      const rawDx = Math.abs(number(left.x, 0) - number(right.x, 0));
+      const dx = wrap && rawDx > scale.width * 0.72 ? Math.min(rawDx, Math.max(0, scale.width - rawDx)) : rawDx;
+      const dy = Math.abs(number(left.y, 0) - number(right.y, 0));
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function candidateBorderDistance(left, right) {
+      const leftDirect = left?.borderDistances?.[right?.id];
+      const rightDirect = right?.borderDistances?.[left?.id];
+      if (Number.isFinite(Number(leftDirect))) return Math.max(0, Number(leftDirect));
+      if (Number.isFinite(Number(rightDirect))) return Math.max(0, Number(rightDirect));
+      const leftCandidate = (left?.borderCandidates || []).find((candidate) => candidate.id === right?.id || candidate.nationId === right?.id);
+      const rightCandidate = (right?.borderCandidates || []).find((candidate) => candidate.id === left?.id || candidate.nationId === left?.id);
+      if (leftCandidate && Number.isFinite(Number(leftCandidate.distance))) return Math.max(0, Number(leftCandidate.distance));
+      if (rightCandidate && Number.isFinite(Number(rightCandidate.distance))) return Math.max(0, Number(rightCandidate.distance));
+      if ((left?.neighborIds || []).includes(right?.id) || (right?.neighborIds || []).includes(left?.id)) return 0;
+      return null;
+    }
+
+    function sameRouteRegion(left, right) {
+      return Boolean(left?.region && right?.region && left.region !== "global" && right.region !== "global" && left.region === right.region);
+    }
+
+    function transitModeFor(transitPolicies, blockerId, targetId) {
+      return normalizeTransitMode(transitPolicies?.[blockerId]?.[targetId]);
+    }
+
+    function transitBlocksUsage(transitPolicies, blockerId, targetId, usage) {
+      if (!blockerId || !targetId || blockerId === targetId) return false;
+      const mode = transitModeFor(transitPolicies, blockerId, targetId);
+      if (mode === "Block All") return true;
+      if (usage === "land" && mode === "Block Land") return true;
+      if (usage === "maritime" && mode === "Block Maritime") return true;
+      return false;
+    }
+
+    function uniqueRoutePath(nodes) {
+      const path = [];
+      for (const node of nodes) {
+        if (!node || path[path.length - 1] === node) continue;
+        path.push(node);
+      }
+      return path;
+    }
+
+    function seaSide(zone = "") {
+      const value = String(zone || "").toLowerCase();
+      if (value.includes("west") || value.includes("southwest")) return "west";
+      if (value.includes("east") || value.includes("far_east") || value.includes("northeast")) return "east";
+      if (value.includes("vesperan")) return "strait";
+      if (value.includes("south")) return "south";
+      if (value.includes("north")) return "north";
+      return "central";
+    }
+
+    function routeChokepointsForOcean(fromPort, toPort) {
+      const fromSide = seaSide(fromPort?.oceanZone || fromPort?.region);
+      const toSide = seaSide(toPort?.oceanZone || toPort?.region);
+      if (fromSide === "strait" || toSide === "strait") return ["vesperan_strait"];
+      if ((fromSide === "west" && toSide === "east") || (fromSide === "east" && toSide === "west")) return ["vesperan_strait"];
+      return [];
+    }
+
+    function chokepointControlFor(chokepoints, id, importerId, exporterId) {
+      const control = normalizeChokepointControl(chokepoints?.[id] || {});
+      const targeted = control.targeted?.[importerId] || control.targeted?.[exporterId];
+      return targeted ? normalizeChokepointControl(targeted) : control;
+    }
+
+    function chokepointPenalty(chokepoints, chokepointIds, importerId, exporterId) {
+      let severity = 0;
+      let blocked = false;
+      for (const id of chokepointIds || []) {
+        const control = chokepointControlFor(chokepoints, id, importerId, exporterId);
+        severity = Math.max(severity, control.severity || 0);
+        if (control.status === "Blockaded" || control.severity >= 100) blocked = true;
+      }
+      return {
+        severity: roundPercent(severity),
+        blocked,
+        factor: clamp(1 - severity / 115, 0.04, 1)
+      };
+    }
+
+    function coastalAccessOptions(ownerId, geography, scale, transitPolicies, usageOwnerId = ownerId) {
+      const owner = geography?.[ownerId];
+      if (!owner) return [];
+      if (owner.coastal) {
+        return [{
+          portId: ownerId,
+          port: owner,
+          landUnits: 0,
+          costUnits: Math.max(0, (10 - owner.portStrength) * 0.08),
+          path: [ownerId],
+          blockedBy: []
+        }];
+      }
+      const candidates = [];
+      for (const port of Object.values(geography || {})) {
+        if (!port?.coastal || port.id === ownerId) continue;
+        const borderUnits = candidateBorderDistance(owner, port);
+        const mapUnits = mapDistanceUnits(owner, port, scale, true);
+        const isNeighbor = borderUnits !== null || (owner.neighborIds || []).includes(port.id) || (port.neighborIds || []).includes(ownerId);
+        if (!isNeighbor && !sameRouteRegion(owner, port) && mapUnits > 28) continue;
+        const landBlocked = transitBlocksUsage(transitPolicies, port.id, usageOwnerId, "land");
+        const maritimeBlocked = transitBlocksUsage(transitPolicies, port.id, usageOwnerId, "maritime");
+        const landUnits = borderUnits !== null ? borderUnits : mapUnits;
+        const accessPenalty = isNeighbor ? 0 : 5.5;
+        const portPenalty = Math.max(0, (10 - port.portStrength) * 0.42);
+        candidates.push({
+          portId: port.id,
+          port,
+          landUnits,
+          costUnits: landUnits + accessPenalty + portPenalty,
+          path: uniqueRoutePath([ownerId, port.id]),
+          blockedBy: landBlocked || maritimeBlocked ? [port.id] : []
+        });
+      }
+      return candidates
+        .sort((left, right) => left.costUnits - right.costUnits)
+        .slice(0, 6);
+    }
+
+    function routeEfficiencyMultiplier(routeType, distanceUnits, scale, fromGeo, toGeo, chokepointFactor) {
+      const normalized = clamp(distanceUnits / DEFAULT_MAP_DIAGONAL, 0, 1.6);
+      const distanceScore = routeType === "border"
+        ? clamp(1.32 - normalized * 0.36, 1.12, 1.34)
+        : clamp(1.38 - normalized * 1.18, 0.22, 1.34);
+      const regionScore = sameRouteRegion(fromGeo, toGeo) ? 1.14 : normalized <= 0.2 ? 1.05 : 0.92;
+      const portScore = fromGeo?.coastal && toGeo?.coastal
+        ? clamp(0.92 + (fromGeo.portStrength + toGeo.portStrength) / 42, 0.92, 1.38)
+        : routeType === "land-sea"
+          ? 0.86
+          : 0.92;
+      return clamp(distanceScore * regionScore * portScore * chokepointFactor, 0.04, 1.95);
+    }
+
+    function fallbackRoute(importerId, exporterId, geography, scale) {
+      const importerGeo = geography?.[importerId];
+      const exporterGeo = geography?.[exporterId];
+      if (!importerGeo || !exporterGeo) {
+        return {
+          multiplier: 1,
+          routeDistance: null,
+          routeDistanceMiles: null,
+          routeType: "unmapped",
+          routeConfidence: 0,
+          routeEfficiency: 100,
+          transitPath: [exporterId, importerId],
+          chokepoints: [],
+          chokepointSeverity: 0,
+          transitBlocked: false,
+          transitBlockedBy: []
+        };
+      }
+      const units = mapDistanceUnits(importerGeo, exporterGeo, scale, true);
+      const multiplier = routeEfficiencyMultiplier("interregional", units, scale, exporterGeo, importerGeo, 1);
+      return {
+        multiplier,
+        routeDistance: roundPercent((units / DEFAULT_MAP_DIAGONAL) * 100),
+        routeDistanceMiles: roundCurrency(units * scale.milesPerMapUnit),
+        routeType: "interregional",
+        routeConfidence: 48,
+        routeEfficiency: roundPercent(clamp(multiplier / 1.35, 0.04, 1.05) * 100),
+        transitPath: [exporterId, importerId],
+        chokepoints: [],
+        chokepointSeverity: 0,
+        transitBlocked: false,
+        transitBlockedBy: []
+      };
+    }
+
+    function bestRouteForLane(importerId, exporterId, context) {
+      const { geography, scale, transitPolicies, chokepoints } = context;
+      const importerGeo = geography?.[importerId];
+      const exporterGeo = geography?.[exporterId];
+      if (!importerGeo || !exporterGeo) return fallbackRoute(importerId, exporterId, geography, scale);
+
+      const candidates = [];
+      const blockedBy = new Set();
+      const directBorderUnits = candidateBorderDistance(importerGeo, exporterGeo);
+      if (directBorderUnits !== null && directBorderUnits <= 3.5) {
+        const units = Math.max(0.12, directBorderUnits);
+        const multiplier = Math.max(2.05, routeEfficiencyMultiplier("border", units, scale, exporterGeo, importerGeo, 1));
+        candidates.push({
+          routeType: "border",
+          routeMode: "land",
+          distanceUnits: units,
+          multiplier,
+          transitPath: [exporterId, importerId],
+          chokepoints: [],
+          chokepointSeverity: 0,
+          transitBlockedBy: []
+        });
+      }
+
+      const directMapUnits = mapDistanceUnits(importerGeo, exporterGeo, scale, false);
+      if ((directBorderUnits === null || directBorderUnits > 3.5) && (sameRouteRegion(importerGeo, exporterGeo) || directMapUnits <= 18)) {
+        const multiplier = routeEfficiencyMultiplier("regional", directMapUnits, scale, exporterGeo, importerGeo, 1);
+        candidates.push({
+          routeType: "regional",
+          routeMode: "land",
+          distanceUnits: directMapUnits,
+          multiplier,
+          transitPath: [exporterId, importerId],
+          chokepoints: [],
+          chokepointSeverity: 0,
+          transitBlockedBy: []
+        });
+      }
+
+      const exporterPorts = coastalAccessOptions(exporterId, geography, scale, transitPolicies, exporterId);
+      const importerPorts = coastalAccessOptions(importerId, geography, scale, transitPolicies, importerId);
+      for (const option of [...exporterPorts, ...importerPorts]) {
+        for (const blocker of option.blockedBy || []) blockedBy.add(blocker);
+      }
+
+      for (const exportPort of exporterPorts.filter((option) => !option.blockedBy.length)) {
+        for (const importPort of importerPorts.filter((option) => !option.blockedBy.length)) {
+          const oceanUnits = exportPort.portId === importPort.portId
+            ? 0
+            : mapDistanceUnits(exportPort.port, importPort.port, scale, true) * 0.88;
+          const chokepointIds = routeChokepointsForOcean(exportPort.port, importPort.port);
+          const chokepoint = chokepointPenalty(chokepoints, chokepointIds, importerId, exporterId);
+          if (chokepoint.blocked) continue;
+          const distanceUnits = exportPort.landUnits + oceanUnits + importPort.landUnits;
+          const routeType = exportPort.portId === exporterId && importPort.portId === importerId
+            ? "ocean"
+            : oceanUnits <= 0
+              ? "regional"
+              : "land-sea";
+          const multiplier = routeEfficiencyMultiplier(routeType, distanceUnits, scale, exportPort.port, importPort.port, chokepoint.factor);
+          candidates.push({
+            routeType,
+            routeMode: oceanUnits > 0 ? "maritime" : "land",
+            distanceUnits,
+            multiplier,
+            transitPath: uniqueRoutePath([...exportPort.path, ...importPort.path.slice().reverse()]),
+            chokepoints: chokepointIds,
+            chokepointSeverity: chokepoint.severity,
+            transitBlockedBy: []
+          });
+        }
+      }
+
+      if (!candidates.length) {
+        const fallback = fallbackRoute(importerId, exporterId, geography, scale);
+        fallback.multiplier *= 0.18;
+        fallback.routeEfficiency = roundPercent(fallback.routeEfficiency * 0.18);
+        fallback.transitBlocked = true;
+        fallback.transitBlockedBy = [...blockedBy];
+        return fallback;
+      }
+
+      const best = candidates.sort((left, right) => right.multiplier - left.multiplier || left.distanceUnits - right.distanceUnits)[0];
+      return {
+        multiplier: best.multiplier,
+        routeDistance: roundPercent((best.distanceUnits / DEFAULT_MAP_DIAGONAL) * 100),
+        routeDistanceMiles: roundCurrency(best.distanceUnits * scale.milesPerMapUnit),
+        routeType: best.routeType,
+        routeMode: best.routeMode,
+        routeConfidence: roundPercent(clamp(52 + best.multiplier * 25 - best.chokepointSeverity * 0.35, 25, 96)),
+        routeEfficiency: roundPercent(clamp(best.multiplier / 1.35, 0.04, 1.08) * 100),
+        transitPath: best.transitPath,
+        chokepoints: best.chokepoints,
+        chokepointSeverity: best.chokepointSeverity,
+        transitBlocked: false,
+        transitBlockedBy: [...blockedBy]
+      };
+    }
+
+    function buildRouteNetwork(data, geography, options = {}) {
+      const scale = routeScale(data, geography);
+      const transitPolicies = cloneTransitPolicies(options.transitPolicies || {});
+      const chokepoints = cloneChokepoints(options.chokepoints || {});
+      const ids = Object.keys(geography || {});
+      const routes = {};
+      const context = { geography, scale, transitPolicies, chokepoints };
+      for (const importerId of ids) {
+        for (const exporterId of ids) {
+          if (importerId === exporterId) continue;
+          routes[`${importerId}:${exporterId}`] = bestRouteForLane(importerId, exporterId, context);
+        }
+      }
+      return {
+        scale: {
+          ...scale,
+          milesPerMapUnit: roundPercent(scale.milesPerMapUnit)
+        },
+        routes,
+        chokepoints
+      };
+    }
+
+    function routeForLane(routeNetwork, importerId, exporterId) {
+      return routeNetwork?.routes?.[`${importerId}:${exporterId}`] || null;
     }
 
     function laneGeography(importerId, exporterId, geography) {
@@ -489,7 +876,7 @@
       return Object.fromEntries(Object.entries(targets).map(([id, value]) => [id, Math.max(0, value) * scale]));
     }
 
-    function laneAffinity(importer, exporter, tariffRate, policy, hubMultiplier, geography = {}) {
+    function laneAffinity(importer, exporter, tariffRate, policy, hubMultiplier, routeNetwork = null) {
       if (policy.embargo) return 0;
       const importerAccess = policyNetworkAccess(importer.tradePolicy) * sanctionNetworkAccess(importer.sanctionsLevel);
       const exporterAccess = policyNetworkAccess(exporter.tradePolicy) * sanctionNetworkAccess(exporter.sanctionsLevel);
@@ -498,7 +885,9 @@
       const policyAccess = lanePolicyMultiplier(policy);
       const complementarity = clamp(0.72 + Math.sqrt(Math.max(0, importer.importReliance) + 1) / 42 + Math.sqrt(Math.max(0, exporter.exportReliance) + 1) / 46, 0.72, 1.42);
       const diversityBridge = clamp(0.84 + Math.sqrt(Math.max(0, exporter.economicTradeDiversity) + Math.max(0, importer.economicTradeDiversity) + 1) / 80, 0.84, 1.24);
-      return Math.max(0, hubMultiplier * openness * tariffAccess * policyAccess * complementarity * diversityBridge * laneGeography(importer.id, exporter.id, geography).multiplier);
+      const route = routeForLane(routeNetwork, importer.id, exporter.id);
+      const routeMultiplier = route ? route.multiplier : 1;
+      return Math.max(0, hubMultiplier * openness * tariffAccess * policyAccess * complementarity * diversityBridge * routeMultiplier);
     }
 
     function balanceLanesToTargets(lanes, importTargets, exportTargets, iterations = 28) {
@@ -658,7 +1047,7 @@
       return visible;
     }
 
-    function networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies) {
+    function networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies, transitPolicies = {}) {
       return {
         importFlow: 0,
         exportFlow: 0,
@@ -667,23 +1056,29 @@
         targetedTariffCount: Object.keys(targetedTariffs?.[id] || {}).length,
         exportAnchorCount: Object.keys(exportAnchors?.[id] || {}).filter((importerId) => number(exportAnchors[id][importerId], 0) > 0).length,
         importAnchorCount: Object.keys(importAnchors?.[id] || {}).filter((exporterId) => number(importAnchors[id][exporterId], 0) > 0).length,
-        lanePolicyCount: Object.keys(lanePolicies?.[id] || {}).length
+        lanePolicyCount: Object.keys(lanePolicies?.[id] || {}).length,
+        transitBlockCount: Object.values(transitPolicies?.[id] || {}).filter((mode) => normalizeTransitMode(mode) !== "Open").length,
+        transitFlowLoss: 0
       };
     }
 
-    function summarizeTrackedLanes(ids, lanes, targetedTariffs, exportAnchors, importAnchors, lanePolicies) {
-      const nations = Object.fromEntries(ids.map((id) => [id, networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies)]));
+    function summarizeTrackedLanes(ids, lanes, targetedTariffs, exportAnchors, importAnchors, lanePolicies, transitPolicies = {}) {
+      const nations = Object.fromEntries(ids.map((id) => [id, networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies, transitPolicies)]));
       for (const lane of lanes) {
         nations[lane.importerId].importFlow += lane.currentFlow;
         nations[lane.importerId].tariffRevenue += lane.tariffRevenue;
         nations[lane.importerId].importCost += lane.importCost;
         nations[lane.exporterId].exportFlow += lane.currentFlow;
+        for (const blockerId of lane.transitBlockedBy || []) {
+          if (nations[blockerId]) nations[blockerId].transitFlowLoss += lane.currentFlow * 0.025;
+        }
       }
       Object.values(nations).forEach((row) => {
         row.importFlow = roundCurrency(row.importFlow);
         row.exportFlow = roundCurrency(row.exportFlow);
         row.tariffRevenue = roundCurrency(row.tariffRevenue);
         row.importCost = roundCurrency(row.importCost);
+        row.transitFlowLoss = roundCurrency(row.transitFlowLoss);
       });
       return nations;
     }
@@ -787,9 +1182,13 @@
       const exportAnchors = options.exportAnchors || {};
       const importAnchors = options.importAnchors || {};
       const lanePolicies = options.lanePolicies || {};
+      const transitPolicies = options.transitPolicies || {};
+      const chokepoints = options.chokepoints || {};
       const geography = geographyProfiles(data);
+      const routeNetwork = buildRouteNetwork(data, geography, { transitPolicies, chokepoints });
+      const neutralRouteNetwork = buildRouteNetwork(data, geography, { transitPolicies: {}, chokepoints: {} });
       const lanes = [];
-      let nations = Object.fromEntries(ids.map((id) => [id, networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies)]));
+      let nations = Object.fromEntries(ids.map((id) => [id, networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies, transitPolicies)]));
       const demandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id])]));
       const baselineDemandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id].baselineInput || inputsById[id])]));
       const supplyScores = Object.fromEntries(ids.map((id) => [id, exportSupplyScore(inputsById[id])]));
@@ -822,8 +1221,8 @@
           const importer = inputsById[importerId];
           const demandWeight = Math.max(0, rawImportTargets[importerId] || 0);
           const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
-          actualAccess += demandWeight * laneAffinity(importer, exporter, tariffRate, lanePolicyFor(lanePolicies, importerId, exporterId), hubMultipliers[exporterId], geography);
-          neutralAccess += demandWeight * laneAffinity(importer, exporter, importer.tariffRate, { embargo: false, sanctionsLevel: "None" }, hubMultipliers[exporterId], geography);
+          actualAccess += demandWeight * laneAffinity(importer, exporter, tariffRate, lanePolicyFor(lanePolicies, importerId, exporterId), hubMultipliers[exporterId], routeNetwork);
+          neutralAccess += demandWeight * laneAffinity(importer, exporter, importer.tariffRate, { embargo: false, sanctionsLevel: "None" }, hubMultipliers[exporterId], neutralRouteNetwork);
         }
         const marketAccess = neutralAccess > 0 ? actualAccess / neutralAccess : 0;
         rawExportTargets[exporterId] = rawExportBaseTargets[exporterId] * clamp(marketAccess, 0.05, 1.12);
@@ -847,8 +1246,8 @@
           const exporter = inputsById[exporterId];
           const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
           const policy = lanePolicyFor(lanePolicies, importerId, exporterId);
-          const geographyLane = laneGeography(importerId, exporterId, geography);
-          const affinity = laneAffinity(importer, exporter, tariffRate, policy, hubMultipliers[exporterId], geography);
+          const route = routeForLane(routeNetwork, importerId, exporterId) || laneGeography(importerId, exporterId, geography);
+          const affinity = laneAffinity(importer, exporter, tariffRate, policy, hubMultipliers[exporterId], routeNetwork);
           const targetProduct = Math.sqrt(Math.max(0, importTargets[importerId] || 0) * Math.max(0, exportTargets[exporterId] || 0));
           lanes.push({
             importerId,
@@ -860,9 +1259,17 @@
             targeted: targetedTariffs?.[importerId]?.[exporterId] !== undefined,
             sanctionsLevel: policy.sanctionsLevel,
             embargoed: policy.embargo,
-            routeDistance: geographyLane.routeDistance,
-            routeType: geographyLane.routeType,
-            routeConfidence: geographyLane.routeConfidence,
+            routeDistance: route.routeDistance,
+            routeDistanceMiles: route.routeDistanceMiles,
+            routeType: route.routeType,
+            routeMode: route.routeMode || route.routeType,
+            routeConfidence: route.routeConfidence,
+            routeEfficiency: route.routeEfficiency,
+            transitPath: route.transitPath || [exporterId, importerId],
+            transitBlocked: route.transitBlocked === true,
+            transitBlockedBy: route.transitBlockedBy || [],
+            chokepoints: route.chokepoints || [],
+            chokepointSeverity: route.chokepointSeverity || 0,
             weight: targetProduct * affinity
           });
         }
@@ -879,7 +1286,7 @@
       }
       applyExportAnchorsToLanes(lanes, exportAnchors, lanePolicies);
       applyImportAnchorsToLanes(lanes, importAnchors, lanePolicies);
-      nations = summarizeTrackedLanes(ids, lanes, targetedTariffs, exportAnchors, importAnchors, lanePolicies);
+      nations = summarizeTrackedLanes(ids, lanes, targetedTariffs, exportAnchors, importAnchors, lanePolicies, transitPolicies);
       const visibleLaneKeys = includeLanes ? selectVisibleLaneKeys(lanes, nations, inputsById, currentWorldPool, ids) : null;
       const visibleLanes = includeLanes
         ? lanes.filter((lane) => visibleLaneKeys.has(laneKey(lane)))
@@ -887,6 +1294,7 @@
       return {
         lanes: visibleLanes,
         nations,
+        routeNetwork,
         worldPool: {
           baselineTradeFlow: roundCurrency(baselineWorldPool),
           rawTradeFlow: roundCurrency(rawWorldPool),
@@ -927,13 +1335,17 @@
         includeLanes,
         exportAnchors: baseline.exportAnchors || {},
         importAnchors: baseline.importAnchors || {},
-        lanePolicies: baseline.lanePolicies || {}
+        lanePolicies: baseline.lanePolicies || {},
+        transitPolicies: baseline.transitPolicies || {},
+        chokepoints: baseline.chokepoints || {}
       });
       const currentFlows = buildNetworkFlows(data, currentInputsById(data), network.targetedTariffs || {}, {
         includeLanes,
         exportAnchors: network.exportAnchors || {},
         importAnchors: network.importAnchors || {},
-        lanePolicies: network.lanePolicies || {}
+        lanePolicies: network.lanePolicies || {},
+        transitPolicies: network.transitPolicies || {},
+        chokepoints: network.chokepoints || {}
       });
       const ids = Object.keys(currentFlows.nations);
       const nations = {};
@@ -959,7 +1371,9 @@
           targetedTariffCount: current.targetedTariffCount || 0,
           exportAnchorCount: current.exportAnchorCount || 0,
           importAnchorCount: current.importAnchorCount || 0,
-          lanePolicyCount: current.lanePolicyCount || 0
+          lanePolicyCount: current.lanePolicyCount || 0,
+          transitBlockCount: current.transitBlockCount || 0,
+          transitFlowLoss: roundCurrency(current.transitFlowLoss)
         };
       }
 
@@ -999,7 +1413,7 @@
         scale: roundPercent(currentFlows.worldPool?.scale)
       };
 
-      return { lanes, nations, baselineCreatedAt: baseline.createdAt, worldPool };
+      return { lanes, nations, baselineCreatedAt: baseline.createdAt, worldPool, routeNetwork: currentFlows.routeNetwork };
     }
 
     const TRADE_ANCHOR_PATTERNS = {
@@ -1424,6 +1838,26 @@
       }
     }
 
+    function setTransitPolicy(data, blockerId, targetId, mode = "Open") {
+      const network = tradeNetworkState(data);
+      const normalized = normalizeTransitMode(mode);
+      if (normalized === "Open") {
+        clearTransitPolicy(data, blockerId, targetId);
+        return normalized;
+      }
+      if (!network.transitPolicies[blockerId]) network.transitPolicies[blockerId] = {};
+      network.transitPolicies[blockerId][targetId] = normalized;
+      return normalized;
+    }
+
+    function clearTransitPolicy(data, blockerId, targetId) {
+      const network = tradeNetworkState(data);
+      if (network.transitPolicies[blockerId]) {
+        delete network.transitPolicies[blockerId][targetId];
+        if (!Object.keys(network.transitPolicies[blockerId]).length) delete network.transitPolicies[blockerId];
+      }
+    }
+
     return {
       TRADE_FORMULAS,
       calculateTradeForNation,
@@ -1439,6 +1873,8 @@
       clearImportAnchor,
       setLanePolicy,
       clearLanePolicy,
+      setTransitPolicy,
+      clearTransitPolicy,
       recalculateTrade,
       tradeTierForFlow
     };

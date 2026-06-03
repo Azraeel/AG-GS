@@ -87,6 +87,7 @@
       exportSecondaryShare: ""
     },
     tradeAnchorPreview: null,
+    tradeMapLayer: "trade",
     showDetails: false,
     notice: ""
   };
@@ -890,13 +891,15 @@
         const exportAnchor = data.tradeNetwork?.exportAnchors?.[selectedId]?.[partner.id];
         const importAnchor = data.tradeNetwork?.importAnchors?.[selectedId]?.[partner.id];
         const lanePolicy = data.tradeNetwork?.lanePolicies?.[selectedId]?.[partner.id] || {};
+        const transitPolicy = data.tradeNetwork?.transitPolicies?.[selectedId]?.[partner.id] || "Open";
         const importFlow = Engine.number(importLane?.currentFlow, 0);
         const exportFlow = Engine.number(exportLane?.currentFlow, 0);
         const hasPinnedControl = override !== undefined
           || exportAnchor !== undefined
           || importAnchor !== undefined
           || lanePolicy.embargo === true
-          || (lanePolicy.sanctionsLevel && lanePolicy.sanctionsLevel !== "None");
+          || (lanePolicy.sanctionsLevel && lanePolicy.sanctionsLevel !== "None")
+          || transitPolicy !== "Open";
         return {
           partner,
           importLane,
@@ -909,6 +912,7 @@
           exportAnchor,
           importAnchor,
           lanePolicy,
+          transitPolicy,
           hasPinnedControl
         };
       })
@@ -964,6 +968,35 @@
       <select class="policy-inline-control" data-lane-policy-select data-importer-id="${escapeHtml(importerId)}" data-exporter-id="${escapeHtml(exporterId)}" aria-label="Lane policy">
         ${["None", "Light", "Moderate", "Heavy", "Total", "Embargo"].map((option) => `<option value="${option}" ${option === value ? "selected" : ""}>${option}</option>`).join("")}
       </select>`;
+  }
+
+  function transitPolicyControl(blockerId, targetId, mode = "Open") {
+    const value = ["Open", "Block Land", "Block Maritime", "Block All"].includes(mode) ? mode : "Open";
+    if (!isAdmin) return `<span class="trade-network-rate">${safeText(value)}</span>`;
+    return `
+      <select class="policy-inline-control" data-transit-policy-select data-blocker-id="${escapeHtml(blockerId)}" data-target-id="${escapeHtml(targetId)}" aria-label="Transit access">
+        ${["Open", "Block Land", "Block Maritime", "Block All"].map((option) => `<option value="${option}" ${option === value ? "selected" : ""}>${option}</option>`).join("")}
+      </select>`;
+  }
+
+  function routeFactsHtml(row) {
+    const lane = row.importLane || row.exportLane;
+    if (!lane) return `<span class="muted-text">No route</span>`;
+    const mode = lane.routeMode || lane.routeType || "route";
+    const miles = lane.routeDistanceMiles === null || lane.routeDistanceMiles === undefined
+      ? "Unmapped"
+      : `${fmtNumber(lane.routeDistanceMiles)} mi`;
+    const efficiency = lane.routeEfficiency === null || lane.routeEfficiency === undefined
+      ? ""
+      : `${fmtPercent(lane.routeEfficiency)} eff`;
+    const choke = Engine.number(lane.chokepointSeverity, 0) > 0
+      ? `Strait -${fmtPercent(lane.chokepointSeverity)}`
+      : "";
+    return `
+      <div class="route-inline-facts">
+        <strong>${safeText(miles)}</strong>
+        <span>${safeText([mode, efficiency, choke].filter(Boolean).join(" / "))}</span>
+      </div>`;
   }
 
   function tradeGeneratorPartnerOptions(selectedId, selectedValue = "") {
@@ -1120,6 +1153,23 @@
     return items;
   }
 
+  function tradeMapLayerButton(value, label) {
+    return `<button class="trade-map-mode ${state.tradeMapLayer === value ? "is-active" : ""}" type="button" data-trade-map-layer="${escapeHtml(value)}">${safeText(label)}</button>`;
+  }
+
+  function tradeMapSeaZones(mapConfig) {
+    const width = Engine.number(mapConfig.width, 100);
+    const height = Engine.number(mapConfig.height, 100);
+    return [
+      { id: "far-west", label: "Far West Ocean", x: width * 0.02, y: height * 0.12, w: width * 0.18, h: height * 0.62 },
+      { id: "southwest", label: "Southwest Ocean", x: width * 0.03, y: height * 0.66, w: width * 0.28, h: height * 0.24 },
+      { id: "central", label: "Central Sea", x: width * 0.26, y: height * 0.28, w: width * 0.28, h: height * 0.36 },
+      { id: "vesperan-strait", label: "Vesperan Strait", x: width * 0.84, y: height * 0.66, w: width * 0.08, h: height * 0.12 },
+      { id: "east", label: "East Ocean", x: width * 0.68, y: height * 0.16, w: width * 0.28, h: height * 0.48 },
+      { id: "southern", label: "Southern Ocean", x: width * 0.28, y: height * 0.78, w: width * 0.44, h: height * 0.16 }
+    ];
+  }
+
   function tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool) {
     const mapConfig = TradeMap.mapConfig?.() || { hasRealSvg: false, assetPath: "assets/world-map.png", width: 100, height: 100, viewBox: "0 0 100 100", sourceTerritoryCount: 0 };
     const mapAssetHref = `${isAdmin ? "../" : ""}${mapConfig.assetPath}`;
@@ -1149,10 +1199,11 @@
           </label>
           <div class="trade-map-modebar" aria-label="Trade map layers">
             <span class="trade-map-scale" title="${escapeHtml(worldSurfaceTitle)}"><span>World Surface</span><strong>${safeText(worldSurfaceLabel)}</strong></span>
-            <span class="trade-map-mode is-active">Trade</span>
-            <span class="trade-map-mode">Imports</span>
-            <span class="trade-map-mode">Exports</span>
-            <span class="trade-map-mode">Ports</span>
+            ${tradeMapLayerButton("trade", "Trade")}
+            ${tradeMapLayerButton("imports", "Imports")}
+            ${tradeMapLayerButton("exports", "Exports")}
+            ${tradeMapLayerButton("ports", "Ports")}
+            ${tradeMapLayerButton("seaZones", "Sea Zones")}
             ${isAdmin ? `<span class="trade-map-mode admin">Admin edit</span>` : ""}
           </div>
         </div>
@@ -1176,12 +1227,20 @@
             <g class="trade-map-routes" aria-label="Trade routes">
               ${routes.map((route, index) => {
                 const width = 0.24 + Math.sqrt((route.totalFlow || 0) / maxRouteFlow) * 0.72;
-                const tone = route.exportFlow > route.importFlow ? "export" : "import";
+                const tone = state.tradeMapLayer === "imports" ? "import" : state.tradeMapLayer === "exports" ? "export" : route.exportFlow > route.importFlow ? "export" : "import";
                 return `<path class="trade-map-route ${tone}" d="${escapeHtml(route.path)}" stroke-width="${width.toFixed(2)}">
                   <title>${safeText(selected.name)} / ${safeText(route.partnerName)} ${safeText(route.routeType)} route, ${fmtNumber(route.totalFlow)} flow</title>
                 </path>`;
               }).join("")}
             </g>
+            ${state.tradeMapLayer === "seaZones" || state.tradeMapLayer === "ports" ? `
+              <g class="trade-map-sea-zones" aria-label="Sea zones">
+                ${tradeMapSeaZones(mapConfig).map((zone) => `
+                  <g class="trade-map-zone ${zone.id === "vesperan-strait" ? "is-chokepoint" : ""}">
+                    <rect x="${zone.x.toFixed(2)}" y="${zone.y.toFixed(2)}" width="${zone.w.toFixed(2)}" height="${zone.h.toFixed(2)}"></rect>
+                    <text x="${(zone.x + zone.w / 2).toFixed(2)}" y="${(zone.y + zone.h / 2).toFixed(2)}">${safeText(zone.label)}</text>
+                  </g>`).join("")}
+              </g>` : ""}
             <g class="trade-map-territories" aria-label="Clickable territories">
               ${territories.map((territory) => {
                 const transformAttr = territory.transform ? ` transform="${escapeHtml(territory.transform)}"` : "";
@@ -1301,7 +1360,9 @@
                 <th class="numeric">Exports To</th>
                 <th class="numeric">Export Share</th>
                 <th class="numeric">Lane Delta</th>
+                <th>Route</th>
                 <th>Import Policy</th>
+                <th>Transit Access</th>
                 <th class="numeric">Tariff Applied</th>
                 <th class="numeric">Partner Tariff</th>
                 <th>${isAdmin ? "Targeted Tariff" : "Targeted"}</th>
@@ -1314,7 +1375,8 @@
                   row.override !== undefined ? "has-targeted-tariff" : "",
                   row.exportAnchor !== undefined ? "has-export-anchor" : "",
                   row.importAnchor !== undefined ? "has-import-anchor" : "",
-                  lanePolicyValue(row.lanePolicy) !== "None" ? "has-lane-policy" : ""
+                  lanePolicyValue(row.lanePolicy) !== "None" ? "has-lane-policy" : "",
+                  row.transitPolicy !== "Open" ? "has-transit-policy" : ""
                 ].filter(Boolean).join(" ");
                 return `
                   <tr class="${rowClasses}">
@@ -1334,7 +1396,9 @@
                       </div>
                     </td>
                     <td class="numeric"><span class="${laneDeltaTone}">${fmtSigned(row.flowDelta)}</span></td>
+                    <td>${routeFactsHtml(row)}</td>
                     <td>${lanePolicyControl(selected.id, row.partner.id, row.lanePolicy)}</td>
+                    <td>${transitPolicyControl(selected.id, row.partner.id, row.transitPolicy)}</td>
                     <td class="numeric">${fmtPercent(row.importLane?.tariffRate ?? trade.tariffRate ?? 0)}</td>
                     <td class="numeric">${fmtPercent(row.exportLane?.tariffRate ?? data.trade?.[row.partner.id]?.tariffRate ?? 0)}</td>
                     <td>${targetedTariffControl(selected.id, row.partner.id, row.importLane, row.override)}</td>
@@ -3060,6 +3124,13 @@
       return;
     }
 
+    const mapLayer = event.target.closest("[data-trade-map-layer]");
+    if (mapLayer) {
+      state.tradeMapLayer = mapLayer.dataset.tradeMapLayer || "trade";
+      renderPreservingPageScroll();
+      return;
+    }
+
     const mapNation = event.target.closest("[data-trade-map-nation]");
     if (mapNation) {
       state.selectedNation = mapNation.dataset.tradeMapNation;
@@ -3139,6 +3210,25 @@
         Engine.setLanePolicy(data, importerId, exporterId, policy);
         Engine.recalculateAll(data);
         saveWorkingState(`${byId(importerId)?.name || "Country"} import policy on ${byId(exporterId)?.name || "partner"} set to ${value}.`);
+      }
+      return;
+    }
+
+    const transitPolicySelect = event.target.closest("[data-transit-policy-select]");
+    if (transitPolicySelect) {
+      if (!isAdmin) {
+        state.notice = "Admin access is required for this action.";
+        render();
+        return;
+      }
+      const blockerId = transitPolicySelect.dataset.blockerId || state.selectedNation;
+      const targetId = transitPolicySelect.dataset.targetId || "";
+      if (blockerId && targetId) {
+        rememberVisibleTableScroll();
+        const value = transitPolicySelect.value;
+        Engine.setTransitPolicy(data, blockerId, targetId, value);
+        Engine.recalculateAll(data);
+        saveWorkingState(`${byId(blockerId)?.name || "Country"} transit access for ${byId(targetId)?.name || "partner"} set to ${value}.`);
       }
       return;
     }

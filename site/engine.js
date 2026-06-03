@@ -782,6 +782,8 @@
     clearImportAnchor,
     setLanePolicy,
     clearLanePolicy,
+    setTransitPolicy,
+    clearTransitPolicy,
     recalculateTrade,
     tradeTierForFlow
   } = tradeFactory({
@@ -924,6 +926,8 @@
     clearImportAnchor,
     setLanePolicy,
     clearLanePolicy,
+    setTransitPolicy,
+    clearTransitPolicy,
     tradeTierForFlow,
     fiscalModelForNation,
     calculateTaxBurdenForNation,
