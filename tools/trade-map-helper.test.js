@@ -148,7 +148,7 @@ test("trade map helper turns partner rows into route overlays", () => {
   assert.match(routes[0].path, /^M /);
 });
 
-test("trade map helper draws solved routes as smooth cubic paths when lane path points exist", () => {
+test("trade map helper draws default nation arcs even when lane path points exist", () => {
   const nations = [
     { id: "solara", name: "Solara", color: "#c2b72e" },
     { id: "people_s_federation_of_xanaqu", name: "People's Federation of Xanaqu", color: "#884b43" }
@@ -182,8 +182,8 @@ test("trade map helper draws solved routes as smooth cubic paths when lane path 
 
   assert.equal(routes.length, 1);
   assert.match(routes[0].path, /^M /);
-  assert.match(routes[0].path, / C /, "solved routes should render as cubic paths");
-  assert.doesNotMatch(routes[0].path, / Q /, "solved routes should not use fallback quadratic arcs");
+  assert.match(routes[0].path, / Q /, "route overlays should use default nation-to-nation arcs");
+  assert.doesNotMatch(routes[0].path, / C /, "route overlays should not render generated lane geometry");
 });
 
 test("ensureGeography attaches the precision lane skeleton manifest", () => {

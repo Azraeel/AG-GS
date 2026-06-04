@@ -615,48 +615,6 @@
     return `M ${from.x.toFixed(2)} ${from.y.toFixed(2)} Q ${curveX.toFixed(2)} ${curveY.toFixed(2)} ${to.x.toFixed(2)} ${to.y.toFixed(2)}`;
   }
 
-  function routePolylinePath(points = []) {
-    const config = mapConfig();
-    const formatPoint = (point) => `${point.x.toFixed(2)} ${point.y.toFixed(2)}`;
-    const clampMapPoint = (point) => ({
-      x: clamp(point.x, 0, config.width),
-      y: clamp(point.y, 0, config.height)
-    });
-    const validPoints = points
-      .map((point) => ({
-        x: Number(point?.x),
-        y: Number(point?.y)
-      }))
-      .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y))
-      .map((point) => ({
-        x: clamp((point.x / 100) * config.width, 0, config.width),
-        y: clamp((point.y / 100) * config.height, 0, config.height)
-      }));
-    if (validPoints.length < 2) return "";
-    if (validPoints.length === 2) {
-      return `M ${formatPoint(validPoints[0])} L ${formatPoint(validPoints[1])}`;
-    }
-
-    const tension = 0.22;
-    const commands = [`M ${formatPoint(validPoints[0])}`];
-    for (let index = 0; index < validPoints.length - 1; index += 1) {
-      const previous = validPoints[index - 1] || validPoints[index];
-      const current = validPoints[index];
-      const next = validPoints[index + 1];
-      const afterNext = validPoints[index + 2] || next;
-      const controlOne = clampMapPoint({
-        x: current.x + (next.x - previous.x) * tension,
-        y: current.y + (next.y - previous.y) * tension
-      });
-      const controlTwo = clampMapPoint({
-        x: next.x - (afterNext.x - current.x) * tension,
-        y: next.y - (afterNext.y - current.y) * tension
-      });
-      commands.push(`C ${formatPoint(controlOne)} ${formatPoint(controlTwo)} ${formatPoint(next)}`);
-    }
-    return commands.join(" ");
-  }
-
   function routesForRows(selectedId, rows = [], territories = [], maxRoutes = 12) {
     const byId = Object.fromEntries(territories.map((territory) => [territory.nationId, territory]));
     const selected = byId[selectedId];
@@ -670,7 +628,6 @@
         const partner = byId[row.partner.id];
         const importHeavy = row.importFlow >= row.exportFlow;
         const lane = importHeavy ? row.importLane : row.exportLane;
-        const solvedPath = routePolylinePath(lane?.routePath || []);
         return {
           partnerId: row.partner.id,
           partnerName: row.partner.name,
@@ -679,7 +636,7 @@
           totalFlow: row.importFlow + row.exportFlow,
           routeType: lane?.routeType || "direct",
           routeDistance: lane?.routeDistance,
-          path: solvedPath || routePath(selected.centroid, partner.centroid, 0.12 + (index % 4) * 0.035)
+          path: routePath(selected.centroid, partner.centroid, 0.12 + (index % 4) * 0.035)
         };
       });
   }
