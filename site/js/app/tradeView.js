@@ -609,7 +609,7 @@
   }
 
   function renderTradeNetwork() {
-    Engine.ensureTradeV3Migration(data);
+    Engine.ensureTradeV4State(data);
     TradeMap.ensureGeography?.(data);
     const network = Engine.calculateTradeNetwork(data, { laneVisibility: "all" });
     const selected = byId(state.selectedNation) || sortedNations()[0];
@@ -627,12 +627,10 @@
       return;
     }
     if (selected.id !== state.selectedNation) state.selectedNation = selected.id;
-    const national = data.national[selected.id] || {};
     const trade = data.trade[selected.id] || {};
     const impact = network.nations[selected.id] || {};
-    const baseline = data.tradeNetwork?.baseline?.nations?.[selected.id] || {};
-    const budgetDelta = Engine.number(national.budgetCapacity, 0) - Engine.number(baseline.budgetCapacity, national.budgetCapacity);
     const flowDelta = Engine.number(impact.tradeFlowDelta, 0);
+    const balanceDelta = Engine.number(impact.tradeBalanceDelta, 0);
     const worldPool = network.worldPool || {};
     const worldPoolDelta = Engine.number(worldPool.tradeFlowDelta, 0);
     const allRows = tradeNetworkPartnerRows(selected.id, network);
@@ -642,8 +640,8 @@
     const tradeMetrics = [
       { label: "Partners", value: allRows.length === rows.length ? fmtNumber(rows.length) : `${fmtNumber(rows.length)} / ${fmtNumber(allRows.length)}` },
       activeTargets ? { label: "Targeted", value: fmtNumber(activeTargets), tone: "attention" } : null,
-      Math.abs(budgetDelta) >= 1 ? { label: "Budget", value: fmtSigned(budgetDelta), tone: budgetDelta >= 0 ? "positive" : "negative" } : null,
       Math.abs(flowDelta) >= 1 ? { label: "Flow", value: fmtSigned(flowDelta), tone: flowDelta >= 0 ? "positive" : "negative" } : null,
+      Math.abs(balanceDelta) >= 1 ? { label: "Balance", value: fmtSigned(balanceDelta), tone: balanceDelta >= 0 ? "positive" : "negative" } : null,
       { label: "World Pool", value: Math.abs(worldPoolDelta) >= 1 ? fmtSigned(worldPoolDelta) : fmtNumber(worldPool.currentTradeFlow || 0), tone: worldPoolDelta ? worldPoolDelta >= 0 ? "positive" : "negative" : "" },
       { label: "Policy", value: trade.tradePolicy || "Balanced" },
       { label: "Tariff", value: fmtPercent(trade.tariffRate || 0) },

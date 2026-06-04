@@ -156,9 +156,9 @@
     data.meta.worldEconomicHealth = data.meta.worldEconomicHealth || "Expansion";
     data.meta.budgetFormulaVersion = data.meta.budgetFormulaVersion || "legacy";
     data.meta.tariffFormulaVersion = TARIFF_FORMULAS[data.meta.tariffFormulaVersion] ? data.meta.tariffFormulaVersion : "legacy";
-    data.meta.tradeFormulaVersion = TRADE_FORMULAS[data.meta.tradeFormulaVersion] ? data.meta.tradeFormulaVersion : "legacy";
+    data.meta.tradeFormulaVersion = "trade2028";
     data.meta.populationFormulaVersion = POPULATION_FORMULAS[data.meta.populationFormulaVersion] ? data.meta.populationFormulaVersion : "population2026";
-    data.meta.tradeV3Enabled = data.meta.tradeV3Enabled !== false;
+    delete data.meta.tradeV3Enabled;
     data.meta.archivedNationIds = Array.isArray(data.meta.archivedNationIds) ? data.meta.archivedNationIds : [];
     data.meta.lastSimulationLog = data.meta.lastSimulationLog || [];
     data.meta.changeHistory = Array.isArray(data.meta.changeHistory) ? data.meta.changeHistory : [];
@@ -493,13 +493,11 @@
     const corruptionCollection = clamp(1 - corruption / 160, 0.45, 1);
     const highTariffFriction = tariffBurden.collectionFriction;
     const collectionEfficiency = clamp(policyCollection * sanctionsCollection * developmentCollection * corruptionCollection * highTariffFriction, 0, 1.2);
-    const tradeFormula = data.meta?.tradeFormulaVersion || tradeRow.tradeFormulaVersion;
-    const isCalibratedTradeFormula = tradeFormula === "trade2026" || tradeFormula === "trade2027";
     const importReliance = Math.max(0, number(tradeRow.importReliance, 0));
     const exportReliance = Math.max(0, number(tradeRow.exportReliance, 0));
     const importShare = clamp(importReliance / Math.max(importReliance + exportReliance, 1), 0.25, 0.75);
     const policyTaxableShare = { "Free Trade": 0.18, "Open Market": 0.2, Balanced: 0.22, Protectionist: 0.26 }[tradePolicy] || 0.22;
-    const taxableTradeShare = isCalibratedTradeFormula ? importShare * policyTaxableShare : 1;
+    const taxableTradeShare = importShare * policyTaxableShare;
     const customsTradeBase = tradeFlow * taxableTradeShare;
     const grossTariffBase = customsTradeBase * (tariffRate / 100);
     const tariffRevenue = roundCurrency(grossTariffBase * collectionEfficiency);
@@ -539,34 +537,6 @@
       maintenanceCost,
       baseBudgetTotal,
       tradeImpactOnBudget
-    };
-  }
-
-  function applyTradeV3BaselineBudget(data, id, breakdown, options = {}) {
-    if (options.skipTradeV3Baseline || data.meta?.tradeFormulaVersion !== "trade2027") return breakdown;
-    const baseline = data.tradeNetwork?.baseline?.nations?.[id];
-    if (!baseline || baseline.baseBudgetTotal === undefined) return breakdown;
-    const trade = data.trade?.[id] || {};
-    const national = data.national?.[id] || {};
-    const domesticDelta = (number(breakdown.baseBudgetTotal, 0) - number(baseline.baseBudgetTotal, breakdown.baseBudgetTotal))
-      * clamp(number(baseline.tradeImpactOnBudget, breakdown.tradeImpactOnBudget), 0.1, 2);
-    const tradeBalanceDelta = number(trade.tradeBalance, baseline.tradeBalance) - number(baseline.tradeBalance, 0);
-    const tradeFlowDelta = number(trade.tradeFlow, baseline.tradeFlow) - number(baseline.tradeFlow, 0);
-    const tariffDelta = number(breakdown.tariffRevenue, 0) - number(baseline.tariffRevenue, 0);
-    const adjustmentDelta = number(national.budgetAdjustment, 0) - number(baseline.budgetAdjustment, 0);
-    const tradeDelta = tradeBalanceDelta * 0.08 + tradeFlowDelta * 0.0012;
-    const budgetCapacity = Math.max(0, roundCurrency(number(baseline.budgetCapacity, breakdown.budgetCapacity) + domesticDelta + tradeDelta + tariffDelta + adjustmentDelta));
-    return {
-      ...breakdown,
-      formulaVersion: `${breakdown.formulaVersion}+trade2027Baseline`,
-      budgetCapacity,
-      tradeV3Budget: {
-        baselineBudgetCapacity: number(baseline.budgetCapacity, breakdown.budgetCapacity),
-        domesticDelta: roundCurrency(domesticDelta),
-        tradeDelta: roundCurrency(tradeDelta),
-        tariffDelta: roundCurrency(tariffDelta),
-        adjustmentDelta: roundCurrency(adjustmentDelta)
-      }
     };
   }
 
@@ -610,7 +580,7 @@
       taxBurden,
       ...budgetCapacityFromBreakdown(inputs, industrialBudgetContribution(inputs), populationContribution, tariffRevenue)
     };
-    return applyTradeV3BaselineBudget(data, id, breakdown, options);
+    return breakdown;
   }
 
   function calculateBudgetBreakdownForNation(data, id, options = {}) {
@@ -758,7 +728,7 @@
   }
 
   function recalculateAll(data, options = {}) {
-    ensureTradeV3Migration(data);
+    ensureTradeV4State(data);
     recalculateTrade(data, options);
     recalculateBudgets(data, options);
     recalculateTrade(data, options);
@@ -768,12 +738,11 @@
   const tradeFactory = window.AGGS_ENGINE_MODULES?.createTrade;
   if (!tradeFactory) throw new Error("AG-GS trade engine module failed to load.");
   const {
-    TRADE_FORMULAS,
     calculateTradeForNation,
     calculateTradeNetwork,
     previewTradeAnchorPlan,
     applyTradeAnchorPlan,
-    ensureTradeV3Baseline,
+    ensureTradeV4State: ensureTradeNetworkState,
     setTargetedTariff,
     clearTargetedTariff,
     setExportAnchor,
@@ -788,42 +757,18 @@
     recalculateTrade,
     tradeTierForFlow
   } = tradeFactory({
-    HEALTH_TRADE,
-    TRADE_POLICY,
-    SANCTIONS,
-    calculateTariffBurdenForNation,
     getPopulation,
-    isBlank,
     number,
     clamp,
     roundCurrency,
     roundPercent
   });
 
-  function ensureTradeV3Migration(data) {
+  function ensureTradeV4State(data) {
     ensureState(data);
-    if (data.meta.tradeV3Enabled === false) return data;
-    const previousVersion = data.meta.tradeFormulaVersion;
-    if (previousVersion !== "trade2027") {
-      ensureTradeV3Baseline(data);
-      const baseline = data.tradeNetwork?.baseline?.nations || {};
-      for (const id of Object.keys(baseline)) {
-        const breakdown = calculateBudgetBreakdownForNation(data, id, { skipTradeV3Baseline: true });
-        const national = data.national?.[id] || {};
-        if (!breakdown) continue;
-        baseline[id] = {
-          ...baseline[id],
-          budgetCapacity: number(national.budgetCapacity, baseline[id].budgetCapacity),
-          baseBudgetTotal: number(breakdown.baseBudgetTotal, 0),
-          tradeImpactOnBudget: number(breakdown.tradeImpactOnBudget, 1),
-          tariffRevenue: number(breakdown.tariffRevenue, 0),
-          budgetAdjustment: number(national.budgetAdjustment, 0)
-        };
-      }
-      data.meta.tradeFormulaVersion = "trade2027";
-    } else {
-      ensureTradeV3Baseline(data);
-    }
+    ensureTradeNetworkState(data);
+    data.meta.tradeFormulaVersion = "trade2028";
+    delete data.meta.tradeV3Enabled;
     return data;
   }
 
@@ -839,7 +784,7 @@
 
   function advanceToYear(data, targetYear) {
     ensureState(data);
-    ensureTradeV3Migration(data);
+    ensureTradeV4State(data);
     const startYear = number(data.meta.currentYear, 2021);
     const endYear = number(targetYear, startYear);
     if (endYear <= startYear) return { ok: false, message: "Target year must be greater than the current year.", log: [] };
@@ -918,7 +863,7 @@
     calculateTradeNetwork,
     previewTradeAnchorPlan,
     applyTradeAnchorPlan,
-    ensureTradeV3Migration,
+    ensureTradeV4State,
     setTargetedTariff,
     clearTargetedTariff,
     setExportAnchor,
@@ -948,6 +893,6 @@
     updateValue,
     snapshot,
     exportDataJs,
-    constants: { HEALTH_GROWTH, HEALTH_DEMOGRAPHICS, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, CHILD_POLICY_POPULATION_EFFECT, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, TRADE_FORMULAS, POPULATION_FORMULAS, FISCAL_MODELS, TARIFF_POLICY_LIMITS }
+    constants: { HEALTH_GROWTH, HEALTH_DEMOGRAPHICS, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, CHILD_POLICY_POPULATION_EFFECT, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, POPULATION_FORMULAS, FISCAL_MODELS, TARIFF_POLICY_LIMITS }
   };
 })();

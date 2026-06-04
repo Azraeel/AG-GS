@@ -3,30 +3,33 @@
 
   window.AGGS_ENGINE_MODULES.createTrade = function createTrade(deps) {
     const {
-      HEALTH_TRADE,
-      TRADE_POLICY,
-      SANCTIONS,
-      calculateTariffBurdenForNation,
       getPopulation,
-      isBlank,
       number,
       clamp,
       roundCurrency,
       roundPercent
     } = deps;
-
-    const TRADE_FORMULAS = {
-      legacy: "Legacy workbook trade formula",
-      trade2026: "Trade v2 formula",
-      trade2027: "Trade v3 global network formula"
-    };
     const DEFAULT_MAP_WIDTH = 100;
     const DEFAULT_MAP_HEIGHT = 100;
     const DEFAULT_MAP_DIAGONAL = 141.4213562373;
     const KHALINDAR_CALIBRATION_AREA_SQ_MI = 7_260_000;
     const DEFAULT_SQ_MI_PER_MAP_AREA_UNIT = 18_150;
     const TRANSIT_MODES = ["Open", "Block Land", "Block Maritime", "Block All"];
-    const REMOVED_TRADE_STAT_KEYS = ["trade" + "Efficiency", "trade" + "Power"];
+    const REMOVED_TRADE_STAT_KEYS = [
+      "trade" + "Efficiency",
+      "trade" + "Power",
+      "adjustments",
+      "marketSize",
+      "productionStrength",
+      "fiscalScale",
+      "logisticsCapacity",
+      "importDemand",
+      "exportStrength",
+      "tradeOpenness",
+      "financialDepth",
+      "scaleThroughput",
+      "autarkyPressure"
+    ];
     const routeNetworkCacheByData = new WeakMap();
     const ROUTE_NETWORK_CACHE_LIMIT = 16;
     const tradePolicyHelpers = window.AGGS_ENGINE_MODULES.createTradePolicyHelpers({
@@ -49,93 +52,11 @@
     function stripRemovedTradeStats(row) {
       if (!row || typeof row !== "object" || Array.isArray(row)) return row;
       for (const key of REMOVED_TRADE_STAT_KEYS) delete row[key];
-      if (row.adjustments && typeof row.adjustments === "object" && !Array.isArray(row.adjustments)) {
-        for (const key of REMOVED_TRADE_STAT_KEYS) delete row.adjustments[key];
-      }
       return row;
     }
 
-    function tradeFormulaVersion(data, options = {}) {
-      const version = options.tradeFormulaVersion || options.tradeVersion || data.meta?.tradeFormulaVersion || "legacy";
-      return TRADE_FORMULAS[version] ? version : "legacy";
-    }
-
     function calculateTradeForNation(data, id, options = {}) {
-      const version = tradeFormulaVersion(data, options);
-      if (version === "trade2027") return calculateTradeV3ForNation(data, id, options);
-      if (version === "trade2026") return calculateTradeV2ForNation(data, id);
-      return calculateLegacyTradeForNation(data, id);
-    }
-
-    function calculateLegacyTradeForNation(data, id) {
-      const national = data.national[id];
-      const trade = data.trade[id];
-      const industrial = data.industrial[id];
-      if (!national || !trade || !industrial) return null;
-      if ([trade.autarkyIndex, trade.importReliance, trade.exportReliance, trade.economicTradeDiversity].some(isBlank)) return null;
-
-      const budgetCapacity = number(national.budgetCapacity, 0);
-      const corruption = number(national.corruption, 0) / 100;
-      const population = getPopulation(data, id);
-      const civilianFactories = number(industrial.civilianFactories, 0);
-      const militaryFactories = number(industrial.militaryFactories, 0);
-      const shipyards = number(industrial.shipyards, 0);
-      const development = number(national.developmentLevel, 0);
-      const importReliance = number(trade.importReliance, 0);
-      const exportReliance = number(trade.exportReliance, 0);
-      const tradeDiversity = number(trade.economicTradeDiversity, 0);
-      const economicHealth = national.economicHealth || "Recovery";
-      const tradePolicy = trade.tradePolicy || "Balanced";
-      const sanctionsLevel = trade.sanctionsLevel || "None";
-      const tariffRate = clamp(number(trade.tariffRate, 5), 0, 50);
-      const globalEconomicHealth = data.meta.worldEconomicHealth || "Expansion";
-      const currencyBonusImpact = number(data.meta.currencyBonusByNation?.[id], 0);
-      const policyEffect = TRADE_POLICY[tradePolicy] || TRADE_POLICY.Balanced;
-      const sanctionEffect = SANCTIONS[sanctionsLevel] || SANCTIONS.None;
-      const tariffThroughput = Math.max(-30, -tariffRate * 2);
-      const tariffCapacity = Math.max(-25, -tariffRate * 1.5);
-      const tariffRevenue = tariffRate * 0.01;
-      const diversityBonus = (tradeDiversity / 500) * 100;
-      const exportMultiplier = 1 + tradeDiversity / 250;
-
-      const tradeBase = budgetCapacity * 0.5 + exportReliance * 150 * exportMultiplier + development * 50 + civilianFactories * 25 + shipyards * 40 + currencyBonusImpact + diversityBonus;
-      const tradeCapacity = (development * 100 + shipyards * 200) * (1 + (policyEffect.capacity + sanctionEffect.capacity + tariffCapacity) / 100);
-      let throughputRate = 50 - corruption * 50 + development * 1.5 + (HEALTH_TRADE[economicHealth] || 0) + (HEALTH_TRADE[globalEconomicHealth] || 0);
-      throughputRate = clamp(throughputRate + policyEffect.efficiency + sanctionEffect.efficiency + tariffThroughput, 0, 100);
-
-      const autarkyIndex = clamp(number(trade.autarkyIndex, 50), 0, 100);
-      let tradeFlow = tradeBase * (tradeCapacity / 1000) * (throughputRate / 100) * (1 + currencyBonusImpact / 100);
-      tradeFlow *= 1 + sanctionEffect.flow / 100;
-
-      const populationNeeds = Math.sqrt(population / 1000000) * 8;
-      const factoryNeeds = Math.sqrt(civilianFactories + militaryFactories * 1.5) * 3;
-      const minimumImports = Math.max(populationNeeds + factoryNeeds + 10, 15);
-      const autarkyReduction = Math.pow(autarkyIndex / 100, 1.5) * 0.6;
-      const effectiveImports = Math.max(importReliance * (1 - autarkyReduction), minimumImports * 0.5);
-      const exportValue = exportReliance * exportMultiplier;
-      const importCost = effectiveImports * (1 + development * 0.01);
-      const tradeBalanceRatio = (exportValue - importCost) / Math.max(exportValue + importCost, 1);
-      const tradeVolumeBase = Math.sqrt(exportReliance + effectiveImports) * 200;
-      let tradeBalance = tradeBalanceRatio * tradeVolumeBase * 100 + tradeFlow * 0.01;
-      tradeBalance *= 1 + sanctionEffect.balance / 100;
-      tradeBalance += Math.abs(tradeBalance) * tariffRevenue;
-      const economicImpactScore = Math.round((Math.abs(tradeBalance) / Math.max(budgetCapacity, 1)) * 100 + (importReliance + exportReliance) / 2 + (100 - autarkyIndex) * 0.5);
-
-      const adjustments = trade.adjustments || {};
-
-      return {
-        tradeCapacity: Math.round(tradeCapacity) + number(adjustments.tradeCapacity, 0),
-        autarkyIndex,
-        tradeBalance: Math.round(tradeBalance) + number(adjustments.tradeBalance, 0),
-        tradeFlow: Math.round(tradeFlow) + number(adjustments.tradeFlow, 0),
-        importReliance,
-        exportReliance,
-        economicTradeDiversity: tradeDiversity,
-        tradePolicy,
-        sanctionsLevel,
-        tariffRate,
-        economicImpactScore: Math.round(economicImpactScore + number(adjustments.economicImpactScore, 0))
-      };
+      return calculateTradeV4ForNation(data, id, options);
     }
 
     function tradeTierForFlow(tradeFlow) {
@@ -175,11 +96,8 @@
       data.tradeNetwork.chokepoints = data.tradeNetwork.chokepoints && typeof data.tradeNetwork.chokepoints === "object" && !Array.isArray(data.tradeNetwork.chokepoints)
         ? data.tradeNetwork.chokepoints
         : {};
-      data.tradeNetwork.baseline = data.tradeNetwork.baseline && typeof data.tradeNetwork.baseline === "object" && !Array.isArray(data.tradeNetwork.baseline)
-        ? data.tradeNetwork.baseline
-        : null;
       delete data.tradeNetwork.routeInvestments;
-      if (data.tradeNetwork.baseline) delete data.tradeNetwork.baseline.routeInvestments;
+      delete data.tradeNetwork.baseline;
       return data.tradeNetwork;
     }
 
@@ -212,12 +130,11 @@
 
     function tradeLogisticsDelta(currentInput = {}) {
       const current = tradeLogisticsProfile(currentInput);
-      const baseline = tradeLogisticsProfile(currentInput.baselineInput || currentInput);
       return {
-        maritime: roundPercent(current.maritime - baseline.maritime),
-        corridors: roundPercent(current.corridors - baseline.corridors),
-        reliability: roundPercent(current.reliability - baseline.reliability),
-        overall: roundPercent(current.overall - baseline.overall)
+        maritime: roundPercent(current.maritime - 2.8),
+        corridors: roundPercent(current.corridors - 3.2),
+        reliability: roundPercent((current.reliability - 62) / 6),
+        overall: roundPercent((current.overall - 42) / 6)
       };
     }
 
@@ -283,35 +200,23 @@
       };
     }
 
-    function ensureTradeV3Baseline(data) {
+    function ensureTradeV4State(data) {
       const network = tradeNetworkState(data);
-      if (!network.baseline) {
-        network.baseline = {
-          formulaVersion: "trade2027",
-          createdAt: data.meta?.updatedAt || new Date().toISOString(),
-          targetedTariffs: cloneTargetedTariffs(network.targetedTariffs),
-          exportAnchors: cloneExportAnchors(network.exportAnchors),
-          importAnchors: cloneImportAnchors(network.importAnchors),
-          lanePolicies: cloneLanePolicies(network.lanePolicies),
-          transitPolicies: cloneTransitPolicies(network.transitPolicies),
-          chokepoints: cloneChokepoints(network.chokepoints),
-          nations: {}
-        };
-      }
-      network.baseline.nations = network.baseline.nations && typeof network.baseline.nations === "object" && !Array.isArray(network.baseline.nations)
-        ? network.baseline.nations
-        : {};
-      for (const id of nationIdsForNetwork(data)) {
-        if (!network.baseline.nations[id]) {
-          network.baseline.nations[id] = tradeInputForNation(data, id);
-        }
-      }
-      for (const row of Object.values(network.baseline.nations || {})) stripRemovedTradeStats(row);
-      return network.baseline;
+      delete network.baseline;
+      return network;
+    }
+
+    function tradePolicyProfile(policy) {
+      return {
+        Protectionist: { access: 0.52, importDemand: 0.5, exportSupply: 0.68, capacity: 0.66, balanceRisk: 0.72 },
+        Balanced: { access: 1, importDemand: 1, exportSupply: 1, capacity: 1, balanceRisk: 1 },
+        "Open Market": { access: 1.22, importDemand: 1.18, exportSupply: 1.14, capacity: 1.12, balanceRisk: 1.18 },
+        "Free Trade": { access: 1.44, importDemand: 1.32, exportSupply: 1.26, capacity: 1.22, balanceRisk: 1.35 }
+      }[policy] || { access: 1, importDemand: 1, exportSupply: 1, capacity: 1, balanceRisk: 1 };
     }
 
     function policyNetworkAccess(policy) {
-      return { Protectionist: 0.72, Balanced: 0.92, "Open Market": 1.08, "Free Trade": 1.18 }[policy] || 0.92;
+      return tradePolicyProfile(policy).access;
     }
 
     function sanctionNetworkAccess(level) {
@@ -324,34 +229,76 @@
 
     function lanePolicyMultiplier(policy) {
       if (policy.embargo) return 0;
-      return { None: 1, Light: 0.82, Moderate: 0.58, Heavy: 0.28, Total: 0.05 }[policy.sanctionsLevel] || 1;
+      return { None: 1, Light: 0.66, Moderate: 0.36, Heavy: 0.12, Total: 0.015 }[policy.sanctionsLevel] || 1;
     }
 
     function tariffDemandAccess(tariffRate) {
       const tariff = clamp(number(tariffRate, 0), 0, 50);
-      return clamp(1.03 - Math.max(0, tariff - 4) * 0.018 - Math.max(0, tariff - 15) * 0.018, 0.42, 1.03);
+      if (tariff <= 2) return clamp(1.05 - tariff * 0.018, 0.98, 1.05);
+      return clamp(1.01 * Math.exp(-(tariff - 2) * 0.075), 0.04, 1.01);
+    }
+
+    function tariffFlowAccess(tariffRate) {
+      const tariff = clamp(number(tariffRate, 0), 0, 50);
+      if (tariff <= 2) return clamp(1.06 - tariff * 0.02, 1, 1.06);
+      return clamp(1.02 * Math.exp(-(tariff - 2) * 0.11), 0.025, 1.02);
+    }
+
+    function autarkyTradeAccess(input, mode = "overall") {
+      const autarky = clamp(number(input.autarkyIndex, 50), 0, 100) / 100;
+      if (mode === "import") return clamp(1 - Math.pow(autarky, 1.12) * 0.9, 0.07, 1);
+      if (mode === "export") return clamp(1 - Math.pow(autarky, 1.06) * 0.72, 0.16, 1);
+      return clamp(1 - Math.pow(autarky, 1.1) * 0.78, 0.12, 1);
+    }
+
+    function diversityResilience(input) {
+      return clamp(0.88 + Math.sqrt(Math.max(0, input.economicTradeDiversity)) / 58, 0.88, 1.22);
+    }
+
+    function physicalTradeBase(input) {
+      const populationMarket = Math.sqrt(Math.max(input.population, 0) / 1000000) * 5200;
+      const industrialMarket = input.civilianFactories * 1500 + input.militaryFactories * 340 + input.shipyards * 3000;
+      const budgetMarket = Math.sqrt(Math.max(input.budgetCapacity, 0)) * 1900;
+      const developmentFactor = clamp(0.46 + clamp(input.developmentLevel, 0, 20) / 22, 0.46, 1.36);
+      const stabilityFactor = clamp(0.74 + number(input.governmentalStability, 70) / 360 - number(input.corruption, 0) / 290, 0.42, 1.08);
+      const healthFactor = { Prosperity: 1.14, Expansion: 1.08, Recovery: 1, Slowdown: 0.84, Recession: 0.62, Depression: 0.38 }[input.economicHealth] || 1;
+      return Math.max(120, (populationMarket + industrialMarket + budgetMarket) * developmentFactor * stabilityFactor * healthFactor);
     }
 
     function importDemandScore(input) {
-      const autarkyAccess = clamp(1 - Math.pow(input.autarkyIndex / 100, 1.25) * 0.52, 0.36, 1);
-      const populationDemand = Math.sqrt(Math.max(input.population, 0) / 1000000) * 7;
-      const industryDemand = Math.sqrt(Math.max(input.civilianFactories + input.militaryFactories, 0)) * 2.2;
-      return Math.max(1, (input.importReliance + populationDemand + industryDemand) * policyNetworkAccess(input.tradePolicy) * sanctionNetworkAccess(input.sanctionsLevel) * autarkyAccess);
+      const reliance = Math.pow(Math.max(0, input.importReliance) / 100, 1.32);
+      const floorDemand = Math.sqrt(Math.max(input.population, 0) / 1000000) * 120 + Math.sqrt(Math.max(input.civilianFactories + input.militaryFactories, 0)) * 28;
+      const policy = tradePolicyProfile(input.tradePolicy);
+      return Math.max(
+        1,
+        (physicalTradeBase(input) * reliance + floorDemand)
+          * policy.importDemand
+          * sanctionNetworkAccess(input.sanctionsLevel)
+          * autarkyTradeAccess(input, "import")
+          * tariffDemandAccess(input.tariffRate)
+      );
     }
 
     function exportSupplyScore(input) {
-      const diversity = clamp(0.62 + input.economicTradeDiversity / 155, 0.58, 1.62);
-      const autarkyAccess = clamp(1 - Math.pow(input.autarkyIndex / 100, 1.18) * 0.45, 0.42, 1);
-      const production = input.civilianFactories * 0.62 + input.shipyards * 1.4 + input.developmentLevel * 7;
-      return Math.max(1, (input.exportReliance * diversity + production) * policyNetworkAccess(input.tradePolicy) * sanctionNetworkAccess(input.sanctionsLevel) * autarkyAccess);
+      const reliance = Math.pow(Math.max(0, input.exportReliance) / 100, 1.32);
+      const production = input.civilianFactories * 850 + input.shipyards * 2500 + input.developmentLevel * 1750;
+      const policy = tradePolicyProfile(input.tradePolicy);
+      return Math.max(
+        1,
+        (physicalTradeBase(input) * reliance * 0.92 + production)
+          * diversityResilience(input)
+          * policy.exportSupply
+          * sanctionNetworkAccess(input.sanctionsLevel)
+          * autarkyTradeAccess(input, "export")
+      );
     }
 
     function directionalTradeTilt(input, demandScore = importDemandScore(input), supplyScore = exportSupplyScore(input)) {
       const scoreRatio = demandScore / Math.max(supplyScore, 1);
-      const relianceRatio = (Math.max(0, input.importReliance) + 18) / Math.max(Math.max(0, input.exportReliance) + 18, 1);
-      const combinedLogRatio = Math.log(Math.max(0.05, relianceRatio)) * 0.78
-        + Math.log(Math.max(0.05, scoreRatio)) * 0.22;
-      return clamp(Math.tanh(combinedLogRatio * 0.72), -0.48, 0.48);
+      const relianceRatio = (Math.max(0, input.importReliance) + 6) / Math.max(Math.max(0, input.exportReliance) + 6, 1);
+      const combinedLogRatio = Math.log(Math.max(0.03, relianceRatio)) * 0.86
+        + Math.log(Math.max(0.03, scoreRatio)) * 0.14;
+      return clamp(Math.tanh(combinedLogRatio * 1.05), -0.68, 0.68);
     }
 
     function importDirectionMultiplier(input, demandScore = importDemandScore(input), supplyScore = exportSupplyScore(input)) {
@@ -363,62 +310,39 @@
     }
 
     function worldPoolCapacityScore(input) {
-      const openness = policyNetworkAccess(input.tradePolicy) * sanctionNetworkAccess(input.sanctionsLevel);
-      const autarkyAccess = clamp(1 - Math.pow(input.autarkyIndex / 100, 1.12) * 0.38, 0.48, 1);
-      const logistics = input.civilianFactories * 0.72
-        + input.militaryFactories * 0.24
-        + input.shipyards * 4.8
-        + input.developmentLevel * 10
-        + input.economicTradeDiversity * 0.46
-        + input.exportReliance * 0.32
-        + input.tradeCapacity / 9000;
-      const marketDepth = Math.sqrt(Math.max(input.population, 0) / 1000000) * 1.8;
-      return Math.max(1, (logistics + marketDepth) * openness * autarkyAccess);
+      const policy = tradePolicyProfile(input.tradePolicy);
+      const logistics = 0.58 + tradeLogisticsProfile(input).overall / 82;
+      return Math.max(
+        1,
+        physicalTradeBase(input)
+          * policy.capacity
+          * sanctionNetworkAccess(input.sanctionsLevel)
+          * autarkyTradeAccess(input)
+          * logistics
+          * diversityResilience(input)
+      );
     }
 
-    function worldPoolCapacityTotal(inputsById, useBaseline = false) {
-      return Object.values(inputsById).reduce((total, input) => {
-        const row = useBaseline ? input.baselineInput || input : input;
-        return total + worldPoolCapacityScore(row);
-      }, 0);
+    function worldPoolCapacityTotal(inputsById) {
+      return Object.values(inputsById).reduce((total, input) => total + worldPoolCapacityScore(input), 0);
     }
 
-    function importPoolFor(input, baselineInput = input, inputDemandScore = importDemandScore(input), baselineDemandScore = importDemandScore(baselineInput)) {
+    function importPoolFor(input, inputDemandScore = importDemandScore(input)) {
       const inputSupplyScore = exportSupplyScore(input);
-      const baselineSupplyScore = exportSupplyScore(baselineInput);
-      const baselineMultiplier = importDirectionMultiplier(baselineInput, baselineDemandScore, baselineSupplyScore);
-      const inputMultiplier = importDirectionMultiplier(input, inputDemandScore, inputSupplyScore);
-      const baselinePool = Math.max(0, baselineInput.tradeFlow) * baselineMultiplier;
-      const demandRatio = inputDemandScore / Math.max(baselineDemandScore, 1);
-      const directionRatio = inputMultiplier / Math.max(baselineMultiplier, 0.01);
-      const tariffRatio = tariffDemandAccess(input.tariffRate) / Math.max(tariffDemandAccess(baselineInput.tariffRate), 0.01);
-      return baselinePool * Math.max(0.35, demandRatio) * clamp(directionRatio, 0.42, 2.15) * clamp(tariffRatio, 0.38, 1.08);
+      return inputDemandScore * importDirectionMultiplier(input, inputDemandScore, inputSupplyScore);
     }
 
-    function exportPoolFor(input, baselineInput = input, inputSupplyScore = exportSupplyScore(input), baselineSupplyScore = exportSupplyScore(baselineInput)) {
+    function exportPoolFor(input, inputSupplyScore = exportSupplyScore(input)) {
       const inputDemandScore = importDemandScore(input);
-      const baselineDemandScore = importDemandScore(baselineInput);
-      const baselineMultiplier = exportDirectionMultiplier(baselineInput, baselineDemandScore, baselineSupplyScore);
-      const inputMultiplier = exportDirectionMultiplier(input, inputDemandScore, inputSupplyScore);
-      const baselinePool = Math.max(0, baselineInput.tradeFlow) * baselineMultiplier;
-      const supplyRatio = inputSupplyScore / Math.max(baselineSupplyScore, 1);
-      const directionRatio = inputMultiplier / Math.max(baselineMultiplier, 0.01);
-      return baselinePool * Math.max(0.25, supplyRatio) * clamp(directionRatio, 0.42, 2.15);
-    }
-
-    function baselineWorldTradeFlow(inputsById) {
-      return Object.values(inputsById).reduce((total, input) => {
-        const baseline = input.baselineInput || input;
-        return total + Math.max(0, baseline.tradeFlow);
-      }, 0);
+      return inputSupplyScore * exportDirectionMultiplier(input, inputDemandScore, inputSupplyScore);
     }
 
     function constrainedWorldTradePool(rawWorldPool, capacityWorldPool) {
       const raw = Math.max(0, rawWorldPool);
       const capacity = Math.max(0, capacityWorldPool);
       if (raw <= 0 || capacity <= 0) return 0;
-      if (raw > capacity) return capacity * Math.pow(raw / capacity, 0.28);
-      return raw * Math.pow(capacity / raw, 0.45);
+      if (raw > capacity) return capacity + (raw - capacity) * 0.18;
+      return raw;
     }
 
     function targetedTariffFor(targetedTariffs, importerId, exporterId, fallbackRate) {
@@ -427,7 +351,7 @@
     }
 
     function laneTariffMultiplier(tariffRate) {
-      return clamp(1.04 - Math.max(0, tariffRate - 3) * 0.019 + Math.max(0, 3 - tariffRate) * 0.004, 0.34, 1.06);
+      return tariffFlowAccess(tariffRate);
     }
 
     function laneTariffRevenue(flow, tariffRate, importerInput) {
@@ -1788,26 +1712,39 @@
       const lanes = [];
       let nations = Object.fromEntries(ids.map((id) => [id, networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies, transitPolicies)]));
       const demandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id])]));
-      const baselineDemandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id].baselineInput || inputsById[id])]));
       const supplyScores = Object.fromEntries(ids.map((id) => [id, exportSupplyScore(inputsById[id])]));
-      const baselineSupplyScores = Object.fromEntries(ids.map((id) => [id, exportSupplyScore(inputsById[id].baselineInput || inputsById[id])]));
-      const hubInputs = Object.fromEntries(ids.map((id) => [id, inputsById[id].baselineInput || inputsById[id]]));
+      const hubInputs = inputsById;
       const worldTradeFlow = ids.reduce((total, id) => total + Math.max(0, hubInputs[id].tradeFlow), 0);
       const hubMultipliers = Object.fromEntries(ids.map((id) => [id, tradeHubMultiplier(hubInputs[id], worldTradeFlow, ids.length)]));
+      const rawImportBaseTargets = {};
       const rawImportTargets = {};
       const rawExportBaseTargets = {};
       const rawExportTargets = {};
 
       for (const importerId of ids) {
         const importer = inputsById[importerId];
-        const importerBaseline = inputsById[importerId].baselineInput || importer;
-        rawImportTargets[importerId] = importPoolFor(importer, importerBaseline, demandScores[importerId], baselineDemandScores[importerId]);
+        rawImportBaseTargets[importerId] = importPoolFor(importer, demandScores[importerId]);
       }
 
       for (const exporterId of ids) {
         const exporter = inputsById[exporterId];
-        const exporterBaseline = inputsById[exporterId].baselineInput || exporter;
-        rawExportBaseTargets[exporterId] = exportPoolFor(exporter, exporterBaseline, supplyScores[exporterId], baselineSupplyScores[exporterId]);
+        rawExportBaseTargets[exporterId] = exportPoolFor(exporter, supplyScores[exporterId]);
+      }
+
+      for (const importerId of ids) {
+        const importer = inputsById[importerId];
+        let actualAccess = 0;
+        let neutralAccess = 0;
+        for (const exporterId of ids) {
+          if (exporterId === importerId) continue;
+          const exporter = inputsById[exporterId];
+          const supplyWeight = Math.max(0, rawExportBaseTargets[exporterId] || 0);
+          const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
+          actualAccess += supplyWeight * laneAffinity(importer, exporter, tariffRate, lanePolicyFor(lanePolicies, importerId, exporterId), hubMultipliers[exporterId], routeNetwork);
+          neutralAccess += supplyWeight * laneAffinity(importer, exporter, importer.tariffRate, { embargo: false, sanctionsLevel: "None" }, hubMultipliers[exporterId], neutralRouteNetwork);
+        }
+        const marketAccess = neutralAccess > 0 ? actualAccess / neutralAccess : 0;
+        rawImportTargets[importerId] = rawImportBaseTargets[importerId] * clamp(marketAccess, 0.02, 1.08);
       }
 
       for (const exporterId of ids) {
@@ -1817,21 +1754,19 @@
         for (const importerId of ids) {
           if (exporterId === importerId) continue;
           const importer = inputsById[importerId];
-          const demandWeight = Math.max(0, rawImportTargets[importerId] || 0);
+          const demandWeight = Math.max(0, rawImportBaseTargets[importerId] || 0);
           const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
           actualAccess += demandWeight * laneAffinity(importer, exporter, tariffRate, lanePolicyFor(lanePolicies, importerId, exporterId), hubMultipliers[exporterId], routeNetwork);
           neutralAccess += demandWeight * laneAffinity(importer, exporter, importer.tariffRate, { embargo: false, sanctionsLevel: "None" }, hubMultipliers[exporterId], neutralRouteNetwork);
         }
         const marketAccess = neutralAccess > 0 ? actualAccess / neutralAccess : 0;
-        rawExportTargets[exporterId] = rawExportBaseTargets[exporterId] * clamp(marketAccess, 0.05, 1.12);
+        rawExportTargets[exporterId] = rawExportBaseTargets[exporterId] * clamp(marketAccess, 0.02, 1.08);
       }
 
       const rawImportTotal = Object.values(rawImportTargets).reduce((total, value) => total + Math.max(0, value), 0);
       const rawExportTotal = Object.values(rawExportTargets).reduce((total, value) => total + Math.max(0, value), 0);
       const rawWorldPool = (rawImportTotal + rawExportTotal) / 2;
-      const baselineWorldPool = baselineWorldTradeFlow(inputsById);
-      const capacityRatio = worldPoolCapacityTotal(inputsById) / Math.max(worldPoolCapacityTotal(inputsById, true), 1);
-      const capacityWorldPool = baselineWorldPool * Math.max(0.05, capacityRatio);
+      const capacityWorldPool = worldPoolCapacityTotal(inputsById);
       const currentWorldPool = constrainedWorldTradePool(rawWorldPool, capacityWorldPool);
       const poolScale = rawWorldPool > 0 ? currentWorldPool / rawWorldPool : 0;
       const importTargets = normalizeTargets(rawImportTargets, currentWorldPool);
@@ -1900,11 +1835,9 @@
         nations,
         routeNetwork,
         worldPool: {
-          baselineTradeFlow: roundCurrency(baselineWorldPool),
           rawTradeFlow: roundCurrency(rawWorldPool),
           capacityTradeFlow: roundCurrency(capacityWorldPool),
           currentTradeFlow: roundCurrency(currentWorldPool),
-          baselineImportPool: roundCurrency(baselineWorldPool),
           rawImportPool: roundCurrency(rawWorldPool),
           capacityImportPool: roundCurrency(capacityWorldPool),
           currentImportPool: roundCurrency(currentWorldPool),
@@ -1913,40 +1846,30 @@
       };
     }
 
-    function baselineInputsById(data) {
-      const baseline = ensureTradeV3Baseline(data);
-      return Object.fromEntries(
-        nationIdsForNetwork(data)
-          .filter((id) => baseline.nations[id])
-          .map((id) => [id, { ...baseline.nations[id], baselineInput: baseline.nations[id] }])
-      );
-    }
-
     function currentInputsById(data) {
-      const baseline = ensureTradeV3Baseline(data);
       return Object.fromEntries(
         nationIdsForNetwork(data)
-          .filter((id) => baseline.nations[id])
-          .map((id) => [id, { ...tradeInputForNation(data, id), baselineInput: baseline.nations[id] }])
+          .map((id) => [id, tradeInputForNation(data, id)])
       );
     }
 
     function calculateTradeNetwork(data, options = {}) {
       const network = tradeNetworkState(data);
-      const baseline = ensureTradeV3Baseline(data);
+      ensureTradeV4State(data);
       const includeLanes = options.includeLanes !== false;
-      const baselineFlows = buildNetworkFlows(data, baselineInputsById(data), baseline.targetedTariffs || {}, {
+      const inputs = currentInputsById(data);
+      const neutralFlows = buildNetworkFlows(data, inputs, {}, {
         includeLanes,
         laneVisibility: options.laneVisibility,
-        exportAnchors: baseline.exportAnchors || {},
-        importAnchors: baseline.importAnchors || {},
-        lanePolicies: baseline.lanePolicies || {},
-        transitPolicies: baseline.transitPolicies || {},
+        exportAnchors: network.exportAnchors || {},
+        importAnchors: network.importAnchors || {},
+        lanePolicies: {},
+        transitPolicies: {},
         routeLogistics: {},
         neutralRouteLogistics: {},
-        chokepoints: baseline.chokepoints || {}
+        chokepoints: {}
       });
-      const currentFlows = buildNetworkFlows(data, currentInputsById(data), network.targetedTariffs || {}, {
+      const currentFlows = buildNetworkFlows(data, inputs, network.targetedTariffs || {}, {
         includeLanes,
         laneVisibility: options.laneVisibility,
         exportAnchors: network.exportAnchors || {},
@@ -1960,19 +1883,19 @@
       const nations = {};
 
       for (const id of ids) {
-        const base = baselineFlows.nations[id] || {};
+        const neutral = neutralFlows.nations[id] || {};
         const current = currentFlows.nations[id] || {};
-        const tradeFlowDelta = (current.importFlow || 0) + (current.exportFlow || 0) - (number(base.importFlow, 0) + number(base.exportFlow, 0));
-        const tariffRevenueDelta = number(current.tariffRevenue, 0) - number(base.tariffRevenue, 0);
-        const importCostDelta = number(current.importCost, 0) - number(base.importCost, 0);
-        const exportDelta = number(current.exportFlow, 0) - number(base.exportFlow, 0);
-        const importDelta = number(current.importFlow, 0) - number(base.importFlow, 0);
-        const tradeBalanceDelta = exportDelta * 0.16 - importDelta * 0.08 + tariffRevenueDelta * 1.8 - importCostDelta * 0.45;
+        const tradeFlowDelta = (current.importFlow || 0) + (current.exportFlow || 0) - (number(neutral.importFlow, 0) + number(neutral.exportFlow, 0));
+        const tariffRevenueDelta = number(current.tariffRevenue, 0) - number(neutral.tariffRevenue, 0);
+        const importCostDelta = number(current.importCost, 0) - number(neutral.importCost, 0);
+        const exportDelta = number(current.exportFlow, 0) - number(neutral.exportFlow, 0);
+        const importDelta = number(current.importFlow, 0) - number(neutral.importFlow, 0);
+        const tradeBalanceDelta = exportDelta * 0.22 - importDelta * 0.16 + tariffRevenueDelta * 1.6 - importCostDelta * 0.72;
         nations[id] = {
           importFlow: roundCurrency(current.importFlow),
           exportFlow: roundCurrency(current.exportFlow),
-          baselineImportFlow: roundCurrency(base.importFlow),
-          baselineExportFlow: roundCurrency(base.exportFlow),
+          neutralImportFlow: roundCurrency(neutral.importFlow),
+          neutralExportFlow: roundCurrency(neutral.exportFlow),
           tradeFlowDelta: roundCurrency(tradeFlowDelta),
           tradeBalanceDelta: roundCurrency(tradeBalanceDelta),
           tariffRevenueDelta: roundCurrency(tariffRevenueDelta),
@@ -1986,22 +1909,22 @@
         };
       }
 
-      const baselineLaneMap = includeLanes
-        ? new Map(baselineFlows.lanes.map((lane) => [`${lane.importerId}:${lane.exporterId}`, lane]))
+      const neutralLaneMap = includeLanes
+        ? new Map(neutralFlows.lanes.map((lane) => [`${lane.importerId}:${lane.exporterId}`, lane]))
         : new Map();
       const nationNames = includeLanes
         ? Object.fromEntries((data.nations || []).map((nation) => [nation.id, nation.name]))
         : {};
       const lanes = includeLanes
         ? currentFlows.lanes.map((lane) => {
-            const baselineLane = baselineLaneMap.get(`${lane.importerId}:${lane.exporterId}`) || {};
+            const neutralLane = neutralLaneMap.get(`${lane.importerId}:${lane.exporterId}`) || {};
             return {
               ...lane,
               importerName: nationNames[lane.importerId] || lane.importerId,
               exporterName: nationNames[lane.exporterId] || lane.exporterId,
-              baselineFlow: roundCurrency(baselineLane.currentFlow),
-              flowDelta: roundCurrency(lane.currentFlow - number(baselineLane.currentFlow, 0)),
-              baselineTariffRate: roundPercent(baselineLane.tariffRate ?? lane.tariffRate),
+              neutralFlow: roundCurrency(neutralLane.currentFlow),
+              flowDelta: roundCurrency(lane.currentFlow - number(neutralLane.currentFlow, 0)),
+              neutralTariffRate: roundPercent(neutralLane.tariffRate ?? lane.tariffRate),
               importerShare: roundPercent((number(lane.currentFlow, 0) / Math.max(number(currentFlows.nations[lane.importerId]?.importFlow, 0), 1)) * 100),
               exporterShare: roundPercent((number(lane.currentFlow, 0) / Math.max(number(currentFlows.nations[lane.exporterId]?.exportFlow, 0), 1)) * 100)
             };
@@ -2009,20 +1932,20 @@
         : [];
 
       const worldPool = {
-        baselineTradeFlow: roundCurrency(baselineFlows.worldPool?.currentTradeFlow),
+        neutralTradeFlow: roundCurrency(neutralFlows.worldPool?.currentTradeFlow),
         rawTradeFlow: roundCurrency(currentFlows.worldPool?.rawTradeFlow),
         capacityTradeFlow: roundCurrency(currentFlows.worldPool?.capacityTradeFlow),
         currentTradeFlow: roundCurrency(currentFlows.worldPool?.currentTradeFlow),
-        tradeFlowDelta: roundCurrency(number(currentFlows.worldPool?.currentTradeFlow, 0) - number(baselineFlows.worldPool?.currentTradeFlow, 0)),
-        baselineImportPool: roundCurrency(baselineFlows.worldPool?.currentTradeFlow),
+        tradeFlowDelta: roundCurrency(number(currentFlows.worldPool?.currentTradeFlow, 0) - number(neutralFlows.worldPool?.currentTradeFlow, 0)),
+        neutralImportPool: roundCurrency(neutralFlows.worldPool?.currentTradeFlow),
         rawImportPool: roundCurrency(currentFlows.worldPool?.rawTradeFlow),
         capacityImportPool: roundCurrency(currentFlows.worldPool?.capacityTradeFlow),
         currentImportPool: roundCurrency(currentFlows.worldPool?.currentTradeFlow),
-        importPoolDelta: roundCurrency(number(currentFlows.worldPool?.currentTradeFlow, 0) - number(baselineFlows.worldPool?.currentTradeFlow, 0)),
+        importPoolDelta: roundCurrency(number(currentFlows.worldPool?.currentTradeFlow, 0) - number(neutralFlows.worldPool?.currentTradeFlow, 0)),
         scale: roundPercent(currentFlows.worldPool?.scale)
       };
 
-      return { lanes, nations, baselineCreatedAt: baseline.createdAt, worldPool, routeNetwork: currentFlows.routeNetwork };
+      return { lanes, nations, worldPool, routeNetwork: currentFlows.routeNetwork };
     }
 
     const TRADE_ANCHOR_PATTERNS = {
@@ -2190,38 +2113,56 @@
       return { importCount, exportCount, totalCount: importCount + exportCount };
     }
 
-    function calculateTradeV3ForNation(data, id, options = {}) {
-      const baseline = ensureTradeV3Baseline(data).nations[id];
+    function calculateTradeV4ForNation(data, id, options = {}) {
       const current = tradeInputForNation(data, id);
-      if (!baseline || !current) return null;
+      if (!current) return null;
       const network = options.tradeNetworkSnapshot || calculateTradeNetwork(data);
       const impact = network.nations[id] || {};
-      const exportInputDelta = current.exportReliance - number(baseline.exportReliance, current.exportReliance);
-      const importInputDelta = current.importReliance - number(baseline.importReliance, current.importReliance);
-      const diversityDelta = current.economicTradeDiversity - number(baseline.economicTradeDiversity, current.economicTradeDiversity);
-      const autarkyDelta = current.autarkyIndex - number(baseline.autarkyIndex, current.autarkyIndex);
-      const structuralBalanceDelta = exportInputDelta * 1100 - importInputDelta * 850 + diversityDelta * 340 - autarkyDelta * 260;
-      const flowDelta = number(impact.tradeFlowDelta, 0) + exportInputDelta * 4500 + importInputDelta * 2200 + diversityDelta * 1800 - autarkyDelta * 1100;
-      const balanceDelta = number(impact.tradeBalanceDelta, 0) + structuralBalanceDelta;
-      const capacityDelta = (current.developmentLevel - number(baseline.developmentLevel, current.developmentLevel)) * 820
-        + (current.shipyards - number(baseline.shipyards, current.shipyards)) * 180
-        + diversityDelta * 120
-        - autarkyDelta * 95;
+      const importFlow = number(impact.importFlow, 0);
+      const exportFlow = number(impact.exportFlow, 0);
+      const totalFlow = Math.max(0, importFlow + exportFlow);
+      const policy = tradePolicyProfile(current.tradePolicy);
+      const logistics = tradeLogisticsProfile(current);
+      const relianceGap = number(current.exportReliance, 0) - number(current.importReliance, 0);
+      const relianceAverage = Math.max(1, (number(current.exportReliance, 0) + number(current.importReliance, 0)) / 2);
+      const normalizedGap = relianceGap / relianceAverage;
+      const balanceScale = 160 + Math.sqrt(Math.max(totalFlow, 0)) * 0.72 + Math.sqrt(Math.max(current.budgetCapacity, 0)) * 8.5;
+      const structuralBalance = relianceGap * balanceScale * policy.balanceRisk;
+      const flowBalance = exportFlow * 0.034 - importFlow * 0.04;
+      const tariffBalance = number(impact.tariffRevenueDelta, 0) * 0.72 - number(impact.importCostDelta, 0) * 0.5;
+      const imbalancePenalty = -Math.pow(Math.abs(normalizedGap), 1.45) * balanceScale * 3.4 * (relianceGap < 0 ? 1.24 : 0.38);
+      const tradeBalance = roundCurrency(flowBalance + structuralBalance + tariffBalance + imbalancePenalty + number(impact.tradeBalanceDelta, 0));
+      const tradeCapacity = roundCurrency(
+        worldPoolCapacityScore(current) / 600
+          + logistics.overall * 140
+          + diversityResilience(current) * 1800
+      );
+      const tradeFlow = roundCurrency(totalFlow);
+      const economicImpactScore = Math.max(
+        0,
+        roundCurrency(
+          tradeFlow / 52000
+            + Math.max(0, tradeBalance) / Math.max(current.budgetCapacity, 1000) * 42
+            + Math.abs(Math.min(0, tradeBalance)) / Math.max(current.budgetCapacity, 1000) * 22
+            + current.economicTradeDiversity * 0.18
+            + (100 - current.autarkyIndex) * 0.16
+        )
+      );
 
       return {
-        tradeFormulaVersion: "trade2027",
-        tradeCapacity: Math.max(0, roundCurrency(number(baseline.tradeCapacity, 0) + capacityDelta)),
+        tradeFormulaVersion: "trade2028",
+        tradeCapacity: Math.max(0, tradeCapacity),
         autarkyIndex: current.autarkyIndex,
-        tradeBalance: roundCurrency(number(baseline.tradeBalance, 0) + balanceDelta),
-        tradeFlow: Math.max(0, roundCurrency(number(baseline.tradeFlow, 0) + flowDelta)),
+        tradeBalance,
+        tradeFlow: Math.max(0, tradeFlow),
         importReliance: current.importReliance,
         exportReliance: current.exportReliance,
         economicTradeDiversity: current.economicTradeDiversity,
         tradePolicy: current.tradePolicy,
         sanctionsLevel: current.sanctionsLevel,
         tariffRate: current.tariffRate,
-        economicImpactScore: Math.max(0, roundCurrency(number(baseline.economicImpactScore, 0) + balanceDelta / 9000 + flowDelta / 65000 + diversityDelta * 0.35)),
-        tradeTier: tradeTierForFlow(number(baseline.tradeFlow, 0) + flowDelta),
+        economicImpactScore,
+        tradeTier: tradeTierForFlow(tradeFlow),
         networkImportFlow: roundCurrency(impact.importFlow),
         networkExportFlow: roundCurrency(impact.exportFlow),
         networkFlowDelta: roundCurrency(impact.tradeFlowDelta),
@@ -2232,141 +2173,12 @@
       };
     }
 
-    function stableFiscalScale(national, population, productionStrength) {
-      const taxRate = number(national.taxRate, 0);
-      const taxRatePercent = taxRate > 1 ? taxRate : taxRate * 100;
-      const development = clamp(number(national.developmentLevel, 0), 0, 20);
-      const stability = number(national.governmentalStability, 50);
-      const corruption = number(national.corruption, 0);
-      const health = national.economicHealth || "Recovery";
-      const healthMultiplier = { Prosperity: 1.08, Expansion: 1.04, Recovery: 1, Slowdown: 0.92, Recession: 0.78, Depression: 0.62 }[health] || 1;
-      const populationBase = Math.sqrt(Math.max(population, 0) / 1000000) * 3600;
-      const developmentFactor = clamp(0.58 + Math.pow(development / 20, 1.25) * 0.62, 0.55, 1.22);
-      const stabilityFactor = clamp(0.78 + stability / 500, 0.75, 1.02);
-      const corruptionFactor = clamp(1 - corruption / 350, 0.62, 1);
-      const taxSignal = clamp(0.9 + Math.sqrt(clamp(taxRatePercent, 1, 60)) / 70, 0.92, 1.02);
-      const marketBase = populationBase * developmentFactor * stabilityFactor * corruptionFactor * taxSignal * healthMultiplier;
-      const industrialBase = productionStrength * 0.31;
-      return Math.max(1000, marketBase + industrialBase + number(national.budgetAdjustment, 0));
-    }
-
-    function calculateTradeV2ForNation(data, id) {
-      const national = data.national[id];
-      const trade = data.trade[id];
-      const industrial = data.industrial[id];
-      if (!national || !trade || !industrial) return null;
-      if ([trade.autarkyIndex, trade.importReliance, trade.exportReliance, trade.economicTradeDiversity].some(isBlank)) return null;
-
-      const corruption = number(national.corruption, 0);
-      const population = getPopulation(data, id);
-      const civilianFactories = number(industrial.civilianFactories, 0);
-      const militaryFactories = number(industrial.militaryFactories, 0);
-      const shipyards = number(industrial.shipyards, 0);
-      const development = number(national.developmentLevel, 0);
-      const importReliance = number(trade.importReliance, 0);
-      const exportReliance = number(trade.exportReliance, 0);
-      const tradeDiversity = number(trade.economicTradeDiversity, 0);
-      const autarkyIndex = clamp(number(trade.autarkyIndex, 50), 0, 100);
-      const economicHealth = national.economicHealth || "Recovery";
-      const tradePolicy = trade.tradePolicy || "Balanced";
-      const sanctionsLevel = trade.sanctionsLevel || "None";
-      const tariffRate = clamp(number(trade.tariffRate, 5), 0, 50);
-      const tariffBurden = calculateTariffBurdenForNation ? calculateTariffBurdenForNation(data, id) : {};
-      const policyEffect = TRADE_POLICY[tradePolicy] || TRADE_POLICY.Balanced;
-      const sanctionEffect = SANCTIONS[sanctionsLevel] || SANCTIONS.None;
-      const policyOpenness = { Protectionist: 0.68, Balanced: 0.88, "Open Market": 1.06, "Free Trade": 1.18 }[tradePolicy] || 0.88;
-      const diversityAccess = clamp(0.85 + tradeDiversity / 320, 0.78, 1.55);
-      const autarkyPressure = clamp((autarkyIndex - 55) / 45, 0, 1);
-      const autarkyCurve = Math.pow(autarkyPressure, 1.12);
-      const autarkyGlobalAccess = clamp(1 - autarkyCurve * 0.5, 0.5, 1);
-      const autarkyLogisticsAccess = clamp(1 - autarkyCurve * 0.28, 0.72, 1);
-      const autarkyImportAccess = clamp(1 - autarkyCurve * 0.34, 0.66, 1);
-      const autarkyExportAccess = clamp(1 - autarkyCurve * 0.45, 0.55, 1);
-      const autarkyServicesAccess = clamp(1 - autarkyCurve * 0.58, 0.42, 1);
-      const autarkyImportCost = 1 + autarkyCurve * 0.22;
-      const rawOpenness = policyOpenness * diversityAccess * autarkyGlobalAccess;
-      const autarkyOpennessCap = clamp(1.18 - Math.max(0, autarkyIndex - 55) * 0.015, 0.58, 1.18);
-      const openness = clamp(Math.min(rawOpenness, autarkyOpennessCap), 0.5, 1.18);
-      const healthEffect = HEALTH_TRADE[economicHealth] || 0;
-      const worldHealthEffect = HEALTH_TRADE[data.meta.worldEconomicHealth] || 0;
-
-      const productionStrength = civilianFactories * 112 + militaryFactories * 35 + shipyards * 255 + Math.pow(development, 2) * 175;
-      const fiscalScale = stableFiscalScale(national, population, productionStrength);
-      const marketSize = Math.sqrt(Math.max(population, 0) / 1000000) * 620 + fiscalScale * 1.05 + Math.pow(development, 1.8) * 145;
-      const logisticsCapacity = (shipyards * 255 + development * 850 + Math.sqrt(Math.max(fiscalScale, 0)) * 95)
-        * (1 + (policyEffect.capacity + sanctionEffect.capacity - Math.min(25, tariffRate * 1.2)) / 100)
-        * clamp(0.8 + tradeDiversity / 360, 0.78, 1.38)
-        * autarkyLogisticsAccess
-        * number(tariffBurden.capacityMultiplier, 1);
-      const importDemand = (importReliance * 640 + Math.sqrt(Math.max(population, 0) / 1000000) * 560 + Math.sqrt(civilianFactories + militaryFactories * 1.5) * 275)
-        * (1 + development / 44)
-        * clamp(1 - Math.pow(autarkyIndex / 100, 1.35) * 0.44, 0.45, 1)
-        * autarkyImportAccess
-        * number(tariffBurden.importDemandMultiplier, 1);
-      const exportStrength = (exportReliance * 820 * (0.75 + tradeDiversity / 130) + productionStrength * 0.42)
-        * (1 + healthEffect / 100)
-        * policyOpenness
-        * autarkyExportAccess
-        * number(tariffBurden.exportAccessMultiplier, 1);
-      const efficiency = clamp(
-        0.52 + development / 36 + (100 - corruption) / 175 + healthEffect / 130 + worldHealthEffect / 170 + policyEffect.efficiency / 125 + sanctionEffect.efficiency / 130 - tariffRate / 125 - number(tariffBurden.tariffShockScore, 0) / 160,
-        0.15,
-        1.28
-      );
-      const financialDepth = clamp(0.78 + Math.pow(Math.max(fiscalScale, 1) / 120000, 0.82) * 0.65, 0.78, 2.05);
-      const scaleThroughput = clamp(Math.pow(Math.max(fiscalScale, 1) / 115000, 0.8), 0.62, 1.3);
-      const tradeFlow = (marketSize * 0.95 + productionStrength * 0.52 + importDemand * 1.05 + exportStrength * 1.18)
-        * (logisticsCapacity / 12500)
-        * efficiency
-        * openness
-        * financialDepth
-        * scaleThroughput
-        * number(tariffBurden.tradeFlowMultiplier, 1)
-        * (1 + sanctionEffect.flow / 100);
-
-      const importCost = importDemand * (1 + development / 70) * autarkyImportCost * number(tariffBurden.importCostMultiplier, 1 + tariffRate / 250);
-      const exportValue = exportStrength * (1 + tradeDiversity / 230) * clamp(1 - autarkyIndex / 390, 0.72, 1.05) * (1 + sanctionEffect.balance / 100);
-      const servicesPremium = (marketSize + logisticsCapacity) * 0.14 * policyOpenness * (tradeDiversity / 95) * clamp(1 - autarkyIndex / 210, 0.35, 1) * autarkyServicesAccess * number(tariffBurden.servicesMultiplier, 1);
-      const tradeBalance = (exportValue - importCost + servicesPremium + tradeFlow * 0.016) * (1 + sanctionEffect.balance / 100);
-      const economicImpactScore = Math.round((Math.abs(tradeBalance) / Math.max(fiscalScale, 1)) * 58 + tradeFlow / 56000 + tradeDiversity * 0.52 + (100 - autarkyIndex) * 0.3);
-
-      return {
-        tradeFormulaVersion: "trade2026",
-        tradeCapacity: Math.round(logisticsCapacity),
-        autarkyIndex,
-        tradeBalance: Math.round(tradeBalance),
-        tradeFlow: Math.round(tradeFlow),
-        importReliance,
-        exportReliance,
-        economicTradeDiversity: tradeDiversity,
-        tradePolicy,
-        sanctionsLevel,
-        tariffRate,
-        economicImpactScore,
-        tradeTier: tradeTierForFlow(tradeFlow),
-        marketSize: Math.round(marketSize),
-        productionStrength: Math.round(productionStrength),
-        fiscalScale: Math.round(fiscalScale),
-        logisticsCapacity: Math.round(logisticsCapacity),
-        importDemand: Math.round(importDemand),
-        exportStrength: Math.round(exportStrength),
-        tradeOpenness: roundPercent(openness * 100),
-        autarkyPressure: roundPercent(autarkyPressure * 100),
-        financialDepth: roundPercent(financialDepth * 100),
-        scaleThroughput: roundPercent(scaleThroughput * 100)
-      };
-    }
-
     function recalculateTrade(data, options = {}) {
-      const tradeVersion = tradeFormulaVersion(data, options);
-      const tradeNetworkSnapshot = tradeVersion === "trade2027"
-        ? calculateTradeNetwork(data, { includeLanes: false })
-        : null;
+      const tradeNetworkSnapshot = calculateTradeNetwork(data, { includeLanes: false });
       for (const id of Object.keys(data.trade || {})) {
         stripRemovedTradeStats(data.trade[id]);
         const next = calculateTradeForNation(data, id, {
           ...options,
-          tradeFormulaVersion: tradeVersion,
           tradeNetworkSnapshot
         });
         if (next) data.trade[id] = stripRemovedTradeStats({ ...data.trade[id], ...next });
@@ -2461,12 +2273,11 @@
     }
 
     return {
-      TRADE_FORMULAS,
       calculateTradeForNation,
       calculateTradeNetwork,
       previewTradeAnchorPlan,
       applyTradeAnchorPlan,
-      ensureTradeV3Baseline,
+      ensureTradeV4State,
       setTargetedTariff,
       clearTargetedTariff,
       setExportAnchor,
