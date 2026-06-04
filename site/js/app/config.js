@@ -52,7 +52,7 @@
       { key: "overview", label: "Overview" },
       { key: "editor", label: "Editor", adminOnly: true },
       { key: "nations", label: "Nations" },
-      { key: "tradeNetwork", label: "Trade Network" },
+      { key: "tradeNetwork", label: "Trade" },
       { key: "simulation", label: "Simulation", adminOnly: true },
       { key: "history", label: "Change History", adminOnly: true },
       { key: "national", label: "National Status" },

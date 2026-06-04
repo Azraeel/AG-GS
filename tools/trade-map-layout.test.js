@@ -145,3 +145,18 @@ test("trade network UI exposes lane direction and flow-size filters", () => {
   assert.match(appSource, /tradeNetworkRouteLimit/);
   assert.match(styleSource, /\.trade-network-filter-band/);
 });
+
+test("trade tab label is concise and world surface chip aligns with mode pills", () => {
+  const publicSource = fs.readFileSync(path.join(root, "site", "index.html"), "utf8");
+  const adminSource = fs.readFileSync(path.join(root, "site", "admin", "index.html"), "utf8");
+  const configSource = fs.readFileSync(path.join(root, "site", "js", "app", "config.js"), "utf8");
+  const styleSource = fs.readFileSync(path.join(root, "site", "styles.css"), "utf8");
+  const scaleRule = styleSource.match(/\.trade-map-scale\s*\{[^}]+\}/);
+
+  assert.match(publicSource, /data-tab="tradeNetwork">Trade<\/button>/);
+  assert.match(adminSource, /data-tab="tradeNetwork">Trade<\/button>/);
+  assert.match(configSource, /key:\s*"tradeNetwork",\s*label:\s*"Trade"/);
+  assert.ok(scaleRule, "world surface chip rule should exist");
+  assert.match(scaleRule[0], /align-items:\s*center/);
+  assert.doesNotMatch(scaleRule[0], /align-items:\s*baseline/);
+});
