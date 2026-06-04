@@ -311,7 +311,7 @@ test("Trade V4 value-added strength lets advanced import-heavy economies profit 
   const Engine = loadEngine();
   const data = valueAddedFixture();
 
-  for (let attempt = 0; attempt < 3; attempt++) Engine.recalculateAll(data);
+  Engine.recalculateAll(data);
 
   assert.ok(
     data.trade.solara.tradeBalance >= 325000,
@@ -329,4 +329,27 @@ test("Trade V4 value-added strength lets advanced import-heavy economies profit 
     data.national.low_value_importer.budgetCapacity < data.national.solara.budgetCapacity / 3,
     `expected value-added economy to outperform weak importer; got ${data.national.low_value_importer.budgetCapacity} vs ${data.national.solara.budgetCapacity}`
   );
+});
+
+test("Trade V4 recalculation settles trade and budget feedback in one call", () => {
+  const Engine = loadEngine();
+  const data = valueAddedFixture();
+
+  Engine.recalculateAll(data);
+  const first = {
+    solaraBudget: data.national.solara.budgetCapacity,
+    solaraTradeBalance: data.trade.solara.tradeBalance,
+    xanaquBudget: data.national.xanaqu.budgetCapacity,
+    xanaquTradeBalance: data.trade.xanaqu.tradeBalance
+  };
+
+  Engine.recalculateAll(data);
+  const second = {
+    solaraBudget: data.national.solara.budgetCapacity,
+    solaraTradeBalance: data.trade.solara.tradeBalance,
+    xanaquBudget: data.national.xanaqu.budgetCapacity,
+    xanaquTradeBalance: data.trade.xanaqu.tradeBalance
+  };
+
+  assert.deepEqual(second, first);
 });

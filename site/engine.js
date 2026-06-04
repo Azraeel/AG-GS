@@ -272,6 +272,25 @@
       .join("|");
   }
 
+  function recalculationSignature(data) {
+    return Object.keys(data.national || {})
+      .sort()
+      .map((id) => {
+        const national = data.national[id] || {};
+        const trade = data.trade?.[id] || {};
+        return [
+          id,
+          roundCurrency(national.budgetCapacity),
+          roundCurrency(national.budgetExpenditure),
+          roundCurrency(national.budgetBalance),
+          roundCurrency(trade.tradeCapacity),
+          roundCurrency(trade.tradeBalance),
+          roundCurrency(trade.tradeFlow)
+        ].join(":");
+      })
+      .join("|");
+  }
+
   function load(baseData) {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
@@ -784,9 +803,14 @@
       delete data.meta.tradeV4BudgetBalanceTargets;
       return data;
     }
-    recalculateTrade(data, options);
-    recalculateBudgets(data, options);
-    recalculateTrade(data, options);
+    let previousSignature = "";
+    for (let attempt = 0; attempt < 8; attempt++) {
+      recalculateTrade(data, options);
+      recalculateBudgets(data, options);
+      const nextSignature = recalculationSignature(data);
+      if (attempt > 0 && nextSignature === previousSignature) break;
+      previousSignature = nextSignature;
+    }
     return data;
   }
 
