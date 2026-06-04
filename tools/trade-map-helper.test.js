@@ -185,3 +185,24 @@ test("trade map helper draws solved route polylines when lane path points exist"
   assert.match(routes[0].path, / L /, "solved routes should render as polylines");
   assert.doesNotMatch(routes[0].path, / Q /, "solved routes should not use fallback quadratic arcs");
 });
+
+test("ensureGeography attaches the precision lane skeleton manifest", () => {
+  const previousLaneSkeleton = global.AGGS_TRADE_LANE_SKELETON;
+  global.AGGS_TRADE_LANE_SKELETON = {
+    version: "unit-test-lanes",
+    nodes: [{ id: "lane:test", type: "lane", x: 20, y: 70 }],
+    edges: []
+  };
+  const unitData = {
+    nations: [{ id: "solara", name: "Solara", color: "#c2b72e" }],
+    tradeNetwork: { geography: { nations: {} } }
+  };
+
+  try {
+    TradeMap.ensureGeography(unitData);
+  } finally {
+    global.AGGS_TRADE_LANE_SKELETON = previousLaneSkeleton;
+  }
+
+  assert.equal(unitData.tradeNetwork.geography.laneSkeleton.version, "unit-test-lanes");
+});

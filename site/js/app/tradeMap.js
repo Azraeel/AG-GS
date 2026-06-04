@@ -183,6 +183,10 @@
     return mesh && Array.isArray(mesh.nodes) && Array.isArray(mesh.edges) ? mesh : null;
   }
 
+  function tradeLaneSkeleton() {
+    return root.AGGS_TRADE_LANE_SKELETON || null;
+  }
+
   function sourceLabelMap() {
     return Object.fromEntries(sourceLabels().map((label) => [label.id, label]));
   }
@@ -668,6 +672,8 @@
       : {};
     const mesh = tradeRouteMesh();
     if (mesh) data.tradeNetwork.geography.routeMesh = mesh;
+    const laneSkeleton = tradeLaneSkeleton();
+    if (laneSkeleton) data.tradeNetwork.geography.laneSkeleton = laneSkeleton;
     const territories = territoriesForNations(data.nations);
     for (const territory of territories) {
       data.tradeNetwork.geography.nations[territory.nationId] = {
@@ -685,6 +691,7 @@
     sourceLabels,
     tradeZones,
     tradeRouteMesh,
+    tradeLaneSkeleton,
     territoriesForNations,
     routesForRows,
     ensureGeography
