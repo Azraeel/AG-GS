@@ -715,13 +715,44 @@ select optgroup {
 
 .trade-map-command {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 10px 14px;
   align-items: center;
   justify-content: space-between;
   min-height: 64px;
   padding: 9px clamp(12px, 2vw, 18px);
   border-bottom: 1px solid var(--line);
+}
+
+.trade-network-selector {
+  flex: 1 1 210px;
+  max-width: 320px;
+}
+
+.trade-network-filter-band {
+  display: flex;
+  flex: 1 1 280px;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  min-width: min(100%, 260px);
+}
+
+.trade-network-filter {
+  grid-template-columns: auto minmax(74px, 1fr);
+  flex: 1 1 130px;
+  min-height: 38px;
+  padding: 0 10px;
+  background: color-mix(in srgb, var(--input-bg) 70%, transparent);
+}
+
+.trade-network-filter span {
+  font-size: 10px;
+}
+
+.trade-network-filter select {
+  font-size: 13px;
+  font-weight: 850;
 }
 
 .trade-map-modebar {

@@ -88,6 +88,8 @@
     },
     tradeAnchorPreview: null,
     tradeMapLayer: "trade",
+    tradeNetworkDirectionFilter: "all",
+    tradeNetworkSizeFilter: "all",
     showDetails: false,
     notice: ""
   };
@@ -920,6 +922,36 @@
       .sort((left, right) => right.activity - left.activity);
   }
 
+  function tradeNetworkRowShare(row, impact = {}) {
+    const selectedTrade = Engine.number(impact.importFlow, 0) + Engine.number(impact.exportFlow, 0);
+    return selectedTrade > 0 ? (Engine.number(row.activity, 0) / selectedTrade) * 100 : 0;
+  }
+
+  function tradeNetworkSizeTier(row, impact = {}) {
+    const share = tradeNetworkRowShare(row, impact);
+    if (share >= 5) return "major";
+    if (share >= 1) return "standard";
+    return "tiny";
+  }
+
+  function filterTradeNetworkRows(rows, impact = {}) {
+    const direction = state.tradeNetworkDirectionFilter || "all";
+    const size = state.tradeNetworkSizeFilter || "all";
+    return rows.filter((row) => {
+      if (direction === "imports" && Engine.number(row.importFlow, 0) <= 0) return false;
+      if (direction === "exports" && Engine.number(row.exportFlow, 0) <= 0) return false;
+      const tier = tradeNetworkSizeTier(row, impact);
+      if (size === "major") return tier === "major";
+      if (size === "standard") return tier === "major" || tier === "standard";
+      if (size === "tiny") return tier === "tiny";
+      return true;
+    });
+  }
+
+  function tradeNetworkRouteLimit(rows) {
+    return Math.min(72, Math.max(14, rows.length));
+  }
+
   function targetedTariffControl(selectedId, partnerId, lane, override) {
     const inputId = `targeted-tariff-${selectedId}-${partnerId}`.replace(/[^a-z0-9_-]/gi, "-");
     const value = override !== undefined ? override : Engine.number(lane?.tariffRate, data.trade?.[selectedId]?.tariffRate ?? 0);
@@ -1174,6 +1206,10 @@
     return `<button class="trade-map-mode ${state.tradeMapLayer === value ? "is-active" : ""}" type="button" data-trade-map-layer="${escapeHtml(value)}">${safeText(label)}</button>`;
   }
 
+  function tradeNetworkFilterOption(value, label, currentValue) {
+    return `<option value="${escapeHtml(value)}" ${value === currentValue ? "selected" : ""}>${safeText(label)}</option>`;
+  }
+
   function tradeZoneOverlayConfig() {
     const manifest = TradeMap.tradeZones?.();
     if (!manifest?.assetPath) return null;
@@ -1197,7 +1233,7 @@
       ? `${fmtNumber(Math.round(mapConfig.surfaceAreaSqMi))} sq mi surface / ${fmtNumber(Math.round(mapConfig.equatorialCircumferenceMi))} mi circumference`
       : "World surface scale";
     const territories = TradeMap.territoriesForNations?.(sortedNations(), selected.id) || [];
-    const routes = TradeMap.routesForRows?.(selected.id, rows, territories, 14) || [];
+    const routes = TradeMap.routesForRows?.(selected.id, rows, territories, tradeNetworkRouteLimit(rows)) || [];
     const selectedTerritory = territories.find((territory) => territory.nationId === selected.id) || territories[0];
     const maxRouteFlow = Math.max(1, ...routes.map((route) => route.totalFlow || 0));
     const topPartners = rows.slice(0, 4);
@@ -1216,6 +1252,29 @@
               ${nationOptionsHtml(selected.id)}
             </select>
           </label>
+          <div class="trade-network-filter-band" aria-label="Trade lane filters">
+            <label class="select-shell trade-network-filter" for="tradeNetworkDirectionFilter">
+              <span>Lane</span>
+              <select id="tradeNetworkDirectionFilter" data-trade-network-direction-filter>
+                ${[
+                  ["all", "All"],
+                  ["imports", "Imports"],
+                  ["exports", "Exports"]
+                ].map(([value, label]) => tradeNetworkFilterOption(value, label, state.tradeNetworkDirectionFilter || "all")).join("")}
+              </select>
+            </label>
+            <label class="select-shell trade-network-filter" for="tradeNetworkSizeFilter">
+              <span>Flow</span>
+              <select id="tradeNetworkSizeFilter" data-trade-network-size-filter>
+                ${[
+                  ["all", "All Sizes"],
+                  ["major", "Major"],
+                  ["standard", "Major + Mid"],
+                  ["tiny", "Tiny"]
+                ].map(([value, label]) => tradeNetworkFilterOption(value, label, state.tradeNetworkSizeFilter || "all")).join("")}
+              </select>
+            </label>
+          </div>
           <div class="trade-map-modebar" aria-label="Trade map layers">
             <span class="trade-map-scale" title="${escapeHtml(worldSurfaceTitle)}"><span>World Surface</span><strong>${safeText(worldSurfaceLabel)}</strong></span>
             ${tradeMapLayerButton("trade", "Trade")}
@@ -1303,8 +1362,8 @@
                     </div>`).join("")}
                 </div>
               </div>
-              <div class="trade-map-route-list" aria-label="Major trade partners">
-                <span class="section-kicker">Major Partners</span>
+              <div class="trade-map-route-list" aria-label="Shown trade partners">
+                <span class="section-kicker">Shown Partners</span>
                 ${topPartners.length ? topPartners.map((row) => `
                   <button type="button" data-trade-map-nation="${escapeHtml(row.partner.id)}">
                     <span class="trade-map-partner-copy">
@@ -1347,10 +1406,11 @@
     const flowDelta = Engine.number(impact.tradeFlowDelta, 0);
     const worldPool = network.worldPool || {};
     const worldPoolDelta = Engine.number(worldPool.tradeFlowDelta, 0);
-    const rows = tradeNetworkPartnerRows(selected.id, network);
-    const activeTargets = rows.filter((row) => row.override !== undefined).length;
+    const allRows = tradeNetworkPartnerRows(selected.id, network);
+    const rows = filterTradeNetworkRows(allRows, impact);
+    const activeTargets = allRows.filter((row) => row.override !== undefined).length;
     const tradeMetrics = [
-      { label: "Partners", value: fmtNumber(rows.length) },
+      { label: "Partners", value: allRows.length === rows.length ? fmtNumber(rows.length) : `${fmtNumber(rows.length)} / ${fmtNumber(allRows.length)}` },
       activeTargets ? { label: "Targeted", value: fmtNumber(activeTargets), tone: "attention" } : null,
       Math.abs(budgetDelta) >= 1 ? { label: "Budget", value: fmtSigned(budgetDelta), tone: budgetDelta >= 0 ? "positive" : "negative" } : null,
       Math.abs(flowDelta) >= 1 ? { label: "Flow", value: fmtSigned(flowDelta), tone: flowDelta >= 0 ? "positive" : "negative" } : null,
@@ -1385,9 +1445,10 @@
               </tr>
             </thead>
             <tbody>
-              ${rows.map((row) => {
+              ${rows.length ? rows.map((row) => {
                 const laneDeltaTone = row.flowDelta >= 0 ? "positive" : "negative";
                 const rowClasses = [
+                  `lane-size-${tradeNetworkSizeTier(row, impact)}`,
                   row.override !== undefined ? "has-targeted-tariff" : "",
                   row.exportAnchor !== undefined ? "has-export-anchor" : "",
                   row.importAnchor !== undefined ? "has-import-anchor" : "",
@@ -1419,7 +1480,7 @@
                     <td class="numeric">${fmtPercent(row.exportLane?.tariffRate ?? data.trade?.[row.partner.id]?.tariffRate ?? 0)}</td>
                     <td>${targetedTariffControl(selected.id, row.partner.id, row.importLane, row.override)}</td>
                   </tr>`;
-              }).join("")}
+              }).join("") : `<tr><td colspan="12" class="empty">No lanes match the current filters.</td></tr>`}
             </tbody>
           </table>
         </div>
@@ -3197,6 +3258,22 @@
       state.selectedNation = nationSelect.value;
       state.tradeAnchorPreview = null;
       render();
+      return;
+    }
+
+    const tradeNetworkDirectionFilter = event.target.closest("[data-trade-network-direction-filter]");
+    if (tradeNetworkDirectionFilter) {
+      rememberVisibleTableScroll();
+      state.tradeNetworkDirectionFilter = tradeNetworkDirectionFilter.value || "all";
+      renderPreservingPageScroll();
+      return;
+    }
+
+    const tradeNetworkSizeFilter = event.target.closest("[data-trade-network-size-filter]");
+    if (tradeNetworkSizeFilter) {
+      rememberVisibleTableScroll();
+      state.tradeNetworkSizeFilter = tradeNetworkSizeFilter.value || "all";
+      renderPreservingPageScroll();
       return;
     }
 

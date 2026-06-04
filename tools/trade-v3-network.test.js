@@ -442,34 +442,27 @@ test("Trade v3 global pool makes demand compete instead of creating unlimited wo
   assert.ok(worldImportFlow < baselineWorldImportFlow * 1.85, `${worldImportFlow} should stay inside the world pool from ${baselineWorldImportFlow}`);
 });
 
-test("Trade v3 concentrates automatic lanes around major trade hubs", () => {
+test("Trade v3 exposes physical lanes around major trade hubs without changing totals", () => {
   const data = buildLargeTradeV3Scenario(50);
   data.trade.nation_49.tradeFlow = 17700000;
   data.trade.nation_49.exportReliance = 175;
   data.trade.nation_49.tradePolicy = "Free Trade";
   Engine.recalculateAll(data);
 
+  const totalsOnly = Engine.calculateTradeNetwork(data, { includeLanes: false });
   const network = Engine.calculateTradeNetwork(data);
   const topTradeHub = "nation_49";
-  const lanesByImporter = new Map();
-  for (const lane of network.lanes) {
-    if (!lanesByImporter.has(lane.importerId)) lanesByImporter.set(lane.importerId, new Set());
-    lanesByImporter.get(lane.importerId).add(lane.exporterId);
-  }
-  const importerPartnerCounts = [...lanesByImporter.values()].map((partners) => partners.size);
   const topHubImporters = network.lanes
     .filter((lane) => lane.exporterId === topTradeHub)
     .map((lane) => lane.importerId);
-  const nonHubImporterPartnerCounts = [...lanesByImporter.entries()]
-    .filter(([importerId]) => importerId !== topTradeHub)
-    .map(([, partners]) => partners.size);
 
-  assert.ok(network.lanes.length < 50 * 49 * 0.35, `network should not create every pair; got ${network.lanes.length}`);
-  assert.ok(Math.max(...nonHubImporterPartnerCounts) <= 18, `non-hub partner count should stay bounded: ${Math.max(...nonHubImporterPartnerCounts)}`);
-  assert.ok(topHubImporters.length >= 32, `${topTradeHub} should be a trade hub for most importers, got ${topHubImporters.length}`);
+  assert.equal(network.lanes.length, data.nations.length * (data.nations.length - 1));
+  assert.equal(topHubImporters.length, data.nations.length - 1, `${topTradeHub} should have a physical lane to every market`);
+  assert.equal(network.worldPool.currentTradeFlow, totalsOnly.worldPool.currentTradeFlow);
+  assert.equal(network.nations[topTradeHub].exportFlow, totalsOnly.nations[topTradeHub].exportFlow);
 });
 
-test("Trade v3 balanced gravity gives active exporters buyers without showing a full mesh", () => {
+test("Trade v3 balanced gravity gives active exporters visible physical buyers", () => {
   const data = buildLargeTradeV3Scenario(50);
   Engine.recalculateAll(data);
 
@@ -488,10 +481,10 @@ test("Trade v3 balanced gravity gives active exporters buyers without showing a 
   assert.equal(zeroExporters.length, 0, `active exporters with no buyers: ${zeroExporters.map((row) => row.id).join(", ")}`);
   assert.ok(Math.abs(worldImports - network.worldPool.currentTradeFlow) <= data.nations.length, `${worldImports} should balance to ${network.worldPool.currentTradeFlow}`);
   assert.ok(Math.abs(worldExports - network.worldPool.currentTradeFlow) <= data.nations.length, `${worldExports} should balance to ${network.worldPool.currentTradeFlow}`);
-  assert.ok(network.lanes.length < 50 * 49 * 0.45, `display lanes should stay sparse; got ${network.lanes.length}`);
+  assert.equal(network.lanes.filter((lane) => lane.currentFlow > 0).length, network.lanes.length);
 });
 
-test("Trade v4 direct lanes concentrate small countries instead of listing every global hub", () => {
+test("Trade v4 exposes small-country hub lanes without inflating totals", () => {
   const data = buildLargeTradeV3Scenario(50);
   data.trade.nation_48.tradeFlow = 14500000;
   data.trade.nation_48.exportReliance = 160;
@@ -501,6 +494,7 @@ test("Trade v4 direct lanes concentrate small countries instead of listing every
   data.trade.nation_49.tradePolicy = "Free Trade";
   Engine.recalculateAll(data);
 
+  const totalsOnly = Engine.calculateTradeNetwork(data, { includeLanes: false });
   const network = Engine.calculateTradeNetwork(data);
   const smallImporters = data.nations
     .map((nation) => nation.id)
@@ -511,14 +505,14 @@ test("Trade v4 direct lanes concentrate small countries instead of listing every
     return { id, directCount: directImportLanes.length, directHubCount: directHubImports.length };
   });
   const smallCountriesListingBothHubs = smallPartnerRows.filter((row) => row.directHubCount >= 2);
-  const concentratedSmallCountries = smallPartnerRows.filter((row) => row.directCount <= 4);
 
-  assert.ok(smallCountriesListingBothHubs.length <= Math.ceil(smallImporters.length * 0.35), `${smallCountriesListingBothHubs.length} small countries listed both global hubs`);
-  assert.ok(concentratedSmallCountries.length >= Math.floor(smallImporters.length * 0.7), `${concentratedSmallCountries.length} small countries had concentrated direct lanes`);
+  assert.equal(smallCountriesListingBothHubs.length, smallImporters.length, "small countries should show tiny physical hub lanes");
+  assert.ok(smallPartnerRows.every((row) => row.directCount === data.nations.length - 1), "small importers should expose every positive physical import lane");
   assert.equal(Object.values(network.nations).filter((row) => row.exportFlow <= 0).length, 0);
+  assert.equal(network.worldPool.currentTradeFlow, totalsOnly.worldPool.currentTradeFlow);
 });
 
-test("Trade v4 visible lanes keep active exporters visible without collapsing to one hub", () => {
+test("Trade v4 visible lanes keep every active exporter physically visible", () => {
   const data = buildLargeTradeV3Scenario(50);
   data.trade.nation_48.tradeFlow = 14500000;
   data.trade.nation_48.exportReliance = 160;
@@ -542,9 +536,39 @@ test("Trade v4 visible lanes keep active exporters visible without collapsing to
   const importerPartnerCounts = Object.values(visibleImportCounts).sort((a, b) => a - b);
   const largestExporterLaneCount = Math.max(...Object.values(visibleExportCounts));
 
-  assert.ok(hiddenActiveExporters.length <= Math.ceil(activeExporters.length * 0.18), `${hiddenActiveExporters.length} active exporters had no visible buyers`);
-  assert.ok(importerPartnerCounts[Math.floor(importerPartnerCounts.length / 2)] >= 2, "median importer should have at least two direct partners");
-  assert.ok(largestExporterLaneCount < data.nations.length * 0.8, `one exporter dominates too many direct lanes: ${largestExporterLaneCount}`);
+  assert.equal(hiddenActiveExporters.length, 0, `${hiddenActiveExporters.length} active exporters had no visible buyers`);
+  assert.equal(importerPartnerCounts[Math.floor(importerPartnerCounts.length / 2)], data.nations.length - 1, "median importer should expose every positive physical partner");
+  assert.ok(largestExporterLaneCount <= data.nations.length - 1, `exporter lane count exceeded the directed market count: ${largestExporterLaneCount}`);
+});
+
+test("Trade v4 exposes tiny global hub lanes without changing balanced totals", () => {
+  const data = buildLargeTradeV3Scenario(50);
+  data.trade.nation_48.tradeFlow = 14500000;
+  data.trade.nation_48.exportReliance = 160;
+  data.trade.nation_48.tradePolicy = "Free Trade";
+  data.trade.nation_49.tradeFlow = 17700000;
+  data.trade.nation_49.exportReliance = 175;
+  data.trade.nation_49.tradePolicy = "Free Trade";
+  Engine.recalculateAll(data);
+
+  const totalsOnly = Engine.calculateTradeNetwork(data, { includeLanes: false });
+  const network = Engine.calculateTradeNetwork(data);
+  const hubExporterId = "nation_49";
+  const visibleHubImporters = new Set(
+    network.lanes
+      .filter((lane) => lane.exporterId === hubExporterId && lane.currentFlow > 0)
+      .map((lane) => lane.importerId)
+  );
+  const tinyHubLanes = network.lanes.filter(
+    (lane) => lane.exporterId === hubExporterId
+      && lane.currentFlow > 0
+      && lane.currentFlow < network.nations[hubExporterId].exportFlow * 0.01
+  );
+
+  assert.equal(visibleHubImporters.size, data.nations.length - 1, "global exporters should expose tiny physical lanes to every market");
+  assert.ok(tinyHubLanes.length >= 4, "tiny hub lanes should be visible instead of filtered out");
+  assert.equal(network.worldPool.currentTradeFlow, totalsOnly.worldPool.currentTradeFlow);
+  assert.equal(network.nations[hubExporterId].exportFlow, totalsOnly.nations[hubExporterId].exportFlow);
 });
 
 test("Trade map geography prioritizes nearby regional lanes over distant inland lanes", () => {

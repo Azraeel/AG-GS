@@ -1739,7 +1739,7 @@
       nations = summarizeTrackedLanes(ids, lanes, targetedTariffs, exportAnchors, importAnchors, lanePolicies, transitPolicies);
       const visibleLaneKeys = includeLanes ? selectVisibleLaneKeys(lanes, nations, inputsById, currentWorldPool, ids) : null;
       const visibleLanes = includeLanes
-        ? lanes.filter((lane) => visibleLaneKeys.has(laneKey(lane)))
+        ? lanes.filter((lane) => number(lane.currentFlow, 0) > 0 || visibleLaneKeys.has(laneKey(lane)))
         : [];
       return {
         lanes: visibleLanes,

@@ -129,3 +129,16 @@ test("trade network UI exposes route-network controls without adding panel chrom
   assert.match(styleSource, /\.trade-map-partner-meta/);
   assert.match(styleSource, /\.route-inline-facts/);
 });
+
+test("trade network UI exposes lane direction and flow-size filters", () => {
+  const appSource = fs.readFileSync(path.join(root, "site", "app.js"), "utf8");
+  const styleSource = fs.readFileSync(path.join(root, "site", "styles.css"), "utf8");
+
+  assert.match(appSource, /tradeNetworkDirectionFilter/);
+  assert.match(appSource, /tradeNetworkSizeFilter/);
+  assert.match(appSource, /data-trade-network-direction-filter/);
+  assert.match(appSource, /data-trade-network-size-filter/);
+  assert.match(appSource, /filterTradeNetworkRows/);
+  assert.match(appSource, /tradeNetworkRouteLimit/);
+  assert.match(styleSource, /\.trade-network-filter-band/);
+});
