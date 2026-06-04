@@ -1480,8 +1480,9 @@ select optgroup {
 }
 
 .trade-network-table-wrap {
-  overflow: auto;
-  height: clamp(260px, 32vh, 430px);
+  min-height: clamp(640px, 78vh, 980px);
+  overflow-x: auto;
+  overflow-y: visible;
   border-top: 1px solid var(--line);
   scrollbar-width: thin;
 }

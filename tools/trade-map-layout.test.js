@@ -63,7 +63,7 @@ test("trade map nation clicks preserve page scroll", () => {
   assert.doesNotMatch(keyBlock, /scrollToPageTop\(\)/);
 });
 
-test("trade map chrome stays compact instead of rendering filled dead space", () => {
+test("trade map chrome stays compact while the trade table gets a full working area", () => {
   const source = fs.readFileSync(path.join(root, "site", "styles.css"), "utf8");
   const commandRule = source.match(/\.trade-map-command\s*\{[^}]+\}/);
   const layoutRule = source.match(/\.trade-map-layout\s*\{[^}]+\}/);
@@ -85,7 +85,10 @@ test("trade map chrome stays compact instead of rendering filled dead space", ()
   assert.match(stageRule[0], /aspect-ratio:\s*8800\s*\/\s*5806/);
   assert.match(modebarRule[0], /flex-wrap:\s*nowrap/);
   assert.match(inspectorRule[0], /width:\s*min/);
-  assert.match(tableWrapRule[0], /height:\s*clamp/);
+  assert.match(tableWrapRule[0], /min-height:\s*clamp/);
+  assert.match(tableWrapRule[0], /overflow-x:\s*auto/);
+  assert.match(tableWrapRule[0], /overflow-y:\s*visible/);
+  assert.doesNotMatch(tableWrapRule[0], /(?:^|\n)\s*height:\s*clamp/);
   assert.doesNotMatch(tableWrapRule[0], /max-height/);
   assert.match(source, /:root\[data-theme="light"\]\s+\.trade-map-selected h2/);
   assert.match(source, /:root\[data-theme="light"\]\s+\.trade-map-route-list button/);
