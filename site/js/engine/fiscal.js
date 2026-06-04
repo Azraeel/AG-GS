@@ -1,4 +1,7 @@
 (function () {
+  const TRADE_V4_NORMALIZED_BALANCE_MIN = 10000;
+  const TRADE_V4_NORMALIZED_BALANCE_RATIO = 0.08;
+
   window.AGGS_ENGINE_MODULES = window.AGGS_ENGINE_MODULES || {};
 
   window.AGGS_ENGINE_MODULES.createFiscal = function createFiscal(deps) {
@@ -259,11 +262,17 @@
       return best.fiscal;
     }
 
+    function normalizeBudgetBalanceTarget(targetBalance, budgetCapacity) {
+      const band = Math.max(TRADE_V4_NORMALIZED_BALANCE_MIN, roundCurrency(number(budgetCapacity, 0) * TRADE_V4_NORMALIZED_BALANCE_RATIO));
+      return Math.max(-band, Math.min(band, roundCurrency(targetBalance)));
+    }
+
     function recalculateBudgets(data, options = {}) {
       const shouldUpdateDebt = options.updateDebt === true;
       const balanceTargets = data.meta?.tradeV4BudgetBalanceTargets && typeof data.meta.tradeV4BudgetBalanceTargets === "object" && !Array.isArray(data.meta.tradeV4BudgetBalanceTargets)
         ? data.meta.tradeV4BudgetBalanceTargets
         : null;
+      const balanceTargetMode = data.meta?.tradeV4BudgetBalanceTargetMode || "";
       for (const id of Object.keys(data.national || {})) {
         const national = data.national[id];
         const budgetCapacity = calculateBudgetForNation(data, id, {
@@ -272,7 +281,10 @@
         });
         if (budgetCapacity === null) continue;
         national.budgetCapacity = budgetCapacity;
-        const balanceTarget = balanceTargets ? number(balanceTargets[id], null) : null;
+        const rawBalanceTarget = balanceTargets ? number(balanceTargets[id], null) : null;
+        const balanceTarget = Number.isFinite(rawBalanceTarget) && balanceTargetMode === "normalize"
+          ? normalizeBudgetBalanceTarget(rawBalanceTarget, budgetCapacity)
+          : rawBalanceTarget;
         let fiscal = Number.isFinite(balanceTarget)
           ? applyBudgetBalanceTarget(data, id, national, budgetCapacity, balanceTarget)
           : calculateFiscalForNation(data, id, { budgetCapacity });
@@ -285,7 +297,10 @@
           if (fiscal) applyFiscalFields(national, fiscal);
         }
       }
-      if (balanceTargets && data.meta && options.keepTradeV4BudgetBalanceTargets !== true) delete data.meta.tradeV4BudgetBalanceTargets;
+      if (balanceTargets && data.meta && options.keepTradeV4BudgetBalanceTargets !== true) {
+        delete data.meta.tradeV4BudgetBalanceTargets;
+        delete data.meta.tradeV4BudgetBalanceTargetMode;
+      }
       return data;
     }
 

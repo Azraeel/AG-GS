@@ -353,3 +353,65 @@ test("Trade V4 recalculation settles trade and budget feedback in one call", () 
 
   assert.deepEqual(second, first);
 });
+
+test("Trade V4 fiscal normalization clamps stale already-migrated budget balances once", () => {
+  const Engine = loadEngine();
+  const data = valueAddedFixture();
+
+  Object.assign(data.national.xanaqu, {
+    budgetCapacity: 447274,
+    budgetExpenditure: 187932,
+    budgetBalance: 259244
+  });
+  Object.assign(data.national.aurendale, {
+    budgetCapacity: 204264,
+    budgetExpenditure: 137984,
+    budgetBalance: 66280
+  });
+  Object.assign(data.national.low_value_importer, {
+    budgetCapacity: 29364,
+    budgetExpenditure: 56095,
+    budgetBalance: -26731
+  });
+
+  Engine.recalculateAll(data);
+
+  assert.equal(data.meta.tradeV4FiscalBalanceVersion, "value-added-20260604");
+  assert.equal(data.meta.tradeV4BudgetBalanceTargets, undefined);
+  assert.equal(data.meta.tradeV4BudgetBalanceTargetMode, undefined);
+
+  for (const id of ["xanaqu", "aurendale", "low_value_importer"]) {
+    const national = data.national[id];
+    const maxBalance = Math.max(10000, Math.round(national.budgetCapacity * 0.08));
+    assert.ok(
+      Math.abs(national.budgetBalance) <= maxBalance + 1,
+      `expected ${id} balance ${national.budgetBalance} to be within ${maxBalance} of BC ${national.budgetCapacity}`
+    );
+  }
+
+  const first = Object.fromEntries(
+    ["xanaqu", "aurendale", "low_value_importer"].map((id) => [
+      id,
+      {
+        budgetCapacity: data.national[id].budgetCapacity,
+        budgetExpenditure: data.national[id].budgetExpenditure,
+        budgetBalance: data.national[id].budgetBalance
+      }
+    ])
+  );
+
+  Engine.recalculateAll(data);
+
+  const second = Object.fromEntries(
+    ["xanaqu", "aurendale", "low_value_importer"].map((id) => [
+      id,
+      {
+        budgetCapacity: data.national[id].budgetCapacity,
+        budgetExpenditure: data.national[id].budgetExpenditure,
+        budgetBalance: data.national[id].budgetBalance
+      }
+    ])
+  );
+
+  assert.deepEqual(second, first);
+});
