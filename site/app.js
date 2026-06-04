@@ -42,7 +42,7 @@
   const sharedSync = {
     enabled: !forceLocalPreview && location.protocol.startsWith("http") && !["localhost", "127.0.0.1", "::1"].includes(location.hostname),
     endpoint: window.AGGS_API_URL || (isAdmin ? "/admin/api/state" : "/api/state"),
-    pollMs: 2500,
+    pollMs: 1000,
     revision: null,
     status: "connecting",
     message: "",
@@ -284,8 +284,24 @@
     return Engine.getPopulation(data, id, year);
   }
 
+  function stripRuntimeFields(snapshot) {
+    if (snapshot.tradeNetwork?.geography) {
+      delete snapshot.tradeNetwork.geography;
+    }
+    return snapshot;
+  }
+
+  function persistenceSnapshot() {
+    return stripRuntimeFields(Engine.clone(data));
+  }
+
+  function saveLedger(options = {}) {
+    if (options.touch !== false) data.meta.updatedAt = new Date().toISOString();
+    Engine.save(persistenceSnapshot(), { touch: false });
+  }
+
   function saveWorkingState(message) {
-    Engine.save(data);
+    saveLedger();
     state.notice = message || "Saved locally.";
     scheduleSharedPublish(state.notice, 0);
     updateSourceNote();
@@ -337,13 +353,14 @@
     const nextRevision = Number(payload.revision || 0);
     if (nextRevision && nextRevision === sharedSync.revision) return false;
     data = Engine.normalizeState(Engine.clone(payload.data));
+    TradeMap.ensureGeography?.(data);
     Engine.recalculateAll(data);
     clearPendingEditDraft();
     pendingEdits.clear();
     sharedSync.revision = nextRevision || sharedSync.revision;
     sharedSync.updatedAt = payload.updatedAt || data.meta?.updatedAt || "";
     sharedSync.updatedBy = payload.updatedBy || data.meta?.updatedBy || "";
-    Engine.save(data, { touch: false });
+    saveLedger({ touch: false });
     populateNationSelect();
     updateSourceNote();
     state.notice = "";
@@ -461,7 +478,7 @@
     }
   }
 
-  function scheduleSharedPublish(message, delay = 900) {
+  function scheduleSharedPublish(message, delay = 0) {
     if (!sharedSync.enabled || !isAdmin) return;
     sharedSync.hasPendingLocalChange = true;
     markSync("publishing");
@@ -484,6 +501,7 @@
     markSync("publishing");
     try {
       data.meta.updatedAt = new Date().toISOString();
+      const publishData = persistenceSnapshot();
       const response = await fetch(sharedSync.endpoint, {
         method: "PUT",
         cache: "no-store",
@@ -492,7 +510,7 @@
           Accept: "application/json",
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ data, revision: sharedSync.revision })
+        body: JSON.stringify({ data: publishData, revision: sharedSync.revision })
       });
       const payload = await readSharedJson(response);
       if (!response.ok || !payload?.ok) throw new Error(payload?.message || "Publish failed.");
@@ -500,7 +518,7 @@
       sharedSync.updatedAt = payload.updatedAt || data.meta.updatedAt;
       sharedSync.updatedBy = payload.updatedBy || sharedSync.updatedBy;
       data.meta.updatedBy = sharedSync.updatedBy || data.meta.updatedBy;
-      Engine.save(data, { touch: false });
+      saveLedger({ touch: false });
       sharedSync.hasPendingLocalChange = false;
       sharedSync.isPublishing = false;
       markSync("online");
@@ -2009,7 +2027,7 @@
     }, ...(data.meta.changeHistory || [])].slice(0, 60);
     state.selectedNation = id;
     state.notice = `${name} created. Fill out its stats below.`;
-    Engine.save(data);
+    saveLedger();
     populateNationSelect();
     scheduleSharedPublish(state.notice);
     updateSourceNote();
@@ -2046,7 +2064,7 @@
     ensureSelectedNation();
     Engine.recalculateAll(data);
     state.notice = `${nation.name} archived.`;
-    Engine.save(data);
+    saveLedger();
     populateNationSelect();
     scheduleSharedPublish(state.notice);
     updateSourceNote();
@@ -2082,7 +2100,7 @@
     }, ...(data.meta.changeHistory || [])].slice(0, 60);
     Engine.recalculateAll(data);
     state.notice = `${nation.name} restored.`;
-    Engine.save(data);
+    saveLedger();
     populateNationSelect();
     scheduleSharedPublish(state.notice);
     updateSourceNote();
@@ -3083,7 +3101,7 @@
     const changes = recordChange(entryKey, id, dataset, path, afterValue, nationSnapshot(data, id));
     const bcDelta = changes.find((change) => change.key === "national.budgetCapacity");
     state.notice = `${byId(id)?.name || "Nation"} updated${bcDelta ? `; BC ${fmtSigned(bcDelta.delta)}` : ""}.`;
-    Engine.save(data);
+    saveLedger();
     scheduleSharedPublish(state.notice);
     updateSourceNote();
     if (renderNow) {
@@ -3244,12 +3262,12 @@
       } else if (action === "reset-state") {
         resetWorkingState();
       } else if (action === "export-json") {
-        downloadText(`ag-gs-${data.meta.currentYear}.json`, JSON.stringify(data, null, 2));
+        downloadText(`ag-gs-${data.meta.currentYear}.json`, JSON.stringify(persistenceSnapshot(), null, 2));
       } else if (action === "export-data-js") {
-        downloadText("data.js", Engine.exportDataJs(data), "text/javascript");
+        downloadText("data.js", Engine.exportDataJs(persistenceSnapshot()), "text/javascript");
       } else if (action === "publish-live-state") {
         flushPendingEdit(false);
-        Engine.save(data);
+        saveLedger();
         await publishSharedState("Published current state to the live ledger.");
       }
       return;
