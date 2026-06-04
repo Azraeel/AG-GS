@@ -17,6 +17,7 @@
       populateNationSelect,
       clearPendingChanges
     } = ctx;
+    const AUTO_PUBLISH_DELAY_MS = 1800;
 
     function stripRuntimeFields(snapshot) {
       if (snapshot.tradeNetwork?.geography) {
@@ -38,7 +39,7 @@
     function saveWorkingState(message) {
       saveLedger();
       state.notice = message || "Saved locally.";
-      scheduleSharedPublish(state.notice, 0);
+      scheduleSharedPublish(state.notice);
       updateSourceNote();
       render();
     }
@@ -136,6 +137,40 @@
       }
     }
 
+    async function fetchSharedMeta() {
+      if (!sharedSync.enabled || sharedSync.isPublishing || sharedSync.hasPendingLocalChange) return;
+      if (!sharedSync.revision) {
+        await fetchSharedState();
+        return;
+      }
+      try {
+        const response = await fetch(sharedSync.metaEndpoint, {
+          cache: "no-store",
+          credentials: "same-origin",
+          headers: { Accept: "application/json" }
+        });
+        const payload = await readSharedJson(response);
+        if (response.status === 404 && payload?.code === "NO_SHARED_STATE") {
+          markSync("ready-empty", payload.message || "");
+          return;
+        }
+        if (!response.ok || !payload?.ok) {
+          markSync("offline", payload?.message || "Shared sync is unavailable.");
+          return;
+        }
+        const nextRevision = Number(payload.revision || 0);
+        if (nextRevision && nextRevision !== sharedSync.revision) {
+          await fetchSharedState();
+          return;
+        }
+        sharedSync.updatedAt = payload.updatedAt || sharedSync.updatedAt;
+        sharedSync.updatedBy = payload.updatedBy || sharedSync.updatedBy;
+        markSync("online");
+      } catch (error) {
+        markSync("offline", "Shared sync is unavailable.");
+      }
+    }
+
     async function fetchSnapshots(force = false) {
       if (!sharedSync.enabled || !isAdmin || sharedSync.isLoadingSnapshots) return;
       if (!force && sharedSync.snapshotsLoaded) return;
@@ -212,13 +247,18 @@
       }
     }
 
-    function scheduleSharedPublish(message, delay = 0) {
+    function scheduleSharedPublish(message, delay = AUTO_PUBLISH_DELAY_MS) {
       if (!sharedSync.enabled || !isAdmin) return;
       sharedSync.hasPendingLocalChange = true;
+      sharedSync.pendingPublishMessage = message || sharedSync.pendingPublishMessage || "Published live changes.";
       markSync("publishing");
+      if (sharedSync.isPublishing) {
+        sharedSync.publishQueued = true;
+        return;
+      }
       clearTimeout(sharedSync.publishTimer);
       sharedSync.publishTimer = setTimeout(() => {
-        publishSharedState(message);
+        publishSharedState(sharedSync.pendingPublishMessage);
       }, delay);
     }
 
@@ -230,9 +270,17 @@
         render();
         return;
       }
+      if (sharedSync.isPublishing) {
+        sharedSync.hasPendingLocalChange = true;
+        sharedSync.publishQueued = true;
+        sharedSync.pendingPublishMessage = message;
+        markSync("publishing");
+        return;
+      }
       clearTimeout(sharedSync.publishTimer);
       sharedSync.hasPendingLocalChange = true;
       sharedSync.isPublishing = true;
+      sharedSync.pendingPublishMessage = message;
       markSync("publishing");
       try {
         data.meta.updatedAt = new Date().toISOString();
@@ -254,8 +302,14 @@
         sharedSync.updatedBy = payload.updatedBy || sharedSync.updatedBy;
         data.meta.updatedBy = sharedSync.updatedBy || data.meta.updatedBy;
         saveLedger({ touch: false });
-        sharedSync.hasPendingLocalChange = false;
         sharedSync.isPublishing = false;
+        if (sharedSync.publishQueued) {
+          sharedSync.publishQueued = false;
+          scheduleSharedPublish(sharedSync.pendingPublishMessage || message, AUTO_PUBLISH_DELAY_MS);
+          return;
+        }
+        sharedSync.hasPendingLocalChange = false;
+        sharedSync.pendingPublishMessage = "";
         markSync("online");
         state.notice = message;
         fetchSnapshots(true);
@@ -278,9 +332,9 @@
         return;
       }
       fetchSharedState();
-      sharedSync.pollTimer = setInterval(fetchSharedState, sharedSync.pollMs);
+      sharedSync.pollTimer = setInterval(fetchSharedMeta, sharedSync.pollMs);
       document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) fetchSharedState();
+        if (!document.hidden) fetchSharedMeta();
       });
     }
 
@@ -292,6 +346,7 @@
       downloadText,
       markSync,
       fetchSharedState,
+      fetchSharedMeta,
       fetchSnapshots,
       revertSelectedSnapshot,
       exportSelectedSnapshot,

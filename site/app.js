@@ -39,10 +39,12 @@
   const adminOnlyTabs = new Set(AppConfig.adminOnlyTabs);
   const adminOnlyActions = new Set(AppConfig.adminOnlyActions);
   const forceLocalPreview = window.AGGS_DISABLE_SHARED_SYNC === true || location.hostname.endsWith(".pages.dev");
+  const sharedSyncEndpoint = window.AGGS_API_URL || (isAdmin ? "/admin/api/state" : "/api/state");
   const sharedSync = {
     enabled: !forceLocalPreview && location.protocol.startsWith("http") && !["localhost", "127.0.0.1", "::1"].includes(location.hostname),
-    endpoint: window.AGGS_API_URL || (isAdmin ? "/admin/api/state" : "/api/state"),
-    pollMs: 1000,
+    endpoint: sharedSyncEndpoint,
+    metaEndpoint: `${sharedSyncEndpoint.replace(/\/$/, "")}/meta`,
+    pollMs: 3000,
     revision: null,
     status: "connecting",
     message: "",
@@ -53,6 +55,8 @@
     isLoadingSnapshots: false,
     isPublishing: false,
     hasPendingLocalChange: false,
+    publishQueued: false,
+    pendingPublishMessage: "",
     publishTimer: null,
     pollTimer: null
   };
