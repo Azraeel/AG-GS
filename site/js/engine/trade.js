@@ -26,6 +26,8 @@
     const KHALINDAR_CALIBRATION_AREA_SQ_MI = 7_260_000;
     const DEFAULT_SQ_MI_PER_MAP_AREA_UNIT = 18_150;
     const TRANSIT_MODES = ["Open", "Block Land", "Block Maritime", "Block All"];
+    const routeNetworkCacheByData = new WeakMap();
+    const ROUTE_NETWORK_CACHE_LIMIT = 16;
 
     function tradeFormulaVersion(data, options = {}) {
       const version = options.tradeFormulaVersion || options.tradeVersion || data.meta?.tradeFormulaVersion || "legacy";
@@ -967,6 +969,74 @@
       return null;
     }
 
+    function stableRouteKey(value) {
+      if (value === null || value === undefined) return "";
+      if (Array.isArray(value)) return `[${value.map(stableRouteKey).join(",")}]`;
+      if (typeof value === "object") {
+        return `{${Object.keys(value).sort().map((key) => `${key}:${stableRouteKey(value[key])}`).join(",")}}`;
+      }
+      return String(value);
+    }
+
+    function pointRouteSignature(point) {
+      if (!point) return "";
+      return `${roundPercent(number(point.x, 0))},${roundPercent(number(point.y, 0))}`;
+    }
+
+    function geographyRouteSignature(geography = {}) {
+      return Object.keys(geography || {})
+        .sort()
+        .map((id) => {
+          const geo = geography[id] || {};
+          return [
+            id,
+            pointRouteSignature(geo),
+            pointRouteSignature(geo.capital),
+            pointRouteSignature(geo.primaryPort),
+            geo.region || "",
+            geo.oceanZone || "",
+            geo.coastal === true ? "coastal" : "",
+            geo.landlocked === true ? "landlocked" : "",
+            roundPercent(number(geo.portStrength, 0)),
+            (geo.routeAccess || []).slice().sort().join(","),
+            (geo.neighborIds || []).slice().sort().join(",")
+          ].join(":");
+        })
+        .join("|");
+    }
+
+    function routeOverlaySignature(data) {
+      const geography = tradeNetworkState(data).geography || {};
+      const mesh = geography.routeMesh;
+      const skeleton = geography.laneSkeleton;
+      return [
+        mesh?.version || "",
+        Array.isArray(mesh?.nodes) ? mesh.nodes.length : 0,
+        Array.isArray(mesh?.edges) ? mesh.edges.length : 0,
+        skeleton?.version || "",
+        Array.isArray(skeleton?.nodes) ? skeleton.nodes.length : 0,
+        Array.isArray(skeleton?.edges) ? skeleton.edges.length : 0
+      ].join(":");
+    }
+
+    function routeNetworkCacheForData(data) {
+      let cache = routeNetworkCacheByData.get(data);
+      if (!cache) {
+        cache = new Map();
+        routeNetworkCacheByData.set(data, cache);
+      }
+      return cache;
+    }
+
+    function routeNetworkCacheKey(data, geography, transitPolicies, chokepoints) {
+      return [
+        routeOverlaySignature(data),
+        geographyRouteSignature(geography),
+        stableRouteKey(transitPolicies),
+        stableRouteKey(chokepoints)
+      ].join("||");
+    }
+
     function cachedRouteMeshPath(context, startPoint, endPoint) {
       if (!context.routeMesh) return null;
       const key = `${roundPercent(startPoint.x)},${roundPercent(startPoint.y)}>${roundPercent(endPoint.x)},${roundPercent(endPoint.y)}`;
@@ -1272,6 +1342,18 @@
         routeMesh: routeMesh ? { version: routeMesh.version, nodeCount: routeMesh.nodes.length } : null,
         chokepoints
       };
+    }
+
+    function cachedRouteNetwork(data, geography, options = {}) {
+      const transitPolicies = cloneTransitPolicies(options.transitPolicies || {});
+      const chokepoints = cloneChokepoints(options.chokepoints || {});
+      const cache = routeNetworkCacheForData(data);
+      const key = routeNetworkCacheKey(data, geography, transitPolicies, chokepoints);
+      if (cache.has(key)) return cache.get(key);
+      const routeNetwork = buildRouteNetwork(data, geography, { transitPolicies, chokepoints });
+      if (cache.size >= ROUTE_NETWORK_CACHE_LIMIT) cache.clear();
+      cache.set(key, routeNetwork);
+      return routeNetwork;
     }
 
     function routeForLane(routeNetwork, importerId, exporterId) {
@@ -1631,8 +1713,8 @@
       const transitPolicies = options.transitPolicies || {};
       const chokepoints = options.chokepoints || {};
       const geography = geographyProfiles(data);
-      const routeNetwork = buildRouteNetwork(data, geography, { transitPolicies, chokepoints });
-      const neutralRouteNetwork = buildRouteNetwork(data, geography, { transitPolicies: {}, chokepoints: {} });
+      const routeNetwork = cachedRouteNetwork(data, geography, { transitPolicies, chokepoints });
+      const neutralRouteNetwork = cachedRouteNetwork(data, geography, { transitPolicies: {}, chokepoints: {} });
       const lanes = [];
       let nations = Object.fromEntries(ids.map((id) => [id, networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies, transitPolicies)]));
       const demandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id])]));
