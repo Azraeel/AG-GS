@@ -184,7 +184,8 @@
   }
 
   function tradeLaneSkeleton() {
-    return root.AGGS_TRADE_LANE_SKELETON || null;
+    const skeleton = root.AGGS_TRADE_LANE_SKELETON;
+    return skeleton && typeof skeleton === "object" && !Array.isArray(skeleton) && Array.isArray(skeleton.nodes) && Array.isArray(skeleton.edges) ? skeleton : null;
   }
 
   function sourceLabelMap() {

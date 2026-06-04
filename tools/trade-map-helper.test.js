@@ -187,6 +187,7 @@ test("trade map helper draws solved route polylines when lane path points exist"
 });
 
 test("ensureGeography attaches the precision lane skeleton manifest", () => {
+  const hadLaneSkeleton = Object.prototype.hasOwnProperty.call(global, "AGGS_TRADE_LANE_SKELETON");
   const previousLaneSkeleton = global.AGGS_TRADE_LANE_SKELETON;
   global.AGGS_TRADE_LANE_SKELETON = {
     version: "unit-test-lanes",
@@ -201,7 +202,11 @@ test("ensureGeography attaches the precision lane skeleton manifest", () => {
   try {
     TradeMap.ensureGeography(unitData);
   } finally {
-    global.AGGS_TRADE_LANE_SKELETON = previousLaneSkeleton;
+    if (hadLaneSkeleton) {
+      global.AGGS_TRADE_LANE_SKELETON = previousLaneSkeleton;
+    } else {
+      delete global.AGGS_TRADE_LANE_SKELETON;
+    }
   }
 
   assert.equal(unitData.tradeNetwork.geography.laneSkeleton.version, "unit-test-lanes");
