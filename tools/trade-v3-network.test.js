@@ -800,6 +800,165 @@ test("Trade route network prefers precision lane skeleton over coarse route mesh
   assert.ok(lane.routePath.some((point) => point.y >= 80), "route should follow the southern precision trunk");
 });
 
+test("Trade route network falls back to route mesh when precision skeleton chokepoint is blockaded", () => {
+  const data = buildLargeTradeV3Scenario(2);
+  const [exporter, importer] = data.nations.map((nation) => nation.id);
+  for (const id of [exporter, importer]) {
+    data.trade[id].tradeFlow = 1000000;
+    data.trade[id].importReliance = 180;
+    data.trade[id].exportReliance = 180;
+    data.trade[id].economicTradeDiversity = 160;
+    data.trade[id].tradePolicy = "Free Trade";
+    data.trade[id].tariffRate = 3;
+  }
+  data.trade[exporter].exportReliance = 220;
+  data.trade[importer].importReliance = 220;
+  data.tradeNetwork = {
+    chokepoints: {
+      test_strait: {
+        status: "Blockaded",
+        severity: 100
+      }
+    },
+    geography: {
+      map: {
+        squareMilesPerMapUnit: 10000
+      },
+      laneSkeleton: {
+        version: "unit-test-blocked-skeleton",
+        nodes: [
+          { id: "lane:west_gate", type: "lane", x: 20, y: 70, zones: ["west_sea"] },
+          { id: "lane:test_strait", type: "chokepoint", x: 50, y: 82, zoneId: "test_strait", zones: ["test_strait"] },
+          { id: "lane:east_gate", type: "lane", x: 80, y: 70, zones: ["east_sea"] }
+        ],
+        edges: [
+          {
+            from: "lane:west_gate",
+            to: "lane:test_strait",
+            cost: 22,
+            zones: ["west_sea", "test_strait"],
+            chokepoints: ["test_strait"],
+            path: [{ x: 20, y: 70 }, { x: 35, y: 82 }, { x: 50, y: 82 }]
+          },
+          {
+            from: "lane:test_strait",
+            to: "lane:east_gate",
+            cost: 22,
+            zones: ["test_strait", "east_sea"],
+            chokepoints: ["test_strait"],
+            path: [{ x: 50, y: 82 }, { x: 66, y: 82 }, { x: 80, y: 70 }]
+          }
+        ]
+      },
+      routeMesh: {
+        version: "unit-test-open-mesh",
+        nodes: [
+          { id: "zone:west_open", zoneId: "west_open", type: "sea_zone", x: 20, y: 70 },
+          { id: "zone:north_open", zoneId: "north_open", type: "sea_zone", x: 50, y: 52 },
+          { id: "zone:east_open", zoneId: "east_open", type: "sea_zone", x: 80, y: 70 }
+        ],
+        edges: [
+          { from: "zone:west_open", to: "zone:north_open", cost: 25 },
+          { from: "zone:north_open", to: "zone:east_open", cost: 25 }
+        ]
+      },
+      nations: {
+        [exporter]: {
+          x: 18,
+          y: 68,
+          coastal: true,
+          portStrength: 8,
+          routeAccess: ["ocean"],
+          primaryPort: { x: 18, y: 68 }
+        },
+        [importer]: {
+          x: 82,
+          y: 68,
+          coastal: true,
+          portStrength: 8,
+          routeAccess: ["ocean"],
+          primaryPort: { x: 82, y: 68 }
+        }
+      }
+    }
+  };
+
+  Engine.recalculateAll(data);
+  const network = Engine.calculateTradeNetwork(data);
+  const lane = network.lanes.find((entry) => entry.importerId === importer && entry.exporterId === exporter);
+
+  assert.equal(lane.routeMode, "maritime");
+  assert.equal(lane.transitBlocked, false);
+  assert.equal(lane.routeMeshVersion, "unit-test-open-mesh");
+  assert.ok(lane.routeNodes.includes("zone:north_open"), `expected open mesh route: ${lane.routeNodes.join(" > ")}`);
+  assert.ok(!lane.routeNodes.includes("lane:test_strait"), `blocked skeleton route should not be final path: ${lane.routeNodes.join(" > ")}`);
+});
+
+test("Trade route network appends lane skeleton edge endpoint when authored path omits it", () => {
+  const data = buildLargeTradeV3Scenario(2);
+  const [exporter, importer] = data.nations.map((nation) => nation.id);
+  for (const id of [exporter, importer]) {
+    data.trade[id].tradeFlow = 1000000;
+    data.trade[id].importReliance = 180;
+    data.trade[id].exportReliance = 180;
+    data.trade[id].economicTradeDiversity = 160;
+    data.trade[id].tradePolicy = "Free Trade";
+    data.trade[id].tariffRate = 3;
+  }
+  data.trade[exporter].exportReliance = 220;
+  data.trade[importer].importReliance = 220;
+  data.tradeNetwork = {
+    geography: {
+      map: {
+        squareMilesPerMapUnit: 10000
+      },
+      laneSkeleton: {
+        version: "unit-test-omitted-endpoint",
+        nodes: [
+          { id: "lane:west_gate", type: "lane", x: 20, y: 70, zones: ["west_sea"] },
+          { id: "lane:east_gate", type: "lane", x: 80, y: 70, zones: ["east_sea"] }
+        ],
+        edges: [
+          {
+            from: "lane:west_gate",
+            to: "lane:east_gate",
+            cost: 40,
+            zones: ["west_sea", "east_sea"],
+            path: [{ x: 20, y: 70 }, { x: 48, y: 84 }]
+          }
+        ]
+      },
+      nations: {
+        [exporter]: {
+          x: 18,
+          y: 68,
+          coastal: true,
+          portStrength: 8,
+          routeAccess: ["ocean"],
+          primaryPort: { x: 18, y: 68 }
+        },
+        [importer]: {
+          x: 82,
+          y: 68,
+          coastal: true,
+          portStrength: 8,
+          routeAccess: ["ocean"],
+          primaryPort: { x: 82, y: 68 }
+        }
+      }
+    }
+  };
+
+  Engine.recalculateAll(data);
+  const network = Engine.calculateTradeNetwork(data);
+  const lane = network.lanes.find((entry) => entry.importerId === importer && entry.exporterId === exporter);
+  const endpointIndex = lane.routePath.findIndex((point) => point.x === 80 && point.y === 70);
+
+  assert.equal(lane.routeMeshVersion, "unit-test-omitted-endpoint");
+  assert.ok(endpointIndex > -1, `route path should append omitted east gate endpoint: ${JSON.stringify(lane.routePath)}`);
+  assert.ok(endpointIndex < lane.routePath.length - 1, "route path should include the lane endpoint before the destination port");
+});
+
 test("Trade route network reroutes landlocked trade when a transit country blocks access", () => {
   const data = buildLargeTradeV3Scenario(4);
   const [inland, primaryPort, alternatePort, buyer] = data.nations.map((nation) => nation.id);

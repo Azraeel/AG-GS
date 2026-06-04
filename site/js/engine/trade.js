@@ -851,9 +851,8 @@
         const edge = edgeByStep.get(edgeKey(from, to));
         if (edge?.path?.length) {
           for (const point of edge.path) pushPoint(point);
-        } else {
-          pushPoint(pointById[to]);
         }
+        pushPoint(pointById[to]);
       }
       return routePath;
     }
@@ -1156,41 +1155,52 @@
         for (const importPort of importerPorts.filter((option) => !option.blockedBy.length)) {
           const startPoint = routePointForGeography(exportPort.port);
           const endPoint = routePointForGeography(importPort.port);
-          const meshRoute = exportPort.portId === importPort.portId
-            ? null
-            : (laneSkeleton ? cachedLaneSkeletonPath(context, startPoint, endPoint) : null)
-              || (routeMesh ? cachedRouteMeshPath(context, startPoint, endPoint) : null);
-          const oceanUnits = exportPort.portId === importPort.portId
-            ? 0
-            : meshRoute
-              ? meshRoute.distanceUnits
-              : mapDistanceUnits(exportPort.port, importPort.port, scale, true) * 0.88;
-          const chokepointIds = meshRoute?.chokepoints?.length
-            ? meshRoute.chokepoints
-            : routeChokepointsForOcean(exportPort.port, importPort.port);
-          const chokepoint = chokepointPenalty(chokepoints, chokepointIds, importerId, exporterId);
-          if (chokepoint.blocked) continue;
-          const distanceUnits = exportPort.landUnits + oceanUnits + importPort.landUnits;
-          const routeType = exportPort.portId === exporterId && importPort.portId === importerId
-            ? "ocean"
-            : oceanUnits <= 0
-              ? "regional"
-              : "land-sea";
-          const multiplier = routeEfficiencyMultiplier(routeType, distanceUnits, scale, exportPort.port, importPort.port, chokepoint.factor);
-          candidates.push({
-            routeType,
-            routeMode: oceanUnits > 0 ? "maritime" : "land",
-            distanceUnits,
-            multiplier,
-            transitPath: uniqueRoutePath([...exportPort.path, ...importPort.path.slice().reverse()]),
-            routePath: meshRoute?.routePath || [],
-            routeNodes: meshRoute?.routeNodes || [],
-            routeZones: meshRoute?.routeZones || [],
-            routeMeshVersion: meshRoute?.routeMeshVersion || "",
-            chokepoints: chokepointIds,
-            chokepointSeverity: chokepoint.severity,
-            transitBlockedBy: []
-          });
+          const pushOceanCandidate = (oceanRoute) => {
+            const oceanUnits = exportPort.portId === importPort.portId
+              ? 0
+              : oceanRoute
+                ? oceanRoute.distanceUnits
+                : mapDistanceUnits(exportPort.port, importPort.port, scale, true) * 0.88;
+            const chokepointIds = oceanRoute?.chokepoints?.length
+              ? oceanRoute.chokepoints
+              : routeChokepointsForOcean(exportPort.port, importPort.port);
+            const chokepoint = chokepointPenalty(chokepoints, chokepointIds, importerId, exporterId);
+            if (chokepoint.blocked) return false;
+            const distanceUnits = exportPort.landUnits + oceanUnits + importPort.landUnits;
+            const routeType = exportPort.portId === exporterId && importPort.portId === importerId
+              ? "ocean"
+              : oceanUnits <= 0
+                ? "regional"
+                : "land-sea";
+            const multiplier = routeEfficiencyMultiplier(routeType, distanceUnits, scale, exportPort.port, importPort.port, chokepoint.factor);
+            candidates.push({
+              routeType,
+              routeMode: oceanUnits > 0 ? "maritime" : "land",
+              distanceUnits,
+              multiplier,
+              transitPath: uniqueRoutePath([...exportPort.path, ...importPort.path.slice().reverse()]),
+              routePath: oceanRoute?.routePath || [],
+              routeNodes: oceanRoute?.routeNodes || [],
+              routeZones: oceanRoute?.routeZones || [],
+              routeMeshVersion: oceanRoute?.routeMeshVersion || "",
+              chokepoints: chokepointIds,
+              chokepointSeverity: chokepoint.severity,
+              transitBlockedBy: []
+            });
+            return true;
+          };
+          if (exportPort.portId === importPort.portId) {
+            pushOceanCandidate(null);
+            continue;
+          }
+          const skeletonRoute = laneSkeleton ? cachedLaneSkeletonPath(context, startPoint, endPoint) : null;
+          if (skeletonRoute && pushOceanCandidate(skeletonRoute)) continue;
+          const meshRoute = routeMesh ? cachedRouteMeshPath(context, startPoint, endPoint) : null;
+          if (meshRoute) {
+            pushOceanCandidate(meshRoute);
+          } else if (!skeletonRoute) {
+            pushOceanCandidate(null);
+          }
         }
       }
 
