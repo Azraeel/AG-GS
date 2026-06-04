@@ -473,6 +473,7 @@
         capital: raw.capital || null,
         primaryPort: raw.primaryPort || null,
         neighborIds: Array.isArray(raw.neighborIds) ? raw.neighborIds : [],
+        landRouteExclusions: Array.isArray(raw.landRouteExclusions) ? raw.landRouteExclusions.map((id) => String(id || "")).filter(Boolean) : [],
         borderDistances,
         borderCandidates: Array.isArray(raw.borderCandidates) ? raw.borderCandidates : [],
         mapPosition: raw.mapPosition || null,
@@ -557,6 +558,15 @@
 
     function sameRouteRegion(left, right) {
       return Boolean(left?.region && right?.region && left.region !== "global" && right.region !== "global" && left.region === right.region);
+    }
+
+    function landRouteExcluded(left, right) {
+      return (left?.landRouteExclusions || []).includes(right?.id) || (right?.landRouteExclusions || []).includes(left?.id);
+    }
+
+    function regionalRouteMode(importerGeo, exporterGeo, directBorderUnits) {
+      if (directBorderUnits !== null && directBorderUnits <= 3.5) return "land";
+      return landRouteExcluded(importerGeo, exporterGeo) ? "maritime" : "land";
     }
 
     function transitModeFor(transitPolicies, blockerId, targetId) {
@@ -999,7 +1009,8 @@
             geo.landlocked === true ? "landlocked" : "",
             roundPercent(number(geo.portStrength, 0)),
             (geo.routeAccess || []).slice().sort().join(","),
-            (geo.neighborIds || []).slice().sort().join(",")
+            (geo.neighborIds || []).slice().sort().join(","),
+            (geo.landRouteExclusions || []).slice().sort().join(",")
           ].join(":");
         })
         .join("|");
@@ -1205,7 +1216,7 @@
         const multiplier = routeEfficiencyMultiplier("regional", directMapUnits, scale, exporterGeo, importerGeo, 1);
         candidates.push({
           routeType: "regional",
-          routeMode: "land",
+          routeMode: regionalRouteMode(importerGeo, exporterGeo, directBorderUnits),
           distanceUnits: directMapUnits,
           multiplier,
           transitPath: [exporterId, importerId],
