@@ -79,6 +79,105 @@
     return Math.min(72, Math.max(14, rows.length));
   }
 
+  function laneUsesTransitNation(lane, nationId) {
+    if (!lane || lane.importerId === nationId || lane.exporterId === nationId) return false;
+    return (lane.transitPath || []).includes(nationId);
+  }
+
+  function laneHasLandlockedEndpoint(lane) {
+    const geography = data.tradeNetwork?.geography?.nations || {};
+    return geography[lane.importerId]?.landlocked === true || geography[lane.exporterId]?.landlocked === true;
+  }
+
+  function transitPathLabel(path = []) {
+    return (path || [])
+      .map((nationId) => byId(nationId)?.name || nationId)
+      .filter(Boolean)
+      .join(" -> ");
+  }
+
+  function transitRowsForNation(nationId, network) {
+    return (network.lanes || [])
+      .filter((lane) => Engine.number(lane.currentFlow, 0) > 0 && laneUsesTransitNation(lane, nationId))
+      .map((lane) => ({
+        lane,
+        importer: byId(lane.importerId),
+        exporter: byId(lane.exporterId),
+        flow: Engine.number(lane.currentFlow, 0),
+        pathLabel: transitPathLabel(lane.transitPath),
+        landlocked: laneHasLandlockedEndpoint(lane)
+      }))
+      .sort((left, right) => right.flow - left.flow);
+  }
+
+  function routeInvestmentHtml(selected) {
+    const investment = Engine.routeInvestmentFor?.(data, selected.id) || { portAccess: 0, transitCorridor: 0 };
+    const portInputId = `route-investment-port-${selected.id}`.replace(/[^a-z0-9_-]/gi, "-");
+    const corridorInputId = `route-investment-corridor-${selected.id}`.replace(/[^a-z0-9_-]/gi, "-");
+    return `
+      <div class="route-investment-band">
+        <div class="route-investment-title">
+          <span class="section-kicker">Route Upgrades</span>
+          <strong>${safeText(selected.name)}</strong>
+        </div>
+        <div class="route-investment-readout">
+          <div>
+            <span>Port Access</span>
+            <strong>${fmtNumber(investment.portAccess || 0)} / 10</strong>
+          </div>
+          <div>
+            <span>Transit Corridors</span>
+            <strong>${fmtNumber(investment.transitCorridor || 0)} / 10</strong>
+          </div>
+        </div>
+        ${isAdmin ? `
+          <div class="route-investment-controls">
+            <label>
+              <span>Port Access</span>
+              <input id="${escapeHtml(portInputId)}" type="number" min="0" max="10" step="0.1" value="${escapeHtml(investment.portAccess || 0)}" inputmode="decimal" data-route-investment-input>
+            </label>
+            <label>
+              <span>Transit Corridors</span>
+              <input id="${escapeHtml(corridorInputId)}" type="number" min="0" max="10" step="0.1" value="${escapeHtml(investment.transitCorridor || 0)}" inputmode="decimal" data-route-investment-input>
+            </label>
+            <button class="command compact" type="button" data-action="set-route-investment" data-nation-id="${escapeHtml(selected.id)}" data-port-input-id="${escapeHtml(portInputId)}" data-corridor-input-id="${escapeHtml(corridorInputId)}">Apply</button>
+            <button class="command compact" type="button" data-action="clear-route-investment" data-nation-id="${escapeHtml(selected.id)}" ${investment.portAccess || investment.transitCorridor ? "" : "disabled"}>Clear</button>
+          </div>` : ""}
+      </div>`;
+  }
+
+  function transitThroughHtml(selected, transitRows) {
+    const shownRows = transitRows.slice(0, 10);
+    const totalFlow = transitRows.reduce((total, row) => total + row.flow, 0);
+    return `
+      <div class="trade-transit-band">
+        <div class="trade-transit-title">
+          <span class="section-kicker">Transit Through You</span>
+          <strong>${fmtNumber(transitRows.length)} lanes / ${fmtNumber(totalFlow)} flow</strong>
+        </div>
+        <div class="trade-transit-list">
+          ${shownRows.length ? shownRows.map((row) => {
+            const lane = row.lane;
+            const routeBits = [
+              lane.routeMode || lane.routeType || "route",
+              lane.routeEfficiency === null || lane.routeEfficiency === undefined ? "" : `${fmtPercent(lane.routeEfficiency)} eff`,
+              row.landlocked ? "landlocked endpoint" : ""
+            ].filter(Boolean).join(" / ");
+            return `
+              <div class="trade-transit-row">
+                <div>
+                  <strong>${safeText(row.exporter?.name || lane.exporterId)} -> ${safeText(row.importer?.name || lane.importerId)}</strong>
+                  <span>${safeText(row.pathLabel || selected.name)}</span>
+                </div>
+                <span>${fmtNumber(row.flow)}</span>
+                <span>${safeText(routeBits)}</span>
+              </div>`;
+          }).join("") : `<div class="trade-transit-empty">No active foreign lanes are using this country for transit.</div>`}
+          ${transitRows.length > shownRows.length ? `<div class="trade-transit-more">+${fmtNumber(transitRows.length - shownRows.length)} more active lanes</div>` : ""}
+        </div>
+      </div>`;
+  }
+
   function targetedTariffControl(selectedId, partnerId, lane, override) {
     const inputId = `targeted-tariff-${selectedId}-${partnerId}`.replace(/[^a-z0-9_-]/gi, "-");
     const value = override !== undefined ? override : Engine.number(lane?.tariffRate, data.trade?.[selectedId]?.tariffRate ?? 0);
@@ -151,10 +250,13 @@
     const choke = Engine.number(lane.chokepointSeverity, 0) > 0
       ? `Strait -${fmtPercent(lane.chokepointSeverity)}`
       : "";
+    const upgrade = Engine.number(lane.routeInvestmentBonus, 0) > 0
+      ? `Upgrade +${fmtPercent(lane.routeInvestmentBonus)}`
+      : "";
     return `
       <div class="route-inline-facts">
         <strong>${safeText(miles)}</strong>
-        <span>${safeText([mode, efficiency, choke].filter(Boolean).join(" / "))}</span>
+        <span>${safeText([mode, efficiency, choke, upgrade].filter(Boolean).join(" / "))}</span>
       </div>`;
   }
 
@@ -508,7 +610,7 @@
   function renderTradeNetwork() {
     Engine.ensureTradeV3Migration(data);
     TradeMap.ensureGeography?.(data);
-    const network = Engine.calculateTradeNetwork(data);
+    const network = Engine.calculateTradeNetwork(data, { laneVisibility: "all" });
     const selected = byId(state.selectedNation) || sortedNations()[0];
     if (!selected) {
       app.innerHTML = `
@@ -534,6 +636,7 @@
     const worldPoolDelta = Engine.number(worldPool.tradeFlowDelta, 0);
     const allRows = tradeNetworkPartnerRows(selected.id, network);
     const rows = filterTradeNetworkRows(allRows, impact);
+    const transitRows = transitRowsForNation(selected.id, network);
     const activeTargets = allRows.filter((row) => row.override !== undefined).length;
     const tradeMetrics = [
       { label: "Partners", value: allRows.length === rows.length ? fmtNumber(rows.length) : `${fmtNumber(rows.length)} / ${fmtNumber(allRows.length)}` },
@@ -551,6 +654,8 @@
     app.innerHTML = `
       <section class="trade-network-workspace" style="--nation-color:${safeColor(selected.color)}">
         ${tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool)}
+        ${transitThroughHtml(selected, transitRows)}
+        ${routeInvestmentHtml(selected)}
         ${tradeGeneratorHtml(selected)}
         <div class="trade-network-table-wrap" data-table-scroll="tradeNetwork">
           <table class="trade-network-table">

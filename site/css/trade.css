@@ -645,6 +645,162 @@
     color-mix(in srgb, var(--panel) 84%, transparent);
 }
 
+.trade-transit-band,
+.route-investment-band {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.22fr) minmax(0, 1fr);
+  gap: 0;
+  min-width: 0;
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--panel) 82%, transparent);
+}
+
+.trade-transit-title,
+.route-investment-title {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px 16px;
+  border-right: 1px solid var(--line);
+}
+
+.trade-transit-title strong,
+.route-investment-title strong {
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 950;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.trade-transit-list {
+  display: grid;
+  min-width: 0;
+}
+
+.trade-transit-row {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(86px, max-content) minmax(210px, 0.7fr);
+  gap: 14px;
+  align-items: center;
+  min-width: 0;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.trade-transit-row > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.trade-transit-row strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 950;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.trade-transit-row span,
+.trade-transit-empty,
+.trade-transit-more {
+  min-width: 0;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1.25;
+}
+
+.trade-transit-row > span:first-of-type {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 950;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.trade-transit-empty,
+.trade-transit-more {
+  padding: 12px 14px;
+}
+
+.route-investment-band {
+  grid-template-columns: minmax(190px, 0.22fr) minmax(260px, 0.34fr) minmax(0, 1fr);
+  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--nation-color, var(--blue)) 8%, transparent), transparent 44%),
+    color-mix(in srgb, var(--input-bg) 36%, transparent);
+}
+
+.route-investment-readout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-width: 0;
+  border-right: 1px solid var(--line);
+}
+
+.route-investment-readout div {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  min-width: 0;
+  min-height: 58px;
+  padding: 10px 14px;
+  border-right: 1px solid var(--line);
+}
+
+.route-investment-readout div:last-child {
+  border-right: 0;
+}
+
+.route-investment-readout span,
+.route-investment-controls span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.route-investment-readout strong {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 950;
+}
+
+.route-investment-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: end;
+  justify-content: flex-end;
+  min-width: 0;
+  padding: 10px 16px;
+}
+
+.route-investment-controls label {
+  display: grid;
+  gap: 5px;
+  flex: 1 1 140px;
+  max-width: 180px;
+  min-width: 120px;
+}
+
+.route-investment-controls input {
+  min-width: 0;
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 6px 8px;
+  background: var(--input-bg);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 850;
+}
+
 .trade-generator-title,
 .trade-generator-field,
 .trade-generator-share {
@@ -949,8 +1105,34 @@
   }
 
   .trade-generator-band,
+  .trade-transit-band,
+  .route-investment-band,
   .trade-generator-preview {
     grid-template-columns: 1fr;
+  }
+
+  .trade-transit-title,
+  .route-investment-title {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .trade-transit-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+  }
+
+  .trade-transit-row > span:first-of-type {
+    text-align: left;
+  }
+
+  .route-investment-readout {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .route-investment-controls {
+    justify-content: flex-start;
   }
 
   .trade-generator-preview-head {

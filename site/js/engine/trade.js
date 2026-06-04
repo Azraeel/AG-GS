@@ -172,6 +172,9 @@
       data.tradeNetwork.transitPolicies = data.tradeNetwork.transitPolicies && typeof data.tradeNetwork.transitPolicies === "object" && !Array.isArray(data.tradeNetwork.transitPolicies)
         ? data.tradeNetwork.transitPolicies
         : {};
+      data.tradeNetwork.routeInvestments = data.tradeNetwork.routeInvestments && typeof data.tradeNetwork.routeInvestments === "object" && !Array.isArray(data.tradeNetwork.routeInvestments)
+        ? data.tradeNetwork.routeInvestments
+        : {};
       data.tradeNetwork.chokepoints = data.tradeNetwork.chokepoints && typeof data.tradeNetwork.chokepoints === "object" && !Array.isArray(data.tradeNetwork.chokepoints)
         ? data.tradeNetwork.chokepoints
         : {};
@@ -179,6 +182,34 @@
         ? data.tradeNetwork.baseline
         : null;
       return data.tradeNetwork;
+    }
+
+    function normalizeRouteInvestment(investment = {}) {
+      return {
+        portAccess: roundPercent(clamp(number(investment.portAccess ?? investment.port ?? investment.portUpgrade, 0), 0, 10)),
+        transitCorridor: roundPercent(clamp(number(investment.transitCorridor ?? investment.corridor ?? investment.corridorUpgrade, 0), 0, 10))
+      };
+    }
+
+    function isDefaultRouteInvestment(investment = {}) {
+      const normalized = normalizeRouteInvestment(investment);
+      return normalized.portAccess <= 0 && normalized.transitCorridor <= 0;
+    }
+
+    function cloneRouteInvestments(routeInvestments = {}) {
+      return Object.fromEntries(
+        Object.entries(routeInvestments || {})
+          .map(([nationId, investment]) => [nationId, normalizeRouteInvestment(investment)])
+          .filter(([, investment]) => !isDefaultRouteInvestment(investment))
+      );
+    }
+
+    function routeInvestmentFromMap(routeInvestments, nationId) {
+      return normalizeRouteInvestment(routeInvestments?.[nationId] || {});
+    }
+
+    function routeInvestmentFor(data, nationId) {
+      return routeInvestmentFromMap(tradeNetworkState(data).routeInvestments, nationId);
     }
 
     function hasExportAnchors(exportAnchors = {}) {
@@ -229,10 +260,13 @@
           importAnchors: cloneImportAnchors(network.importAnchors),
           lanePolicies: cloneLanePolicies(network.lanePolicies),
           transitPolicies: cloneTransitPolicies(network.transitPolicies),
+          routeInvestments: {},
           chokepoints: cloneChokepoints(network.chokepoints),
           nations: {}
         };
       }
+      if (!("routeInvestments" in network.baseline)) network.baseline.routeInvestments = {};
+      else network.baseline.routeInvestments = cloneRouteInvestments(network.baseline.routeInvestments || {});
       network.baseline.nations = network.baseline.nations && typeof network.baseline.nations === "object" && !Array.isArray(network.baseline.nations)
         ? network.baseline.nations
         : {};
@@ -974,12 +1008,13 @@
       return cache;
     }
 
-    function routeNetworkCacheKey(data, geography, transitPolicies, chokepoints) {
+    function routeNetworkCacheKey(data, geography, transitPolicies, chokepoints, routeInvestments) {
       return [
         routeOverlaySignature(data),
         geographyRouteSignature(geography),
         stableRouteKey(transitPolicies),
-        stableRouteKey(chokepoints)
+        stableRouteKey(chokepoints),
+        stableRouteKey(routeInvestments)
       ].join("||");
     }
 
@@ -1022,15 +1057,46 @@
       };
     }
 
-    function coastalAccessOptions(ownerId, geography, scale, transitPolicies, usageOwnerId = ownerId) {
+    function geographyWithRouteInvestment(geo, routeInvestments) {
+      if (!geo) return geo;
+      const investment = routeInvestmentFromMap(routeInvestments, geo.id);
+      if (investment.portAccess <= 0) return geo;
+      return {
+        ...geo,
+        portStrength: roundPercent(clamp(number(geo.portStrength, 0) + investment.portAccess * 0.45, 0, 12))
+      };
+    }
+
+    function routeCorridorMultiplier(routeInvestments, path = []) {
+      const uniqueIds = [...new Set((path || []).filter(Boolean))];
+      const total = uniqueIds.reduce((sum, nationId) => sum + routeInvestmentFromMap(routeInvestments, nationId).transitCorridor, 0);
+      return clamp(1 + total * 0.01, 1, 1.18);
+    }
+
+    function routeAccessCostMultiplier(routeInvestments, path = []) {
+      const uniqueIds = [...new Set((path || []).filter(Boolean))];
+      const total = uniqueIds.reduce((sum, nationId) => sum + routeInvestmentFromMap(routeInvestments, nationId).transitCorridor, 0);
+      return clamp(1 - total * 0.012, 0.76, 1);
+    }
+
+    function routeTerminalAccessDiscount(routeInvestments, ownerId) {
+      return routeInvestmentFromMap(routeInvestments, ownerId).portAccess * 0.18;
+    }
+
+    function routeInvestmentBonusPercent(multiplier) {
+      return roundPercent(Math.max(0, (number(multiplier, 1) - 1) * 100));
+    }
+
+    function coastalAccessOptions(ownerId, geography, scale, transitPolicies, usageOwnerId = ownerId, routeInvestments = {}) {
       const owner = geography?.[ownerId];
       if (!owner) return [];
       if (owner.coastal) {
+        const port = geographyWithRouteInvestment(owner, routeInvestments);
         return [{
           portId: ownerId,
-          port: owner,
+          port,
           landUnits: 0,
-          costUnits: Math.max(0, (10 - owner.portStrength) * 0.08),
+          costUnits: Math.max(0, (10 - number(port.portStrength, 0)) * 0.08),
           path: [ownerId],
           blockedBy: []
         }];
@@ -1046,12 +1112,15 @@
         const maritimeBlocked = transitBlocksUsage(transitPolicies, port.id, usageOwnerId, "maritime");
         const landUnits = borderUnits !== null ? borderUnits : mapUnits;
         const accessPenalty = isNeighbor ? 0 : 5.5;
-        const portPenalty = Math.max(0, (10 - port.portStrength) * 0.42);
+        const investedPort = geographyWithRouteInvestment(port, routeInvestments);
+        const accessCostFactor = routeAccessCostMultiplier(routeInvestments, [ownerId, port.id]);
+        const portPenalty = Math.max(0, (10 - number(investedPort.portStrength, 0)) * 0.42);
+        const terminalDiscount = routeTerminalAccessDiscount(routeInvestments, ownerId);
         candidates.push({
           portId: port.id,
-          port,
+          port: investedPort,
           landUnits,
-          costUnits: landUnits + accessPenalty + portPenalty,
+          costUnits: Math.max(0, (landUnits + accessPenalty) * accessCostFactor + portPenalty - terminalDiscount),
           path: uniqueRoutePath([ownerId, port.id]),
           blockedBy: landBlocked || maritimeBlocked ? [port.id] : []
         });
@@ -1093,6 +1162,7 @@
           routeMeshVersion: "",
           chokepoints: [],
           chokepointSeverity: 0,
+          routeInvestmentBonus: 0,
           transitBlocked: false,
           transitBlockedBy: []
         };
@@ -1113,60 +1183,69 @@
         routeMeshVersion: "",
         chokepoints: [],
         chokepointSeverity: 0,
+        routeInvestmentBonus: 0,
         transitBlocked: false,
         transitBlockedBy: []
       };
     }
 
     function bestRouteForLane(importerId, exporterId, context) {
-      const { geography, scale, transitPolicies, chokepoints, routeMesh, laneSkeleton } = context;
+      const { geography, scale, transitPolicies, chokepoints, routeInvestments, routeMesh, laneSkeleton } = context;
       const importerGeo = geography?.[importerId];
       const exporterGeo = geography?.[exporterId];
       if (!importerGeo || !exporterGeo) return fallbackRoute(importerId, exporterId, geography, scale);
+      const importerProfile = geographyWithRouteInvestment(importerGeo, routeInvestments);
+      const exporterProfile = geographyWithRouteInvestment(exporterGeo, routeInvestments);
 
       const candidates = [];
       const blockedBy = new Set();
       const directBorderUnits = candidateBorderDistance(importerGeo, exporterGeo);
       if (directBorderUnits !== null && directBorderUnits <= 3.5) {
         const units = Math.max(0.12, directBorderUnits);
-        const multiplier = Math.max(2.05, routeEfficiencyMultiplier("border", units, scale, exporterGeo, importerGeo, 1));
+        const transitPath = [exporterId, importerId];
+        const corridorMultiplier = routeCorridorMultiplier(routeInvestments, transitPath);
+        const multiplier = Math.max(2.05, routeEfficiencyMultiplier("border", units, scale, exporterProfile, importerProfile, 1) * corridorMultiplier);
         candidates.push({
           routeType: "border",
           routeMode: "land",
           distanceUnits: units,
           multiplier,
-          transitPath: [exporterId, importerId],
+          transitPath,
           routePath: [],
           routeNodes: [],
           routeZones: [],
           routeMeshVersion: "",
           chokepoints: [],
           chokepointSeverity: 0,
+          routeInvestmentBonus: routeInvestmentBonusPercent(corridorMultiplier),
           transitBlockedBy: []
         });
       }
 
       const directMapUnits = mapDistanceUnits(importerGeo, exporterGeo, scale, false);
       if ((directBorderUnits === null || directBorderUnits > 3.5) && (sameRouteRegion(importerGeo, exporterGeo) || directMapUnits <= 18)) {
-        const multiplier = routeEfficiencyMultiplier("regional", directMapUnits, scale, exporterGeo, importerGeo, 1);
+        const transitPath = [exporterId, importerId];
+        const corridorMultiplier = routeCorridorMultiplier(routeInvestments, transitPath);
+        const multiplier = routeEfficiencyMultiplier("regional", directMapUnits, scale, exporterProfile, importerProfile, 1) * corridorMultiplier;
         candidates.push({
           routeType: "regional",
           routeMode: regionalRouteMode(importerGeo, exporterGeo, directBorderUnits),
           distanceUnits: directMapUnits,
           multiplier,
-          transitPath: [exporterId, importerId],
+          transitPath,
           routePath: [],
           routeNodes: [],
           routeZones: [],
           routeMeshVersion: "",
           chokepoints: [],
           chokepointSeverity: 0,
+          routeInvestmentBonus: routeInvestmentBonusPercent(corridorMultiplier),
           transitBlockedBy: []
         });
       }
 
-      const exporterPorts = coastalAccessOptions(exporterId, geography, scale, transitPolicies, exporterId);
-      const importerPorts = coastalAccessOptions(importerId, geography, scale, transitPolicies, importerId);
+      const exporterPorts = coastalAccessOptions(exporterId, geography, scale, transitPolicies, exporterId, routeInvestments);
+      const importerPorts = coastalAccessOptions(importerId, geography, scale, transitPolicies, importerId, routeInvestments);
       for (const option of [...exporterPorts, ...importerPorts]) {
         for (const blocker of option.blockedBy || []) blockedBy.add(blocker);
       }
@@ -1192,19 +1271,22 @@
               : oceanUnits <= 0
                 ? "regional"
                 : "land-sea";
-            const multiplier = routeEfficiencyMultiplier(routeType, distanceUnits, scale, exportPort.port, importPort.port, chokepoint.factor);
+            const transitPath = uniqueRoutePath([...exportPort.path, ...importPort.path.slice().reverse()]);
+            const corridorMultiplier = routeCorridorMultiplier(routeInvestments, transitPath);
+            const multiplier = routeEfficiencyMultiplier(routeType, distanceUnits, scale, exportPort.port, importPort.port, chokepoint.factor) * corridorMultiplier;
             candidates.push({
               routeType,
               routeMode: oceanUnits > 0 ? "maritime" : "land",
               distanceUnits,
               multiplier,
-              transitPath: uniqueRoutePath([...exportPort.path, ...importPort.path.slice().reverse()]),
+              transitPath,
               routePath: oceanRoute?.routePath || [],
               routeNodes: oceanRoute?.routeNodes || [],
               routeZones: oceanRoute?.routeZones || [],
               routeMeshVersion: oceanRoute?.routeMeshVersion || "",
               chokepoints: chokepointIds,
               chokepointSeverity: chokepoint.severity,
+              routeInvestmentBonus: routeInvestmentBonusPercent(corridorMultiplier),
               transitBlockedBy: []
             });
             return true;
@@ -1249,6 +1331,7 @@
         routeMeshVersion: best.routeMeshVersion || "",
         chokepoints: best.chokepoints,
         chokepointSeverity: best.chokepointSeverity,
+        routeInvestmentBonus: best.routeInvestmentBonus || 0,
         transitBlocked: false,
         transitBlockedBy: [...blockedBy]
       };
@@ -1258,6 +1341,7 @@
       const scale = routeScale(data, geography);
       const transitPolicies = cloneTransitPolicies(options.transitPolicies || {});
       const chokepoints = cloneChokepoints(options.chokepoints || {});
+      const routeInvestments = cloneRouteInvestments(options.routeInvestments || {});
       const ids = Object.keys(geography || {});
       const routes = {};
       const laneSkeleton = laneSkeletonForData(data);
@@ -1267,6 +1351,7 @@
         scale,
         transitPolicies,
         chokepoints,
+        routeInvestments,
         laneSkeleton,
         laneSkeletonCache: new Map(),
         routeMesh,
@@ -1286,17 +1371,19 @@
         routes,
         laneSkeleton: laneSkeleton ? { version: laneSkeleton.version, nodeCount: laneSkeleton.nodes.length } : null,
         routeMesh: routeMesh ? { version: routeMesh.version, nodeCount: routeMesh.nodes.length } : null,
-        chokepoints
+        chokepoints,
+        routeInvestments
       };
     }
 
     function cachedRouteNetwork(data, geography, options = {}) {
       const transitPolicies = cloneTransitPolicies(options.transitPolicies || {});
       const chokepoints = cloneChokepoints(options.chokepoints || {});
+      const routeInvestments = cloneRouteInvestments(options.routeInvestments || {});
       const cache = routeNetworkCacheForData(data);
-      const key = routeNetworkCacheKey(data, geography, transitPolicies, chokepoints);
+      const key = routeNetworkCacheKey(data, geography, transitPolicies, chokepoints, routeInvestments);
       if (cache.has(key)) return cache.get(key);
-      const routeNetwork = buildRouteNetwork(data, geography, { transitPolicies, chokepoints });
+      const routeNetwork = buildRouteNetwork(data, geography, { transitPolicies, chokepoints, routeInvestments });
       if (cache.size >= ROUTE_NETWORK_CACHE_LIMIT) cache.clear();
       cache.set(key, routeNetwork);
       return routeNetwork;
@@ -1658,9 +1745,13 @@
       const lanePolicies = options.lanePolicies || {};
       const transitPolicies = options.transitPolicies || {};
       const chokepoints = options.chokepoints || {};
+      const routeInvestments = cloneRouteInvestments(options.routeInvestments || {});
+      const neutralRouteInvestments = options.neutralRouteInvestments === undefined
+        ? routeInvestments
+        : cloneRouteInvestments(options.neutralRouteInvestments || {});
       const geography = geographyProfiles(data);
-      const routeNetwork = cachedRouteNetwork(data, geography, { transitPolicies, chokepoints });
-      const neutralRouteNetwork = cachedRouteNetwork(data, geography, { transitPolicies: {}, chokepoints: {} });
+      const routeNetwork = cachedRouteNetwork(data, geography, { transitPolicies, chokepoints, routeInvestments });
+      const neutralRouteNetwork = cachedRouteNetwork(data, geography, { transitPolicies: {}, chokepoints: {}, routeInvestments: neutralRouteInvestments });
       const lanes = [];
       let nations = Object.fromEntries(ids.map((id) => [id, networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies, transitPolicies)]));
       const demandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id])]));
@@ -1748,6 +1839,7 @@
             transitBlockedBy: route.transitBlockedBy || [],
             chokepoints: route.chokepoints || [],
             chokepointSeverity: route.chokepointSeverity || 0,
+            routeInvestmentBonus: route.routeInvestmentBonus || 0,
             weight: targetProduct * affinity
           });
         }
@@ -1766,8 +1858,9 @@
       applyImportAnchorsToLanes(lanes, importAnchors, lanePolicies);
       nations = summarizeTrackedLanes(ids, lanes, targetedTariffs, exportAnchors, importAnchors, lanePolicies, transitPolicies);
       const visibleLaneKeys = includeLanes ? selectVisibleLaneKeys(lanes, nations, inputsById, currentWorldPool, ids) : null;
+      const showAllLanes = options.laneVisibility === "all" || options.includeAllLanes === true;
       const visibleLanes = includeLanes
-        ? lanes.filter((lane) => number(lane.currentFlow, 0) > 0 || visibleLaneKeys.has(laneKey(lane)))
+        ? lanes.filter((lane) => showAllLanes ? number(lane.currentFlow, 0) > 0 || forcedVisibleLane(lane) : number(lane.currentFlow, 0) > 0 || visibleLaneKeys.has(laneKey(lane)))
         : [];
       return {
         lanes: visibleLanes,
@@ -1811,18 +1904,24 @@
       const includeLanes = options.includeLanes !== false;
       const baselineFlows = buildNetworkFlows(data, baselineInputsById(data), baseline.targetedTariffs || {}, {
         includeLanes,
+        laneVisibility: options.laneVisibility,
         exportAnchors: baseline.exportAnchors || {},
         importAnchors: baseline.importAnchors || {},
         lanePolicies: baseline.lanePolicies || {},
         transitPolicies: baseline.transitPolicies || {},
+        routeInvestments: baseline.routeInvestments || {},
+        neutralRouteInvestments: baseline.routeInvestments || {},
         chokepoints: baseline.chokepoints || {}
       });
       const currentFlows = buildNetworkFlows(data, currentInputsById(data), network.targetedTariffs || {}, {
         includeLanes,
+        laneVisibility: options.laneVisibility,
         exportAnchors: network.exportAnchors || {},
         importAnchors: network.importAnchors || {},
         lanePolicies: network.lanePolicies || {},
         transitPolicies: network.transitPolicies || {},
+        routeInvestments: network.routeInvestments || {},
+        neutralRouteInvestments: baseline.routeInvestments || {},
         chokepoints: network.chokepoints || {}
       });
       const ids = Object.keys(currentFlows.nations);
@@ -2329,6 +2428,22 @@
       }
     }
 
+    function setRouteInvestment(data, nationId, investment = {}) {
+      const network = tradeNetworkState(data);
+      const normalized = normalizeRouteInvestment(investment);
+      if (isDefaultRouteInvestment(normalized)) {
+        clearRouteInvestment(data, nationId);
+        return normalized;
+      }
+      network.routeInvestments[nationId] = normalized;
+      return normalized;
+    }
+
+    function clearRouteInvestment(data, nationId) {
+      const network = tradeNetworkState(data);
+      delete network.routeInvestments[nationId];
+    }
+
     return {
       TRADE_FORMULAS,
       calculateTradeForNation,
@@ -2346,6 +2461,9 @@
       clearLanePolicy,
       setTransitPolicy,
       clearTransitPolicy,
+      routeInvestmentFor,
+      setRouteInvestment,
+      clearRouteInvestment,
       recalculateTrade,
       tradeTierForFlow
     };

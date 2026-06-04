@@ -784,6 +784,9 @@
     clearLanePolicy,
     setTransitPolicy,
     clearTransitPolicy,
+    routeInvestmentFor,
+    setRouteInvestment,
+    clearRouteInvestment,
     recalculateTrade,
     tradeTierForFlow
   } = tradeFactory({
@@ -928,6 +931,9 @@
     clearLanePolicy,
     setTransitPolicy,
     clearTransitPolicy,
+    routeInvestmentFor,
+    setRouteInvestment,
+    clearRouteInvestment,
     tradeTierForFlow,
     fiscalModelForNation,
     calculateTaxBurdenForNation,
