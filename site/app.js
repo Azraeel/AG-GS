@@ -1837,27 +1837,6 @@
           Engine.recalculateAll(data);
           saveWorkingState(`${byId(importerId)?.name || "Country"} import lane from ${byId(exporterId)?.name || "partner"} returned to auto.`);
         }
-      } else if (action === "set-route-investment") {
-        const nationId = actionButton.dataset.nationId || state.selectedNation;
-        const portInput = document.getElementById(actionButton.dataset.portInputId || "");
-        const corridorInput = document.getElementById(actionButton.dataset.corridorInputId || "");
-        if (nationId && portInput && corridorInput) {
-          rememberVisibleTableScroll();
-          const investment = Engine.setRouteInvestment(data, nationId, {
-            portAccess: Engine.number(portInput.value, 0),
-            transitCorridor: Engine.number(corridorInput.value, 0)
-          });
-          Engine.recalculateAll(data);
-          saveWorkingState(`${byId(nationId)?.name || "Country"} route upgrades set to port ${fmtNumber(investment.portAccess)} and corridor ${fmtNumber(investment.transitCorridor)}.`);
-        }
-      } else if (action === "clear-route-investment") {
-        const nationId = actionButton.dataset.nationId || state.selectedNation;
-        if (nationId) {
-          rememberVisibleTableScroll();
-          Engine.clearRouteInvestment(data, nationId);
-          Engine.recalculateAll(data);
-          saveWorkingState(`${byId(nationId)?.name || "Country"} route upgrades cleared.`);
-        }
       } else if (action === "advance-one") {
         const result = Engine.advanceToYear(data, Number(data.meta.currentYear) + 1);
         saveWorkingState(result.message);

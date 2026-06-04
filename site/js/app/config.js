@@ -35,9 +35,7 @@
       "clear-import-anchor",
       "preview-trade-generator",
       "apply-trade-generator",
-      "clear-trade-generator-preview",
-      "set-route-investment",
-      "clear-route-investment"
+      "clear-trade-generator-preview"
     ],
     datasets: [
       { key: "national", label: "National" },

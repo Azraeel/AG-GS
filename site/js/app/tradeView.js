@@ -110,39 +110,39 @@
       .sort((left, right) => right.flow - left.flow);
   }
 
-  function routeInvestmentHtml(selected) {
-    const investment = Engine.routeInvestmentFor?.(data, selected.id) || { portAccess: 0, transitCorridor: 0 };
-    const portInputId = `route-investment-port-${selected.id}`.replace(/[^a-z0-9_-]/gi, "-");
-    const corridorInputId = `route-investment-corridor-${selected.id}`.replace(/[^a-z0-9_-]/gi, "-");
+  function tradeLogisticsHtml(selected) {
+    const logistics = Engine.tradeLogisticsFor?.(data, selected.id) || {};
     return `
-      <div class="route-investment-band">
-        <div class="route-investment-title">
-          <span class="section-kicker">Route Upgrades</span>
+      <div class="trade-logistics-band">
+        <div class="trade-logistics-title">
+          <span class="section-kicker">Trade Logistics</span>
           <strong>${safeText(selected.name)}</strong>
         </div>
-        <div class="route-investment-readout">
+        <div class="trade-logistics-readout">
           <div>
-            <span>Port Access</span>
-            <strong>${fmtNumber(investment.portAccess || 0)} / 10</strong>
+            <span>Maritime</span>
+            <strong>${fmtNumber(logistics.maritime || 0)}</strong>
           </div>
           <div>
-            <span>Transit Corridors</span>
-            <strong>${fmtNumber(investment.transitCorridor || 0)} / 10</strong>
+            <span>Corridors</span>
+            <strong>${fmtNumber(logistics.corridors || 0)}</strong>
+          </div>
+          <div>
+            <span>Reliability</span>
+            <strong>${fmtPercent(logistics.reliability || 0)}</strong>
+          </div>
+          <div>
+            <span>Overall</span>
+            <strong>${fmtPercent(logistics.overall || 0)}</strong>
           </div>
         </div>
-        ${isAdmin ? `
-          <div class="route-investment-controls">
-            <label>
-              <span>Port Access</span>
-              <input id="${escapeHtml(portInputId)}" type="number" min="0" max="10" step="0.1" value="${escapeHtml(investment.portAccess || 0)}" inputmode="decimal" data-route-investment-input>
-            </label>
-            <label>
-              <span>Transit Corridors</span>
-              <input id="${escapeHtml(corridorInputId)}" type="number" min="0" max="10" step="0.1" value="${escapeHtml(investment.transitCorridor || 0)}" inputmode="decimal" data-route-investment-input>
-            </label>
-            <button class="command compact" type="button" data-action="set-route-investment" data-nation-id="${escapeHtml(selected.id)}" data-port-input-id="${escapeHtml(portInputId)}" data-corridor-input-id="${escapeHtml(corridorInputId)}">Apply</button>
-            <button class="command compact" type="button" data-action="clear-route-investment" data-nation-id="${escapeHtml(selected.id)}" ${investment.portAccess || investment.transitCorridor ? "" : "disabled"}>Clear</button>
-          </div>` : ""}
+        <div class="trade-logistics-drivers">
+          <div><span>Shipyards</span><strong>${fmtNumber(logistics.shipyards || 0)}</strong></div>
+          <div><span>Civ Factories</span><strong>${fmtNumber(logistics.civilianFactories || 0)}</strong></div>
+          <div><span>Development</span><strong>${fmtNumber(logistics.development || 0)}</strong></div>
+          <div><span>Stability</span><strong>${fmtPercent(logistics.stability || 0)}</strong></div>
+          <div><span>Corruption</span><strong>${fmtPercent(logistics.corruption || 0)}</strong></div>
+        </div>
       </div>`;
   }
 
@@ -250,13 +250,14 @@
     const choke = Engine.number(lane.chokepointSeverity, 0) > 0
       ? `Strait -${fmtPercent(lane.chokepointSeverity)}`
       : "";
-    const upgrade = Engine.number(lane.routeInvestmentBonus, 0) > 0
-      ? `Upgrade +${fmtPercent(lane.routeInvestmentBonus)}`
+    const logistics = Engine.number(lane.routeLogisticsBonus, 0);
+    const logisticsText = Math.abs(logistics) >= 0.05
+      ? `Logistics ${logistics >= 0 ? "+" : "-"}${fmtPercent(Math.abs(logistics))}`
       : "";
     return `
       <div class="route-inline-facts">
         <strong>${safeText(miles)}</strong>
-        <span>${safeText([mode, efficiency, choke, upgrade].filter(Boolean).join(" / "))}</span>
+        <span>${safeText([mode, efficiency, choke, logisticsText].filter(Boolean).join(" / "))}</span>
       </div>`;
   }
 
@@ -655,7 +656,7 @@
       <section class="trade-network-workspace" style="--nation-color:${safeColor(selected.color)}">
         ${tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool)}
         ${transitThroughHtml(selected, transitRows)}
-        ${routeInvestmentHtml(selected)}
+        ${tradeLogisticsHtml(selected)}
         ${tradeGeneratorHtml(selected)}
         <div class="trade-network-table-wrap" data-table-scroll="tradeNetwork">
           <table class="trade-network-table">

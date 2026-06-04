@@ -646,7 +646,7 @@
 }
 
 .trade-transit-band,
-.route-investment-band {
+.trade-logistics-band {
   display: grid;
   grid-template-columns: minmax(190px, 0.22fr) minmax(0, 1fr);
   gap: 0;
@@ -656,7 +656,7 @@
 }
 
 .trade-transit-title,
-.route-investment-title {
+.trade-logistics-title {
   display: grid;
   align-content: center;
   gap: 4px;
@@ -666,7 +666,7 @@
 }
 
 .trade-transit-title strong,
-.route-investment-title strong {
+.trade-logistics-title strong {
   color: var(--ink);
   font-size: 16px;
   font-weight: 950;
@@ -726,22 +726,31 @@
   padding: 12px 14px;
 }
 
-.route-investment-band {
-  grid-template-columns: minmax(190px, 0.22fr) minmax(260px, 0.34fr) minmax(0, 1fr);
+.trade-logistics-band {
+  grid-template-columns: minmax(190px, 0.22fr) minmax(310px, 0.42fr) minmax(0, 1fr);
   border-bottom: 1px solid var(--line);
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--nation-color, var(--blue)) 8%, transparent), transparent 44%),
     color-mix(in srgb, var(--input-bg) 36%, transparent);
 }
 
-.route-investment-readout {
+.trade-logistics-readout,
+.trade-logistics-drivers {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   min-width: 0;
+}
+
+.trade-logistics-readout {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   border-right: 1px solid var(--line);
 }
 
-.route-investment-readout div {
+.trade-logistics-drivers {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.trade-logistics-readout div,
+.trade-logistics-drivers div {
   display: grid;
   align-content: center;
   gap: 4px;
@@ -751,12 +760,13 @@
   border-right: 1px solid var(--line);
 }
 
-.route-investment-readout div:last-child {
+.trade-logistics-readout div:last-child,
+.trade-logistics-drivers div:last-child {
   border-right: 0;
 }
 
-.route-investment-readout span,
-.route-investment-controls span {
+.trade-logistics-readout span,
+.trade-logistics-drivers span {
   color: var(--muted);
   font-size: 10px;
   font-weight: 900;
@@ -764,41 +774,12 @@
   text-transform: uppercase;
 }
 
-.route-investment-readout strong {
+.trade-logistics-readout strong,
+.trade-logistics-drivers strong {
   color: var(--ink);
   font-size: 15px;
   font-weight: 950;
-}
-
-.route-investment-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: end;
-  justify-content: flex-end;
-  min-width: 0;
-  padding: 10px 16px;
-}
-
-.route-investment-controls label {
-  display: grid;
-  gap: 5px;
-  flex: 1 1 140px;
-  max-width: 180px;
-  min-width: 120px;
-}
-
-.route-investment-controls input {
-  min-width: 0;
-  width: 100%;
-  min-height: 34px;
-  border: 1px solid var(--line-strong);
-  border-radius: 6px;
-  padding: 6px 8px;
-  background: var(--input-bg);
-  color: var(--ink);
-  font: inherit;
-  font-weight: 850;
+  font-variant-numeric: tabular-nums;
 }
 
 .trade-generator-title,
@@ -1106,13 +1087,13 @@
 
   .trade-generator-band,
   .trade-transit-band,
-  .route-investment-band,
+  .trade-logistics-band,
   .trade-generator-preview {
     grid-template-columns: 1fr;
   }
 
   .trade-transit-title,
-  .route-investment-title {
+  .trade-logistics-title {
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }
@@ -1126,13 +1107,14 @@
     text-align: left;
   }
 
-  .route-investment-readout {
+  .trade-logistics-readout {
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }
 
-  .route-investment-controls {
-    justify-content: flex-start;
+  .trade-logistics-readout,
+  .trade-logistics-drivers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .trade-generator-preview-head {

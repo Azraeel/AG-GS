@@ -172,44 +172,78 @@
       data.tradeNetwork.transitPolicies = data.tradeNetwork.transitPolicies && typeof data.tradeNetwork.transitPolicies === "object" && !Array.isArray(data.tradeNetwork.transitPolicies)
         ? data.tradeNetwork.transitPolicies
         : {};
-      data.tradeNetwork.routeInvestments = data.tradeNetwork.routeInvestments && typeof data.tradeNetwork.routeInvestments === "object" && !Array.isArray(data.tradeNetwork.routeInvestments)
-        ? data.tradeNetwork.routeInvestments
-        : {};
       data.tradeNetwork.chokepoints = data.tradeNetwork.chokepoints && typeof data.tradeNetwork.chokepoints === "object" && !Array.isArray(data.tradeNetwork.chokepoints)
         ? data.tradeNetwork.chokepoints
         : {};
       data.tradeNetwork.baseline = data.tradeNetwork.baseline && typeof data.tradeNetwork.baseline === "object" && !Array.isArray(data.tradeNetwork.baseline)
         ? data.tradeNetwork.baseline
         : null;
+      delete data.tradeNetwork.routeInvestments;
+      if (data.tradeNetwork.baseline) delete data.tradeNetwork.baseline.routeInvestments;
       return data.tradeNetwork;
     }
 
-    function normalizeRouteInvestment(investment = {}) {
+    function tradeLogisticsProfile(input = {}) {
+      const development = clamp(number(input.developmentLevel, 0), 0, 20);
+      const shipyards = Math.max(0, number(input.shipyards, 0));
+      const civilianFactories = Math.max(0, number(input.civilianFactories, 0));
+      const stability = clamp(number(input.governmentalStability, 70), 0, 100);
+      const corruption = clamp(number(input.corruption, 0), 0, 100);
+      const reliability = clamp(48 + stability * 0.44 - corruption * 0.34 + development * 1.05, 0, 100);
+      const maritime = clamp(Math.sqrt(shipyards) * 1.2 + development * 0.22 + (stability - 50) * 0.035 - corruption * 0.022, 0, 10);
+      const corridors = clamp(Math.sqrt(civilianFactories) * 0.42 + development * 0.3 + (stability - 50) * 0.04 - corruption * 0.032, 0, 10);
+      const overall = clamp((maritime + corridors) * 4.2 + reliability * 0.16, 0, 100);
       return {
-        portAccess: roundPercent(clamp(number(investment.portAccess ?? investment.port ?? investment.portUpgrade, 0), 0, 10)),
-        transitCorridor: roundPercent(clamp(number(investment.transitCorridor ?? investment.corridor ?? investment.corridorUpgrade, 0), 0, 10))
+        maritime: roundPercent(maritime),
+        corridors: roundPercent(corridors),
+        reliability: roundPercent(reliability),
+        overall: roundPercent(overall),
+        shipyards: roundCurrency(shipyards),
+        civilianFactories: roundCurrency(civilianFactories),
+        development: roundPercent(development),
+        stability: roundPercent(stability),
+        corruption: roundPercent(corruption)
       };
     }
 
-    function isDefaultRouteInvestment(investment = {}) {
-      const normalized = normalizeRouteInvestment(investment);
-      return normalized.portAccess <= 0 && normalized.transitCorridor <= 0;
+    function tradeLogisticsFor(data, nationId) {
+      return tradeLogisticsProfile(tradeInputForNation(data, nationId));
     }
 
-    function cloneRouteInvestments(routeInvestments = {}) {
+    function tradeLogisticsDelta(currentInput = {}) {
+      const current = tradeLogisticsProfile(currentInput);
+      const baseline = tradeLogisticsProfile(currentInput.baselineInput || currentInput);
+      return {
+        maritime: roundPercent(current.maritime - baseline.maritime),
+        corridors: roundPercent(current.corridors - baseline.corridors),
+        reliability: roundPercent(current.reliability - baseline.reliability),
+        overall: roundPercent(current.overall - baseline.overall)
+      };
+    }
+
+    function isNeutralTradeLogistics(delta = {}) {
+      return Math.abs(number(delta.maritime, 0)) < 0.001
+        && Math.abs(number(delta.corridors, 0)) < 0.001
+        && Math.abs(number(delta.reliability, 0)) < 0.001
+        && Math.abs(number(delta.overall, 0)) < 0.001;
+    }
+
+    function tradeLogisticsDeltasForInputs(inputsById = {}) {
       return Object.fromEntries(
-        Object.entries(routeInvestments || {})
-          .map(([nationId, investment]) => [nationId, normalizeRouteInvestment(investment)])
-          .filter(([, investment]) => !isDefaultRouteInvestment(investment))
+        Object.entries(inputsById || {})
+          .map(([nationId, input]) => [nationId, tradeLogisticsDelta(input)])
+          .filter(([, delta]) => !isNeutralTradeLogistics(delta))
       );
     }
 
-    function routeInvestmentFromMap(routeInvestments, nationId) {
-      return normalizeRouteInvestment(routeInvestments?.[nationId] || {});
-    }
-
-    function routeInvestmentFor(data, nationId) {
-      return routeInvestmentFromMap(tradeNetworkState(data).routeInvestments, nationId);
+    function tradeLogisticsDeltaFor(routeLogistics, nationId) {
+      const delta = routeLogistics?.[nationId] || {};
+      return {
+        maritime: roundPercent(number(delta.maritime, 0)),
+        corridors: roundPercent(number(delta.corridors, 0)),
+        reliability: roundPercent(number(delta.reliability, 0)),
+        overall: roundPercent(number(delta.overall, 0))
+      };
     }
 
     function hasExportAnchors(exportAnchors = {}) {
@@ -260,13 +294,10 @@
           importAnchors: cloneImportAnchors(network.importAnchors),
           lanePolicies: cloneLanePolicies(network.lanePolicies),
           transitPolicies: cloneTransitPolicies(network.transitPolicies),
-          routeInvestments: {},
           chokepoints: cloneChokepoints(network.chokepoints),
           nations: {}
         };
       }
-      if (!("routeInvestments" in network.baseline)) network.baseline.routeInvestments = {};
-      else network.baseline.routeInvestments = cloneRouteInvestments(network.baseline.routeInvestments || {});
       network.baseline.nations = network.baseline.nations && typeof network.baseline.nations === "object" && !Array.isArray(network.baseline.nations)
         ? network.baseline.nations
         : {};
@@ -1008,13 +1039,13 @@
       return cache;
     }
 
-    function routeNetworkCacheKey(data, geography, transitPolicies, chokepoints, routeInvestments) {
+    function routeNetworkCacheKey(data, geography, transitPolicies, chokepoints, routeLogistics) {
       return [
         routeOverlaySignature(data),
         geographyRouteSignature(geography),
         stableRouteKey(transitPolicies),
         stableRouteKey(chokepoints),
-        stableRouteKey(routeInvestments)
+        stableRouteKey(routeLogistics)
       ].join("||");
     }
 
@@ -1057,41 +1088,45 @@
       };
     }
 
-    function geographyWithRouteInvestment(geo, routeInvestments) {
+    function geographyWithRouteLogistics(geo, routeLogistics) {
       if (!geo) return geo;
-      const investment = routeInvestmentFromMap(routeInvestments, geo.id);
-      if (investment.portAccess <= 0) return geo;
+      const logistics = tradeLogisticsDeltaFor(routeLogistics, geo.id);
+      if (Math.abs(logistics.maritime) < 0.001) return geo;
       return {
         ...geo,
-        portStrength: roundPercent(clamp(number(geo.portStrength, 0) + investment.portAccess * 0.45, 0, 12))
+        portStrength: roundPercent(clamp(number(geo.portStrength, 0) + logistics.maritime * 0.45, 0, 12))
       };
     }
 
-    function routeCorridorMultiplier(routeInvestments, path = []) {
+    function routeLogisticsPathScore(routeLogistics, path = []) {
       const uniqueIds = [...new Set((path || []).filter(Boolean))];
-      const total = uniqueIds.reduce((sum, nationId) => sum + routeInvestmentFromMap(routeInvestments, nationId).transitCorridor, 0);
-      return clamp(1 + total * 0.01, 1, 1.18);
+      return uniqueIds.reduce((sum, nationId) => {
+        const logistics = tradeLogisticsDeltaFor(routeLogistics, nationId);
+        return sum + logistics.corridors + logistics.maritime * 0.6 + logistics.reliability / 25;
+      }, 0);
     }
 
-    function routeAccessCostMultiplier(routeInvestments, path = []) {
-      const uniqueIds = [...new Set((path || []).filter(Boolean))];
-      const total = uniqueIds.reduce((sum, nationId) => sum + routeInvestmentFromMap(routeInvestments, nationId).transitCorridor, 0);
-      return clamp(1 - total * 0.012, 0.76, 1);
+    function routeCorridorMultiplier(routeLogistics, path = []) {
+      return clamp(1 + routeLogisticsPathScore(routeLogistics, path) * 0.034, 0.74, 1.28);
     }
 
-    function routeTerminalAccessDiscount(routeInvestments, ownerId) {
-      return routeInvestmentFromMap(routeInvestments, ownerId).portAccess * 0.18;
+    function routeAccessCostMultiplier(routeLogistics, path = []) {
+      return clamp(1 - routeLogisticsPathScore(routeLogistics, path) * 0.03, 0.68, 1.32);
     }
 
-    function routeInvestmentBonusPercent(multiplier) {
-      return roundPercent(Math.max(0, (number(multiplier, 1) - 1) * 100));
+    function routeTerminalAccessDiscount(routeLogistics, ownerId) {
+      return tradeLogisticsDeltaFor(routeLogistics, ownerId).maritime * 0.18;
     }
 
-    function coastalAccessOptions(ownerId, geography, scale, transitPolicies, usageOwnerId = ownerId, routeInvestments = {}) {
+    function routeLogisticsBonusPercent(multiplier) {
+      return roundPercent((number(multiplier, 1) - 1) * 100);
+    }
+
+    function coastalAccessOptions(ownerId, geography, scale, transitPolicies, usageOwnerId = ownerId, routeLogistics = {}) {
       const owner = geography?.[ownerId];
       if (!owner) return [];
       if (owner.coastal) {
-        const port = geographyWithRouteInvestment(owner, routeInvestments);
+        const port = geographyWithRouteLogistics(owner, routeLogistics);
         return [{
           portId: ownerId,
           port,
@@ -1112,10 +1147,10 @@
         const maritimeBlocked = transitBlocksUsage(transitPolicies, port.id, usageOwnerId, "maritime");
         const landUnits = borderUnits !== null ? borderUnits : mapUnits;
         const accessPenalty = isNeighbor ? 0 : 5.5;
-        const investedPort = geographyWithRouteInvestment(port, routeInvestments);
-        const accessCostFactor = routeAccessCostMultiplier(routeInvestments, [ownerId, port.id]);
+        const investedPort = geographyWithRouteLogistics(port, routeLogistics);
+        const accessCostFactor = routeAccessCostMultiplier(routeLogistics, [ownerId, port.id]);
         const portPenalty = Math.max(0, (10 - number(investedPort.portStrength, 0)) * 0.42);
-        const terminalDiscount = routeTerminalAccessDiscount(routeInvestments, ownerId);
+        const terminalDiscount = routeTerminalAccessDiscount(routeLogistics, ownerId);
         candidates.push({
           portId: port.id,
           port: investedPort,
@@ -1162,7 +1197,7 @@
           routeMeshVersion: "",
           chokepoints: [],
           chokepointSeverity: 0,
-          routeInvestmentBonus: 0,
+          routeLogisticsBonus: 0,
           transitBlocked: false,
           transitBlockedBy: []
         };
@@ -1183,19 +1218,19 @@
         routeMeshVersion: "",
         chokepoints: [],
         chokepointSeverity: 0,
-        routeInvestmentBonus: 0,
+        routeLogisticsBonus: 0,
         transitBlocked: false,
         transitBlockedBy: []
       };
     }
 
     function bestRouteForLane(importerId, exporterId, context) {
-      const { geography, scale, transitPolicies, chokepoints, routeInvestments, routeMesh, laneSkeleton } = context;
+      const { geography, scale, transitPolicies, chokepoints, routeLogistics, routeMesh, laneSkeleton } = context;
       const importerGeo = geography?.[importerId];
       const exporterGeo = geography?.[exporterId];
       if (!importerGeo || !exporterGeo) return fallbackRoute(importerId, exporterId, geography, scale);
-      const importerProfile = geographyWithRouteInvestment(importerGeo, routeInvestments);
-      const exporterProfile = geographyWithRouteInvestment(exporterGeo, routeInvestments);
+      const importerProfile = geographyWithRouteLogistics(importerGeo, routeLogistics);
+      const exporterProfile = geographyWithRouteLogistics(exporterGeo, routeLogistics);
 
       const candidates = [];
       const blockedBy = new Set();
@@ -1203,7 +1238,7 @@
       if (directBorderUnits !== null && directBorderUnits <= 3.5) {
         const units = Math.max(0.12, directBorderUnits);
         const transitPath = [exporterId, importerId];
-        const corridorMultiplier = routeCorridorMultiplier(routeInvestments, transitPath);
+        const corridorMultiplier = routeCorridorMultiplier(routeLogistics, transitPath);
         const multiplier = Math.max(2.05, routeEfficiencyMultiplier("border", units, scale, exporterProfile, importerProfile, 1) * corridorMultiplier);
         candidates.push({
           routeType: "border",
@@ -1217,7 +1252,7 @@
           routeMeshVersion: "",
           chokepoints: [],
           chokepointSeverity: 0,
-          routeInvestmentBonus: routeInvestmentBonusPercent(corridorMultiplier),
+          routeLogisticsBonus: routeLogisticsBonusPercent(corridorMultiplier),
           transitBlockedBy: []
         });
       }
@@ -1225,7 +1260,7 @@
       const directMapUnits = mapDistanceUnits(importerGeo, exporterGeo, scale, false);
       if ((directBorderUnits === null || directBorderUnits > 3.5) && (sameRouteRegion(importerGeo, exporterGeo) || directMapUnits <= 18)) {
         const transitPath = [exporterId, importerId];
-        const corridorMultiplier = routeCorridorMultiplier(routeInvestments, transitPath);
+        const corridorMultiplier = routeCorridorMultiplier(routeLogistics, transitPath);
         const multiplier = routeEfficiencyMultiplier("regional", directMapUnits, scale, exporterProfile, importerProfile, 1) * corridorMultiplier;
         candidates.push({
           routeType: "regional",
@@ -1239,13 +1274,13 @@
           routeMeshVersion: "",
           chokepoints: [],
           chokepointSeverity: 0,
-          routeInvestmentBonus: routeInvestmentBonusPercent(corridorMultiplier),
+          routeLogisticsBonus: routeLogisticsBonusPercent(corridorMultiplier),
           transitBlockedBy: []
         });
       }
 
-      const exporterPorts = coastalAccessOptions(exporterId, geography, scale, transitPolicies, exporterId, routeInvestments);
-      const importerPorts = coastalAccessOptions(importerId, geography, scale, transitPolicies, importerId, routeInvestments);
+      const exporterPorts = coastalAccessOptions(exporterId, geography, scale, transitPolicies, exporterId, routeLogistics);
+      const importerPorts = coastalAccessOptions(importerId, geography, scale, transitPolicies, importerId, routeLogistics);
       for (const option of [...exporterPorts, ...importerPorts]) {
         for (const blocker of option.blockedBy || []) blockedBy.add(blocker);
       }
@@ -1272,7 +1307,7 @@
                 ? "regional"
                 : "land-sea";
             const transitPath = uniqueRoutePath([...exportPort.path, ...importPort.path.slice().reverse()]);
-            const corridorMultiplier = routeCorridorMultiplier(routeInvestments, transitPath);
+            const corridorMultiplier = routeCorridorMultiplier(routeLogistics, transitPath);
             const multiplier = routeEfficiencyMultiplier(routeType, distanceUnits, scale, exportPort.port, importPort.port, chokepoint.factor) * corridorMultiplier;
             candidates.push({
               routeType,
@@ -1286,7 +1321,7 @@
               routeMeshVersion: oceanRoute?.routeMeshVersion || "",
               chokepoints: chokepointIds,
               chokepointSeverity: chokepoint.severity,
-              routeInvestmentBonus: routeInvestmentBonusPercent(corridorMultiplier),
+              routeLogisticsBonus: routeLogisticsBonusPercent(corridorMultiplier),
               transitBlockedBy: []
             });
             return true;
@@ -1331,7 +1366,7 @@
         routeMeshVersion: best.routeMeshVersion || "",
         chokepoints: best.chokepoints,
         chokepointSeverity: best.chokepointSeverity,
-        routeInvestmentBonus: best.routeInvestmentBonus || 0,
+        routeLogisticsBonus: best.routeLogisticsBonus || 0,
         transitBlocked: false,
         transitBlockedBy: [...blockedBy]
       };
@@ -1341,7 +1376,7 @@
       const scale = routeScale(data, geography);
       const transitPolicies = cloneTransitPolicies(options.transitPolicies || {});
       const chokepoints = cloneChokepoints(options.chokepoints || {});
-      const routeInvestments = cloneRouteInvestments(options.routeInvestments || {});
+      const routeLogistics = options.routeLogistics || {};
       const ids = Object.keys(geography || {});
       const routes = {};
       const laneSkeleton = laneSkeletonForData(data);
@@ -1351,7 +1386,7 @@
         scale,
         transitPolicies,
         chokepoints,
-        routeInvestments,
+        routeLogistics,
         laneSkeleton,
         laneSkeletonCache: new Map(),
         routeMesh,
@@ -1372,18 +1407,18 @@
         laneSkeleton: laneSkeleton ? { version: laneSkeleton.version, nodeCount: laneSkeleton.nodes.length } : null,
         routeMesh: routeMesh ? { version: routeMesh.version, nodeCount: routeMesh.nodes.length } : null,
         chokepoints,
-        routeInvestments
+        routeLogistics
       };
     }
 
     function cachedRouteNetwork(data, geography, options = {}) {
       const transitPolicies = cloneTransitPolicies(options.transitPolicies || {});
       const chokepoints = cloneChokepoints(options.chokepoints || {});
-      const routeInvestments = cloneRouteInvestments(options.routeInvestments || {});
+      const routeLogistics = options.routeLogistics || {};
       const cache = routeNetworkCacheForData(data);
-      const key = routeNetworkCacheKey(data, geography, transitPolicies, chokepoints, routeInvestments);
+      const key = routeNetworkCacheKey(data, geography, transitPolicies, chokepoints, routeLogistics);
       if (cache.has(key)) return cache.get(key);
-      const routeNetwork = buildRouteNetwork(data, geography, { transitPolicies, chokepoints, routeInvestments });
+      const routeNetwork = buildRouteNetwork(data, geography, { transitPolicies, chokepoints, routeLogistics });
       if (cache.size >= ROUTE_NETWORK_CACHE_LIMIT) cache.clear();
       cache.set(key, routeNetwork);
       return routeNetwork;
@@ -1745,13 +1780,11 @@
       const lanePolicies = options.lanePolicies || {};
       const transitPolicies = options.transitPolicies || {};
       const chokepoints = options.chokepoints || {};
-      const routeInvestments = cloneRouteInvestments(options.routeInvestments || {});
-      const neutralRouteInvestments = options.neutralRouteInvestments === undefined
-        ? routeInvestments
-        : cloneRouteInvestments(options.neutralRouteInvestments || {});
+      const routeLogistics = options.routeLogistics || tradeLogisticsDeltasForInputs(inputsById);
+      const neutralRouteLogistics = options.neutralRouteLogistics === undefined ? {} : options.neutralRouteLogistics || {};
       const geography = geographyProfiles(data);
-      const routeNetwork = cachedRouteNetwork(data, geography, { transitPolicies, chokepoints, routeInvestments });
-      const neutralRouteNetwork = cachedRouteNetwork(data, geography, { transitPolicies: {}, chokepoints: {}, routeInvestments: neutralRouteInvestments });
+      const routeNetwork = cachedRouteNetwork(data, geography, { transitPolicies, chokepoints, routeLogistics });
+      const neutralRouteNetwork = cachedRouteNetwork(data, geography, { transitPolicies: {}, chokepoints: {}, routeLogistics: neutralRouteLogistics });
       const lanes = [];
       let nations = Object.fromEntries(ids.map((id) => [id, networkNationSeed(id, targetedTariffs, exportAnchors, importAnchors, lanePolicies, transitPolicies)]));
       const demandScores = Object.fromEntries(ids.map((id) => [id, importDemandScore(inputsById[id])]));
@@ -1839,7 +1872,7 @@
             transitBlockedBy: route.transitBlockedBy || [],
             chokepoints: route.chokepoints || [],
             chokepointSeverity: route.chokepointSeverity || 0,
-            routeInvestmentBonus: route.routeInvestmentBonus || 0,
+            routeLogisticsBonus: route.routeLogisticsBonus || 0,
             weight: targetProduct * affinity
           });
         }
@@ -1909,8 +1942,8 @@
         importAnchors: baseline.importAnchors || {},
         lanePolicies: baseline.lanePolicies || {},
         transitPolicies: baseline.transitPolicies || {},
-        routeInvestments: baseline.routeInvestments || {},
-        neutralRouteInvestments: baseline.routeInvestments || {},
+        routeLogistics: {},
+        neutralRouteLogistics: {},
         chokepoints: baseline.chokepoints || {}
       });
       const currentFlows = buildNetworkFlows(data, currentInputsById(data), network.targetedTariffs || {}, {
@@ -1920,8 +1953,7 @@
         importAnchors: network.importAnchors || {},
         lanePolicies: network.lanePolicies || {},
         transitPolicies: network.transitPolicies || {},
-        routeInvestments: network.routeInvestments || {},
-        neutralRouteInvestments: baseline.routeInvestments || {},
+        neutralRouteLogistics: {},
         chokepoints: network.chokepoints || {}
       });
       const ids = Object.keys(currentFlows.nations);
@@ -2428,22 +2460,6 @@
       }
     }
 
-    function setRouteInvestment(data, nationId, investment = {}) {
-      const network = tradeNetworkState(data);
-      const normalized = normalizeRouteInvestment(investment);
-      if (isDefaultRouteInvestment(normalized)) {
-        clearRouteInvestment(data, nationId);
-        return normalized;
-      }
-      network.routeInvestments[nationId] = normalized;
-      return normalized;
-    }
-
-    function clearRouteInvestment(data, nationId) {
-      const network = tradeNetworkState(data);
-      delete network.routeInvestments[nationId];
-    }
-
     return {
       TRADE_FORMULAS,
       calculateTradeForNation,
@@ -2461,9 +2477,7 @@
       clearLanePolicy,
       setTransitPolicy,
       clearTransitPolicy,
-      routeInvestmentFor,
-      setRouteInvestment,
-      clearRouteInvestment,
+      tradeLogisticsFor,
       recalculateTrade,
       tradeTierForFlow
     };
