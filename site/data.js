@@ -2926,7 +2926,7 @@ window.AGGS_DATA = {
       "exportReliance": 68,
       "economicTradeDiversity": 98,
       "tradePolicy": "Balanced",
-      "sanctionsLevel": "Moderate",
+      "sanctionsLevel": "None",
       "tariffRate": 2,
       "economicImpactScore": 90,
       "adjustments": {
@@ -32778,6 +32778,16 @@ window.AGGS_DATA = {
         "era": "Digital"
       }
     ]
+  },
+  "tradeNetwork": {
+    "lanePolicies": {
+      "kolkenlennan_empire": {
+        "people_s_federation_of_xanaqu": {
+          "embargo": true,
+          "sanctionsLevel": "None"
+        }
+      }
+    }
   },
   "forces": {}
 };

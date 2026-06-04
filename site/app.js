@@ -562,7 +562,6 @@
         `${coverageFor(nation.id).filter((set) => set.hasData).length}/${datasets.length}`,
         data.national[nation.id]?.economicHealth,
         data.trade[nation.id]?.tradePolicy,
-        data.trade[nation.id]?.sanctionsLevel,
         data.industrial[nation.id]?.mobilizationLevel,
         data.population[nation.id]?.mandatoryChildPolicy,
         data.eclipse[nation.id]?.eclipseStatus,
@@ -875,7 +874,6 @@
         { key: "exportReliance", label: "Export", numeric: true, secondary: true, render: fmtNumber },
         { key: "economicTradeDiversity", label: "Diversity", numeric: true, secondary: true, render: fmtNumber },
         { key: "tradePolicy", label: "Policy", render: (v) => safeStatus(v) },
-        { key: "sanctionsLevel", label: "Sanctions", render: (v) => safeStatus(v, v === "None" ? "positive" : "warning") },
         { key: "tariffRate", label: "Tariff", numeric: true, secondary: true, render: fmtPercent },
         { key: "economicImpactScore", label: "Impact", numeric: true, render: fmtNumber }
       ],
@@ -2217,7 +2215,6 @@
               ${fieldControl("trade", "economicTradeDiversity", "Diversity", trade.economicTradeDiversity)}
               ${fieldControl("trade", "autarkyIndex", "Autarky", trade.autarkyIndex)}
               ${fieldControl("trade", "tradePolicy", "Trade Policy", trade.tradePolicy, "select", Object.keys(Engine.constants.TRADE_POLICY))}
-              ${fieldControl("trade", "sanctionsLevel", "Sanctions", trade.sanctionsLevel, "select", Object.keys(Engine.constants.SANCTIONS))}
               ${fieldControl("trade", "tariffRate", "Tariff %", trade.tariffRate)}
             </section>
             <section class="editor-section editor-section-military">
