@@ -227,8 +227,43 @@
       };
     }
 
+    function applyBudgetBalanceTarget(data, id, national, budgetCapacity, targetBalance) {
+      let budgetExpenditure = Math.max(0, roundCurrency(budgetCapacity - targetBalance));
+      let fiscal = null;
+      let best = null;
+
+      function consider(candidateExpenditure) {
+        const candidate = Math.max(0, roundCurrency(candidateExpenditure));
+        const candidateFiscal = calculateFiscalForNation(data, id, { budgetCapacity, budgetExpenditure: candidate });
+        if (!candidateFiscal) return;
+        const diff = Math.abs(roundCurrency(candidateFiscal.effectiveBalance - targetBalance));
+        if (!best || diff < best.diff) {
+          best = { budgetExpenditure: candidate, fiscal: candidateFiscal, diff };
+        }
+      }
+
+      for (let attempt = 0; attempt < 6; attempt++) {
+        fiscal = calculateFiscalForNation(data, id, { budgetCapacity, budgetExpenditure });
+        if (!fiscal) return null;
+        consider(budgetExpenditure);
+        const error = roundCurrency(fiscal.effectiveBalance - targetBalance);
+        if (Math.abs(error) <= 1) break;
+        budgetExpenditure = Math.max(0, roundCurrency(budgetExpenditure + error));
+      }
+      for (let offset = 1; offset <= 512 && (!best || best.diff > 1); offset++) {
+        consider(budgetExpenditure - offset);
+        consider(budgetExpenditure + offset);
+      }
+      if (!best) return null;
+      national.budgetExpenditure = best.budgetExpenditure;
+      return best.fiscal;
+    }
+
     function recalculateBudgets(data, options = {}) {
       const shouldUpdateDebt = options.updateDebt === true;
+      const balanceTargets = data.meta?.tradeV4BudgetBalanceTargets && typeof data.meta.tradeV4BudgetBalanceTargets === "object" && !Array.isArray(data.meta.tradeV4BudgetBalanceTargets)
+        ? data.meta.tradeV4BudgetBalanceTargets
+        : null;
       for (const id of Object.keys(data.national || {})) {
         const national = data.national[id];
         const budgetCapacity = calculateBudgetForNation(data, id, {
@@ -237,7 +272,10 @@
         });
         if (budgetCapacity === null) continue;
         national.budgetCapacity = budgetCapacity;
-        let fiscal = calculateFiscalForNation(data, id, { budgetCapacity });
+        const balanceTarget = balanceTargets ? number(balanceTargets[id], null) : null;
+        let fiscal = Number.isFinite(balanceTarget)
+          ? applyBudgetBalanceTarget(data, id, national, budgetCapacity, balanceTarget)
+          : calculateFiscalForNation(data, id, { budgetCapacity });
         if (!fiscal) continue;
         applyFiscalFields(national, fiscal);
         if (shouldUpdateDebt) {
@@ -247,6 +285,7 @@
           if (fiscal) applyFiscalFields(national, fiscal);
         }
       }
+      if (balanceTargets && data.meta && options.keepTradeV4BudgetBalanceTargets !== true) delete data.meta.tradeV4BudgetBalanceTargets;
       return data;
     }
 

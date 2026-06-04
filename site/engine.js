@@ -1,5 +1,6 @@
 (function () {
   const STORAGE_KEY = "aggs-operations-state-v4";
+  const TRADE_V4_FORMULA_VERSION = "trade2028";
 
   const HEALTH_GROWTH = { Depression: -3, Recession: -2, Slowdown: -1, Recovery: 1, Expansion: 2, Prosperity: 3 };
   const HEALTH_DEMOGRAPHICS = {
@@ -149,14 +150,33 @@
     return Number(number(value, 0).toFixed(2));
   }
 
+  function budgetBalanceMigrationTarget(national = {}) {
+    const storedBalance = number(national.budgetBalance, null);
+    if (Number.isFinite(storedBalance)) return roundCurrency(storedBalance);
+    return roundCurrency(number(national.budgetCapacity, 0) - number(national.budgetExpenditure, 0));
+  }
+
+  function captureTradeV4BudgetBalanceTargets(data, previousTradeFormulaVersion) {
+    if (previousTradeFormulaVersion === TRADE_V4_FORMULA_VERSION || data.meta.tradeV4BudgetBalanceTargets) return;
+    const nationalRows = data.national && typeof data.national === "object" && !Array.isArray(data.national)
+      ? data.national
+      : {};
+    const targets = Object.fromEntries(
+      Object.entries(nationalRows)
+        .map(([id, national]) => [id, budgetBalanceMigrationTarget(national)])
+        .filter(([, target]) => Number.isFinite(target))
+    );
+    if (Object.keys(targets).length) data.meta.tradeV4BudgetBalanceTargets = targets;
+  }
+
   function ensureState(data = {}) {
     data.meta = data.meta || {};
+    const previousTradeFormulaVersion = data.meta.tradeFormulaVersion;
     data.meta.title = data.meta.title || "AG-GS Global Ledger";
     data.meta.currentYear = number(data.meta.currentYear, 2021);
     data.meta.worldEconomicHealth = data.meta.worldEconomicHealth || "Expansion";
     data.meta.budgetFormulaVersion = data.meta.budgetFormulaVersion || "legacy";
     data.meta.tariffFormulaVersion = TARIFF_FORMULAS[data.meta.tariffFormulaVersion] ? data.meta.tariffFormulaVersion : "legacy";
-    data.meta.tradeFormulaVersion = "trade2028";
     data.meta.populationFormulaVersion = POPULATION_FORMULAS[data.meta.populationFormulaVersion] ? data.meta.populationFormulaVersion : "population2026";
     delete data.meta.tradeV3Enabled;
     data.meta.archivedNationIds = Array.isArray(data.meta.archivedNationIds) ? data.meta.archivedNationIds : [];
@@ -170,6 +190,8 @@
     ["populationColumns", "equipmentCosts", "eraMultipliers", "costAdditionModifiers", "costReductionModifiers"].forEach((key) => {
       data[key] = Array.isArray(data[key]) ? data[key] : [];
     });
+    captureTradeV4BudgetBalanceTargets(data, previousTradeFormulaVersion);
+    data.meta.tradeFormulaVersion = TRADE_V4_FORMULA_VERSION;
     data.tradeNetwork = data.tradeNetwork && typeof data.tradeNetwork === "object" && !Array.isArray(data.tradeNetwork) ? data.tradeNetwork : {};
     data.tradeNetwork.targetedTariffs = data.tradeNetwork.targetedTariffs && typeof data.tradeNetwork.targetedTariffs === "object" && !Array.isArray(data.tradeNetwork.targetedTariffs)
       ? data.tradeNetwork.targetedTariffs
@@ -228,6 +250,26 @@
     data.meta.archivedNationIds = uniqueIds((data.meta.archivedNationIds || []).filter((archivedId) => archivedId !== id));
     data.meta.updatedAt = new Date().toISOString();
     return true;
+  }
+
+  function hasTradeV4BudgetBalanceTargets(data) {
+    const targets = data.meta?.tradeV4BudgetBalanceTargets;
+    return Boolean(targets && typeof targets === "object" && !Array.isArray(targets) && Object.keys(targets).length);
+  }
+
+  function budgetMigrationSignature(data) {
+    return Object.keys(data.national || {})
+      .sort()
+      .map((id) => {
+        const national = data.national[id] || {};
+        return [
+          id,
+          roundCurrency(national.budgetCapacity),
+          roundCurrency(national.budgetExpenditure),
+          roundCurrency(national.budgetBalance)
+        ].join(":");
+      })
+      .join("|");
   }
 
   function load(baseData) {
@@ -729,6 +771,19 @@
 
   function recalculateAll(data, options = {}) {
     ensureTradeV4State(data);
+    if (hasTradeV4BudgetBalanceTargets(data)) {
+      const migrationOptions = { ...options, keepTradeV4BudgetBalanceTargets: true };
+      let previousSignature = "";
+      for (let attempt = 0; attempt < 6; attempt++) {
+        recalculateTrade(data, options);
+        recalculateBudgets(data, migrationOptions);
+        const nextSignature = budgetMigrationSignature(data);
+        if (attempt > 0 && nextSignature === previousSignature) break;
+        previousSignature = nextSignature;
+      }
+      delete data.meta.tradeV4BudgetBalanceTargets;
+      return data;
+    }
     recalculateTrade(data, options);
     recalculateBudgets(data, options);
     recalculateTrade(data, options);
@@ -767,7 +822,7 @@
   function ensureTradeV4State(data) {
     ensureState(data);
     ensureTradeNetworkState(data);
-    data.meta.tradeFormulaVersion = "trade2028";
+    data.meta.tradeFormulaVersion = TRADE_V4_FORMULA_VERSION;
     delete data.meta.tradeV3Enabled;
     return data;
   }

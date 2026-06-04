@@ -208,10 +208,10 @@
 
     function tradePolicyProfile(policy) {
       return {
-        Protectionist: { access: 0.52, importDemand: 0.5, exportSupply: 0.68, capacity: 0.66, balanceRisk: 0.72 },
+        Protectionist: { access: 0.52, importDemand: 0.5, exportSupply: 0.68, capacity: 0.66, balanceRisk: 0.78 },
         Balanced: { access: 1, importDemand: 1, exportSupply: 1, capacity: 1, balanceRisk: 1 },
-        "Open Market": { access: 1.22, importDemand: 1.18, exportSupply: 1.14, capacity: 1.12, balanceRisk: 1.18 },
-        "Free Trade": { access: 1.44, importDemand: 1.32, exportSupply: 1.26, capacity: 1.22, balanceRisk: 1.35 }
+        "Open Market": { access: 1.22, importDemand: 1.18, exportSupply: 1.14, capacity: 1.12, balanceRisk: 1.08 },
+        "Free Trade": { access: 1.44, importDemand: 1.32, exportSupply: 1.26, capacity: 1.22, balanceRisk: 1.14 }
       }[policy] || { access: 1, importDemand: 1, exportSupply: 1, capacity: 1, balanceRisk: 1 };
     }
 
@@ -2124,13 +2124,14 @@
       const policy = tradePolicyProfile(current.tradePolicy);
       const logistics = tradeLogisticsProfile(current);
       const relianceGap = number(current.exportReliance, 0) - number(current.importReliance, 0);
+      const relianceGapSignal = Math.sign(relianceGap) * Math.pow(Math.abs(relianceGap), 0.88);
       const relianceAverage = Math.max(1, (number(current.exportReliance, 0) + number(current.importReliance, 0)) / 2);
       const normalizedGap = relianceGap / relianceAverage;
-      const balanceScale = 160 + Math.sqrt(Math.max(totalFlow, 0)) * 0.72 + Math.sqrt(Math.max(current.budgetCapacity, 0)) * 8.5;
-      const structuralBalance = relianceGap * balanceScale * policy.balanceRisk;
-      const flowBalance = exportFlow * 0.034 - importFlow * 0.04;
-      const tariffBalance = number(impact.tariffRevenueDelta, 0) * 0.72 - number(impact.importCostDelta, 0) * 0.5;
-      const imbalancePenalty = -Math.pow(Math.abs(normalizedGap), 1.45) * balanceScale * 3.4 * (relianceGap < 0 ? 1.24 : 0.38);
+      const balanceScale = 70 + Math.sqrt(Math.max(totalFlow, 0)) * 0.24 + Math.sqrt(Math.max(current.budgetCapacity, 0)) * 3.2;
+      const structuralBalance = relianceGapSignal * balanceScale * policy.balanceRisk;
+      const flowBalance = exportFlow * 0.014 - importFlow * 0.015;
+      const tariffBalance = number(impact.tariffRevenueDelta, 0) * 0.55 - number(impact.importCostDelta, 0) * 0.36;
+      const imbalancePenalty = -Math.pow(Math.abs(normalizedGap), 1.35) * balanceScale * 0.72 * (relianceGap < 0 ? 1.14 : 0.34);
       const tradeBalance = roundCurrency(flowBalance + structuralBalance + tariffBalance + imbalancePenalty + number(impact.tradeBalanceDelta, 0));
       const tradeCapacity = roundCurrency(
         worldPoolCapacityScore(current) / 600
