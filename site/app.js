@@ -295,6 +295,7 @@
   function resetWorkingState() {
     data = Engine.reset(baseData);
     sharedSync.revision = null;
+    clearPendingEditDraft();
     pendingEdits.clear();
     state.notice = sharedSync.enabled ? "Reloading the live ledger." : "Cleared local fallback state.";
     ensureSelectedNation();
@@ -337,6 +338,7 @@
     if (nextRevision && nextRevision === sharedSync.revision) return false;
     data = Engine.normalizeState(Engine.clone(payload.data));
     Engine.recalculateAll(data);
+    clearPendingEditDraft();
     pendingEdits.clear();
     sharedSync.revision = nextRevision || sharedSync.revision;
     sharedSync.updatedAt = payload.updatedAt || data.meta?.updatedAt || "";
@@ -2820,10 +2822,25 @@
   const { renderNaval, renderEquipment, renderRosterImport, renderTemplateImport, renderAudit, auditRows } = recordsViews;
 
   let editRenderTimer = null;
+  let editApplyTimer = null;
+  let pendingEditDraft = null;
   let deferredRenderTimer = null;
+  const EDIT_APPLY_DELAY_MS = 450;
 
   function activeEditElement() {
     return document.activeElement?.closest?.("[data-edit]") || null;
+  }
+
+  function markPendingEditorChange() {
+    if (!sharedSync.enabled || !isAdmin) return;
+    sharedSync.hasPendingLocalChange = true;
+    markSync("publishing");
+  }
+
+  function clearPendingEditDraft() {
+    clearTimeout(editApplyTimer);
+    editApplyTimer = null;
+    pendingEditDraft = null;
   }
 
   function deferRenderUntilEditSettles() {
@@ -2879,6 +2896,7 @@
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       if (!canAccessTab(tab.dataset.tab)) return;
+      flushPendingEdit(false);
       const changedTab = state.tab !== tab.dataset.tab;
       state.tab = tab.dataset.tab;
       render();
@@ -2961,6 +2979,21 @@
 
   const pendingEdits = new Map();
 
+  function readEditDraft(edit) {
+    return {
+      dataset: edit.dataset.dataset,
+      path: edit.dataset.path,
+      id: edit.dataset.id || state.selectedNation,
+      rawValue: edit.value,
+      tagName: edit.tagName,
+      type: edit.type
+    };
+  }
+
+  function editDraftKey(draft) {
+    return `${draft?.id || ""}:${draft?.dataset || ""}:${draft?.path || ""}`;
+  }
+
   function recordChange(entryKey, id, dataset, path, afterValue, afterMetrics) {
     const pending = pendingEdits.get(entryKey);
     if (!pending) return [];
@@ -2989,18 +3022,39 @@
     return changes;
   }
 
+  function flushPendingEdit(renderNow = false) {
+    if (!pendingEditDraft) return false;
+    const draft = pendingEditDraft;
+    clearPendingEditDraft();
+    applyEditDraft(draft, renderNow);
+    return true;
+  }
+
+  function scheduleEditApply(edit) {
+    pendingEditDraft = readEditDraft(edit);
+    markPendingEditorChange();
+    clearTimeout(editApplyTimer);
+    editApplyTimer = setTimeout(() => {
+      flushPendingEdit(false);
+    }, EDIT_APPLY_DELAY_MS);
+  }
+
   function applyEdit(edit, renderNow = true) {
+    applyEditDraft(readEditDraft(edit), renderNow);
+  }
+
+  function applyEditDraft(draft, renderNow = true) {
     if (!isAdmin) {
       state.notice = "Editor access is restricted.";
       render();
       return;
     }
-    const dataset = edit.dataset.dataset;
-    const path = edit.dataset.path;
-    const id = edit.dataset.id || state.selectedNation;
-    const rawValue = edit.value;
+    const dataset = draft.dataset;
+    const path = draft.path;
+    const id = draft.id || state.selectedNation;
+    const rawValue = draft.rawValue;
     let writePath = path;
-    let value = edit.tagName === "SELECT" || edit.type === "text"
+    let value = draft.tagName === "SELECT" || draft.type === "text"
       ? rawValue
       : isDecimalPercentField(dataset, path)
         ? Engine.number(rawValue, 0) / 100
@@ -3054,7 +3108,7 @@
       updateSimulationPreview(event.target.id);
     }
     const edit = event.target.closest("[data-edit]");
-    if (edit) applyEdit(edit, false);
+    if (edit) scheduleEditApply(edit);
   });
 
   app.addEventListener("scroll", (event) => {
@@ -3063,10 +3117,12 @@
   }, true);
 
   app.addEventListener("click", async (event) => {
+    if (!event.target.closest("[data-edit]")) flushPendingEdit(false);
     if (recordsViews.handleClick?.(event)) return;
 
     const actionButton = event.target.closest("[data-action]");
     if (actionButton) {
+      flushPendingEdit(false);
       const action = actionButton.dataset.action;
       if (!isAdmin && adminOnlyActions.has(action)) {
         state.notice = "Admin access is required for this action.";
@@ -3192,6 +3248,7 @@
       } else if (action === "export-data-js") {
         downloadText("data.js", Engine.exportDataJs(data), "text/javascript");
       } else if (action === "publish-live-state") {
+        flushPendingEdit(false);
         Engine.save(data);
         await publishSharedState("Published current state to the live ledger.");
       }
@@ -3200,6 +3257,7 @@
 
     const mapLayer = event.target.closest("[data-trade-map-layer]");
     if (mapLayer) {
+      flushPendingEdit(false);
       state.tradeMapLayer = mapLayer.dataset.tradeMapLayer || "trade";
       renderPreservingPageScroll();
       return;
@@ -3207,6 +3265,7 @@
 
     const mapNation = event.target.closest("[data-trade-map-nation]");
     if (mapNation) {
+      flushPendingEdit(false);
       state.selectedNation = mapNation.dataset.tradeMapNation;
       state.tradeAnchorPreview = null;
       renderPreservingPageScroll();
@@ -3215,6 +3274,7 @@
 
     const nationButton = event.target.closest("[data-nation]");
     if (nationButton) {
+      flushPendingEdit(false);
       state.selectedNation = nationButton.dataset.nation;
       state.tradeAnchorPreview = null;
       render();
@@ -3223,6 +3283,7 @@
 
     const header = event.target.closest("th[data-table]");
     if (header) {
+      flushPendingEdit(false);
       rememberVisibleTableScroll();
       const table = header.dataset.table;
       const key = header.dataset.key;
@@ -3246,12 +3307,14 @@
 
     const viewSelect = event.target.closest("[data-view-select]");
     if (viewSelect) {
+      flushPendingEdit(false);
       applyView(viewSelect.value);
       return;
     }
 
     const nationSelect = event.target.closest("[data-nation-select]");
     if (nationSelect) {
+      flushPendingEdit(false);
       state.selectedNation = nationSelect.value;
       state.tradeAnchorPreview = null;
       render();
@@ -3345,8 +3408,15 @@
       return;
     }
 
+    const draft = readEditDraft(edit);
+    if (pendingEditDraft && editDraftKey(pendingEditDraft) !== editDraftKey(draft)) flushPendingEdit(false);
+    clearPendingEditDraft();
     const shouldRenderAfterChange = edit.tagName === "SELECT" || document.activeElement !== edit;
-    applyEdit(edit, shouldRenderAfterChange);
+    applyEditDraft(draft, shouldRenderAfterChange);
+  });
+
+  window.addEventListener("beforeunload", () => {
+    flushPendingEdit(false);
   });
 
   render();
