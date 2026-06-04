@@ -1250,7 +1250,6 @@
       : "World surface scale";
     const territories = TradeMap.territoriesForNations?.(sortedNations(), selected.id) || [];
     const routes = TradeMap.routesForRows?.(selected.id, rows, territories, tradeNetworkRouteLimit(rows)) || [];
-    const selectedTerritory = territories.find((territory) => territory.nationId === selected.id) || territories[0];
     const maxRouteFlow = Math.max(1, ...routes.map((route) => route.totalFlow || 0));
     const topPartners = rows.slice(0, 4);
     const routeSummary = routes.length
@@ -3049,10 +3048,6 @@
     editApplyTimer = setTimeout(() => {
       flushPendingEdit(false);
     }, EDIT_APPLY_DELAY_MS);
-  }
-
-  function applyEdit(edit, renderNow = true) {
-    applyEditDraft(readEditDraft(edit), renderNow);
   }
 
   function applyEditDraft(draft, renderNow = true) {

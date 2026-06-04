@@ -3335,62 +3335,10 @@ tbody td {
   font-weight: 800;
 }
 
-.design-card-list,
 .navy-glance-list {
   display: grid;
   gap: 10px;
   padding: 12px;
-}
-
-.design-card {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 4px 10px;
-  width: 100%;
-  min-height: 74px;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--input-bg);
-  color: var(--ink);
-  text-align: left;
-  cursor: pointer;
-}
-
-.design-card:hover,
-.design-card:focus-visible,
-.design-card.is-active {
-  border-color: var(--blue);
-  box-shadow: 0 0 0 3px var(--selected-ring);
-}
-
-.design-card .swatch {
-  grid-row: 1 / span 3;
-  margin-top: 3px;
-}
-
-.design-card strong,
-.design-card small,
-.design-card em {
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-
-.design-card strong {
-  font-size: 16px;
-  line-height: 1.15;
-}
-
-.design-card small {
-  color: var(--blue);
-  font-weight: 900;
-}
-
-.design-card em {
-  color: var(--muted);
-  font-style: normal;
-  font-size: 13px;
-  font-weight: 700;
 }
 
 .design-editor-panel {

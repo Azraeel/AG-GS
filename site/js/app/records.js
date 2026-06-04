@@ -155,17 +155,6 @@
       return design.status || (design.detailLevel === "template" ? "Concept" : "Rostered");
     }
 
-    function designCard(nation, design, active) {
-      const detailLabel = design.detailLevel === "template" ? "Detailed" : design.detailLevel === "roster" ? "Roster" : "Custom";
-      return `
-        <button type="button" class="design-card ${active ? "is-active" : ""}" data-equipment-design="${escapeHtml(design.id)}">
-          <span class="swatch" style="background:${safeColor(nation.color)}"></span>
-          <strong>${safeText(design.name, "Untitled Equipment")}</strong>
-          <small>${safeText(design.category, "Uncategorized")} / ${safeText(design.subcategory || design.role || detailLabel, detailLabel)}</small>
-          <em>${safeText(designStatus(design))}${design.notes ? ` - ${safeText(design.notes)}` : ""}</em>
-        </button>`;
-    }
-
     function equipmentCategoryOptions(designs) {
       const counts = new Map();
       designs.forEach((design) => {

@@ -439,13 +439,6 @@
       return clamp(0.7 + Math.pow(normalizedShare, 0.82) * 0.42, 0.68, 2.9);
     }
 
-    function forcedLaneFor(importerId, exporterId, targetedTariffs, exportAnchors, importAnchors, lanePolicies) {
-      return targetedTariffs?.[importerId]?.[exporterId] !== undefined
-        || number(importAnchors?.[importerId]?.[exporterId], 0) > 0
-        || number(exportAnchors?.[exporterId]?.[importerId], 0) > 0
-        || lanePolicies?.[importerId]?.[exporterId] !== undefined;
-    }
-
     function normalizeRouteAccess(value) {
       if (Array.isArray(value)) return value.map((entry) => String(entry || "").toLowerCase()).filter(Boolean);
       if (typeof value === "string") return value.split(/[,|]/).map((entry) => entry.trim().toLowerCase()).filter(Boolean);

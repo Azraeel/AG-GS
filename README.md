@@ -27,7 +27,7 @@ The live ledger is served through the AG-GS API, keeping the deployed website fo
 ## Systems Covered
 
 - Government stability, unrest, corruption, budgets, debt, immigration, and economic health
-- Trade capacity, efficiency, policy, tariffs, sanctions, reliance, diversity, and impact
+- Trade capacity, policy, tariffs, lane policies, reliance, diversity, and impact
 - Population history and demographic policy
 - Industrial capacity, factories, shipyards, and mobilization
 - Military organization, supply, personnel, reserves, and equipment complexity
