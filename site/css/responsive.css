@@ -1,0 +1,375 @@
+.footer {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 18px clamp(16px, 4vw, 44px) 34px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.footer-links {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+  text-decoration: underline;
+  outline: 0;
+}
+
+.empty {
+  padding: 28px 16px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.empty.compact {
+  padding: 14px 0;
+  font-size: 13px;
+}
+
+@media (max-width: 1240px) {
+  .equipment-library-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .equipment-dossier-panel {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 760px) {
+  .equipment-record-header {
+    display: none;
+  }
+
+  .equipment-record-card {
+    grid-template-columns: 1fr;
+    gap: 5px;
+    min-height: 0;
+  }
+
+  .equipment-record-detail {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 980px) {
+  .overview-hero,
+  .records-hero,
+  .overview-panels,
+  .dashboard-grid,
+  .split,
+  .nation-layout,
+  .simulation-grid,
+  .records-workspace-grid,
+  .equipment-library-layout,
+  .records-import-grid,
+  .template-library-grid,
+  .naval-grid,
+  .equipment-grid,
+  .audit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .community-card {
+    grid-template-columns: 1fr;
+  }
+
+  .community-card-link {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .nation-roster {
+    position: static;
+  }
+
+  .nation-list {
+    max-height: 360px;
+  }
+
+  .nation-stat-strip,
+  .nation-dossier-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dossier-section-wide {
+    grid-column: 1 / -1;
+  }
+
+  .control-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .simulation-snapshot {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .simulation-control-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pipeline-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .records-hero-controls {
+    justify-content: stretch;
+  }
+
+  .records-nation-picker {
+    min-width: 0;
+  }
+
+  .records-summary-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .records-summary-strip .records-fact:nth-child(odd) {
+    border-left: 0;
+  }
+
+  .records-summary-strip .records-fact:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+
+  .equipment-action-bar {
+    justify-content: flex-start;
+  }
+
+  .design-form-grid,
+  .equipment-inspector-panel .design-form-grid,
+  .design-detail-grid,
+  .template-section-grid,
+  .equipment-spec-grid,
+  .template-card-body,
+  .template-explain-list,
+  .naval-add-row {
+    grid-template-columns: 1fr;
+  }
+
+  .design-detail-grid .records-fact,
+  .design-detail-grid .records-fact:not(:nth-child(3n + 1)),
+  .template-card-body .records-fact,
+  .template-card-body .records-fact:nth-child(even),
+  .template-explain-list .records-fact,
+  .template-explain-list .records-fact:nth-child(even) {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .design-detail-grid .records-fact:first-child,
+  .template-card-body .records-fact:first-child,
+  .template-explain-list .records-fact:first-child {
+    border-top: 0;
+  }
+
+  .import-preview-row {
+    grid-template-columns: 1fr;
+  }
+
+  .history-list-head {
+    display: none;
+  }
+
+  .history-list-row {
+    grid-template-columns: 132px minmax(0, 1fr);
+    gap: 6px 12px;
+  }
+
+  .history-list-row > div:nth-child(3),
+  .history-list-row > div:nth-child(4),
+  .history-list-row > div:nth-child(5) {
+    grid-column: 2;
+  }
+
+  .editor-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-rail {
+    position: static;
+  }
+
+  .editor-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .roster-tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .roster-create-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+@media (max-width: 720px) {
+  .topbar {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .top-actions {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-self: start;
+    width: 100%;
+  }
+
+  .top-cta {
+    flex: 0 0 auto;
+  }
+
+  .source-pill {
+    width: 100%;
+    max-width: none;
+  }
+
+  .theme-toggle {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .overview-hero {
+    padding: 16px;
+  }
+
+  .overview-identity h2 {
+    font-size: 52px;
+  }
+
+  .dashboard-grid,
+  .overview-facts,
+  .detail-grid,
+  .control-grid,
+  .roster-tools-grid,
+  .roster-create-card,
+  .roster-archive-card,
+  .roster-restore-card,
+  .snapshot-recovery-controls,
+  .snapshot-summary-strip,
+  .nation-stat-strip,
+  .nation-dossier-grid,
+  .simulation-snapshot,
+  .simulation-control-grid,
+  .pipeline-grid,
+  .editor-layout,
+  .editor-sections,
+  .editor-section,
+  .rail-detail-grid,
+  .editor-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .nation-dossier-hero {
+    display: grid;
+  }
+
+  .simulation-hero {
+    display: grid;
+  }
+
+  .simulation-action-group {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .nation-dossier-status {
+    justify-content: flex-start;
+    max-width: none;
+  }
+
+  .dossier-metric + .dossier-metric {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .snapshot-summary-strip .overview-fact + .overview-fact {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .records-summary-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .records-summary-strip .records-fact + .records-fact,
+  .records-summary-strip .records-fact:nth-child(n + 3) {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .records-local-tabs {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .editable-ship-category,
+  .editable-ship-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ship-count-cell {
+    justify-content: stretch;
+  }
+
+  .editor-section-national,
+  .editor-section-trade,
+  .editor-section-military,
+  .editor-section-intelligence,
+  .editor-section-population,
+  .editor-section-industrial,
+  .editor-section-civic {
+    grid-column: 1 / -1;
+  }
+
+  .editor-panel-head,
+  .editor-head-controls {
+    display: grid;
+    justify-content: stretch;
+  }
+
+  .editor-nation-picker {
+    min-width: 0;
+  }
+
+  .editor-summary .overview-fact {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .leaderboard-row {
+    grid-template-columns: 30px minmax(0, 1fr);
+  }
+
+  .leaderboard-value {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  .ship-category {
+    grid-template-columns: 1fr;
+  }
+}

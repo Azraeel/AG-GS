@@ -3,8 +3,6 @@ window.AGGS_DATA = {
     "title": "AG-GS Global Ledger",
     "source": "AG-GS operating baseline updated on 2026-05-27. Preview seed from public API revision 663.",
     "accuracyNote": "Editable operational data with recalculated national, trade, industrial, population, and military outputs.",
-    "githubPagesPath": "https://azraeel.github.io/AG-GS/",
-    "sourceWorkbook": "Event Creator Tracker.xlsx",
     "currentYear": 2022,
     "currentMonth": "January",
     "worldEconomicHealth": "Expansion",
@@ -49,11 +47,6 @@ window.AGGS_DATA = {
       }
     ],
     "updatedAt": "2026-06-01T23:54:36.291Z",
-    "adjustmentSummary": {
-      "tradeAdjustmentRows": 44,
-      "tradeAdjustmentFields": 263,
-      "budgetAdjustmentRows": 50
-    },
     "changeHistory": [],
     "archivedNationIds": [],
     "budgetFormulaVersion": "tax2026",
@@ -291,9 +284,7 @@ window.AGGS_DATA = {
           "createdAt": "2026-06-01T04:53:17.826Z"
         }
       ]
-    },
-    "previewSeededFromRevision": 663,
-    "previewSeededAt": "2026-06-02T02:33:47.631Z"
+    }
   },
   "nations": [
     {
