@@ -2707,11 +2707,9 @@ window.AGGS_DATA = {
   "trade": {
     "solara": {
       "tradeCapacity": 89371,
-      "tradeEfficiency": 128,
       "autarkyIndex": 57,
       "tradeBalance": 450934,
       "tradeFlow": 9800114,
-      "tradePower": 279979,
       "importReliance": 179,
       "exportReliance": 133,
       "economicTradeDiversity": 135,
@@ -2721,10 +2719,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 514,
       "adjustments": {
         "tradeCapacity": 110,
-        "tradeEfficiency": 15,
         "tradeBalance": 1573,
         "tradeFlow": 273857,
-        "tradePower": -362,
         "economicImpactScore": 4
       },
       "tradeFormulaVersion": "trade2026",
@@ -2742,11 +2738,9 @@ window.AGGS_DATA = {
     },
     "republic_of_aurendale": {
       "tradeCapacity": 110837,
-      "tradeEfficiency": 128,
       "autarkyIndex": 50,
       "tradeBalance": 878649,
       "tradeFlow": 17725798,
-      "tradePower": 333628,
       "importReliance": 132,
       "exportReliance": 147,
       "economicTradeDiversity": 192,
@@ -2756,10 +2750,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 847,
       "adjustments": {
         "tradeCapacity": 630,
-        "tradeEfficiency": 19,
         "tradeBalance": 2898,
         "tradeFlow": 436632,
-        "tradePower": -1323,
         "economicImpactScore": 9
       },
       "tradeFormulaVersion": "trade2026",
@@ -2777,11 +2769,9 @@ window.AGGS_DATA = {
     },
     "astoria": {
       "tradeCapacity": 59068,
-      "tradeEfficiency": 128,
       "autarkyIndex": 32,
       "tradeBalance": 227455,
       "tradeFlow": 2889603,
-      "tradePower": 167724,
       "importReliance": 140,
       "exportReliance": 106,
       "economicTradeDiversity": 125,
@@ -2791,10 +2781,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 319,
       "adjustments": {
         "tradeCapacity": 230,
-        "tradeEfficiency": 11,
         "tradeBalance": -678,
         "tradeFlow": 48613,
-        "tradePower": -409,
         "economicImpactScore": -1
       },
       "tradeFormulaVersion": "trade2026",
@@ -2812,11 +2800,9 @@ window.AGGS_DATA = {
     },
     "zhensanovian_commonwealth": {
       "tradeCapacity": 67431,
-      "tradeEfficiency": 128,
       "autarkyIndex": 29,
       "tradeBalance": 340128,
       "tradeFlow": 3943856,
-      "tradePower": 207401,
       "importReliance": 213,
       "exportReliance": 136,
       "economicTradeDiversity": 151,
@@ -2826,10 +2812,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 459,
       "adjustments": {
         "tradeCapacity": 437,
-        "tradeEfficiency": 22,
         "tradeBalance": 1844,
         "tradeFlow": 222465,
-        "tradePower": -272,
         "economicImpactScore": 12
       },
       "tradeFormulaVersion": "trade2026",
@@ -2847,11 +2831,9 @@ window.AGGS_DATA = {
     },
     "imperial_rhovland": {
       "tradeCapacity": 61399,
-      "tradeEfficiency": 128,
       "autarkyIndex": 52,
       "tradeBalance": 202647,
       "tradeFlow": 3304658,
-      "tradePower": 171326,
       "importReliance": 101,
       "exportReliance": 89,
       "economicTradeDiversity": 147,
@@ -2861,10 +2843,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 288,
       "adjustments": {
         "tradeCapacity": -115,
-        "tradeEfficiency": 13,
         "tradeBalance": 418,
         "tradeFlow": 52635,
-        "tradePower": -351,
         "economicImpactScore": 2
       },
       "tradeFormulaVersion": "trade2026",
@@ -2882,11 +2862,9 @@ window.AGGS_DATA = {
     },
     "empire_of_khalindar": {
       "tradeCapacity": 58271,
-      "tradeEfficiency": 112,
       "autarkyIndex": 79,
       "tradeBalance": 184259,
       "tradeFlow": 2825193,
-      "tradePower": 160348,
       "importReliance": 286,
       "exportReliance": 95,
       "economicTradeDiversity": 260,
@@ -2896,10 +2874,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 293,
       "adjustments": {
         "tradeCapacity": 28,
-        "tradeEfficiency": 30,
         "tradeBalance": 958,
         "tradeFlow": 131123,
-        "tradePower": -357,
         "economicImpactScore": 6
       },
       "tradeFormulaVersion": "trade2026",
@@ -2917,11 +2893,9 @@ window.AGGS_DATA = {
     },
     "kolkenlennan_empire": {
       "tradeCapacity": 33277,
-      "tradeEfficiency": 113,
       "autarkyIndex": 32,
       "tradeBalance": -8339,
       "tradeFlow": 464202,
-      "tradePower": 107642,
       "importReliance": 109,
       "exportReliance": 68,
       "economicTradeDiversity": 98,
@@ -2931,10 +2905,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 90,
       "adjustments": {
         "tradeCapacity": -765,
-        "tradeEfficiency": 4,
         "tradeBalance": 4071,
         "tradeFlow": -7877,
-        "tradePower": -177,
         "economicImpactScore": -33
       },
       "tradeFormulaVersion": "trade2026",
@@ -2952,11 +2924,9 @@ window.AGGS_DATA = {
     },
     "federation_of_vinterholm": {
       "tradeCapacity": 38432,
-      "tradeEfficiency": 128,
       "autarkyIndex": 31,
       "tradeBalance": 64352,
       "tradeFlow": 1188652,
-      "tradePower": 117127,
       "importReliance": 133,
       "exportReliance": 93,
       "economicTradeDiversity": 71,
@@ -2966,10 +2936,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 152,
       "adjustments": {
         "tradeCapacity": 172,
-        "tradeEfficiency": 13,
         "tradeBalance": -614,
         "tradeFlow": 15379,
-        "tradePower": -95,
         "economicImpactScore": 8
       },
       "tradeFormulaVersion": "trade2026",
@@ -2987,11 +2955,9 @@ window.AGGS_DATA = {
     },
     "theorin_commonwealth": {
       "tradeCapacity": 61342,
-      "tradeEfficiency": 128,
       "autarkyIndex": 34,
       "tradeBalance": 136010,
       "tradeFlow": 2907198,
-      "tradePower": 161690,
       "importReliance": 134,
       "exportReliance": 83,
       "economicTradeDiversity": 93,
@@ -3001,10 +2967,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 230,
       "adjustments": {
         "tradeCapacity": 508,
-        "tradeEfficiency": 25,
         "tradeBalance": 715,
         "tradeFlow": 138294,
-        "tradePower": -72,
         "economicImpactScore": -3
       },
       "tradeFormulaVersion": "trade2026",
@@ -3022,11 +2986,9 @@ window.AGGS_DATA = {
     },
     "vesperan_federation": {
       "tradeCapacity": 29246,
-      "tradeEfficiency": 101,
       "autarkyIndex": 29,
       "tradeBalance": -34432,
       "tradeFlow": 514892,
-      "tradePower": 103484,
       "importReliance": 180,
       "exportReliance": 151,
       "economicTradeDiversity": 43,
@@ -3036,10 +2998,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 106,
       "adjustments": {
         "tradeCapacity": 316,
-        "tradeEfficiency": 36,
         "tradeBalance": -4819,
         "tradeFlow": 11147,
-        "tradePower": 122,
         "economicImpactScore": 147
       },
       "tradeFormulaVersion": "trade2026",
@@ -3057,11 +3017,9 @@ window.AGGS_DATA = {
     },
     "xaojin_heavenly_kingdom": {
       "tradeCapacity": 17481,
-      "tradeEfficiency": 127,
       "autarkyIndex": 8,
       "tradeBalance": -8240,
       "tradeFlow": 88029,
-      "tradePower": 37065,
       "importReliance": 39,
       "exportReliance": 33,
       "economicTradeDiversity": 11,
@@ -3084,11 +3042,9 @@ window.AGGS_DATA = {
     },
     "baathist_republic_of_volgastan": {
       "tradeCapacity": 29786,
-      "tradeEfficiency": 84,
       "autarkyIndex": 35,
       "tradeBalance": 74166,
       "tradeFlow": 557743,
-      "tradePower": 145037,
       "importReliance": 315,
       "exportReliance": 140,
       "economicTradeDiversity": 165,
@@ -3098,10 +3054,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 177,
       "adjustments": {
         "tradeCapacity": 2236,
-        "tradeEfficiency": 55,
         "tradeBalance": -3679,
         "tradeFlow": 319181,
-        "tradePower": 3814,
         "economicImpactScore": -185
       },
       "tradeFormulaVersion": "trade2026",
@@ -3119,11 +3073,9 @@ window.AGGS_DATA = {
     },
     "dracoist_malonia": {
       "tradeCapacity": 24327,
-      "tradeEfficiency": 116,
       "autarkyIndex": 13,
       "tradeBalance": 3731,
       "tradeFlow": 269327,
-      "tradePower": 66433,
       "importReliance": 117,
       "exportReliance": 89,
       "economicTradeDiversity": 78,
@@ -3133,10 +3085,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 77,
       "adjustments": {
         "tradeCapacity": 92,
-        "tradeEfficiency": 7,
         "tradeBalance": -55,
         "tradeFlow": 5548,
-        "tradePower": -65,
         "economicImpactScore": 5
       },
       "tradeFormulaVersion": "trade2026",
@@ -3154,11 +3104,9 @@ window.AGGS_DATA = {
     },
     "orinian_empire": {
       "tradeCapacity": 66153,
-      "tradeEfficiency": 128,
       "autarkyIndex": 20,
       "tradeBalance": 435256,
       "tradeFlow": 5845409,
-      "tradePower": 244972,
       "importReliance": 202,
       "exportReliance": 177,
       "economicTradeDiversity": 142,
@@ -3168,10 +3116,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 510,
       "adjustments": {
         "tradeCapacity": -126,
-        "tradeEfficiency": 21,
         "tradeBalance": 433,
         "tradeFlow": 143667,
-        "tradePower": -346,
         "economicImpactScore": 3
       },
       "tradeFormulaVersion": "trade2026",
@@ -3189,11 +3135,9 @@ window.AGGS_DATA = {
     },
     "okudan_empire": {
       "tradeCapacity": 59417,
-      "tradeEfficiency": 128,
       "autarkyIndex": 11,
       "tradeBalance": 122678,
       "tradeFlow": 5583776,
-      "tradePower": 196322,
       "importReliance": 225,
       "exportReliance": 124,
       "economicTradeDiversity": 78,
@@ -3203,10 +3147,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 239,
       "adjustments": {
         "tradeCapacity": 105,
-        "tradeEfficiency": 21,
         "tradeBalance": 126,
-        "tradeFlow": 92246,
-        "tradePower": -37
+        "tradeFlow": 92246
       },
       "tradeFormulaVersion": "trade2026",
       "tradeTier": "Major Power",
@@ -3223,11 +3165,9 @@ window.AGGS_DATA = {
     },
     "vinraarabeise_people_s_republic": {
       "tradeCapacity": 17004,
-      "tradeEfficiency": 112,
       "autarkyIndex": 16,
       "tradeBalance": -5738,
       "tradeFlow": 72771,
-      "tradePower": 32468,
       "importReliance": 41,
       "exportReliance": 32,
       "economicTradeDiversity": 21,
@@ -3250,11 +3190,9 @@ window.AGGS_DATA = {
     },
     "tsardom_of_nogoyev": {
       "tradeCapacity": 18786,
-      "tradeEfficiency": 105,
       "autarkyIndex": 24,
       "tradeBalance": -15281,
       "tradeFlow": 206173,
-      "tradePower": 60938,
       "importReliance": 134,
       "exportReliance": 119,
       "economicTradeDiversity": 41,
@@ -3264,10 +3202,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 87,
       "adjustments": {
         "tradeCapacity": 24,
-        "tradeEfficiency": 20,
         "tradeBalance": -4234,
         "tradeFlow": 357,
-        "tradePower": 80,
         "economicImpactScore": -14274
       },
       "tradeFormulaVersion": "trade2026",
@@ -3285,11 +3221,9 @@ window.AGGS_DATA = {
     },
     "vorkutangrad": {
       "tradeCapacity": 25732,
-      "tradeEfficiency": 96,
       "autarkyIndex": 71,
       "tradeBalance": 33351,
       "tradeFlow": 180162,
-      "tradePower": 83822,
       "importReliance": 54,
       "exportReliance": 82,
       "economicTradeDiversity": 81,
@@ -3299,10 +3233,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 91,
       "adjustments": {
         "tradeCapacity": 838,
-        "tradeEfficiency": 46,
         "tradeBalance": -79,
         "tradeFlow": 67037,
-        "tradePower": -312,
         "economicImpactScore": 1
       },
       "tradeFormulaVersion": "trade2026",
@@ -3320,11 +3252,9 @@ window.AGGS_DATA = {
     },
     "democratic_republic_of_suzuharu": {
       "tradeCapacity": 41346,
-      "tradeEfficiency": 120,
       "autarkyIndex": 32,
       "tradeBalance": 97807,
       "tradeFlow": 893986,
-      "tradePower": 99328,
       "importReliance": 98,
       "exportReliance": 75,
       "economicTradeDiversity": 129,
@@ -3334,10 +3264,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 234,
       "adjustments": {
         "tradeCapacity": -317,
-        "tradeEfficiency": 25,
         "tradeBalance": 93,
         "tradeFlow": 28941,
-        "tradePower": -408,
         "economicImpactScore": 6
       },
       "tradeFormulaVersion": "trade2026",
@@ -3355,11 +3283,9 @@ window.AGGS_DATA = {
     },
     "karkalnadag_kingdom": {
       "tradeCapacity": 45450,
-      "tradeEfficiency": 128,
       "autarkyIndex": 20,
       "tradeBalance": 57963,
       "tradeFlow": 2066861,
-      "tradePower": 133668,
       "importReliance": 140,
       "exportReliance": 105,
       "economicTradeDiversity": 80,
@@ -3369,10 +3295,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 140,
       "adjustments": {
         "tradeCapacity": 564,
-        "tradeEfficiency": 23,
         "tradeBalance": 277,
         "tradeFlow": 73298,
-        "tradePower": 389,
         "economicImpactScore": -4
       },
       "tradeFormulaVersion": "trade2026",
@@ -3390,11 +3314,9 @@ window.AGGS_DATA = {
     },
     "federated_syndicates_of_veszprem": {
       "tradeCapacity": 33137,
-      "tradeEfficiency": 127,
       "autarkyIndex": 63,
       "tradeBalance": -23742,
       "tradeFlow": 652774,
-      "tradePower": 103939,
       "importReliance": 139,
       "exportReliance": 68,
       "economicTradeDiversity": 99,
@@ -3404,10 +3326,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 93,
       "adjustments": {
         "tradeCapacity": 702,
-        "tradeEfficiency": 28,
         "tradeBalance": -1911,
         "tradeFlow": 35422,
-        "tradePower": -87,
         "economicImpactScore": 13
       },
       "tradeFormulaVersion": "trade2026",
@@ -3425,11 +3345,9 @@ window.AGGS_DATA = {
     },
     "republic_of_belcanto": {
       "tradeCapacity": 23693,
-      "tradeEfficiency": 126,
       "autarkyIndex": 5,
       "tradeBalance": -90418,
       "tradeFlow": 234436,
-      "tradePower": 40286,
       "importReliance": 116,
       "exportReliance": 6,
       "economicTradeDiversity": 43,
@@ -3439,10 +3357,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 221,
       "adjustments": {
         "tradeCapacity": 53,
-        "tradeEfficiency": 16,
         "tradeBalance": -3890,
         "tradeFlow": 1131,
-        "tradePower": -53,
         "economicImpactScore": 1960
       },
       "tradeFormulaVersion": "trade2026",
@@ -3460,11 +3376,9 @@ window.AGGS_DATA = {
     },
     "duchy_of_ledostrov": {
       "tradeCapacity": 19877,
-      "tradeEfficiency": 107,
       "autarkyIndex": 5,
       "tradeBalance": -3444,
       "tradeFlow": 116267,
-      "tradePower": 43790,
       "importReliance": 55,
       "exportReliance": 52,
       "economicTradeDiversity": 20,
@@ -3474,10 +3388,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 50,
       "adjustments": {
         "tradeCapacity": -111,
-        "tradeEfficiency": 28,
         "tradeBalance": -3293,
         "tradeFlow": 2358,
-        "tradePower": -120,
         "economicImpactScore": 3745
       },
       "tradeFormulaVersion": "trade2026",
@@ -3495,11 +3407,9 @@ window.AGGS_DATA = {
     },
     "people_s_republic_of_mariposa": {
       "tradeCapacity": 37302,
-      "tradeEfficiency": 126,
       "autarkyIndex": 31,
       "tradeBalance": 5540,
       "tradeFlow": 786059,
-      "tradePower": 93646,
       "importReliance": 117,
       "exportReliance": 64,
       "economicTradeDiversity": 79,
@@ -3509,10 +3419,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 81,
       "adjustments": {
         "tradeCapacity": 321,
-        "tradeEfficiency": 24,
         "tradeBalance": -1375,
         "tradeFlow": 30030,
-        "tradePower": -75,
         "economicImpactScore": 26
       },
       "tradeFormulaVersion": "trade2026",
@@ -3530,11 +3438,9 @@ window.AGGS_DATA = {
     },
     "serranova_military_junta": {
       "tradeCapacity": 19467,
-      "tradeEfficiency": 88,
       "autarkyIndex": 15,
       "tradeBalance": 13136,
       "tradeFlow": 149522,
-      "tradePower": 53883,
       "importReliance": 94,
       "exportReliance": 78,
       "economicTradeDiversity": 55,
@@ -3544,10 +3450,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 92,
       "adjustments": {
         "tradeCapacity": 48,
-        "tradeEfficiency": 39,
         "tradeBalance": -3904,
         "tradeFlow": 1962,
-        "tradePower": -51,
         "economicImpactScore": 4001
       },
       "tradeFormulaVersion": "trade2026",
@@ -3565,11 +3469,9 @@ window.AGGS_DATA = {
     },
     "people_s_federation_of_xanaqu": {
       "tradeCapacity": 73303,
-      "tradeEfficiency": 128,
       "autarkyIndex": 5,
       "tradeBalance": 360979,
       "tradeFlow": 16017230,
-      "tradePower": 336932,
       "importReliance": 291,
       "exportReliance": 244,
       "economicTradeDiversity": 86,
@@ -3579,10 +3481,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 487,
       "adjustments": {
         "tradeCapacity": 240,
-        "tradeEfficiency": 10,
         "tradeBalance": -4384,
         "tradeFlow": 130979,
-        "tradePower": -138,
         "economicImpactScore": 8
       },
       "tradeFormulaVersion": "trade2026",
@@ -3600,11 +3500,9 @@ window.AGGS_DATA = {
     },
     "empire_of_hyeosu": {
       "tradeCapacity": 22689,
-      "tradeEfficiency": 119,
       "autarkyIndex": 11,
       "tradeBalance": -35471,
       "tradeFlow": 240975,
-      "tradePower": 57185,
       "importReliance": 98,
       "exportReliance": 76,
       "economicTradeDiversity": 23,
@@ -3627,11 +3525,9 @@ window.AGGS_DATA = {
     },
     "republic_of_pestera": {
       "tradeCapacity": 41558,
-      "tradeEfficiency": 128,
       "autarkyIndex": 7,
       "tradeBalance": 106545,
       "tradeFlow": 1680440,
-      "tradePower": 149468,
       "importReliance": 174,
       "exportReliance": 154,
       "economicTradeDiversity": 67,
@@ -3641,10 +3537,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 184,
       "adjustments": {
         "tradeCapacity": 780,
-        "tradeEfficiency": 40,
         "tradeBalance": -2356,
         "tradeFlow": 125113,
-        "tradePower": -203,
         "economicImpactScore": 42
       },
       "tradeFormulaVersion": "trade2026",
@@ -3662,11 +3556,9 @@ window.AGGS_DATA = {
     },
     "imperial_suomi": {
       "tradeCapacity": 42763,
-      "tradeEfficiency": 128,
       "autarkyIndex": 38,
       "tradeBalance": 57605,
       "tradeFlow": 861979,
-      "tradePower": 108107,
       "importReliance": 84,
       "exportReliance": 68,
       "economicTradeDiversity": 87,
@@ -3676,10 +3568,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 154,
       "adjustments": {
         "tradeCapacity": -290,
-        "tradeEfficiency": 17,
         "tradeBalance": 135,
         "tradeFlow": 25321,
-        "tradePower": -457,
         "economicImpactScore": 3
       },
       "tradeFormulaVersion": "trade2026",
@@ -3697,11 +3587,9 @@ window.AGGS_DATA = {
     },
     "empire_of_hanazuki": {
       "tradeCapacity": 29816,
-      "tradeEfficiency": 128,
       "autarkyIndex": 5,
       "tradeBalance": -22935,
       "tradeFlow": 483442,
-      "tradePower": 88450,
       "importReliance": 106,
       "exportReliance": 78,
       "economicTradeDiversity": 32,
@@ -3711,10 +3599,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 86,
       "adjustments": {
         "tradeCapacity": 98,
-        "tradeEfficiency": 19,
         "tradeBalance": -3645,
         "tradeFlow": 3623,
-        "tradePower": -54,
         "economicImpactScore": 592
       },
       "tradeFormulaVersion": "trade2026",
@@ -3732,11 +3618,9 @@ window.AGGS_DATA = {
     },
     "pdr_of_hoshigoru": {
       "tradeCapacity": 33539,
-      "tradeEfficiency": 84,
       "autarkyIndex": 43,
       "tradeBalance": -9201,
       "tradeFlow": 548979,
-      "tradePower": 112369,
       "importReliance": 176,
       "exportReliance": 104,
       "economicTradeDiversity": 96,
@@ -3746,10 +3630,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 84,
       "adjustments": {
         "tradeCapacity": 143,
-        "tradeEfficiency": 42,
         "tradeBalance": -79,
         "tradeFlow": 43890,
-        "tradePower": -31,
         "economicImpactScore": 1
       },
       "tradeFormulaVersion": "trade2026",
@@ -3767,11 +3649,9 @@ window.AGGS_DATA = {
     },
     "kingdom_of_lunaria": {
       "tradeCapacity": 21528,
-      "tradeEfficiency": 119,
       "autarkyIndex": 47,
       "tradeBalance": 1965,
       "tradeFlow": 188172,
-      "tradePower": 61609,
       "importReliance": 62,
       "exportReliance": 55,
       "economicTradeDiversity": 33,
@@ -3794,11 +3674,9 @@ window.AGGS_DATA = {
     },
     "imperial_dynasty_of_saochai": {
       "tradeCapacity": 53866,
-      "tradeEfficiency": 128,
       "autarkyIndex": 28,
       "tradeBalance": 149137,
       "tradeFlow": 2613837,
-      "tradePower": 160769,
       "importReliance": 154,
       "exportReliance": 101,
       "economicTradeDiversity": 98,
@@ -3808,10 +3686,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 244,
       "adjustments": {
         "tradeCapacity": 193,
-        "tradeEfficiency": 21,
         "tradeBalance": 290,
         "tradeFlow": 67127,
-        "tradePower": -74,
         "economicImpactScore": -2
       },
       "tradeFormulaVersion": "trade2026",
@@ -3829,11 +3705,9 @@ window.AGGS_DATA = {
     },
     "republic_of_borealyan": {
       "tradeCapacity": 14153,
-      "tradeEfficiency": 86,
       "autarkyIndex": 16,
       "tradeBalance": -5626,
       "tradeFlow": 55478,
-      "tradePower": 34328,
       "importReliance": 56,
       "exportReliance": 51,
       "economicTradeDiversity": 23,
@@ -3856,11 +3730,9 @@ window.AGGS_DATA = {
     },
     "judas_democratic_republic": {
       "tradeCapacity": 33362,
-      "tradeEfficiency": 128,
       "autarkyIndex": 24,
       "tradeBalance": 32620,
       "tradeFlow": 688329,
-      "tradePower": 100118,
       "importReliance": 120,
       "exportReliance": 106,
       "economicTradeDiversity": 63,
@@ -3870,10 +3742,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 112,
       "adjustments": {
         "tradeCapacity": 128,
-        "tradeEfficiency": 13,
         "tradeBalance": -3635,
         "tradeFlow": 4181,
-        "tradePower": -27,
         "economicImpactScore": 560
       },
       "tradeFormulaVersion": "trade2026",
@@ -3891,11 +3761,9 @@ window.AGGS_DATA = {
     },
     "duchy_of_hoogeveen": {
       "tradeCapacity": 27170,
-      "tradeEfficiency": 128,
       "autarkyIndex": 5,
       "tradeBalance": 15774,
       "tradeFlow": 322210,
-      "tradePower": 74966,
       "importReliance": 58,
       "exportReliance": 67,
       "economicTradeDiversity": 34,
@@ -3918,11 +3786,9 @@ window.AGGS_DATA = {
     },
     "fuji_shogunate": {
       "tradeCapacity": 17494,
-      "tradeEfficiency": 104,
       "autarkyIndex": 50,
       "tradeBalance": -12076,
       "tradeFlow": 96252,
-      "tradePower": 41072,
       "importReliance": 69,
       "exportReliance": 56,
       "economicTradeDiversity": 17,
@@ -3932,10 +3798,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 59,
       "adjustments": {
         "tradeCapacity": 36,
-        "tradeEfficiency": 31,
         "tradeBalance": -2756,
         "tradeFlow": 794,
-        "tradePower": -52,
         "economicImpactScore": 3780
       },
       "tradeFormulaVersion": "trade2026",
@@ -3953,11 +3817,9 @@ window.AGGS_DATA = {
     },
     "mumoon_hamed_sultunate": {
       "tradeCapacity": 26798,
-      "tradeEfficiency": 85,
       "autarkyIndex": 50,
       "tradeBalance": 30699,
       "tradeFlow": 298664,
-      "tradePower": 85474,
       "importReliance": 124,
       "exportReliance": 136,
       "economicTradeDiversity": 47,
@@ -3967,10 +3829,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 97,
       "adjustments": {
         "tradeCapacity": 24,
-        "tradeEfficiency": 43,
         "tradeBalance": -3337,
         "tradeFlow": 890,
-        "tradePower": 26,
         "economicImpactScore": -498
       },
       "tradeFormulaVersion": "trade2026",
@@ -3988,11 +3848,9 @@ window.AGGS_DATA = {
     },
     "republic_of_calblanca": {
       "tradeCapacity": 20067,
-      "tradeEfficiency": 105,
       "autarkyIndex": 19,
       "tradeBalance": -9506,
       "tradeFlow": 155179,
-      "tradePower": 55322,
       "importReliance": 82,
       "exportReliance": 71,
       "economicTradeDiversity": 26,
@@ -4002,10 +3860,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 66,
       "adjustments": {
         "tradeCapacity": 53,
-        "tradeEfficiency": 35,
         "tradeBalance": -3167,
         "tradeFlow": 2581,
-        "tradePower": -53,
         "economicImpactScore": 1574
       },
       "tradeFormulaVersion": "trade2026",
@@ -4023,11 +3879,9 @@ window.AGGS_DATA = {
     },
     "benera_navine": {
       "tradeCapacity": 16935,
-      "tradeEfficiency": 112,
       "autarkyIndex": 11,
       "tradeBalance": 10751,
       "tradeFlow": 114382,
-      "tradePower": 44405,
       "importReliance": 67,
       "exportReliance": 71,
       "economicTradeDiversity": 34,
@@ -4037,10 +3891,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 86,
       "adjustments": {
         "tradeCapacity": 45,
-        "tradeEfficiency": 21,
         "tradeBalance": -2118,
         "tradeFlow": 1596,
-        "tradePower": -52,
         "economicImpactScore": 2774
       },
       "tradeFormulaVersion": "trade2026",
@@ -4058,11 +3910,9 @@ window.AGGS_DATA = {
     },
     "butonian_state": {
       "tradeCapacity": 16514,
-      "tradeEfficiency": 114,
       "autarkyIndex": 31,
       "tradeBalance": 9238,
       "tradeFlow": 113674,
-      "tradePower": 40610,
       "importReliance": 73,
       "exportReliance": 65,
       "economicTradeDiversity": 47,
@@ -4072,10 +3922,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 80,
       "adjustments": {
         "tradeCapacity": 36,
-        "tradeEfficiency": 16,
         "tradeBalance": -2291,
         "tradeFlow": 882,
-        "tradePower": -26,
         "economicImpactScore": 4392
       },
       "tradeFormulaVersion": "trade2026",
@@ -4093,11 +3941,9 @@ window.AGGS_DATA = {
     },
     "fengu_people_s_federation": {
       "tradeCapacity": 15090,
-      "tradeEfficiency": 114,
       "autarkyIndex": 5,
       "tradeBalance": -1264,
       "tradeFlow": 85694,
-      "tradePower": 34235,
       "importReliance": 63,
       "exportReliance": 55,
       "economicTradeDiversity": 34,
@@ -4107,10 +3953,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 53,
       "adjustments": {
         "tradeCapacity": 36,
-        "tradeEfficiency": 16,
         "tradeBalance": -2115,
         "tradeFlow": 881,
-        "tradePower": -26,
         "economicImpactScore": 4113
       },
       "tradeFormulaVersion": "trade2026",
@@ -4128,11 +3972,9 @@ window.AGGS_DATA = {
     },
     "templar_of_saxonia": {
       "tradeCapacity": 16454,
-      "tradeEfficiency": 114,
       "autarkyIndex": 27,
       "tradeBalance": 106,
       "tradeFlow": 121166,
-      "tradePower": 42874,
       "importReliance": 83,
       "exportReliance": 75,
       "economicTradeDiversity": 34,
@@ -4142,10 +3984,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 42,
       "adjustments": {
         "tradeCapacity": 36,
-        "tradeEfficiency": 16,
         "tradeBalance": -2567,
         "tradeFlow": 882,
-        "tradePower": -26,
         "economicImpactScore": 4714
       },
       "tradeFormulaVersion": "trade2026",
@@ -4163,11 +4003,9 @@ window.AGGS_DATA = {
     },
     "hyelean_republic": {
       "tradeCapacity": 15597,
-      "tradeEfficiency": 114,
       "autarkyIndex": 7,
       "tradeBalance": 786,
       "tradeFlow": 103059,
-      "tradePower": 38838,
       "importReliance": 73,
       "exportReliance": 67,
       "economicTradeDiversity": 34,
@@ -4177,10 +4015,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 50,
       "adjustments": {
         "tradeCapacity": 36,
-        "tradeEfficiency": 16,
         "tradeBalance": -2291,
         "tradeFlow": 882,
-        "tradePower": -26,
         "economicImpactScore": 4392
       },
       "tradeFormulaVersion": "trade2026",
@@ -4198,11 +4034,9 @@ window.AGGS_DATA = {
     },
     "republic_of_shangri_la": {
       "tradeCapacity": 24591,
-      "tradeEfficiency": 119,
       "autarkyIndex": 37,
       "tradeBalance": -10480,
       "tradeFlow": 271771,
-      "tradePower": 67874,
       "importReliance": 102,
       "exportReliance": 91,
       "economicTradeDiversity": 22,
@@ -4212,10 +4046,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 55,
       "adjustments": {
         "tradeCapacity": 125,
-        "tradeEfficiency": 22,
         "tradeBalance": -3049,
         "tradeFlow": 6440,
-        "tradePower": -52,
         "economicImpactScore": 969
       },
       "tradeFormulaVersion": "trade2026",
@@ -4233,11 +4065,9 @@ window.AGGS_DATA = {
     },
     "bingtau_kingdom": {
       "tradeCapacity": 17600,
-      "tradeEfficiency": 102,
       "autarkyIndex": 33,
       "tradeBalance": -1633,
       "tradeFlow": 111692,
-      "tradePower": 43670,
       "importReliance": 78,
       "exportReliance": 69,
       "economicTradeDiversity": 40,
@@ -4247,10 +4077,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 49,
       "adjustments": {
         "tradeCapacity": 24,
-        "tradeEfficiency": 26,
         "tradeBalance": -2793,
         "tradeFlow": 812,
-        "tradePower": 52,
         "economicImpactScore": -716
       },
       "tradeFormulaVersion": "trade2026",
@@ -4268,11 +4096,9 @@ window.AGGS_DATA = {
     },
     "baechong_democratic_republic": {
       "tradeCapacity": 18938,
-      "tradeEfficiency": 115,
       "autarkyIndex": 21,
       "tradeBalance": -12578,
       "tradeFlow": 176540,
-      "tradePower": 54567,
       "importReliance": 97,
       "exportReliance": 91,
       "economicTradeDiversity": 26,
@@ -4282,10 +4108,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 71,
       "adjustments": {
         "tradeCapacity": 233,
-        "tradeEfficiency": 19,
         "tradeBalance": -3472,
         "tradeFlow": 1171,
-        "tradePower": 69,
         "economicImpactScore": -1227
       },
       "tradeFormulaVersion": "trade2026",
@@ -4303,11 +4127,9 @@ window.AGGS_DATA = {
     },
     "republic_of_perzam": {
       "tradeCapacity": 24346,
-      "tradeEfficiency": 125,
       "autarkyIndex": 5,
       "tradeBalance": -6842,
       "tradeFlow": 347495,
-      "tradePower": 70840,
       "importReliance": 114,
       "exportReliance": 93,
       "economicTradeDiversity": 40,
@@ -4317,10 +4139,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 67,
       "adjustments": {
         "tradeCapacity": 65,
-        "tradeEfficiency": 17,
         "tradeBalance": -3850,
         "tradeFlow": 1549,
-        "tradePower": -53,
         "economicImpactScore": 1553
       },
       "tradeFormulaVersion": "trade2026",
@@ -4338,11 +4158,9 @@ window.AGGS_DATA = {
     },
     "crovian_national_union": {
       "tradeCapacity": 8010,
-      "tradeEfficiency": 64,
       "autarkyIndex": 7,
       "tradeBalance": -5460,
       "tradeFlow": 5212,
-      "tradePower": 23996,
       "importReliance": 2,
       "exportReliance": 2,
       "economicTradeDiversity": 12,
@@ -4352,10 +4170,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 50,
       "adjustments": {
         "tradeCapacity": 172,
-        "tradeEfficiency": 50,
         "tradeBalance": -32341,
         "tradeFlow": 379,
-        "tradePower": -26,
         "economicImpactScore": 40581
       },
       "tradeFormulaVersion": "trade2026",
@@ -4373,11 +4189,9 @@ window.AGGS_DATA = {
     },
     "khalari_emirates": {
       "tradeCapacity": 25883,
-      "tradeEfficiency": 108,
       "autarkyIndex": 50,
       "tradeBalance": 13355,
       "tradeFlow": 344753,
-      "tradePower": 78864,
       "importReliance": 134,
       "exportReliance": 106,
       "economicTradeDiversity": 56,
@@ -4387,10 +4201,8 @@ window.AGGS_DATA = {
       "economicImpactScore": 78,
       "adjustments": {
         "tradeCapacity": 107,
-        "tradeEfficiency": 30,
         "tradeBalance": -1679,
         "tradeFlow": 13424,
-        "tradePower": -26,
         "economicImpactScore": 436
       },
       "tradeFormulaVersion": "trade2026",
