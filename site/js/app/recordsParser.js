@@ -43,6 +43,23 @@
     Misc: "Infantry Equipment"
   };
 
+  const navalSubcategories = [
+    "Support Ships",
+    "Patrol Boats",
+    "Corvette",
+    "Corvettes",
+    "Frigates",
+    "Destroyers",
+    "Cruisers",
+    "Carriers",
+    "Submarines",
+    "Capital ship",
+    "Battleships",
+    "Landing Ships",
+    "Amphibious Ships",
+    "Misc Ships"
+  ];
+
   const defaultTemplates = [
     { key: "aircraft", name: "Aircraft Custom Template", category: "Aeroplanes" },
     { key: "armored_vehicle", name: "Tank / AFV Template", category: "Armored Vehicles" },
@@ -84,6 +101,10 @@
     return exact ? { subcategory: exact, category: subcategoryMap[exact] } : null;
   }
 
+  function navalSubcategory(line) {
+    return navalSubcategories.find((subcategory) => subcategory.toLowerCase() === line.toLowerCase()) || "";
+  }
+
   function looksLikeNote(text) {
     return /\b(active|rare|common|main|variant|variants|produced|local|manpads?|flamethrower|prototype|reserve|retired|limited|export)\b/i.test(text);
   }
@@ -98,6 +119,9 @@
         name = name.replace(match[0], "").replace(/\s+/g, " ").trim();
       }
     });
+    name = name.replace(/[\s,]+$/g, "").trim();
+    if (/^[,.;:-]+$/.test(name)) name = "";
+    if (/^n\/?a$/i.test(name)) name = "";
     const statusNote = notes.find((note) => /\bactive\b/i.test(note))
       || notes.find((note) => /\breserve\b/i.test(note))
       || notes.find((note) => /\bretired\b/i.test(note));
@@ -144,6 +168,11 @@
         subcategory = sub.subcategory;
         return;
       }
+      const naval = category === "Naval" ? navalSubcategory(line) : "";
+      if (naval) {
+        subcategory = naval;
+        return;
+      }
 
       const parsed = parseItemLine(line);
       if (!parsed.name) return;
@@ -151,14 +180,16 @@
         id: "",
         name: parsed.name,
         category,
-        subcategory,
-        role: subcategory,
         status: parsed.status,
         origin: "Roster Import",
-        notes: parsed.notes,
         detailLevel: "roster",
         updatedAt: ""
       };
+      if (subcategory) {
+        record.subcategory = subcategory;
+        record.role = subcategory;
+      }
+      if (parsed.notes) record.notes = parsed.notes;
       const key = recordKey(record);
       if (byKey.has(key)) {
         const existing = byKey.get(key);
