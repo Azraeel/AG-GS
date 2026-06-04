@@ -14,6 +14,7 @@ const {
 } = require("./trade-map-svg-extract.js");
 
 const svgPath = path.join(__dirname, "..", "site", "assets", "ag-political-map.svg");
+const normalizeEol = (value) => String(value || "").replace(/\r\n/g, "\n");
 
 test("trade map SVG asset is available as vector geometry", () => {
   const svg = readSvgMap(svgPath);
@@ -74,5 +75,5 @@ test("generated manifest file stays in sync with the SVG asset", () => {
   const expected = renderShapeManifestScript(extractTerritoryCandidates(svg), svg);
   const actual = fs.readFileSync(generatedPath, "utf8");
 
-  assert.equal(actual, expected);
+  assert.equal(normalizeEol(actual), normalizeEol(expected));
 });

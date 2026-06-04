@@ -9561,7 +9561,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:11:11.277Z"
       },
@@ -9837,7 +9836,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:11:11.277Z"
       },
@@ -10017,7 +10015,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:11:11.277Z"
       },
@@ -10029,7 +10026,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:11:11.277Z"
       },
@@ -10041,7 +10037,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:11:11.277Z"
       },
@@ -10053,7 +10048,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:11:11.277Z"
       },
@@ -10065,7 +10059,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:11:11.277Z"
       },
@@ -10089,7 +10082,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:11:11.277Z"
       },
@@ -10101,7 +10093,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:55:58.490Z",
         "era": "Digital"
@@ -10210,7 +10201,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:11:11.277Z"
       },
@@ -10222,7 +10212,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:56:03.423Z",
         "era": "Digital"
@@ -10235,7 +10224,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:56:12.038Z",
         "era": "Digital"
@@ -10248,7 +10236,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:56:08.884Z",
         "era": "Digital"
@@ -10261,7 +10248,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:57:11.446Z",
         "era": "Digital"
@@ -10274,7 +10260,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:55:38.879Z",
         "era": "Digital"
@@ -10287,7 +10272,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:56:17.119Z",
         "era": "Digital"
@@ -10300,7 +10284,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:56:31.272Z",
         "era": "Digital"
@@ -10313,7 +10296,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:11:11.277Z"
       },
@@ -10337,7 +10319,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:11:11.277Z"
       },
@@ -10349,7 +10330,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:56:36.747Z",
         "era": "Digital"
@@ -10374,7 +10354,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:56:25.939Z",
         "era": "Digital"
@@ -10447,7 +10426,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:55:19.369Z",
         "era": "Digital"
@@ -10508,7 +10486,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:33:07.923Z"
       },
@@ -10520,7 +10497,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:33:07.923Z"
       },
@@ -10532,7 +10508,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:33:07.923Z"
       },
@@ -10544,7 +10519,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:33:07.923Z"
       },
@@ -10556,7 +10530,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:33:07.923Z"
       },
@@ -10568,7 +10541,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:33:07.923Z"
       },
@@ -10580,7 +10552,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:33:07.923Z"
       },
@@ -10592,7 +10563,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:33:07.923Z"
       },
@@ -10604,7 +10574,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:33:07.923Z"
       },
@@ -10616,7 +10585,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:33:07.923Z"
       },
@@ -10624,11 +10592,9 @@ window.AGGS_DATA = {
         "id": "roster_1_mpr120vf_jr5a9",
         "name": "Gölcük Malazgirt",
         "category": "Aeroplanes",
-        "subcategory": "",
         "role": "UAV",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:39:41.405Z",
         "era": "Digital"
@@ -10637,8 +10603,6 @@ window.AGGS_DATA = {
         "id": "roster_3_mpr120vf_s86mk",
         "name": "Airbus A340",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Limited - Main",
@@ -10649,8 +10613,6 @@ window.AGGS_DATA = {
         "id": "roster_4_mpr120vf_wdmlg",
         "name": "E-3C Sentry",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Limited - Main",
@@ -10661,8 +10623,6 @@ window.AGGS_DATA = {
         "id": "roster_5_mpr120vf_m898u",
         "name": "E-3D Sentry",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Scarce - Main",
@@ -10673,8 +10633,6 @@ window.AGGS_DATA = {
         "id": "roster_6_mpr120vf_oh9g0",
         "name": "E-2C Hawkeye",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Limited - Main",
@@ -10685,8 +10643,6 @@ window.AGGS_DATA = {
         "id": "roster_7_mpr120vf_qx6ii",
         "name": "C-5A",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Scarce - Main",
@@ -10697,8 +10653,6 @@ window.AGGS_DATA = {
         "id": "roster_8_mpr120vf_ylhs3",
         "name": "Bréguet 1150 Atlantic",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Limited - Main",
@@ -10709,8 +10663,6 @@ window.AGGS_DATA = {
         "id": "roster_9_mpr120vf_008ke",
         "name": "Bréguet 1050 Alizé",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Scarce - Main",
@@ -10721,8 +10673,6 @@ window.AGGS_DATA = {
         "id": "roster_10_mpr120vf_s1dlv",
         "name": "SOCATA TBM",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Limited - Main",
@@ -10733,8 +10683,6 @@ window.AGGS_DATA = {
         "id": "roster_11_mpr120vf_tr0h4",
         "name": "Pilatus PC-6 Porter",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Scarce - Main",
@@ -10745,8 +10693,6 @@ window.AGGS_DATA = {
         "id": "roster_12_mpr120vf_klwxs",
         "name": "Dassault Mirage IV",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Limited - Main",
@@ -10758,8 +10704,6 @@ window.AGGS_DATA = {
         "id": "roster_13_mpr120vf_vkbg5",
         "name": "S.O.4050 Vautour IIBR/IIBN",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Limited - Main",
@@ -10771,8 +10715,6 @@ window.AGGS_DATA = {
         "id": "roster_14_mpr120vf_6gu44",
         "name": "Étendard IVP",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Limited - Main",
@@ -10788,7 +10730,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:50:50.564Z",
         "era": "Digital"
@@ -10801,7 +10742,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:51:02.069Z",
         "era": "Digital"
@@ -10838,7 +10778,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:50:41.217Z",
         "era": "Digital"
@@ -10983,7 +10922,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:50:29.103Z",
         "era": "Digital"
@@ -11068,7 +11006,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:50:18.062Z",
         "era": "Digital"
@@ -11081,7 +11018,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:50:12.211Z",
         "era": "Digital"
@@ -11094,7 +11030,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-29T14:50:24.517Z",
         "era": "Digital"
@@ -11233,7 +11168,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.566Z",
         "firepower": 7,
@@ -11293,7 +11227,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.566Z",
         "firepower": 7,
@@ -11353,7 +11286,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.566Z",
         "firepower": 7,
@@ -11413,7 +11345,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.567Z",
         "firepower": 7,
@@ -11473,7 +11404,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.567Z",
         "firepower": 4,
@@ -11533,7 +11463,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.567Z",
         "firepower": 7,
@@ -11593,7 +11522,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.567Z",
         "firepower": 7,
@@ -11653,7 +11581,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.567Z",
         "firepower": 7,
@@ -11713,7 +11640,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.567Z",
         "firepower": 7,
@@ -11773,7 +11699,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.567Z",
         "firepower": 7,
@@ -11834,7 +11759,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.567Z",
         "firepower": 7,
@@ -11895,7 +11819,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T04:53:17.822Z",
         "firepower": 7,
@@ -11955,7 +11878,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T04:53:17.822Z",
         "firepower": 7,
@@ -12015,7 +11937,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T04:53:17.823Z",
         "firepower": 7,
@@ -12075,7 +11996,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T04:53:17.823Z",
         "firepower": 7,
@@ -12135,7 +12055,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:46:37.203Z"
       },
@@ -12147,7 +12066,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.567Z",
         "tier": "legacy",
@@ -12212,7 +12130,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.568Z",
         "automationNotes": "Category and tier capability estimate; M51 legacy truck; stats should be lower per automation notes.",
@@ -13035,7 +12952,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:06.777Z"
       },
@@ -13174,7 +13090,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:06.777Z"
       },
@@ -13186,7 +13101,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.568Z",
         "automationNotes": "Category and tier capability estimate; M113A3 legacy APC; stats should be lower per automation notes.",
@@ -13555,7 +13469,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:06.777Z"
       },
@@ -13687,7 +13600,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:06.777Z"
       },
@@ -13699,7 +13611,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.568Z",
         "tier": "legacy",
@@ -13759,7 +13670,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.568Z",
         "tier": "legacy",
@@ -14001,7 +13911,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-06-01T05:04:20.568Z",
         "tier": "legacy",
@@ -14055,43 +13964,40 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_34_mpsixp5l_9mws7",
-        "name": "M107 self-propelled gun (Stockpile),",
+        "name": "M107 self-propelled gun (Stockpile)",
         "category": "Armored Vehicles",
         "subcategory": "SPGs",
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:06.777Z"
       },
       {
         "id": "roster_35_mpsixp5l_f1x78",
-        "name": "M108 howitzer (Stockpile),",
+        "name": "M108 howitzer (Stockpile)",
         "category": "Armored Vehicles",
         "subcategory": "SPGs",
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:06.777Z"
       },
       {
         "id": "roster_36_mpsixp5l_7a8x5",
-        "name": "M110 howitzer (Stockpile),",
+        "name": "M110 howitzer (Stockpile)",
         "category": "Armored Vehicles",
         "subcategory": "SPGs",
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:06.777Z"
       },
       {
         "id": "roster_37_mpsixp5l_rg5qc",
-        "name": "M109A6 \"Paladin\" ,",
+        "name": "M109A6 \"Paladin\"",
         "category": "Armored Vehicles",
         "subcategory": "SPGs",
         "role": "SPGs",
@@ -14103,43 +14009,40 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_38_mpsixp5l_vr4ss",
-        "name": "M114 (Stockpile),",
+        "name": "M114 (Stockpile)",
         "category": "Armored Vehicles",
         "subcategory": "SPGs",
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:06.777Z"
       },
       {
         "id": "roster_39_mpsixp5l_idozc",
-        "name": "M198 howitzer (Stockpile),",
+        "name": "M198 howitzer (Stockpile)",
         "category": "Armored Vehicles",
         "subcategory": "SPGs",
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:06.777Z"
       },
       {
         "id": "roster_40_mpsixp5l_rlid9",
-        "name": "M270 MRLS (Stockpile),",
+        "name": "M270 MRLS (Stockpile)",
         "category": "Armored Vehicles",
         "subcategory": "SPGs",
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:06.777Z"
       },
       {
         "id": "roster_41_mpsixp5l_ym3ut",
-        "name": "M142 HIMARs ,",
+        "name": "M142 HIMARs",
         "category": "Armored Vehicles",
         "subcategory": "SPGs",
         "role": "SPGs",
@@ -14151,7 +14054,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_42_mpsixp5l_nrh15",
-        "name": "ADATS ,",
+        "name": "ADATS",
         "category": "Armored Vehicles",
         "subcategory": "SPAA",
         "role": "SPAA",
@@ -14175,7 +14078,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_0_mpsiyd8t_ug1fk",
-        "name": "M9 ,",
+        "name": "M9",
         "category": "Small Arms",
         "subcategory": "Pistols",
         "role": "Pistols",
@@ -14187,7 +14090,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_1_mpsiyd8t_3f50j",
-        "name": "M14 EBR ,",
+        "name": "M14 EBR",
         "category": "Small Arms",
         "subcategory": "Rifles",
         "role": "Rifles",
@@ -14199,7 +14102,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_2_mpsiyd8t_ac2tp",
-        "name": "M40A5 ,",
+        "name": "M40A5",
         "category": "Small Arms",
         "subcategory": "Rifles",
         "role": "Rifles",
@@ -14211,7 +14114,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_3_mpsiyd8t_xtm5k",
-        "name": "Barret M82 ,",
+        "name": "Barret M82",
         "category": "Small Arms",
         "subcategory": "Rifles",
         "role": "Rifles",
@@ -14223,7 +14126,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_4_mpsiyd8t_yluyg",
-        "name": "American-180 ,",
+        "name": "American-180",
         "category": "Small Arms",
         "subcategory": "SMGs",
         "role": "SMGs",
@@ -14235,7 +14138,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_5_mpsiyd8t_uqb5l",
-        "name": "Brügger & Thomet MP9 ,",
+        "name": "Brügger & Thomet MP9",
         "category": "Small Arms",
         "subcategory": "SMGs",
         "role": "SMGs",
@@ -14247,7 +14150,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_6_mpsiyd8t_nnego",
-        "name": "Colt 9mm SMG ,",
+        "name": "Colt 9mm SMG",
         "category": "Small Arms",
         "subcategory": "SMGs",
         "role": "SMGs",
@@ -14259,7 +14162,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_7_mpsiyd8t_c2fi4",
-        "name": "MP5K ,",
+        "name": "MP5K",
         "category": "Small Arms",
         "subcategory": "SMGs",
         "role": "SMGs",
@@ -14271,31 +14174,29 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_8_mpsiyd8t_qce3i",
-        "name": "M16A4 (Primary - Stockpile),",
+        "name": "M16A4 (Primary - Stockpile)",
         "category": "Small Arms",
         "subcategory": "Assault Rifles",
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:37.997Z"
       },
       {
         "id": "roster_9_mpsiyd8t_6hz05",
-        "name": "M16A2 (Primary - Stockpile),",
+        "name": "M16A2 (Primary - Stockpile)",
         "category": "Small Arms",
         "subcategory": "Assault Rifles",
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:37.997Z"
       },
       {
         "id": "roster_10_mpsiyd8t_n802f",
-        "name": "M27 ,",
+        "name": "M27",
         "category": "Small Arms",
         "subcategory": "Assault Rifles",
         "role": "Assault Rifles",
@@ -14307,7 +14208,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_11_mpsiyd8t_belzd",
-        "name": "M4A1 ,",
+        "name": "M4A1",
         "category": "Small Arms",
         "subcategory": "Assault Rifles",
         "role": "Assault Rifles",
@@ -14319,7 +14220,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_12_mpsiyd8t_6ua9b",
-        "name": "M4A1 Block I ,",
+        "name": "M4A1 Block I",
         "category": "Small Arms",
         "subcategory": "Assault Rifles",
         "role": "Assault Rifles",
@@ -14331,7 +14232,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_13_mpsiyd8t_9eb27",
-        "name": "C7A2 ,",
+        "name": "C7A2",
         "category": "Small Arms",
         "subcategory": "Assault Rifles",
         "role": "Assault Rifles",
@@ -14343,7 +14244,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_14_mpsiyd8t_91oen",
-        "name": "M249 ,",
+        "name": "M249",
         "category": "Small Arms",
         "subcategory": "MGs",
         "role": "MGs",
@@ -14355,7 +14256,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_15_mpsiyd8t_3c23n",
-        "name": "M240B ,",
+        "name": "M240B",
         "category": "Small Arms",
         "subcategory": "MGs",
         "role": "MGs",
@@ -14367,7 +14268,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_16_mpsiyd8t_cab11",
-        "name": "M240G ,",
+        "name": "M240G",
         "category": "Small Arms",
         "subcategory": "MGs",
         "role": "MGs",
@@ -14385,13 +14286,12 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:37.997Z"
       },
       {
         "id": "roster_18_mpsiyd8t_t8dy0",
-        "name": "Benelli M3 ,",
+        "name": "Benelli M3",
         "category": "Small Arms",
         "subcategory": "MGs",
         "role": "MGs",
@@ -14403,7 +14303,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_19_mpsiyd8t_yytty",
-        "name": "Atchisson AA-12 ,",
+        "name": "Atchisson AA-12",
         "category": "Small Arms",
         "subcategory": "MGs",
         "role": "MGs",
@@ -14415,7 +14315,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_20_mpsiyd8t_8ohsk",
-        "name": "AT4 ,",
+        "name": "AT4",
         "category": "Small Arms",
         "subcategory": "ATR/RPG",
         "role": "ATR/RPG",
@@ -14427,7 +14327,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_21_mpsiyd8t_38lnk",
-        "name": "FGM-148 Javelin ,",
+        "name": "FGM-148 Javelin",
         "category": "Small Arms",
         "subcategory": "ATR/RPG",
         "role": "ATR/RPG",
@@ -14439,7 +14339,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_22_mpsiyd8t_blzka",
-        "name": "M47 Dragon ,",
+        "name": "M47 Dragon",
         "category": "Small Arms",
         "subcategory": "ATR/RPG",
         "role": "ATR/RPG",
@@ -14451,7 +14351,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_23_mpsiyd8t_ksoyn",
-        "name": "MAAWS ,",
+        "name": "MAAWS",
         "category": "Small Arms",
         "subcategory": "ATR/RPG",
         "role": "ATR/RPG",
@@ -14469,13 +14369,12 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:37.997Z"
       },
       {
         "id": "roster_25_mpsiyd8t_gehw7",
-        "name": "M203 ,",
+        "name": "M203",
         "category": "Small Arms",
         "subcategory": "ATR/RPG",
         "role": "ATR/RPG",
@@ -14487,7 +14386,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_26_mpsiyd8t_yf3cs",
-        "name": "M79 ,",
+        "name": "M79",
         "category": "Small Arms",
         "subcategory": "ATR/RPG",
         "role": "ATR/RPG",
@@ -14499,7 +14398,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_27_mpsiyd8t_5atmd",
-        "name": "Milkor MGL M32 ,",
+        "name": "Milkor MGL M32",
         "category": "Small Arms",
         "subcategory": "ATR/RPG",
         "role": "ATR/RPG",
@@ -14511,13 +14410,12 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_28_mpsiyd8t_5jg64",
-        "name": "FIM-43 Redeye (Primary - Stockpile),",
+        "name": "FIM-43 Redeye (Primary - Stockpile)",
         "category": "Small Arms",
         "subcategory": "Miscellaneous",
         "role": "Miscellaneous",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:37.997Z"
       },
@@ -14534,32 +14432,19 @@ window.AGGS_DATA = {
         "updatedAt": "2026-05-30T15:47:37.997Z"
       },
       {
-        "id": "roster_30_mpsiyd8t_35ghy",
-        "name": ",",
-        "category": "Small Arms",
-        "subcategory": "Miscellaneous",
-        "role": "Miscellaneous",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-30T15:47:37.997Z"
-      },
-      {
         "id": "roster_31_mpsiyd8t_feqjn",
-        "name": "M224 (Stockpile),",
+        "name": "M224 (Stockpile)",
         "category": "Support Weapons",
         "subcategory": "Mortar",
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:37.997Z"
       },
       {
         "id": "roster_32_mpsiyd8t_f4fut",
-        "name": "M252 ,",
+        "name": "M252",
         "category": "Support Weapons",
         "subcategory": "Mortar",
         "role": "Mortar",
@@ -14571,7 +14456,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_33_mpsiyd8t_jki1a",
-        "name": "BGM-71 TOW ,",
+        "name": "BGM-71 TOW",
         "category": "Support Weapons",
         "subcategory": "ATGs/ATGM",
         "role": "ATGs/ATGM",
@@ -14583,7 +14468,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_34_mpsiyd8t_zstpc",
-        "name": "M777 Lightweight Towed Howitzer ,",
+        "name": "M777 Lightweight Towed Howitzer",
         "category": "Support Weapons",
         "subcategory": "Artillery",
         "role": "Artillery",
@@ -14595,7 +14480,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_35_mpsiyd8t_oocmh",
-        "name": "M119A2 ,",
+        "name": "M119A2",
         "category": "Support Weapons",
         "subcategory": "Artillery",
         "role": "Artillery",
@@ -14607,19 +14492,18 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_36_mpsiyd8t_nx525",
-        "name": "M101 105mm Light Howitzer, Towed (Primary - Stockpile),",
+        "name": "M101 105mm Light Howitzer, Towed (Primary - Stockpile)",
         "category": "Support Weapons",
         "subcategory": "Artillery",
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:47:37.997Z"
       },
       {
         "id": "roster_37_mpsiyd8t_mo3io",
-        "name": "MIM-104 Patriot ,",
+        "name": "MIM-104 Patriot",
         "category": "Support Weapons",
         "subcategory": "AAA/SAM",
         "role": "AAA/SAM",
@@ -14631,7 +14515,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_38_mpsiyd8t_fbjux",
-        "name": "NASAMS ,",
+        "name": "NASAMS",
         "category": "Support Weapons",
         "subcategory": "AAA/SAM",
         "role": "AAA/SAM",
@@ -14654,230 +14538,101 @@ window.AGGS_DATA = {
         "updatedAt": "2026-05-30T15:47:37.997Z"
       },
       {
-        "id": "roster_0_mpsiz2qj_r1d5r",
-        "name": "Support Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-30T15:48:11.035Z"
-      },
-      {
         "id": "roster_1_mpsiz2qj_mgi01",
-        "name": "Banner-class environmental research ship,",
+        "name": "Banner-class environmental research ship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-30T15:48:11.035Z"
-      },
-      {
-        "id": "roster_2_mpsiz2qj_evk9q",
-        "name": "Patrol Boats",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:48:11.035Z"
       },
       {
         "id": "roster_3_mpsiz2qj_wo6bz",
-        "name": "Island-class patrol boat,",
+        "name": "Island-class patrol boat",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-30T15:48:11.035Z"
-      },
-      {
-        "id": "roster_4_mpsiz2qj_y1xc2",
-        "name": "Corvette",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-30T15:48:11.035Z"
-      },
-      {
-        "id": "roster_5_mpsiz2qj_u9kb3",
-        "name": "-",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-30T15:48:11.035Z"
-      },
-      {
-        "id": "roster_6_mpsiz2qj_xsnot",
-        "name": "Frigates",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:48:11.035Z"
       },
       {
         "id": "roster_7_mpsiz2qj_pwi4z",
-        "name": "USS Constitution,",
+        "name": "USS Constitution",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-30T15:48:11.035Z"
-      },
-      {
-        "id": "roster_8_mpsiz2qj_znkyl",
-        "name": "Destroyers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:48:11.035Z"
       },
       {
         "id": "roster_9_mpsiz2qj_d2ljv",
-        "name": "Arleigh Burke-class destroyer,",
+        "name": "Arleigh Burke-class destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-30T15:48:11.035Z"
-      },
-      {
-        "id": "roster_10_mpsiz2qj_j72hr",
-        "name": "Cruisers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:48:11.035Z"
       },
       {
         "id": "roster_11_mpsiz2qj_lwmra",
-        "name": "Ticonderoga-class cruiser,",
+        "name": "Ticonderoga-class cruiser",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Cruisers",
+        "role": "Cruisers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-30T15:48:11.035Z"
-      },
-      {
-        "id": "roster_12_mpsiz2qj_jq9xi",
-        "name": "Carriers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:48:11.035Z"
       },
       {
         "id": "roster_13_mpsiz2qj_3mpl8",
-        "name": "Blue Ridge-class command ship,",
+        "name": "Blue Ridge-class command ship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:48:11.035Z"
       },
       {
         "id": "roster_14_mpsiz2qj_whdet",
-        "name": "Nimitz-class aircraft carrier,",
+        "name": "Nimitz-class aircraft carrier",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:48:11.035Z"
       },
       {
         "id": "roster_15_mpsiz2qj_jv114",
-        "name": "Tarawa-class amphibious assault ship,",
+        "name": "Tarawa-class amphibious assault ship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-30T15:48:11.035Z"
-      },
-      {
-        "id": "roster_16_mpsiz2qj_rv1l0",
-        "name": "Submarines",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:48:11.035Z"
       },
       {
         "id": "roster_17_mpsiz2qj_xllyg",
-        "name": "Ohio-Class+,",
+        "name": "Ohio-Class+",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-30T15:48:11.035Z"
-      },
-      {
-        "id": "roster_18_mpsiz2qj_sfao8",
-        "name": "Capital ship",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:48:11.035Z"
       },
@@ -14885,11 +14640,10 @@ window.AGGS_DATA = {
         "id": "roster_19_mpsiz2qj_amgzr",
         "name": "Iowa-Class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Capital ship",
+        "role": "Capital ship",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:48:11.035Z"
       },
@@ -14897,20 +14651,15 @@ window.AGGS_DATA = {
         "id": "roster_0_mpsj1557_a6uqv",
         "name": "Support Planes",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:49:47.467Z"
       },
       {
         "id": "roster_1_mpsj1557_42lvd",
-        "name": "C-5B ,",
+        "name": "C-5B",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -14919,10 +14668,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_2_mpsj1557_fs4hi",
-        "name": "C-17A ,",
+        "name": "C-17A",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -14931,10 +14678,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_3_mpsj1557_q25ch",
-        "name": "C-130K Hercules ,",
+        "name": "C-130K Hercules",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -14943,10 +14688,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_4_mpsj1557_gxpdh",
-        "name": "C-130J-50 \"Zeus\" (Custom),",
+        "name": "C-130J-50 \"Zeus\" (Custom)",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -14955,10 +14698,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_5_mpsj1557_vpkm1",
-        "name": "MC-130B-10 \"Quiet Mouse\" (Custom),",
+        "name": "MC-130B-10 \"Quiet Mouse\" (Custom)",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Limited - Active",
@@ -14967,10 +14708,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_6_mpsj1557_ok21s",
-        "name": "EC-130J-50 \"Hades\" (Custom),",
+        "name": "EC-130J-50 \"Hades\" (Custom)",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Limited - Active",
@@ -14979,10 +14718,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_7_mpsj1557_at4sb",
-        "name": "KC-130B ,",
+        "name": "KC-130B",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -14991,10 +14728,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_8_mpsj1557_q743p",
-        "name": "KC-135D ,",
+        "name": "KC-135D",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -15003,10 +14738,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_9_mpsj1557_xdhos",
-        "name": "KC-10B ,",
+        "name": "KC-10B",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -15015,10 +14748,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_10_mpsj1557_t3txk",
-        "name": "E-3D Sentry ,",
+        "name": "E-3D Sentry",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Limited - Active",
@@ -15027,10 +14758,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_11_mpsj1557_ztp6r",
-        "name": "E-2C Hawkeye ,",
+        "name": "E-2C Hawkeye",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Limited - Active",
@@ -15039,10 +14768,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_12_mpsj1557_aumkr",
-        "name": "Lockheed U-2S ,",
+        "name": "Lockheed U-2S",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Limited - Active",
@@ -15051,10 +14778,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_13_mpsj1557_vandy",
-        "name": "Lockheed SR-71A Blackbird ,",
+        "name": "Lockheed SR-71A Blackbird",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Rare - Active",
@@ -15063,10 +14788,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_14_mpsj1557_yc5v7",
-        "name": "RQ-4 Global Hawk ,",
+        "name": "RQ-4 Global Hawk",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Limited - Active",
@@ -15075,10 +14798,8 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_15_mpsj1557_lql11",
-        "name": "AQ-4 Vengeful Hawk ,",
+        "name": "AQ-4 Vengeful Hawk",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Limited - Active",
@@ -15087,7 +14808,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_16_mpsj1557_kn6ql",
-        "name": "F-5E ,",
+        "name": "F-5E",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
@@ -15099,7 +14820,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_17_mpsj1557_aeygt",
-        "name": "F-14B ,",
+        "name": "F-14B",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
@@ -15111,7 +14832,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_18_mpsj1557_5d1dn",
-        "name": "F-14D Tomcat ,",
+        "name": "F-14D Tomcat",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
@@ -15123,7 +14844,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_19_mpsj1557_da1l9",
-        "name": "F-16C (Block. 20) ,",
+        "name": "F-16C (Block. 20)",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
@@ -15135,7 +14856,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_20_mpsj1557_neykn",
-        "name": "F-16C (Block. 25) ,",
+        "name": "F-16C (Block. 25)",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
@@ -15147,7 +14868,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_21_mpsj1557_9zkus",
-        "name": "F-28A Solaris II ,",
+        "name": "F-28A Solaris II",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
@@ -15159,7 +14880,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_22_mpsj1557_mb5m6",
-        "name": "F-15E Strike Eagle ,",
+        "name": "F-15E Strike Eagle",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
@@ -15171,7 +14892,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_23_mpsj1557_noipw",
-        "name": "F-19 \"Mantis\" ,",
+        "name": "F-19 \"Mantis\"",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
@@ -15183,7 +14904,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_24_mpsj1557_z9f8e",
-        "name": "F-15G \"Snow Feather\" ,",
+        "name": "F-15G \"Snow Feather\"",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
@@ -15195,7 +14916,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_25_mpsj1557_kk8kv",
-        "name": "F-30 \"Solaris III\" ,",
+        "name": "F-30 \"Solaris III\"",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
@@ -15207,7 +14928,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_26_mpsj1557_vr2pt",
-        "name": "F-30AX \"Shadowcat\" ,",
+        "name": "F-30AX \"Shadowcat\"",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
@@ -15219,13 +14940,12 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_27_mpsj1557_b03p8",
-        "name": "F-15C \"Eagle\" (Primary - Stockpile),",
+        "name": "F-15C \"Eagle\" (Primary - Stockpile)",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:49:47.467Z"
       },
@@ -15237,25 +14957,23 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:49:47.467Z"
       },
       {
         "id": "roster_29_mpsj1557_mbibs",
-        "name": "A-6F Intruder (Primary - Stockpile),",
+        "name": "A-6F Intruder (Primary - Stockpile)",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:49:47.467Z"
       },
       {
         "id": "roster_30_mpsj1557_2yusn",
-        "name": "A-10A Warthog ,",
+        "name": "A-10A Warthog",
         "category": "Aeroplanes",
         "subcategory": "Fighters/Multi-Role",
         "role": "Fighters/Multi-Role",
@@ -15267,7 +14985,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_31_mpsj1557_8vdao",
-        "name": "B-52H ,",
+        "name": "B-52H",
         "category": "Aeroplanes",
         "subcategory": "Bombers",
         "role": "Bombers",
@@ -15279,7 +14997,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_32_mpsj1557_3bh49",
-        "name": "B-1B ,",
+        "name": "B-1B",
         "category": "Aeroplanes",
         "subcategory": "Bombers",
         "role": "Bombers",
@@ -15291,7 +15009,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_33_mpsj1557_dnur3",
-        "name": "F-111F ,",
+        "name": "F-111F",
         "category": "Aeroplanes",
         "subcategory": "Bombers",
         "role": "Bombers",
@@ -15303,7 +15021,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_34_mpsj1557_by1pf",
-        "name": "UH-1D Iroquois ,",
+        "name": "UH-1D Iroquois",
         "category": "Aeroplanes",
         "subcategory": "Helicopters",
         "role": "Helicopters",
@@ -15315,7 +15033,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_35_mpsj1557_j8wpy",
-        "name": "UH-60L Black Hawk ,",
+        "name": "UH-60L Black Hawk",
         "category": "Aeroplanes",
         "subcategory": "Helicopters",
         "role": "Helicopters",
@@ -15327,7 +15045,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_36_mpsj1557_3rh27",
-        "name": "OH-6C ,",
+        "name": "OH-6C",
         "category": "Aeroplanes",
         "subcategory": "Helicopters",
         "role": "Helicopters",
@@ -15339,7 +15057,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_37_mpsj1557_qz6pm",
-        "name": "CH-53D ,",
+        "name": "CH-53D",
         "category": "Aeroplanes",
         "subcategory": "Helicopters",
         "role": "Helicopters",
@@ -15351,19 +15069,18 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_38_mpsj1557_sa6ik",
-        "name": "MH-60S (MPrimary - Activein),",
+        "name": "MH-60S (MPrimary - Activein)",
         "category": "Aeroplanes",
         "subcategory": "Helicopters",
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:49:47.467Z"
       },
       {
         "id": "roster_39_mpsj1557_8l36v",
-        "name": "CH-47D ,",
+        "name": "CH-47D",
         "category": "Aeroplanes",
         "subcategory": "Helicopters",
         "role": "Helicopters",
@@ -15375,7 +15092,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_40_mpsj1557_83bj6",
-        "name": "CH-47F ,",
+        "name": "CH-47F",
         "category": "Aeroplanes",
         "subcategory": "Helicopters",
         "role": "Helicopters",
@@ -15387,7 +15104,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_41_mpsj1557_ndxdn",
-        "name": "AH-6C ,",
+        "name": "AH-6C",
         "category": "Aeroplanes",
         "subcategory": "Attack Helicopters",
         "role": "Attack Helicopters",
@@ -15399,7 +15116,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_42_mpsj1557_na3lc",
-        "name": "MH-60L DAP ,",
+        "name": "MH-60L DAP",
         "category": "Aeroplanes",
         "subcategory": "Attack Helicopters",
         "role": "Attack Helicopters",
@@ -15411,19 +15128,18 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_43_mpsj1557_bjh0z",
-        "name": "Bell AH-1J SuperCobra (Primary - Stockpile),",
+        "name": "Bell AH-1J SuperCobra (Primary - Stockpile)",
         "category": "Aeroplanes",
         "subcategory": "Attack Helicopters",
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-30T15:49:47.467Z"
       },
       {
         "id": "roster_44_mpsj1557_rje35",
-        "name": "AH-6G ,",
+        "name": "AH-6G",
         "category": "Aeroplanes",
         "subcategory": "Attack Helicopters",
         "role": "Attack Helicopters",
@@ -15435,7 +15151,7 @@ window.AGGS_DATA = {
       },
       {
         "id": "roster_45_mpsj1557_gl1eh",
-        "name": "AH-64C ,",
+        "name": "AH-64C",
         "category": "Aeroplanes",
         "subcategory": "Attack Helicopters",
         "role": "Attack Helicopters",
@@ -15467,7 +15183,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15479,7 +15194,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15491,7 +15205,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15503,7 +15216,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15515,7 +15227,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15527,7 +15238,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15539,7 +15249,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15551,7 +15260,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15563,7 +15271,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15575,7 +15282,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15587,7 +15293,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15599,7 +15304,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15611,7 +15315,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15623,7 +15326,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15635,7 +15337,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15647,7 +15348,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15659,7 +15359,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15671,7 +15370,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15683,7 +15381,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
       },
@@ -15695,43 +15392,17 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:24.425Z"
-      },
-      {
-        "id": "roster_0_mptvr0zp_5dwiv",
-        "name": "Corvette",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:33:36.709Z"
       },
       {
         "id": "roster_1_mptvr0zp_5ji37",
         "name": "Nanuchka-class corvette",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Corvette",
+        "role": "Corvette",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:33:36.709Z"
-      },
-      {
-        "id": "roster_2_mptvr0zp_vqtge",
-        "name": "Frigates",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15739,11 +15410,10 @@ window.AGGS_DATA = {
         "id": "roster_3_mptvr0zp_xde2r",
         "name": "Riga-class frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15751,11 +15421,10 @@ window.AGGS_DATA = {
         "id": "roster_4_mptvr0zp_k2y1h",
         "name": "Knox-class frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15763,23 +15432,10 @@ window.AGGS_DATA = {
         "id": "roster_5_mptvr0zp_t1gpl",
         "name": "Tacoma-class frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:33:36.709Z"
-      },
-      {
-        "id": "roster_6_mptvr0zp_g4p3n",
-        "name": "Destroyers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15787,11 +15443,10 @@ window.AGGS_DATA = {
         "id": "roster_7_mptvr0zp_qbhg5",
         "name": "Fletcher-class destroyers",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15799,23 +15454,10 @@ window.AGGS_DATA = {
         "id": "roster_8_mptvr0zp_ghtcz",
         "name": "Zerstörer 1-class destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:33:36.709Z"
-      },
-      {
-        "id": "roster_9_mptvr0zp_3snit",
-        "name": "Cruisers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15823,23 +15465,10 @@ window.AGGS_DATA = {
         "id": "roster_10_mptvr0zp_guh2k",
         "name": "(N/A)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Cruisers",
+        "role": "Cruisers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:33:36.709Z"
-      },
-      {
-        "id": "roster_11_mptvr0zp_wwwp4",
-        "name": "Carriers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15847,23 +15476,10 @@ window.AGGS_DATA = {
         "id": "roster_12_mptvr0zp_y32vc",
         "name": "1942 Design Light Fleet Carrier (Modernized)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:33:36.709Z"
-      },
-      {
-        "id": "roster_13_mptvr0zp_hgy72",
-        "name": "Submarines",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15871,11 +15487,10 @@ window.AGGS_DATA = {
         "id": "roster_14_mptvr0zp_spiva",
         "name": "Heroj-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15883,11 +15498,10 @@ window.AGGS_DATA = {
         "id": "roster_15_mptvr0zp_ucwal",
         "name": "Una-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15895,23 +15509,10 @@ window.AGGS_DATA = {
         "id": "roster_16_mptvr0zp_88614",
         "name": "Sava-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:33:36.709Z"
-      },
-      {
-        "id": "roster_17_mptvr0zp_4co6d",
-        "name": "Patrol Boats",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15919,11 +15520,10 @@ window.AGGS_DATA = {
         "id": "roster_18_mptvr0zp_xlb64",
         "name": "Uragan-class guard ship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15931,11 +15531,10 @@ window.AGGS_DATA = {
         "id": "roster_19_mptvr0zp_8hjry",
         "name": "PC-461 class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15943,11 +15542,10 @@ window.AGGS_DATA = {
         "id": "roster_20_mptvr0zp_4wni2",
         "name": "Patrol Craft Fast (PCF)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:33:36.709Z"
       },
@@ -15959,7 +15557,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -15971,7 +15568,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -15983,7 +15579,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -15995,7 +15590,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16007,7 +15601,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16019,7 +15612,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16031,7 +15623,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16043,7 +15634,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16055,7 +15645,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16067,7 +15656,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16079,7 +15667,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16091,7 +15678,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16115,7 +15701,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16127,7 +15712,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16139,7 +15723,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16151,7 +15734,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16163,7 +15745,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16175,7 +15756,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16187,7 +15767,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16199,7 +15778,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16211,7 +15789,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16223,7 +15800,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16235,7 +15811,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16247,7 +15822,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16259,7 +15833,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16271,7 +15844,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16319,7 +15891,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16331,7 +15902,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16343,7 +15913,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16355,7 +15924,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16367,7 +15935,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16391,7 +15958,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16403,7 +15969,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16415,7 +15980,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16427,7 +15991,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16451,7 +16014,6 @@ window.AGGS_DATA = {
         "role": "Tanks",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16463,7 +16025,6 @@ window.AGGS_DATA = {
         "role": "Tanks",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16475,7 +16036,6 @@ window.AGGS_DATA = {
         "role": "Tanks",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16487,7 +16047,6 @@ window.AGGS_DATA = {
         "role": "Tanks",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16499,7 +16058,6 @@ window.AGGS_DATA = {
         "role": "Tanks",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16511,7 +16069,6 @@ window.AGGS_DATA = {
         "role": "Tanks",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16523,7 +16080,6 @@ window.AGGS_DATA = {
         "role": "IFV/APCs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16535,7 +16091,6 @@ window.AGGS_DATA = {
         "role": "IFV/APCs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16547,7 +16102,6 @@ window.AGGS_DATA = {
         "role": "IFV/APCs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16559,7 +16113,6 @@ window.AGGS_DATA = {
         "role": "IFV/APCs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16571,7 +16124,6 @@ window.AGGS_DATA = {
         "role": "IFV/APCs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16583,7 +16135,6 @@ window.AGGS_DATA = {
         "role": "IFV/APCs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16595,7 +16146,6 @@ window.AGGS_DATA = {
         "role": "IFV/APCs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16607,7 +16157,6 @@ window.AGGS_DATA = {
         "role": "IFV/APCs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16619,7 +16168,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16631,7 +16179,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16643,7 +16190,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16655,7 +16201,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16667,7 +16212,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16679,7 +16223,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16691,7 +16234,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16703,7 +16245,6 @@ window.AGGS_DATA = {
         "role": "Recon vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16715,7 +16256,6 @@ window.AGGS_DATA = {
         "role": "Recon vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16727,7 +16267,6 @@ window.AGGS_DATA = {
         "role": "Utility vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16739,7 +16278,6 @@ window.AGGS_DATA = {
         "role": "Utility vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16751,7 +16289,6 @@ window.AGGS_DATA = {
         "role": "Utility vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16763,7 +16300,6 @@ window.AGGS_DATA = {
         "role": "Utility vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16775,7 +16311,6 @@ window.AGGS_DATA = {
         "role": "Utility vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16787,7 +16322,6 @@ window.AGGS_DATA = {
         "role": "Utility vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16799,7 +16333,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16811,7 +16344,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16823,7 +16355,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16835,7 +16366,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16847,7 +16377,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:01.758Z"
       },
@@ -16859,7 +16388,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -16871,7 +16399,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -16883,7 +16410,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -16895,7 +16421,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -16907,7 +16432,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -16919,7 +16443,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -16931,7 +16454,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -16943,7 +16465,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -16955,7 +16476,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -16967,7 +16487,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -16979,7 +16498,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -16991,7 +16509,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -17003,7 +16520,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -17015,7 +16531,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       },
@@ -17027,7 +16542,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:34:19.356Z"
       }
@@ -17041,7 +16555,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17053,7 +16566,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17065,7 +16577,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17077,7 +16588,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17089,7 +16599,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17101,7 +16610,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17113,7 +16621,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17125,7 +16632,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17137,7 +16643,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17149,7 +16654,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17161,7 +16665,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17173,7 +16676,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17185,7 +16687,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17197,7 +16698,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17209,7 +16709,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17221,7 +16720,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17233,7 +16731,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17245,7 +16742,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17257,7 +16753,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17269,7 +16764,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17281,7 +16775,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17293,7 +16786,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17305,7 +16797,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17317,7 +16808,6 @@ window.AGGS_DATA = {
         "role": "Miscellaneous",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17329,7 +16819,6 @@ window.AGGS_DATA = {
         "role": "Miscellaneous",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17341,7 +16830,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17353,7 +16841,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17365,7 +16852,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17377,7 +16863,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17389,7 +16874,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17401,7 +16885,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17413,7 +16896,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17425,7 +16907,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17437,7 +16918,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17449,7 +16929,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17461,7 +16940,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17473,7 +16951,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17485,7 +16962,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17497,7 +16973,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17509,7 +16984,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17521,7 +16995,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17533,7 +17006,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17545,7 +17017,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17557,7 +17028,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17569,7 +17039,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17581,7 +17050,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17593,7 +17061,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17605,7 +17072,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17617,7 +17083,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17629,7 +17094,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17641,7 +17105,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17653,7 +17116,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17665,7 +17127,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17677,7 +17138,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17689,7 +17149,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17701,7 +17160,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17713,7 +17171,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17725,7 +17182,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17737,7 +17193,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17749,7 +17204,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17761,7 +17215,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17773,7 +17226,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:21.529Z"
       },
@@ -17781,11 +17233,8 @@ window.AGGS_DATA = {
         "id": "roster_0_mptvtj9r_amhdw",
         "name": "Support Planes",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17793,11 +17242,8 @@ window.AGGS_DATA = {
         "id": "roster_1_mptvtj9r_nu1pk",
         "name": "Airbus A319",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17805,11 +17251,8 @@ window.AGGS_DATA = {
         "id": "roster_2_mptvtj9r_aoxwg",
         "name": "Ilyushin Il-86",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17817,11 +17260,8 @@ window.AGGS_DATA = {
         "id": "roster_3_mptvtj9r_5lfrc",
         "name": "Ilyushin Il-76",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17829,11 +17269,8 @@ window.AGGS_DATA = {
         "id": "roster_4_mptvtj9r_7o2m8",
         "name": "Boeing 707",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17841,11 +17278,8 @@ window.AGGS_DATA = {
         "id": "roster_5_mptvtj9r_5gzec",
         "name": "EL/M-2075 Phalcon",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17857,7 +17291,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17869,7 +17302,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17881,7 +17313,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17893,7 +17324,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17905,7 +17335,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17917,7 +17346,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17929,7 +17357,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17941,7 +17368,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17953,19 +17379,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:35:33.711Z"
-      },
-      {
-        "id": "roster_15_mptvtj9r_3gri3",
-        "name": "N/A",
-        "category": "Aeroplanes",
-        "subcategory": "Fighters/Multi-Role",
-        "role": "Fighters/Multi-Role",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17977,7 +17390,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -17989,7 +17401,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -18001,7 +17412,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -18013,7 +17423,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -18025,7 +17434,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -18037,7 +17445,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -18049,7 +17456,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
       },
@@ -18061,43 +17467,17 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:33.711Z"
-      },
-      {
-        "id": "roster_0_mptvtq09_jrotn",
-        "name": "Support Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:35:42.441Z"
       },
       {
         "id": "roster_1_mptvtq09_po31q",
         "name": "Fulton-class submarine tender",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:35:42.441Z"
-      },
-      {
-        "id": "roster_2_mptvtq09_0cx2x",
-        "name": "Patrol Boats",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:42.441Z"
       },
@@ -18105,47 +17485,10 @@ window.AGGS_DATA = {
         "id": "roster_3_mptvtq09_lprm9",
         "name": "Asheville-class gunboat",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:35:42.441Z"
-      },
-      {
-        "id": "roster_4_mptvtq09_k6lbo",
-        "name": "Corvette",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:35:42.441Z"
-      },
-      {
-        "id": "roster_5_mptvtq09_7zakz",
-        "name": "N/A",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:35:42.441Z"
-      },
-      {
-        "id": "roster_6_mptvtq09_3rb1w",
-        "name": "Frigates",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:42.441Z"
       },
@@ -18153,11 +17496,10 @@ window.AGGS_DATA = {
         "id": "roster_7_mptvtq09_etamd",
         "name": "Tribal-class frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:42.441Z"
       },
@@ -18165,23 +17507,10 @@ window.AGGS_DATA = {
         "id": "roster_8_mptvtq09_2t0rx",
         "name": "Type 21 frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:35:42.441Z"
-      },
-      {
-        "id": "roster_9_mptvtq09_mpgp4",
-        "name": "Destroyers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:42.441Z"
       },
@@ -18189,11 +17518,10 @@ window.AGGS_DATA = {
         "id": "roster_10_mptvtq09_7mis8",
         "name": "Spruance-class destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:42.441Z"
       },
@@ -18201,23 +17529,10 @@ window.AGGS_DATA = {
         "id": "roster_11_mptvtq09_0b0dm",
         "name": "Mitscher-class destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:35:42.441Z"
-      },
-      {
-        "id": "roster_12_mptvtq09_63xr7",
-        "name": "Cruisers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:42.441Z"
       },
@@ -18225,35 +17540,10 @@ window.AGGS_DATA = {
         "id": "roster_13_mptvtq09_flxyh",
         "name": "Belknap-class cruiser",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Cruisers",
+        "role": "Cruisers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:35:42.441Z"
-      },
-      {
-        "id": "roster_14_mptvtq09_xdj7s",
-        "name": "Carriers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:35:42.441Z"
-      },
-      {
-        "id": "roster_15_mptvtq09_2mdmm",
-        "name": "Submarines",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:42.441Z"
       },
@@ -18261,11 +17551,10 @@ window.AGGS_DATA = {
         "id": "roster_16_mptvtq09_cvgap",
         "name": "Tench-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:42.441Z"
       },
@@ -18273,11 +17562,10 @@ window.AGGS_DATA = {
         "id": "roster_17_mptvtq09_sm3t8",
         "name": "Permit-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:42.441Z"
       },
@@ -18285,23 +17573,10 @@ window.AGGS_DATA = {
         "id": "roster_18_mptvtq09_tq41j",
         "name": "Churchill-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:35:42.441Z"
-      },
-      {
-        "id": "roster_19_mptvtq09_tq21w",
-        "name": "Misc Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:42.441Z"
       },
@@ -18313,7 +17588,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18325,7 +17599,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18337,7 +17610,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18349,7 +17621,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18361,7 +17632,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18373,7 +17643,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18385,7 +17654,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18397,7 +17665,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18409,7 +17676,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18421,7 +17687,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18433,7 +17698,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18445,7 +17709,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18457,7 +17720,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18469,7 +17731,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18481,7 +17742,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18493,7 +17753,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       },
@@ -18505,7 +17764,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:35:56.820Z"
       }
@@ -18519,7 +17777,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:16.196Z"
       },
@@ -18531,7 +17788,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:16.196Z"
       },
@@ -18543,7 +17799,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:16.196Z"
       },
@@ -18555,7 +17810,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:16.196Z"
       },
@@ -18567,7 +17821,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:16.196Z"
       },
@@ -18579,55 +17832,17 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:16.196Z"
-      },
-      {
-        "id": "roster_0_mptvuoln_ldqtq",
-        "name": "Support Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:36:27.275Z"
-      },
-      {
-        "id": "roster_1_mptvuoln_xgel5",
-        "name": "N/A",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:36:27.275Z"
-      },
-      {
-        "id": "roster_2_mptvuoln_rvg59",
-        "name": "Patrol Boats",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:36:27.275Z"
       },
       {
         "id": "roster_3_mptvuoln_ep39w",
         "name": "Giulio Ingianni",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18635,23 +17850,10 @@ window.AGGS_DATA = {
         "id": "roster_4_mptvuoln_nt2l6",
         "name": "Giulio Ingianni II",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:36:27.275Z"
-      },
-      {
-        "id": "roster_5_mptvuoln_k3vw5",
-        "name": "Corvette",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18659,11 +17861,10 @@ window.AGGS_DATA = {
         "id": "roster_6_mptvuoln_wj2a6",
         "name": "Ada-class corvette",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Corvette",
+        "role": "Corvette",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18671,23 +17872,10 @@ window.AGGS_DATA = {
         "id": "roster_7_mptvuoln_3u012",
         "name": "Burak-class corvette",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Corvette",
+        "role": "Corvette",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:36:27.275Z"
-      },
-      {
-        "id": "roster_8_mptvuoln_2ec88",
-        "name": "Frigates",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18695,11 +17883,10 @@ window.AGGS_DATA = {
         "id": "roster_9_mptvuoln_b88y9",
         "name": "G-class frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18707,23 +17894,10 @@ window.AGGS_DATA = {
         "id": "roster_10_mptvuoln_w86q1",
         "name": "Barbaros-class frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:36:27.275Z"
-      },
-      {
-        "id": "roster_11_mptvuoln_t5rs0",
-        "name": "Destroyers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18731,23 +17905,10 @@ window.AGGS_DATA = {
         "id": "roster_12_mptvuoln_lqg15",
         "name": "Audace-class destroyer (1971)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:36:27.275Z"
-      },
-      {
-        "id": "roster_13_mptvuoln_vx127",
-        "name": "Cruisers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18755,23 +17916,10 @@ window.AGGS_DATA = {
         "id": "roster_14_mptvuoln_36web",
         "name": "Virginia-class cruiser",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Cruisers",
+        "role": "Cruisers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:36:27.275Z"
-      },
-      {
-        "id": "roster_15_mptvuoln_dp8i6",
-        "name": "Carriers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18779,11 +17927,10 @@ window.AGGS_DATA = {
         "id": "roster_16_mptvuoln_ctxxt",
         "name": "Cavour",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18791,11 +17938,10 @@ window.AGGS_DATA = {
         "id": "roster_17_mptvuoln_pw6nc",
         "name": "Giuseppe Garibaldi",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18803,11 +17949,10 @@ window.AGGS_DATA = {
         "id": "roster_18_mptvuoln_ayabq",
         "name": "Giorgio-class amphibious transport dock",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18815,11 +17960,10 @@ window.AGGS_DATA = {
         "id": "roster_19_mptvuoln_zxl0a",
         "name": "Audacious-class Mod. 2001 (Custom)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18827,23 +17971,10 @@ window.AGGS_DATA = {
         "id": "roster_20_mptvuoln_1utke",
         "name": "Shinano-class Mod. 2002 (Custom)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:36:27.275Z"
-      },
-      {
-        "id": "roster_21_mptvuoln_689m5",
-        "name": "Submarines",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18851,23 +17982,10 @@ window.AGGS_DATA = {
         "id": "roster_22_mptvuoln_0n2c8",
         "name": "U-Boot-Klasse 209",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:36:27.275Z"
-      },
-      {
-        "id": "roster_23_mptvuoln_lcej1",
-        "name": "Misc Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18875,11 +17993,10 @@ window.AGGS_DATA = {
         "id": "roster_24_mptvuoln_5fzvy",
         "name": "Brandenburg-class Battleship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -18887,11 +18004,10 @@ window.AGGS_DATA = {
         "id": "roster_25_mptvuoln_xknk0",
         "name": "Reşadiye-class Battleship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:27.275Z"
       },
@@ -19059,7 +18175,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:38.485Z"
       },
@@ -19131,7 +18246,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:38.485Z"
       },
@@ -19167,7 +18281,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:38.485Z"
       },
@@ -19191,7 +18304,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:38.485Z"
       },
@@ -19251,7 +18363,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:38.485Z"
       },
@@ -19343,11 +18454,8 @@ window.AGGS_DATA = {
         "id": "roster_0_mptvv673_gc9ll",
         "name": "UAV",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:50.079Z"
       },
@@ -19355,8 +18463,6 @@ window.AGGS_DATA = {
         "id": "roster_1_mptvv673_q1n0t",
         "name": "Gölcük Malazgirt -",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -19367,11 +18473,8 @@ window.AGGS_DATA = {
         "id": "roster_2_mptvv673_bw91d",
         "name": "Support Planes",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:50.079Z"
       },
@@ -19379,8 +18482,6 @@ window.AGGS_DATA = {
         "id": "roster_3_mptvv673_dj2fx",
         "name": "Hawk 53 -",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -19391,8 +18492,6 @@ window.AGGS_DATA = {
         "id": "roster_4_mptvv673_4ll3o",
         "name": "CN-235-300 -",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -19403,8 +18502,6 @@ window.AGGS_DATA = {
         "id": "roster_5_mptvv673_23e0s",
         "name": "Transall C-160F -",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -19415,8 +18512,6 @@ window.AGGS_DATA = {
         "id": "roster_6_mptvv673_tga44",
         "name": "Boeing E-2C Hawkeye -",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -19427,8 +18522,6 @@ window.AGGS_DATA = {
         "id": "roster_7_mptvv673_m4ux6",
         "name": "C-130H -",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -19439,8 +18532,6 @@ window.AGGS_DATA = {
         "id": "roster_8_mptvv673_8jbdq",
         "name": "Transall C-160 -",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -19451,8 +18542,6 @@ window.AGGS_DATA = {
         "id": "roster_9_mptvv673_y26s6",
         "name": "Grumman E-1B Tracer -",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -19467,7 +18556,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:50.079Z"
       },
@@ -19479,7 +18567,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:50.079Z"
       },
@@ -19491,7 +18578,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:50.079Z"
       },
@@ -19551,7 +18637,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:50.079Z"
       },
@@ -19599,7 +18684,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:36:50.079Z"
       },
@@ -19755,7 +18839,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:38:01.031Z"
       },
@@ -19947,7 +19030,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:38:01.031Z"
       },
@@ -20043,7 +19125,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:38:01.031Z"
       },
@@ -20319,7 +19400,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:38:01.031Z"
       },
@@ -20331,7 +19411,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:38:46.213Z"
       },
@@ -20343,7 +19422,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:38:46.213Z"
       },
@@ -20355,7 +19433,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:38:46.213Z"
       }
@@ -20369,19 +19446,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:39:18.916Z"
-      },
-      {
-        "id": "roster_1_mptvyd1g_30hmy",
-        "name": "N/A",
-        "category": "Infantry Equipment",
-        "subcategory": "NVGs",
-        "role": "NVGs",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20393,7 +19457,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20405,7 +19468,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20417,7 +19479,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20429,19 +19490,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:39:18.916Z"
-      },
-      {
-        "id": "roster_6_mptvyd1g_76nnq",
-        "name": "N/A",
-        "category": "Infantry Equipment",
-        "subcategory": "Misc",
-        "role": "Misc",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20453,7 +19501,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20465,7 +19512,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20477,7 +19523,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20489,7 +19534,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20501,7 +19545,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20513,7 +19556,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20525,7 +19567,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20537,7 +19578,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20549,7 +19589,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20561,7 +19600,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20573,7 +19611,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20585,7 +19622,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20597,7 +19633,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20609,7 +19644,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20621,7 +19655,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20633,7 +19666,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20645,19 +19677,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:39:18.916Z"
-      },
-      {
-        "id": "roster_24_mptvyd1g_rdnel",
-        "name": "N/A",
-        "category": "Small Arms",
-        "subcategory": "MGs",
-        "role": "MGs",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20669,7 +19688,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20681,7 +19699,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20693,7 +19710,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20705,7 +19721,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20717,7 +19732,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20729,7 +19743,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20741,7 +19754,6 @@ window.AGGS_DATA = {
         "role": "Miscellaneous",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20753,7 +19765,6 @@ window.AGGS_DATA = {
         "role": "Miscellaneous",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20765,7 +19776,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20777,7 +19787,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20789,7 +19798,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20801,7 +19809,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20813,7 +19820,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20825,7 +19831,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20837,7 +19842,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20849,7 +19853,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20861,7 +19864,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20873,7 +19875,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20885,7 +19886,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20897,7 +19897,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20909,7 +19908,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20921,7 +19919,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20933,7 +19930,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20945,7 +19941,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20957,7 +19952,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20969,7 +19963,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20981,7 +19974,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -20993,7 +19985,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21005,7 +19996,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21017,7 +20007,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21029,7 +20018,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21041,7 +20029,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21053,7 +20040,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21065,7 +20051,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21077,7 +20062,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21089,7 +20073,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21101,7 +20084,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21113,7 +20095,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21125,7 +20106,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21137,7 +20117,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21149,7 +20128,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21161,7 +20139,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21173,7 +20150,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21185,7 +20161,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21197,7 +20172,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21209,7 +20183,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21221,7 +20194,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21233,7 +20205,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21245,7 +20216,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21257,7 +20227,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21269,7 +20238,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21281,7 +20249,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21293,7 +20260,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21305,7 +20271,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21317,7 +20282,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21329,7 +20293,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21341,7 +20304,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21353,7 +20315,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21365,7 +20326,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21377,7 +20337,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21389,7 +20348,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21401,7 +20359,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21413,7 +20370,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21425,7 +20381,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21437,7 +20392,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:18.916Z"
       },
@@ -21445,11 +20399,8 @@ window.AGGS_DATA = {
         "id": "roster_0_mptvylft_3scdd",
         "name": "Support Planes",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21457,11 +20408,8 @@ window.AGGS_DATA = {
         "id": "roster_1_mptvylft_vjbua",
         "name": "Antonov An-12",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21469,11 +20417,8 @@ window.AGGS_DATA = {
         "id": "roster_2_mptvylft_ojfiy",
         "name": "Antonov An-24",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21481,11 +20426,8 @@ window.AGGS_DATA = {
         "id": "roster_3_mptvylft_5yvqi",
         "name": "Ilyushin Il-38",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21493,11 +20435,8 @@ window.AGGS_DATA = {
         "id": "roster_4_mptvylft_cnlkw",
         "name": "Ilyushin Il-76M Candid-B",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21505,11 +20444,8 @@ window.AGGS_DATA = {
         "id": "roster_5_mptvylft_mvl9k",
         "name": "Beriev A-50",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21517,11 +20453,8 @@ window.AGGS_DATA = {
         "id": "roster_6_mptvylft_ohkzj",
         "name": "Dassault Falcon 50",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21529,11 +20462,8 @@ window.AGGS_DATA = {
         "id": "roster_7_mptvylft_29k3m",
         "name": "C-130B",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21541,11 +20471,8 @@ window.AGGS_DATA = {
         "id": "roster_8_mptvylft_lcf72",
         "name": "E-2C Hawkeye",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21557,7 +20484,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21569,7 +20495,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21581,7 +20506,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21593,7 +20517,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21605,7 +20528,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21617,7 +20539,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21629,7 +20550,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21641,7 +20561,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21653,7 +20572,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21665,7 +20583,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21677,7 +20594,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21689,7 +20605,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21701,7 +20616,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21713,7 +20627,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21725,7 +20638,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21737,7 +20649,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21749,7 +20660,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21761,7 +20671,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21773,7 +20682,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21785,7 +20693,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21797,7 +20704,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21809,7 +20715,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21821,7 +20726,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21833,7 +20737,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21845,7 +20748,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21857,7 +20759,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21869,7 +20770,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21881,7 +20781,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21893,7 +20792,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
       },
@@ -21905,31 +20803,17 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:29.801Z"
-      },
-      {
-        "id": "roster_0_mptvyxf6_rwvh3",
-        "name": "Support Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:39:45.330Z"
       },
       {
         "id": "roster_1_mptvyxf6_8fctt",
         "name": "Type 773 Polnocny Class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -21937,23 +20821,10 @@ window.AGGS_DATA = {
         "id": "roster_2_mptvyxf6_r2vn9",
         "name": "ARA Punta Médanos (B-18)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:39:45.330Z"
-      },
-      {
-        "id": "roster_3_mptvyxf6_jheku",
-        "name": "Patrol Boats",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -21961,11 +20832,10 @@ window.AGGS_DATA = {
         "id": "roster_4_mptvyxf6_ioxvo",
         "name": "Osa-class missile boat",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -21973,11 +20843,10 @@ window.AGGS_DATA = {
         "id": "roster_5_mptvyxf6_vwhcr",
         "name": "Zhuk-class patrol boat",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -21985,47 +20854,10 @@ window.AGGS_DATA = {
         "id": "roster_6_mptvyxf6_sarw2",
         "name": "Z-28-class patrol boat",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:39:45.330Z"
-      },
-      {
-        "id": "roster_7_mptvyxf6_k38k7",
-        "name": "Corvette",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:39:45.330Z"
-      },
-      {
-        "id": "roster_8_mptvyxf6_es975",
-        "name": "N/A",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:39:45.330Z"
-      },
-      {
-        "id": "roster_9_mptvyxf6_nm3he",
-        "name": "Frigates",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22033,11 +20865,10 @@ window.AGGS_DATA = {
         "id": "roster_10_mptvyxf6_83eor",
         "name": "Koni-class frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22045,23 +20876,10 @@ window.AGGS_DATA = {
         "id": "roster_11_mptvyxf6_pz0t1",
         "name": "Garcia-class frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:39:45.330Z"
-      },
-      {
-        "id": "roster_12_mptvyxf6_e9gi6",
-        "name": "Destroyers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22069,23 +20887,10 @@ window.AGGS_DATA = {
         "id": "roster_13_mptvyxf6_ydhdm",
         "name": "Farragut-class destroyer (1958)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:39:45.330Z"
-      },
-      {
-        "id": "roster_14_mptvyxf6_4sc8q",
-        "name": "Cruisers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22093,11 +20898,10 @@ window.AGGS_DATA = {
         "id": "roster_15_mptvyxf6_8ewzr",
         "name": "Brooklyn-class cruiser",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Cruisers",
+        "role": "Cruisers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22105,23 +20909,10 @@ window.AGGS_DATA = {
         "id": "roster_16_mptvyxf6_3hxvh",
         "name": "Leahy-class cruiser",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Cruisers",
+        "role": "Cruisers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:39:45.330Z"
-      },
-      {
-        "id": "roster_17_mptvyxf6_6hjcu",
-        "name": "Carriers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22129,11 +20920,10 @@ window.AGGS_DATA = {
         "id": "roster_18_mptvyxf6_9mthj",
         "name": "Independence-class aircraft carrier",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22141,11 +20931,10 @@ window.AGGS_DATA = {
         "id": "roster_19_mptvyxf6_cphck",
         "name": "Kiev-class aircraft carrier",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22153,23 +20942,10 @@ window.AGGS_DATA = {
         "id": "roster_20_mptvyxf6_pysbs",
         "name": "ARA Veinticinco de Mayo (V-2)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:39:45.330Z"
-      },
-      {
-        "id": "roster_21_mptvyxf6_bdjdm",
-        "name": "Submarines",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22177,11 +20953,10 @@ window.AGGS_DATA = {
         "id": "roster_22_mptvyxf6_7uz70",
         "name": "Yankee-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22189,11 +20964,10 @@ window.AGGS_DATA = {
         "id": "roster_23_mptvyxf6_c5v4r",
         "name": "Juliett-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22201,11 +20975,10 @@ window.AGGS_DATA = {
         "id": "roster_24_mptvyxf6_kilk6",
         "name": "Bravo-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22213,11 +20986,10 @@ window.AGGS_DATA = {
         "id": "roster_25_mptvyxf6_djf3t",
         "name": "French submarine Doris (S643)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22225,11 +20997,10 @@ window.AGGS_DATA = {
         "id": "roster_26_mptvyxf6_mpomd",
         "name": "Type 209 submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:39:45.330Z"
       },
@@ -22237,11 +21008,8 @@ window.AGGS_DATA = {
         "id": "roster_0_mptw1azi_0fiux",
         "name": "VX-44 “Infernal Rain” Saturation Missile (custom)",
         "category": "Missiles",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:41:36.222Z"
       },
@@ -22249,11 +21017,8 @@ window.AGGS_DATA = {
         "id": "roster_1_mptw1azi_4c2i6",
         "name": "BN-16 “Black Widow” Anti-Population Bio-Aerosol (custom)",
         "category": "Missiles",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:41:36.222Z"
       },
@@ -22261,11 +21026,8 @@ window.AGGS_DATA = {
         "id": "roster_2_mptw1azi_vkb9i",
         "name": "TY-71 “Choking Sky” Thermobaric Fog Bomb (custom)",
         "category": "Missiles",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:41:36.222Z"
       },
@@ -22273,11 +21035,8 @@ window.AGGS_DATA = {
         "id": "roster_3_mptw1azi_555uq",
         "name": "RZ-3 “Cobalt Reaper” Enhanced Radiological Device (custom)",
         "category": "Missiles",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:41:36.222Z"
       }
@@ -22291,7 +21050,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:30.492Z"
       },
@@ -22303,7 +21061,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:30.492Z"
       },
@@ -22315,7 +21072,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:30.492Z"
       },
@@ -22327,7 +21083,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:30.492Z"
       },
@@ -22339,7 +21094,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:30.492Z"
       },
@@ -22351,7 +21105,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:30.492Z"
       },
@@ -22363,7 +21116,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:30.492Z"
       },
@@ -22375,7 +21127,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:30.492Z"
       },
@@ -22387,7 +21138,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:30.492Z"
       },
@@ -22399,7 +21149,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:30.492Z"
       },
@@ -22411,7 +21160,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:30.492Z"
       },
@@ -22423,7 +21171,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22435,7 +21182,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22447,7 +21193,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22459,7 +21204,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22471,7 +21215,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22483,7 +21226,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22495,7 +21237,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22507,7 +21248,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22519,7 +21259,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22531,7 +21270,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22543,7 +21281,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22555,7 +21292,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22567,7 +21303,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22579,7 +21314,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22591,7 +21325,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22603,7 +21336,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22615,7 +21347,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22627,7 +21358,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22639,7 +21369,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22651,7 +21380,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22663,7 +21391,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22675,7 +21402,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22687,19 +21413,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:42:45.675Z"
-      },
-      {
-        "id": "roster_23_mptw2sks_rtcpu",
-        "name": "N/A",
-        "category": "Small Arms",
-        "subcategory": "ATR/RPG",
-        "role": "ATR/RPG",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22711,7 +21424,6 @@ window.AGGS_DATA = {
         "role": "Miscellaneous",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22723,7 +21435,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22735,7 +21446,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22747,7 +21457,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22759,7 +21468,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22771,7 +21479,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22783,7 +21490,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22795,7 +21501,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22807,7 +21512,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22819,7 +21523,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22831,7 +21534,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22843,7 +21545,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22855,7 +21556,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22867,7 +21567,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22879,7 +21578,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22891,7 +21589,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22903,7 +21600,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22915,7 +21611,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22927,7 +21622,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22939,7 +21633,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22951,7 +21644,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22963,7 +21655,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22975,7 +21666,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22987,7 +21677,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -22999,7 +21688,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23011,7 +21699,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23023,7 +21710,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23035,7 +21721,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23047,7 +21732,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23059,7 +21743,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23071,7 +21754,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23083,7 +21765,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23095,7 +21776,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23107,7 +21787,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23119,7 +21798,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23131,7 +21809,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23143,7 +21820,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23155,7 +21831,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23167,7 +21842,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23179,7 +21853,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23191,7 +21864,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23203,7 +21875,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23215,7 +21886,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23227,7 +21897,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23239,7 +21908,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23251,7 +21919,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:45.675Z"
       },
@@ -23259,11 +21926,8 @@ window.AGGS_DATA = {
         "id": "roster_0_mptw2yn1_t2sky",
         "name": "Support Planes",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23271,11 +21935,8 @@ window.AGGS_DATA = {
         "id": "roster_1_mptw2yn1_fm06m",
         "name": "Boeing RC-135",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23283,11 +21944,8 @@ window.AGGS_DATA = {
         "id": "roster_2_mptw2yn1_riq2e",
         "name": "Boeing P-8 Poseidon",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23295,11 +21953,8 @@ window.AGGS_DATA = {
         "id": "roster_3_mptw2yn1_0nnh4",
         "name": "Lockheed CP-140 Aurora",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23307,11 +21962,8 @@ window.AGGS_DATA = {
         "id": "roster_4_mptw2yn1_aclo1",
         "name": "Beechcraft Super King Air",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23319,11 +21971,8 @@ window.AGGS_DATA = {
         "id": "roster_5_mptw2yn1_zcsl1",
         "name": "Hunter T.66",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23331,11 +21980,8 @@ window.AGGS_DATA = {
         "id": "roster_6_mptw2yn1_tkstt",
         "name": "Fairchild C-119 Flying Boxcar",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23343,11 +21989,8 @@ window.AGGS_DATA = {
         "id": "roster_7_mptw2yn1_00dky",
         "name": "Dornier 228",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23355,11 +21998,8 @@ window.AGGS_DATA = {
         "id": "roster_8_mptw2yn1_fqm9l",
         "name": "Vickers Viscount",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23367,11 +22007,8 @@ window.AGGS_DATA = {
         "id": "roster_9_mptw2yn1_g7the",
         "name": "HAL Krishak",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23379,11 +22016,8 @@ window.AGGS_DATA = {
         "id": "roster_10_mptw2yn1_uawbk",
         "name": "HAL Pushpak",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23391,11 +22025,8 @@ window.AGGS_DATA = {
         "id": "roster_11_mptw2yn1_681eu",
         "name": "HAL HPT-32 Deepak",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23403,11 +22034,8 @@ window.AGGS_DATA = {
         "id": "roster_12_mptw2yn1_fydod",
         "name": "Supermarine Spitfire T.IX",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23415,11 +22043,8 @@ window.AGGS_DATA = {
         "id": "roster_13_mptw2yn1_9lbqd",
         "name": "Lockheed L-1049 Super Constellation",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23427,11 +22052,8 @@ window.AGGS_DATA = {
         "id": "roster_14_mptw2yn1_e3pkx",
         "name": "Grumman E-2 Hawkeye",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23443,7 +22065,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23455,7 +22076,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23467,7 +22087,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23479,7 +22098,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23491,7 +22109,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23503,7 +22120,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23515,7 +22131,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23527,7 +22142,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23539,7 +22153,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23551,7 +22164,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23563,7 +22175,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23575,7 +22186,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23587,7 +22197,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23599,19 +22208,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:42:53.533Z"
-      },
-      {
-        "id": "roster_29_mptw2yn1_5e25w",
-        "name": "N/A",
-        "category": "Aeroplanes",
-        "subcategory": "Fighters/Multi-Role",
-        "role": "Fighters/Multi-Role",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23623,7 +22219,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23635,7 +22230,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23647,7 +22241,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23659,7 +22252,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23671,7 +22263,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23683,7 +22274,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
       },
@@ -23695,31 +22285,17 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:42:53.533Z"
-      },
-      {
-        "id": "roster_0_mptw35su_2icdz",
-        "name": "Support Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:43:02.814Z"
       },
       {
         "id": "roster_1_mptw35su_sgwvi",
         "name": "Magar-class amphibious warfare vessel",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23727,11 +22303,10 @@ window.AGGS_DATA = {
         "id": "roster_2_mptw35su_7y7e9",
         "name": "Shardul-class tank landing ship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23739,11 +22314,10 @@ window.AGGS_DATA = {
         "id": "roster_3_mptw35su_07m2t",
         "name": "Mk. III LCU",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23751,11 +22325,10 @@ window.AGGS_DATA = {
         "id": "roster_4_mptw35su_ni5qo",
         "name": "Mk. IV LCU",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23763,11 +22336,10 @@ window.AGGS_DATA = {
         "id": "roster_5_mptw35su_z1vy0",
         "name": "Aditya-class auxiliary ship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23775,11 +22347,10 @@ window.AGGS_DATA = {
         "id": "roster_6_mptw35su_d7b4d",
         "name": "Ambika-class replenishment ship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23787,11 +22358,10 @@ window.AGGS_DATA = {
         "id": "roster_7_mptw35su_lf1z8",
         "name": "Tir class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23799,11 +22369,10 @@ window.AGGS_DATA = {
         "id": "roster_8_mptw35su_p9t4t",
         "name": "Tarangini class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23811,23 +22380,10 @@ window.AGGS_DATA = {
         "id": "roster_9_mptw35su_obi9x",
         "name": "Mhadei class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:43:02.814Z"
-      },
-      {
-        "id": "roster_10_mptw35su_bgrjo",
-        "name": "Patrol Boats",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23835,11 +22391,10 @@ window.AGGS_DATA = {
         "id": "roster_11_mptw35su_m64v9",
         "name": "Bangaram-class patrol vessel",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23847,11 +22402,10 @@ window.AGGS_DATA = {
         "id": "roster_12_mptw35su_fhjpu",
         "name": "Car Nicobar-class patrol vessel",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23859,11 +22413,10 @@ window.AGGS_DATA = {
         "id": "roster_13_mptw35su_fjzdt",
         "name": "Sukanya-class patrol vessel",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23871,11 +22424,10 @@ window.AGGS_DATA = {
         "id": "roster_14_mptw35su_9gu0j",
         "name": "Trinkat-class patrol vessel",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23883,23 +22435,10 @@ window.AGGS_DATA = {
         "id": "roster_15_mptw35su_7n31m",
         "name": "Super Dvora Mk II-class patrol boat",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:43:02.814Z"
-      },
-      {
-        "id": "roster_16_mptw35su_bt0ml",
-        "name": "Corvette",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23907,11 +22446,10 @@ window.AGGS_DATA = {
         "id": "roster_17_mptw35su_duabb",
         "name": "Abhay-class corvette",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Corvette",
+        "role": "Corvette",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23919,23 +22457,10 @@ window.AGGS_DATA = {
         "id": "roster_18_mptw35su_mfzse",
         "name": "Veer-class corvette",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Corvette",
+        "role": "Corvette",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:43:02.814Z"
-      },
-      {
-        "id": "roster_19_mptw35su_jrhb2",
-        "name": "Frigates",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23943,11 +22468,10 @@ window.AGGS_DATA = {
         "id": "roster_20_mptw35su_wf5l5",
         "name": "Nilgiri-class frigate (1972)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23955,11 +22479,10 @@ window.AGGS_DATA = {
         "id": "roster_21_mptw35su_ur74x",
         "name": "Godavari-class frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23967,11 +22490,10 @@ window.AGGS_DATA = {
         "id": "roster_22_mptw35su_ut7wi",
         "name": "Brahmaputra-class frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -23979,23 +22501,10 @@ window.AGGS_DATA = {
         "id": "roster_23_mptw35su_15g06",
         "name": "Shivalik-class frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:43:02.814Z"
-      },
-      {
-        "id": "roster_24_mptw35su_ftyuh",
-        "name": "Destroyers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -24003,11 +22512,10 @@ window.AGGS_DATA = {
         "id": "roster_25_mptw35su_h12ty",
         "name": "Rajput-class destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -24015,11 +22523,10 @@ window.AGGS_DATA = {
         "id": "roster_26_mptw35su_nvjgv",
         "name": "Delhi-class destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -24027,47 +22534,10 @@ window.AGGS_DATA = {
         "id": "roster_27_mptw35su_gjuo0",
         "name": "Kolkata-class destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:43:02.814Z"
-      },
-      {
-        "id": "roster_28_mptw35su_ekhei",
-        "name": "Cruisers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:43:02.814Z"
-      },
-      {
-        "id": "roster_29_mptw35su_lju9j",
-        "name": "N/A",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:43:02.814Z"
-      },
-      {
-        "id": "roster_30_mptw35su_e9j6w",
-        "name": "Carriers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -24075,11 +22545,10 @@ window.AGGS_DATA = {
         "id": "roster_31_mptw35su_spn63",
         "name": "Austin-class amphibious transport dock",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -24087,23 +22556,10 @@ window.AGGS_DATA = {
         "id": "roster_32_mptw35su_u116i",
         "name": "INS Vikrant (2013)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:43:02.814Z"
-      },
-      {
-        "id": "roster_33_mptw35su_9bvqt",
-        "name": "Submarines",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -24111,23 +22567,10 @@ window.AGGS_DATA = {
         "id": "roster_34_mptw35su_3tmbt",
         "name": "Shishumar-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:43:02.814Z"
-      },
-      {
-        "id": "roster_35_mptw35su_4rrp8",
-        "name": "Misc Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       },
@@ -24135,11 +22578,10 @@ window.AGGS_DATA = {
         "id": "roster_36_mptw35su_zpxpw",
         "name": "Queen Elizabeth-class battleship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:43:02.814Z"
       }
@@ -24153,7 +22595,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24165,7 +22606,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24177,7 +22617,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24189,7 +22628,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24201,7 +22639,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24213,7 +22650,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24225,7 +22661,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24237,7 +22672,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24249,7 +22683,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24261,7 +22694,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24273,7 +22705,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24285,7 +22716,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24297,7 +22727,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24309,7 +22738,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24321,7 +22749,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24333,7 +22760,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24345,7 +22771,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24357,7 +22782,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24369,7 +22793,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24381,7 +22804,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24393,7 +22815,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24405,7 +22826,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24417,7 +22837,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24429,7 +22848,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24441,7 +22859,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24453,7 +22870,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24465,7 +22881,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24477,7 +22892,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24489,7 +22903,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24501,7 +22914,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24513,7 +22925,6 @@ window.AGGS_DATA = {
         "role": "Miscellaneous",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24525,7 +22936,6 @@ window.AGGS_DATA = {
         "role": "Miscellaneous",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24537,7 +22947,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24549,7 +22958,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24561,7 +22969,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24573,7 +22980,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24585,7 +22991,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24597,7 +23002,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24609,7 +23013,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24621,7 +23024,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24633,7 +23035,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24645,7 +23046,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24657,7 +23057,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24669,7 +23068,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24681,7 +23079,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24693,7 +23090,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24705,7 +23101,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24717,7 +23112,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24729,7 +23123,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24741,7 +23134,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24753,7 +23145,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24765,7 +23156,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24777,7 +23167,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24789,7 +23178,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24801,7 +23189,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24813,7 +23200,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24825,7 +23211,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24837,7 +23222,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24849,7 +23233,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24861,7 +23244,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24873,7 +23255,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24885,7 +23266,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24897,7 +23277,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24909,7 +23288,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24921,7 +23299,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24933,7 +23310,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24945,7 +23321,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24957,7 +23332,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24969,7 +23343,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24981,7 +23354,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -24993,7 +23365,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25005,7 +23376,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25017,7 +23387,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25029,7 +23398,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25041,7 +23409,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25053,7 +23420,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25065,7 +23431,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25077,7 +23442,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25089,7 +23453,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25101,7 +23464,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25113,7 +23475,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25125,7 +23486,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25137,7 +23497,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25149,7 +23508,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25161,7 +23519,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25173,7 +23530,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25185,7 +23541,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25197,7 +23552,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25209,7 +23563,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25221,7 +23574,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25233,7 +23585,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25245,7 +23596,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25257,7 +23607,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25269,7 +23618,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25281,7 +23629,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25293,7 +23640,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25305,7 +23651,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25317,7 +23662,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25329,7 +23673,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25341,7 +23684,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25353,7 +23695,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25365,7 +23706,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25377,7 +23717,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:30.781Z"
       },
@@ -25389,7 +23728,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25401,7 +23739,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25413,7 +23750,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25425,7 +23761,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25437,7 +23772,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25449,7 +23783,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25461,7 +23794,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25473,7 +23805,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25485,7 +23816,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25497,7 +23827,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25509,7 +23838,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25521,7 +23849,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25533,7 +23860,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25545,7 +23871,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
       },
@@ -25557,31 +23882,17 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:38.509Z"
-      },
-      {
-        "id": "roster_0_mptw5e7b_wfuu3",
-        "name": "Support Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:44:47.015Z"
       },
       {
         "id": "roster_1_mptw5e7b_zz0uc",
         "name": "Hunt-class mine countermeasures vessel",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25589,23 +23900,10 @@ window.AGGS_DATA = {
         "id": "roster_2_mptw5e7b_k29yv",
         "name": "Sandown-class minehunter",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:44:47.015Z"
-      },
-      {
-        "id": "roster_3_mptw5e7b_hp9h3",
-        "name": "Patrol Boats",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25613,11 +23911,10 @@ window.AGGS_DATA = {
         "id": "roster_4_mptw5e7b_2f41a",
         "name": "Island-class patrol vessel",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25625,11 +23922,10 @@ window.AGGS_DATA = {
         "id": "roster_5_mptw5e7b_8pl07",
         "name": "Castle-class patrol vessel",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25637,11 +23933,10 @@ window.AGGS_DATA = {
         "id": "roster_6_mptw5e7b_9aj4z",
         "name": "River-class offshore patrol vessel",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25649,47 +23944,10 @@ window.AGGS_DATA = {
         "id": "roster_7_mptw5e7b_85iqh",
         "name": "Archer-class patrol vessel",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:44:47.015Z"
-      },
-      {
-        "id": "roster_8_mptw5e7b_178kl",
-        "name": "Corvette",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:44:47.015Z"
-      },
-      {
-        "id": "roster_9_mptw5e7b_ugpr2",
-        "name": "N/A",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:44:47.015Z"
-      },
-      {
-        "id": "roster_10_mptw5e7b_9namc",
-        "name": "Frigates",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25697,11 +23955,10 @@ window.AGGS_DATA = {
         "id": "roster_11_mptw5e7b_6o3sq",
         "name": "Type 21 frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25709,11 +23966,10 @@ window.AGGS_DATA = {
         "id": "roster_12_mptw5e7b_v6h6d",
         "name": "Type 22 frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25721,23 +23977,10 @@ window.AGGS_DATA = {
         "id": "roster_13_mptw5e7b_dr5o8",
         "name": "Type 23 frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:44:47.015Z"
-      },
-      {
-        "id": "roster_14_mptw5e7b_2lonc",
-        "name": "Destroyers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25745,11 +23988,10 @@ window.AGGS_DATA = {
         "id": "roster_15_mptw5e7b_uuoob",
         "name": "County-class destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25757,11 +23999,10 @@ window.AGGS_DATA = {
         "id": "roster_16_mptw5e7b_cykgm",
         "name": "Type 82 destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25769,11 +24010,10 @@ window.AGGS_DATA = {
         "id": "roster_17_mptw5e7b_zha8c",
         "name": "Type 42 destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25781,23 +24021,10 @@ window.AGGS_DATA = {
         "id": "roster_18_mptw5e7b_gkfo2",
         "name": "Type 45 destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:44:47.015Z"
-      },
-      {
-        "id": "roster_19_mptw5e7b_1700r",
-        "name": "Cruisers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25805,23 +24032,10 @@ window.AGGS_DATA = {
         "id": "roster_20_mptw5e7b_ltwy0",
         "name": "Town-class cruiser (1936)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Cruisers",
+        "role": "Cruisers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:44:47.015Z"
-      },
-      {
-        "id": "roster_21_mptw5e7b_c1sg8",
-        "name": "Carriers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25829,11 +24043,10 @@ window.AGGS_DATA = {
         "id": "roster_22_mptw5e7b_n48l9",
         "name": "Albion-class landing platform dock",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25841,11 +24054,10 @@ window.AGGS_DATA = {
         "id": "roster_23_mptw5e7b_l9k1a",
         "name": "CVA-01",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25853,11 +24065,10 @@ window.AGGS_DATA = {
         "id": "roster_24_mptw5e7b_m97cy",
         "name": "Invincible-class aircraft carrier",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25865,23 +24076,10 @@ window.AGGS_DATA = {
         "id": "roster_25_mptw5e7b_2mufm",
         "name": "Queen Elizabeth-class aircraft carrier",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:44:47.015Z"
-      },
-      {
-        "id": "roster_26_mptw5e7b_ptciz",
-        "name": "Submarines",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25889,11 +24087,10 @@ window.AGGS_DATA = {
         "id": "roster_27_mptw5e7b_p40i6",
         "name": "Valiant-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25901,11 +24098,10 @@ window.AGGS_DATA = {
         "id": "roster_28_mptw5e7b_grq46",
         "name": "Churchill-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25913,11 +24109,10 @@ window.AGGS_DATA = {
         "id": "roster_29_mptw5e7b_iybo1",
         "name": "Swiftsure-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25925,11 +24120,10 @@ window.AGGS_DATA = {
         "id": "roster_30_mptw5e7b_vag40",
         "name": "Trafalgar-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25937,11 +24131,10 @@ window.AGGS_DATA = {
         "id": "roster_31_mptw5e7b_v2qm6",
         "name": "Resolution-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25949,11 +24142,10 @@ window.AGGS_DATA = {
         "id": "roster_32_mptw5e7b_m4205",
         "name": "Vanguard-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25961,23 +24153,10 @@ window.AGGS_DATA = {
         "id": "roster_33_mptw5e7b_ds08j",
         "name": "Astute-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:44:47.015Z"
-      },
-      {
-        "id": "roster_34_mptw5e7b_lw9zd",
-        "name": "Misc Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25985,11 +24164,10 @@ window.AGGS_DATA = {
         "id": "roster_35_mptw5e7b_mfpod",
         "name": "HMS Victory",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -25997,11 +24175,10 @@ window.AGGS_DATA = {
         "id": "roster_36_mptw5e7b_d7qyz",
         "name": "HMS Trafalgar (1820)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -26009,11 +24186,10 @@ window.AGGS_DATA = {
         "id": "roster_37_mptw5e7b_e0h1z",
         "name": "HMS Warrior (1860)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -26021,11 +24197,10 @@ window.AGGS_DATA = {
         "id": "roster_38_mptw5e7b_zfpgl",
         "name": "Ajax-class ironclad",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -26033,11 +24208,10 @@ window.AGGS_DATA = {
         "id": "roster_39_mptw5e7b_3h0p1",
         "name": "Majestic-class battleship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -26045,11 +24219,10 @@ window.AGGS_DATA = {
         "id": "roster_40_mptw5e7b_bilwl",
         "name": "Canopus-class battleship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -26057,11 +24230,10 @@ window.AGGS_DATA = {
         "id": "roster_41_mptw5e7b_53zax",
         "name": "Courageous-class battlecruiser",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -26069,11 +24241,10 @@ window.AGGS_DATA = {
         "id": "roster_42_mptw5e7b_jtg9b",
         "name": "Admiral-class battlecruiser",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -26081,11 +24252,10 @@ window.AGGS_DATA = {
         "id": "roster_43_mptw5e7b_35wby",
         "name": "King George V-class battleship (1939)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -26093,11 +24263,10 @@ window.AGGS_DATA = {
         "id": "roster_44_mptw5e7b_wzooe",
         "name": "Nelson-class battleship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -26105,11 +24274,10 @@ window.AGGS_DATA = {
         "id": "roster_45_mptw5e7b_7kzc3",
         "name": "Revenge-class battleship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -26117,11 +24285,10 @@ window.AGGS_DATA = {
         "id": "roster_46_mptw5e7b_imsqx",
         "name": "Queen Elizabeth-class battleship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -26129,11 +24296,10 @@ window.AGGS_DATA = {
         "id": "roster_47_mptw5e7b_er6f8",
         "name": "Iron Duke-class battleship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:47.015Z"
       },
@@ -26141,11 +24307,8 @@ window.AGGS_DATA = {
         "id": "roster_0_mptw5n41_wvcax",
         "name": "Support Planes",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26153,11 +24316,8 @@ window.AGGS_DATA = {
         "id": "roster_1_mptw5n41_r7qjk",
         "name": "Boeing P-8 Poseidon",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26165,11 +24325,8 @@ window.AGGS_DATA = {
         "id": "roster_2_mptw5n41_3zhiz",
         "name": "Lockheed CP-140 Aurora",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26177,11 +24334,8 @@ window.AGGS_DATA = {
         "id": "roster_3_mptw5n41_ixuy3",
         "name": "Beechcraft Super King Air",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26189,11 +24343,8 @@ window.AGGS_DATA = {
         "id": "roster_4_mptw5n41_fal5e",
         "name": "de Havilland Canada DHC-6 Twin Otter",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26201,11 +24352,8 @@ window.AGGS_DATA = {
         "id": "roster_5_mptw5n41_dea22",
         "name": "Bombardier Challenger 600 series",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26213,11 +24361,8 @@ window.AGGS_DATA = {
         "id": "roster_6_mptw5n41_iddlo",
         "name": "Lockheed Martin C-130J Super Hercules",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26225,11 +24370,8 @@ window.AGGS_DATA = {
         "id": "roster_7_mptw5n41_zab9z",
         "name": "Lockheed Martin C-130K",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26237,11 +24379,8 @@ window.AGGS_DATA = {
         "id": "roster_8_mptw5n41_x5nq0",
         "name": "Airbus CC-150 Polaris",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26249,11 +24388,8 @@ window.AGGS_DATA = {
         "id": "roster_9_mptw5n41_27lj2",
         "name": "Airbus CC-330 Husky",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26261,11 +24397,8 @@ window.AGGS_DATA = {
         "id": "roster_10_mptw5n41_8ij2g",
         "name": "Lockheed TriStar (RAF)",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26273,11 +24406,8 @@ window.AGGS_DATA = {
         "id": "roster_11_mptw5n41_e8g0i",
         "name": "Hawker Siddeley HS 748",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26285,11 +24415,8 @@ window.AGGS_DATA = {
         "id": "roster_12_mptw5n41_i0jro",
         "name": "Hawker Siddeley Nimrod",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26297,11 +24424,8 @@ window.AGGS_DATA = {
         "id": "roster_13_mptw5n41_ektgv",
         "name": "Vickers VC10",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26309,11 +24433,8 @@ window.AGGS_DATA = {
         "id": "roster_14_mptw5n41_sctbf",
         "name": "P.66 Pembroke",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26321,11 +24442,8 @@ window.AGGS_DATA = {
         "id": "roster_15_mptw5n41_3otw3",
         "name": "British Aerospace 125",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26333,11 +24451,8 @@ window.AGGS_DATA = {
         "id": "roster_16_mptw5n41_8jurd",
         "name": "EADS CASA C-295",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26345,11 +24460,8 @@ window.AGGS_DATA = {
         "id": "roster_17_mptw5n41_vo7uu",
         "name": "BAE Systems Hawk",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26357,11 +24469,8 @@ window.AGGS_DATA = {
         "id": "roster_18_mptw5n41_xnopy",
         "name": "Embraer R-99",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26369,8 +24478,6 @@ window.AGGS_DATA = {
         "id": "roster_19_mptw5n41_7xrwa",
         "name": "RHA-210B \"Centaur\" (Custom}",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Limited - Active",
@@ -26381,8 +24488,6 @@ window.AGGS_DATA = {
         "id": "roster_20_mptw5n41_8j3y3",
         "name": "RHA-210C \"Centaur\" (Custom}",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Scarce - Active",
@@ -26397,7 +24502,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26409,7 +24513,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26421,7 +24524,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26433,7 +24535,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26445,7 +24546,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26457,7 +24557,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26469,7 +24568,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26481,7 +24579,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26493,7 +24590,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26505,7 +24601,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26517,7 +24612,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26529,7 +24623,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26541,7 +24634,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26553,7 +24645,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26565,7 +24656,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26577,7 +24667,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26589,7 +24678,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26601,7 +24689,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26613,7 +24700,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26625,7 +24711,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26637,7 +24722,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26649,7 +24733,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26661,7 +24744,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26673,7 +24755,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26685,7 +24766,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26697,7 +24777,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26709,7 +24788,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26721,7 +24799,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       },
@@ -26733,7 +24810,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:44:58.561Z"
       }
@@ -26783,7 +24859,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:37.592Z"
       },
@@ -26795,7 +24870,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:37.592Z"
       },
@@ -26843,7 +24917,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:37.592Z"
       },
@@ -27023,7 +25096,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:37.592Z"
       },
@@ -27083,7 +25155,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:37.592Z"
       },
@@ -27515,7 +25586,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:37.592Z"
       },
@@ -27587,7 +25657,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:37.592Z"
       },
@@ -27707,7 +25776,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:37.592Z"
       },
@@ -27767,7 +25835,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:37.592Z"
       },
@@ -27791,7 +25858,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:37.592Z"
       },
@@ -27815,7 +25881,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:37.592Z"
       },
@@ -27875,7 +25940,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:37.592Z"
       },
@@ -27931,11 +25995,8 @@ window.AGGS_DATA = {
         "id": "roster_0_mptw6o9c_0wldo",
         "name": "Support Planes",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:46.704Z"
       },
@@ -27943,8 +26004,6 @@ window.AGGS_DATA = {
         "id": "roster_1_mptw6o9c_umrkn",
         "name": "Grob G 120",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Main",
@@ -27955,8 +26014,6 @@ window.AGGS_DATA = {
         "id": "roster_2_mptw6o9c_amtdv",
         "name": "Airbus A400M Atlas",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Main",
@@ -27967,8 +26024,6 @@ window.AGGS_DATA = {
         "id": "roster_3_mptw6o9c_w2381",
         "name": "Airbus A330 MRTT",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Main",
@@ -27979,8 +26034,6 @@ window.AGGS_DATA = {
         "id": "roster_4_mptw6o9c_2rzo9",
         "name": "RHA-210C \"Centaur\" (Custom)",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Limited - Active",
@@ -28019,7 +26072,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:46.704Z"
       },
@@ -28067,7 +26119,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:46.704Z"
       },
@@ -28079,7 +26130,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:46.704Z"
       },
@@ -28187,7 +26237,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:46.704Z"
       },
@@ -28264,26 +26313,13 @@ window.AGGS_DATA = {
         "updatedAt": "2026-05-31T14:45:46.704Z"
       },
       {
-        "id": "roster_0_mptw6vjk_qg1ld",
-        "name": "Support Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:45:56.144Z"
-      },
-      {
         "id": "roster_1_mptw6vjk_mkyd5",
         "name": "Type 352 Ensdorf class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28291,11 +26327,10 @@ window.AGGS_DATA = {
         "id": "roster_2_mptw6vjk_qznu3",
         "name": "Type 332 Frankenthal class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28303,11 +26338,10 @@ window.AGGS_DATA = {
         "id": "roster_3_mptw6vjk_p5vhf",
         "name": "Type 423 Oste class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28315,11 +26349,10 @@ window.AGGS_DATA = {
         "id": "roster_4_mptw6vjk_nqszf",
         "name": "Type 404 Elbe class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28327,11 +26360,10 @@ window.AGGS_DATA = {
         "id": "roster_5_mptw6vjk_iyl18",
         "name": "Type 704 Rhön class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28339,11 +26371,10 @@ window.AGGS_DATA = {
         "id": "roster_6_mptw6vjk_4e71s",
         "name": "Type 702 Berlin class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28351,11 +26382,10 @@ window.AGGS_DATA = {
         "id": "roster_7_mptw6vjk_hw89v",
         "name": "Type 725A Nordstrand class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28363,11 +26393,10 @@ window.AGGS_DATA = {
         "id": "roster_8_mptw6vjk_tta8y",
         "name": "Type 660 Warnow class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28375,23 +26404,10 @@ window.AGGS_DATA = {
         "id": "roster_9_mptw6vjk_9zi8v",
         "name": "Planet class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:45:56.144Z"
-      },
-      {
-        "id": "roster_10_mptw6vjk_8wnd1",
-        "name": "Patrol Boats",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28399,23 +26415,10 @@ window.AGGS_DATA = {
         "id": "roster_11_mptw6vjk_tglku",
         "name": "S700 E-Boat",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:45:56.144Z"
-      },
-      {
-        "id": "roster_12_mptw6vjk_d1n1p",
-        "name": "Corvette",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28423,11 +26426,10 @@ window.AGGS_DATA = {
         "id": "roster_13_mptw6vjk_zop1u",
         "name": "Braunschweig-Class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Corvette",
+        "role": "Corvette",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28435,23 +26437,10 @@ window.AGGS_DATA = {
         "id": "roster_14_mptw6vjk_mgis1",
         "name": "Braunschweig II-Class (Custom)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Corvette",
+        "role": "Corvette",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:45:56.144Z"
-      },
-      {
-        "id": "roster_15_mptw6vjk_rwkrz",
-        "name": "Frigates",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28459,11 +26448,10 @@ window.AGGS_DATA = {
         "id": "roster_16_mptw6vjk_5cccc",
         "name": "Brandenburg-Class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28471,11 +26459,10 @@ window.AGGS_DATA = {
         "id": "roster_17_mptw6vjk_pquk0",
         "name": "Sachsen-Class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28483,23 +26470,10 @@ window.AGGS_DATA = {
         "id": "roster_18_mptw6vjk_l73lt",
         "name": "Viktoria-Class (Custom)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:45:56.144Z"
-      },
-      {
-        "id": "roster_19_mptw6vjk_tcdz5",
-        "name": "Destroyers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28507,11 +26481,10 @@ window.AGGS_DATA = {
         "id": "roster_20_mptw6vjk_d0i81",
         "name": "Ostmann-Class (Custom)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28519,11 +26492,10 @@ window.AGGS_DATA = {
         "id": "roster_21_mptw6vjk_cxvz5",
         "name": "Von Wazlter-Class (Custom)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28531,47 +26503,10 @@ window.AGGS_DATA = {
         "id": "roster_22_mptw6vjk_7ogm8",
         "name": "Vika-Class (Custom)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:45:56.144Z"
-      },
-      {
-        "id": "roster_23_mptw6vjk_ib53y",
-        "name": "Cruisers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:45:56.144Z"
-      },
-      {
-        "id": "roster_24_mptw6vjk_0ffum",
-        "name": "N/A",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:45:56.144Z"
-      },
-      {
-        "id": "roster_25_mptw6vjk_t5oea",
-        "name": "Carriers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28579,11 +26514,10 @@ window.AGGS_DATA = {
         "id": "roster_26_mptw6vjk_wc2jk",
         "name": "Sylt-Class (Custom)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28591,11 +26525,10 @@ window.AGGS_DATA = {
         "id": "roster_27_mptw6vjk_06w6w",
         "name": "Valkyrie-Class (Custom)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28603,23 +26536,10 @@ window.AGGS_DATA = {
         "id": "roster_28_mptw6vjk_87s0b",
         "name": "Haugwitz-Clas (Custom)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:45:56.144Z"
-      },
-      {
-        "id": "roster_29_mptw6vjk_n0kr1",
-        "name": "Submarines",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28627,11 +26547,10 @@ window.AGGS_DATA = {
         "id": "roster_30_mptw6vjk_ysfr0",
         "name": "Type 212A submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28643,7 +26562,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28655,7 +26573,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28667,7 +26584,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:45:56.144Z"
       },
@@ -28763,7 +26679,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:06.043Z"
       },
@@ -28799,7 +26714,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:06.043Z"
       },
@@ -28811,7 +26725,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:06.043Z"
       },
@@ -28823,7 +26736,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:06.043Z"
       },
@@ -28835,7 +26747,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:06.043Z"
       },
@@ -28847,7 +26758,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:06.043Z"
       },
@@ -28859,7 +26769,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:06.043Z"
       },
@@ -28871,7 +26780,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:06.043Z"
       },
@@ -28883,7 +26791,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:06.043Z"
       },
@@ -28895,7 +26802,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:06.043Z"
       },
@@ -28907,7 +26813,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:06.043Z"
       },
@@ -28919,7 +26824,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:06.043Z"
       },
@@ -28945,7 +26849,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -28957,7 +26860,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -28969,7 +26871,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -28981,7 +26882,6 @@ window.AGGS_DATA = {
         "role": "CRBN",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -28993,7 +26893,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29005,7 +26904,6 @@ window.AGGS_DATA = {
         "role": "NVGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29017,7 +26915,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29029,7 +26926,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29041,7 +26937,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29053,7 +26948,6 @@ window.AGGS_DATA = {
         "role": "Helmets",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29065,7 +26959,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29077,7 +26970,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29089,7 +26981,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29101,7 +26992,6 @@ window.AGGS_DATA = {
         "role": "Vests/Carrier",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29113,7 +27003,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29125,7 +27014,6 @@ window.AGGS_DATA = {
         "role": "Camo Patterns",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29137,7 +27025,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29149,7 +27036,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29161,7 +27047,6 @@ window.AGGS_DATA = {
         "role": "Misc",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:35.644Z"
       },
@@ -29173,7 +27058,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29233,7 +27117,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29245,7 +27128,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29257,7 +27139,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29377,7 +27258,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29389,7 +27269,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29521,7 +27400,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29569,7 +27447,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29581,7 +27458,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29593,7 +27469,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29617,7 +27492,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29689,7 +27563,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29713,7 +27586,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29761,7 +27633,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29797,7 +27668,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29905,7 +27775,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:46:47.664Z"
       },
@@ -29925,11 +27794,8 @@ window.AGGS_DATA = {
         "id": "roster_0_mptw9e95_99won",
         "name": "Support Planes",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:47:53.705Z"
       },
@@ -29937,8 +27803,6 @@ window.AGGS_DATA = {
         "id": "roster_1_mptw9e95_rke1y",
         "name": "F27-300 Combiplane",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -29949,8 +27813,6 @@ window.AGGS_DATA = {
         "id": "roster_2_mptw9e95_za7cd",
         "name": "F27-300M Troopship",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Primary - Active",
@@ -29961,8 +27823,6 @@ window.AGGS_DATA = {
         "id": "roster_3_mptw9e95_84ind",
         "name": "Saab 340B AEW-300 / S 100D Argus",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Scarce - Active",
@@ -29973,11 +27833,8 @@ window.AGGS_DATA = {
         "id": "roster_4_mptw9e95_jzmwc",
         "name": "\"TP 47\" Catalina\" (Scarce - Stockpile)",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:47:53.705Z"
       },
@@ -29985,8 +27842,6 @@ window.AGGS_DATA = {
         "id": "roster_5_mptw9e95_8w6ke",
         "name": "C-212-M series 300",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Active",
         "origin": "Roster Import",
         "notes": "Scarce - Active",
@@ -30049,7 +27904,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:47:53.705Z"
       },
@@ -30143,11 +27997,8 @@ window.AGGS_DATA = {
         "id": "roster_0_mptwaw55_ambma",
         "name": "Support Planes",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30155,11 +28006,8 @@ window.AGGS_DATA = {
         "id": "roster_1_mptwaw55_j09bd",
         "name": "Ilyushin Il-20M",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30167,11 +28015,8 @@ window.AGGS_DATA = {
         "id": "roster_2_mptwaw55_mir90",
         "name": "Ilyushin Il-38",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30179,11 +28024,8 @@ window.AGGS_DATA = {
         "id": "roster_3_mptwaw55_1ubsk",
         "name": "Ilyushin Il-76",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30191,11 +28033,8 @@ window.AGGS_DATA = {
         "id": "roster_4_mptwaw55_i96mf",
         "name": "Ilyushin Il-18",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30203,11 +28042,8 @@ window.AGGS_DATA = {
         "id": "roster_5_mptwaw55_73ksf",
         "name": "Ilyushin Il-18D-36 \"Bizon\"",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30215,11 +28051,8 @@ window.AGGS_DATA = {
         "id": "roster_6_mptwaw55_64tmh",
         "name": "Ilyushin Il-106",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30227,11 +28060,8 @@ window.AGGS_DATA = {
         "id": "roster_7_mptwaw55_j50uo",
         "name": "Ilyushin Il-90",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30239,11 +28069,8 @@ window.AGGS_DATA = {
         "id": "roster_8_mptwaw55_25wp6",
         "name": "Ilyushin Il-96",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30251,11 +28078,8 @@ window.AGGS_DATA = {
         "id": "roster_9_mptwaw55_dpuy4",
         "name": "Mikoyan MiG 18-50",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30263,11 +28087,8 @@ window.AGGS_DATA = {
         "id": "roster_10_mptwaw55_ya34t",
         "name": "Mikoyan MiG-110",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30275,11 +28096,8 @@ window.AGGS_DATA = {
         "id": "roster_11_mptwaw55_kyqkf",
         "name": "Mikoyan MiG SVB",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30287,11 +28105,8 @@ window.AGGS_DATA = {
         "id": "roster_12_mptwaw55_2wncu",
         "name": "Yakovlev Yak-42",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30299,11 +28114,8 @@ window.AGGS_DATA = {
         "id": "roster_13_mptwaw55_392w1",
         "name": "Tupolev Tu-134",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30311,11 +28123,8 @@ window.AGGS_DATA = {
         "id": "roster_14_mptwaw55_3rpe6",
         "name": "Tupolev Tu-334",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30323,11 +28132,8 @@ window.AGGS_DATA = {
         "id": "roster_15_mptwaw55_dakgt",
         "name": "Tupolev Tu-154",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30335,11 +28141,8 @@ window.AGGS_DATA = {
         "id": "roster_16_mptwaw55_gcyw1",
         "name": "Tupolev Tu-126 AWAC",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30347,11 +28150,8 @@ window.AGGS_DATA = {
         "id": "roster_17_mptwaw55_1ibol",
         "name": "Antonov An-10",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30359,11 +28159,8 @@ window.AGGS_DATA = {
         "id": "roster_18_mptwaw55_g6twp",
         "name": "Antonov An-12",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30371,11 +28168,8 @@ window.AGGS_DATA = {
         "id": "roster_19_mptwaw55_21p7k",
         "name": "Lisunov Li-2",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30383,11 +28177,8 @@ window.AGGS_DATA = {
         "id": "roster_20_mptwaw55_e1l4s",
         "name": "Yakovlev Yak-16",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30399,7 +28190,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30411,7 +28201,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30423,7 +28212,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30435,7 +28223,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30447,7 +28234,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30459,7 +28245,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30471,7 +28256,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30483,7 +28267,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30495,7 +28278,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30507,7 +28289,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30519,7 +28300,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30531,7 +28311,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30543,7 +28322,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30555,7 +28333,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30567,19 +28344,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:49:03.545Z"
-      },
-      {
-        "id": "roster_36_mptwaw55_gbb81",
-        "name": "-",
-        "category": "Aeroplanes",
-        "subcategory": "Fighters/Multi-Role",
-        "role": "Fighters/Multi-Role",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30591,7 +28355,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30603,7 +28366,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30615,7 +28377,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30627,7 +28388,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30639,7 +28399,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30651,7 +28410,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30663,7 +28421,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30675,7 +28432,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30687,7 +28443,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30699,7 +28454,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30711,7 +28465,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30723,7 +28476,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30735,7 +28487,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30747,7 +28498,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30759,7 +28509,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30771,7 +28520,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30783,7 +28531,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
       },
@@ -30795,31 +28542,17 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:03.545Z"
-      },
-      {
-        "id": "roster_0_mptwbnl6_2fdw7",
-        "name": "Patrol Boats",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:49:39.114Z"
       },
       {
         "id": "roster_1_mptwbnl6_duazt",
         "name": "Stenka-class patrol boat",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:39.114Z"
       },
@@ -30827,23 +28560,10 @@ window.AGGS_DATA = {
         "id": "roster_2_mptwbnl6_bmecd",
         "name": "Zhuk class patrol boat",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:49:39.114Z"
-      },
-      {
-        "id": "roster_3_mptwbnl6_l0ehz",
-        "name": "Corvette",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:39.114Z"
       },
@@ -30851,11 +28571,10 @@ window.AGGS_DATA = {
         "id": "roster_4_mptwbnl6_8m2au",
         "name": "Grisha-class corvette",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Corvette",
+        "role": "Corvette",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:39.114Z"
       },
@@ -30863,11 +28582,10 @@ window.AGGS_DATA = {
         "id": "roster_5_mptwbnl6_khasg",
         "name": "Kronshtadt-class submarine chaser",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Corvette",
+        "role": "Corvette",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:39.114Z"
       },
@@ -30875,23 +28593,10 @@ window.AGGS_DATA = {
         "id": "roster_6_mptwbnl6_pwuio",
         "name": "Bora-class corvette",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Corvette",
+        "role": "Corvette",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:49:39.114Z"
-      },
-      {
-        "id": "roster_7_mptwbnl6_9x16e",
-        "name": "Destroyers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:39.114Z"
       },
@@ -30899,23 +28604,10 @@ window.AGGS_DATA = {
         "id": "roster_8_mptwbnl6_ub7h3",
         "name": "Udaloy-class destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:49:39.114Z"
-      },
-      {
-        "id": "roster_9_mptwbnl6_kipi6",
-        "name": "Cruisers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:39.114Z"
       },
@@ -30923,23 +28615,10 @@ window.AGGS_DATA = {
         "id": "roster_10_mptwbnl6_mi8l4",
         "name": "Russian cruiser Aurora",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Cruisers",
+        "role": "Cruisers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:49:39.114Z"
-      },
-      {
-        "id": "roster_11_mptwbnl6_636cs",
-        "name": "Submarines",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:39.114Z"
       },
@@ -30947,11 +28626,10 @@ window.AGGS_DATA = {
         "id": "roster_12_mptwbnl6_db1rl",
         "name": "Zulu-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:39.114Z"
       },
@@ -30963,7 +28641,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -30975,7 +28652,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -30987,7 +28663,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -30999,7 +28674,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31011,7 +28685,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31023,7 +28696,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31035,7 +28707,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31047,7 +28718,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31059,7 +28729,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31071,7 +28740,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31083,7 +28751,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31095,7 +28762,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31107,7 +28773,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31119,7 +28784,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31131,7 +28795,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31143,7 +28806,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31155,7 +28817,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31167,7 +28828,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31179,7 +28839,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31191,7 +28850,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31203,7 +28861,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31215,7 +28872,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31227,7 +28883,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31239,7 +28894,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31251,7 +28905,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31263,7 +28916,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31275,7 +28927,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31287,7 +28938,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31299,7 +28949,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31311,7 +28960,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31323,7 +28971,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31335,7 +28982,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31347,7 +28993,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31359,7 +29004,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31371,7 +29015,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31383,7 +29026,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31395,7 +29037,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31407,7 +29048,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31419,7 +29059,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31431,7 +29070,6 @@ window.AGGS_DATA = {
         "role": "Miscellaneous",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31443,7 +29081,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31455,7 +29092,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31467,7 +29103,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31479,7 +29114,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31491,7 +29125,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31503,7 +29136,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31515,7 +29147,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31527,7 +29158,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31539,7 +29169,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31551,7 +29180,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31563,7 +29191,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31575,7 +29202,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31587,7 +29213,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31599,7 +29224,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31611,7 +29235,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31623,7 +29246,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31635,7 +29257,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31647,7 +29268,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31659,7 +29279,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31671,7 +29290,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31683,7 +29301,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31695,7 +29312,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31707,7 +29323,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31719,7 +29334,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31731,7 +29345,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31743,7 +29356,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31755,7 +29367,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31767,7 +29378,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31779,7 +29389,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31791,7 +29400,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31803,7 +29411,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31815,7 +29422,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31827,7 +29433,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31839,7 +29444,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31851,7 +29455,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31863,7 +29466,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31875,7 +29477,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31887,7 +29488,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31899,7 +29499,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31911,7 +29510,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31923,7 +29521,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31935,7 +29532,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31947,7 +29543,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31959,7 +29554,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31971,7 +29565,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31983,7 +29576,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -31995,7 +29587,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32007,7 +29598,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32019,7 +29609,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32031,7 +29620,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32043,7 +29631,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32055,7 +29642,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32067,7 +29653,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32079,7 +29664,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32091,7 +29675,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32103,7 +29686,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32115,7 +29697,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32127,7 +29708,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32139,7 +29719,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32151,7 +29730,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32163,7 +29741,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32175,7 +29752,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32187,7 +29763,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32199,7 +29774,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32211,7 +29785,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32223,7 +29796,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32235,7 +29807,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32247,7 +29818,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32259,7 +29829,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32271,7 +29840,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       },
@@ -32283,7 +29851,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:49:55.561Z"
       }
@@ -32293,11 +29860,8 @@ window.AGGS_DATA = {
         "id": "roster_0_mptwdl40_sxtzv",
         "name": "Okudan Empire Equipment:",
         "category": "Small Arms",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32309,7 +29873,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32321,7 +29884,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32333,7 +29895,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32345,7 +29906,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32357,7 +29917,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32369,7 +29928,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32381,7 +29939,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32393,7 +29950,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32405,7 +29961,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32417,7 +29972,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32429,7 +29983,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32441,7 +29994,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32453,19 +30005,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:51:09.216Z"
-      },
-      {
-        "id": "roster_14_mptwdl40_mmyiw",
-        "name": "-",
-        "category": "Small Arms",
-        "subcategory": "MGs",
-        "role": "MGs",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32477,7 +30016,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32489,7 +30027,6 @@ window.AGGS_DATA = {
         "role": "Miscellaneous",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32501,7 +30038,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32513,7 +30049,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32525,7 +30060,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32537,7 +30071,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32549,7 +30082,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32561,7 +30093,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32585,7 +30116,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32597,7 +30127,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32609,7 +30138,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32621,7 +30149,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32633,7 +30160,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32645,7 +30171,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32657,7 +30182,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32669,7 +30193,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32681,7 +30204,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32693,7 +30215,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32705,7 +30226,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32717,7 +30237,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32729,7 +30248,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32741,7 +30259,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32753,7 +30270,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32765,7 +30281,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32777,7 +30292,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32789,7 +30303,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32801,7 +30314,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32813,7 +30325,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32825,7 +30336,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32837,7 +30347,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32849,7 +30358,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32861,7 +30369,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32873,7 +30380,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32885,7 +30391,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32897,7 +30402,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32921,7 +30425,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32933,7 +30436,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32945,7 +30447,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:09.216Z"
       },
@@ -32953,11 +30454,8 @@ window.AGGS_DATA = {
         "id": "roster_0_mptwdv2f_9seqw",
         "name": "Support Planes",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -32965,11 +30463,8 @@ window.AGGS_DATA = {
         "id": "roster_1_mptwdv2f_kix18",
         "name": "Beechcraft Super King Air",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -32977,8 +30472,6 @@ window.AGGS_DATA = {
         "id": "roster_2_mptwdv2f_d5n1p",
         "name": "Beechcraft 18",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
         "notes": "Limited",
@@ -32989,11 +30482,8 @@ window.AGGS_DATA = {
         "id": "roster_3_mptwdv2f_cgz26",
         "name": "Beechjet T-400",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33001,11 +30491,8 @@ window.AGGS_DATA = {
         "id": "roster_4_mptwdv2f_zpz5i",
         "name": "Boeing 747-47C",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33013,11 +30500,8 @@ window.AGGS_DATA = {
         "id": "roster_5_mptwdv2f_7fuqt",
         "name": "Kawasaki C-1",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33025,11 +30509,8 @@ window.AGGS_DATA = {
         "id": "roster_6_mptwdv2f_8ohgd",
         "name": "ShinMaywa US-1/US-1A",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33037,11 +30518,8 @@ window.AGGS_DATA = {
         "id": "roster_7_mptwdv2f_t8ohh",
         "name": "ShinMaywa US-2",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33053,7 +30531,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33065,7 +30542,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33077,7 +30553,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33089,7 +30564,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33101,7 +30575,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33113,7 +30586,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33125,7 +30597,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33137,7 +30608,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33149,7 +30619,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33161,7 +30630,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
       },
@@ -33173,31 +30641,17 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:51:22.119Z"
-      },
-      {
-        "id": "roster_0_mptwgzwc_k9pvw",
-        "name": "Support Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:53:48.348Z"
       },
       {
         "id": "roster_1_mptwgzwc_mtpw5",
         "name": "Uraga-class mine countermeasure vessel",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33205,11 +30659,10 @@ window.AGGS_DATA = {
         "id": "roster_2_mptwgzwc_xxb2e",
         "name": "Sugashima-class minesweeper",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33217,11 +30670,10 @@ window.AGGS_DATA = {
         "id": "roster_3_mptwgzwc_57jse",
         "name": "Hirashima-class minesweeper",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33229,11 +30681,10 @@ window.AGGS_DATA = {
         "id": "roster_4_mptwgzwc_n5iqh",
         "name": "Ōsumi-class tank landing ship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33241,23 +30692,10 @@ window.AGGS_DATA = {
         "id": "roster_5_mptwgzwc_6gl3q",
         "name": "Towada-class replenishment ship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:53:48.348Z"
-      },
-      {
-        "id": "roster_6_mptwgzwc_sjs6s",
-        "name": "Patrol Boats",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33265,23 +30703,10 @@ window.AGGS_DATA = {
         "id": "roster_7_mptwgzwc_sr0sc",
         "name": "Hayabusa-class patrol boat",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:53:48.348Z"
-      },
-      {
-        "id": "roster_8_mptwgzwc_6nqc9",
-        "name": "Destroyers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33289,11 +30714,10 @@ window.AGGS_DATA = {
         "id": "roster_9_mptwgzwc_cwdve",
         "name": "Asagiri-class destroyers",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33301,11 +30725,10 @@ window.AGGS_DATA = {
         "id": "roster_10_mptwgzwc_ra3ni",
         "name": "Murasame-class destroyers",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33313,11 +30736,10 @@ window.AGGS_DATA = {
         "id": "roster_11_mptwgzwc_2oz7x",
         "name": "Takanami-class destroyers",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33325,11 +30747,10 @@ window.AGGS_DATA = {
         "id": "roster_12_mptwgzwc_bzrei",
         "name": "Kongō-class guided missiles destroyers",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33337,23 +30758,10 @@ window.AGGS_DATA = {
         "id": "roster_13_mptwgzwc_n1efm",
         "name": "Atago-class Guided missiles destroyers",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:53:48.348Z"
-      },
-      {
-        "id": "roster_14_mptwgzwc_srcvi",
-        "name": "Submarines",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33361,23 +30769,10 @@ window.AGGS_DATA = {
         "id": "roster_15_mptwgzwc_ip9ny",
         "name": "Oyashio-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:53:48.348Z"
-      },
-      {
-        "id": "roster_16_mptwgzwc_xnozq",
-        "name": "Misc Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33385,11 +30780,10 @@ window.AGGS_DATA = {
         "id": "roster_17_mptwgzwc_wm759",
         "name": "Asuka-class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33397,11 +30791,10 @@ window.AGGS_DATA = {
         "id": "roster_18_mptwgzwc_vp6s4",
         "name": "Hiuchi-class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33409,11 +30802,10 @@ window.AGGS_DATA = {
         "id": "roster_19_mptwgzwc_nyls9",
         "name": "Chihaya-class",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33421,11 +30813,10 @@ window.AGGS_DATA = {
         "id": "roster_20_mptwgzwc_ryjcw",
         "name": "YDT-01-class diving support vessel",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33433,11 +30824,10 @@ window.AGGS_DATA = {
         "id": "roster_21_mptwgzwc_wq6nc",
         "name": "Futami-class oceanographic research ship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       },
@@ -33445,11 +30835,10 @@ window.AGGS_DATA = {
         "id": "roster_22_mptwgzwc_0niug",
         "name": "Nichinan-class oceanographic research ship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:53:48.348Z"
       }
@@ -33463,7 +30852,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33475,7 +30863,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33487,7 +30874,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33499,7 +30885,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33511,7 +30896,6 @@ window.AGGS_DATA = {
         "role": "Pistols",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33523,7 +30907,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33535,7 +30918,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33547,7 +30929,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33559,7 +30940,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33571,7 +30951,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33583,7 +30962,6 @@ window.AGGS_DATA = {
         "role": "Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33595,7 +30973,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33607,7 +30984,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33619,7 +30995,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33631,7 +31006,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33643,7 +31017,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33655,7 +31028,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33667,7 +31039,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33679,7 +31050,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33691,7 +31061,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33703,7 +31072,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33715,7 +31083,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33727,7 +31094,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33739,7 +31105,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33751,7 +31116,6 @@ window.AGGS_DATA = {
         "role": "MGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33763,7 +31127,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33775,7 +31138,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33787,7 +31149,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33799,7 +31160,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33811,7 +31171,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33823,7 +31182,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33835,19 +31193,6 @@ window.AGGS_DATA = {
         "role": "ATR/RPG",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:54:20.490Z"
-      },
-      {
-        "id": "roster_32_mptwhop6_5dzff",
-        "name": "N/A",
-        "category": "Small Arms",
-        "subcategory": "ATR/RPG",
-        "role": "ATR/RPG",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33859,7 +31204,6 @@ window.AGGS_DATA = {
         "role": "Miscellaneous",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33871,7 +31215,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33883,7 +31226,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33895,7 +31237,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33907,7 +31248,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33919,7 +31259,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33931,7 +31270,6 @@ window.AGGS_DATA = {
         "role": "Mortar",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33943,7 +31281,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33955,7 +31292,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33967,7 +31303,6 @@ window.AGGS_DATA = {
         "role": "ATGs/ATGM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33979,7 +31314,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -33991,7 +31325,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34003,7 +31336,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34015,7 +31347,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34027,7 +31358,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34039,7 +31369,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34051,7 +31380,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34063,7 +31391,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34075,7 +31402,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34087,7 +31413,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34099,7 +31424,6 @@ window.AGGS_DATA = {
         "role": "Artillery",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34111,7 +31435,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34123,7 +31446,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34135,7 +31457,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34147,7 +31468,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34159,7 +31479,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34171,7 +31490,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34183,7 +31501,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34195,7 +31512,6 @@ window.AGGS_DATA = {
         "role": "AAA/SAM",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34207,7 +31523,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34219,7 +31534,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34231,7 +31545,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34243,7 +31556,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34255,7 +31567,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34267,7 +31578,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34279,7 +31589,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34291,7 +31600,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34303,7 +31611,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34315,7 +31622,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34327,7 +31633,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34339,7 +31644,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34351,7 +31655,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34363,7 +31666,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34375,7 +31677,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34387,7 +31688,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34399,7 +31699,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34411,7 +31710,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34423,7 +31721,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34435,7 +31732,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34447,7 +31743,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34459,7 +31754,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34471,7 +31765,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34483,7 +31776,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34495,7 +31787,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34507,7 +31798,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34519,7 +31809,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34531,7 +31820,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34543,7 +31831,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34555,7 +31842,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34567,7 +31853,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34579,7 +31864,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34591,7 +31875,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34603,7 +31886,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34615,7 +31897,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34627,7 +31908,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34639,7 +31919,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34651,7 +31930,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34663,7 +31941,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34675,7 +31952,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34687,7 +31963,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T15:03:12.324Z",
         "era": "Digital"
@@ -34700,7 +31975,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34712,7 +31986,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34724,7 +31997,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34736,7 +32008,6 @@ window.AGGS_DATA = {
         "role": "Support vehicles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34748,7 +32019,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34760,7 +32030,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34772,7 +32041,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34784,7 +32052,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34796,7 +32063,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34808,7 +32074,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34820,7 +32085,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34832,7 +32096,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34844,7 +32107,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34856,7 +32118,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34868,7 +32129,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34880,7 +32140,6 @@ window.AGGS_DATA = {
         "role": "SPGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34892,7 +32151,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34904,7 +32162,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34916,7 +32173,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34928,7 +32184,6 @@ window.AGGS_DATA = {
         "role": "SPAA",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:20.490Z"
       },
@@ -34936,11 +32191,8 @@ window.AGGS_DATA = {
         "id": "roster_0_mptwhvdw_03b0s",
         "name": "Support Planes",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -34948,11 +32200,8 @@ window.AGGS_DATA = {
         "id": "roster_1_mptwhvdw_ps5gq",
         "name": "Lockheed RC-130 Hercules",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -34960,11 +32209,8 @@ window.AGGS_DATA = {
         "id": "roster_2_mptwhvdw_mc9s0",
         "name": "C-130E",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -34972,11 +32218,8 @@ window.AGGS_DATA = {
         "id": "roster_3_mptwhvdw_jjnra",
         "name": "Boeing C-108 Flying Fortress",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -34984,11 +32227,8 @@ window.AGGS_DATA = {
         "id": "roster_4_mptwhvdw_20knb",
         "name": "C-47B",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -34996,11 +32236,8 @@ window.AGGS_DATA = {
         "id": "roster_5_mptwhvdw_i1ucp",
         "name": "Lockheed EC-121 Warning Star",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35008,11 +32245,8 @@ window.AGGS_DATA = {
         "id": "roster_6_mptwhvdw_52dwg",
         "name": "Grumman E-2 Hawkeye",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35020,11 +32254,8 @@ window.AGGS_DATA = {
         "id": "roster_7_mptwhvdw_nwzy5",
         "name": "IAI Arava",
         "category": "Aeroplanes",
-        "subcategory": "",
-        "role": "",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35036,7 +32267,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35048,7 +32278,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35060,7 +32289,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35072,7 +32300,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35084,7 +32311,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35096,7 +32322,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35108,7 +32333,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35120,7 +32344,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35132,7 +32355,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35144,7 +32366,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35156,7 +32377,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35168,7 +32388,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35180,7 +32399,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35192,7 +32410,6 @@ window.AGGS_DATA = {
         "role": "Fighters/Multi-Role",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35204,7 +32421,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35216,7 +32432,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35228,7 +32443,6 @@ window.AGGS_DATA = {
         "role": "Bombers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35240,7 +32454,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35252,7 +32465,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35264,7 +32476,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35276,7 +32487,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35288,7 +32498,6 @@ window.AGGS_DATA = {
         "role": "Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35300,7 +32509,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35312,7 +32520,6 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
       },
@@ -35324,31 +32531,17 @@ window.AGGS_DATA = {
         "role": "Attack Helicopters",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:29.156Z"
-      },
-      {
-        "id": "roster_0_mptwi36s_v5fg5",
-        "name": "Support Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:54:39.268Z"
       },
       {
         "id": "roster_1_mptwi36s_swe52",
         "name": "Italian auxiliary cruiser Ramb II",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35356,11 +32549,10 @@ window.AGGS_DATA = {
         "id": "roster_2_mptwi36s_vbm3g",
         "name": "Italian training ship Amerigo Vespucci",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35368,11 +32560,10 @@ window.AGGS_DATA = {
         "id": "roster_3_mptwi36s_r1v21",
         "name": "Italian training ship Palinuro",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35380,11 +32571,10 @@ window.AGGS_DATA = {
         "id": "roster_4_mptwi36s_iz53c",
         "name": "Italian training ship Italia",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35392,23 +32582,10 @@ window.AGGS_DATA = {
         "id": "roster_5_mptwi36s_oevow",
         "name": "Liberty ship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Support Ships",
+        "role": "Support Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:54:39.268Z"
-      },
-      {
-        "id": "roster_6_mptwi36s_2icck",
-        "name": "Patrol Boats",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35416,11 +32593,10 @@ window.AGGS_DATA = {
         "id": "roster_7_mptwi36s_2drnl",
         "name": "Spica-class torpedo boat",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35428,47 +32604,10 @@ window.AGGS_DATA = {
         "id": "roster_8_mptwi36s_qjf40",
         "name": "CRDA 60 t motor torpedo boat",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Patrol Boats",
+        "role": "Patrol Boats",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:54:39.268Z"
-      },
-      {
-        "id": "roster_9_mptwi36s_3lp87",
-        "name": "Corvette",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:54:39.268Z"
-      },
-      {
-        "id": "roster_10_mptwi36s_18mav",
-        "name": "N/A",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:54:39.268Z"
-      },
-      {
-        "id": "roster_11_mptwi36s_bvb2c",
-        "name": "Frigates",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35476,23 +32615,10 @@ window.AGGS_DATA = {
         "id": "roster_12_mptwi36s_i9nmr",
         "name": "Maestrale-class frigate",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Frigates",
+        "role": "Frigates",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:54:39.268Z"
-      },
-      {
-        "id": "roster_13_mptwi36s_ch6fc",
-        "name": "Destroyers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35500,11 +32626,10 @@ window.AGGS_DATA = {
         "id": "roster_14_mptwi36s_l907k",
         "name": "Italian destroyer Giacinto Carini",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35512,11 +32637,10 @@ window.AGGS_DATA = {
         "id": "roster_15_mptwi36s_io6pw",
         "name": "Italian destroyer Antonio Mosto",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35524,11 +32648,10 @@ window.AGGS_DATA = {
         "id": "roster_16_mptwi36s_nae8d",
         "name": "Impetuoso-class destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35536,11 +32659,10 @@ window.AGGS_DATA = {
         "id": "roster_17_mptwi36s_gc0n5",
         "name": "Impavido-class destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35548,23 +32670,10 @@ window.AGGS_DATA = {
         "id": "roster_18_mptwi36s_mdff2",
         "name": "Fante-class destroyer",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Destroyers",
+        "role": "Destroyers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:54:39.268Z"
-      },
-      {
-        "id": "roster_19_mptwi36s_4re2h",
-        "name": "Cruisers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35572,23 +32681,10 @@ window.AGGS_DATA = {
         "id": "roster_20_mptwi36s_6cwui",
         "name": "Italian cruiser Giuseppe Garibaldi (1936)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Cruisers",
+        "role": "Cruisers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:54:39.268Z"
-      },
-      {
-        "id": "roster_21_mptwi36s_iw958",
-        "name": "Carriers",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35596,23 +32692,10 @@ window.AGGS_DATA = {
         "id": "roster_22_mptwi36s_8uyv2",
         "name": "Independence-class aircraft carrier",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Carriers",
+        "role": "Carriers",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:54:39.268Z"
-      },
-      {
-        "id": "roster_23_mptwi36s_q10o2",
-        "name": "Submarines",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35620,11 +32703,10 @@ window.AGGS_DATA = {
         "id": "roster_24_mptwi36s_ywix7",
         "name": "Sauro-class submarine",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35632,23 +32714,10 @@ window.AGGS_DATA = {
         "id": "roster_25_mptwi36s_1oh88",
         "name": "Blue whale (UUV)",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Submarines",
+        "role": "Submarines",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
-        "detailLevel": "roster",
-        "updatedAt": "2026-05-31T14:54:39.268Z"
-      },
-      {
-        "id": "roster_26_mptwi36s_80s9y",
-        "name": "Misc Ships",
-        "category": "Naval",
-        "subcategory": "",
-        "role": "",
-        "status": "Rostered",
-        "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35656,11 +32725,10 @@ window.AGGS_DATA = {
         "id": "roster_27_mptwi36s_mldc1",
         "name": "Andrea Doria-class battleship",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35668,11 +32736,10 @@ window.AGGS_DATA = {
         "id": "roster_28_mptwi36s_h1exs",
         "name": "Italian maiale torpedo",
         "category": "Naval",
-        "subcategory": "",
-        "role": "",
+        "subcategory": "Misc Ships",
+        "role": "Misc Ships",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T14:54:39.268Z"
       },
@@ -35684,7 +32751,6 @@ window.AGGS_DATA = {
         "role": "SMGs",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T15:01:08.207Z"
       },
@@ -35696,7 +32762,6 @@ window.AGGS_DATA = {
         "role": "Assault Rifles",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T15:01:31.501Z"
       },
@@ -35708,7 +32773,6 @@ window.AGGS_DATA = {
         "role": "Super-Heavy Tank",
         "status": "Rostered",
         "origin": "Roster Import",
-        "notes": "",
         "detailLevel": "roster",
         "updatedAt": "2026-05-31T15:02:26.329Z",
         "era": "Digital"
