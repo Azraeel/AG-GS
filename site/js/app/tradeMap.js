@@ -617,6 +617,11 @@
 
   function routePolylinePath(points = []) {
     const config = mapConfig();
+    const formatPoint = (point) => `${point.x.toFixed(2)} ${point.y.toFixed(2)}`;
+    const clampMapPoint = (point) => ({
+      x: clamp(point.x, 0, config.width),
+      y: clamp(point.y, 0, config.height)
+    });
     const validPoints = points
       .map((point) => ({
         x: Number(point?.x),
@@ -628,9 +633,28 @@
         y: clamp((point.y / 100) * config.height, 0, config.height)
       }));
     if (validPoints.length < 2) return "";
-    return validPoints
-      .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`)
-      .join(" ");
+    if (validPoints.length === 2) {
+      return `M ${formatPoint(validPoints[0])} L ${formatPoint(validPoints[1])}`;
+    }
+
+    const tension = 0.22;
+    const commands = [`M ${formatPoint(validPoints[0])}`];
+    for (let index = 0; index < validPoints.length - 1; index += 1) {
+      const previous = validPoints[index - 1] || validPoints[index];
+      const current = validPoints[index];
+      const next = validPoints[index + 1];
+      const afterNext = validPoints[index + 2] || next;
+      const controlOne = clampMapPoint({
+        x: current.x + (next.x - previous.x) * tension,
+        y: current.y + (next.y - previous.y) * tension
+      });
+      const controlTwo = clampMapPoint({
+        x: next.x - (afterNext.x - current.x) * tension,
+        y: next.y - (afterNext.y - current.y) * tension
+      });
+      commands.push(`C ${formatPoint(controlOne)} ${formatPoint(controlTwo)} ${formatPoint(next)}`);
+    }
+    return commands.join(" ");
   }
 
   function routesForRows(selectedId, rows = [], territories = [], maxRoutes = 12) {
