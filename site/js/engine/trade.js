@@ -473,7 +473,6 @@
         capital: raw.capital || null,
         primaryPort: raw.primaryPort || null,
         neighborIds: Array.isArray(raw.neighborIds) ? raw.neighborIds : [],
-        landRouteExclusions: Array.isArray(raw.landRouteExclusions) ? raw.landRouteExclusions.map((id) => String(id || "")).filter(Boolean) : [],
         borderDistances,
         borderCandidates: Array.isArray(raw.borderCandidates) ? raw.borderCandidates : [],
         mapPosition: raw.mapPosition || null,
@@ -560,13 +559,14 @@
       return Boolean(left?.region && right?.region && left.region !== "global" && right.region !== "global" && left.region === right.region);
     }
 
-    function landRouteExcluded(left, right) {
-      return (left?.landRouteExclusions || []).includes(right?.id) || (right?.landRouteExclusions || []).includes(left?.id);
+    function hasOceanAccess(geo) {
+      const routes = geo?.routeAccess || [];
+      return Boolean(geo?.coastal && routes.some((route) => String(route || "").includes("ocean") || String(route || "").includes("port")));
     }
 
     function regionalRouteMode(importerGeo, exporterGeo, directBorderUnits) {
       if (directBorderUnits !== null && directBorderUnits <= 3.5) return "land";
-      return landRouteExcluded(importerGeo, exporterGeo) ? "maritime" : "land";
+      return hasOceanAccess(importerGeo) && hasOceanAccess(exporterGeo) ? "maritime" : "land";
     }
 
     function transitModeFor(transitPolicies, blockerId, targetId) {
@@ -1009,8 +1009,7 @@
             geo.landlocked === true ? "landlocked" : "",
             roundPercent(number(geo.portStrength, 0)),
             (geo.routeAccess || []).slice().sort().join(","),
-            (geo.neighborIds || []).slice().sort().join(","),
-            (geo.landRouteExclusions || []).slice().sort().join(",")
+            (geo.neighborIds || []).slice().sort().join(",")
           ].join(":");
         })
         .join("|");
