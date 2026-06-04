@@ -716,6 +716,71 @@ test("Trade route network uses A* route mesh paths instead of direct ocean lines
   assert.ok(lane.routeDistanceMiles < 6000, `A* should avoid the expensive direct edge, got ${lane.routeDistanceMiles}`);
 });
 
+test("Trade route network chooses cheapest authored route mesh costs over geometric closeness", () => {
+  const data = buildLargeTradeV3Scenario(2);
+  const [exporter, importer] = data.nations.map((nation) => nation.id);
+  for (const id of [exporter, importer]) {
+    data.trade[id].tradeFlow = 1000000;
+    data.trade[id].importReliance = 100;
+    data.trade[id].exportReliance = 100;
+    data.trade[id].economicTradeDiversity = 100;
+    data.trade[id].tradePolicy = "Free Trade";
+    data.trade[id].tariffRate = 3;
+  }
+  data.trade[exporter].exportReliance = 220;
+  data.trade[importer].importReliance = 220;
+  data.tradeNetwork = {
+    geography: {
+      map: {
+        squareMilesPerMapUnit: 10000
+      },
+      routeMesh: {
+        version: "unit-test-cost-admissible-route-mesh",
+        nodes: [
+          { id: "zone:west_gate", zoneId: "west_gate", type: "sea_zone", x: 10, y: 10 },
+          { id: "zone:northwest_trunk", zoneId: "northwest_trunk", type: "sea_zone", x: 10, y: 90 },
+          { id: "zone:northeast_trunk", zoneId: "northeast_trunk", type: "sea_zone", x: 90, y: 90 },
+          { id: "zone:east_gate", zoneId: "east_gate", type: "sea_zone", x: 90, y: 10 }
+        ],
+        edges: [
+          { from: "zone:west_gate", to: "zone:east_gate", cost: 50 },
+          { from: "zone:west_gate", to: "zone:northwest_trunk", cost: 1 },
+          { from: "zone:northwest_trunk", to: "zone:northeast_trunk", cost: 1 },
+          { from: "zone:northeast_trunk", to: "zone:east_gate", cost: 1 }
+        ]
+      },
+      nations: {
+        [exporter]: {
+          x: 10,
+          y: 10,
+          coastal: true,
+          portStrength: 8,
+          routeAccess: ["ocean"],
+          primaryPort: { x: 10, y: 10 }
+        },
+        [importer]: {
+          x: 90,
+          y: 10,
+          coastal: true,
+          portStrength: 8,
+          routeAccess: ["ocean"],
+          primaryPort: { x: 90, y: 10 }
+        }
+      }
+    }
+  };
+
+  Engine.recalculateAll(data);
+  const network = Engine.calculateTradeNetwork(data);
+  const lane = network.lanes.find((entry) => entry.importerId === importer && entry.exporterId === exporter);
+
+  assert.equal(lane.routeMode, "maritime");
+  assert.equal(lane.routeMeshVersion, "unit-test-cost-admissible-route-mesh");
+  assert.ok(lane.routeNodes.includes("zone:northwest_trunk"), `expected low-cost authored route: ${lane.routeNodes.join(" > ")}`);
+  assert.ok(lane.routeNodes.includes("zone:northeast_trunk"), `expected low-cost authored route: ${lane.routeNodes.join(" > ")}`);
+  assert.ok(lane.routeDistanceMiles < 500, `expected authored-cost path under 500 miles, got ${lane.routeDistanceMiles}`);
+});
+
 test("Trade route network prefers precision lane skeleton over coarse route mesh", () => {
   const data = buildLargeTradeV3Scenario(2);
   const [exporter, importer] = data.nations.map((nation) => nation.id);

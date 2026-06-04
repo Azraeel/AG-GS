@@ -615,11 +615,14 @@
         : [];
       const nodeById = Object.fromEntries(nodes.map((node) => [node.id, node]));
       const adjacency = Object.fromEntries(nodes.map((node) => [node.id, []]));
+      let heuristicScale = 1;
       for (const edge of Array.isArray(mesh.edges) ? mesh.edges : []) {
         const from = String(edge.from || "");
         const to = String(edge.to || "");
         if (!nodeById[from] || !nodeById[to]) continue;
         const cost = Math.max(0.01, number(edge.cost, mapDistanceUnits(nodeById[from], nodeById[to], { width: 100, height: 100 }, false)));
+        const distance = Math.max(0.01, pointDistanceUnits(nodeById[from], nodeById[to]));
+        heuristicScale = Math.min(heuristicScale, cost / distance);
         const chokepoints = Array.isArray(edge.chokepoints) ? edge.chokepoints.map((id) => String(id)).filter(Boolean) : [];
         adjacency[from].push({ id: to, cost, chokepoints });
         adjacency[to].push({ id: from, cost, chokepoints });
@@ -627,6 +630,7 @@
       if (!nodes.length) return null;
       return {
         version: mesh.version || "route-mesh",
+        heuristicScale: clamp(heuristicScale, 0, 1),
         nodes,
         nodeById,
         adjacency
@@ -766,7 +770,7 @@
       const routeChokes = new Map();
 
       function heuristic(id) {
-        return pointDistanceUnits(pointById[id], endPoint);
+        return pointDistanceUnits(pointById[id], endPoint) * mesh.heuristicScale;
       }
 
       function neighbors(id) {
