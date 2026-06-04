@@ -255,6 +255,43 @@
       return clamp(0.88 + Math.sqrt(Math.max(0, input.economicTradeDiversity)) / 58, 0.88, 1.22);
     }
 
+    function valueAddedStrength(input) {
+      const industryScale = input.civilianFactories + input.militaryFactories * 0.35 + input.shipyards * 2.5;
+      const diversityScore = clamp(Math.sqrt(Math.max(0, input.economicTradeDiversity)) / 12, 0, 1.18);
+      const developmentScore = clamp(input.developmentLevel / 20, 0, 1);
+      const industryScore = clamp(Math.log10(Math.max(industryScale, 1)) / 3, 0, 1);
+      const shipyardScore = clamp(Math.sqrt(Math.max(input.shipyards, 0)) / 10, 0, 1);
+      const stabilityScore = clamp(number(input.governmentalStability, 70) / 100, 0, 1);
+      const corruptionScore = clamp((100 - number(input.corruption, 0)) / 100, 0, 1);
+      return clamp(
+        diversityScore * 30
+          + developmentScore * 22
+          + industryScore * 18
+          + shipyardScore * 12
+          + stabilityScore * 10
+          + corruptionScore * 8,
+        0,
+        100
+      );
+    }
+
+    function valueAddedProfile(input) {
+      const strength = valueAddedStrength(input);
+      const strengthRatio = strength / 100;
+      const autarkyRatio = clamp(input.autarkyIndex, 0, 100) / 100;
+      const tradeAccess = clamp(1.1 - autarkyRatio * 0.55, 0.38, 1.08);
+      const exportMultiplier = clamp(0.76 + Math.pow(strengthRatio, 1.18) * 1.45 - autarkyRatio * 0.22, 0.72, 2.08);
+      const capacityMultiplier = clamp(0.78 + strengthRatio * 0.55 - autarkyRatio * 0.25, 0.72, 1.32);
+      const productiveImportShare = clamp(Math.pow(strengthRatio, 1.08) * tradeAccess, 0, 0.82);
+      return {
+        strength,
+        strengthRatio,
+        exportMultiplier,
+        capacityMultiplier,
+        productiveImportShare
+      };
+    }
+
     function physicalTradeBase(input) {
       const populationMarket = Math.sqrt(Math.max(input.population, 0) / 1000000) * 5200;
       const industrialMarket = input.civilianFactories * 1500 + input.militaryFactories * 340 + input.shipyards * 3000;
@@ -283,10 +320,12 @@
       const reliance = Math.pow(Math.max(0, input.exportReliance) / 100, 1.32);
       const production = input.civilianFactories * 850 + input.shipyards * 2500 + input.developmentLevel * 1750;
       const policy = tradePolicyProfile(input.tradePolicy);
+      const valueAdded = valueAddedProfile(input);
       return Math.max(
         1,
         (physicalTradeBase(input) * reliance * 0.92 + production)
           * diversityResilience(input)
+          * valueAdded.exportMultiplier
           * policy.exportSupply
           * sanctionNetworkAccess(input.sanctionsLevel)
           * autarkyTradeAccess(input, "export")
@@ -312,6 +351,7 @@
     function worldPoolCapacityScore(input) {
       const policy = tradePolicyProfile(input.tradePolicy);
       const logistics = 0.58 + tradeLogisticsProfile(input).overall / 82;
+      const valueAdded = valueAddedProfile(input);
       return Math.max(
         1,
         physicalTradeBase(input)
@@ -320,6 +360,7 @@
           * autarkyTradeAccess(input)
           * logistics
           * diversityResilience(input)
+          * valueAdded.capacityMultiplier
       );
     }
 
@@ -2123,20 +2164,26 @@
       const totalFlow = Math.max(0, importFlow + exportFlow);
       const policy = tradePolicyProfile(current.tradePolicy);
       const logistics = tradeLogisticsProfile(current);
+      const valueAdded = valueAddedProfile(current);
       const relianceGap = number(current.exportReliance, 0) - number(current.importReliance, 0);
       const relianceGapSignal = Math.sign(relianceGap) * Math.pow(Math.abs(relianceGap), 0.88);
       const relianceAverage = Math.max(1, (number(current.exportReliance, 0) + number(current.importReliance, 0)) / 2);
       const normalizedGap = relianceGap / relianceAverage;
       const balanceScale = 70 + Math.sqrt(Math.max(totalFlow, 0)) * 0.24 + Math.sqrt(Math.max(current.budgetCapacity, 0)) * 3.2;
       const structuralBalance = relianceGapSignal * balanceScale * policy.balanceRisk;
-      const flowBalance = exportFlow * 0.014 - importFlow * 0.015;
+      const exportValuePremium = exportFlow * valueAdded.strengthRatio * 0.1;
+      const productiveImportCredit = importFlow * valueAdded.productiveImportShare * 0.038;
+      const rawImportCost = importFlow * (0.018 + clamp(current.autarkyIndex, 0, 100) / 10000);
+      const flowBalance = exportFlow * 0.022 + exportValuePremium + productiveImportCredit - rawImportCost;
       const tariffBalance = number(impact.tariffRevenueDelta, 0) * 0.55 - number(impact.importCostDelta, 0) * 0.36;
-      const imbalancePenalty = -Math.pow(Math.abs(normalizedGap), 1.35) * balanceScale * 0.72 * (relianceGap < 0 ? 1.14 : 0.34);
+      const importGapPressure = relianceGap < 0 ? clamp(1.2 - valueAdded.productiveImportShare * 0.78, 0.46, 1.2) : 0.34;
+      const imbalancePenalty = -Math.pow(Math.abs(normalizedGap), 1.35) * balanceScale * 0.72 * importGapPressure;
       const tradeBalance = roundCurrency(flowBalance + structuralBalance + tariffBalance + imbalancePenalty + number(impact.tradeBalanceDelta, 0));
       const tradeCapacity = roundCurrency(
         worldPoolCapacityScore(current) / 600
           + logistics.overall * 140
           + diversityResilience(current) * 1800
+          + valueAdded.strength * 42
       );
       const tradeFlow = roundCurrency(totalFlow);
       const economicImpactScore = Math.max(

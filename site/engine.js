@@ -569,7 +569,7 @@
     const { civFactories, militaryFactories, shipyards, mobilization, national, tradeBalance } = inputs;
     const maintenanceCost = (civFactories + shipyards + militaryFactories * mobilization.maintenanceCost) * 0.1;
     const baseBudgetTotal = 10 + industrialContribution + populationContribution - maintenanceCost;
-    const tradeImpactOnBudget = clamp(1 + (tradeBalance / Math.max(baseBudgetTotal, 100)) * 0.1, 0.1, 2);
+    const tradeImpactOnBudget = Math.max(0.1, 1 + (tradeBalance / Math.max(baseBudgetTotal, 100)) * 0.1);
     const budgetCapacity = Math.max(0, Math.round(baseBudgetTotal * tradeImpactOnBudget + number(tariffRevenue, 0)) + number(national.budgetAdjustment, 0));
     return {
       budgetCapacity,
