@@ -716,6 +716,90 @@ test("Trade route network uses A* route mesh paths instead of direct ocean lines
   assert.ok(lane.routeDistanceMiles < 6000, `A* should avoid the expensive direct edge, got ${lane.routeDistanceMiles}`);
 });
 
+test("Trade route network prefers precision lane skeleton over coarse route mesh", () => {
+  const data = buildLargeTradeV3Scenario(2);
+  const [exporter, importer] = data.nations.map((nation) => nation.id);
+  for (const id of [exporter, importer]) {
+    data.trade[id].tradeFlow = 1000000;
+    data.trade[id].importReliance = 180;
+    data.trade[id].exportReliance = 180;
+    data.trade[id].economicTradeDiversity = 160;
+    data.trade[id].tradePolicy = "Free Trade";
+    data.trade[id].tariffRate = 3;
+  }
+  data.trade[exporter].exportReliance = 220;
+  data.trade[importer].importReliance = 220;
+  data.tradeNetwork = {
+    geography: {
+      map: {
+        squareMilesPerMapUnit: 10000
+      },
+      laneSkeleton: {
+        version: "unit-test-precision-lanes",
+        nodes: [
+          { id: "lane:west_gate", type: "lane", x: 20, y: 70, zones: ["west_sea"] },
+          { id: "lane:south_trunk", type: "lane", x: 45, y: 82, zones: ["south_sea"] },
+          { id: "lane:east_gate", type: "lane", x: 80, y: 70, zones: ["east_sea"] }
+        ],
+        edges: [
+          {
+            from: "lane:west_gate",
+            to: "lane:south_trunk",
+            cost: 28,
+            zones: ["west_sea", "south_sea"],
+            path: [{ x: 20, y: 70 }, { x: 32, y: 82 }, { x: 45, y: 82 }]
+          },
+          {
+            from: "lane:south_trunk",
+            to: "lane:east_gate",
+            cost: 30,
+            zones: ["south_sea", "east_sea"],
+            path: [{ x: 45, y: 82 }, { x: 64, y: 82 }, { x: 80, y: 70 }]
+          }
+        ]
+      },
+      routeMesh: {
+        version: "unit-test-coarse-mesh",
+        nodes: [
+          { id: "zone:west_sea", zoneId: "west_sea", type: "sea_zone", x: 20, y: 70 },
+          { id: "zone:east_sea", zoneId: "east_sea", type: "sea_zone", x: 80, y: 70 }
+        ],
+        edges: [
+          { from: "zone:west_sea", to: "zone:east_sea", cost: 30 }
+        ]
+      },
+      nations: {
+        [exporter]: {
+          x: 18,
+          y: 68,
+          coastal: true,
+          portStrength: 8,
+          routeAccess: ["ocean"],
+          primaryPort: { x: 18, y: 68 }
+        },
+        [importer]: {
+          x: 82,
+          y: 68,
+          coastal: true,
+          portStrength: 8,
+          routeAccess: ["ocean"],
+          primaryPort: { x: 82, y: 68 }
+        }
+      }
+    }
+  };
+
+  Engine.recalculateAll(data);
+  const network = Engine.calculateTradeNetwork(data);
+  const lane = network.lanes.find((entry) => entry.importerId === importer && entry.exporterId === exporter);
+
+  assert.equal(lane.routeMode, "maritime");
+  assert.equal(lane.routeMeshVersion, "unit-test-precision-lanes");
+  assert.ok(lane.routeNodes.includes("lane:south_trunk"), `expected precision route through south trunk: ${lane.routeNodes.join(" > ")}`);
+  assert.deepEqual(lane.routeZones, ["west_sea", "south_sea", "east_sea"]);
+  assert.ok(lane.routePath.some((point) => point.y >= 80), "route should follow the southern precision trunk");
+});
+
 test("Trade route network reroutes landlocked trade when a transit country blocks access", () => {
   const data = buildLargeTradeV3Scenario(4);
   const [inland, primaryPort, alternatePort, buyer] = data.nations.map((nation) => nation.id);

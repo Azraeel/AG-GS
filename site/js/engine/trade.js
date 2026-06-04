@@ -633,6 +633,83 @@
       };
     }
 
+    function edgeKey(from, to) {
+      return `${from}>${to}`;
+    }
+
+    function laneSkeletonForData(data) {
+      const skeleton = tradeNetworkState(data).geography?.laneSkeleton;
+      if (!skeleton || typeof skeleton !== "object" || Array.isArray(skeleton)) return null;
+      const nodes = Array.isArray(skeleton.nodes)
+        ? skeleton.nodes
+            .map((node) => {
+              const id = String(node.id || "");
+              const type = String(node.type || "lane");
+              const zones = Array.isArray(node.zones) ? node.zones.map((zone) => String(zone)).filter(Boolean) : [];
+              const zoneId = String(node.zoneId || zones[0] || node.id || "");
+              return {
+                id,
+                zoneId,
+                label: String(node.label || node.zoneId || zones[0] || node.id || ""),
+                type,
+                chokepoint: node.chokepoint === true || type === "strait" || type === "chokepoint",
+                zones: zones.length ? [...new Set(zones)] : zoneId ? [zoneId] : [],
+                x: clamp(number(node.x, NaN), 0, 100),
+                y: clamp(number(node.y, NaN), 0, 100)
+              };
+            })
+            .filter((node) => node.id && Number.isFinite(node.x) && Number.isFinite(node.y))
+        : [];
+      const nodeById = Object.fromEntries(nodes.map((node) => [node.id, node]));
+      const adjacency = Object.fromEntries(nodes.map((node) => [node.id, []]));
+      let heuristicScale = 1;
+      for (const edge of Array.isArray(skeleton.edges) ? skeleton.edges : []) {
+        const from = String(edge.from || "");
+        const to = String(edge.to || "");
+        if (!nodeById[from] || !nodeById[to]) continue;
+        const cost = Math.max(0.01, number(edge.cost, pointDistanceUnits(nodeById[from], nodeById[to])));
+        const distance = Math.max(0.01, pointDistanceUnits(nodeById[from], nodeById[to]));
+        heuristicScale = Math.min(heuristicScale, cost / distance);
+        const zones = Array.isArray(edge.zones) ? edge.zones.map((zone) => String(zone)).filter(Boolean) : [];
+        const chokepoints = Array.isArray(edge.chokepoints) ? edge.chokepoints.map((id) => String(id)).filter(Boolean) : [];
+        const path = Array.isArray(edge.path)
+          ? edge.path
+              .map((point) => ({
+                x: clamp(number(point.x, NaN), 0, 100),
+                y: clamp(number(point.y, NaN), 0, 100)
+              }))
+              .filter((point) => Number.isFinite(point.x) && Number.isFinite(point.y))
+          : [];
+        const normalized = {
+          id: String(edge.id || edgeKey(from, to)),
+          from,
+          to,
+          cost,
+          class: String(edge.class || ""),
+          zones: [...new Set(zones)],
+          chokepoints: [...new Set(chokepoints)],
+          path
+        };
+        adjacency[from].push(normalized);
+        adjacency[to].push({
+          ...normalized,
+          id: String(edge.id || edgeKey(to, from)),
+          from: to,
+          to: from,
+          path: path.slice().reverse()
+        });
+      }
+      if (!nodes.length) return null;
+      return {
+        version: skeleton.version || "lane-skeleton",
+        entryLimit: clamp(Math.round(number(skeleton.entryLimit, 4)), 1, 6),
+        heuristicScale: clamp(heuristicScale, 0, 1),
+        nodes,
+        nodeById,
+        adjacency
+      };
+    }
+
     function routePointForGeography(geo, preferPort = true) {
       const source = preferPort && geo?.primaryPort ? geo.primaryPort : geo?.capital || geo;
       return {
@@ -652,6 +729,22 @@
       return mesh?.nodes
         ?.slice()
         .sort((left, right) => pointDistanceUnits(left, point) - pointDistanceUnits(right, point))[0] || null;
+    }
+
+    function nearestLaneSkeletonEntries(skeleton, point) {
+      if (!skeleton || !point) return [];
+      return skeleton.nodes
+        .map((node) => {
+          const chokepointCost = node.chokepoint ? 1.25 : 0;
+          return {
+            id: node.id,
+            cost: Math.max(0.01, pointDistanceUnits(node, point) * 1.04 + chokepointCost),
+            zones: node.zones || [],
+            chokepoints: node.chokepoint ? [node.zoneId].filter(Boolean) : []
+          };
+        })
+        .sort((left, right) => left.cost - right.cost)
+        .slice(0, skeleton.entryLimit);
     }
 
     function solveRouteMeshPath(mesh, startPoint, endPoint) {
@@ -739,12 +832,153 @@
       return null;
     }
 
+    function buildSolvedLanePath(ids, pointById, edgeByStep) {
+      const routePath = [];
+      function pushPoint(point) {
+        if (!point) return;
+        const next = {
+          x: roundPercent(point.x),
+          y: roundPercent(point.y)
+        };
+        const previous = routePath[routePath.length - 1];
+        if (previous && previous.x === next.x && previous.y === next.y) return;
+        routePath.push(next);
+      }
+      pushPoint(pointById[ids[0]]);
+      for (let index = 1; index < ids.length; index++) {
+        const from = ids[index - 1];
+        const to = ids[index];
+        const edge = edgeByStep.get(edgeKey(from, to));
+        if (edge?.path?.length) {
+          for (const point of edge.path) pushPoint(point);
+        } else {
+          pushPoint(pointById[to]);
+        }
+      }
+      return routePath;
+    }
+
+    function solveLaneSkeletonPath(skeleton, startPoint, endPoint) {
+      if (!skeleton || !startPoint || !endPoint || !skeleton.nodes.length) return null;
+      const startId = "__lane_start";
+      const endId = "__lane_end";
+      const pointById = {
+        [startId]: startPoint,
+        [endId]: endPoint,
+        ...Object.fromEntries(skeleton.nodes.map((node) => [node.id, node]))
+      };
+      const open = new Set([startId]);
+      const closed = new Set();
+      const cameFrom = new Map();
+      const gScore = new Map([[startId, 0]]);
+      const routeEdges = new Map();
+
+      function heuristic(id) {
+        return pointDistanceUnits(pointById[id], endPoint) * skeleton.heuristicScale;
+      }
+
+      function neighbors(id) {
+        if (id === startId) {
+          return nearestLaneSkeletonEntries(skeleton, startPoint).map((entry) => ({
+            id: entry.id,
+            cost: entry.cost,
+            zones: entry.zones,
+            chokepoints: entry.chokepoints,
+            path: []
+          }));
+        }
+        if (id === endId) return [];
+        const list = (skeleton.adjacency[id] || []).slice();
+        const exitCost = pointDistanceUnits(pointById[id], endPoint);
+        if (exitCost <= 18) {
+          list.push({
+            id: endId,
+            from: id,
+            to: endId,
+            cost: Math.max(0.01, exitCost),
+            zones: skeleton.nodeById[id]?.zones || [],
+            chokepoints: [],
+            path: []
+          });
+        }
+        return list;
+      }
+
+      while (open.size) {
+        let current = null;
+        let currentScore = Infinity;
+        for (const id of open) {
+          const score = (gScore.get(id) ?? Infinity) + heuristic(id);
+          if (score < currentScore) {
+            current = id;
+            currentScore = score;
+          }
+        }
+        if (current === endId) {
+          const ids = [];
+          let cursor = endId;
+          while (cursor) {
+            ids.unshift(cursor);
+            cursor = cameFrom.get(cursor);
+          }
+          const skeletonNodeIds = ids.filter((id) => id !== startId && id !== endId);
+          const routeZones = [];
+          const chokepoints = [];
+          function pushUnique(list, values) {
+            for (const value of values || []) {
+              if (value && !list.includes(value)) list.push(value);
+            }
+          }
+          for (const id of skeletonNodeIds) {
+            const node = skeleton.nodeById[id];
+            pushUnique(routeZones, node?.zones);
+            if (node?.chokepoint) pushUnique(chokepoints, [node.zoneId]);
+          }
+          for (let index = 1; index < ids.length; index++) {
+            const edge = routeEdges.get(edgeKey(ids[index - 1], ids[index]));
+            pushUnique(routeZones, edge?.zones);
+            pushUnique(chokepoints, edge?.chokepoints);
+          }
+          return {
+            distanceUnits: roundPercent(gScore.get(endId) ?? 0),
+            routePath: buildSolvedLanePath(ids, pointById, routeEdges),
+            routeNodes: skeletonNodeIds,
+            routeZones,
+            chokepoints,
+            routeMeshVersion: skeleton.version
+          };
+        }
+        open.delete(current);
+        closed.add(current);
+        for (const neighbor of neighbors(current)) {
+          const neighborId = neighbor.to || neighbor.id;
+          if (closed.has(neighborId)) continue;
+          const tentative = (gScore.get(current) ?? Infinity) + Math.max(0.01, number(neighbor.cost, 0));
+          if (tentative >= (gScore.get(neighborId) ?? Infinity)) continue;
+          cameFrom.set(neighborId, current);
+          routeEdges.set(edgeKey(current, neighborId), neighbor);
+          gScore.set(neighborId, tentative);
+          open.add(neighborId);
+        }
+      }
+      return null;
+    }
+
     function cachedRouteMeshPath(context, startPoint, endPoint) {
       if (!context.routeMesh) return null;
       const key = `${roundPercent(startPoint.x)},${roundPercent(startPoint.y)}>${roundPercent(endPoint.x)},${roundPercent(endPoint.y)}`;
       if (context.routeMeshCache.has(key)) return context.routeMeshCache.get(key);
       const route = solveRouteMeshPath(context.routeMesh, startPoint, endPoint);
       context.routeMeshCache.set(key, route);
+      return route;
+    }
+
+    function cachedLaneSkeletonPath(context, startPoint, endPoint) {
+      if (!context.laneSkeleton) return null;
+      const key = `${roundPercent(startPoint.x)},${roundPercent(startPoint.y)}>${roundPercent(endPoint.x)},${roundPercent(endPoint.y)}`;
+      if (context.laneSkeletonCache.has(key)) return context.laneSkeletonCache.get(key);
+      const route = solveLaneSkeletonPath(context.laneSkeleton, startPoint, endPoint);
+      context.laneSkeletonCache.set(key, route);
       return route;
     }
 
@@ -866,7 +1100,7 @@
     }
 
     function bestRouteForLane(importerId, exporterId, context) {
-      const { geography, scale, transitPolicies, chokepoints, routeMesh } = context;
+      const { geography, scale, transitPolicies, chokepoints, routeMesh, laneSkeleton } = context;
       const importerGeo = geography?.[importerId];
       const exporterGeo = geography?.[exporterId];
       if (!importerGeo || !exporterGeo) return fallbackRoute(importerId, exporterId, geography, scale);
@@ -920,9 +1154,12 @@
 
       for (const exportPort of exporterPorts.filter((option) => !option.blockedBy.length)) {
         for (const importPort of importerPorts.filter((option) => !option.blockedBy.length)) {
+          const startPoint = routePointForGeography(exportPort.port);
+          const endPoint = routePointForGeography(importPort.port);
           const meshRoute = exportPort.portId === importPort.portId
             ? null
-            : cachedRouteMeshPath(context, routePointForGeography(exportPort.port), routePointForGeography(importPort.port));
+            : (laneSkeleton ? cachedLaneSkeletonPath(context, startPoint, endPoint) : null)
+              || (routeMesh ? cachedRouteMeshPath(context, startPoint, endPoint) : null);
           const oceanUnits = exportPort.portId === importPort.portId
             ? 0
             : meshRoute
@@ -993,8 +1230,18 @@
       const chokepoints = cloneChokepoints(options.chokepoints || {});
       const ids = Object.keys(geography || {});
       const routes = {};
+      const laneSkeleton = laneSkeletonForData(data);
       const routeMesh = routeMeshForData(data);
-      const context = { geography, scale, transitPolicies, chokepoints, routeMesh, routeMeshCache: new Map() };
+      const context = {
+        geography,
+        scale,
+        transitPolicies,
+        chokepoints,
+        laneSkeleton,
+        laneSkeletonCache: new Map(),
+        routeMesh,
+        routeMeshCache: new Map()
+      };
       for (const importerId of ids) {
         for (const exporterId of ids) {
           if (importerId === exporterId) continue;
@@ -1007,6 +1254,7 @@
           milesPerMapUnit: roundPercent(scale.milesPerMapUnit)
         },
         routes,
+        laneSkeleton: laneSkeleton ? { version: laneSkeleton.version, nodeCount: laneSkeleton.nodes.length } : null,
         routeMesh: routeMesh ? { version: routeMesh.version, nodeCount: routeMesh.nodes.length } : null,
         chokepoints
       };
