@@ -88,8 +88,10 @@
       const nextRevision = Number(payload.revision || 0);
       if (nextRevision && nextRevision === sharedSync.revision) return false;
       const nextData = Engine.normalizeState(Engine.clone(payload.data));
+      const sourceFiscalVersion = nextData.meta?.tradeV4FiscalBalanceVersion || "";
       TradeMap.ensureGeography?.(nextData);
       Engine.recalculateAll(nextData);
+      const fiscalMigrationApplied = isAdmin && nextData.meta?.tradeV4FiscalBalanceVersion && nextData.meta.tradeV4FiscalBalanceVersion !== sourceFiscalVersion;
       clearPendingChanges?.();
       setData(nextData);
       sharedSync.revision = nextRevision || sharedSync.revision;
@@ -100,6 +102,7 @@
       updateSourceNote();
       state.notice = "";
       render();
+      if (fiscalMigrationApplied) scheduleSharedPublish("Published Trade V4 budget balance handoff.");
       return true;
     }
 
