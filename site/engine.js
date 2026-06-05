@@ -34,7 +34,8 @@
   const DEBT_RULES = {
     baseInterestRate: 2,
     repaymentShare: 0.25,
-    maxDebtPaydownRate: 0.1
+    maxDebtPaydownRate: 0.1,
+    annualServiceRateRepriceShare: 0.2
   };
   const BUDGET_FORMULAS = {
     legacy: "Legacy workbook formula",
@@ -897,6 +898,8 @@
       const row = data.national[id];
       row.debt = Math.max(0, number(value, 0));
       row.debtPrincipal = roundCurrency(number(row.budgetCapacity, 0) * (row.debt / 100));
+      const fiscal = calculateFiscalForNation(data, id);
+      row.debtServiceRate = row.debtPrincipal > 0 ? roundPercent(fiscal?.interestRate ?? DEBT_RULES.baseInterestRate) : 0;
     }
     if (dataset === "naval") {
       const fleet = data.naval[id];

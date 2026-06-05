@@ -77,6 +77,7 @@
         computedInterestRate: Engine.constants.DEBT_RULES.baseInterestRate,
         interestRateAdjustment: 0,
         interestRate: Engine.constants.DEBT_RULES.baseInterestRate,
+        debtServiceRate: Engine.constants.DEBT_RULES.baseInterestRate,
         deficitRisk: 0,
         sanctionsRisk: 0,
         mobilizationRisk: 0,
@@ -85,6 +86,7 @@
         debtService: 0,
         debtRepayment: 0,
         projectedDebt: 0,
+        projectedDebtServiceRate: Engine.constants.DEBT_RULES.baseInterestRate,
         fiscalModel: "Standard",
         economicHealth: data.meta.worldEconomicHealth || "Expansion",
         immigrationRate: 0,
@@ -364,7 +366,8 @@
             ${detailItem("Treasury Reserve", fmtNumber(national.treasuryReserve))}
             ${detailItem("Reserve Change", fmtSigned(national.treasuryChange))}
             ${detailItem("Debt", fmtPercent(national.debt))}
-            ${detailItem("Interest Rate", fmtPercent(national.interestRate))}
+            ${detailItem("Market Rate", fmtPercent(national.interestRate))}
+            ${detailItem("Service Rate", fmtPercent(national.debtServiceRate))}
             ${detailItem("Projected Debt", fmtPercent(national.projectedDebt))}
             ${detailItem("Trade Flow", fmtNumber(trade.tradeFlow))}
           </div>
@@ -447,7 +450,8 @@
               ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}
               ${fieldControl("national", "treasuryReserve", "Treasury Reserve", national.treasuryReserve ?? 0)}
               ${fieldControl("national", "debt", "Debt %", national.debt ?? 0)}
-              ${fieldControl("national", "interestRate", "Interest Rate %", national.interestRate ?? national.computedInterestRate ?? Engine.constants.DEBT_RULES.baseInterestRate)}
+              ${fieldControl("national", "interestRate", "Market Rate %", national.interestRate ?? national.computedInterestRate ?? Engine.constants.DEBT_RULES.baseInterestRate)}
+              ${fieldControl("national", "debtServiceRate", "Service Rate %", national.debtServiceRate ?? national.interestRate ?? Engine.constants.DEBT_RULES.baseInterestRate)}
               ${fieldControl("national", "economicHealth", "Economic Health", national.economicHealth, "select", economicHealthOptions)}
               ${fieldControl("national", "immigrationRate", "Immigration", national.immigrationRate)}
               ${fieldControl("national", "taxRate", "Tax Rate %", national.taxRate ?? 0)}

@@ -75,8 +75,17 @@
       return 3;
     }
 
-    function debtProjectionForInterest({ budgetCapacity, primaryBalance, debtPrincipal, interestRate, treasuryReserve }) {
-      const debtService = roundCurrency(debtPrincipal * (Math.max(0, interestRate) / 100));
+    function serviceRateFromStoredDebt(national, debtPrincipal, interestRate) {
+      const storedServiceRate = number(national.debtServiceRate, null);
+      if (storedServiceRate !== null && storedServiceRate >= 0) return roundPercent(storedServiceRate);
+      if (debtPrincipal <= 0) return 0;
+      const storedDebtService = number(national.debtService, null);
+      if (storedDebtService !== null && storedDebtService > 0) return roundPercent((storedDebtService / debtPrincipal) * 100);
+      return roundPercent(interestRate);
+    }
+
+    function debtProjectionForRate({ budgetCapacity, primaryBalance, debtPrincipal, debtServiceRate, treasuryReserve }) {
+      const debtService = roundCurrency(debtPrincipal * (Math.max(0, debtServiceRate) / 100));
       const effectiveBalance = roundCurrency(primaryBalance - debtService);
       const surplusForRepayment = Math.max(effectiveBalance, 0);
       const repaymentShareLimit = roundCurrency(surplusForRepayment * DEBT_RULES.repaymentShare);
@@ -109,6 +118,15 @@
       };
     }
 
+    function nextDebtServiceRateForProjection({ debtPrincipal, debtServiceRate, interestRate, debtRepayment, deficitBorrowing, nextDebtPrincipal }) {
+      if (nextDebtPrincipal <= 0) return 0;
+      const repriceShare = Math.max(0, Math.min(1, number(DEBT_RULES.annualServiceRateRepriceShare, 0.2)));
+      const remainingOldDebt = Math.max(roundCurrency(debtPrincipal - debtRepayment), 0);
+      const repricedOldRate = debtServiceRate + (interestRate - debtServiceRate) * repriceShare;
+      const weightedServiceCost = remainingOldDebt * repricedOldRate + Math.max(0, deficitBorrowing) * interestRate;
+      return roundPercent(weightedServiceCost / nextDebtPrincipal);
+    }
+
     function calculateFiscalForNation(data, id, options = {}) {
       const national = data.national?.[id];
       if (!national) return null;
@@ -134,12 +152,21 @@
       const mobilizationRisk = mobilizationRiskForLevel(military.mobilizationLevel || industrial.mobilizationLevel || "None");
       const tradeBalanceRisk = tradeBalanceRiskForBalance(trade.tradeBalance, budgetCapacity);
       const preliminaryInterestRate = Math.max(0, roundPercent(DEBT_RULES.baseInterestRate + debtRisk + stabilityRisk + healthRisk + corruptionRisk + deficitRisk + sanctionsRisk + mobilizationRisk + tradeBalanceRisk));
-      const preliminaryProjection = debtProjectionForInterest({ budgetCapacity, primaryBalance, debtPrincipal, treasuryReserve, interestRate: preliminaryInterestRate });
+      const preliminaryProjection = debtProjectionForRate({ budgetCapacity, primaryBalance, debtPrincipal, treasuryReserve, debtServiceRate: preliminaryInterestRate });
       const debtTrendRisk = debtTrendRiskForChange(debtPercent, preliminaryProjection.nextDebtPercent);
       const computedInterestRate = Math.max(0, roundPercent(preliminaryInterestRate + debtTrendRisk));
       const interestRateAdjustment = roundPercent(national.interestRateAdjustment);
       const interestRate = Math.max(0, roundPercent(computedInterestRate + interestRateAdjustment));
-      const projection = debtProjectionForInterest({ budgetCapacity, primaryBalance, debtPrincipal, treasuryReserve, interestRate });
+      const debtServiceRate = serviceRateFromStoredDebt(national, debtPrincipal, interestRate);
+      const projection = debtProjectionForRate({ budgetCapacity, primaryBalance, debtPrincipal, treasuryReserve, debtServiceRate });
+      const nextDebtServiceRate = nextDebtServiceRateForProjection({
+        debtPrincipal,
+        debtServiceRate,
+        interestRate,
+        debtRepayment: projection.debtRepayment,
+        deficitBorrowing: projection.deficitBorrowing,
+        nextDebtPrincipal: projection.nextDebtPrincipal
+      });
       return {
         budgetCapacity,
         budgetExpenditure,
@@ -150,6 +177,7 @@
         computedInterestRate,
         interestRateAdjustment,
         interestRate,
+        debtServiceRate,
         debtRisk,
         stabilityRisk,
         healthRisk,
@@ -173,6 +201,7 @@
         debtChange: projection.debtChange,
         nextDebtPrincipal: projection.nextDebtPrincipal,
         nextDebtPercent: projection.nextDebtPercent,
+        nextDebtServiceRate,
         repaymentShare: DEBT_RULES.repaymentShare * 100,
         maxDebtPaydownRate: DEBT_RULES.maxDebtPaydownRate * 100
       };
@@ -186,6 +215,7 @@
       national.computedInterestRate = fiscal.computedInterestRate;
       national.interestRateAdjustment = fiscal.interestRateAdjustment;
       national.interestRate = fiscal.interestRate;
+      national.debtServiceRate = fiscal.debtServiceRate;
       national.debtRisk = fiscal.debtRisk;
       national.stabilityRisk = fiscal.stabilityRisk;
       national.healthRisk = fiscal.healthRisk;
@@ -207,6 +237,7 @@
       national.debtChange = fiscal.debtChange;
       national.projectedDebt = fiscal.nextDebtPercent;
       national.projectedDebtPrincipal = fiscal.nextDebtPrincipal;
+      national.projectedDebtServiceRate = fiscal.nextDebtServiceRate;
       national.maxDebtPaydown = fiscal.maxDebtPaydown;
       national.repaymentShareLimit = fiscal.repaymentShareLimit;
     }
@@ -219,6 +250,7 @@
         computedInterestRate: fiscal.computedInterestRate,
         interestRateAdjustment: fiscal.interestRateAdjustment,
         interestRate: fiscal.interestRate,
+        debtServiceRate: fiscal.debtServiceRate,
         debtService: fiscal.debtService,
         effectiveBalance: fiscal.effectiveBalance,
         repayment: fiscal.debtRepayment,
@@ -228,6 +260,7 @@
         deficitBorrowing: fiscal.deficitBorrowing,
         nextDebtPrincipal: fiscal.nextDebtPrincipal,
         nextDebtPercent: fiscal.nextDebtPercent,
+        nextDebtServiceRate: fiscal.nextDebtServiceRate,
         debtChange: fiscal.debtChange
       };
     }
@@ -248,6 +281,7 @@
         if (shouldUpdateDebt) {
           national.debtPrincipal = fiscal.nextDebtPrincipal;
           national.debt = fiscal.nextDebtPercent;
+          national.debtServiceRate = fiscal.nextDebtServiceRate;
           national.treasuryReserve = fiscal.nextTreasuryReserve;
           fiscal = calculateFiscalForNation(data, id, { budgetCapacity });
           if (fiscal) applyFiscalFields(national, fiscal);

@@ -989,12 +989,14 @@
       debtService: "Debt Service",
       computedInterestRate: "Modeled Interest",
       interestRateAdjustment: "Manual Interest Adjustment",
-      interestRate: "Interest Rate",
+      interestRate: "Market Interest",
+      debtServiceRate: "Debt Service Rate",
       debtRepayment: "Debt Repayment",
       deficitBorrowing: "Deficit Borrowing",
       debtChange: "Debt Change",
       projectedDebt: "Projected Debt",
       projectedDebtPrincipal: "Projected Debt Principal",
+      projectedDebtServiceRate: "Projected Debt Service Rate",
       projectedTreasuryReserve: "Projected Treasury Reserve",
       maxDebtPaydown: "Debt Paydown Cap",
       repaymentShareLimit: "Surplus Repayment Limit",
@@ -1105,6 +1107,7 @@
   const internalChangeKeys = new Set([
     "national.computedInterestRate",
     "national.interestRateAdjustment",
+    "national.projectedDebtServiceRate",
     "national.debtRisk",
     "national.stabilityRisk",
     "national.healthRisk",
@@ -1374,7 +1377,8 @@
               dossierRow("Balance", national ? fmtSigned(national.primaryBalance) : "Unknown", balanceTone),
               dossierRow("Treasury Reserve", fmtNumber(national?.treasuryReserve)),
               dossierRow("Debt", fmtPercent(national?.debt)),
-              dossierRow("Interest Rate", fmtPercent(national?.interestRate)),
+              dossierRow("Market Rate", fmtPercent(national?.interestRate)),
+              dossierRow("Service Rate", fmtPercent(national?.debtServiceRate)),
               dossierRow("Debt Service", fmtNumber(national?.debtService)),
               dossierRow("Projected Debt", fmtPercent(national?.projectedDebt))
             ])}
