@@ -186,6 +186,7 @@
     data.tradeNetwork.lanePolicies = data.tradeNetwork.lanePolicies && typeof data.tradeNetwork.lanePolicies === "object" && !Array.isArray(data.tradeNetwork.lanePolicies)
       ? data.tradeNetwork.lanePolicies
       : {};
+    normalizeDebtServiceRates(data);
     return data;
   }
 
@@ -231,6 +232,24 @@
     data.meta.archivedNationIds = uniqueIds((data.meta.archivedNationIds || []).filter((archivedId) => archivedId !== id));
     data.meta.updatedAt = new Date().toISOString();
     return true;
+  }
+
+  function normalizeDebtServiceRates(data) {
+    Object.values(data.national || {}).forEach((national) => {
+      if (!national || !isBlank(national.debtServiceRate)) return;
+      const debtPrincipal = number(national.debtPrincipal, 0);
+      if (debtPrincipal <= 0) {
+        national.debtServiceRate = 0;
+        return;
+      }
+      const debtService = number(national.debtService, null);
+      const fallbackRate = number(national.interestRate, number(national.computedInterestRate, DEBT_RULES.baseInterestRate));
+      const serviceRate = debtService !== null && debtService > 0
+        ? (debtService / debtPrincipal) * 100
+        : fallbackRate;
+      national.debtServiceRate = roundPercent(serviceRate);
+      if (isBlank(national.projectedDebtServiceRate)) national.projectedDebtServiceRate = national.debtServiceRate;
+    });
   }
 
   function recalculationSignature(data) {

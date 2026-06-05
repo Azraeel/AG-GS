@@ -127,3 +127,14 @@ test("annual debt update slowly reprices service rate toward market rate", () =>
   assert.equal(update.nextDebtServiceRate, expectedNextRate);
   assert.ok(update.nextDebtServiceRate > update.interestRate, `expected repricing to be gradual, got ${update.nextDebtServiceRate} vs ${update.interestRate}`);
 });
+
+test("normalizing live debt records backfills service rate from existing debt service", () => {
+  const Engine = loadEngine();
+  const data = debtFixture();
+  data.national.volgastan.debtService = 7350;
+  delete data.national.volgastan.debtServiceRate;
+
+  Engine.normalizeState(data);
+
+  assert.equal(data.national.volgastan.debtServiceRate, 35);
+});

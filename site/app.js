@@ -989,8 +989,8 @@
       debtService: "Debt Service",
       computedInterestRate: "Modeled Interest",
       interestRateAdjustment: "Manual Interest Adjustment",
-      interestRate: "Market Interest",
-      debtServiceRate: "Debt Service Rate",
+      interestRate: "Risk Rate",
+      debtServiceRate: "Interest Rate",
       debtRepayment: "Debt Repayment",
       deficitBorrowing: "Deficit Borrowing",
       debtChange: "Debt Change",
@@ -1377,8 +1377,7 @@
               dossierRow("Balance", national ? fmtSigned(national.primaryBalance) : "Unknown", balanceTone),
               dossierRow("Treasury Reserve", fmtNumber(national?.treasuryReserve)),
               dossierRow("Debt", fmtPercent(national?.debt)),
-              dossierRow("Market Rate", fmtPercent(national?.interestRate)),
-              dossierRow("Service Rate", fmtPercent(national?.debtServiceRate)),
+              dossierRow("Interest Rate", fmtPercent(national?.debtServiceRate)),
               dossierRow("Debt Service", fmtNumber(national?.debtService)),
               dossierRow("Projected Debt", fmtPercent(national?.projectedDebt))
             ])}
