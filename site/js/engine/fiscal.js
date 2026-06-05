@@ -117,8 +117,12 @@
       const industrial = data.industrial?.[id] || {};
       const budgetCapacity = roundCurrency(options.budgetCapacity ?? national.budgetCapacity);
       const budgetExpenditure = roundCurrency(options.budgetExpenditure ?? national.budgetExpenditure);
-      const debtPercent = Math.max(0, number(national.debt, 0));
-      const debtPrincipal = roundCurrency(budgetCapacity * (debtPercent / 100));
+      const storedDebtPercent = Math.max(0, number(national.debt, 0));
+      const storedDebtPrincipal = number(national.debtPrincipal, null);
+      const debtPrincipal = storedDebtPrincipal !== null && storedDebtPrincipal > 0
+        ? roundCurrency(storedDebtPrincipal)
+        : roundCurrency(budgetCapacity * (storedDebtPercent / 100));
+      const debtPercent = budgetCapacity > 0 ? roundPercent((debtPrincipal / budgetCapacity) * 100) : storedDebtPercent;
       const treasuryReserve = Math.max(0, roundCurrency(national.treasuryReserve));
       const primaryBalance = roundCurrency(budgetCapacity - budgetExpenditure);
       const debtRisk = debtRiskForPercent(debtPercent);
@@ -176,6 +180,7 @@
 
     function applyFiscalFields(national, fiscal) {
       national.primaryBalance = fiscal.primaryBalance;
+      national.debt = fiscal.debtPercent;
       national.debtPrincipal = fiscal.debtPrincipal;
       national.treasuryReserve = fiscal.treasuryReserve;
       national.computedInterestRate = fiscal.computedInterestRate;
@@ -241,6 +246,7 @@
         if (!fiscal) continue;
         applyFiscalFields(national, fiscal);
         if (shouldUpdateDebt) {
+          national.debtPrincipal = fiscal.nextDebtPrincipal;
           national.debt = fiscal.nextDebtPercent;
           national.treasuryReserve = fiscal.nextTreasuryReserve;
           fiscal = calculateFiscalForNation(data, id, { budgetCapacity });

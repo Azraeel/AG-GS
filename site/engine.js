@@ -893,6 +893,11 @@
     } else {
       data[dataset][id][path] = value;
     }
+    if (dataset === "national" && path === "debt") {
+      const row = data.national[id];
+      row.debt = Math.max(0, number(value, 0));
+      row.debtPrincipal = roundCurrency(number(row.budgetCapacity, 0) * (row.debt / 100));
+    }
     if (dataset === "naval") {
       const fleet = data.naval[id];
       fleet.total = (fleet.categories || []).reduce(
