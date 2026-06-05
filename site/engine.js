@@ -1,59 +1,6 @@
 (function () {
   const STORAGE_KEY = "aggs-operations-state-v4";
   const TRADE_V4_FORMULA_VERSION = "trade2028";
-  const TRADE_V4_FISCAL_BALANCE_VERSION = "pre-v4-balance-20260604";
-  const PRE_TRADE_V4_BUDGET_BALANCE_TARGETS = {
-    "astoria": 6281,
-    "baathist_republic_of_volgastan": -10231,
-    "baechong_democratic_republic": -193,
-    "benera_navine": 291,
-    "bingtau_kingdom": 94,
-    "butonian_state": 2,
-    "crovian_national_union": -165,
-    "democratic_republic_of_suzuharu": 2154,
-    "dracoist_malonia": 1066,
-    "duchy_of_hoogeveen": 1026,
-    "duchy_of_ledostrov": -342,
-    "empire_of_hanazuki": -2,
-    "empire_of_hyeosu": 3497,
-    "empire_of_khalindar": 7734,
-    "federated_syndicates_of_veszprem": -1669,
-    "federation_of_vinterholm": -838,
-    "fengu_people_s_federation": 3,
-    "fuji_shogunate": 133,
-    "hyelean_republic": -47,
-    "imperial_dynasty_of_saochai": 1108,
-    "imperial_rhovland": 2367,
-    "imperial_suomi": 2986,
-    "judas_democratic_republic": 1084,
-    "karkalnadag_kingdom": 345,
-    "khalari_emirates": -675,
-    "kingdom_of_lunaria": 850,
-    "kolkenlennan_empire": 3997,
-    "mumoon_hamed_sultunate": 58,
-    "okudan_empire": -6639,
-    "orinian_empire": 10414,
-    "pdr_of_hoshigoru": -1370,
-    "people_s_federation_of_xanaqu": 7059,
-    "people_s_republic_of_mariposa": 41,
-    "republic_of_aurendale": 10719,
-    "republic_of_belcanto": -4298,
-    "republic_of_borealyan": 309,
-    "republic_of_calblanca": 531,
-    "republic_of_perzam": 128,
-    "republic_of_pestera": -5175,
-    "republic_of_shangri_la": 20,
-    "serranova_military_junta": 68,
-    "solara": 2236,
-    "templar_of_saxonia": 55,
-    "theorin_commonwealth": -398,
-    "tsardom_of_nogoyev": -537,
-    "vesperan_federation": -2157,
-    "vinraarabeise_people_s_republic": 377,
-    "vorkutangrad": 719,
-    "xaojin_heavenly_kingdom": 91,
-    "zhensanovian_commonwealth": -8330
-  };
 
   const HEALTH_GROWTH = { Depression: -3, Recession: -2, Slowdown: -1, Recovery: 1, Expansion: 2, Prosperity: 3 };
   const HEALTH_DEMOGRAPHICS = {
@@ -203,56 +150,8 @@
     return Number(number(value, 0).toFixed(2));
   }
 
-  function budgetBalanceMigrationTarget(national = {}) {
-    const storedBalance = number(national.budgetBalance, null);
-    if (Number.isFinite(storedBalance)) return roundCurrency(storedBalance);
-    return roundCurrency(number(national.budgetCapacity, 0) - number(national.budgetExpenditure, 0));
-  }
-
-  function tradeV4FiscalBalanceTarget(id, national = {}) {
-    const preTradeV4Target = number(PRE_TRADE_V4_BUDGET_BALANCE_TARGETS[id], null);
-    if (Number.isFinite(preTradeV4Target)) return roundCurrency(preTradeV4Target);
-    return budgetBalanceMigrationTarget(national);
-  }
-
-  function hasPreTradeV4BudgetBalanceTarget(id) {
-    return Number.isFinite(number(PRE_TRADE_V4_BUDGET_BALANCE_TARGETS[id], null));
-  }
-
-  function captureTradeV4BudgetBalanceTargets(data, previousTradeFormulaVersion) {
-    if (previousTradeFormulaVersion === TRADE_V4_FORMULA_VERSION || data.meta.tradeV4BudgetBalanceTargets) return;
-    const nationalRows = data.national && typeof data.national === "object" && !Array.isArray(data.national)
-      ? data.national
-      : {};
-    const targets = Object.fromEntries(
-      Object.entries(nationalRows)
-        .map(([id, national]) => [id, budgetBalanceMigrationTarget(national)])
-        .filter(([, target]) => Number.isFinite(target))
-    );
-    if (Object.keys(targets).length) data.meta.tradeV4BudgetBalanceTargets = targets;
-  }
-
-  function captureTradeV4FiscalBalanceTargets(data, previousTradeFormulaVersion) {
-    if (data.meta.tradeV4FiscalBalanceVersion === TRADE_V4_FISCAL_BALANCE_VERSION || data.meta.tradeV4BudgetBalanceTargets) return;
-    if (previousTradeFormulaVersion !== TRADE_V4_FORMULA_VERSION) return;
-    const nationalRows = data.national && typeof data.national === "object" && !Array.isArray(data.national)
-      ? data.national
-      : {};
-    const targets = Object.fromEntries(
-      Object.entries(nationalRows)
-        .map(([id, national]) => [id, tradeV4FiscalBalanceTarget(id, national)])
-        .filter(([, target]) => Number.isFinite(target))
-    );
-    if (!Object.keys(targets).length) return;
-    const exactTargets = Object.fromEntries(Object.keys(targets).filter((id) => hasPreTradeV4BudgetBalanceTarget(id)).map((id) => [id, true]));
-    data.meta.tradeV4BudgetBalanceTargets = targets;
-    data.meta.tradeV4BudgetBalanceTargetMode = "normalize";
-    data.meta.tradeV4BudgetBalanceExactTargets = exactTargets;
-  }
-
   function ensureState(data = {}) {
     data.meta = data.meta || {};
-    const previousTradeFormulaVersion = data.meta.tradeFormulaVersion;
     data.meta.title = data.meta.title || "AG-GS Global Ledger";
     data.meta.currentYear = number(data.meta.currentYear, 2021);
     data.meta.worldEconomicHealth = data.meta.worldEconomicHealth || "Expansion";
@@ -271,8 +170,6 @@
     ["populationColumns", "equipmentCosts", "eraMultipliers", "costAdditionModifiers", "costReductionModifiers"].forEach((key) => {
       data[key] = Array.isArray(data[key]) ? data[key] : [];
     });
-    captureTradeV4BudgetBalanceTargets(data, previousTradeFormulaVersion);
-    captureTradeV4FiscalBalanceTargets(data, previousTradeFormulaVersion);
     data.meta.tradeFormulaVersion = TRADE_V4_FORMULA_VERSION;
     data.tradeNetwork = data.tradeNetwork && typeof data.tradeNetwork === "object" && !Array.isArray(data.tradeNetwork) ? data.tradeNetwork : {};
     data.tradeNetwork.targetedTariffs = data.tradeNetwork.targetedTariffs && typeof data.tradeNetwork.targetedTariffs === "object" && !Array.isArray(data.tradeNetwork.targetedTariffs)
@@ -332,11 +229,6 @@
     data.meta.archivedNationIds = uniqueIds((data.meta.archivedNationIds || []).filter((archivedId) => archivedId !== id));
     data.meta.updatedAt = new Date().toISOString();
     return true;
-  }
-
-  function hasTradeV4BudgetBalanceTargets(data) {
-    const targets = data.meta?.tradeV4BudgetBalanceTargets;
-    return Boolean(targets && typeof targets === "object" && !Array.isArray(targets) && Object.keys(targets).length);
   }
 
   function recalculationSignature(data) {
@@ -857,22 +749,6 @@
 
   function recalculateAll(data, options = {}) {
     ensureTradeV4State(data);
-    if (hasTradeV4BudgetBalanceTargets(data)) {
-      const migrationOptions = { ...options, keepTradeV4BudgetBalanceTargets: true };
-      let previousSignature = "";
-      for (let attempt = 0; attempt < 8; attempt++) {
-        recalculateTrade(data, options);
-        recalculateBudgets(data, migrationOptions);
-        const nextSignature = recalculationSignature(data);
-        if (attempt > 0 && nextSignature === previousSignature) break;
-        previousSignature = nextSignature;
-      }
-      delete data.meta.tradeV4BudgetBalanceTargets;
-      delete data.meta.tradeV4BudgetBalanceTargetMode;
-      delete data.meta.tradeV4BudgetBalanceExactTargets;
-      data.meta.tradeV4FiscalBalanceVersion = TRADE_V4_FISCAL_BALANCE_VERSION;
-      return data;
-    }
     let previousSignature = "";
     for (let attempt = 0; attempt < 8; attempt++) {
       recalculateTrade(data, options);
