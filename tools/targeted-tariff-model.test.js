@@ -171,3 +171,22 @@ test("targeted tariffs price dominant import lanes instead of making trade vanis
     `expected import price shock to stay visible beside tariff revenue; got cost ${tariffed.lane.importCost} and revenue ${tariffed.lane.tariffRevenue}`
   );
 });
+
+test("small targeted tariff increases can raise revenue without disrupting dominant trade", () => {
+  const Engine = loadEngine();
+  const neutral = scenario(Engine);
+  const tariffed = scenario(Engine, 4);
+
+  assert.ok(
+    tariffed.lane.currentFlow >= neutral.lane.currentFlow * 0.99,
+    `expected one-point tariff increase to keep the lane stable; got ${tariffed.lane.currentFlow} from neutral ${neutral.lane.currentFlow}`
+  );
+  assert.ok(
+    tariffed.data.trade.khalindar.tradeFlow >= neutral.data.trade.khalindar.tradeFlow * 0.99,
+    `expected one-point tariff increase not to drain national trade flow; got ${tariffed.data.trade.khalindar.tradeFlow} from neutral ${neutral.data.trade.khalindar.tradeFlow}`
+  );
+  assert.ok(
+    tariffed.data.national.khalindar.budgetCapacity >= neutral.data.national.khalindar.budgetCapacity,
+    `expected one-point targeted tariff to be at least revenue-neutral; got BC ${tariffed.data.national.khalindar.budgetCapacity} from neutral ${neutral.data.national.khalindar.budgetCapacity}`
+  );
+});

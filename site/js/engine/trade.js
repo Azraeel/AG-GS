@@ -236,14 +236,14 @@
       const tariff = clamp(number(tariffRate, 0), 0, 50);
       if (tariff <= 3) return clamp(1.04 - tariff * 0.012, 1, 1.04);
       const tariffGap = tariff - 3;
-      return clamp(1 / (1 + tariffGap * 0.006 + Math.max(0, tariffGap - 25) * 0.003), 0.62, 1.01);
+      return clamp(1.004 / (1 + tariffGap * 0.002 + Math.max(0, tariffGap - 5) * 0.004 + Math.max(0, tariffGap - 25) * 0.003), 0.62, 1.01);
     }
 
     function tariffFlowAccess(tariffRate) {
       const tariff = clamp(number(tariffRate, 0), 0, 50);
       if (tariff <= 3) return clamp(1.04 - tariff * 0.01, 1, 1.04);
       const tariffGap = tariff - 3;
-      return clamp(1 / (1 + tariffGap * 0.005 + Math.max(0, tariffGap - 25) * 0.0025), 0.66, 1.01);
+      return clamp(1.01 / (1 + tariffGap * 0.002 + Math.max(0, tariffGap - 5) * 0.004 + Math.max(0, tariffGap - 25) * 0.0025), 0.66, 1.01);
     }
 
     function autarkyTradeAccess(input, mode = "overall") {
@@ -403,14 +403,16 @@
     }
 
     function laneImportCost(flow, tariffRate, baseTariffRate, importerInput) {
-      const tariffGap = Math.max(0, tariffRate - baseTariffRate) / 100;
-      if (tariffGap <= 0) return 0;
+      const tariffGapPoints = Math.max(0, tariffRate - baseTariffRate);
+      const tariffGap = tariffGapPoints / 100;
+      if (tariffGapPoints <= 0) return 0;
       const reliancePressure = clamp(Math.max(0, importerInput.importReliance) / 220, 0, 1.25);
       const diversityRelief = clamp(Math.sqrt(Math.max(0, importerInput.economicTradeDiversity)) / 42, 0, 0.34);
       const developmentRelief = clamp(importerInput.developmentLevel / 72, 0, 0.28);
       const autarkyPressure = clamp(importerInput.autarkyIndex / 360, 0, 0.28);
       const sensitivity = clamp(0.65 + reliancePressure + autarkyPressure - diversityRelief - developmentRelief, 0.45, 1.75);
-      return flow * tariffGap * sensitivity;
+      const deadweightFriction = clamp(0.1 + Math.pow(tariffGapPoints, 1.12) * 0.014, 0.12, 0.92);
+      return flow * tariffGap * sensitivity * deadweightFriction;
     }
 
     function tradeHubMultiplier(input, worldTradeFlow, nationCount) {
