@@ -234,14 +234,16 @@
 
     function tariffDemandAccess(tariffRate) {
       const tariff = clamp(number(tariffRate, 0), 0, 50);
-      if (tariff <= 2) return clamp(1.05 - tariff * 0.018, 0.98, 1.05);
-      return clamp(1.01 * Math.exp(-(tariff - 2) * 0.075), 0.04, 1.01);
+      if (tariff <= 3) return clamp(1.04 - tariff * 0.012, 1, 1.04);
+      const tariffGap = tariff - 3;
+      return clamp(1 / (1 + tariffGap * 0.006 + Math.max(0, tariffGap - 25) * 0.003), 0.62, 1.01);
     }
 
     function tariffFlowAccess(tariffRate) {
       const tariff = clamp(number(tariffRate, 0), 0, 50);
-      if (tariff <= 2) return clamp(1.06 - tariff * 0.02, 1, 1.06);
-      return clamp(1.02 * Math.exp(-(tariff - 2) * 0.11), 0.025, 1.02);
+      if (tariff <= 3) return clamp(1.04 - tariff * 0.01, 1, 1.04);
+      const tariffGap = tariff - 3;
+      return clamp(1 / (1 + tariffGap * 0.005 + Math.max(0, tariffGap - 25) * 0.0025), 0.66, 1.01);
     }
 
     function autarkyTradeAccess(input, mode = "overall") {
@@ -397,7 +399,18 @@
 
     function laneTariffRevenue(flow, tariffRate, importerInput) {
       const collection = clamp(0.42 + importerInput.developmentLevel / 34 + (100 - importerInput.corruption) / 260, 0.35, 1);
-      return flow * (tariffRate / 100) * 0.075 * collection;
+      return flow * (tariffRate / 100) * 0.55 * collection;
+    }
+
+    function laneImportCost(flow, tariffRate, baseTariffRate, importerInput) {
+      const tariffGap = Math.max(0, tariffRate - baseTariffRate) / 100;
+      if (tariffGap <= 0) return 0;
+      const reliancePressure = clamp(Math.max(0, importerInput.importReliance) / 220, 0, 1.25);
+      const diversityRelief = clamp(Math.sqrt(Math.max(0, importerInput.economicTradeDiversity)) / 42, 0, 0.34);
+      const developmentRelief = clamp(importerInput.developmentLevel / 72, 0, 0.28);
+      const autarkyPressure = clamp(importerInput.autarkyIndex / 360, 0, 0.28);
+      const sensitivity = clamp(0.65 + reliancePressure + autarkyPressure - diversityRelief - developmentRelief, 0.45, 1.75);
+      return flow * tariffGap * sensitivity;
     }
 
     function tradeHubMultiplier(input, worldTradeFlow, nationCount) {
@@ -1860,7 +1873,7 @@
         const flow = lane.currentFlow;
         lane.currentFlow = roundCurrency(flow);
         lane.tariffRevenue = roundCurrency(laneTariffRevenue(flow, lane.tariffRate, importer));
-        lane.importCost = roundCurrency(flow * Math.max(0, lane.tariffRate - importer.tariffRate) * 0.0022);
+        lane.importCost = roundCurrency(laneImportCost(flow, lane.tariffRate, importer.tariffRate, importer));
         delete lane.weight;
       }
       applyExportAnchorsToLanes(lanes, exportAnchors, lanePolicies);
@@ -1931,7 +1944,8 @@
         const importCostDelta = number(current.importCost, 0) - number(neutral.importCost, 0);
         const exportDelta = number(current.exportFlow, 0) - number(neutral.exportFlow, 0);
         const importDelta = number(current.importFlow, 0) - number(neutral.importFlow, 0);
-        const tradeBalanceDelta = exportDelta * 0.22 - importDelta * 0.16 + tariffRevenueDelta * 1.6 - importCostDelta * 0.72;
+        const importFlowEffect = importDelta >= 0 ? -importDelta * 0.16 : importDelta * 0.22;
+        const tradeBalanceDelta = exportDelta * 0.22 + importFlowEffect + tariffRevenueDelta * 1.6 - importCostDelta * 0.72;
         nations[id] = {
           importFlow: roundCurrency(current.importFlow),
           exportFlow: roundCurrency(current.exportFlow),
