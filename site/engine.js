@@ -694,6 +694,23 @@
     };
   }
 
+  function yearlyMilitaryFactoryGrowth(baseGrowth, national, currentMilitaryFactories, mobilizationLevel) {
+    const growth = number(baseGrowth, 0);
+    if (growth < 0) return Math.floor(growth * 0.25);
+    const warSupport = clamp(number(national?.warSupport, 50), 0, 100);
+    const profile = {
+      None: { minWarSupport: 95, growthThreshold: 30, multiplier: 0.02 },
+      Partial: { minWarSupport: 75, growthThreshold: 16, multiplier: 0.18 },
+      Full: { minWarSupport: 60, growthThreshold: 9, multiplier: 0.55 },
+      Total: { minWarSupport: 45, growthThreshold: 6, multiplier: 0.82 }
+    }[mobilizationLevel] || { minWarSupport: 95, growthThreshold: 30, multiplier: 0.02 };
+    if (warSupport < profile.minWarSupport || growth < profile.growthThreshold) return 0;
+    const supportRange = Math.max(1, 100 - profile.minWarSupport);
+    const supportReadiness = clamp((warSupport - profile.minWarSupport) / supportRange, 0, 1);
+    const armsDepth = clamp(Math.sqrt(Math.max(0, currentMilitaryFactories)) / 90, 0, 0.18);
+    return Math.floor((growth - profile.growthThreshold) * profile.multiplier * (0.65 + supportReadiness * 0.65 + armsDepth));
+  }
+
   function advanceIndustry(data, id, yearDifference = 1) {
     const industrial = data.industrial[id];
     const national = data.national[id];
@@ -711,7 +728,8 @@
     national.industrialHealthStatus = healthStatus;
     national.industrialHealthYears = industrialHealthYears;
     const tradeBalance = number(trade.tradeBalance, 0);
-    const mobilization = MOBILIZATION[military?.mobilizationLevel || industrial.mobilizationLevel || "None"] || MOBILIZATION.None;
+    const mobilizationLevel = military?.mobilizationLevel || industrial.mobilizationLevel || "None";
+    const mobilization = MOBILIZATION[mobilizationLevel] || MOBILIZATION.None;
     const totalIndustrialCapacity = currentFactories + currentMilitaryFactories * 0.5 + currentShipyards;
     const momentumRate = INDUSTRIAL_HEALTH_MOMENTUM[healthStatus] || 0;
     const healthMomentum = 1 + Math.sqrt(Math.max(industrialHealthYears - 1, 0)) * momentumRate;
@@ -742,8 +760,9 @@
     const tradeGrowth = Math.max(impactFromTradeBalance, 0) * growthMultiplier;
     const tradeContraction = Math.min(impactFromTradeBalance, 0) * (healthSignal < 0 ? 1.2 + Math.abs(healthSignal) / 8 : 0.65);
     const baseGrowth = impactFromHealth + tradeGrowth + tradeContraction;
+    const militaryFactoryGrowth = yearlyMilitaryFactoryGrowth(baseGrowth, national, currentMilitaryFactories, mobilizationLevel);
     industrial.civilianFactories = Math.max(currentFactories + Math.floor(baseGrowth * (1 + mobilization.civilianPenalty)), 0);
-    industrial.militaryFactories = Math.max(currentMilitaryFactories + Math.floor(baseGrowth * mobilization.militaryGrowthMultiplier), 0);
+    industrial.militaryFactories = Math.max(currentMilitaryFactories + militaryFactoryGrowth, 0);
     industrial.shipyards = Math.max(currentShipyards + Math.floor(baseGrowth / 3), 0);
     return {
       civilianFactories: industrial.civilianFactories - currentFactories,
