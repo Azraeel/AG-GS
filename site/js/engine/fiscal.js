@@ -273,6 +273,9 @@
         ? data.meta.tradeV4BudgetBalanceTargets
         : null;
       const balanceTargetMode = data.meta?.tradeV4BudgetBalanceTargetMode || "";
+      const exactBalanceTargets = data.meta?.tradeV4BudgetBalanceExactTargets && typeof data.meta.tradeV4BudgetBalanceExactTargets === "object" && !Array.isArray(data.meta.tradeV4BudgetBalanceExactTargets)
+        ? data.meta.tradeV4BudgetBalanceExactTargets
+        : {};
       for (const id of Object.keys(data.national || {})) {
         const national = data.national[id];
         const budgetCapacity = calculateBudgetForNation(data, id, {
@@ -282,7 +285,7 @@
         if (budgetCapacity === null) continue;
         national.budgetCapacity = budgetCapacity;
         const rawBalanceTarget = balanceTargets ? number(balanceTargets[id], null) : null;
-        const balanceTarget = Number.isFinite(rawBalanceTarget) && balanceTargetMode === "normalize"
+        const balanceTarget = Number.isFinite(rawBalanceTarget) && balanceTargetMode === "normalize" && !exactBalanceTargets[id]
           ? normalizeBudgetBalanceTarget(rawBalanceTarget, budgetCapacity)
           : rawBalanceTarget;
         let fiscal = Number.isFinite(balanceTarget)
@@ -300,6 +303,7 @@
       if (balanceTargets && data.meta && options.keepTradeV4BudgetBalanceTargets !== true) {
         delete data.meta.tradeV4BudgetBalanceTargets;
         delete data.meta.tradeV4BudgetBalanceTargetMode;
+        delete data.meta.tradeV4BudgetBalanceExactTargets;
       }
       return data;
     }

@@ -376,9 +376,10 @@ test("Trade V4 fiscal normalization clamps stale already-migrated budget balance
 
   Engine.recalculateAll(data);
 
-  assert.equal(data.meta.tradeV4FiscalBalanceVersion, "value-added-20260604");
+  assert.equal(data.meta.tradeV4FiscalBalanceVersion, "pre-v4-balance-20260604");
   assert.equal(data.meta.tradeV4BudgetBalanceTargets, undefined);
   assert.equal(data.meta.tradeV4BudgetBalanceTargetMode, undefined);
+  assert.equal(data.meta.tradeV4BudgetBalanceExactTargets, undefined);
 
   for (const id of ["xanaqu", "aurendale", "low_value_importer"]) {
     const national = data.national[id];
@@ -414,4 +415,64 @@ test("Trade V4 fiscal normalization clamps stale already-migrated budget balance
   );
 
   assert.deepEqual(second, first);
+});
+
+test("Trade V4 fiscal normalization carries pre-V4 budget balances for known live nations", () => {
+  const Engine = loadEngine();
+  const data = valueAddedFixture();
+
+  function renameNation(fromId, toId, name) {
+    const nation = data.nations.find((row) => row.id === fromId);
+    if (nation) {
+      nation.id = toId;
+      nation.name = name;
+    }
+    for (const bucket of ["national", "trade", "industrial", "military", "population"]) {
+      data[bucket][toId] = data[bucket][fromId];
+      delete data[bucket][fromId];
+    }
+  }
+
+  renameNation("xanaqu", "people_s_federation_of_xanaqu", "People's Federation of Xanaqu");
+  renameNation("aurendale", "republic_of_aurendale", "Republic of Aurendale");
+
+  Object.assign(data.national.solara, {
+    budgetCapacity: 95104,
+    budgetExpenditure: 89143,
+    budgetBalance: 5807
+  });
+  Object.assign(data.national.people_s_federation_of_xanaqu, {
+    budgetCapacity: 447274,
+    budgetExpenditure: 187932,
+    budgetBalance: 259244
+  });
+  Object.assign(data.national.republic_of_aurendale, {
+    budgetCapacity: 204264,
+    budgetExpenditure: 137984,
+    budgetBalance: 66280
+  });
+
+  Engine.recalculateAll(data);
+
+  const expectedBalances = {
+    solara: 2236,
+    people_s_federation_of_xanaqu: 7059,
+    republic_of_aurendale: 10719
+  };
+  for (const [id, expectedBalance] of Object.entries(expectedBalances)) {
+    assert.ok(
+      Math.abs(data.national[id].budgetBalance - expectedBalance) <= 1,
+      `expected ${id} balance ${data.national[id].budgetBalance} to carry pre-V4 target ${expectedBalance}`
+    );
+  }
+  assert.equal(data.meta.tradeV4FiscalBalanceVersion, "pre-v4-balance-20260604");
+
+  Engine.recalculateAll(data);
+
+  for (const [id, expectedBalance] of Object.entries(expectedBalances)) {
+    assert.ok(
+      Math.abs(data.national[id].budgetBalance - expectedBalance) <= 1,
+      `expected ${id} second recalc balance ${data.national[id].budgetBalance} to stay near ${expectedBalance}`
+    );
+  }
 });
