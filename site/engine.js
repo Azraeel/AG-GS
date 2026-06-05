@@ -2,7 +2,8 @@
   const STORAGE_KEY = "aggs-operations-state-v4";
   const TRADE_V4_FORMULA_VERSION = "trade2028";
 
-  const HEALTH_GROWTH = { Depression: -3, Recession: -2, Slowdown: -1, Recovery: 1, Expansion: 2, Prosperity: 3 };
+  const HEALTH_GROWTH = { Depression: -6.2, Recession: -4.1, Slowdown: -2.2, Recovery: 1.4, Expansion: 3.2, Prosperity: 4.8 };
+  const INDUSTRIAL_HEALTH_MOMENTUM = { Prosperity: 0.18, Expansion: 0.12, Recovery: 0.04, Slowdown: 0.1, Recession: 0.16, Depression: 0.24 };
   const HEALTH_DEMOGRAPHICS = {
     Prosperity: { naturalGrowth: 0.12, migration: 0.12 },
     Expansion: { naturalGrowth: 0.04, migration: 0.06 },
@@ -704,10 +705,26 @@
     const currentShipyards = number(industrial.shipyards, 0);
     const healthStatus = national.economicHealth || "Recovery";
     if (!(healthStatus in HEALTH_GROWTH)) return null;
+    const yearsAdvanced = Math.max(1, number(yearDifference, 1));
+    const previousHealthYears = national.industrialHealthStatus === healthStatus ? Math.max(0, number(national.industrialHealthYears, 0)) : 0;
+    const industrialHealthYears = roundPercent(previousHealthYears + yearsAdvanced);
+    national.industrialHealthStatus = healthStatus;
+    national.industrialHealthYears = industrialHealthYears;
     const tradeBalance = number(trade.tradeBalance, 0);
     const mobilization = MOBILIZATION[military?.mobilizationLevel || industrial.mobilizationLevel || "None"] || MOBILIZATION.None;
-    const impactFromHealth = HEALTH_GROWTH[healthStatus] * yearDifference;
     const totalIndustrialCapacity = currentFactories + currentMilitaryFactories * 0.5 + currentShipyards;
+    const momentumRate = INDUSTRIAL_HEALTH_MOMENTUM[healthStatus] || 0;
+    const healthMomentum = 1 + Math.sqrt(Math.max(industrialHealthYears - 1, 0)) * momentumRate;
+    const industrialScale = Math.sqrt(Math.max(totalIndustrialCapacity, 0));
+    const developmentScale = number(national.developmentLevel, 0);
+    const stabilityScale = clamp(number(national.governmentalStability, 70) / 100, 0, 1.2);
+    const corruptionDrag = clamp(number(national.corruption, 0) / 160, 0, 0.55);
+    const healthSignal = HEALTH_GROWTH[healthStatus] * yearsAdvanced;
+    const positiveScale = 1 + industrialScale / 28 + developmentScale / 55 + stabilityScale * 0.22 - corruptionDrag;
+    const negativeScale = 1 + industrialScale / 45 + corruptionDrag * 0.45 + clamp((65 - number(national.governmentalStability, 70)) / 120, 0, 0.35);
+    const impactFromHealth = healthSignal >= 0
+      ? healthSignal * positiveScale * healthMomentum
+      : healthSignal * negativeScale * healthMomentum;
     const economicImpactScore = number(trade.economicImpactScore, 50);
     const tariffRate = number(trade.tariffRate, 5);
     const tradeVolatility = (tariffRate - 5) * 0.5;
@@ -722,7 +739,9 @@
     impactFromTradeBalance = clamp(impactFromTradeBalance, -3, 5);
     const taxBurden = calculateTaxBurdenForNation(data, id) || {};
     const growthMultiplier = number(taxBurden.industryGrowthMultiplier, 1) || 1;
-    const baseGrowth = impactFromHealth + Math.max(impactFromTradeBalance, 0) * growthMultiplier;
+    const tradeGrowth = Math.max(impactFromTradeBalance, 0) * growthMultiplier;
+    const tradeContraction = Math.min(impactFromTradeBalance, 0) * (healthSignal < 0 ? 1.2 + Math.abs(healthSignal) / 8 : 0.65);
+    const baseGrowth = impactFromHealth + tradeGrowth + tradeContraction;
     industrial.civilianFactories = Math.max(currentFactories + Math.floor(baseGrowth * (1 + mobilization.civilianPenalty)), 0);
     industrial.militaryFactories = Math.max(currentMilitaryFactories + Math.floor(baseGrowth * mobilization.militaryGrowthMultiplier), 0);
     industrial.shipyards = Math.max(currentShipyards + Math.floor(baseGrowth / 3), 0);
