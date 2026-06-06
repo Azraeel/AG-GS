@@ -1,0 +1,15 @@
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const test = require("node:test");
+
+const ROOT = path.resolve(__dirname, "..");
+
+["site/index.html", "site/admin/index.html"].forEach((relativePath) => {
+  test(`${relativePath} allows Cloudflare analytics under the CSP`, () => {
+    const html = fs.readFileSync(path.join(ROOT, relativePath), "utf8");
+
+    assert.match(html, /script-src[^;]*https:\/\/static\.cloudflareinsights\.com/);
+    assert.match(html, /connect-src[^;]*https:\/\/cloudflareinsights\.com/);
+  });
+});
