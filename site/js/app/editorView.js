@@ -378,11 +378,14 @@
           ${recent.length ? `
             <div class="rail-change-list">
               ${recent
-                .map((entry) => `
+                .map((entry) => {
+                  const impacts = visibleChangeImpacts(entry).slice(0, 3);
+                  return `
                   <div class="rail-change-row">
                     <strong>${escapeHtml(entry.label || entry.field || "Edit")}</strong>
-                    <div class="change-impact">${(entry.changes || entry.deltas || []).length ? (entry.changes || entry.deltas).slice(0, 3).map(renderChangeBadge).join("") : `<span class="status">No calculated change</span>`}</div>
-                  </div>`)
+                    <div class="change-impact">${impacts.length ? impacts.map(renderChangeBadge).join("") : `<span class="status">No calculated change</span>`}</div>
+                  </div>`;
+                })
                 .join("")}
             </div>` : `<div class="empty compact">No changes recorded yet.</div>`}
         </section>

@@ -18,4 +18,8 @@ test("debt UI exposes service rate as Interest Rate and keeps risk rate internal
   assert.match(editorView, /fieldControl\("national",\s*"debtServiceRate",\s*"Interest Rate %"/);
   assert.doesNotMatch(editorView, /fieldControl\("national",\s*"interestRate"/);
   assert.match(app, /"national\.interestRate"/);
+  assert.match(app, /function visibleChangeImpacts\(entry\)/);
+  assert.match(editorView, /const impacts = visibleChangeImpacts\(entry\)\.slice\(0,\s*3\);/);
+  assert.match(editorView, /impacts\.map\(renderChangeBadge\)/);
+  assert.doesNotMatch(editorView, /\(entry\.changes\s*\|\|\s*entry\.deltas\s*\|\|\s*\[\]\)\.slice\(0,\s*3\)\.map\(renderChangeBadge\)/);
 });

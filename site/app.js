@@ -948,6 +948,7 @@
     overviewFact,
     changeHistoryRows,
     renderChangeBadge,
+    visibleChangeImpacts,
     renderChangeHistoryPanel,
     detailItem,
     fieldKey,
@@ -1134,6 +1135,10 @@
     "national.projectedTreasuryReserve"
   ]);
 
+  function visibleChangeImpacts(entry) {
+    return (entry?.changes || entry?.deltas || []).filter((change) => !internalChangeKeys.has(change.key));
+  }
+
   function valuesMatch(left, right) {
     if (left === right) return true;
     const leftNumber = Engine.number(left, NaN);
@@ -1216,7 +1221,7 @@
               <span>Impact</span>
             </div>
             ${rows.map((entry) => {
-              const impacts = (entry.changes || entry.deltas || []).filter((change) => !internalChangeKeys.has(change.key));
+              const impacts = visibleChangeImpacts(entry);
               return `
                 <article class="history-list-row" role="row">
                   <div class="history-time" role="cell">${historyTime(entry.changedAt)}</div>
