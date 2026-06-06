@@ -15,6 +15,7 @@
       render,
       ensureSelectedNation,
       populateNationSelect,
+      applyRouteFromLocation,
       clearPendingChanges
     } = ctx;
     const AUTO_PUBLISH_DELAY_MS = 1800;
@@ -96,6 +97,7 @@
       sharedSync.updatedBy = payload.updatedBy || nextData.meta?.updatedBy || "";
       saveLedger({ touch: false });
       populateNationSelect();
+      applyRouteFromLocation?.(false);
       updateSourceNote();
       state.notice = "";
       render();

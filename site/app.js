@@ -292,6 +292,34 @@
     ensureSelectedNation();
   }
 
+  let wikiRoute = null;
+
+  function pushRouteHash(hash) {
+    if (!hash || window.location.hash === hash) return;
+    window.history.pushState(null, "", hash);
+  }
+
+  function clearWikiRouteHash() {
+    if (!window.location.hash.toLowerCase().startsWith("#wiki")) return;
+    window.history.pushState(null, "", `${window.location.pathname}${window.location.search}`);
+  }
+
+  function applyRouteFromLocation(renderNow = false) {
+    if (!wikiRoute) return false;
+    const applied = wikiRoute.applyHashToState(state, window.location.hash);
+    if (applied && renderNow) render();
+    return applied;
+  }
+
+  function syncTabRoute(tabKey) {
+    if (!wikiRoute) return;
+    if (tabKey === "wiki") {
+      wikiRoute.pushHome();
+    } else {
+      clearWikiRouteHash();
+    }
+  }
+
   function populationFor(id, year = data.meta.currentYear) {
     return Engine.getPopulation(data, id, year);
   }
@@ -311,6 +339,7 @@
     render,
     ensureSelectedNation,
     populateNationSelect,
+    applyRouteFromLocation,
     clearPendingChanges: () => {
       clearPendingEditDraft();
       pendingEdits.clear();
@@ -1456,6 +1485,13 @@
   });
   const { renderNaval, renderEquipment, renderRosterImport, renderTemplateImport, renderAudit, auditRows } = recordsViews;
 
+  wikiRoute = window.AGGS_APP_MODULES.createWikiRoute({
+    Engine,
+    getData: () => data,
+    isAdmin,
+    pushHash: pushRouteHash
+  });
+
   const wikiView = window.AGGS_APP_MODULES.createWikiView({
     getData: () => data,
     app,
@@ -1468,6 +1504,8 @@
     fmtNumber,
     fmtYear,
     fmtDateTime,
+    wikiPageUrl: wikiRoute.hashForPage,
+    setWikiRoute: wikiRoute.pushPage,
     saveWorkingState,
     render
   });
@@ -1555,6 +1593,7 @@
       flushPendingEdit(false);
       const changedTab = state.tab !== tab.dataset.tab;
       state.tab = tab.dataset.tab;
+      syncTabRoute(state.tab);
       render();
       if (changedTab) scrollToPageTop();
     });
@@ -1572,6 +1611,7 @@
       if (!canAccessTab(nextTab)) return;
       flushPendingEdit(false);
       state.tab = nextTab;
+      syncTabRoute(state.tab);
       render();
       scrollToPageTop();
     });
@@ -1763,6 +1803,7 @@
     } else {
       state.tab = value;
     }
+    syncTabRoute(state.tab);
     render();
   }
 
@@ -2085,6 +2126,15 @@
     flushPendingEdit(false);
   });
 
+  window.addEventListener("hashchange", () => {
+    if (applyRouteFromLocation(true)) scrollToPageTop();
+  });
+
+  window.addEventListener("popstate", () => {
+    if (applyRouteFromLocation(true)) scrollToPageTop();
+  });
+
+  applyRouteFromLocation(false);
   render();
   startSharedSync();
 })();

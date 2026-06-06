@@ -4,6 +4,10 @@
   window.AGGS_APP_MODULES.createWikiView = function createWikiView(ctx) {
     const runtime = {
       ...ctx,
+      wikiPageUrl: typeof ctx.wikiPageUrl === "function"
+        ? ctx.wikiPageUrl
+        : (page) => `#wiki/${encodeURIComponent(page?.slug || page?.id || "")}`,
+      setWikiRoute: typeof ctx.setWikiRoute === "function" ? ctx.setWikiRoute : () => {},
       get data() {
         return ctx.getData();
       }
@@ -73,6 +77,18 @@
       || pages[0]
       || allPages.find((page) => !page.archived && (isAdmin || page.status === "published"))
       || null;
+  }
+
+  function wikiPageById(id) {
+    return Engine.wikiPages(data, { includeArchived: isAdmin }).find((page) => page.id === id) || null;
+  }
+
+  function selectWikiPage(id, updateRoute = true) {
+    state.selectedWikiPageId = id;
+    state.wikiDraft = null;
+    const page = wikiPageById(id);
+    render();
+    if (updateRoute && page) setWikiRoute(page);
   }
 
   function wikiYearLabel(page) {
@@ -242,6 +258,7 @@
             ${page.summary ? `<p>${safeText(page.summary)}</p>` : ""}
           </div>
           <div class="wiki-article-actions">
+            <a class="wiki-permalink" href="${escapeHtml(wikiPageUrl(page))}">Page Link</a>
             ${safeStatus(page.status === "published" ? "Published" : "Draft", page.status === "published" ? "positive" : "warning")}
             ${page.archived ? safeStatus("Archived") : ""}
             ${isAdmin ? `<button class="command compact" type="button" data-action="wiki-edit">Edit</button>` : ""}
@@ -502,15 +519,14 @@
     const page = Engine.saveWikiPage(data, state.wikiDraft || {});
     state.selectedWikiPageId = page.id;
     state.wikiDraft = null;
+    setWikiRoute(page);
     saveWorkingState(`Wiki page saved: ${page.title}.`);
   }
 
   function handleClick(event) {
     const pageButton = event.target.closest?.("[data-wiki-page]");
     if (pageButton) {
-      state.selectedWikiPageId = pageButton.dataset.wikiPage;
-      state.wikiDraft = null;
-      render();
+      selectWikiPage(pageButton.dataset.wikiPage);
       return true;
     }
     const actionButton = event.target.closest?.("[data-action]");

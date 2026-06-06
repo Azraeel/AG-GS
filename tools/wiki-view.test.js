@@ -58,7 +58,7 @@ function textFormat(value) {
   return String(value ?? "");
 }
 
-function createWikiView({ isAdmin = false } = {}) {
+function createWikiView({ isAdmin = false, wikiPageUrl = null, setWikiRoute = null } = {}) {
   const runtime = loadRuntime();
   const Engine = runtime.AGGS_ENGINE;
   const data = Engine.normalizeState(emptyState());
@@ -86,6 +86,8 @@ function createWikiView({ isAdmin = false } = {}) {
     fmtNumber: textFormat,
     fmtYear: textFormat,
     fmtDateTime: textFormat,
+    wikiPageUrl,
+    setWikiRoute,
     saveWorkingState: (message) => {
       state.notice = message;
     },
@@ -108,7 +110,11 @@ test("wiki view renders the Avant wiki shell for public readers", () => {
 });
 
 test("admin wiki view can create and save a page draft", () => {
-  const { data, app, state, view } = createWikiView({ isAdmin: true });
+  const routed = [];
+  const { data, app, state, view } = createWikiView({
+    isAdmin: true,
+    setWikiRoute: (page) => routed.push(page.slug)
+  });
 
   view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-new" } }));
   assert.match(app.innerHTML, /wiki-editor/);
@@ -119,6 +125,7 @@ test("admin wiki view can create and save a page draft", () => {
 
   assert.equal(state.selectedWikiPageId, "timeline-of-aurendale");
   assert.equal(data.wiki.pages["timeline-of-aurendale"].title, "Timeline of Aurendale");
+  assert.deepEqual(routed, ["timeline-of-aurendale"]);
   assert.match(state.notice, /Wiki page saved/);
 });
 
@@ -265,4 +272,33 @@ test("admin wiki missing link action starts a sourced draft", () => {
   assert.equal(state.wikiDraft.relatedPageIds, "river-league");
   assert.match(state.wikiDraft.body, /\[\[River League\]\]/);
   assert.match(app.innerHTML, /value="Missing Treaty"/);
+});
+
+test("wiki articles expose permalinks and sync route on page navigation", () => {
+  const routed = [];
+  const { Engine, data, app, state, view } = createWikiView({
+    wikiPageUrl: (page) => `#wiki/${page.slug}`,
+    setWikiRoute: (page) => routed.push(page.slug)
+  });
+  Engine.saveWikiPage(data, {
+    title: "Aurendale",
+    category: "Nation",
+    status: "published"
+  });
+  Engine.saveWikiPage(data, {
+    title: "River League",
+    category: "Organization",
+    status: "published"
+  });
+
+  state.selectedWikiPageId = "aurendale";
+  view.renderWiki();
+
+  assert.match(app.innerHTML, /href="#wiki\/aurendale"/);
+  assert.match(app.innerHTML, />Page Link<\/a>/);
+
+  view.handleClick(fakeEvent("[data-wiki-page]", { dataset: { wikiPage: "river-league" } }));
+
+  assert.equal(state.selectedWikiPageId, "river-league");
+  assert.deepEqual(routed, ["river-league"]);
 });
