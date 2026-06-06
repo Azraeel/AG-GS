@@ -28,6 +28,26 @@
     };
   }
 
+  function wikiReferenceTitle(title) {
+    return String(title || "").replace(/[\[\]]/g, "").trim();
+  }
+
+  function wikiMissingLinkDraft(title) {
+    const draftTitle = wikiReferenceTitle(title) || "Untitled Page";
+    const audit = Engine.wikiContentAudit(data, { includeArchived: state.wikiShowArchived });
+    const entry = audit.missingLinks.find((link) => link.title.toLowerCase() === draftTitle.toLowerCase());
+    const sourcePages = entry?.from || [];
+    return wikiDraftFromPage({
+      title: draftTitle,
+      category: "Concept",
+      status: "draft",
+      body: sourcePages.length
+        ? `Referenced by ${sourcePages.map((page) => `[[${wikiReferenceTitle(page.title)}]]`).join(", ")}.`
+        : "",
+      relatedPageIds: sourcePages.map((page) => page.id)
+    });
+  }
+
   function factsToText(facts = []) {
     return (facts || [])
       .map((fact) => `${fact.label || ""}: ${fact.value || ""}`)
@@ -237,7 +257,7 @@
           <div class="wiki-tags">${(page.tags || []).map((tag) => `<span>${safeText(tag)}</span>`).join("") || `<span>No tags</span>`}</div>
           ${refs.outbound.length ? `<div class="wiki-related"><strong>Links</strong>${refs.outbound.map((item) => `<button type="button" data-wiki-page="${escapeHtml(item.id)}">${safeText(item.title)}</button>`).join("")}</div>` : ""}
           ${refs.backlinks.length ? `<div class="wiki-related"><strong>Linked From</strong>${refs.backlinks.map((item) => `<button type="button" data-wiki-page="${escapeHtml(item.id)}">${safeText(item.title)}</button>`).join("")}</div>` : ""}
-          ${refs.missingLinks.length ? `<div class="wiki-related wiki-missing-links"><strong>Missing</strong>${refs.missingLinks.map((item) => `<span>${safeText(item)}</span>`).join("")}</div>` : ""}
+          ${refs.missingLinks.length ? `<div class="wiki-related wiki-missing-links"><strong>Missing</strong>${refs.missingLinks.map((item) => wikiMissingLinkLabel(item)).join("")}</div>` : ""}
         </footer>
       </article>`;
   }
@@ -273,16 +293,26 @@
       </button>`).join("");
   }
 
+  function wikiMissingLinkAction(title, label = title) {
+    return `<button type="button" data-action="wiki-start-missing" data-wiki-missing-title="${escapeHtml(title)}">${safeText(label)}</button>`;
+  }
+
+  function wikiMissingLinkLabel(title) {
+    return isAdmin
+      ? wikiMissingLinkAction(title)
+      : `<span>${safeText(title)}</span>`;
+  }
+
   function wikiWorkbenchMissingRows(links) {
     if (!links.length) return `<div class="empty compact">No missing links.</div>`;
     return links.slice(0, 6).map((link) => `
-      <div class="wiki-workbench-row is-static">
+      <button class="wiki-workbench-row" type="button" data-action="wiki-start-missing" data-wiki-missing-title="${escapeHtml(link.title)}">
         <span>
           <strong>${safeText(link.title)}</strong>
           <small>${safeText(link.from.map((page) => page.title).join(", "))}</small>
         </span>
         <span class="status warning">${safeText(fmtNumber(link.count))}</span>
-      </div>`).join("");
+      </button>`).join("");
   }
 
   function wikiWorkbenchCategoryRows(counts) {
@@ -487,8 +517,13 @@
     if (!actionButton) return false;
     const action = actionButton.dataset.action;
     if (!action.startsWith("wiki-")) return false;
-    if (["wiki-new", "wiki-edit", "wiki-save", "wiki-archive", "wiki-restore", "wiki-apply-fact-template"].includes(action) && !isAdmin) {
+    if (["wiki-new", "wiki-edit", "wiki-save", "wiki-archive", "wiki-restore", "wiki-apply-fact-template", "wiki-start-missing"].includes(action) && !isAdmin) {
       state.notice = "Admin access is required for wiki edits.";
+      render();
+      return true;
+    }
+    if (action === "wiki-start-missing") {
+      state.wikiDraft = wikiMissingLinkDraft(actionButton.dataset.wikiMissingTitle || "");
       render();
       return true;
     }

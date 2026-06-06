@@ -237,3 +237,32 @@ test("admin wiki view renders content workbench without exposing it publicly", (
 
   assert.doesNotMatch(publicView.app.innerHTML, /Wiki Workbench/);
 });
+
+test("admin wiki missing link action starts a sourced draft", () => {
+  const { Engine, data, app, state, view } = createWikiView({ isAdmin: true });
+  Engine.saveWikiPage(data, {
+    title: "River League",
+    category: "Organization",
+    status: "published",
+    body: "The league backed the [[Missing Treaty]]."
+  });
+
+  view.renderWiki();
+
+  assert.match(app.innerHTML, /data-action="wiki-start-missing"/);
+  assert.match(app.innerHTML, /data-wiki-missing-title="Missing Treaty"/);
+
+  view.handleClick(fakeEvent("[data-action]", {
+    dataset: {
+      action: "wiki-start-missing",
+      wikiMissingTitle: "Missing Treaty"
+    }
+  }));
+
+  assert.equal(state.wikiDraft.title, "Missing Treaty");
+  assert.equal(state.wikiDraft.category, "Concept");
+  assert.equal(state.wikiDraft.status, "draft");
+  assert.equal(state.wikiDraft.relatedPageIds, "river-league");
+  assert.match(state.wikiDraft.body, /\[\[River League\]\]/);
+  assert.match(app.innerHTML, /value="Missing Treaty"/);
+});

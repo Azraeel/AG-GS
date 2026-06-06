@@ -349,17 +349,24 @@
 }
 
 .wiki-tags span,
-.wiki-missing-links span {
+.wiki-missing-links span,
+.wiki-missing-links button {
   border: 1px solid var(--line);
   background: var(--status-bg);
+  color: var(--muted);
   padding: 4px 8px;
   font-size: 12px;
   font-weight: 900;
+  text-decoration: none;
 }
 
-.wiki-missing-links span {
+.wiki-missing-links span,
+.wiki-missing-links button {
   border-style: dashed;
-  color: var(--muted);
+}
+
+.wiki-missing-links button {
+  cursor: pointer;
 }
 
 .wiki-related strong {
@@ -426,19 +433,10 @@
   cursor: pointer;
 }
 
-.wiki-workbench-row.is-static {
-  cursor: default;
-}
-
 .wiki-workbench-row strong,
 .wiki-workbench-row small {
   display: block;
   overflow-wrap: anywhere;
-}
-
-.wiki-workbench-row.is-static:hover {
-  border-color: var(--warning-border);
-  background: var(--panel);
 }
 
 .wiki-workbench-categories {
