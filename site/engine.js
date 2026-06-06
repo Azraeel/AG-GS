@@ -48,6 +48,8 @@
   const POPULATION_FORMULAS = {
     population2026: "Demographic pressure model"
   };
+  const WIKI_CATEGORIES = ["Overview", "Era", "Event", "Nation", "Region", "Person", "Organization", "Concept", "Culture", "Conflict", "Treaty"];
+  const WIKI_STATUSES = ["draft", "published"];
   const TARIFF_POLICY_LIMITS = { "Free Trade": 3, "Open Market": 5, Balanced: 8, Protectionist: 12 };
   const TARIFF_POLICY_SENSITIVITY = { "Free Trade": 1.35, "Open Market": 1.18, Balanced: 1, Protectionist: 0.78 };
   const FISCAL_MODELS = {
@@ -187,6 +189,7 @@
       ? data.tradeNetwork.lanePolicies
       : {};
     normalizeDebtServiceRates(data);
+    ensureWikiState(data);
     return data;
   }
 
@@ -250,6 +253,257 @@
       national.debtServiceRate = roundPercent(serviceRate);
       if (isBlank(national.projectedDebtServiceRate)) national.projectedDebtServiceRate = national.debtServiceRate;
     });
+  }
+
+  function wikiSlug(value) {
+    return String(value || "")
+      .trim()
+      .toLowerCase()
+      .replace(/['"]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "") || "wiki-page";
+  }
+
+  function wikiArray(value) {
+    if (Array.isArray(value)) return value.map((item) => String(item || "").trim()).filter(Boolean);
+    return String(value || "")
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  function wikiYearBounds(rawWiki = {}) {
+    const rawStart = number(rawWiki.meta?.startYear, 0);
+    const rawEnd = number(rawWiki.meta?.endYear, 2020);
+    return {
+      startYear: Math.round(Math.min(rawStart, rawEnd)),
+      endYear: Math.round(Math.max(rawStart, rawEnd))
+    };
+  }
+
+  function normalizeWikiYear(value, bounds) {
+    if (value === "" || value === null || value === undefined) return "";
+    return Math.round(clamp(number(value, bounds.startYear), bounds.startYear, bounds.endYear));
+  }
+
+  function uniqueWikiPageId(data, title, existingId = "") {
+    const pages = data.wiki?.pages || {};
+    const base = wikiSlug(title);
+    if (existingId && pages[existingId]) return existingId;
+    let next = base;
+    let suffix = 2;
+    while (pages[next]) {
+      next = `${base}-${suffix}`;
+      suffix += 1;
+    }
+    return next;
+  }
+
+  function normalizeWikiPage(page = {}, fallbackId = "", bounds = { startYear: 0, endYear: 2020 }) {
+    const title = String(page.title || fallbackId || "Untitled Page").trim();
+    const id = String(page.id || fallbackId || wikiSlug(title)).trim();
+    const category = WIKI_CATEGORIES.includes(page.category) ? page.category : "Concept";
+    const status = WIKI_STATUSES.includes(page.status) ? page.status : "draft";
+    let yearStart = normalizeWikiYear(page.yearStart, bounds);
+    let yearEnd = normalizeWikiYear(page.yearEnd, bounds);
+    if (yearStart !== "" && yearEnd !== "" && yearEnd < yearStart) {
+      [yearStart, yearEnd] = [yearEnd, yearStart];
+    }
+    return {
+      id,
+      slug: wikiSlug(page.slug || title),
+      title,
+      category,
+      status,
+      era: String(page.era || "").trim(),
+      yearStart,
+      yearEnd,
+      summary: String(page.summary || "").trim(),
+      body: String(page.body || "").trim(),
+      tags: wikiArray(page.tags),
+      aliases: wikiArray(page.aliases),
+      relatedPageIds: wikiArray(page.relatedPageIds),
+      archived: Boolean(page.archived),
+      createdAt: page.createdAt || new Date().toISOString(),
+      updatedAt: page.updatedAt || new Date().toISOString()
+    };
+  }
+
+  function ensureWikiState(data) {
+    const rawWiki = data.wiki && typeof data.wiki === "object" && !Array.isArray(data.wiki) ? data.wiki : {};
+    const bounds = wikiYearBounds(rawWiki);
+    const rawPages = rawWiki.pages && typeof rawWiki.pages === "object" ? rawWiki.pages : {};
+    const pages = {};
+    Object.entries(rawPages).forEach(([id, page]) => {
+      const normalized = normalizeWikiPage({ ...page, id: page?.id || id }, id, bounds);
+      pages[normalized.id] = normalized;
+    });
+    data.wiki = {
+      meta: {
+        title: rawWiki.meta?.title || "Avant World Wiki",
+        startYear: bounds.startYear,
+        endYear: bounds.endYear,
+        updatedAt: rawWiki.meta?.updatedAt || data.meta?.updatedAt || new Date().toISOString()
+      },
+      pages
+    };
+    return data.wiki;
+  }
+
+  function wikiPages(data, options = {}) {
+    ensureWikiState(data);
+    const includeArchived = options.includeArchived === true;
+    return Object.values(data.wiki.pages)
+      .filter((page) => includeArchived || !page.archived)
+      .sort((left, right) => {
+        const leftYear = left.yearStart === "" ? Number.POSITIVE_INFINITY : number(left.yearStart, Number.POSITIVE_INFINITY);
+        const rightYear = right.yearStart === "" ? Number.POSITIVE_INFINITY : number(right.yearStart, Number.POSITIVE_INFINITY);
+        if (leftYear !== rightYear) return leftYear - rightYear;
+        return left.title.localeCompare(right.title, "en", { sensitivity: "base" });
+      });
+  }
+
+  function wikiInlineTargets(text) {
+    const targets = [];
+    String(text || "").replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, target) => {
+      const trimmed = String(target || "").trim();
+      if (trimmed) targets.push(trimmed);
+      return match;
+    });
+    return targets;
+  }
+
+  function wikiPageLookup(data, options = {}) {
+    const lookup = new Map();
+    wikiPages(data, { includeArchived: options.includeArchived }).forEach((page) => {
+      lookup.set(page.id.toLowerCase(), page);
+      lookup.set(page.slug.toLowerCase(), page);
+      lookup.set(page.title.toLowerCase(), page);
+      (page.aliases || []).forEach((alias) => lookup.set(alias.toLowerCase(), page));
+    });
+    return lookup;
+  }
+
+  function uniqueWikiPages(pages) {
+    const seen = new Set();
+    return pages.filter((page) => {
+      if (!page || seen.has(page.id)) return false;
+      seen.add(page.id);
+      return true;
+    });
+  }
+
+  function uniqueWikiStrings(values) {
+    const seen = new Set();
+    return values.filter((value) => {
+      const key = String(value || "").trim().toLowerCase();
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  function wikiReferencesForPage(data, page, lookup) {
+    const outbound = [];
+    const missingLinks = [];
+    const targets = [
+      ...(page.relatedPageIds || []),
+      ...wikiInlineTargets(page.summary),
+      ...wikiInlineTargets(page.body)
+    ];
+    targets.forEach((target) => {
+      const linkedPage = lookup.get(String(target).toLowerCase());
+      if (linkedPage) {
+        if (linkedPage.id !== page.id) outbound.push(linkedPage);
+      } else {
+        missingLinks.push(target);
+      }
+    });
+    return {
+      outbound: uniqueWikiPages(outbound),
+      missingLinks: uniqueWikiStrings(missingLinks)
+    };
+  }
+
+  function wikiPageReferences(data, id, options = {}) {
+    ensureWikiState(data);
+    const page = data.wiki.pages[id] || null;
+    if (!page) return { page: null, outbound: [], backlinks: [], missingLinks: [], isOrphan: true };
+    const pages = wikiPages(data, { includeArchived: options.includeArchived });
+    const lookup = wikiPageLookup(data, { includeArchived: options.includeArchived });
+    const refs = wikiReferencesForPage(data, page, lookup);
+    const backlinks = pages
+      .filter((candidate) => candidate.id !== page.id)
+      .filter((candidate) => wikiReferencesForPage(data, candidate, lookup).outbound.some((linkedPage) => linkedPage.id === page.id));
+    return {
+      page,
+      outbound: refs.outbound,
+      backlinks,
+      missingLinks: refs.missingLinks,
+      isOrphan: backlinks.length === 0
+    };
+  }
+
+  function searchWikiPages(data, query = "", filters = {}) {
+    const q = String(query || "").trim().toLowerCase();
+    const yearFilter = filters.year === "" || filters.year === null || filters.year === undefined ? null : number(filters.year, null);
+    return wikiPages(data, { includeArchived: filters.includeArchived })
+      .filter((page) => {
+        if (filters.status && filters.status !== "all") return page.status === filters.status;
+        return filters.includeDrafts || page.status === "published";
+      })
+      .filter((page) => !filters.category || filters.category === "all" || page.category === filters.category)
+      .filter((page) => !filters.era || filters.era === "all" || page.era === filters.era)
+      .filter((page) => {
+        if (yearFilter === null) return true;
+        const start = page.yearStart === "" ? Number.NEGATIVE_INFINITY : number(page.yearStart, Number.NEGATIVE_INFINITY);
+        const end = page.yearEnd === "" ? start : number(page.yearEnd, start);
+        return yearFilter >= start && yearFilter <= end;
+      })
+      .filter((page) => {
+        if (!q) return true;
+        const haystack = [
+          page.title,
+          page.category,
+          page.era,
+          page.summary,
+          page.body,
+          ...page.tags,
+          ...page.aliases
+        ].join(" ").toLowerCase();
+        return haystack.includes(q);
+      });
+  }
+
+  function saveWikiPage(data, page) {
+    ensureState(data);
+    const existingId = page?.id && data.wiki.pages[page.id] ? page.id : "";
+    const id = existingId || uniqueWikiPageId(data, page?.title || "Untitled Page");
+    const existing = data.wiki.pages[id] || {};
+    const now = new Date().toISOString();
+    const normalized = normalizeWikiPage({
+      ...existing,
+      ...page,
+      id,
+      createdAt: existing.createdAt || page?.createdAt || now,
+      updatedAt: now
+    }, id, data.wiki.meta);
+    data.wiki.pages[id] = normalized;
+    data.wiki.meta.updatedAt = now;
+    data.meta.updatedAt = now;
+    return normalized;
+  }
+
+  function archiveWikiPage(data, id, archived = true) {
+    ensureState(data);
+    const page = data.wiki.pages[id];
+    if (!page) return null;
+    const now = new Date().toISOString();
+    page.archived = Boolean(archived);
+    page.updatedAt = now;
+    data.wiki.meta.updatedAt = now;
+    data.meta.updatedAt = now;
+    return page;
   }
 
   function recalculationSignature(data) {
@@ -977,12 +1231,19 @@
     recalculateAll,
     recalculateTrade,
     recalculateBudgets,
+    ensureWikiState,
+    wikiSlug,
+    wikiPages,
+    wikiPageReferences,
+    searchWikiPages,
+    saveWikiPage,
+    archiveWikiPage,
     advancePopulation,
     advanceIndustry,
     advanceToYear,
     updateValue,
     snapshot,
     exportDataJs,
-    constants: { HEALTH_GROWTH, HEALTH_DEMOGRAPHICS, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, CHILD_POLICY_POPULATION_EFFECT, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, POPULATION_FORMULAS, FISCAL_MODELS, TARIFF_POLICY_LIMITS }
+    constants: { HEALTH_GROWTH, HEALTH_DEMOGRAPHICS, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, CHILD_POLICY_POPULATION_EFFECT, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, POPULATION_FORMULAS, FISCAL_MODELS, TARIFF_POLICY_LIMITS, WIKI_CATEGORIES, WIKI_STATUSES }
   };
 })();

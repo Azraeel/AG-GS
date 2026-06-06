@@ -72,6 +72,14 @@
     tab: "overview",
     query: "",
     selectedNation: "solara",
+    selectedWikiPageId: "",
+    wikiQuery: "",
+    wikiCategoryFilter: "all",
+    wikiEraFilter: "all",
+    wikiYearFilter: "",
+    wikiStatusFilter: "all",
+    wikiShowArchived: false,
+    wikiDraft: null,
     selectedEquipmentDesignId: "",
     equipmentCategoryFilter: "all",
     rosterImportText: "",
@@ -1443,6 +1451,23 @@
   });
   const { renderNaval, renderEquipment, renderRosterImport, renderTemplateImport, renderAudit, auditRows } = recordsViews;
 
+  const wikiView = window.AGGS_APP_MODULES.createWikiView({
+    getData: () => data,
+    app,
+    state,
+    isAdmin,
+    Engine,
+    safeText,
+    escapeHtml,
+    safeStatus,
+    fmtNumber,
+    fmtYear,
+    fmtDateTime,
+    saveWorkingState,
+    render
+  });
+  const { renderWiki } = wikiView;
+
   let editRenderTimer = null;
   let editApplyTimer = null;
   let pendingEditDraft = null;
@@ -1491,6 +1516,7 @@
     renderContextToolbar();
     const renderers = {
       overview: renderOverview,
+      wiki: renderWiki,
       simulation: renderSimulation,
       editor: renderEditor,
       history: renderHistory,
@@ -1531,6 +1557,17 @@
       setTheme(currentTheme() === "dark" ? "light" : "dark");
     });
   }
+
+  document.querySelectorAll("[data-tab-jump]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const nextTab = button.dataset.tabJump || "overview";
+      if (!canAccessTab(nextTab)) return;
+      flushPendingEdit(false);
+      state.tab = nextTab;
+      render();
+      scrollToPageTop();
+    });
+  });
 
   app.addEventListener("pointerdown", (event) => {
     const dragHandle = event.target.closest?.("[data-trade-map-panel-drag]");
@@ -1725,6 +1762,7 @@
     if (["currentYearInput", "targetYearInput", "worldHealthInput"].includes(event.target.id)) {
       updateSimulationPreview(event.target.id);
     }
+    if (wikiView.handleInput?.(event)) return;
     const edit = event.target.closest("[data-edit]");
     if (edit) scheduleEditApply(edit);
   });
@@ -1737,6 +1775,7 @@
   app.addEventListener("click", async (event) => {
     if (!event.target.closest("[data-edit]")) flushPendingEdit(false);
     if (recordsViews.handleClick?.(event)) return;
+    if (wikiView.handleClick?.(event)) return;
 
     const actionButton = event.target.closest("[data-action]");
     if (actionButton) {
@@ -1922,6 +1961,7 @@
 
   app.addEventListener("change", (event) => {
     if (recordsViews.handleChange?.(event)) return;
+    if (wikiView.handleChange?.(event)) return;
 
     const viewSelect = event.target.closest("[data-view-select]");
     if (viewSelect) {

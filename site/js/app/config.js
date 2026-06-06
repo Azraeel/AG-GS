@@ -35,7 +35,11 @@
       "clear-import-anchor",
       "preview-trade-generator",
       "apply-trade-generator",
-      "clear-trade-generator-preview"
+      "clear-trade-generator-preview",
+      "wiki-new",
+      "wiki-save",
+      "wiki-archive",
+      "wiki-restore"
     ],
     datasets: [
       { key: "national", label: "National" },
@@ -50,6 +54,7 @@
     ],
     viewOptions: [
       { key: "overview", label: "Overview" },
+      { key: "wiki", label: "Wiki" },
       { key: "editor", label: "Editor", adminOnly: true },
       { key: "nations", label: "Nations" },
       { key: "tradeNetwork", label: "Trade" },

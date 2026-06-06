@@ -237,6 +237,10 @@ h3 {
   box-shadow: 0 8px 22px rgba(240, 195, 59, 0.18);
 }
 
+.top-cta-button {
+  cursor: pointer;
+}
+
 .top-cta:hover,
 .top-cta:focus-visible {
   filter: brightness(1.02);
