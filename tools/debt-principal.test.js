@@ -108,11 +108,11 @@ test("budget capacity growth does not instantly reprice existing debt service", 
   assert.equal(fiscal.debtPrincipal, 21000);
   assert.equal(fiscal.debtPercent, 123.53);
   assert.equal(fiscal.debtServiceRate, 35);
-  assert.ok(fiscal.interestRate < fiscal.debtServiceRate, `expected market rate below locked service rate, got ${fiscal.interestRate} vs ${fiscal.debtServiceRate}`);
+  assert.ok(fiscal.interestRate < fiscal.debtServiceRate, `expected repricing target below locked service rate, got ${fiscal.interestRate} vs ${fiscal.debtServiceRate}`);
   assert.equal(fiscal.debtService, 7350);
 });
 
-test("annual debt update slowly reprices service rate toward market rate", () => {
+test("annual debt update slowly reprices service rate toward the current repricing target", () => {
   const Engine = loadEngine();
   const data = debtFixture();
   data.national.volgastan.budgetCapacity = 17000;
@@ -123,7 +123,7 @@ test("annual debt update slowly reprices service rate toward market rate", () =>
   const expectedNextRate = Number((35 + (update.interestRate - 35) * 0.2).toFixed(2));
 
   assert.equal(update.debtServiceRate, 35);
-  assert.ok(update.interestRate < update.debtServiceRate, `expected lower market rate, got ${update.interestRate} vs ${update.debtServiceRate}`);
+  assert.ok(update.interestRate < update.debtServiceRate, `expected lower repricing target, got ${update.interestRate} vs ${update.debtServiceRate}`);
   assert.equal(update.nextDebtServiceRate, expectedNextRate);
   assert.ok(update.nextDebtServiceRate > update.interestRate, `expected repricing to be gradual, got ${update.nextDebtServiceRate} vs ${update.interestRate}`);
 });

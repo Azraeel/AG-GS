@@ -989,7 +989,7 @@
       debtService: "Debt Service",
       computedInterestRate: "Modeled Interest",
       interestRateAdjustment: "Manual Interest Adjustment",
-      interestRate: "Risk Rate",
+      interestRate: "Interest Rate",
       debtServiceRate: "Interest Rate",
       debtRepayment: "Debt Repayment",
       deficitBorrowing: "Deficit Borrowing",
@@ -1107,6 +1107,7 @@
   const internalChangeKeys = new Set([
     "national.computedInterestRate",
     "national.interestRateAdjustment",
+    "national.interestRate",
     "national.projectedDebtServiceRate",
     "national.debtRisk",
     "national.stabilityRisk",

@@ -450,7 +450,6 @@
               ${fieldControl("national", "treasuryReserve", "Treasury Reserve", national.treasuryReserve ?? 0)}
               ${fieldControl("national", "debt", "Debt %", national.debt ?? 0)}
               ${fieldControl("national", "debtServiceRate", "Interest Rate %", national.debtServiceRate ?? national.interestRate ?? Engine.constants.DEBT_RULES.baseInterestRate)}
-              ${fieldControl("national", "interestRate", "Risk Rate %", national.interestRate ?? national.computedInterestRate ?? Engine.constants.DEBT_RULES.baseInterestRate)}
               ${fieldControl("national", "economicHealth", "Economic Health", national.economicHealth, "select", economicHealthOptions)}
               ${fieldControl("national", "immigrationRate", "Immigration", national.immigrationRate)}
               ${fieldControl("national", "taxRate", "Tax Rate %", national.taxRate ?? 0)}
