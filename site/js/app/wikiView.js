@@ -235,6 +235,75 @@
       </aside>`;
   }
 
+  function wikiWorkbenchPageRows(pages, emptyText) {
+    if (!pages.length) return `<div class="empty compact">${safeText(emptyText)}</div>`;
+    return pages.slice(0, 6).map((page) => `
+      <button class="wiki-workbench-row" type="button" data-wiki-page="${escapeHtml(page.id)}">
+        <span>
+          <strong>${safeText(page.title)}</strong>
+          <small>${safeText(page.category)} / ${safeText(wikiYearLabel(page))}</small>
+        </span>
+        ${page.status === "draft" ? `<span class="status warning">Draft</span>` : ""}
+      </button>`).join("");
+  }
+
+  function wikiWorkbenchMissingRows(links) {
+    if (!links.length) return `<div class="empty compact">No missing links.</div>`;
+    return links.slice(0, 6).map((link) => `
+      <div class="wiki-workbench-row is-static">
+        <span>
+          <strong>${safeText(link.title)}</strong>
+          <small>${safeText(link.from.map((page) => page.title).join(", "))}</small>
+        </span>
+        <span class="status warning">${safeText(fmtNumber(link.count))}</span>
+      </div>`).join("");
+  }
+
+  function wikiWorkbenchCategoryRows(counts) {
+    if (!counts.length) return `<span class="status">No categories</span>`;
+    return counts
+      .map((item) => `<span>${safeText(item.category)} ${safeText(fmtNumber(item.count))}</span>`)
+      .join("");
+  }
+
+  function renderWikiWorkbench() {
+    if (!isAdmin) return "";
+    const audit = Engine.wikiContentAudit(data, { includeArchived: state.wikiShowArchived });
+    return `
+      <section class="wiki-workbench" aria-label="Wiki Workbench">
+        <div class="wiki-workbench-head">
+          <div>
+            <span class="section-kicker">Lore build queue</span>
+            <h3>Wiki Workbench</h3>
+          </div>
+          <div class="wiki-workbench-metrics">
+            <span>${safeText(fmtNumber(audit.pageCount))} pages</span>
+            <span>${safeText(fmtNumber(audit.publishedCount))} published</span>
+            <span>${safeText(fmtNumber(audit.draftCount))} drafts</span>
+            ${audit.archivedCount ? `<span>${safeText(fmtNumber(audit.archivedCount))} archived</span>` : ""}
+          </div>
+        </div>
+        <div class="wiki-workbench-grid">
+          <div class="wiki-workbench-column">
+            <h4>Drafts</h4>
+            ${wikiWorkbenchPageRows(audit.draftPages, "No draft pages.")}
+          </div>
+          <div class="wiki-workbench-column">
+            <h4>Missing Links</h4>
+            ${wikiWorkbenchMissingRows(audit.missingLinks)}
+          </div>
+          <div class="wiki-workbench-column">
+            <h4>Orphans</h4>
+            ${wikiWorkbenchPageRows(audit.orphanPages, "No orphan pages.")}
+          </div>
+        </div>
+        <div class="wiki-workbench-categories" aria-label="Category counts">
+          <strong>Categories</strong>
+          ${wikiWorkbenchCategoryRows(audit.categoryCounts)}
+        </div>
+      </section>`;
+  }
+
   function editorValue(field) {
     return state.wikiDraft?.[field] ?? "";
   }
@@ -291,6 +360,7 @@
             ${isAdmin ? `<button class="command primary" type="button" data-action="wiki-new">New Page</button>` : ""}
           </div>
         </header>
+        ${renderWikiWorkbench()}
         <div class="wiki-layout">
           <aside class="wiki-library" aria-label="Wiki pages">
             <div class="wiki-search-row">

@@ -492,6 +492,59 @@
     };
   }
 
+  function wikiAuditPageSummary(page) {
+    return {
+      id: page.id,
+      title: page.title,
+      category: page.category,
+      status: page.status,
+      yearStart: page.yearStart,
+      yearEnd: page.yearEnd,
+      archived: page.archived
+    };
+  }
+
+  function wikiContentAudit(data, options = {}) {
+    ensureWikiState(data);
+    const includeArchived = options.includeArchived === true;
+    const allPages = wikiPages(data, { includeArchived: true });
+    const pages = allPages.filter((page) => includeArchived || !page.archived);
+    const missing = new Map();
+    const categoryCounts = new Map();
+
+    pages.forEach((page) => {
+      categoryCounts.set(page.category, (categoryCounts.get(page.category) || 0) + 1);
+      wikiPageReferences(data, page.id, { includeArchived }).missingLinks.forEach((title) => {
+        const key = title.toLowerCase();
+        const bucket = missing.get(key) || { title, from: [] };
+        bucket.from.push(wikiAuditPageSummary(page));
+        missing.set(key, bucket);
+      });
+    });
+
+    const byTitle = (left, right) => left.title.localeCompare(right.title, "en", { sensitivity: "base" });
+    const summarizePages = (items) => items.map(wikiAuditPageSummary).sort(byTitle);
+
+    return {
+      pageCount: pages.length,
+      publishedCount: pages.filter((page) => page.status === "published").length,
+      draftCount: pages.filter((page) => page.status === "draft").length,
+      archivedCount: allPages.filter((page) => page.archived).length,
+      draftPages: summarizePages(pages.filter((page) => page.status === "draft")),
+      orphanPages: summarizePages(pages.filter((page) => wikiPageReferences(data, page.id, { includeArchived }).isOrphan)),
+      missingLinks: Array.from(missing.values())
+        .map((entry) => ({
+          title: entry.title,
+          count: entry.from.length,
+          from: entry.from.sort(byTitle)
+        }))
+        .sort((left, right) => right.count - left.count || left.title.localeCompare(right.title, "en", { sensitivity: "base" })),
+      categoryCounts: Array.from(categoryCounts.entries())
+        .map(([category, count]) => ({ category, count }))
+        .sort((left, right) => left.category.localeCompare(right.category, "en", { sensitivity: "base" }))
+    };
+  }
+
   function searchWikiPages(data, query = "", filters = {}) {
     const q = String(query || "").trim().toLowerCase();
     const yearFilter = filters.year === "" || filters.year === null || filters.year === undefined ? null : number(filters.year, null);
@@ -1284,6 +1337,7 @@
     wikiSlug,
     wikiPages,
     wikiPageReferences,
+    wikiContentAudit,
     wikiFactTemplate,
     searchWikiPages,
     saveWikiPage,

@@ -188,6 +188,62 @@ test("wiki references resolve outbound links backlinks and missing links", () =>
   assert.deepEqual(plain(leagueRefs.missingLinks), ["Missing Treaty"]);
 });
 
+test("wiki content audit summarizes drafts missing links orphans and categories", () => {
+  const Engine = loadEngine();
+  const data = Engine.normalizeState(emptyState());
+  Engine.saveWikiPage(data, {
+    title: "Aurendale",
+    category: "Nation",
+    status: "published",
+    aliases: "The Crown"
+  });
+  Engine.saveWikiPage(data, {
+    title: "River League",
+    category: "Organization",
+    status: "published",
+    body: "The league backed [[The Crown|Aurendale]] during the [[Missing Treaty]]."
+  });
+  Engine.saveWikiPage(data, {
+    title: "Draft Crisis",
+    category: "Event",
+    status: "draft",
+    body: "The crisis draft references [[Missing Treaty]] and [[Unmade Strait]]."
+  });
+  Engine.saveWikiPage(data, {
+    title: "Lonely Region",
+    category: "Region",
+    status: "published",
+    body: "This is useful lore but nobody links to it yet."
+  });
+  const archived = Engine.saveWikiPage(data, {
+    title: "Archived Scratch",
+    category: "Concept",
+    status: "published",
+    body: "Old scratch page with [[Missing Treaty]]."
+  });
+  Engine.archiveWikiPage(data, archived.id, true);
+
+  const audit = Engine.wikiContentAudit(data);
+
+  assert.equal(audit.pageCount, 4);
+  assert.equal(audit.publishedCount, 3);
+  assert.equal(audit.draftCount, 1);
+  assert.equal(audit.archivedCount, 1);
+  assert.deepEqual(plain(audit.draftPages.map((page) => page.id)), ["draft-crisis"]);
+  assert.deepEqual(plain(audit.missingLinks.map((link) => [link.title, link.count])), [
+    ["Missing Treaty", 2],
+    ["Unmade Strait", 1]
+  ]);
+  assert.deepEqual(plain(audit.missingLinks[0].from.map((page) => page.id)), ["draft-crisis", "river-league"]);
+  assert.deepEqual(plain(audit.orphanPages.map((page) => page.id)), ["draft-crisis", "lonely-region", "river-league"]);
+  assert.deepEqual(plain(audit.categoryCounts.map((item) => [item.category, item.count])), [
+    ["Event", 1],
+    ["Nation", 1],
+    ["Organization", 1],
+    ["Region", 1]
+  ]);
+});
+
 test("wiki facts normalize into structured lore fact sheets", () => {
   const Engine = loadEngine();
   const data = Engine.normalizeState(emptyState());

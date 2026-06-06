@@ -168,3 +168,51 @@ test("wiki article and editor support structured lore fact sheets", () => {
   assert.match(state.wikiDraft.facts, /Belligerents:/);
   assert.match(app.innerHTML, /data-wiki-field="facts"/);
 });
+
+test("admin wiki view renders content workbench without exposing it publicly", () => {
+  const admin = createWikiView({ isAdmin: true });
+  admin.Engine.saveWikiPage(admin.data, {
+    title: "Aurendale",
+    category: "Nation",
+    status: "published",
+    aliases: "The Crown"
+  });
+  admin.Engine.saveWikiPage(admin.data, {
+    title: "River League",
+    category: "Organization",
+    status: "published",
+    body: "The league backed [[The Crown|Aurendale]] during the [[Missing Treaty]]."
+  });
+  admin.Engine.saveWikiPage(admin.data, {
+    title: "Draft Crisis",
+    category: "Event",
+    status: "draft",
+    body: "Draft notes mention [[Missing Treaty]] and [[Unmade Strait]]."
+  });
+  admin.Engine.saveWikiPage(admin.data, {
+    title: "Lonely Region",
+    category: "Region",
+    status: "published"
+  });
+
+  admin.view.renderWiki();
+
+  assert.match(admin.app.innerHTML, /Wiki Workbench/);
+  assert.match(admin.app.innerHTML, /Drafts/);
+  assert.match(admin.app.innerHTML, /Missing Links/);
+  assert.match(admin.app.innerHTML, /Orphans/);
+  assert.match(admin.app.innerHTML, /Draft Crisis/);
+  assert.match(admin.app.innerHTML, /Missing Treaty/);
+  assert.match(admin.app.innerHTML, /Lonely Region/);
+
+  const publicView = createWikiView();
+  publicView.Engine.saveWikiPage(publicView.data, {
+    title: "Public Page",
+    category: "Concept",
+    status: "published",
+    body: "Reader page."
+  });
+  publicView.view.renderWiki();
+
+  assert.doesNotMatch(publicView.app.innerHTML, /Wiki Workbench/);
+});
