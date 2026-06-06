@@ -145,18 +145,44 @@
     const source = String(body || "").trim();
     if (!source) return `<div class="empty compact">No article body yet.</div>`;
     const lookup = pageLookup();
-    return source.split(/\n{2,}/)
-      .map((block) => {
-        const trimmed = block.trim();
-        if (!trimmed) return "";
-        if (trimmed.startsWith("## ")) return `<h3>${renderInlineWiki(trimmed.slice(3), lookup)}</h3>`;
-        const lines = trimmed.split(/\n/);
-        if (lines.every((line) => line.trim().startsWith("- "))) {
-          return `<ul>${lines.map((line) => `<li>${renderInlineWiki(line.trim().slice(2), lookup)}</li>`).join("")}</ul>`;
-        }
-        return `<p>${lines.map((line) => renderInlineWiki(line, lookup)).join("<br>")}</p>`;
-      })
-      .join("");
+    const output = [];
+    let paragraph = [];
+    let list = [];
+    const flushParagraph = () => {
+      if (!paragraph.length) return;
+      output.push(`<p>${paragraph.map((line) => renderInlineWiki(line, lookup)).join("<br>")}</p>`);
+      paragraph = [];
+    };
+    const flushList = () => {
+      if (!list.length) return;
+      output.push(`<ul>${list.map((line) => `<li>${renderInlineWiki(line, lookup)}</li>`).join("")}</ul>`);
+      list = [];
+    };
+
+    source.split(/\n/).forEach((line) => {
+      const trimmed = line.trim();
+      if (!trimmed) {
+        flushParagraph();
+        flushList();
+        return;
+      }
+      if (trimmed.startsWith("## ")) {
+        flushParagraph();
+        flushList();
+        output.push(`<h3>${renderInlineWiki(trimmed.slice(3), lookup)}</h3>`);
+        return;
+      }
+      if (trimmed.startsWith("- ")) {
+        flushParagraph();
+        list.push(trimmed.slice(2));
+        return;
+      }
+      flushList();
+      paragraph.push(line);
+    });
+    flushParagraph();
+    flushList();
+    return output.join("");
   }
 
   function renderWikiFacts(page) {
@@ -349,23 +375,29 @@
     const page = selectedWikiPage(pages);
     if (page && state.selectedWikiPageId !== page.id) state.selectedWikiPageId = page.id;
     app.innerHTML = `
-      <section class="wiki-shell">
-        <header class="wiki-top">
-          <div>
-            <span class="section-kicker">Avant World / 0-2020</span>
+      <section class="wiki-shell wiki-page-shell">
+        <header class="wiki-masthead">
+          <div class="wiki-title-block">
+            <span class="wiki-site-mark">Avantpedia / 0-2020</span>
             <h2>${safeText(data.wiki.meta.title)}</h2>
+            <p>Canon archive for nations, people, conflicts, regions, treaties, cultures, and era lore.</p>
           </div>
-          <div class="wiki-top-actions">
-            <span class="status">${safeText(fmtNumber(Engine.wikiPages(data, { includeArchived: isAdmin }).length))} pages</span>
+          <div class="wiki-masthead-tools">
+            <label class="wiki-search-box" for="wikiSearch">
+              <span>Search the wiki</span>
+              <input id="wikiSearch" type="search" value="${escapeHtml(state.wikiQuery || "")}" data-wiki-search>
+            </label>
+            <button class="command compact" type="button" data-action="wiki-clear-filters">Clear</button>
+            <span class="wiki-page-count">${safeText(fmtNumber(Engine.wikiPages(data, { includeArchived: isAdmin }).length))} pages</span>
             ${isAdmin ? `<button class="command primary" type="button" data-action="wiki-new">New Page</button>` : ""}
           </div>
         </header>
         ${renderWikiWorkbench()}
-        <div class="wiki-layout">
-          <aside class="wiki-library" aria-label="Wiki pages">
-            <div class="wiki-search-row">
-              <label class="control-field is-text" for="wikiSearch"><span>Search</span><input id="wikiSearch" type="search" value="${escapeHtml(state.wikiQuery || "")}" data-wiki-search></label>
-              <button class="command compact" type="button" data-action="wiki-clear-filters">Clear</button>
+        <div class="wiki-page-frame">
+          <aside class="wiki-index" aria-label="Wiki index">
+            <div class="wiki-index-head">
+              <span class="section-kicker">Index</span>
+              <h3>Browse Lore</h3>
             </div>
             <div class="wiki-filter-grid">
               <label class="control-field is-select"><span>Category</span><select data-wiki-filter="category">${categoryOptions(state.wikiCategoryFilter || "all")}</select></label>
@@ -376,11 +408,13 @@
             </div>
             <div class="wiki-list">${wikiPageList(pages)}</div>
           </aside>
-          <div class="wiki-main">
+          <main class="wiki-document">
             ${renderWikiArticle(page)}
             ${wikiEditor()}
-          </div>
-          ${renderWikiTimeline(pages)}
+          </main>
+          <aside class="wiki-side-rail" aria-label="Wiki timeline">
+            ${renderWikiTimeline(pages)}
+          </aside>
         </div>
       </section>`;
   }

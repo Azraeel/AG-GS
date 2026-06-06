@@ -1518,6 +1518,9 @@
       const relatedTabs = (tab.dataset.relatedTabs || "").split(" ").filter(Boolean);
       tab.classList.toggle("is-active", tab.dataset.tab === state.tab || relatedTabs.includes(state.tab));
     });
+    document.querySelectorAll("[data-tab-jump]").forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.tabJump === state.tab);
+    });
     renderContextToolbar();
     const renderers = {
       overview: renderOverview,

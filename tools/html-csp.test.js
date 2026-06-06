@@ -12,4 +12,11 @@ const ROOT = path.resolve(__dirname, "..");
     assert.match(html, /script-src[^;]*https:\/\/static\.cloudflareinsights\.com/);
     assert.match(html, /connect-src[^;]*https:\/\/cloudflareinsights\.com/);
   });
+
+  test(`${relativePath} exposes the wiki through the top call-to-action only`, () => {
+    const html = fs.readFileSync(path.join(ROOT, relativePath), "utf8");
+
+    assert.match(html, /data-tab-jump="wiki"[^>]*>Avant Wiki<\/button>/);
+    assert.doesNotMatch(html, /class="tab"[^>]*data-tab="wiki"/);
+  });
 });

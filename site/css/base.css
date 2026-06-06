@@ -242,7 +242,8 @@ h3 {
 }
 
 .top-cta:hover,
-.top-cta:focus-visible {
+.top-cta:focus-visible,
+.top-cta.is-active {
   filter: brightness(1.02);
   outline: 0;
   box-shadow:

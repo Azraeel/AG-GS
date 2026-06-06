@@ -100,6 +100,10 @@ test("wiki view renders the Avant wiki shell for public readers", () => {
   view.renderWiki();
 
   assert.match(app.innerHTML, /Avant World Wiki/);
+  assert.match(app.innerHTML, /wiki-page-shell/);
+  assert.match(app.innerHTML, /wiki-masthead/);
+  assert.match(app.innerHTML, /wiki-document/);
+  assert.doesNotMatch(app.innerHTML, /wiki-layout/);
   assert.match(app.innerHTML, /No Avant wiki pages/);
 });
 
@@ -144,6 +148,23 @@ test("wiki article shows outbound links backlinks and missing lore links", () =>
   view.renderWiki();
   assert.match(app.innerHTML, /Linked From/);
   assert.match(app.innerHTML, /River League/);
+});
+
+test("wiki body keeps heading lines separate from following paragraph text", () => {
+  const { Engine, data, app, state, view } = createWikiView();
+  Engine.saveWikiPage(data, {
+    title: "Whitewater Crisis",
+    category: "Event",
+    status: "published",
+    body: "Opening paragraph.\n\n## Background\nThe crisis began with disputed transit rights."
+  });
+
+  state.selectedWikiPageId = "whitewater-crisis";
+  view.renderWiki();
+
+  assert.match(app.innerHTML, /<h3>Background<\/h3>/);
+  assert.match(app.innerHTML, /<p>The crisis began with disputed transit rights\.<\/p>/);
+  assert.doesNotMatch(app.innerHTML, /Background\s*The crisis began/);
 });
 
 test("wiki article and editor support structured lore fact sheets", () => {
