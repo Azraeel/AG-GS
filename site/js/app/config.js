@@ -38,6 +38,7 @@
       "clear-trade-generator-preview",
       "wiki-new",
       "wiki-save",
+      "wiki-apply-fact-template",
       "wiki-archive",
       "wiki-restore"
     ],

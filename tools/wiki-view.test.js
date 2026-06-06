@@ -145,3 +145,26 @@ test("wiki article shows outbound links backlinks and missing lore links", () =>
   assert.match(app.innerHTML, /Linked From/);
   assert.match(app.innerHTML, /River League/);
 });
+
+test("wiki article and editor support structured lore fact sheets", () => {
+  const { Engine, data, app, state, view } = createWikiView({ isAdmin: true });
+  Engine.saveWikiPage(data, {
+    title: "Aurendale",
+    category: "Nation",
+    status: "published",
+    facts: "Capital: Highcourt\nGovernment: Crowned republic"
+  });
+
+  state.selectedWikiPageId = "aurendale";
+  view.renderWiki();
+  assert.match(app.innerHTML, /Fact Sheet/);
+  assert.match(app.innerHTML, /Capital/);
+  assert.match(app.innerHTML, /Highcourt/);
+
+  view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-new" } }));
+  view.handleChange(fakeEvent("[data-wiki-field]", { dataset: { wikiField: "category" }, value: "Conflict" }));
+  view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-apply-fact-template" } }));
+
+  assert.match(state.wikiDraft.facts, /Belligerents:/);
+  assert.match(app.innerHTML, /data-wiki-field="facts"/);
+});

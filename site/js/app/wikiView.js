@@ -21,10 +21,18 @@
       yearEnd: page.yearEnd ?? "",
       summary: page.summary || "",
       body: page.body || "",
+      facts: factsToText(page.facts || []),
       tags: (page.tags || []).join(", "),
       aliases: (page.aliases || []).join(", "),
       relatedPageIds: (page.relatedPageIds || []).join(", ")
     };
+  }
+
+  function factsToText(facts = []) {
+    return (facts || [])
+      .map((fact) => `${fact.label || ""}: ${fact.value || ""}`)
+      .filter((line) => line.trim() !== ":")
+      .join("\n");
   }
 
   function wikiPagesForView() {
@@ -151,6 +159,26 @@
       .join("");
   }
 
+  function renderWikiFacts(page) {
+    const facts = (page.facts || []).filter((fact) => fact.label && fact.value);
+    if (!facts.length) return "";
+    const lookup = pageLookup();
+    return `
+      <aside class="wiki-fact-sheet" aria-label="Fact Sheet">
+        <div class="wiki-fact-head">
+          <span class="section-kicker">Fact Sheet</span>
+          <h3>${safeText(page.category)}</h3>
+        </div>
+        <dl>
+          ${facts.map((fact) => `
+            <div>
+              <dt>${safeText(fact.label)}</dt>
+              <dd>${renderInlineWiki(fact.value, lookup)}</dd>
+            </div>`).join("")}
+        </dl>
+      </aside>`;
+  }
+
   function renderWikiArticle(page) {
     if (!page) {
       return `
@@ -177,6 +205,7 @@
           <span>${safeText(page.era || "No era")}</span>
           <span>Updated ${safeText(fmtDateTime(page.updatedAt))}</span>
         </div>
+        ${renderWikiFacts(page)}
         <div class="wiki-body">${renderWikiBody(page.body)}</div>
         <footer class="wiki-article-foot">
           <div class="wiki-tags">${(page.tags || []).map((tag) => `<span>${safeText(tag)}</span>`).join("") || `<span>No tags</span>`}</div>
@@ -223,6 +252,7 @@
           </div>
           <div class="wiki-editor-actions">
             <button class="command primary" type="button" data-action="wiki-save">Save Page</button>
+            <button class="command" type="button" data-action="wiki-apply-fact-template">Fact Template</button>
             <button class="command" type="button" data-action="wiki-cancel-edit">Cancel</button>
             ${existingPage ? `<button class="command danger" type="button" data-action="${existingPage.archived ? "wiki-restore" : "wiki-archive"}">${existingPage.archived ? "Restore" : "Archive"}</button>` : ""}
           </div>
@@ -234,6 +264,7 @@
           <label class="control-field is-text"><span>Era</span><input type="text" value="${escapeHtml(editorValue("era"))}" data-wiki-field="era"></label>
           <label class="control-field"><span>Start Year</span><input type="number" value="${escapeHtml(editorValue("yearStart"))}" data-wiki-field="yearStart"></label>
           <label class="control-field"><span>End Year</span><input type="number" value="${escapeHtml(editorValue("yearEnd"))}" data-wiki-field="yearEnd"></label>
+          <label class="control-field is-text wiki-editor-wide"><span>Fact Sheet</span><textarea rows="6" data-wiki-field="facts">${escapeHtml(editorValue("facts"))}</textarea></label>
           <label class="control-field is-text wiki-editor-wide"><span>Summary</span><textarea rows="3" data-wiki-field="summary">${escapeHtml(editorValue("summary"))}</textarea></label>
           <label class="control-field is-text wiki-editor-wide"><span>Body</span><textarea rows="12" data-wiki-field="body">${escapeHtml(editorValue("body"))}</textarea></label>
           <label class="control-field is-text"><span>Tags</span><input type="text" value="${escapeHtml(editorValue("tags"))}" data-wiki-field="tags"></label>
@@ -352,7 +383,7 @@
     if (!actionButton) return false;
     const action = actionButton.dataset.action;
     if (!action.startsWith("wiki-")) return false;
-    if (["wiki-new", "wiki-edit", "wiki-save", "wiki-archive", "wiki-restore"].includes(action) && !isAdmin) {
+    if (["wiki-new", "wiki-edit", "wiki-save", "wiki-archive", "wiki-restore", "wiki-apply-fact-template"].includes(action) && !isAdmin) {
       state.notice = "Admin access is required for wiki edits.";
       render();
       return true;
@@ -374,6 +405,13 @@
     }
     if (action === "wiki-save") {
       saveWikiDraft();
+      return true;
+    }
+    if (action === "wiki-apply-fact-template") {
+      state.wikiDraft = state.wikiDraft || wikiDraftFromPage(selectedWikiPage() || {});
+      const template = Engine.wikiFactTemplate(state.wikiDraft.category || "Concept");
+      state.wikiDraft.facts = factsToText(template);
+      render();
       return true;
     }
     if (action === "wiki-archive" || action === "wiki-restore") {

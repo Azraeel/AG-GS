@@ -17,7 +17,7 @@ The live ledger is served through the AG-GS API, keeping the deployed website fo
 ## Core Features
 
 - Public read-only nation and status ledger
-- Avant World wiki for lore pages, timeline browsing, backlinks, missing-link tracking, and admin-managed drafts
+- Avant World wiki for lore pages, fact sheets, timeline browsing, backlinks, missing-link tracking, and admin-managed drafts
 - Protected editor workspace for approved administrators
 - Live shared updates across open sessions
 - Searchable and sortable status tables

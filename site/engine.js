@@ -50,6 +50,19 @@
   };
   const WIKI_CATEGORIES = ["Overview", "Era", "Event", "Nation", "Region", "Person", "Organization", "Concept", "Culture", "Conflict", "Treaty"];
   const WIKI_STATUSES = ["draft", "published"];
+  const WIKI_FACT_TEMPLATES = {
+    Overview: ["Scope", "Period", "Key themes"],
+    Era: ["Period", "Major powers", "Defining events", "Legacy"],
+    Event: ["Date", "Location", "Participants", "Outcome", "Legacy"],
+    Nation: ["Capital", "Government", "Founded", "Region", "Major cultures"],
+    Region: ["Location", "Major nations", "Terrain", "Strategic value"],
+    Person: ["Born", "Role", "Affiliation", "Known for", "Status"],
+    Organization: ["Founded", "Headquarters", "Members", "Purpose", "Status"],
+    Concept: ["Type", "Used by", "Era", "Notes"],
+    Culture: ["Region", "Language", "Faith/traditions", "Influences", "Legacy"],
+    Conflict: ["Period", "Belligerents", "Theater", "Result", "Aftermath"],
+    Treaty: ["Signed", "Parties", "Terms", "Impact", "Status"]
+  };
   const TARIFF_POLICY_LIMITS = { "Free Trade": 3, "Open Market": 5, Balanced: 8, Protectionist: 12 };
   const TARIFF_POLICY_SENSITIVITY = { "Free Trade": 1.35, "Open Market": 1.18, Balanced: 1, Protectionist: 0.78 };
   const FISCAL_MODELS = {
@@ -272,6 +285,39 @@
       .filter(Boolean);
   }
 
+  function wikiFacts(value) {
+    const factFromPair = (label, rawValue) => {
+      const normalizedLabel = String(label || "").trim();
+      const normalizedValue = String(rawValue ?? "").trim();
+      return normalizedLabel && normalizedValue ? { label: normalizedLabel, value: normalizedValue } : null;
+    };
+    if (Array.isArray(value)) {
+      return value
+        .map((item) => {
+          if (!item || typeof item !== "object") return null;
+          return factFromPair(item.label || item.key || item.name, item.value ?? item.text);
+        })
+        .filter(Boolean);
+    }
+    if (value && typeof value === "object") {
+      return Object.entries(value)
+        .map(([label, rawValue]) => factFromPair(label, rawValue))
+        .filter(Boolean);
+    }
+    return String(value || "")
+      .split(/\n+/)
+      .map((line) => line.trim())
+      .map((line) => {
+        const match = line.match(/^([^:=\-]+)\s*[:=\-]\s*(.+)$/);
+        return match ? factFromPair(match[1], match[2]) : null;
+      })
+      .filter(Boolean);
+  }
+
+  function wikiFactTemplate(category) {
+    return (WIKI_FACT_TEMPLATES[category] || []).map((label) => ({ label, value: "" }));
+  }
+
   function wikiYearBounds(rawWiki = {}) {
     const rawStart = number(rawWiki.meta?.startYear, 0);
     const rawEnd = number(rawWiki.meta?.endYear, 2020);
@@ -320,6 +366,7 @@
       yearEnd,
       summary: String(page.summary || "").trim(),
       body: String(page.body || "").trim(),
+      facts: wikiFacts(page.facts),
       tags: wikiArray(page.tags),
       aliases: wikiArray(page.aliases),
       relatedPageIds: wikiArray(page.relatedPageIds),
@@ -409,7 +456,8 @@
     const targets = [
       ...(page.relatedPageIds || []),
       ...wikiInlineTargets(page.summary),
-      ...wikiInlineTargets(page.body)
+      ...wikiInlineTargets(page.body),
+      ...(page.facts || []).flatMap((fact) => wikiInlineTargets(fact.value))
     ];
     targets.forEach((target) => {
       const linkedPage = lookup.get(String(target).toLowerCase());
@@ -468,6 +516,7 @@
           page.era,
           page.summary,
           page.body,
+          ...(page.facts || []).flatMap((fact) => [fact.label, fact.value]),
           ...page.tags,
           ...page.aliases
         ].join(" ").toLowerCase();
@@ -1235,6 +1284,7 @@
     wikiSlug,
     wikiPages,
     wikiPageReferences,
+    wikiFactTemplate,
     searchWikiPages,
     saveWikiPage,
     archiveWikiPage,
@@ -1244,6 +1294,6 @@
     updateValue,
     snapshot,
     exportDataJs,
-    constants: { HEALTH_GROWTH, HEALTH_DEMOGRAPHICS, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, CHILD_POLICY_POPULATION_EFFECT, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, POPULATION_FORMULAS, FISCAL_MODELS, TARIFF_POLICY_LIMITS, WIKI_CATEGORIES, WIKI_STATUSES }
+    constants: { HEALTH_GROWTH, HEALTH_DEMOGRAPHICS, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, CHILD_POLICY_POPULATION_EFFECT, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, POPULATION_FORMULAS, FISCAL_MODELS, TARIFF_POLICY_LIMITS, WIKI_CATEGORIES, WIKI_STATUSES, WIKI_FACT_TEMPLATES }
   };
 })();

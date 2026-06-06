@@ -187,3 +187,56 @@ test("wiki references resolve outbound links backlinks and missing links", () =>
   assert.deepEqual(plain(leagueRefs.outbound.map((page) => page.id)), ["aurendale"]);
   assert.deepEqual(plain(leagueRefs.missingLinks), ["Missing Treaty"]);
 });
+
+test("wiki facts normalize into structured lore fact sheets", () => {
+  const Engine = loadEngine();
+  const data = Engine.normalizeState(emptyState());
+
+  const nation = Engine.saveWikiPage(data, {
+    title: "Aurendale",
+    category: "Nation",
+    status: "published",
+    facts: {
+      Capital: "Highcourt",
+      Government: "Crowned republic",
+      "Founded": 781
+    }
+  });
+  const event = Engine.saveWikiPage(data, {
+    title: "Whitewater Crisis",
+    category: "Event",
+    status: "published",
+    facts: "Date: 1912\nLocation - Whitewater Strait\nOutcome = Maritime law reforms\nNo separator line"
+  });
+
+  assert.deepEqual(plain(nation.facts), [
+    { label: "Capital", value: "Highcourt" },
+    { label: "Government", value: "Crowned republic" },
+    { label: "Founded", value: "781" }
+  ]);
+  assert.deepEqual(plain(event.facts), [
+    { label: "Date", value: "1912" },
+    { label: "Location", value: "Whitewater Strait" },
+    { label: "Outcome", value: "Maritime law reforms" }
+  ]);
+});
+
+test("wiki fact templates provide Avant-specific scaffolds by page category", () => {
+  const Engine = loadEngine();
+
+  assert.deepEqual(plain(Engine.wikiFactTemplate("Nation").map((fact) => fact.label)), [
+    "Capital",
+    "Government",
+    "Founded",
+    "Region",
+    "Major cultures"
+  ]);
+  assert.deepEqual(plain(Engine.wikiFactTemplate("Conflict").map((fact) => fact.label)), [
+    "Period",
+    "Belligerents",
+    "Theater",
+    "Result",
+    "Aftermath"
+  ]);
+  assert.deepEqual(plain(Engine.wikiFactTemplate("Unknown")), []);
+});
