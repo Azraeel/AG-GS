@@ -361,6 +361,7 @@ test("wiki article renders contents and rich inline formatting", () => {
     title: "Solara-Khalindar War",
     category: "Conflict",
     status: "published",
+    summary: "A war involving [[Khalindar]] near [[Congrave]].",
     body: "## Pre-War Tensions\n**Solara** and *[[Khalindar]]* mobilized.\n\n### Historical Grievances\n* Naval raids expanded the conflict.\n\n## Major Battles\nThe war reached [[Congrave]]."
   });
 
@@ -370,6 +371,7 @@ test("wiki article renders contents and rich inline formatting", () => {
   assert.match(app.innerHTML, /wiki-contents/);
   assert.match(app.innerHTML, /Pre-War Tensions/);
   assert.match(app.innerHTML, /Major Battles/);
+  assert.match(app.innerHTML, /<p class="wiki-article-summary">A war involving <button[^>]+>Khalindar<\/button> near <span class="wiki-missing-link">Congrave<\/span>\.<\/p>/);
   assert.match(app.innerHTML, /<strong>Solara<\/strong>/);
   assert.match(app.innerHTML, /<em><button[^>]+>Khalindar<\/button><\/em>/);
   assert.match(app.innerHTML, /<li>Naval raids expanded the conflict\.<\/li>/);
@@ -405,6 +407,7 @@ test("admin wiki editor reviews the draft as an article before source fields", (
   view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-new" } }));
   view.handleInput(fakeEvent("[data-wiki-field]", { dataset: { wikiField: "title" }, value: "Siege of Calblanca" }));
   view.handleInput(fakeEvent("[data-wiki-field]", { dataset: { wikiField: "category" }, value: "Conflict" }));
+  view.handleInput(fakeEvent("[data-wiki-field]", { dataset: { wikiField: "summary" }, value: "A siege involving [[Aurendale]] and [[Unwritten Front]]." }));
   view.handleInput(fakeEvent("[data-wiki-field]", { dataset: { wikiField: "facts" }, value: "Belligerents: Calblanca; Bingtau\nOutcome: Armistice" }));
   view.handleInput(fakeEvent("[data-wiki-field]", { dataset: { wikiField: "tags" }, value: "war, calblanca" }));
   view.handleInput(fakeEvent("[data-wiki-field]", {
@@ -417,6 +420,7 @@ test("admin wiki editor reviews the draft as an article before source fields", (
   assert.match(app.innerHTML, /wiki-review-article/);
   assert.match(app.innerHTML, /Article Review/);
   assert.match(app.innerHTML, /Siege of Calblanca/);
+  assert.match(app.innerHTML, /<p class="wiki-review-summary">A siege involving <span class="wiki-missing-link">Aurendale<\/span> and <span class="wiki-missing-link">Unwritten Front<\/span>\.<\/p>/);
   assert.match(app.innerHTML, /<h3[^>]*>Background<\/h3>/);
   assert.match(app.innerHTML, /The siege reshaped the frontier\./);
   assert.match(app.innerHTML, /Belligerents/);

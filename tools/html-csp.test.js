@@ -56,3 +56,13 @@ test("saved wiki page edits use a wide direct editor", () => {
   assert.match(wikiCss, /\.wiki-source-editor-direct\s+\.wiki-editor-grid\s*{[\s\S]*grid-template-columns:\s*repeat\(12,\s*minmax\(0,\s*1fr\)\)/);
   assert.match(wikiCss, /\.wiki-source-editor-direct\s+textarea\[data-wiki-field="body"\]\s*{[\s\S]*min-height:\s*520px/);
 });
+
+test("wiki links use colorful resolved and missing-link treatments", () => {
+  const wikiCss = fs.readFileSync(path.join(ROOT, "site/css/wiki.css"), "utf8");
+
+  assert.match(wikiCss, /--wiki-link-ink:\s*var\(--blue\)/);
+  assert.match(wikiCss, /--wiki-link-underline:\s*var\(--gold\)/);
+  assert.match(wikiCss, /\.wiki-inline-link,\s*\.wiki-related button\s*{[\s\S]*color:\s*var\(--wiki-link-ink\)/);
+  assert.match(wikiCss, /\.wiki-missing-link\s*{[\s\S]*color:\s*var\(--wiki-missing-ink\)/);
+  assert.match(wikiCss, /\.wiki-article-summary\s+\.wiki-inline-link,\s*\.wiki-review-summary\s+\.wiki-inline-link/);
+});

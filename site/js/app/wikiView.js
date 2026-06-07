@@ -403,13 +403,18 @@
       </aside>`;
   }
 
+  function renderWikiSummary(page, className) {
+    if (!page.summary) return "";
+    return `<p class="${className}">${renderInlineWiki(page.summary, pageLookup())}</p>`;
+  }
+
   function renderWikiArticleHead(page) {
     return `
       <header class="wiki-article-head">
         <div>
           <span class="section-kicker">${safeText(page.category)} / ${safeText(wikiYearLabel(page))}</span>
           <h2>${safeText(page.title)}</h2>
-          ${page.summary ? `<p>${safeText(page.summary)}</p>` : ""}
+          ${renderWikiSummary(page, "wiki-article-summary")}
         </div>
         <div class="wiki-article-actions">
           <a class="wiki-permalink" href="${escapeHtml(wikiPageUrl(page))}">Page Link</a>
@@ -509,7 +514,7 @@
           <div>
             <span class="section-kicker">Article Review</span>
             <h4>${safeText(page.title)}</h4>
-            ${page.summary ? `<p>${safeText(page.summary)}</p>` : ""}
+            ${renderWikiSummary(page, "wiki-review-summary")}
           </div>
           <div class="wiki-review-chips">
             <span>${safeText(page.status === "published" ? "Published" : "Draft")}</span>

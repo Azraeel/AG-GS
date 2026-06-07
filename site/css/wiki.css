@@ -1,3 +1,15 @@
+.wiki-page-shell,
+.wiki-article-shell,
+.wiki-editor-shell {
+  --wiki-link-ink: var(--blue);
+  --wiki-link-underline: var(--gold);
+  --wiki-link-bg: color-mix(in srgb, var(--blue) 16%, transparent);
+  --wiki-link-hover-bg: color-mix(in srgb, var(--gold) 20%, transparent);
+  --wiki-missing-ink: var(--warning-ink);
+  --wiki-missing-bg: color-mix(in srgb, var(--warning-bg) 80%, transparent);
+  --wiki-missing-border: var(--warning-border);
+}
+
 .wiki-page-shell {
   display: grid;
   gap: 18px;
@@ -548,21 +560,46 @@
 .wiki-inline-link,
 .wiki-related button {
   border: 0;
-  background: transparent;
-  color: var(--blue);
+  border-radius: 4px;
+  background: linear-gradient(180deg, transparent 54%, var(--wiki-link-bg) 54%);
+  color: var(--wiki-link-ink);
   font-weight: 900;
   cursor: pointer;
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration-color: var(--wiki-link-underline);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 
 .wiki-inline-link {
-  padding: 0;
+  padding: 0 2px;
+}
+
+.wiki-inline-link:hover,
+.wiki-inline-link:focus-visible,
+.wiki-related button:hover,
+.wiki-related button:focus-visible {
+  background: var(--wiki-link-hover-bg);
+  color: var(--gold);
 }
 
 .wiki-missing-link {
-  color: var(--muted);
-  border-bottom: 1px dashed var(--line-strong);
+  border-radius: 4px;
+  border-bottom: 1px dashed var(--wiki-missing-border);
+  background: var(--wiki-missing-bg);
+  color: var(--wiki-missing-ink);
+  font-weight: 800;
+  padding: 0 3px;
+}
+
+.wiki-article-summary .wiki-inline-link,
+.wiki-review-summary .wiki-inline-link {
+  font-weight: 900;
+}
+
+.wiki-article-summary .wiki-missing-link,
+.wiki-review-summary .wiki-missing-link {
+  font-weight: 900;
 }
 
 .wiki-article-foot {
