@@ -1,0 +1,25 @@
+<!--
+AGGS draft metadata
+title: Valderic script
+category: Language
+status: draft
+era: Rhovlandian History
+yearStart: unknown
+yearEnd: 1994
+tags: Rhovland, Viridia, language, writing systems
+facts:
+Type: Writing system
+Associated language family: [[Valderic languages]]
+Used by: [[Witersckar]], [[Geslariena]], [[Rontzken]]
+Open canon: Alphabet inventory, origin, standardization date, and ceremonial variants need review
+-->
+The '''Valderic script''' is the writing system associated with [[Witersckar]], [[Geslariena]], [[Rontzken]], and the broader [[Valderic languages]].
+
+The extracted language pages describe Geslariena and Rontzken as using Valderic script, while preserving regional adaptations for river and mountain traditions. The dumped character tables contain corrupted glyphs, so this draft preserves the script as a high-level fact rather than a final alphabet.
+
+== Regional Variants ==
+
+Geslariena source material mentions a ceremonial river script called Riverschrift. Rontzken source material describes angular carved forms influenced by stonework and mining communities. Current drafts treat these as regional writing traditions under review, not as finalized glyph systems.
+
+[[Category:Languages]]
+[[Category:Rhovland]]

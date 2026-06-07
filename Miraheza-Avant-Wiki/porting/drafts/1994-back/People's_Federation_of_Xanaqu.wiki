@@ -1,0 +1,49 @@
+<!--
+AGGS draft metadata
+title: People's Federation of Xanaqu
+category: Nation
+status: draft
+era: Modern Avant
+yearStart: 1936
+yearEnd: 1994
+aliases: Xanaqu
+tags: Xanaqu, Erythrea, Taoist Party, People's Federation, Veszprem
+facts:
+Type: People's Federation
+Location: Southern [[Erythrea]]
+Founded: 1936
+Founder figure: [[Xun Tao]]
+Government: Proletarian democracy under [[Central Workers Council|worker council]] structures
+Key ideology: [[Taoist Manifesto]]
+1994 relevance: Economic and technical partner of [[Federated Syndicates of Veszprem]]
+-->
+The '''People's Federation of Xanaqu''', commonly '''Xanaqu''', is a people's federation in southern [[Erythrea]]. It was formed in 1936 after the fall of the [[Bu Dynasty]], the rise of [[Xun Tao]] and the [[Taoist Party]], and the defeat of republican rivals in the [[Xanaq Civil War]].
+
+Xanaqu is one of the most important worker-state powers in the 1994-back lore. In this batch, its immediate role is as an economic and technical partner of the [[Federated Syndicates of Veszprem]].
+
+== Formation ==
+
+The extracted source describes a political crisis beginning in late 1934, when Xun Tao and the Taoist Party led demonstrations against the declining Bu Dynasty. After the dynasty's fall, [[General Cheng Jin]] and the [[Xanaq Republicans]] attempted to establish a rival state in the north.
+
+The [[Red Army of Xanaqu|Red Army]] under Xun Tao defeated the Republicans in a short civil war. The new People's Federation pardoned many former republican members and organized the state around worker councils and the principles later associated with the [[Taoist Manifesto]].
+
+== Government And Economy ==
+
+Xanaqu operates as a proletarian democracy. Regional and national worker councils participate in decision-making, while the Chairman of the [[Central Workers Council|Central Workers' Council]] serves as head of state.
+
+The economy is mixed but strongly state-directed. Key sectors such as energy, transport, health care, heavy industry, and strategic manufacturing are controlled by the state, while smaller enterprises may operate as cooperatives or worker collectives. The clearest source-backed industrial institution is the [[Xanaqu South Industrial State Cooperation]], founded in 1952.
+
+== Society And Military ==
+
+Xanaqu places strong public emphasis on literacy, education, political participation, worker rights, and social welfare. Public gatherings, debates, and worker festivals are important parts of political culture.
+
+The military is known in the formation source as the [[Red Army of Xanaqu|Red Army]]. The source describes it as a decent-quality force shaped by the state's worker-centered political culture.
+
+== Foreign Relations By 1994 ==
+
+Xanaqu aligns itself with states and movements that share worker-rights or socialist-adjacent principles. By the 1980s and early 1990s, it also traded industrial and technological support to Veszprem in exchange for natural resources.
+
+Veszprem viewed the relationship cautiously because of its fear of outside influence, but the partnership mattered for Veszpremi modernization and for Xanaqu's regional economic reach.
+
+[[Category:Nations]]
+[[Category:Xanaqu]]

@@ -1,0 +1,36 @@
+<!--
+AGGS draft metadata
+title: Belgrad
+category: Location
+status: draft
+era: Belcantese History and Postwar Era
+yearStart: 1456
+yearEnd: 1994
+aliases: Belcanto Centrale, New Vespera
+tags: Belcanto, Belcanto Nations, Belcanto Campaign
+facts:
+Type: Capital city
+Country: [[Belcanto Nations]]
+Pre-conquest role: Capital tradition of the [[United Kingdoms of Belcanto]]
+Occupation role: Captured during the [[Belcanto Campaign]]
+Postwar role: Site of the [[Declaration of Belcantese Independence]]
+Open canon: Source also uses Belcanto Centrale and New Vespera for occupation-era references
+-->
+'''Belgrad''' is the capital of the [[Belcanto Nations]] and one of the main symbolic centers of Belcantese political identity.
+
+== Pre-Conquest Role ==
+
+Belgrad was associated with the pre-conquest [[United Kingdoms of Belcanto]] and the older federal traditions that connected the Belcantese regions.
+
+== Vesperan Occupation ==
+
+During the [[Belcanto Campaign]], Vesperan forces captured the capital after a prolonged siege in source material. Occupation authorities later used the city as the administrative center of the Belcanto governorship.
+
+Source material also uses names such as Belcanto Centrale and New Vespera in relation to the capital. This draft preserves Belgrad as the stable AGGSWorld article title until the occupation-era naming is reviewed.
+
+== Independence ==
+
+The [[Declaration of Belcantese Independence]] was proclaimed in Belgrad on 15 May 1949. After independence, the city became the center of federal reconstruction, language restoration, and postwar government.
+
+[[Category:Locations]]
+[[Category:Belcanto]]

@@ -1,0 +1,29 @@
+<!--
+AGGS draft metadata
+title: Novoanov
+category: Location
+status: draft
+era: Ledostrov Constitutional Duchy
+yearStart: 1352
+yearEnd: 1994
+aliases: Duma city of Ledostrov
+tags: Ledostrov, Novoanov, Duma, Pentarchy
+facts:
+Type: Political center
+Associated title: [[Prince of Novoanov]]
+Institution: [[Duma of Ledostrov]]
+Relevant events: [[Anavaisk-Novoanov Accords]]; fall of the [[Pentarchy of Ledostrov]]
+Coverage note: yearEnd indicates this 1994-back draft scope, not settlement abandonment
+-->
+'''Novoanov''' is a political center in the [[Duchy of Ledostrov]] and the city most closely associated with the [[Duma of Ledostrov]].
+
+== Constitutional Role ==
+
+In 1352, the noble council elevated the [[Prince of Novoanov]] and signed the [[Anavaisk-Novoanov Accords]], creating the Duma. Novoanov became the main stage for noble politics, budget disputes, and later constitutional crises.
+
+== Twentieth-Century Crisis ==
+
+In 1938, the [[Burgrave of Sedava]] attempted to march on the Duma in Novoanov during the famine crisis, but his supporters were stopped before they could overturn the noble order. In the later collapse of the [[Pentarchy of Ledostrov]], [[Reznikoff of Ledostrov]] marched on Novoanov and entered the city as the Pentarchy disintegrated.
+
+[[Category:Locations]]
+[[Category:Ledostrov]]

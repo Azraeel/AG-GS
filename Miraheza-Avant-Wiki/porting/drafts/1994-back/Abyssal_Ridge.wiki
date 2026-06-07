@@ -1,0 +1,33 @@
+<!--
+AGGS draft metadata
+title: Abyssal Ridge
+category: Location
+status: draft
+era: Solara-Khalindar War
+yearStart: 1992
+yearEnd: 1994
+aliases: Battle of the Abyssal Ridge, Battle of Abyssal Ridge
+tags: Solara, Khalindar, naval warfare, Solara-Khalindar War
+facts:
+Type: Maritime battle area
+Part of: [[Solara-Khalindar War]]
+Known for: One of the largest naval clashes of the later war
+Combatants: [[Solara]]; [[Empire of Khalindar]]
+Result: Heavy losses; no decisive breakthrough
+-->
+'''Abyssal Ridge''' was a maritime battle area associated with one of the largest naval clashes of the later [[Solara-Khalindar War]].
+
+== Battle ==
+
+Old source material describes a major naval battle at the ridge after the war shifted from land operations to maritime attrition. Solaran fleets, including newly commissioned ships and carrier aircraft, fought a large Khalindarian naval force across several days.
+
+Submarines, surface vessels, carrier aircraft, reconnaissance, and anti-ship strikes all shaped the engagement. Both sides suffered heavy losses, but neither achieved a decisive breakthrough.
+
+== Role In The War ==
+
+The battle showed the character of the mid-1992 to late-1994 phase: neither side could fully dominate the ocean between Solara and Khalindar, yet both had to keep fighting to protect supply routes, national prestige, and negotiating leverage.
+
+The exact location of Abyssal Ridge on the map and the names of participating fleets need later confirmation before this page becomes a final map-heavy article.
+
+[[Category:Locations]]
+[[Category:Solara-Khalindar War]]

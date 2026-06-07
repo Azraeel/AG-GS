@@ -1,0 +1,30 @@
+<!--
+AGGS draft metadata
+title: Battle of Kaplan Ridge
+category: Conflict
+status: draft
+era: Northern Alliance Eastern Expeditions
+yearStart: 1882
+yearEnd: 1882
+aliases: Kaplan Ridge
+tags: Svetian War, Northern Alliance, Volgastan
+facts:
+Date: 1882
+Part of: [[Svetian War]]
+Result: Defeat of Volgastani-Arabogradsk armies
+Participants: [[Northern Alliance]]-backed forces; [[Volgastani-Hamed Empire]]; [[Arabogradsk-Hamed Caliphate]]
+Source image note: Old source caption places Theorin troops at the battle
+-->
+The '''Battle of Kaplan Ridge''' was a decisive 1882 battle during the [[Svetian War]].
+
+== Battle ==
+
+The extracted Northern Alliance source identifies Kaplan Ridge as the decisive defeat of Volgastani-Arabogradsk armies during the war. The captioned source image places Theorin troops at the battle, while the broader campaign involved the [[Northern Alliance]], [[Vesperan Empire]] cooperation, the [[Volgastani-Hamed Empire]], and the [[Arabogradsk-Hamed Caliphate]].
+
+== Consequences ==
+
+The defeat weakened the Volgastani-Hamed position and helped force the 1884 settlement, including reparations and the creation of a diplomatic quarter in [[Murah]]. Later Volgastani discontent over humiliation and economic pressure contributed to the [[Volgastani Summer Revolution]].
+
+[[Category:Conflicts]]
+[[Category:Northern Alliance]]
+[[Category:Khalari]]

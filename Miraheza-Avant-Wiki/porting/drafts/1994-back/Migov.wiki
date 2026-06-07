@@ -1,0 +1,27 @@
+<!--
+AGGS draft metadata
+title: Migov
+category: Geography
+status: draft
+era: Nogoyevian History
+yearStart: unknown
+yearEnd: 1994
+aliases: Capital of Nogoyev
+tags: Nogoyev, Battle of Migov
+facts:
+Type: City
+Country: [[Kingdom of Nogoyev]]; later [[Tsardom of Nogoyev]]
+Known for: Capital and cultural center of Nogoyev
+Major conflict: [[Battle of Migov]]
+Open canon: Exact location, population, and map placement need confirmation
+-->
+'''Migov''' is the capital and cultural center of Nogoyev. It was the heart of Nogoyevian politics during the [[Nogoyevian War of Independence]] and later became the capital of the [[Tsardom of Nogoyev]].
+
+The city is best known in the 1994-back port for the [[Battle of Migov]], a 1949-1952 urban battle that became one of the defining engagements of the war.
+
+== War Damage ==
+
+During the Battle of Migov, the city was reduced to ruins by artillery, airstrikes, mines, fortified buildings, and close urban combat. The battle made Migov a symbol of Nogoyevian endurance and independence.
+
+[[Category:Geography]]
+[[Category:Nogoyev]]

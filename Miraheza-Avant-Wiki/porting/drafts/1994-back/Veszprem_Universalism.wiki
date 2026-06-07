@@ -1,0 +1,28 @@
+<!--
+AGGS draft metadata
+title: Veszprem Universalism
+category: Religion
+status: draft
+era: Modern Veszprem
+yearStart: 1957
+yearEnd: 1994
+aliases: Universalism in Veszprem
+tags: Veszprem, Unified Orderism, religion
+facts:
+Type: State religion or state-promoted religious tradition
+Associated state: [[Federated Syndicates of Veszprem]]
+Core public values: Unity; discipline; loyalty to the state
+Open canon: Origins, theology, organization, and relation to older Veszpremi religion need confirmation
+-->
+'''Veszprem Universalism''' is the state-promoted religious tradition of the [[Federated Syndicates of Veszprem]]. The extracted source describes it as a major force in Veszpremi society, emphasizing unity, discipline, and loyalty to the state.
+
+This draft is a minimal bridge page. The source confirms its public role but does not yet define its theology, founding period, organization, or relationship to pre-Orderist Veszpremi religion.
+
+== Public Role ==
+
+By 1994, Veszprem Universalism reinforced the values of [[Unified Orderism]]. Schools, ceremonies, public culture, and civic life used religious language to support discipline, national endurance, and obedience to collective duty.
+
+The tradition appears to function as a social partner to the Veszpremi state rather than as an independent counterweight to it. That relationship needs more canon detail before a fuller article is written.
+
+[[Category:Religions]]
+[[Category:Veszprem]]

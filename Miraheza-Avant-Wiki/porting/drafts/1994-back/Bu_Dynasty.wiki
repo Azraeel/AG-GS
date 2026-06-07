@@ -1,0 +1,34 @@
+<!--
+AGGS draft metadata
+title: Bu Dynasty
+category: Nation
+status: draft
+era: Pre-Xanaqu
+yearStart: 1594
+yearEnd: disputed
+aliases: Dynasty of Bu
+tags: Xanaqu, defunct nations, Taoist Party
+facts:
+Type: Defunct dynasty
+Formed: 1594
+Defunct: Source list says 1923; Xanaqu formation source describes collapse in 1934-1936
+Successor: [[People's Federation of Xanaqu]]
+Open canon: Defunct date conflict needs user confirmation
+-->
+The '''Bu Dynasty''' was the dynastic predecessor state to the [[People's Federation of Xanaqu]]. The extracted source identifies it as the old regime challenged by [[Xun Tao]] and the [[Taoist Party]] during the political crisis that produced modern Xanaqu.
+
+This draft preserves an open canon conflict. The defunct-nations list gives the dynasty's end as 1923, while the Xanaqu formation source describes the dynasty as declining in late 1934 and giving way to the People's Federation after the [[Xanaq Civil War]] in 1936.
+
+== Fall ==
+
+The Xanaqu source says that Taoist Party demonstrations against the dying dynasty began in late 1934. After the dynasty's collapse, [[General Cheng Jin]] and the [[Xanaq Republicans]] attempted to create a rival northern state.
+
+The [[Red Army of Xanaqu|Red Army]] under Xun Tao defeated the republican forces, and the People's Federation of Xanaqu was founded in 1936.
+
+== Open Date Conflict ==
+
+Until confirmed, the safest reading is that 1923 may mark the beginning of dynastic breakdown or loss of effective authority, while 1934-1936 marks the final political collapse and replacement by the People's Federation. This should not be treated as final canon without user confirmation.
+
+[[Category:Nations]]
+[[Category:Defunct Nations]]
+[[Category:Xanaqu]]

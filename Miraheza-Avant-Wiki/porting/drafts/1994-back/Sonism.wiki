@@ -1,0 +1,29 @@
+<!--
+AGGS draft metadata
+title: Sonism
+category: Religion
+status: draft
+era: Solaran Cultural History
+yearStart: 1538
+yearEnd: 1994
+aliases: Sonist
+tags: Solara, Solra, Solaran Language
+facts:
+Type: Religion or religious tradition
+Associated country: [[Solara]]
+Source role: Listed as Solara's religion and linked from Solaran language/Solra source pages
+Metadata note: yearStart follows Solara relevance, not a confirmed religious founding date
+Open canon: Beliefs, clergy, temples, calendar, and relationship to [[Solra]] need confirmation
+-->
+'''Sonism''' is a religious tradition associated with [[Solara]] in the extracted source material. The old Solara country source lists the religion as '''Sonist''', while the Solaran language and [[Solra]] sources link to '''Sonism'''.
+
+== Source Role ==
+
+The source set connects Sonism to Solara but gives no complete doctrine. Its relationship to [[Solra]], temple institutions, and ritual practice remains open until a dedicated religion pass or user canon ruling supplies those details.
+
+== Canon Limits ==
+
+This draft preserves Sonism as a source-attested Solaran religious identity only. It does not invent gods, clergy, rites, holy cities, or political powers.
+
+[[Category:Religions]]
+[[Category:Solara]]

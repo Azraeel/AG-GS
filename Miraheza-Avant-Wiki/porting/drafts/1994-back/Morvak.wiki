@@ -1,0 +1,26 @@
+<!--
+AGGS draft metadata
+title: Morvak
+category: Geography
+status: draft
+era: Rhovlandian History
+yearStart: unknown
+yearEnd: 1994
+tags: Rhovland, Geslariena, Viridia
+facts:
+Type: Rhovlandian river or agricultural region
+Associated state: [[Imperial Rhovland]]
+Associated language: [[Geslariena]]
+Associated culture: River communities, agriculture, navigation, and oral history
+Open canon: Exact location, administrative status, borders, cities, and population need review
+-->
+'''Morvak''' is a Rhovlandian region associated with [[Geslariena]] speech, river communities, and agricultural cultural memory.
+
+The extracted Geslariena source names Morvak alongside [[Valdris]] as one of the language's primary regions. It does not yet provide enough evidence to settle Morvak's administrative status or exact map location.
+
+== Draft Scope ==
+
+For the 1994-back pass, Morvak functions as a bridge page for Rhovland's internal cultural geography. Later atlas work should decide whether Morvak is a province, valley, historical district, or broader linguistic region.
+
+[[Category:Geography]]
+[[Category:Rhovland]]

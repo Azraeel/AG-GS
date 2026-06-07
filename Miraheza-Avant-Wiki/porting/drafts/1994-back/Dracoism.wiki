@@ -1,0 +1,53 @@
+<!--
+AGGS draft metadata
+title: Dracoism
+category: Ideology
+status: draft
+era: Postwar Political Ideologies
+yearStart: 1960
+yearEnd: 1994
+aliases: Dracoist ideology
+tags: Malonia, Achilles Gavriilidis, nationalism, corporatism
+facts:
+Type: Political ideology
+Origin: [[Dracoist Malonia|Malonia]]
+Founder figure: [[Achilles Gavriilidis]]
+Core ideas: National unity; strong state control; worker integration; economic corporatism; hierarchy; cultural revival; expansion and survival
+Dark doctrines: Racial superiority; forced displacement; brutal enforcement; suppression of opposition
+-->
+'''Dracoism''' is a Malonian political ideology that combines nationalism, state control, worker integration, hierarchy, cultural revival, and militarized ideas of survival. It originated in [[Dracoist Malonia|Malonia]] during the mid-20th century and became a state-shaping force by 1993-1994.
+
+Dracoism is controversial because its promise of order and independence is tied to brutal enforcement, racial superiority doctrines, forced displacement, censorship, and suppression of political opposition.
+
+== Origins ==
+
+Dracoism emerged from Malonia's postwar crisis of identity. The [[United Alignment intervention in Malonia]] ended Vesperan control in 1949, but reconstruction left the country with economic weakness, political division, and arguments over foreign aid.
+
+In this environment, [[Achilles Gavriilidis]], a radical lawyer and political theorist from Malonia's capital region, argued that liberal institutions could not protect Malonia from humiliation or dependency. His answer was a disciplined national state that would coordinate workers, industry, military power, and culture under a single ideological command.
+
+== Core Principles ==
+
+Dracoism teaches that national unity is more important than political pluralism. It presents the state as the guardian of the nation and the final coordinator of economic, cultural, and military life.
+
+Economically, Dracoism favors corporatist planning. Workers are not meant to control production independently, as in classical syndicalism. Instead, worker organizations are integrated into state-sanctioned councils that align labor interests with national goals.
+
+The ideology also emphasizes hierarchy, discipline, cultural revival, and loyalty to a chosen leader or central leadership. It presents expansion and strategic self-sufficiency as necessary for Malonia's survival.
+
+== Racial Doctrine And Repression ==
+
+The darkest part of Dracoism is its racial and cultural doctrine. Dracoist texts claim Malonian superiority and justify the displacement, suppression, or subordination of other cultures. In practice, this supports forced relocation, cultural erasure, political imprisonment, and violent enforcement of state order.
+
+Opponents of Dracoism are often labeled foreign sympathizers or anti-national actors. The ideology treats dissent as a security threat rather than normal political disagreement.
+
+== Rise To Power ==
+
+Dracoist ideas circulated for decades after their emergence in the 1960s. In 1993, Dracoist leaders gained decisive influence in Malonian government and began reorganizing the state around ideology, propaganda, protectionism, and military discipline.
+
+By 1994, Dracoism was already reshaping education, media, industry, security, and defense planning. Later post-1994 developments require separate confirmation, but the early consolidation was enough to mark a break with Malonia's postwar democratic settlement.
+
+== Legacy By 1994 ==
+
+By 1994, Dracoism had become the main language of Malonian national revival. To supporters, it promised dignity after generations of Vesperan domination. To critics, it replaced foreign domination with domestic authoritarianism and made future conflict more likely.
+
+[[Category:Ideologies]]
+[[Category:Malonia]]

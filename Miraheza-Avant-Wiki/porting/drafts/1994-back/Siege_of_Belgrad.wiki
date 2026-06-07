@@ -1,0 +1,32 @@
+<!--
+AGGS draft metadata
+title: Siege of Belgrad
+category: Conflict
+status: draft
+era: Imperial Age
+yearStart: 1893
+yearEnd: 1894
+aliases: Siege of Belcanto Centrale
+tags: Belcanto Campaign, Belgrad, Vesperan Empire
+facts:
+Type: Siege
+Part of: [[Belcanto Campaign]]
+Location: [[Belgrad]]
+Combatants: [[Vesperan Empire]]; [[United Kingdoms of Belcanto]]
+Result: Vesperan capture of the capital in source material
+Open canon: Source dates vary between March 1893-May 1894 and a broad 1893-1894 frame
+-->
+The '''Siege of Belgrad''' was the central siege of the [[Belcanto Campaign]]. Source material describes it as a prolonged Vesperan operation against the Belcantese capital during the forest phase of the conquest.
+
+== Campaign Role ==
+
+The siege followed the Vesperan naval and coastal advances of 1892. Belcantese defenders used local terrain, fortifications, and guerrilla activity to slow the imperial assault.
+
+Vesperan forces relied on siege artillery, engineering, encirclement, and forest warfare methods. The fall of Belgrad marked a major turning point in the conquest, though resistance continued in outer regions.
+
+== Legacy ==
+
+The siege became one of the central memories of Belcantese occupation. Later resistance narratives treated the defense of Belgrad as proof that Vesperan victory required sustained coercion rather than simple political surrender.
+
+[[Category:Conflicts]]
+[[Category:Belcanto]]

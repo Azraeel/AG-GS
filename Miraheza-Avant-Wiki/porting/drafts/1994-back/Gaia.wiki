@@ -1,0 +1,29 @@
+<!--
+AGGS draft metadata
+title: Gaia
+category: Culture
+status: draft
+era: Solaran Cultural History
+yearStart: 1901
+yearEnd: 1994
+aliases: Gaia setting
+tags: A Wild World, Jane Pensworth, Solaran Literature
+facts:
+Type: Fictional world
+Appears in: [[A Wild World]]
+Authorial context: [[Jane Pensworth]]
+Source scope: Stories beginning in 1021 and spanning distant past and future eras
+Open canon: Gaia's geography, races, chronology, and relationship to the full series need review
+-->
+'''Gaia''' is the fictional world used as the setting of [[Jane Pensworth]]'s [[A Wild World]] book series.
+
+== Role In A Wild World ==
+
+Source material says ''A Wild World'' is set in Gaia, beginning in 1021 and ranging across thousands of years of fictional history. The surviving [[A Wild World: Book 1]] source fragment describes a much earlier era involving elves, dragons, magic, high technology, and a catastrophic war.
+
+== Canon Limits ==
+
+Gaia is not treated as an Avant continent, country, planet, or historical region. It is a literary setting inside [[Solaran Literature]]. This distinction keeps Pensworth's fantasy material available for cultural lore without retconning Avant political history.
+
+[[Category:Culture]]
+[[Category:Solara]]

@@ -1,0 +1,33 @@
+<!--
+AGGS draft metadata
+title: Silver Strait
+category: Location
+status: draft
+era: Solara-Khalindar War
+yearStart: 1992
+yearEnd: 1994
+aliases: Siege of the Silver Strait
+tags: Solara, Khalindar, naval warfare, Solara-Khalindar War
+facts:
+Type: Maritime chokepoint
+Part of: [[Solara-Khalindar War]]
+Known for: Khalindarian blockade effort and Solaran counterattacks
+Combatants: [[Solara]]; [[Empire of Khalindar]]
+Result: Solara lifted the blockade at high cost; strategic situation remained contested
+-->
+The '''Silver Strait''' was a maritime chokepoint contested during the naval phase of the [[Solara-Khalindar War]]. Old source material describes the campaign there as the '''Siege of the Silver Strait'''.
+
+== Siege ==
+
+Khalindar attempted to blockade the strait to pressure Solaran supply routes and stretch Solara's rebuilt navy. The blockade forced Solara to commit naval and air assets to convoy protection, mine clearance, reconnaissance, and repeated counterattacks.
+
+Solara eventually lifted the blockade, but the cost was high. Several major vessels were lost or damaged, and the fighting did not produce a decisive end to the naval war.
+
+== Strategic Importance ==
+
+The Silver Strait mattered less as a single battle than as a symbol of the war's attritional final phase. Khalindar could still threaten Solaran movement, while Solara could still break Khalindarian pressure through air support and concentrated naval action.
+
+The strait's exact placement on the 2003/2022 map references needs confirmation before publication as a final geography article.
+
+[[Category:Locations]]
+[[Category:Solara-Khalindar War]]

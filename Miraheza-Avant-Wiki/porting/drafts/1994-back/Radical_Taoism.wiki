@@ -1,0 +1,39 @@
+<!--
+AGGS draft metadata
+title: Radical Taoism
+category: Ideology
+status: draft
+era: Modern Avant
+yearStart: 1957
+yearEnd: 1994
+aliases: Revolutionary Taoism
+tags: Taoism, Mariposa, Ryszard Flak, revolutionary ideology
+facts:
+Type: Revolutionary branch of [[Taoism]]
+Core methods: Grassroots organizing, direct action, revolutionary councils, economic redistribution, and community defense
+Associated movement: [[Mariposa People's Liberation Front]]
+Associated text: [[The Path to the Revolution]]
+Open canon: Exact branch name varies in source material; 1957 marks Mariposian relevance, not a confirmed ideology founding date
+-->
+'''Radical Taoism''', also called '''Revolutionary Taoism''' in source-list material, is a revolutionary branch of [[Taoism]]. It applies Taoist ideas of balance, local autonomy, ethical leadership, and social welfare through direct political struggle rather than gradual reform.
+
+The source does not yet fix the branch's founding date. This draft uses the 1957 Mariposian organizing window only as its relevance point for the 1994-back pass.
+
+== Ideas ==
+
+Radical Taoism argues that some political and economic systems are too unequal to be brought into balance by normal reform. It therefore supports grassroots mobilization, direct action, local councils, economic redistribution, community defense, and cultural transformation.
+
+The ideology's source material emphasizes nonviolent resistance, but it also uses a militant language of disciplined confrontation with oppressive systems. In Mariposa, that tension made it compatible with both protest organization and armed revolutionary struggle.
+
+== Mariposian Use ==
+
+[[Ryszard Flak]] and the [[Mariposa People's Liberation Front]] are the clearest 1994-back bridge for Radical Taoism outside Xanaqu. Flak's [[The Path to the Revolution]] adapted Taoist political ideas to the struggle against the [[Kingdom of Mariposia]].
+
+By the [[Mariposian Civil War]], Radical Taoist language helped unify social-justice demands, anti-monarchical politics, and revolutionary organization.
+
+== Canon Notes ==
+
+This page treats Radical Taoism as an ideology branch, not a separate religion. Later post-1994 branches and state doctrines should be audited before publication because the old source list also names related terms such as Bielszowickism and Ultravisionary Taoism.
+
+[[Category:Ideologies]]
+[[Category:Mariposa]]

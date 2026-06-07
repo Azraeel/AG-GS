@@ -1,0 +1,44 @@
+<!--
+AGGS draft metadata
+title: Solaran Language Office
+category: Organization
+status: draft
+era: Solaran Cultural History
+yearStart: 1898
+yearEnd: 1994
+aliases: Solaran Office of Language
+tags: Solara, Solaran language, Sunline
+facts:
+Type: Language standardization office
+State: [[Solara]]
+Related language: [[Solaran Language]]
+Related script: [[Solaran Alphabet]]
+Related reform: [[Education Reform Act of 1895]]
+Responsibilities: Orthography, spelling, terminology, school guidance, and official usage
+-->
+The '''Solaran Language Office''' was the state language authority responsible for standardizing the [[Solaran Language]] and supporting the public use of the [[Solaran Alphabet|Sunline]] alphabet.
+
+== Establishment ==
+
+Source material references the office in connection with the 1898 official Sunline standard. The office likely emerged from the implementation machinery created by the [[Education Reform Act of 1895]] and the [[Solaran Ministry of Education]].
+
+The exact founding statute is not yet confirmed, but the office is source-backed as an institution by the alphabet reform period.
+
+== Responsibilities ==
+
+The office maintained official spelling, public terminology, school guidance, dictionaries, and administrative usage. It helped Solaran remain usable in government, education, business, military communication, law, and public notices.
+
+It also mediated between modern Solaran and older [[Solra]] vocabulary. Prestige terms from the Elder Tongue could be adapted into modern Solaran without forcing the whole population to learn the classical script.
+
+== Role In National Integration ==
+
+Language standardization mattered politically. Solara was a large parliamentary state with regional dialects, a ceremonial language tradition, and a modernizing economy. A central language office helped make printed Solaran consistent across schools, ministries, newspapers, and commercial records.
+
+By the early 1990s, its work formed part of the quiet administrative foundation behind Solara's national unity and public confidence before the [[Solara-Khalindar War]].
+
+== Canon Notes ==
+
+The extracted language page references post-1994 office publications. This draft uses the office's earlier source-backed role in Sunline standardization but does not harden later publication dates as 1994 facts.
+
+[[Category:Organizations]]
+[[Category:Solara]]

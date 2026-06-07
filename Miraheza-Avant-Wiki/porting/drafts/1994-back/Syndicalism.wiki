@@ -1,0 +1,28 @@
+<!--
+AGGS draft metadata
+title: Syndicalism
+category: Ideology
+status: draft
+era: Industrial Political Thought
+yearStart: 1900
+yearEnd: 1994
+aliases: Syndicalist thought
+tags: Orderism, Veszprem, Gorodovaya Syndikalizm
+facts:
+Type: Labor and industrial political ideology
+Avant branches: [[Orderism]]; [[Gorodovaya Syndikalizm]]
+Open canon: This is a bridge page for Avant-specific branches, not a complete real-world ideology article
+-->
+'''Syndicalism''' is a labor-centered political tradition that influenced several Avant ideologies concerned with worker control, industrial administration, and the relationship between production and political authority.
+
+This draft exists as an Avant bridge page. It does not attempt to reproduce a complete external history of syndicalism.
+
+== Avant Branches ==
+
+In Veszprem, syndicalist ideas fed into [[Orderism]] after the [[Syndicate Revolution of 1949]]. The older Orderist form emphasized worker councils, collective ownership, and local accountability.
+
+In Vorkutangrad, old source material describes [[Gorodovaya Syndikalizm]], an urban-industrial variant that treated city infrastructure, housing, and factories as a single worker-managed system.
+
+Later [[Unified Orderism]] kept parts of the syndicate vocabulary while subordinating councils to a stronger central state.
+
+[[Category:Ideologies]]

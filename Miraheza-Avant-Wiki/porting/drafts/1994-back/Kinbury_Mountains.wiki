@@ -1,0 +1,22 @@
+<!--
+AGGS draft metadata
+title: Kinbury Mountains
+category: Geography
+status: draft
+era: Geographic Reference
+yearStart: 0
+yearEnd: 1994
+aliases: Kinbury Mountain Range
+tags: Alberion, mountains, geography
+facts:
+Type: Mountain range
+Continent: [[Alberion]]
+Source role: Snow-capped mountain system and mineral region in the Alberion source
+Open canon: Exact extent, peaks, states crossed, and resource ownership need review
+-->
+The '''Kinbury Mountains''' are a mountain system in [[Alberion]] named in the continent source.
+
+The source describes the range as massive and snow-capped, with mineral deposits that contribute to Alberion's natural wealth. It does not provide exact borders, peak names, political control, or mining history.
+
+[[Category:Geography]]
+[[Category:Alberion]]

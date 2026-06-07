@@ -1,0 +1,39 @@
+<!--
+AGGS draft metadata
+title: Mariposian Civil War
+category: Conflict
+status: draft
+era: Postwar Mariposa
+yearStart: 1975
+yearEnd: 1981
+aliases: Mariposian Revolution, Mariposa Revolution, Mariposan Civil War
+tags: Mariposa, Ryszard Flak, Taoism
+facts:
+Date: 1975-1981 in `List of Wars`
+Main belligerents: [[Kingdom of Mariposia]]; [[Mariposa People's Liberation Front]]
+Major result: 1980 overthrow of the monarchy and creation of the [[People's Republic of Mariposa]]
+Ideological influences: [[Taoism]]; [[Radical Taoism]]; [[Taoist Manifesto]]
+Open canon: Source gives 1980 as the monarchy's overthrow and 1981 as the listed war endpoint
+-->
+The '''Mariposian Civil War''' was the revolutionary conflict that overthrew the [[Kingdom of Mariposia]] and created the [[People's Republic of Mariposa]]. The `List of Wars` gives the conflict span as 1975-1981, while the Ryszard Flak source identifies 1980 as the year the monarchy was overthrown.
+
+== Background ==
+
+Mariposian opposition politics developed against monarchy, inequality, aristocratic privilege, and political repression. [[Ryszard Flak]] began organizing opposition groups in 1957 and founded the [[Mariposa People's Liberation Front]] in 1960.
+
+The movement drew ideological language from [[Xun Tao]], the [[Taoist Manifesto]], and later [[Radical Taoism]]. It framed monarchy as an artificial hierarchy that blocked social balance, political participation, and justice.
+
+== Escalation ==
+
+By 1975, the MPLF had gained enough support to launch large protests and armed insurrections. The old source describes coordinated strikes, guerrilla tactics, and battlefield successes that weakened the monarchy's hold on power.
+
+The conflict was not only a military struggle. It also depended on underground publications, clandestine networks, prison writings, urban protest, and the spread of revolutionary language among workers and ordinary citizens.
+
+== 1980 Revolution And Aftermath ==
+
+The monarchy fell in 1980, and the People's Republic of Mariposa was established. Flak became a revolutionary symbol, but his later relationship with the new regime deteriorated as post-revolutionary politics became more authoritarian and militarized.
+
+The 1981 endpoint from the war list may represent final consolidation, remaining fighting, or the end of organized monarchist resistance. This should be confirmed before publication.
+
+[[Category:Conflicts]]
+[[Category:Mariposa]]

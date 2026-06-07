@@ -1,0 +1,58 @@
+<!--
+AGGS draft metadata
+title: Bakorian War
+category: Conflict
+status: draft
+era: Pre-Avant Great War
+yearStart: 1931
+yearEnd: 1935
+aliases: Eastern Campaign, Operation Steel Dawn, Great Patriotic War of Bakoria, War of National Defense
+tags: Astoria, Bakoria, Northern Alliance, Viridia, pre-Great War
+facts:
+Type: War
+Date: 1931-1935
+Place: [[Bakorian Republic]], northern [[Viridia]]
+Combatants: [[Astoria]]; [[Bakorian Republic]]
+Covert support: [[Northern Alliance]]; [[Imperial Rhovland]]; [[Theorin Commonwealth]]; [[Federation of Vinterholm]]; [[Kingdom of Rosenburg]]
+Result: Astorian victory; eastern Bakoria and [[Azmetan]] annexed by Astoria
+Treaty: [[Treaty of Bokevrek]]
+Consequence: Regional militarization and the [[Pesteran-Astorian War]]
+Source casualty claims: 350,000+ Astorian military casualties; 500,000+ Bakorian military casualties; 200,000+ civilian casualties
+-->
+The '''Bakorian War''' was a 1931-1935 conflict between [[Astoria]] and the [[Bakorian Republic]] in northern [[Viridia]]. It ended in a decisive Astorian victory, the annexation of eastern Bakoria including [[Azmetan]], and a major loss of confidence in the [[Northern Alliance]] security system.
+
+The war sits immediately before the [[Avant Great War]] in the regional timeline. It showed Astoria's military strength while also revealing that the Northern Alliance could not fully protect regional partners while preparing for a possible confrontation with the [[Vesperan Empire]].
+
+== Background ==
+
+Astoria and Bakoria both traced parts of their modern political history to the collapse of older caliphal powers in the region. Bakoria kept a republican system, while Astoria became a stratocratic military state in 1834 and later built its politics around disciplined expansion.
+
+By the late nineteenth century, Astoria's [[Forward Defense Doctrine]] justified bases, troop deployments, and pressure along the Bakorian frontier as matters of national security. Bakoria sought outside support, especially from Northern Alliance powers.
+
+From the 1870s through the 1920s, alliance members supplied Bakoria with equipment, training, and advisory support. By the late 1920s, however, Northern Alliance attention had shifted toward Vesperan expansion, reducing its willingness to confront Astoria directly.
+
+== Course ==
+
+The war began in 1931 with a large Astorian offensive. Astorian forces used the [[Janissary Corps]] for rapid breakthrough operations, while the [[Mobile Defense Forces]] secured captured areas and protected lines of advance.
+
+Bakorian forces attempted to stabilize defensive lines, use natural barriers, and disrupt Astorian logistics through guerrilla operations. Northern Alliance material and advisors helped sustain resistance, but did not change the strategic balance.
+
+The final phase centered on [[Azmetan]], an industrial and strategic city in eastern Bakoria. Its fall in early 1935 effectively ended organized Bakorian resistance, though scattered fighting continued for several months.
+
+== Settlement ==
+
+The [[Treaty of Bokevrek]] in late 1935 formalized Astoria's annexation of eastern Bakoria. The treaty imposed military limits on the remaining Bakorian state and created demilitarized arrangements along the new border.
+
+== Consequences ==
+
+The war validated Astoria's military doctrine and made it the dominant military power in northern Viridia. It also damaged the credibility of the Northern Alliance, whose covert support had failed to prevent Bakoria's defeat.
+
+Neighboring states responded with military modernization and deeper suspicion of Astorian expansion. The war's outcome contributed directly to the [[Pesteran-Astorian War]] and shaped northern regional politics in the years leading into the Avant Great War.
+
+== Casualty Claims ==
+
+The extracted source claims 350,000+ Astorian military casualties, 500,000+ Bakorian military casualties, and 200,000+ civilian casualties. These figures are preserved as source claims for later review rather than independently audited casualty totals.
+
+[[Category:Conflicts]]
+[[Category:Astoria]]
+[[Category:Northern Alliance]]

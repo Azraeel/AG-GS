@@ -1,0 +1,34 @@
+<!--
+AGGS draft metadata
+title: Emperor Mikael Khalindar IV
+category: Person
+status: draft
+era: Solara-Khalindar War
+yearStart: 1986
+yearEnd: 1994
+aliases: Mikael IV, Emperor Mikael IV
+tags: Khalindar, Solara-Khalindar War, Asgard Private Military Corporation
+facts:
+Country: [[Empire of Khalindar]]
+Title: Emperor
+Associated events: [[Solara-Khalindar War]]; [[Khalindarian reparations dispute]]
+Known for: Renewed confrontation with Solara and wartime leadership
+-->
+'''Emperor Mikael Khalindar IV''' was the Khalindarian emperor associated with the final escalation of the [[Khalindarian reparations dispute]] and the outbreak of the [[Solara-Khalindar War]].
+
+== Background ==
+
+Mikael IV inherited a political culture shaped by the belief that Solara had used Khalindar during the [[Avant Great War]] and then ignored the settlement promised at the [[Solaran-Khalindarian Conference of 1940]]. By the late 1980s, that grievance had become tied to military planning, imperial pride, and the desire to restore Khalindar's great-power status.
+
+== Road To War ==
+
+Mikael IV renewed pressure on Solara after decades of failed reparations demands. Solara's refusal strengthened the position of ministers and commanders who argued that diplomatic appeals had been exhausted.
+
+Old source material also connects Mikael IV to the creation of the [[Asgard Private Military Corporation]] in 1986. This draft does not harden Asgard's post-1994 fate or Mikael IV's later chronology.
+
+== Legacy ==
+
+Mikael IV is remembered as the emperor who transformed the reparations dispute from a diplomatic wound into open war. Khalindarian narratives often frame the war as an act of loyalty to the empire and its historic claims, while Solaran narratives emphasize aggression and the shock of the Albroke attack.
+
+[[Category:People]]
+[[Category:Khalindar]]

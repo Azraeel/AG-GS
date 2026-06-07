@@ -1,0 +1,39 @@
+<!--
+AGGS draft metadata
+title: Duma of Ledostrov
+category: Government
+status: draft
+era: Ledostrov Constitutional Duchy
+yearStart: 1352
+yearEnd: 1994
+aliases: Duma of Ledestrov, Ledostrov Duma
+tags: Ledostrov, Duma, Anavaisk-Novoanov Accords
+facts:
+Founded: 1352
+Created by: [[Anavaisk-Novoanov Accords]]
+Original composition: Landed nobles owing allegiance to the duke
+Powers: War declarations, budget changes, foreign treaties, ducal election
+Ducal election threshold: Two-thirds majority
+Later reform: Lower house added under [[Reznikoff of Ledostrov]]
+Coverage note: yearEnd indicates this 1994-back draft scope, not institutional dissolution
+-->
+The '''Duma of Ledostrov''' is the legislative and noble assembly of the [[Duchy of Ledostrov]].
+
+== Foundation ==
+
+The Duma was created by the [[Anavaisk-Novoanov Accords]] in 1352. It was formed after the noble council deposed an ineffective duke and elevated the [[Prince of Novoanov]] under the condition that a permanent decision-making body be created.
+
+== Powers ==
+
+The original Duma was made up of landed nobles owing allegiance to the duke. A simple majority was required for declarations of war, budget changes, and foreign treaties. A two-thirds majority was required to elect a new duke after a duke's death.
+
+If the Duma could not reach a two-thirds majority, the eldest child of the previous duke was supposed to act as regent until a new duke could be elected.
+
+== Crisis And Reform ==
+
+By the twentieth century, the source describes the Duma as corrupt and paralyzed. The 1938 famine crisis and [[Battle of Lisebev]] exposed its inability to govern effectively. In 1942, the Duma could not elect a successor after the death of the [[Count of Litwaldov]], enabling the [[Pentarchy of Ledostrov]] to seize power.
+
+After the fall of the Pentarchy, [[Reznikoff of Ledostrov]] expanded the Duma by appointing military loyalists to the upper house and creating a lower house elected by popular vote. The old source gives a later upper-house count of 141 and lower-house count of 315, but this draft treats those numbers as later-source detail pending date review.
+
+[[Category:Government]]
+[[Category:Ledostrov]]

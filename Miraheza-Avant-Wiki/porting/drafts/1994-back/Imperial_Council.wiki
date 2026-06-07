@@ -1,0 +1,36 @@
+<!--
+AGGS draft metadata
+title: Imperial Council
+category: Organization
+status: draft
+era: Imperial Age and Great War
+yearStart: 1710
+yearEnd: 1994
+tags: Vesperan Empire, Khalindar
+facts:
+Type: Imperial advisory and executive institution
+Known uses: [[Vesperan Empire]]; [[Empire of Khalindar]]
+Note: The Khalindarian Imperial Council is a ministerial state body, not a royal court
+-->
+'''Imperial Council''' is a term used for senior imperial governing bodies in several Avant monarchies and imperial states. In current AGGSWorld canon, the term is most important in two contexts: the [[Vesperan Empire]] and the [[Empire of Khalindar]].
+
+== Vesperan Imperial Council ==
+
+In the Vesperan Empire, the Imperial Council was the primary advisory and coordinating body of the emperor. It included senior military officers, government officials, aristocratic representatives, and figures tied to imperial religious and administrative institutions.
+
+The council helped coordinate imperial policy, occupation administration, military production, and expansion strategy. It did not limit the emperor in a constitutional sense; it made imperial rule practical across a vast empire.
+
+== Khalindarian Imperial Council ==
+
+In Khalindar, the Imperial Council refers to the ministerial body around the emperor. It includes the senior offices of state, such as finance, defense, foreign affairs, internal security, and other imperial ministries.
+
+The Khalindarian Imperial Council should not be described as a royal court. It is the political and administrative body through which ministers advise the emperor, coordinate national policy, and implement imperial decisions.
+
+During the decades after the [[Avant Great War]], the council kept the [[Khalindarian reparations dispute]] alive as a formal state issue. By the late 1980s and early 1990s, it supported renewed pressure on Solara and helped prepare the state for confrontation.
+
+== Usage Note ==
+
+If future wiki pages need more detail, this article can be split into `Vesperan Imperial Council` and `Khalindarian Imperial Council`, with this page kept as a disambiguation and overview.
+
+[[Category:Organizations]]
+[[Category:Government]]

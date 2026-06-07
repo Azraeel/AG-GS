@@ -1,0 +1,28 @@
+<!--
+AGGS draft metadata
+title: Valderic languages
+category: Language
+status: draft
+era: Rhovlandian History
+yearStart: unknown
+yearEnd: 1994
+aliases: Valderic language family
+tags: Rhovland, Viridia, language
+facts:
+Type: Language family
+Associated state: [[Imperial Rhovland]]
+Known branches: West Valderic; East Valderic; High Valderic; Riverine Valderic; Mountain Valderic
+Related languages: [[Witersckar]], [[Geslariena]], [[Rontzken]]
+Script: [[Valderic script]]
+Open canon: Proto-language, branch dates, family tree, and non-Rhovlandian members need review
+-->
+The '''Valderic languages''' are the language family associated with [[Imperial Rhovland]] and several Rhovlandian regional languages.
+
+Current local drafts include [[Witersckar]], [[Geslariena]], and [[Rontzken]] as Valderic-family languages. The source material uses branch labels such as West Valderic, East Valderic, High Valderic, Riverine Valderic, and Mountain Valderic, but does not yet provide a complete family tree.
+
+== Draft Scope ==
+
+This page exists to connect Rhovland's language pages without inventing a full linguistic chronology. It should be expanded only after source review settles the relationship between Witersckar's federal standard, Geslariena's riverine tradition, and Rontzken's mountain/mining tradition.
+
+[[Category:Languages]]
+[[Category:Rhovland]]

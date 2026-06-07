@@ -1,0 +1,37 @@
+<!--
+AGGS draft metadata
+title: Royal Language Decree of 1652
+category: Event
+status: draft
+era: Vesperan Kingdom
+yearStart: 1652
+yearEnd: 1652
+aliases: Vesperan Royal Language Decree
+tags: Vesperan Kingdom, Vesperan Language, Vesperan Alphabet
+facts:
+Type: Royal standardization decree
+State: [[Vesperan Kingdom]]
+Date: 1652
+Subject: [[Vesperan Language]] and [[Vesperan Alphabet]]
+Result: Classical Vesperan standardized for government, law, court use, and formal recordkeeping
+-->
+The '''Royal Language Decree of 1652''' was a language and script standardization decree of the [[Vesperan Kingdom]]. It established a standardized form of the [[Vesperan Language]] for government, law, court use, and formal recordkeeping.
+
+== Background ==
+
+The decree followed the kingdom's consolidation in 1650. The new state needed a reliable administrative language that could be used by courts, royal offices, legal records, and provincial officials.
+
+Earlier western scribal traditions and the [[Royal Scriptorial Decree]] had already created a written foundation. The 1652 decree connected that older script tradition to a more centralized kingdom government.
+
+== Provisions ==
+
+Source material says the decree standardized Classical Vesperan and codified the [[Vesperan Alphabet]] into formal and cursive variants. It gave royal authority to spelling, court vocabulary, legal phrasing, and official recordkeeping.
+
+The decree helped make Vesperan a state language rather than only the language of the ruling region.
+
+== Legacy ==
+
+The decree became one of the main foundations for later imperial language policy. After the [[Imperial Proclamation of 1710]], the [[Imperial Language Academy]] used the older royal standard as the base for imperial grammar, administrative terminology, and script reform.
+
+[[Category:Events]]
+[[Category:Vesperan Empire]]

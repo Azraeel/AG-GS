@@ -1,0 +1,33 @@
+<!--
+AGGS draft metadata
+title: Federal Constitution of 1949
+category: Government
+status: draft
+era: Post-Avant Great War Settlement
+yearStart: 1949
+yearEnd: 1949
+aliases: Belcantese Federal Constitution
+tags: Belcanto, Belcanto Nations, postwar settlement
+facts:
+Type: Founding constitutional framework
+State: [[Belcanto Nations]]
+Date: 1949 in source material
+Purpose: Balance regional autonomy with national unity after independence
+Legacy: Basis for postwar federal government and language restoration
+-->
+The '''Federal Constitution of 1949''' was the founding constitutional framework of the postwar [[Belcanto Nations]]. It was adopted after the [[Declaration of Belcantese Independence]] and the collapse of Vesperan occupation.
+
+== Purpose ==
+
+The constitution balanced national coordination with regional autonomy. It drew on older Belcantese federal traditions while creating modern institutions capable of reconstruction, border administration, public education, and economic recovery.
+
+== Institutions ==
+
+Source material describes a federal parliamentary system with national representation and regional self-government. This draft preserves the constitutional role without hardening every chamber, office, or region count until the five-nation/seven-region issue is reviewed.
+
+== Legacy ==
+
+The constitution gave legal shape to Belcanto's postwar recovery. It also supported language restoration, cultural reconstruction, and the reintegration of communities that had been divided by occupation policy.
+
+[[Category:Government]]
+[[Category:Belcanto]]

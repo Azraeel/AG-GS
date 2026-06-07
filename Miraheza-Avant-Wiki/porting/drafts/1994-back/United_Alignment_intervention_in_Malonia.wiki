@@ -1,0 +1,50 @@
+<!--
+AGGS draft metadata
+title: United Alignment intervention in Malonia
+category: Event
+status: draft
+era: Post-Avant Great War Settlement
+yearStart: 1949
+yearEnd: 1951
+aliases: UAN intervention in Malonia, Liberation of Malonia
+tags: Malonia, United Alignment of Nations, Vesperan Empire, postwar settlement
+facts:
+Type: Postwar intervention and reconstruction
+Date: 1949-1951 formal intervention; reconstruction continued into the early 1950s
+Place: [[Dracoist Malonia|Malonia]]
+Actors: [[United Alignment of Nations]]; Malonian independence leaders; former Vesperan puppet authorities
+Result: Vesperan puppet regime dismantled; provisional administration; independent constitution and elections
+-->
+The '''United Alignment intervention in Malonia''' was the 1949 postwar action by the [[United Alignment of Nations]] that ended the Vesperan-installed puppet regime in [[Dracoist Malonia|Malonia]]. It followed the defeat of the [[Vesperan Empire]] in the [[Avant Great War]] and began Malonia's first period of modern independent government.
+
+The intervention became one of the major examples of the United Alignment's postwar anti-imperial policy: dismantle Vesperan client structures, restore local sovereignty, and prevent remaining imperial networks from reconstituting power.
+
+== Background ==
+
+Before 1949, Malonia had spent generations under increasing Vesperan influence. Its monarchy, republic, and constitutional democracy each retained formal local institutions, but by the early 20th century the country functioned as a Vesperan satellite. Vesperan advisors shaped its military, Vesperan-backed corporations dominated key industries, and Vesperan political loyalists controlled major decisions.
+
+During the Avant Great War, Malonia suffered from the consequences of that dependency. Its economy served imperial needs, and its military structures were tied to Vesperan strategic priorities.
+
+== Intervention ==
+
+After the Vesperan defeat, United Alignment forces and diplomats moved to dismantle the puppet regime. Vesperan advisors were removed, collaborationist offices were dissolved or screened, and a provisional administration was created with UAN representatives and Malonian independence leaders.
+
+The immediate tasks were practical: secure ministries, prevent revenge killings, reopen ports and roads, restore food distribution, and keep the military from fragmenting. The intervention also had a legal purpose, separating Malonian institutions from Vesperan treaty obligations, corporate claims, and military command structures.
+
+== Reconstruction ==
+
+The provisional administration encouraged a new constitution in the early 1950s. Elections were held, civil liberties were restored, and Malonia's first genuinely independent modern government took office.
+
+Economic reconstruction focused on nationalizing industries formerly controlled by Vesperan corporations, reclaiming land and resource policy, and reducing dependence on foreign capital. UAN aid helped rebuild infrastructure, but also created later debates over whether Malonia had traded one kind of foreign dependence for another.
+
+The military was rebuilt as a national defense force rather than an auxiliary of imperial policy. Vesperan officers and advisors were removed, training doctrine was rewritten, and defense agreements with UAN members gave Malonia security during the fragile postwar years.
+
+== Legacy ==
+
+The intervention is remembered in Malonia as both liberation and unfinished reconstruction. It ended direct Vesperan control and gave the country a sovereign state, but it did not erase poverty, distrust, or the political habits left by imperial rule.
+
+Later [[Dracoism|Dracoist]] movements used the memory of Vesperan domination to demand stronger national discipline. At the same time, they attacked the postwar UAN-backed settlement as too liberal, too dependent on foreign aid, and too weak to prevent renewed subordination.
+
+[[Category:Events]]
+[[Category:Malonia]]
+[[Category:Postwar Settlement]]

@@ -1,0 +1,34 @@
+<!--
+AGGS draft metadata
+title: A Wild World: Book 1
+category: Culture
+status: draft
+era: Solaran Cultural History
+yearStart: 1901
+yearEnd: 1994
+aliases: Book 1, Book_1
+tags: A Wild World, Jane Pensworth, Gaia
+facts:
+Type: Source fragment
+Series: [[A Wild World]]
+Author: [[Jane Pensworth]]
+Publication anchor: First book published in 1901 in Jane Pensworth source
+Fictional setting: [[Gaia]]
+Open canon: Exact title, publication sequence, whether this fragment is the first published book, and narrative frame need confirmation
+-->
+'''A Wild World: Book 1''' is a local review title for the surviving source fragment stored as ''Book 1'' in the Miraheze dump.
+
+== Source Fragment ==
+
+The fragment describes a remote age of [[Gaia]] before humanity and many other races. In the story world, elves and dragons lived together for thousands of years in a globe-spanning civilization built on technology and magic.
+
+The fragment then describes a long war between the two civilizations. Its climax involved elven archmages detonating a large volcanic system in the dragons' homeland. The disaster stopped the dragons but devastated much of the world, darkened the skies with ash, and helped bring down both empires over the following century.
+
+== Literary Role ==
+
+Because the source page does not provide a formal title, chapter heading, publication data, or exact relationship to the 1901 first book, this draft treats the text as a source fragment for [[A Wild World]] rather than as a finished bibliographic article.
+
+Its value for AGGSWorld lore is cultural: it shows the kind of mythic deep-time fantasy associated with [[Jane Pensworth]]'s fiction.
+
+[[Category:Culture]]
+[[Category:Solara]]

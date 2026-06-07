@@ -1,0 +1,37 @@
+<!--
+AGGS draft metadata
+title: Albroke
+category: Location
+status: draft
+era: Solara-Khalindar War
+yearStart: 1990
+yearEnd: 1990
+aliases: Albroke Naval Harbor, Albroke Naval Harbors
+tags: Solara, Solara-Khalindar War, Khalindar
+facts:
+Type: Solaran naval harbor complex
+Country: [[Solara]]
+Known for: Opening strike of the [[Solara-Khalindar War]]
+Date of attack: March 1990
+Damage: More than 30% of the Solaran Navy sunk or disabled; three aircraft carriers lost
+-->
+'''Albroke''' was a Solaran naval harbor complex attacked by Khalindar in March 1990, opening the [[Solara-Khalindar War]]. The attack shocked Solara, crippled a large part of its fleet, and allowed Khalindar to seize the initiative in the first phase of the war.
+
+== Prewar Conditions ==
+
+Solara entered the war nationally united and confident. Its large carrier strike groups were treated as a deterrent, and Solaran pride was high. That confidence contributed to lax security around fixed harbor infrastructure and made Albroke a tempting target.
+
+Khalindar did not possess a uniformly advanced air force. Much of its bomber force was old, including prop-driven aircraft. The strike plan therefore relied on range workarounds, sabotage, mines, submarines, fast craft, and one-way anti-carrier attacks rather than a clean high-tech precision campaign.
+
+== Attack ==
+
+The attack combined multiple methods to overwhelm harbor defenses and hit ships in port. Khalindarian planners prioritized aircraft carriers, fuel storage, repair facilities, ammunition handling sites, and command infrastructure.
+
+Old source material states that over 30 percent of the Solaran Navy was sunk or disabled, including three aircraft carriers.
+
+== Legacy ==
+
+Albroke became the symbol of Solaran complacency before the war. For Khalindar, it was remembered as proof that sacrifice and surprise could offset Solara's technological and naval advantages. For Solara, it became the trauma that shaped later reconstruction and naval security doctrine.
+
+[[Category:Locations]]
+[[Category:Solara-Khalindar War]]

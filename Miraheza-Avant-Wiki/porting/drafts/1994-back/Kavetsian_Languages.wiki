@@ -1,0 +1,28 @@
+<!--
+AGGS draft metadata
+title: Kavetsian Languages
+category: Culture
+status: draft
+era: Zhensanov Cultural History
+yearStart: unknown
+yearEnd: 1994
+aliases: Kavetsian, Kavetsian Language
+tags: Zhensanovian Languages, Union of Zhensanov
+facts:
+Type: Zhensanovian language branch
+Region in source: Southwestern forests
+Traditional script: Not specified in current source excerpt
+Noted features: Analytic grammar, verb prefixes, noun cases, hissing consonant sounds, no grammatical gender
+Open canon: Exact region, speaker count, script history, and political status need confirmation
+-->
+The '''Kavetsian Languages''' are a branch of the [[Zhensanovian Languages]] associated in source material with the southwestern forests of the [[Union of Zhensanov]].
+
+The source describes Kavetsian languages as more analytic than some other Zhensanovian branches, with extensive verb prefixes, a smaller case system than Toramdic, hissing consonant sounds, and no grammatical gender.
+
+== Canon Limits ==
+
+This draft preserves only the linguistic features and broad source region. It does not establish a forest polity, legal minority status, or military role for Kavetsian speakers.
+
+[[Category:Culture]]
+[[Category:Languages]]
+[[Category:Zhensanov]]

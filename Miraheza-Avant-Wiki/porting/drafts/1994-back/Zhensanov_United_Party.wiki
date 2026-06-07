@@ -1,0 +1,31 @@
+<!--
+AGGS draft metadata
+title: Zhensanov United Party
+category: Organization
+status: draft
+era: Modern Zhensanov
+yearStart: unknown
+yearEnd: 1994
+aliases: ZUP
+tags: Zhensanov, Nogoyevian War of Independence
+facts:
+Type: Political party
+Associated state: [[Union of Zhensanov]]
+Role: Dominant party in Zhensanov's parliamentary system
+Known for: Centralization and suppression of regional separatism in Nogoyevian sources
+Open canon: Founding date, ideology, leaders, and legal status need confirmation
+-->
+The '''Zhensanov United Party''' is the dominant political party named in sources about the [[Union of Zhensanov]]. By the late 1940s, it had retained a majority for decades and was closely associated with centralized policy across the Union's constituent nations.
+
+This draft is a bridge page. The source describes the party mainly from the perspective of the [[Nogoyevian War of Independence]], where Nogoyevian nationalists blamed it for marginalization, economic extraction, and suppression of regional identity.
+
+== Role In Zhensanov ==
+
+The party operated inside a parliamentary system but held enough power that opposition groups in Nogoyev viewed Zhensanovian democracy as constrained. Its policies emphasized federal unity, centralized planning, and the integration of constituent nations under common administration.
+
+== Nogoyevian Opposition ==
+
+In Nogoyevian political memory, the Zhensanov United Party became the face of central rule. The [[All-Nationalist Nogoyev Party]] used resentment toward the party to mobilize support for sovereignty and Tsarist restoration.
+
+[[Category:Organizations]]
+[[Category:Zhensanov]]

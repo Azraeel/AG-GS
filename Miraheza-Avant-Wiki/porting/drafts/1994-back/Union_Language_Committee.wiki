@@ -1,0 +1,31 @@
+<!--
+AGGS draft metadata
+title: Union Language Committee
+category: Organization
+status: draft
+era: Zhensanov Cultural History
+yearStart: unknown
+yearEnd: 1994
+aliases: ULC
+tags: Zhensanov, Zhensanovian Languages, Union Alphabet
+facts:
+Type: Language-policy body
+Associated state: [[Union of Zhensanov]]
+Known for: Development of the [[Union Alphabet]]
+Development period: Mid-20th-century source reference for alphabet standardization
+Open canon: Founding date, legal authority, membership, and relationship to education ministries need confirmation
+-->
+The '''Union Language Committee''' is the Zhensanov language-policy body source-attested as responsible for developing the [[Union Alphabet]].
+
+== Role ==
+
+The committee's main 1994-back significance is script standardization. In the source set, it developed the Union Alphabet to provide a common writing system for the [[Zhensanovian Languages]], especially for official documents, education, signage, and media. The exact pre-1994 implementation scope remains open.
+
+This draft does not define the committee's legal status, membership, or exact relationship to the [[Zhensanov United Party]] because the current source does not provide those details.
+
+== Later Trajectory ==
+
+Later source material connects the committee to Sanovic, a constructed lingua franca described as early twenty-first-century. That later language work is outside the 1994-back pass and should be reviewed separately.
+
+[[Category:Organizations]]
+[[Category:Zhensanov]]

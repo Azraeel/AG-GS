@@ -1,0 +1,37 @@
+<!--
+AGGS draft metadata
+title: Imperial Pact
+category: Organization
+status: draft
+era: Great War and Postwar Settlement
+yearStart: 1937
+yearEnd: 1949
+tags: Avant Great War, Vesperan Empire
+facts:
+Type: Wartime coalition and imperial alignment system
+Leading power: [[Vesperan Empire]]
+Opponent: [[United Alignment of Nations]]
+Result: Defeated in the [[Avant Great War]]
+-->
+The '''Imperial Pact''' was the Vesperan-led alignment system that opposed the [[United Alignment of Nations]] during the [[Avant Great War]]. It included the [[Vesperan Empire]], allied imperial states, client governments, military dependencies, and territories compelled to support Vesperan strategy.
+
+== Structure ==
+
+The Pact was not a purely voluntary alliance. Some members were formal allies of Vespera, while others were protectorates, puppet governments, occupied administrations, or states whose foreign policy had been constrained by Vesperan military and economic pressure.
+
+Vesperan strategic planning treated the Pact as a global system of ports, industrial regions, airfields, raw-material zones, and military corridors. The empire expected its partners and dependencies to support total war through production, manpower, intelligence, logistics, and basing rights.
+
+== Role In The Great War ==
+
+During the Avant Great War, the Imperial Pact fought to preserve Vesperan dominance and prevent the United Alignment from dismantling the imperial order. Vesperan military doctrine emphasized combined arms operations, naval power projection, strategic bombing, and centralized command.
+
+As the war turned against Vespera, Pact cohesion weakened. Resistance movements grew in occupied territories, client governments defected or collapsed, and Vesperan demands on subject economies became harder to sustain.
+
+== Collapse ==
+
+The Pact collapsed with the Vesperan defeat in 1949. Its remaining commands either surrendered, fragmented into local conflicts, or continued resistance during the [[Continuation War]].
+
+The postwar settlement treated Imperial Pact structures as part of the Vesperan imperial system to be dismantled, though many former Pact institutions survived in weakened or renamed forms.
+
+[[Category:Organizations]]
+[[Category:Avant Great War]]

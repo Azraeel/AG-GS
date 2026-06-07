@@ -1,0 +1,25 @@
+<!--
+AGGS draft metadata
+title: Serenith Ocean
+category: Geography
+status: draft
+era: Geographic Reference
+yearStart: 0
+yearEnd: 1994
+aliases:
+tags: Aurendale, ocean, maritime geography
+facts:
+Type: Ocean or maritime region
+Associated country: [[Socialist Republic of Aurendale]]
+Source role: Ocean containing or bordering Aurendale
+Open canon: Exact boundaries, neighboring seas, islands, trade routes, and relationship to Erythrea need map review
+-->
+The '''Serenith Ocean''' is a maritime region named in the source material for the [[Socialist Republic of Aurendale]].
+
+The Aurendale source places the island nation in the Serenith Ocean, roughly between the Kingdom of Khopda and Chikhanbaatar Khanate. This draft does not define the ocean's exact boundaries or relationship to neighboring seas.
+
+== Source Limits ==
+
+The current source does not provide a maritime atlas. The Serenith Ocean should be treated as an open map-review anchor until the 2003 and 2022 map references are checked in detail.
+
+[[Category:Geography]]

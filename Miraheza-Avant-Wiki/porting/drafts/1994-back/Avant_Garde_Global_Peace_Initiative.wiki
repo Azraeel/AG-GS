@@ -1,0 +1,42 @@
+<!--
+AGGS draft metadata
+title: Avant Garde Global Peace Initiative
+category: Organization
+status: draft
+era: Late 20th Century
+yearStart: 1994
+yearEnd: 1994
+aliases: AGGPI
+tags: AGGPI, Solara-Khalindar War, Solara, Union of Zhensanov
+facts:
+Founded: November 1994
+Founding sponsors: [[Solara]]; [[Union of Zhensanov]]
+Purpose: Postwar deterrence, peacekeeping, mediation, and human-rights framework
+Origin: Created in response to the [[Solara-Khalindar War]]
+-->
+The '''Avant Garde Global Peace Initiative''' ('''AGGPI''') is an international peace and security organization created in response to the Solara-Khalindar War of 1990-1994. It was formed in November 1994 by [[Solara]] and the now-defunct [[Union of Zhensanov]] as a deterrence framework intended to prevent future wars on the scale of the Solara-Khalindar conflict.
+
+== Formation ==
+
+AGGPI emerged during the final stage of the Solara-Khalindar War. Solara wanted a durable international structure that could deter renewed Khalindarian aggression, coordinate peacekeeping, and provide a public legal framework for future intervention.
+
+The Union of Zhensanov supported the initiative as a way to stabilize the postwar order and prevent another major war from spreading across the wider world. The organization expanded after its initial formation, with later charter work and practical offices developing in 1995.
+
+== Mission ==
+
+AGGPI's stated mission is to support peace, human rights, conflict mediation, sustainable development, and collective action against severe aggression. Unlike the older Istragarde framework, AGGPI was designed to be more active in crisis response, though its legal power remained limited by the willingness of member states to act.
+
+== Structure ==
+
+AGGPI is governed by member representatives. Votes are cast without a veto system, and the secretariat handles day-to-day administration rather than independent rule-making.
+
+Its influence comes less from binding world law and more from the power of its leading members to coordinate sanctions, mediation, reconstruction, peacekeeping, and, when politically possible, direct intervention.
+
+== Limits And Criticism ==
+
+Critics argue that AGGPI depends heavily on powerful members and can reflect their geopolitical interests. Supporters argue that this practical weakness is also its strength: AGGPI can act where the weak Istragarde system could only issue rulings.
+
+The organization was intended to become one of the main postwar institutions created from the shock of the Solara-Khalindar War. Later AGGPI history should be confirmed in a separate post-1994 pass.
+
+[[Category:Organizations]]
+[[Category:International relations]]

@@ -1,0 +1,24 @@
+<!--
+AGGS draft metadata
+title: Vesperan Aristocracy
+category: Society
+status: draft
+era: Vesperan Empire
+yearStart: 1710
+yearEnd: 1949
+aliases: Vesperan nobility
+tags: Vesperan Empire, aristocracy, Imperial Cult
+facts:
+Type: Noble and elite social class
+State: [[Vesperan Empire]]
+Political role: Court service, provincial administration, military command, religious patronage
+Religious role: Public support for the [[Imperial Cult]]
+-->
+The '''Vesperan Aristocracy''' was the noble and elite class of the [[Vesperan Empire]]. Aristocratic families supplied court officials, military officers, provincial administrators, patrons of the [[Imperial Cult]], and members of the wider imperial governing class.
+
+The aristocracy helped translate imperial authority into local rule. In conquered and client territories, aristocratic networks supported occupation administrations, ceremonial loyalty, and economic extraction.
+
+After the empire's collapse in 1949, surviving aristocratic families lost formal imperial authority, though some retained wealth, social influence, or loyalist connections in the postwar world.
+
+[[Category:Society]]
+[[Category:Vesperan Empire]]

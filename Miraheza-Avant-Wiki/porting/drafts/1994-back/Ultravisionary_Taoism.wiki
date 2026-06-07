@@ -1,0 +1,31 @@
+<!--
+AGGS draft metadata
+title: Ultravisionary Taoism
+category: Ideology
+status: draft
+era: Later Taoist Trajectory
+yearStart: unknown
+yearEnd: 1994
+aliases:
+tags: Taoism, technology, ideology
+facts:
+Type: Modern branch or trajectory of [[Taoism]]
+Source basis: `Ultravisionary_Taoism`; `Taoism`
+Core source themes: Technological acceleration; ecological modernization; technocratic leadership; technology-focused diplomacy
+Open canon: Founding date, state adoption, pre-1994 relevance, and advanced-technology timing need review
+-->
+'''Ultravisionary Taoism''' is a modern branch or trajectory of [[Taoism]] in the extracted source material.
+
+The source presents it as an aggressive, technology-focused form of Taoist political thought. Because much of the source discusses advanced technologies and future-facing policy, this draft does not treat Ultravisionary Taoism as an established pre-1994 state ideology.
+
+== Ideas ==
+
+The source combines Taoist language of harmony and balance with technological acceleration, ecological modernization, expert-led governance, and international technology diplomacy.
+
+Its economic program emphasizes advanced industrial systems, sustainable production, workforce development, and technical innovation. Its political model favors leaders selected for knowledge and expertise, especially in scientific and technical fields.
+
+== Source Limits ==
+
+The source does not provide a founding date, founder, first state, party, or confirmed pre-1994 movement. This page exists to preserve the later Taoist trajectory for review while preventing it from being retroactively inserted into the Xanaqu or Mariposian 1994-back chronology.
+
+[[Category:Ideologies]]

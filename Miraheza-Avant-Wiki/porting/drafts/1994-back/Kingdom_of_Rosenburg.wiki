@@ -1,0 +1,26 @@
+<!--
+AGGS draft metadata
+title: Kingdom of Rosenburg
+category: Country
+status: draft
+era: Pre-Avant Great War
+yearStart: 1870
+yearEnd: 1994
+tags: Rosenburg, Northern Alliance, Bakorian War
+facts:
+Type: Kingdom
+Relevant role: Northern Alliance-associated supporter of the [[Bakorian Republic]]
+Source status: Mentioned in the [[Bakorian War]] source; full national canon not yet available
+-->
+The '''Kingdom of Rosenburg''' was a Northern Alliance-associated monarchy named in the [[Bakorian War]] source as one of the states that supported the [[Bakorian Republic]].
+
+== Bakorian War Role ==
+
+Rosenburg's known role in the 1994-back draft set is limited to covert support for Bakoria alongside [[Imperial Rhovland]], [[Theorin Commonwealth]], and [[Federation of Vinterholm]]. That support included the wider Northern Alliance pattern of training, supplies, advisors, intelligence, and diplomatic backing.
+
+== Source Limits ==
+
+No full extracted national article for Rosenburg was found in the current Miraheze page set. This bridge page exists to keep the Bakorian War draft navigable without inventing a full state history.
+
+[[Category:Countries]]
+[[Category:Northern Alliance]]

@@ -1,0 +1,34 @@
+<!--
+AGGS draft metadata
+title: Southern Defense Force of Ledostrov
+category: Organization
+status: draft
+era: Ledostrov Pentarchy
+yearStart: 1952
+yearEnd: 1994
+aliases: Southern Defense Force, Southern Defense Force of Ledestrov
+tags: Ledostrov, Reznikoff, Pentarchy
+facts:
+Type: Regional military command
+Commander during Pentarchy collapse: [[Reznikoff of Ledostrov]]
+Role: Refused orders to suppress an insurrection and marched on [[Novoanov]]
+Political result: Helped end the [[Pentarchy of Ledostrov]]
+Date note: First source-attested during the late Pentarchy collapse; formation date unknown
+Coverage note: yearEnd indicates this 1994-back draft scope, not institutional dissolution
+-->
+The '''Southern Defense Force of Ledostrov''' was a regional military command in the [[Duchy of Ledostrov]]. Its formation date is not given in the extracted source; it is first source-attested during the late [[Pentarchy of Ledostrov]] crisis.
+
+== Role In The Pentarchy Crisis ==
+
+During the late [[Pentarchy of Ledostrov]], the Southern Defense Force was commanded by [[Reznikoff of Ledostrov]]. When ordered to suppress a minor insurrection, Reznikoff refused. Instead, he incorporated rebels into his own forces and marched on [[Novoanov]].
+
+== Political Importance ==
+
+The force's defection showed that the Pentarchy no longer controlled the military reliably. Its march on Novoanov triggered the final collapse of Uzryta's regime and allowed Reznikoff to present himself as a restorer of order.
+
+== Later Military Reform ==
+
+After taking power, Reznikoff reorganized the military. The source says his military background let him implement reforms similar in structure to Uzryta's unpopular plans but with less opposition.
+
+[[Category:Organizations]]
+[[Category:Ledostrov]]

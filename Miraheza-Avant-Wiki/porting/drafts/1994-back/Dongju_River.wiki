@@ -1,0 +1,27 @@
+<!--
+AGGS draft metadata
+title: Dongju River
+category: Geography
+status: draft
+era: Geographic Reference
+yearStart: 0
+yearEnd: 1994
+aliases:
+tags: Erythrea, Suzuharu, river
+facts:
+Type: River
+Continent: [[Erythrea]]
+Associated country: [[Democratic Republic of Suzuharu]]
+Source role: Major waterway and agricultural corridor in Suzuharu
+Open canon: Source, mouth, length, tributaries, cities, borders, and military history need review
+-->
+The '''Dongju River''' is a major waterway in [[Erythrea]] associated with the [[Democratic Republic of Suzuharu]].
+
+The Erythrea source describes the river as a defining feature of Suzuharu's topography, supporting agriculture, trade, fresh water access, fertile floodplains, and settlement along its banks.
+
+== Source Limits ==
+
+The current source does not provide the river's source, mouth, length, tributaries, exact course, or political border role. This draft therefore treats Dongju as a geographic anchor rather than a complete river article.
+
+[[Category:Geography]]
+[[Category:Erythrea]]

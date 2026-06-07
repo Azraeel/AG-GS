@@ -1,0 +1,5541 @@
+{
+  "liveStatus": "unavailable (admin API with Cloudflare Access service token: HTTP 403; public API: HTTP 403)",
+  "records": [
+    {
+      "title": "A Wild World",
+      "slug": "a-wild-world",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/A_Wild_World.wiki",
+      "bytes": 251,
+      "class": "article",
+      "years": [
+        1021
+      ],
+      "pre1995Years": [
+        1021
+      ],
+      "links": [
+        "Gaia",
+        "Jane Pensworth"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 10
+    },
+    {
+      "title": "AGGPI",
+      "slug": "aggpi",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/AGGPI.wiki",
+      "bytes": 5681,
+      "class": "organization",
+      "years": [
+        1990,
+        1994,
+        1995
+      ],
+      "pre1995Years": [
+        1990,
+        1994
+      ],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [
+        "aggpi_1995_foundation"
+      ],
+      "alreadyLive": null,
+      "score": 32
+    },
+    {
+      "title": "AGGPI Principles",
+      "slug": "aggpi-principles",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/AGGPI_Principles.wiki",
+      "bytes": 7149,
+      "class": "culture-idea",
+      "years": [
+        1995,
+        1996,
+        1997
+      ],
+      "pre1995Years": [],
+      "links": [
+        "AGGPI Charter",
+        "AGGPIPF",
+        "Avant Garde Global Peace Initiative",
+        "Global Governance Review",
+        "International Law Journal",
+        "Treaty of the Concord of Istragarde"
+      ],
+      "categories": [
+        "International Organizations",
+        "Law",
+        "Organizations"
+      ],
+      "canonWarnings": [
+        "aggpi_1995_foundation"
+      ],
+      "alreadyLive": null,
+      "score": 16
+    },
+    {
+      "title": "Alberion",
+      "slug": "alberion",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Alberion.wiki",
+      "bytes": 1650,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Great Kinbury Basin",
+        "Indonésiarab Empire",
+        "Kinbury Mountains",
+        "Nightbloom flower",
+        "Shadowcat",
+        "Solara",
+        "Vesperan Federation"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 1
+    },
+    {
+      "title": "Asgard Private Military Corporation",
+      "slug": "asgard-private-military-corporation",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Asgard_Private_Military_Corporation.wiki",
+      "bytes": 268,
+      "class": "organization",
+      "years": [
+        1986,
+        1998
+      ],
+      "pre1995Years": [
+        1986
+      ],
+      "links": [
+        "Emperor Mikael IV"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 18
+    },
+    {
+      "title": "Astoria",
+      "slug": "astoria",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Astoria.wiki",
+      "bytes": 18,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 0
+    },
+    {
+      "title": "Avant Garde Official Discord",
+      "slug": "avant-garde-official-discord",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Avant_Garde_Official_Discord.wiki",
+      "bytes": 1683,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Avant Garde Official:Discord/Rules"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 1
+    },
+    {
+      "title": "Avant Great War",
+      "slug": "avant-great-war",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Avant_Great_War.wiki",
+      "bytes": 1132,
+      "class": "event",
+      "years": [
+        1937,
+        1949,
+        1951
+      ],
+      "pre1995Years": [
+        1937,
+        1949,
+        1951
+      ],
+      "links": [
+        "Continuation War",
+        "Imperial Pact",
+        "United Alignment of Nations",
+        "Vesperan Empire",
+        "alliances",
+        "deadliest conflict",
+        "global conflict",
+        "planes",
+        "strategic bombing",
+        "tanks",
+        "total war"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 24
+    },
+    {
+      "title": "Avant World War",
+      "slug": "avant-world-war",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Avant_World_War.wiki",
+      "bytes": 34,
+      "class": "event",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Solara-Khalindar War"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 5
+    },
+    {
+      "title": "Bakorian War",
+      "slug": "bakorian-war",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Bakorian_War.wiki",
+      "bytes": 14265,
+      "class": "event",
+      "years": [
+        1834,
+        1931,
+        1932,
+        1933,
+        1934,
+        1935,
+        1936,
+        1937,
+        1938,
+        1939,
+        1940,
+        1941
+      ],
+      "pre1995Years": [
+        1834,
+        1931,
+        1932,
+        1933,
+        1934,
+        1935,
+        1936,
+        1937,
+        1938,
+        1939,
+        1940,
+        1941
+      ],
+      "links": [
+        "Ahmet Veil",
+        "Arashiyun Caliphate",
+        "Astorian Expansion Era",
+        "Azmetan",
+        "Bakorian Republic",
+        "Battle for Azmetan",
+        "Battle of the Eastern Corridor",
+        "Battle of the Northern Plains",
+        "Battle of the Southern Highlands",
+        "Campaign of the Three Rivers",
+        "Defense of the Mountain Passes",
+        "Federation of Vinterholm",
+        "Forward Defense Doctrine",
+        "Imperial Rhovland",
+        "Janissary Corps",
+        "Kingdom of Rosenburg",
+        "Kovacgrad",
+        "Legion of Astoria",
+        "Lord Commander",
+        "Mamoonid Caliphate",
+        "Mobile Defense Forces",
+        "Northern Alliance",
+        "Pesteran-Astorian War",
+        "Rhovland",
+        "Siege of Kovacgrad",
+        "Theorin Commonwealth",
+        "Treaty of Bokevrek",
+        "Vanguard Order",
+        "Vesperan Empire",
+        "Viridia"
+      ],
+      "categories": [
+        "20th Century Conflicts",
+        "Astorian History",
+        "Bakorian History",
+        "Military History",
+        "Northern Alliance",
+        "Wars"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 35
+    },
+    {
+      "title": "Belcantese Language",
+      "slug": "belcantese-language",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Belcantese_Language.wiki",
+      "bytes": 9154,
+      "class": "culture-idea",
+      "years": [
+        1156,
+        1400,
+        1892,
+        1920,
+        1945,
+        1949,
+        1950,
+        1987,
+        1995,
+        2010,
+        2015,
+        2020
+      ],
+      "pre1995Years": [
+        1156,
+        1400,
+        1892,
+        1920,
+        1945,
+        1949,
+        1950,
+        1987
+      ],
+      "links": [
+        "Belcantese Cultural Resistance",
+        "Belcantese Language Institute",
+        "Belcantese Literature",
+        "Belcantese Studies Journal",
+        "Belcanto",
+        "Cantusian Language",
+        "Council of Tongues",
+        "Federal Ministry of Education",
+        "Forest Codex",
+        "Forest-Desert Belcantese",
+        "Harmonese Language",
+        "Language Restoration Act of 1950",
+        "Latin script",
+        "Melodic Language",
+        "Minuetic Language",
+        "Northern Belcantese",
+        "Proto-Belcantese",
+        "Resistance Songbook",
+        "Serenadic Language",
+        "University of Belcanto",
+        "Vesperan Empire",
+        "Vesperan Language"
+      ],
+      "categories": [
+        "Belcantese Languages",
+        "Belcanto",
+        "Languages",
+        "Official Languages"
+      ],
+      "canonWarnings": [
+        "aggpi_1995_foundation"
+      ],
+      "alreadyLive": null,
+      "score": 30
+    },
+    {
+      "title": "Belcanto Campaign",
+      "slug": "belcanto-campaign",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Belcanto_Campaign.wiki",
+      "bytes": 11546,
+      "class": "event",
+      "years": [
+        1891,
+        1892,
+        1893,
+        1894,
+        1895,
+        1896,
+        1897,
+        1923,
+        1975
+      ],
+      "pre1995Years": [
+        1891,
+        1892,
+        1893,
+        1894,
+        1895,
+        1896,
+        1897,
+        1923,
+        1975
+      ],
+      "links": [
+        "Admiral Carlo Rossini",
+        "Admiral Marcus Valerius",
+        "Battle of Porto Nuovo",
+        "Battle of Pristanište",
+        "Battle of the Seven Peaks",
+        "Belcantese Cultural Resistance",
+        "Belcantese Historical Society",
+        "Belcantese-Northern Alliance Treaty of 1891",
+        "Belcanto",
+        "Belcanto Federation",
+        "Belcanto Nations",
+        "Council of Seven Crowns",
+        "Field Marshal Gaius Severus",
+        "General Giuseppe Monteverdi",
+        "General Lucius Maximus",
+        "Global Consolidation",
+        "Imperial Cultural Integration Decree of 1897",
+        "Imperial Engineering Corps",
+        "Imperial Military Archives",
+        "Imperial Military Engineering Corps",
+        "Imperial Navy",
+        "King Alessandro di Belcanto",
+        "Military History Quarterly",
+        "Northern Alliance",
+        "Northern Coastal Campaign",
+        "Siege of Belcanto Centrale",
+        "Siege of Belgrad",
+        "Vesperan Empire",
+        "Vesperan Language",
+        "Vesperan Naval Command"
+      ],
+      "categories": [
+        "19th Century Conflicts",
+        "Belcanto Nations",
+        "Imperial Expansion",
+        "Vesperan Empire",
+        "Wars"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 34
+    },
+    {
+      "title": "Belcanto Federation",
+      "slug": "belcanto-federation",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Belcanto_Federation.wiki",
+      "bytes": 15532,
+      "class": "country",
+      "years": [
+        1156,
+        1400,
+        1456,
+        1634,
+        1641,
+        1723,
+        1729,
+        1800,
+        1892,
+        1893,
+        1894,
+        1895,
+        1897,
+        1905,
+        1937,
+        1940,
+        1949,
+        1951,
+        1965,
+        1975,
+        1989,
+        1999
+      ],
+      "pre1995Years": [
+        1156,
+        1400,
+        1456,
+        1634,
+        1641,
+        1723,
+        1729,
+        1800,
+        1892,
+        1893,
+        1894,
+        1895,
+        1897,
+        1905,
+        1937,
+        1940,
+        1949,
+        1951,
+        1965,
+        1975,
+        1989
+      ],
+      "links": [
+        "Ancient Belcantese Kingdoms",
+        "Avant Great War",
+        "Battle of Pristanište",
+        "Battle of Sedam Gajeva",
+        "Belcantese Cultural Resistance",
+        "Belcantese Historical Institute",
+        "Belcantese Independence Movement",
+        "Belcantese Language",
+        "Belcanto Campaign",
+        "Belcanto Federation",
+        "Cantus",
+        "Chamber of Representatives",
+        "Council of Seven Crowns",
+        "Declaration of Belcantese Independence",
+        "Eastern Expansion Conflicts",
+        "Empire of Khalindar",
+        "Federal Assembly",
+        "Federal Constitution of 1949",
+        "Federal Council",
+        "Federal Ministry of Culture",
+        "Great Conservatory of Belcanto",
+        "Harmonia",
+        "Imperial Cultural Decree of 1897",
+        "Imperial Economic Survey of 1905",
+        "International Studies Quarterly",
+        "Journal of Belcantese Studies",
+        "Melodia",
+        "Minuet",
+        "Northern Maritime Wars",
+        "Senate of Nations",
+        "Serenade Kingdom",
+        "Siege of Belgrad",
+        "Territorial Settlement of 1951",
+        "Vesperan Empire",
+        "Vesperan Imperial Archives",
+        "Vesperan Language"
+      ],
+      "categories": [
+        "Belcanto Nations",
+        "Countries",
+        "Federal Republics",
+        "Former Vesperan Territories",
+        "Post-Imperial States"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 30
+    },
+    {
+      "title": "Bjorn Uskalai",
+      "slug": "bjorn-uskalai",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Bjorn_Uskalai.wiki",
+      "bytes": 3,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 0
+    },
+    {
+      "title": "Book 0",
+      "slug": "book-0",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Book_0.wiki",
+      "bytes": 380,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 0
+    },
+    {
+      "title": "Book 1",
+      "slug": "book-1",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Book_1.wiki",
+      "bytes": 1573,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 1
+    },
+    {
+      "title": "Come out ye' Black and Whites",
+      "slug": "come-out-ye-black-and-whites",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Come_out_ye'_Black_and_Whites.wiki",
+      "bytes": 2722,
+      "class": "article",
+      "years": [
+        1943
+      ],
+      "pre1995Years": [
+        1943
+      ],
+      "links": [
+        "Anti-Astorianists",
+        "Defense of Azmetan",
+        "Legion of Astoria",
+        "Perastan",
+        "Perastan Republican Army",
+        "Pesteran-Astorian War"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 20
+    },
+    {
+      "title": "Daxaism",
+      "slug": "daxaism",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Daxaism.wiki",
+      "bytes": 4959,
+      "class": "culture-idea",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Daxalogy",
+        "Militarism",
+        "Radical Taoism",
+        "Spiral Academies",
+        "Synchronization",
+        "Taoism"
+      ],
+      "categories": [
+        "Ideologies",
+        "Militarism",
+        "Political ideologies",
+        "Taoism"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 4
+    },
+    {
+      "title": "Democratic Republic of Suzuharu",
+      "slug": "democratic-republic-of-suzuharu",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Democratic_Republic_of_Suzuharu.wiki",
+      "bytes": 1088,
+      "class": "country",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 1
+    },
+    {
+      "title": "Dracoism",
+      "slug": "dracoism",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Dracoism.wiki",
+      "bytes": 7549,
+      "class": "culture-idea",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Achilles Gavriilidis",
+        "Deep State (Dracoism Concept)",
+        "Dracoist Malonia"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 7
+    },
+    {
+      "title": "Dracoist Malonia",
+      "slug": "dracoist-malonia",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Dracoist_Malonia.wiki",
+      "bytes": 20373,
+      "class": "article",
+      "years": [
+        1731,
+        1785,
+        1850,
+        1905,
+        1949,
+        1993,
+        2001
+      ],
+      "pre1995Years": [
+        1731,
+        1785,
+        1850,
+        1905,
+        1949,
+        1993
+      ],
+      "links": [
+        "Avant Great War",
+        "Dracoism",
+        "United Alignment",
+        "Vesperan Empire"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 30
+    },
+    {
+      "title": "Duchy of Ledostrov",
+      "slug": "duchy-of-ledostrov",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Duchy_of_Ledostrov.wiki",
+      "bytes": 10887,
+      "class": "country",
+      "years": [
+        1352,
+        1938,
+        1942,
+        2003
+      ],
+      "pre1995Years": [
+        1352,
+        1938,
+        1942
+      ],
+      "links": [
+        "Anavaisk-Novoanov Accords",
+        "Baron of Uzryta",
+        "Battle of Lisebev",
+        "Burgrave of Sedava",
+        "Count of Anavaisk",
+        "Count of Litwaldov",
+        "Count of Reznikoff",
+        "Duma of Ledestrov",
+        "Orderism",
+        "Pentarchy of Ledestrov",
+        "Prince of Novoanov",
+        "Reznikoff of Ledestrov",
+        "Southern Defense Force of Ledestrov",
+        "Uzryta of Ledestrov"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 28
+    },
+    {
+      "title": "Empire of Hyeosu",
+      "slug": "empire-of-hyeosu",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Empire_of_Hyeosu.wiki",
+      "bytes": 8050,
+      "class": "country",
+      "years": [
+        2003
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Korean language",
+        "Wikipedia:Korean Buddhism",
+        "Wikipedia:Korean language",
+        "wikipedia:Korean language"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 8
+    },
+    {
+      "title": "Empire of Khalindar",
+      "slug": "empire-of-khalindar",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Empire_of_Khalindar.wiki",
+      "bytes": 2705,
+      "class": "country",
+      "years": [
+        2003
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Aleksandra Victoria Anne Mishia Chayka II",
+        "Anglish",
+        "Federal Chancellor of Khalindar",
+        "Sigrid Anastasia Anne Victoria Florence-Goring",
+        "State Councilor of Khalindar",
+        "Wikipedia:Belarusian Language",
+        "Wikipedia:Danish Language",
+        "Wikipedia:Icelandic Language",
+        "Wikipedia:Norwegian Language",
+        "Wikipedia:Rusyn Language"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 8
+    },
+    {
+      "title": "Erythrea",
+      "slug": "erythrea",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Erythrea.wiki",
+      "bytes": 4943,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Democratic Republic of Suzuharu",
+        "Free Sovereign Republic of Shangri-La",
+        "Kingdom of Khopda",
+        "Kokochuebenggeri Khanate",
+        "People's Federation of Xanaqu",
+        "Republic of Hwanboguri",
+        "Socialist Republic of Aurendale",
+        "Xanjiro Khanate"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 4
+    },
+    {
+      "title": "Federated Syndicates of Veszprem",
+      "slug": "federated-syndicates-of-veszprem",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Federated_Syndicates_of_Veszprem.wiki",
+      "bytes": 8147,
+      "class": "article",
+      "years": [
+        1957
+      ],
+      "pre1995Years": [
+        1957
+      ],
+      "links": [
+        "Azuragon",
+        "Orderism",
+        "Orderist Party of Veszprem",
+        "Unified Orderism",
+        "Veszprem Universalism"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 26
+    },
+    {
+      "title": "Federation of Vinterholm",
+      "slug": "federation-of-vinterholm",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Federation_of_Vinterholm.wiki",
+      "bytes": 697,
+      "class": "country",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "President of Singapore",
+        "Rontzken",
+        "Witersckar"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 0
+    },
+    {
+      "title": "Geslariena",
+      "slug": "geslariena",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Geslariena.wiki",
+      "bytes": 6226,
+      "class": "article",
+      "years": [
+        2016,
+        2017,
+        2019
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Geslariena Folk Ballads",
+        "Imperial Academy of Languages",
+        "Imperial Rhovland",
+        "Morvak Heritage Institute",
+        "Rontzken",
+        "Valdris Cultural Academy",
+        "Witersckar"
+      ],
+      "categories": [
+        "Languages",
+        "Regional Languages",
+        "Rhovland",
+        "Valderic Languages"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 6
+    },
+    {
+      "title": "Gorodovaya Syndikalizm",
+      "slug": "gorodovaya-syndikalizm",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Gorodovaya_Syndikalizm.wiki",
+      "bytes": 8395,
+      "class": "article",
+      "years": [
+        1923,
+        1924,
+        1926,
+        1927
+      ],
+      "pre1995Years": [
+        1923,
+        1924,
+        1926,
+        1927
+      ],
+      "links": [
+        "Communal Housing Program",
+        "Great Reorganization",
+        "Marina Volkhova",
+        "New Industrial Cities Movement",
+        "Orderism",
+        "Red Transport Network",
+        "Syndicalism",
+        "Unified Orderism",
+        "Viktor Zheleznyakov",
+        "Vorkuta",
+        "Vorkutan Labor Crisis",
+        "Vorkutan Workers' Assembly"
+      ],
+      "categories": [
+        "Ideologies",
+        "Radical ideologies",
+        "Syndicalist ideologies",
+        "Vorkutan history"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 18
+    },
+    {
+      "title": "Great Temple of Vespera",
+      "slug": "great-temple-of-vespera",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Great_Temple_of_Vespera.wiki",
+      "bytes": 7245,
+      "class": "culture-idea",
+      "years": [
+        1710,
+        1715,
+        1725
+      ],
+      "pre1995Years": [
+        1710,
+        1715,
+        1725
+      ],
+      "links": [
+        "Avant Great War",
+        "Day of Divine Mandate",
+        "Divine Mandate of the First Emperor",
+        "Emperor of Vespera",
+        "Festival of Imperial Unity",
+        "High Priest of the Imperial Cult",
+        "Imperial Coronation Ceremony",
+        "Imperial Council",
+        "Imperial Crown of Vespera",
+        "Imperial Cult",
+        "Imperial Marble Quarries",
+        "Imperial Mausoleum",
+        "Imperial Proclamation of 1710",
+        "Imperial Religious Academy",
+        "Imperial Throne of Divinity",
+        "Oath of Eternal Service",
+        "Rite of Divine Anointment",
+        "Seal of Imperial Unity",
+        "Sword of Divine Authority",
+        "Unification of the Empire",
+        "Vespera",
+        "Vesperan Empire"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 17
+    },
+    {
+      "title": "Imperial Coronation Ceremony",
+      "slug": "imperial-coronation-ceremony",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Imperial_Coronation_Ceremony.wiki",
+      "bytes": 7880,
+      "class": "article",
+      "years": [
+        1710,
+        1750,
+        1780
+      ],
+      "pre1995Years": [
+        1710,
+        1750,
+        1780
+      ],
+      "links": [
+        "Crowning Rite",
+        "Day of Divine Mandate",
+        "Emperor Marcus the Great",
+        "Emperor of Vespera",
+        "Great Temple of Vespera",
+        "High Priest of the Imperial Cult",
+        "Imperial College of Priests",
+        "Imperial Council",
+        "Imperial Crown of Vespera",
+        "Imperial Cult",
+        "Imperial Oath",
+        "Imperial Proclamation of 1710",
+        "Imperial Religious Academy",
+        "Imperial Robes of Divinity",
+        "Oath of Eternal Service",
+        "Rite of Divine Anointment",
+        "Rite of Purification",
+        "Vesperan Aristocracy",
+        "Vesperan Empire",
+        "Vesperan Kingdom"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 17
+    },
+    {
+      "title": "Imperial Cult",
+      "slug": "imperial-cult",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Imperial_Cult.wiki",
+      "bytes": 4344,
+      "class": "culture-idea",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Emperor of Vespera",
+        "Imperial Council",
+        "Vesperan Aristocracy",
+        "Vesperan Empire",
+        "Vesperan Language"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 4
+    },
+    {
+      "title": "Imperial Dynasty of Saochai",
+      "slug": "imperial-dynasty-of-saochai",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Imperial_Dynasty_of_Saochai.wiki",
+      "bytes": 23,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Main Page"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 0
+    },
+    {
+      "title": "Imperial Religious Academy",
+      "slug": "imperial-religious-academy",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Imperial_Religious_Academy.wiki",
+      "bytes": 8950,
+      "class": "article",
+      "years": [
+        1710,
+        1720
+      ],
+      "pre1995Years": [
+        1710,
+        1720
+      ],
+      "links": [
+        "Avant Great War",
+        "Day of Divine Mandate",
+        "Emperor Marcus the Great",
+        "Festival of Imperial Unity",
+        "Great Temple of Vespera",
+        "High Priest of the Imperial Cult",
+        "Imperial College of Priests",
+        "Imperial Coronation Ceremony",
+        "Imperial Council",
+        "Imperial Cult",
+        "Imperial Proclamation of 1710",
+        "Imperial Religious Canon",
+        "Vesperan Empire"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 18
+    },
+    {
+      "title": "Imperial Rhovland",
+      "slug": "imperial-rhovland",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Imperial_Rhovland.wiki",
+      "bytes": 1588,
+      "class": "country",
+      "years": [
+        2000
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Kevin Frucht",
+        "Mantara Central Time",
+        "Mariposian",
+        "Maximilian Haugwitz III",
+        "Rhovlandi",
+        "Rhovlandian Mark",
+        "w:Emperor",
+        "w:Prime_minister"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 1
+    },
+    {
+      "title": "Imperial Suomi",
+      "slug": "imperial-suomi",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Imperial_Suomi.wiki",
+      "bytes": 2658,
+      "class": "country",
+      "years": [
+        1652,
+        1658,
+        1850,
+        1958,
+        2000
+      ],
+      "pre1995Years": [
+        1652,
+        1658,
+        1850,
+        1958
+      ],
+      "links": [
+        "King of the House of Jarvinen",
+        "President",
+        "Suomi Pel",
+        "w:Constitutional_Monarchy",
+        "w:Finnish_Language",
+        "w:Finns"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 20
+    },
+    {
+      "title": "Jane Pensworth",
+      "slug": "jane-pensworth",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Jane_Pensworth.wiki",
+      "bytes": 559,
+      "class": "article",
+      "years": [
+        1877,
+        1897,
+        1901,
+        1969
+      ],
+      "pre1995Years": [
+        1877,
+        1897,
+        1901,
+        1969
+      ],
+      "links": [
+        "A Wild World"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 18
+    },
+    {
+      "title": "Kaonism",
+      "slug": "kaonism",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Kaonism.wiki",
+      "bytes": 6749,
+      "class": "culture-idea",
+      "years": [
+        1841,
+        1844,
+        1848,
+        1863,
+        1865
+      ],
+      "pre1995Years": [
+        1841,
+        1844,
+        1848,
+        1863,
+        1865
+      ],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 16
+    },
+    {
+      "title": "Khalari",
+      "slug": "khalari",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Khalari.wiki",
+      "bytes": 6597,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Arabogradsk-Hamed Caliphate",
+        "Dhah River",
+        "Geden River",
+        "Svetkhanul Republic",
+        "United Provinces of Karkalnadag",
+        "Volgastan Baathist Republic"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 6
+    },
+    {
+      "title": "Khalari Emirates",
+      "slug": "khalari-emirates",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Khalari_Emirates.wiki",
+      "bytes": 1915,
+      "class": "country",
+      "years": [
+        1979
+      ],
+      "pre1995Years": [
+        1979
+      ],
+      "links": [
+        "Dhali",
+        "Federal Bicameral Parliament",
+        "Grand Emir of Khalari",
+        "Khalar",
+        "Khalari Federal Assembly",
+        "Khalari Federal Council",
+        "Khalari Monotheism",
+        "Khalari Morad",
+        "Khlari Eastern Time",
+        "Montelara, Khalari Emirates",
+        "Prime Minister of Khalari",
+        "Southern Dhal",
+        "Thanuli"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 19
+    },
+    {
+      "title": "Kolkenlennan Empire",
+      "slug": "kolkenlennan-empire",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Kolkenlennan_Empire.wiki",
+      "bytes": 3069,
+      "class": "country",
+      "years": [
+        2003,
+        2018
+      ],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 3
+    },
+    {
+      "title": "Languages of Zhensanov",
+      "slug": "languages-of-zhensanov",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Languages_of_Zhensanov.wiki",
+      "bytes": 5164,
+      "class": "culture-idea",
+      "years": [
+        2006,
+        2007,
+        2008,
+        2009
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Agashkinic",
+        "Agashkinic Cultural Society",
+        "Agashkinic Language",
+        "Kavetsian",
+        "Kavetsian Language",
+        "Kavetsian Research Institute",
+        "Murianic",
+        "Murianic Language",
+        "Murianic Language Academy",
+        "Proto-Zhensanovian",
+        "Sanovic",
+        "Tekdolian",
+        "Tekdolian Historical Archive",
+        "Tekdolian Language",
+        "Toramdic",
+        "Toramdic Language",
+        "Toramdic Language Center",
+        "Union Alphabet",
+        "Union Language Committee",
+        "Union of Zhensanov",
+        "Zhensanovian Grammar",
+        "Zhensanovian Linguistic Institute",
+        "Zhensanovian Phonology"
+      ],
+      "categories": [
+        "Languages",
+        "Zhensanov"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 11
+    },
+    {
+      "title": "Legion of Astoria",
+      "slug": "legion-of-astoria",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Legion_of_Astoria.wiki",
+      "bytes": 21,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Astoria"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 0
+    },
+    {
+      "title": "List of Continents",
+      "slug": "list-of-continents",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/List_of_Continents.wiki",
+      "bytes": 106,
+      "class": "index",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Alberion",
+        "Azuragon",
+        "Erythrea",
+        "Khalari",
+        "Mantara",
+        "Valoria",
+        "Viridia"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 0
+    },
+    {
+      "title": "List of Defunct Nations",
+      "slug": "list-of-defunct-nations",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/List_of_Defunct_Nations.wiki",
+      "bytes": 967,
+      "class": "index",
+      "years": [
+        1282,
+        1594,
+        1642,
+        1804,
+        1829,
+        1850,
+        1854,
+        1892,
+        1923,
+        1933,
+        1935,
+        1949,
+        1980,
+        1998
+      ],
+      "pre1995Years": [
+        1282,
+        1594,
+        1642,
+        1804,
+        1829,
+        1850,
+        1854,
+        1892,
+        1923,
+        1933,
+        1935,
+        1949,
+        1980
+      ],
+      "links": [
+        "Astorian Republic",
+        "Bu Dynasty",
+        "Empire of Khalindar",
+        "Gengharian Khanate",
+        "Imperial Novgorv",
+        "Kazan Republic",
+        "Kingdom of Khunovgrad",
+        "Kingdom of Mariposia",
+        "Kingdom of Seraphina",
+        "Okuda Shogunate",
+        "Republic of Bakorian",
+        "Republic of Zhensanov",
+        "Sibirsk Khanate",
+        "Vesperan Empire",
+        "Volgastani-Hamed Empire"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 18
+    },
+    {
+      "title": "List of Ideologies",
+      "slug": "list-of-ideologies",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/List_of_Ideologies.wiki",
+      "bytes": 1061,
+      "class": "index",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Bielszowickism",
+        "Bjornist Monarchism",
+        "Okuda Monarchism",
+        "Revolutionary Taoism",
+        "Taoism",
+        "Taosim",
+        "Techno-Syndicalism",
+        "Unified Orderism"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 1
+    },
+    {
+      "title": "List of Nations",
+      "slug": "list-of-nations",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/List_of_Nations.wiki",
+      "bytes": 310,
+      "class": "index",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 0
+    },
+    {
+      "title": "List of Patriot Music",
+      "slug": "list-of-patriot-music",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/List_of_Patriot_Music.wiki",
+      "bytes": 141,
+      "class": "index",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "No Fatherland without you!",
+        "People's Republic of Mariposia"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 0
+    },
+    {
+      "title": "List of Wars",
+      "slug": "list-of-wars",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/List_of_Wars.wiki",
+      "bytes": 457,
+      "class": "event",
+      "years": [
+        1937,
+        1949,
+        1969,
+        1973,
+        1975,
+        1981,
+        1989,
+        1990,
+        1994,
+        1997,
+        1998,
+        1999
+      ],
+      "pre1995Years": [
+        1937,
+        1949,
+        1969,
+        1973,
+        1975,
+        1981,
+        1989,
+        1990,
+        1994
+      ],
+      "links": [
+        "Avant Great War",
+        "Avant World War",
+        "Mariposian Civil War",
+        "Mariposian Wars",
+        "Second Astorian-Mariposia War",
+        "Svet-Orinan War",
+        "Volgastani-Hanovkayan War",
+        "Volgastani-Osman War",
+        "Zhensanov Continuation War"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 23
+    },
+    {
+      "title": "List of Weapons",
+      "slug": "list-of-weapons",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/List_of_Weapons.wiki",
+      "bytes": 368,
+      "class": "index",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 0
+    },
+    {
+      "title": "Main Page",
+      "slug": "main-page",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Main_Page.wiki",
+      "bytes": 1636,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Special:ManageWiki",
+        "meta:Special:MyLanguage/FAQ",
+        "meta:Special:MyLanguage/Help center",
+        "meta:Special:MyLanguage/ManageWiki",
+        "meta:Special:MyLanguage/Request features",
+        "mw:Special:MyLanguage/Help:Contents",
+        "phab:"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 1
+    },
+    {
+      "title": "No Fatherland without you!",
+      "slug": "no-fatherland-without-you",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/No_Fatherland_without_you!.wiki",
+      "bytes": 1556,
+      "class": "article",
+      "years": [
+        1995
+      ],
+      "pre1995Years": [],
+      "links": [
+        "1995 Mariposian Coup d'état",
+        "Eugeniusz Bielszowicki",
+        "People's Republic of Mariposia",
+        "Torzhes"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 1
+    },
+    {
+      "title": "Nogoyevian War of Independence",
+      "slug": "nogoyevian-war-of-independence",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Nogoyevian_War_of_Independence.wiki",
+      "bytes": 31937,
+      "class": "event",
+      "years": [
+        1949,
+        1952,
+        1953,
+        1954,
+        1955,
+        1956
+      ],
+      "pre1995Years": [
+        1949,
+        1952,
+        1953,
+        1954,
+        1955,
+        1956
+      ],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [
+        "western_alliance"
+      ],
+      "alreadyLive": null,
+      "score": 38
+    },
+    {
+      "title": "Northern Alliance",
+      "slug": "northern-alliance",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Northern_Alliance.wiki",
+      "bytes": 3289,
+      "class": "article",
+      "years": [
+        1839,
+        1880,
+        1882,
+        1884,
+        1891
+      ],
+      "pre1995Years": [
+        1839,
+        1880,
+        1882,
+        1884,
+        1891
+      ],
+      "links": [
+        "5 Nation Alliance",
+        "Arashyurt Duchy",
+        "Federation of Vinterholm",
+        "Green Turban Rebels",
+        "Gwangyanski Kingdom",
+        "Imperial Rhovland",
+        "Legion of Astoria",
+        "March Conference",
+        "Mongilov Federation",
+        "Siege of Murah",
+        "Svetian War",
+        "The International Relief Alliance",
+        "Theorin Commonwealth",
+        "Theorin-Vinterholm Alliance",
+        "Vesperan Empire",
+        "Volgastani-Arabogradsk Alliance",
+        "Volgastani-Hamed Empire",
+        "Volgastani-Hamed Royal Army"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 13
+    },
+    {
+      "title": "Okuda Empire",
+      "slug": "okuda-empire",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Okuda_Empire.wiki",
+      "bytes": 6686,
+      "class": "country",
+      "years": [
+        2000,
+        2002,
+        2003
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Ishikawa Shogunate",
+        "Jiyukuko Republic",
+        "Union of Zhensanov"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 6
+    },
+    {
+      "title": "Orderism",
+      "slug": "orderism",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Orderism.wiki",
+      "bytes": 7120,
+      "class": "culture-idea",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 7
+    },
+    {
+      "title": "Orinian Empire",
+      "slug": "orinian-empire",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Orinian_Empire.wiki",
+      "bytes": 639,
+      "class": "country",
+      "years": [
+        1680
+      ],
+      "pre1995Years": [
+        1680
+      ],
+      "links": [
+        "AGGPI",
+        "Ba'athist Republic of Volgastan",
+        "Khalari",
+        "Orinian Empire",
+        "Union of Zhensanov"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 10
+    },
+    {
+      "title": "People's Federation of Xanaqu",
+      "slug": "peoples-federation-of-xanaqu",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/People's_Federation_of_Xanaqu.wiki",
+      "bytes": 5025,
+      "class": "country",
+      "years": [
+        1934,
+        1935,
+        1936,
+        2000
+      ],
+      "pre1995Years": [
+        1934,
+        1935,
+        1936
+      ],
+      "links": [
+        "Bu Dynasty",
+        "Chairman of the Central Workers' Council",
+        "Erythrea",
+        "General Cheng Jin",
+        "Huo Ping",
+        "Khaji",
+        "La Thum",
+        "People's Federation",
+        "Qiu Guanyu",
+        "Red Army",
+        "Taoist Manifesto",
+        "Taoist Party",
+        "Xanaq",
+        "Xanaq Civil War",
+        "Xanaq Republicans",
+        "Xanaqu Yao",
+        "Xun Tao"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 15
+    },
+    {
+      "title": "People's Republic of Mariposa",
+      "slug": "peoples-republic-of-mariposa",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/People's_Republic_of_Mariposa.wiki",
+      "bytes": 172,
+      "class": "country",
+      "years": [
+        1980
+      ],
+      "pre1995Years": [
+        1980
+      ],
+      "links": [
+        "Mantara"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 18
+    },
+    {
+      "title": "Radical Taoism",
+      "slug": "radical-taoism",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Radical_Taoism.wiki",
+      "bytes": 5044,
+      "class": "culture-idea",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 5
+    },
+    {
+      "title": "Republic of Perasta",
+      "slug": "republic-of-perasta",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Republic_of_Perasta.wiki",
+      "bytes": 1564,
+      "class": "country",
+      "years": [
+        1793
+      ],
+      "pre1995Years": [
+        1793
+      ],
+      "links": [
+        "Connor O'Neill",
+        "Mantara Central Time",
+        "Oscar Walsh",
+        "Perastan",
+        "Perastan Pound",
+        "Theorin",
+        "w:Constitutional_republic",
+        "w:President",
+        "w:Prime_minister"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 11
+    },
+    {
+      "title": "Rontzken",
+      "slug": "rontzken",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Rontzken.wiki",
+      "bytes": 7095,
+      "class": "article",
+      "years": [
+        2017,
+        2018,
+        2019
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Bergmark Mountain Academy",
+        "Geslariena",
+        "Imperial Academy of Languages",
+        "Imperial Duchy of Rhovland",
+        "Rontzken Mountain Chronicles",
+        "Tiefland Mining Institute",
+        "Witersckar"
+      ],
+      "categories": [
+        "Languages",
+        "Regional Languages",
+        "Rhovland",
+        "Valderic Languages"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 7
+    },
+    {
+      "title": "Ryszard Flak",
+      "slug": "ryszard-flak",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Ryszard_Flak.wiki",
+      "bytes": 6236,
+      "class": "article",
+      "years": [
+        1935,
+        1957,
+        1960,
+        1964,
+        1969,
+        1975,
+        1980,
+        1982,
+        1995
+      ],
+      "pre1995Years": [
+        1935,
+        1957,
+        1960,
+        1964,
+        1969,
+        1975,
+        1980,
+        1982
+      ],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [
+        "aggpi_1995_foundation"
+      ],
+      "alreadyLive": null,
+      "score": 27
+    },
+    {
+      "title": "Sanovic",
+      "slug": "sanovic",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Sanovic.wiki",
+      "bytes": 4701,
+      "class": "article",
+      "years": [
+        2007,
+        2008,
+        2009
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Agashkinic Language",
+        "Kavetsian Language",
+        "Murianic Language",
+        "Sanovic Language Academy",
+        "Tekdolian Language",
+        "Toramdic Language",
+        "Union Alphabet",
+        "Union Cultural Society",
+        "Union Education Ministry",
+        "Union Language Committee",
+        "Union of Zhensanov",
+        "Zhensanovian Languages",
+        "Zhensanovian Linguistic Institute"
+      ],
+      "categories": [
+        "Constructed Languages",
+        "Languages",
+        "Zhensanov"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 4
+    },
+    {
+      "title": "Sanovic Dictionary",
+      "slug": "sanovic-dictionary",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Sanovic_Dictionary.wiki",
+      "bytes": 3813,
+      "class": "article",
+      "years": [
+        2007,
+        2008,
+        2009
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Sanovic",
+        "Sanovic Language Academy",
+        "Union Alphabet",
+        "Union Cultural Society",
+        "Union Education Ministry",
+        "Union Language Committee",
+        "Zhensanovian Languages",
+        "Zhensanovian Linguistic Institute"
+      ],
+      "categories": [
+        "Dictionaries",
+        "Languages",
+        "Zhensanov"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 3
+    },
+    {
+      "title": "Socialist Republic of Aurendale",
+      "slug": "socialist-republic-of-aurendale",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Socialist_Republic_of_Aurendale.wiki",
+      "bytes": 2067,
+      "class": "country",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 2
+    },
+    {
+      "title": "Solara-Khalindar War",
+      "slug": "solara-khalindar-war",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Solara-Khalindar_War.wiki",
+      "bytes": 20543,
+      "class": "event",
+      "years": [
+        1990,
+        1991,
+        1992,
+        1994,
+        1995
+      ],
+      "pre1995Years": [
+        1990,
+        1991,
+        1992,
+        1994
+      ],
+      "links": [
+        "Abyssal Ridge",
+        "Albroke",
+        "Battle of Solara",
+        "Congrave",
+        "Emperor Mikael Khalindar IV",
+        "Khalindarian Empire",
+        "Reasalbor",
+        "Silver Strait",
+        "Solara",
+        "Western Alliance"
+      ],
+      "categories": [],
+      "canonWarnings": [
+        "western_alliance",
+        "aggpi_1995_foundation"
+      ],
+      "alreadyLive": null,
+      "score": 44
+    },
+    {
+      "title": "Solara",
+      "slug": "solara",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Solara.wiki",
+      "bytes": 9943,
+      "class": "country",
+      "years": [
+        1538,
+        2000
+      ],
+      "pre1995Years": [
+        1538
+      ],
+      "links": [
+        "Alberion Central",
+        "Avant Great War",
+        "Avant World War",
+        "Grand Duchy of Solan",
+        "John \"Lee\" Greener",
+        "Kingdom of Albion",
+        "Kingdom of Congrave",
+        "President of Solara",
+        "Solaran",
+        "Solaran War of Unification",
+        "Vice President of Solara",
+        "w:Parliamentary_system"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 25
+    },
+    {
+      "title": "Solaran-Khalindarian Confederence of 1940",
+      "slug": "solaran-khalindarian-confederence-of-1940",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Solaran-Khalindarian_Confederence_of_1940.wiki",
+      "bytes": 11177,
+      "class": "event",
+      "years": [
+        1940
+      ],
+      "pre1995Years": [
+        1940
+      ],
+      "links": [
+        "Alistair McGregor",
+        "Avant Great War",
+        "Congrave",
+        "Eliza Harrington",
+        "Empire of Khalindar",
+        "Fredrik Hagen",
+        "Mikael Khalindar II",
+        "Rise & Collapse of Vesperan Empire",
+        "Solara",
+        "Vesperan Empire",
+        "Western Alliance"
+      ],
+      "categories": [],
+      "canonWarnings": [
+        "western_alliance"
+      ],
+      "alreadyLive": null,
+      "score": 43
+    },
+    {
+      "title": "Solaran Alphabet",
+      "slug": "solaran-alphabet",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Solaran_Alphabet.wiki",
+      "bytes": 3875,
+      "class": "culture-idea",
+      "years": [
+        1895,
+        1898,
+        1899,
+        1900,
+        1905
+      ],
+      "pre1995Years": [
+        1895,
+        1898,
+        1899,
+        1900,
+        1905
+      ],
+      "links": [
+        "Solaran",
+        "Solaran Academy of Linguistics",
+        "Solaran Education",
+        "Solaran Historical Society",
+        "Solaran Language Office",
+        "Solaran Ministry of Education",
+        "Solaran Parliament",
+        "Solra"
+      ],
+      "categories": [
+        "Languages",
+        "Solara"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 19
+    },
+    {
+      "title": "Solaran Language",
+      "slug": "solaran-language",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Solaran_Language.wiki",
+      "bytes": 5130,
+      "class": "culture-idea",
+      "years": [
+        2008,
+        2009,
+        2010
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Solara",
+        "Solaran Academy of Linguistics",
+        "Solaran Alphabet",
+        "Solaran Culture",
+        "Solaran Education",
+        "Solaran Language Office",
+        "Solaran Ministry of Education",
+        "Solra",
+        "Sonism"
+      ],
+      "categories": [
+        "Languages",
+        "Solara"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 11
+    },
+    {
+      "title": "Solra",
+      "slug": "solra",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Solra.wiki",
+      "bytes": 6753,
+      "class": "article",
+      "years": [
+        2007,
+        2008,
+        2009
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Solara",
+        "Solaran Academy of the Elder Tongue",
+        "Solaran Culture",
+        "Solaran Education",
+        "Solaran Language",
+        "Solaran Royal College",
+        "Solaran Scriptorium",
+        "Solaran Temple Archives",
+        "Sonism"
+      ],
+      "categories": [
+        "Languages",
+        "Solara"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 6
+    },
+    {
+      "title": "Taoism",
+      "slug": "taoism",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Taoism.wiki",
+      "bytes": 4206,
+      "class": "culture-idea",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Ultravisionary Taoism"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 4
+    },
+    {
+      "title": "Taoist Manifesto",
+      "slug": "taoist-manifesto",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Taoist_Manifesto.wiki",
+      "bytes": 6397,
+      "class": "culture-idea",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "People's Federation of Xanaqu"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 6
+    },
+    {
+      "title": "Templar of Saxonia",
+      "slug": "templar-of-saxonia",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Templar_of_Saxonia.wiki",
+      "bytes": 1467,
+      "class": "country",
+      "years": [
+        1947,
+        2009
+      ],
+      "pre1995Years": [
+        1947
+      ],
+      "links": [
+        "+211",
+        ".sa",
+        "Godesfurct Waels",
+        "Iain Duncan",
+        "March of the Heavenly Knights",
+        "Minister",
+        "Orderly Chamber",
+        "Prince-Templar",
+        "Saxonia",
+        "Saxonian Taler",
+        "Saxonian language",
+        "Theocratic Elective Monarchy",
+        "Theorin language"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 19
+    },
+    {
+      "title": "The World",
+      "slug": "the-world",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/The_World.wiki",
+      "bytes": 5627,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Astronomy in Avant Garde",
+        "Cultural Astronomy",
+        "Lunar Calendars",
+        "Solar System",
+        "Tidal Patterns"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 5
+    },
+    {
+      "title": "Treaty of the Concord of Istragarde",
+      "slug": "treaty-of-the-concord-of-istragarde",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Treaty_of_the_Concord_of_Istragarde.wiki",
+      "bytes": 9765,
+      "class": "event",
+      "years": [
+        1951,
+        1971,
+        1983,
+        1990
+      ],
+      "pre1995Years": [
+        1951,
+        1971,
+        1983,
+        1990
+      ],
+      "links": [
+        "Avant Great War",
+        "Bátravalka",
+        "Imperial Rhovland",
+        "Invasion of Bátravalka",
+        "Istragarde Tribunal",
+        "Karlist Perzam",
+        "Legion of Astoria",
+        "Perzamic",
+        "Treaty Accord of 1951",
+        "Volgastan Baathist Republic",
+        "Volgastan’s Expansionist Doctrine"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 32
+    },
+    {
+      "title": "Tsardom of Nogoyev",
+      "slug": "tsardom-of-nogoyev",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Tsardom_of_Nogoyev.wiki",
+      "bytes": 5127,
+      "class": "country",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Bilyi Knyaz (White Prince) Brigade",
+        "Chervonyy Orlyk (Red Eagle) Brigade",
+        "Chornyy Zmiya (Black Serpent) Brigade",
+        "Nogoyevian War of Independence",
+        "People's Federation of Xanaqu",
+        "People's Republic of Hoshigoro",
+        "Syny Vovk (Blue Wolf) Brigade",
+        "Union of Zhensanov",
+        "Zelenyy Lev (Green Lion) Brigade",
+        "Zhovtyi Tryzub (Yellow Trident) Brigade"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 5
+    },
+    {
+      "title": "Ultravisionary Taoism",
+      "slug": "ultravisionary-taoism",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Ultravisionary_Taoism.wiki",
+      "bytes": 4083,
+      "class": "culture-idea",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 4
+    },
+    {
+      "title": "Unified Orderism",
+      "slug": "unified-orderism",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Unified_Orderism.wiki",
+      "bytes": 2656,
+      "class": "culture-idea",
+      "years": [],
+      "pre1995Years": [],
+      "links": [
+        "Federated Syndicates of Veszprem"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 2
+    },
+    {
+      "title": "Union Alphabet",
+      "slug": "union-alphabet",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Union_Alphabet.wiki",
+      "bytes": 4361,
+      "class": "country",
+      "years": [
+        2007,
+        2008,
+        2009
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Sanovic",
+        "Sanovic Language Academy",
+        "Union Cultural Society",
+        "Union Education Ministry",
+        "Union Language Committee",
+        "Union of Zhensanov",
+        "Zhensanovian Languages",
+        "Zhensanovian Linguistic Institute",
+        "Zhensanovian Scripts"
+      ],
+      "categories": [
+        "Languages",
+        "Writing Systems",
+        "Zhensanov"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 4
+    },
+    {
+      "title": "Union of Zhensanov",
+      "slug": "union-of-zhensanov",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Union_of_Zhensanov.wiki",
+      "bytes": 29,
+      "class": "country",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 6
+    },
+    {
+      "title": "Uniterism",
+      "slug": "uniterism",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Uniterism.wiki",
+      "bytes": 6847,
+      "class": "culture-idea",
+      "years": [
+        2006,
+        2007,
+        2008,
+        2009
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Authoritarianism",
+        "Crovia",
+        "Crovian Civil War",
+        "Crovian Liberation Army",
+        "Crovian National Command",
+        "Crovian Vanguard Front",
+        "Dovan Heights",
+        "Expansionism",
+        "Global News Report",
+        "Law",
+        "Nationalism",
+        "Nationalist Realism",
+        "Patriotic Defense League",
+        "Private enterprise",
+        "Romanticism",
+        "Second Revolution",
+        "State",
+        "State-directed economy",
+        "Surveillance",
+        "Total Alignment",
+        "United Alliance",
+        "Uniterist Archives",
+        "Unity Research Center",
+        "Vanguard",
+        "Vanguard Studies Institute",
+        "Vanguardism",
+        "Vornic Talen",
+        "bureaucracy",
+        "chaos",
+        "entropy",
+        "expansionism",
+        "hierarchy",
+        "individual freedoms",
+        "media",
+        "military",
+        "moral relativism",
+        "nationalist movements",
+        "nationalist-realist",
+        "political pluralism",
+        "production",
+        "propaganda",
+        "state-directed economy"
+      ],
+      "categories": [
+        "Authoritarianism",
+        "Ideologies",
+        "Nationalism",
+        "Political ideologies"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 6
+    },
+    {
+      "title": "Vanguardism",
+      "slug": "vanguardism",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Vanguardism.wiki",
+      "bytes": 6602,
+      "class": "culture-idea",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 6
+    },
+    {
+      "title": "Vesperan Alphabet",
+      "slug": "vesperan-alphabet",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Vesperan_Alphabet.wiki",
+      "bytes": 10451,
+      "class": "culture-idea",
+      "years": [
+        1100,
+        1350,
+        1650,
+        1652,
+        1710,
+        1725,
+        1947,
+        1949,
+        2010
+      ],
+      "pre1995Years": [
+        1100,
+        1350,
+        1650,
+        1652,
+        1710,
+        1725,
+        1947,
+        1949
+      ],
+      "links": [
+        "Colonial Vesperan Scripts",
+        "Imperial Language Academy",
+        "Imperial Script Reform of 1725",
+        "Imperial Scriptorial Archives",
+        "International Script Research Institute",
+        "King Aurelius III",
+        "Malonian Script",
+        "Old Western Script",
+        "Royal Academy of Letters",
+        "Royal Language Decree of 1652",
+        "Royal Scriptorial Decree",
+        "University of Vespera",
+        "Vesperan Calligraphy",
+        "Vesperan Empire",
+        "Vesperan Kingdom",
+        "Vesperan Language",
+        "Vesperan Literature",
+        "Vesperan Numerals",
+        "Western Imperial Script"
+      ],
+      "categories": [
+        "Alphabets",
+        "Latin-derived scripts",
+        "Vesperan Empire",
+        "Writing systems"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 34
+    },
+    {
+      "title": "Vesperan Empire",
+      "slug": "vesperan-empire",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Vesperan_Empire.wiki",
+      "bytes": 27767,
+      "class": "country",
+      "years": [
+        1650,
+        1710,
+        1720,
+        1750,
+        1800,
+        1900,
+        1936,
+        1937,
+        1940,
+        1945,
+        1947,
+        1948,
+        1949,
+        1950,
+        1951,
+        1952,
+        1953,
+        1954
+      ],
+      "pre1995Years": [
+        1650,
+        1710,
+        1720,
+        1750,
+        1800,
+        1900,
+        1936,
+        1937,
+        1940,
+        1945,
+        1947,
+        1948,
+        1949,
+        1950,
+        1951,
+        1952,
+        1953,
+        1954
+      ],
+      "links": [
+        "Avant Great War",
+        "Continuation War",
+        "Cultural Studies Journal",
+        "Eastern Caliphates",
+        "Eastern Campaigns",
+        "Eastern Peoples",
+        "Economic History Review",
+        "Emperor of Vespera",
+        "Global Consolidation",
+        "Global Military Review",
+        "House of Vespera",
+        "Imperial Air Force",
+        "Imperial Archives of Vespera",
+        "Imperial Army",
+        "Imperial Council",
+        "Imperial House of Vespera",
+        "Imperial Ministry of Foreign Affairs",
+        "Imperial Navy",
+        "Imperial Proclamation of 1710",
+        "Imperial Vesperan Air Force",
+        "Imperial Vesperan Army",
+        "Imperial Vesperan Military",
+        "Imperial Vesperan Navy",
+        "International Security Journal",
+        "Khalindarian Empire",
+        "Naval History Quarterly",
+        "Northern Alliance",
+        "Northern Tribes",
+        "Political Science Review",
+        "Solara",
+        "Southern Expansion",
+        "United Alignment of Nations",
+        "Vespera",
+        "Vesperan",
+        "Vesperan Historical Institute",
+        "Vesperan Kingdom",
+        "Vesperan Language",
+        "Vesperan Military Command",
+        "Vittorian Empire",
+        "Volgastan Baathist Republic",
+        "w:Absolute_monarchy"
+      ],
+      "categories": [
+        "Countries",
+        "Defunct Nations",
+        "Empires",
+        "Global Powers",
+        "Historical Nations",
+        "Imperial History",
+        "Military History",
+        "Monarchies"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 36
+    },
+    {
+      "title": "Vesperan Language",
+      "slug": "vesperan-language",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Vesperan_Language.wiki",
+      "bytes": 8187,
+      "class": "culture-idea",
+      "years": [
+        1200,
+        1350,
+        1500,
+        1650,
+        1652,
+        1655,
+        1702,
+        1710,
+        1715,
+        1920,
+        1945,
+        1948,
+        1949,
+        1951
+      ],
+      "pre1995Years": [
+        1200,
+        1350,
+        1500,
+        1650,
+        1652,
+        1655,
+        1702,
+        1710,
+        1715,
+        1920,
+        1945,
+        1948,
+        1949,
+        1951
+      ],
+      "links": [
+        "Classical Vesperan",
+        "Classical Vesperan Grammar",
+        "House of Vespera",
+        "Imperial Language Academy",
+        "Old Vesperan",
+        "Old Western",
+        "Proto-Western",
+        "Royal Archives",
+        "Royal Language Decree of 1652",
+        "University of Vespera",
+        "Vesperan Alphabet",
+        "Vesperan Dictionary",
+        "Vesperan Empire",
+        "Vesperan Historical Institute",
+        "Vesperan Kingdom",
+        "Vesperan Literature",
+        "Vesperan Script",
+        "Vesperan people"
+      ],
+      "categories": [
+        "Constructed Languages",
+        "Historical Languages",
+        "Imperial Languages",
+        "Languages",
+        "Vesperan Empire"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 32
+    },
+    {
+      "title": "Veszprem Invasion",
+      "slug": "veszprem-invasion",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Veszprem_Invasion.wiki",
+      "bytes": 12668,
+      "class": "event",
+      "years": [
+        1912,
+        1913,
+        1914,
+        1925,
+        1949,
+        1974
+      ],
+      "pre1995Years": [
+        1912,
+        1913,
+        1914,
+        1925,
+        1949,
+        1974
+      ],
+      "links": [
+        "Air Marshal Viktor Stormwind",
+        "Assault on the Iron Gates",
+        "Battle of the Great Foundries",
+        "Battle of the Iron Gates",
+        "Colonel Heinrich Ironforge",
+        "Federated Syndicates of Veszprem",
+        "General Augustus Maximilian",
+        "General Béla Kovács",
+        "Imperial Industrial Acquisition Corps",
+        "Imperial Industrial Decree of 1914",
+        "Imperial Industrial Survey of 1914",
+        "Imperial Military Archives",
+        "Master Engineer Zoltán Nagy",
+        "Military Technology Quarterly",
+        "Northern Alliance",
+        "Orderism",
+        "Prince István Vesz",
+        "Siege of Veszprem Central",
+        "Syndicate Revolution of 1949",
+        "Unified Orderism",
+        "United Principalities of Veszprem",
+        "Vesperan Air Force Command",
+        "Vesperan Empire",
+        "Veszpremi Industrial Assessment of 1912",
+        "Veszpremi Institute of Social Sciences",
+        "Veszpremi Underground",
+        "Veszpremi-Northern Alliance Industrial Cooperation Agreement"
+      ],
+      "categories": [
+        "20th Century Conflicts",
+        "Industrial Warfare",
+        "Vesperan Empire",
+        "Veszprem",
+        "Wars"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 35
+    },
+    {
+      "title": "Veszpremi Language",
+      "slug": "veszpremi-language",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Veszpremi_Language.wiki",
+      "bytes": 11804,
+      "class": "culture-idea",
+      "years": [
+        1234,
+        1400,
+        1913,
+        1949,
+        1987,
+        1995,
+        2010,
+        2015,
+        2020
+      ],
+      "pre1995Years": [
+        1234,
+        1400,
+        1913,
+        1949,
+        1987
+      ],
+      "links": [
+        "Cyrillic script",
+        "Federal Syndicate of Education",
+        "Federated Syndicates of Veszprem",
+        "Great Grammar",
+        "Institute for Linguistic Precision",
+        "Iron Codex",
+        "Orderism",
+        "Proto-Slavic",
+        "Slavic Linguistics Journal",
+        "South Slavic",
+        "Syndicate Revolution of 1949",
+        "Unified Orderism",
+        "Vesperan Language",
+        "Veszprem Invasion",
+        "Veszprem-Slavic",
+        "Veszpremi Academy of Sciences",
+        "Veszpremi Language Institute",
+        "Veszpremi Literature"
+      ],
+      "categories": [
+        "Complex Languages",
+        "Languages",
+        "Official Languages",
+        "Slavic Languages",
+        "Veszprem"
+      ],
+      "canonWarnings": [
+        "aggpi_1995_foundation"
+      ],
+      "alreadyLive": null,
+      "score": 32
+    },
+    {
+      "title": "Vinraarabeise People’s Republic",
+      "slug": "vinraarabeise-peoples-republic",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Vinraarabeise_People’s_Republic.wiki",
+      "bytes": 3278,
+      "class": "country",
+      "years": [
+        2004
+      ],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 3
+    },
+    {
+      "title": "Volgastan Baathist Republic",
+      "slug": "volgastan-baathist-republic",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Volgastan_Baathist_Republic.wiki",
+      "bytes": 490,
+      "class": "country",
+      "years": [
+        1953
+      ],
+      "pre1995Years": [
+        1953
+      ],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 18
+    },
+    {
+      "title": "Volgastani Ballistic Missile Program",
+      "slug": "volgastani-ballistic-missile-program",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Volgastani_Ballistic_Missile_Program.wiki",
+      "bytes": 3171,
+      "class": "article",
+      "years": [],
+      "pre1995Years": [],
+      "links": [],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 3
+    },
+    {
+      "title": "Witersckar",
+      "slug": "witersckar",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Witersckar.wiki",
+      "bytes": 5752,
+      "class": "article",
+      "years": [
+        2015,
+        2018,
+        2020
+      ],
+      "pre1995Years": [],
+      "links": [
+        "Federal Ministry of Education",
+        "Geslariena",
+        "Imperial Academy of Languages",
+        "Imperial Duchy of Rhovland",
+        "Rontzken",
+        "University of St. Bläne",
+        "Valderic Empire",
+        "Viridia",
+        "Witersckar Epic Cycles"
+      ],
+      "categories": [
+        "Languages",
+        "Official Languages",
+        "Rhovland",
+        "Valderic Languages"
+      ],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 5
+    },
+    {
+      "title": "Xanaqu South Industrial State Cooperation",
+      "slug": "xanaqu-south-industrial-state-cooperation",
+      "sourcePath": "Miraheza-Avant-Wiki/pages/Xanaqu_South_Industrial_State_Cooperation.wiki",
+      "bytes": 6958,
+      "class": "country",
+      "years": [
+        1952,
+        1960,
+        1975,
+        1990,
+        2000
+      ],
+      "pre1995Years": [
+        1952,
+        1960,
+        1975,
+        1990
+      ],
+      "links": [
+        "People's Federation of Xanaqu"
+      ],
+      "categories": [],
+      "canonWarnings": [],
+      "alreadyLive": null,
+      "score": 24
+    }
+  ],
+  "backlog": {
+    "relevantPages": [
+      {
+        "title": "Solara-Khalindar War",
+        "slug": "solara-khalindar-war",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Solara-Khalindar_War.wiki",
+        "bytes": 20543,
+        "class": "event",
+        "years": [
+          1990,
+          1991,
+          1992,
+          1994,
+          1995
+        ],
+        "pre1995Years": [
+          1990,
+          1991,
+          1992,
+          1994
+        ],
+        "links": [
+          "Abyssal Ridge",
+          "Albroke",
+          "Battle of Solara",
+          "Congrave",
+          "Emperor Mikael Khalindar IV",
+          "Khalindarian Empire",
+          "Reasalbor",
+          "Silver Strait",
+          "Solara",
+          "Western Alliance"
+        ],
+        "categories": [],
+        "canonWarnings": [
+          "western_alliance",
+          "aggpi_1995_foundation"
+        ],
+        "alreadyLive": null,
+        "score": 44
+      },
+      {
+        "title": "Solaran-Khalindarian Confederence of 1940",
+        "slug": "solaran-khalindarian-confederence-of-1940",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Solaran-Khalindarian_Confederence_of_1940.wiki",
+        "bytes": 11177,
+        "class": "event",
+        "years": [
+          1940
+        ],
+        "pre1995Years": [
+          1940
+        ],
+        "links": [
+          "Alistair McGregor",
+          "Avant Great War",
+          "Congrave",
+          "Eliza Harrington",
+          "Empire of Khalindar",
+          "Fredrik Hagen",
+          "Mikael Khalindar II",
+          "Rise & Collapse of Vesperan Empire",
+          "Solara",
+          "Vesperan Empire",
+          "Western Alliance"
+        ],
+        "categories": [],
+        "canonWarnings": [
+          "western_alliance"
+        ],
+        "alreadyLive": null,
+        "score": 43
+      },
+      {
+        "title": "Nogoyevian War of Independence",
+        "slug": "nogoyevian-war-of-independence",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Nogoyevian_War_of_Independence.wiki",
+        "bytes": 31937,
+        "class": "event",
+        "years": [
+          1949,
+          1952,
+          1953,
+          1954,
+          1955,
+          1956
+        ],
+        "pre1995Years": [
+          1949,
+          1952,
+          1953,
+          1954,
+          1955,
+          1956
+        ],
+        "links": [],
+        "categories": [],
+        "canonWarnings": [
+          "western_alliance"
+        ],
+        "alreadyLive": null,
+        "score": 38
+      },
+      {
+        "title": "Vesperan Empire",
+        "slug": "vesperan-empire",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Vesperan_Empire.wiki",
+        "bytes": 27767,
+        "class": "country",
+        "years": [
+          1650,
+          1710,
+          1720,
+          1750,
+          1800,
+          1900,
+          1936,
+          1937,
+          1940,
+          1945,
+          1947,
+          1948,
+          1949,
+          1950,
+          1951,
+          1952,
+          1953,
+          1954
+        ],
+        "pre1995Years": [
+          1650,
+          1710,
+          1720,
+          1750,
+          1800,
+          1900,
+          1936,
+          1937,
+          1940,
+          1945,
+          1947,
+          1948,
+          1949,
+          1950,
+          1951,
+          1952,
+          1953,
+          1954
+        ],
+        "links": [
+          "Avant Great War",
+          "Continuation War",
+          "Cultural Studies Journal",
+          "Eastern Caliphates",
+          "Eastern Campaigns",
+          "Eastern Peoples",
+          "Economic History Review",
+          "Emperor of Vespera",
+          "Global Consolidation",
+          "Global Military Review",
+          "House of Vespera",
+          "Imperial Air Force",
+          "Imperial Archives of Vespera",
+          "Imperial Army",
+          "Imperial Council",
+          "Imperial House of Vespera",
+          "Imperial Ministry of Foreign Affairs",
+          "Imperial Navy",
+          "Imperial Proclamation of 1710",
+          "Imperial Vesperan Air Force",
+          "Imperial Vesperan Army",
+          "Imperial Vesperan Military",
+          "Imperial Vesperan Navy",
+          "International Security Journal",
+          "Khalindarian Empire",
+          "Naval History Quarterly",
+          "Northern Alliance",
+          "Northern Tribes",
+          "Political Science Review",
+          "Solara",
+          "Southern Expansion",
+          "United Alignment of Nations",
+          "Vespera",
+          "Vesperan",
+          "Vesperan Historical Institute",
+          "Vesperan Kingdom",
+          "Vesperan Language",
+          "Vesperan Military Command",
+          "Vittorian Empire",
+          "Volgastan Baathist Republic",
+          "w:Absolute_monarchy"
+        ],
+        "categories": [
+          "Countries",
+          "Defunct Nations",
+          "Empires",
+          "Global Powers",
+          "Historical Nations",
+          "Imperial History",
+          "Military History",
+          "Monarchies"
+        ],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 36
+      },
+      {
+        "title": "Bakorian War",
+        "slug": "bakorian-war",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Bakorian_War.wiki",
+        "bytes": 14265,
+        "class": "event",
+        "years": [
+          1834,
+          1931,
+          1932,
+          1933,
+          1934,
+          1935,
+          1936,
+          1937,
+          1938,
+          1939,
+          1940,
+          1941
+        ],
+        "pre1995Years": [
+          1834,
+          1931,
+          1932,
+          1933,
+          1934,
+          1935,
+          1936,
+          1937,
+          1938,
+          1939,
+          1940,
+          1941
+        ],
+        "links": [
+          "Ahmet Veil",
+          "Arashiyun Caliphate",
+          "Astorian Expansion Era",
+          "Azmetan",
+          "Bakorian Republic",
+          "Battle for Azmetan",
+          "Battle of the Eastern Corridor",
+          "Battle of the Northern Plains",
+          "Battle of the Southern Highlands",
+          "Campaign of the Three Rivers",
+          "Defense of the Mountain Passes",
+          "Federation of Vinterholm",
+          "Forward Defense Doctrine",
+          "Imperial Rhovland",
+          "Janissary Corps",
+          "Kingdom of Rosenburg",
+          "Kovacgrad",
+          "Legion of Astoria",
+          "Lord Commander",
+          "Mamoonid Caliphate",
+          "Mobile Defense Forces",
+          "Northern Alliance",
+          "Pesteran-Astorian War",
+          "Rhovland",
+          "Siege of Kovacgrad",
+          "Theorin Commonwealth",
+          "Treaty of Bokevrek",
+          "Vanguard Order",
+          "Vesperan Empire",
+          "Viridia"
+        ],
+        "categories": [
+          "20th Century Conflicts",
+          "Astorian History",
+          "Bakorian History",
+          "Military History",
+          "Northern Alliance",
+          "Wars"
+        ],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 35
+      },
+      {
+        "title": "Veszprem Invasion",
+        "slug": "veszprem-invasion",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Veszprem_Invasion.wiki",
+        "bytes": 12668,
+        "class": "event",
+        "years": [
+          1912,
+          1913,
+          1914,
+          1925,
+          1949,
+          1974
+        ],
+        "pre1995Years": [
+          1912,
+          1913,
+          1914,
+          1925,
+          1949,
+          1974
+        ],
+        "links": [
+          "Air Marshal Viktor Stormwind",
+          "Assault on the Iron Gates",
+          "Battle of the Great Foundries",
+          "Battle of the Iron Gates",
+          "Colonel Heinrich Ironforge",
+          "Federated Syndicates of Veszprem",
+          "General Augustus Maximilian",
+          "General Béla Kovács",
+          "Imperial Industrial Acquisition Corps",
+          "Imperial Industrial Decree of 1914",
+          "Imperial Industrial Survey of 1914",
+          "Imperial Military Archives",
+          "Master Engineer Zoltán Nagy",
+          "Military Technology Quarterly",
+          "Northern Alliance",
+          "Orderism",
+          "Prince István Vesz",
+          "Siege of Veszprem Central",
+          "Syndicate Revolution of 1949",
+          "Unified Orderism",
+          "United Principalities of Veszprem",
+          "Vesperan Air Force Command",
+          "Vesperan Empire",
+          "Veszpremi Industrial Assessment of 1912",
+          "Veszpremi Institute of Social Sciences",
+          "Veszpremi Underground",
+          "Veszpremi-Northern Alliance Industrial Cooperation Agreement"
+        ],
+        "categories": [
+          "20th Century Conflicts",
+          "Industrial Warfare",
+          "Vesperan Empire",
+          "Veszprem",
+          "Wars"
+        ],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 35
+      },
+      {
+        "title": "Belcanto Campaign",
+        "slug": "belcanto-campaign",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Belcanto_Campaign.wiki",
+        "bytes": 11546,
+        "class": "event",
+        "years": [
+          1891,
+          1892,
+          1893,
+          1894,
+          1895,
+          1896,
+          1897,
+          1923,
+          1975
+        ],
+        "pre1995Years": [
+          1891,
+          1892,
+          1893,
+          1894,
+          1895,
+          1896,
+          1897,
+          1923,
+          1975
+        ],
+        "links": [
+          "Admiral Carlo Rossini",
+          "Admiral Marcus Valerius",
+          "Battle of Porto Nuovo",
+          "Battle of Pristanište",
+          "Battle of the Seven Peaks",
+          "Belcantese Cultural Resistance",
+          "Belcantese Historical Society",
+          "Belcantese-Northern Alliance Treaty of 1891",
+          "Belcanto",
+          "Belcanto Federation",
+          "Belcanto Nations",
+          "Council of Seven Crowns",
+          "Field Marshal Gaius Severus",
+          "General Giuseppe Monteverdi",
+          "General Lucius Maximus",
+          "Global Consolidation",
+          "Imperial Cultural Integration Decree of 1897",
+          "Imperial Engineering Corps",
+          "Imperial Military Archives",
+          "Imperial Military Engineering Corps",
+          "Imperial Navy",
+          "King Alessandro di Belcanto",
+          "Military History Quarterly",
+          "Northern Alliance",
+          "Northern Coastal Campaign",
+          "Siege of Belcanto Centrale",
+          "Siege of Belgrad",
+          "Vesperan Empire",
+          "Vesperan Language",
+          "Vesperan Naval Command"
+        ],
+        "categories": [
+          "19th Century Conflicts",
+          "Belcanto Nations",
+          "Imperial Expansion",
+          "Vesperan Empire",
+          "Wars"
+        ],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 34
+      },
+      {
+        "title": "Vesperan Alphabet",
+        "slug": "vesperan-alphabet",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Vesperan_Alphabet.wiki",
+        "bytes": 10451,
+        "class": "culture-idea",
+        "years": [
+          1100,
+          1350,
+          1650,
+          1652,
+          1710,
+          1725,
+          1947,
+          1949,
+          2010
+        ],
+        "pre1995Years": [
+          1100,
+          1350,
+          1650,
+          1652,
+          1710,
+          1725,
+          1947,
+          1949
+        ],
+        "links": [
+          "Colonial Vesperan Scripts",
+          "Imperial Language Academy",
+          "Imperial Script Reform of 1725",
+          "Imperial Scriptorial Archives",
+          "International Script Research Institute",
+          "King Aurelius III",
+          "Malonian Script",
+          "Old Western Script",
+          "Royal Academy of Letters",
+          "Royal Language Decree of 1652",
+          "Royal Scriptorial Decree",
+          "University of Vespera",
+          "Vesperan Calligraphy",
+          "Vesperan Empire",
+          "Vesperan Kingdom",
+          "Vesperan Language",
+          "Vesperan Literature",
+          "Vesperan Numerals",
+          "Western Imperial Script"
+        ],
+        "categories": [
+          "Alphabets",
+          "Latin-derived scripts",
+          "Vesperan Empire",
+          "Writing systems"
+        ],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 34
+      },
+      {
+        "title": "AGGPI",
+        "slug": "aggpi",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/AGGPI.wiki",
+        "bytes": 5681,
+        "class": "organization",
+        "years": [
+          1990,
+          1994,
+          1995
+        ],
+        "pre1995Years": [
+          1990,
+          1994
+        ],
+        "links": [],
+        "categories": [],
+        "canonWarnings": [
+          "aggpi_1995_foundation"
+        ],
+        "alreadyLive": null,
+        "score": 32
+      },
+      {
+        "title": "Treaty of the Concord of Istragarde",
+        "slug": "treaty-of-the-concord-of-istragarde",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Treaty_of_the_Concord_of_Istragarde.wiki",
+        "bytes": 9765,
+        "class": "event",
+        "years": [
+          1951,
+          1971,
+          1983,
+          1990
+        ],
+        "pre1995Years": [
+          1951,
+          1971,
+          1983,
+          1990
+        ],
+        "links": [
+          "Avant Great War",
+          "Bátravalka",
+          "Imperial Rhovland",
+          "Invasion of Bátravalka",
+          "Istragarde Tribunal",
+          "Karlist Perzam",
+          "Legion of Astoria",
+          "Perzamic",
+          "Treaty Accord of 1951",
+          "Volgastan Baathist Republic",
+          "Volgastan’s Expansionist Doctrine"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 32
+      },
+      {
+        "title": "Vesperan Language",
+        "slug": "vesperan-language",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Vesperan_Language.wiki",
+        "bytes": 8187,
+        "class": "culture-idea",
+        "years": [
+          1200,
+          1350,
+          1500,
+          1650,
+          1652,
+          1655,
+          1702,
+          1710,
+          1715,
+          1920,
+          1945,
+          1948,
+          1949,
+          1951
+        ],
+        "pre1995Years": [
+          1200,
+          1350,
+          1500,
+          1650,
+          1652,
+          1655,
+          1702,
+          1710,
+          1715,
+          1920,
+          1945,
+          1948,
+          1949,
+          1951
+        ],
+        "links": [
+          "Classical Vesperan",
+          "Classical Vesperan Grammar",
+          "House of Vespera",
+          "Imperial Language Academy",
+          "Old Vesperan",
+          "Old Western",
+          "Proto-Western",
+          "Royal Archives",
+          "Royal Language Decree of 1652",
+          "University of Vespera",
+          "Vesperan Alphabet",
+          "Vesperan Dictionary",
+          "Vesperan Empire",
+          "Vesperan Historical Institute",
+          "Vesperan Kingdom",
+          "Vesperan Literature",
+          "Vesperan Script",
+          "Vesperan people"
+        ],
+        "categories": [
+          "Constructed Languages",
+          "Historical Languages",
+          "Imperial Languages",
+          "Languages",
+          "Vesperan Empire"
+        ],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 32
+      },
+      {
+        "title": "Veszpremi Language",
+        "slug": "veszpremi-language",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Veszpremi_Language.wiki",
+        "bytes": 11804,
+        "class": "culture-idea",
+        "years": [
+          1234,
+          1400,
+          1913,
+          1949,
+          1987,
+          1995,
+          2010,
+          2015,
+          2020
+        ],
+        "pre1995Years": [
+          1234,
+          1400,
+          1913,
+          1949,
+          1987
+        ],
+        "links": [
+          "Cyrillic script",
+          "Federal Syndicate of Education",
+          "Federated Syndicates of Veszprem",
+          "Great Grammar",
+          "Institute for Linguistic Precision",
+          "Iron Codex",
+          "Orderism",
+          "Proto-Slavic",
+          "Slavic Linguistics Journal",
+          "South Slavic",
+          "Syndicate Revolution of 1949",
+          "Unified Orderism",
+          "Vesperan Language",
+          "Veszprem Invasion",
+          "Veszprem-Slavic",
+          "Veszpremi Academy of Sciences",
+          "Veszpremi Language Institute",
+          "Veszpremi Literature"
+        ],
+        "categories": [
+          "Complex Languages",
+          "Languages",
+          "Official Languages",
+          "Slavic Languages",
+          "Veszprem"
+        ],
+        "canonWarnings": [
+          "aggpi_1995_foundation"
+        ],
+        "alreadyLive": null,
+        "score": 32
+      },
+      {
+        "title": "Belcantese Language",
+        "slug": "belcantese-language",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Belcantese_Language.wiki",
+        "bytes": 9154,
+        "class": "culture-idea",
+        "years": [
+          1156,
+          1400,
+          1892,
+          1920,
+          1945,
+          1949,
+          1950,
+          1987,
+          1995,
+          2010,
+          2015,
+          2020
+        ],
+        "pre1995Years": [
+          1156,
+          1400,
+          1892,
+          1920,
+          1945,
+          1949,
+          1950,
+          1987
+        ],
+        "links": [
+          "Belcantese Cultural Resistance",
+          "Belcantese Language Institute",
+          "Belcantese Literature",
+          "Belcantese Studies Journal",
+          "Belcanto",
+          "Cantusian Language",
+          "Council of Tongues",
+          "Federal Ministry of Education",
+          "Forest Codex",
+          "Forest-Desert Belcantese",
+          "Harmonese Language",
+          "Language Restoration Act of 1950",
+          "Latin script",
+          "Melodic Language",
+          "Minuetic Language",
+          "Northern Belcantese",
+          "Proto-Belcantese",
+          "Resistance Songbook",
+          "Serenadic Language",
+          "University of Belcanto",
+          "Vesperan Empire",
+          "Vesperan Language"
+        ],
+        "categories": [
+          "Belcantese Languages",
+          "Belcanto",
+          "Languages",
+          "Official Languages"
+        ],
+        "canonWarnings": [
+          "aggpi_1995_foundation"
+        ],
+        "alreadyLive": null,
+        "score": 30
+      },
+      {
+        "title": "Belcanto Federation",
+        "slug": "belcanto-federation",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Belcanto_Federation.wiki",
+        "bytes": 15532,
+        "class": "country",
+        "years": [
+          1156,
+          1400,
+          1456,
+          1634,
+          1641,
+          1723,
+          1729,
+          1800,
+          1892,
+          1893,
+          1894,
+          1895,
+          1897,
+          1905,
+          1937,
+          1940,
+          1949,
+          1951,
+          1965,
+          1975,
+          1989,
+          1999
+        ],
+        "pre1995Years": [
+          1156,
+          1400,
+          1456,
+          1634,
+          1641,
+          1723,
+          1729,
+          1800,
+          1892,
+          1893,
+          1894,
+          1895,
+          1897,
+          1905,
+          1937,
+          1940,
+          1949,
+          1951,
+          1965,
+          1975,
+          1989
+        ],
+        "links": [
+          "Ancient Belcantese Kingdoms",
+          "Avant Great War",
+          "Battle of Pristanište",
+          "Battle of Sedam Gajeva",
+          "Belcantese Cultural Resistance",
+          "Belcantese Historical Institute",
+          "Belcantese Independence Movement",
+          "Belcantese Language",
+          "Belcanto Campaign",
+          "Belcanto Federation",
+          "Cantus",
+          "Chamber of Representatives",
+          "Council of Seven Crowns",
+          "Declaration of Belcantese Independence",
+          "Eastern Expansion Conflicts",
+          "Empire of Khalindar",
+          "Federal Assembly",
+          "Federal Constitution of 1949",
+          "Federal Council",
+          "Federal Ministry of Culture",
+          "Great Conservatory of Belcanto",
+          "Harmonia",
+          "Imperial Cultural Decree of 1897",
+          "Imperial Economic Survey of 1905",
+          "International Studies Quarterly",
+          "Journal of Belcantese Studies",
+          "Melodia",
+          "Minuet",
+          "Northern Maritime Wars",
+          "Senate of Nations",
+          "Serenade Kingdom",
+          "Siege of Belgrad",
+          "Territorial Settlement of 1951",
+          "Vesperan Empire",
+          "Vesperan Imperial Archives",
+          "Vesperan Language"
+        ],
+        "categories": [
+          "Belcanto Nations",
+          "Countries",
+          "Federal Republics",
+          "Former Vesperan Territories",
+          "Post-Imperial States"
+        ],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 30
+      },
+      {
+        "title": "Dracoist Malonia",
+        "slug": "dracoist-malonia",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Dracoist_Malonia.wiki",
+        "bytes": 20373,
+        "class": "article",
+        "years": [
+          1731,
+          1785,
+          1850,
+          1905,
+          1949,
+          1993,
+          2001
+        ],
+        "pre1995Years": [
+          1731,
+          1785,
+          1850,
+          1905,
+          1949,
+          1993
+        ],
+        "links": [
+          "Avant Great War",
+          "Dracoism",
+          "United Alignment",
+          "Vesperan Empire"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 30
+      },
+      {
+        "title": "Duchy of Ledostrov",
+        "slug": "duchy-of-ledostrov",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Duchy_of_Ledostrov.wiki",
+        "bytes": 10887,
+        "class": "country",
+        "years": [
+          1352,
+          1938,
+          1942,
+          2003
+        ],
+        "pre1995Years": [
+          1352,
+          1938,
+          1942
+        ],
+        "links": [
+          "Anavaisk-Novoanov Accords",
+          "Baron of Uzryta",
+          "Battle of Lisebev",
+          "Burgrave of Sedava",
+          "Count of Anavaisk",
+          "Count of Litwaldov",
+          "Count of Reznikoff",
+          "Duma of Ledestrov",
+          "Orderism",
+          "Pentarchy of Ledestrov",
+          "Prince of Novoanov",
+          "Reznikoff of Ledestrov",
+          "Southern Defense Force of Ledestrov",
+          "Uzryta of Ledestrov"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 28
+      },
+      {
+        "title": "Ryszard Flak",
+        "slug": "ryszard-flak",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Ryszard_Flak.wiki",
+        "bytes": 6236,
+        "class": "article",
+        "years": [
+          1935,
+          1957,
+          1960,
+          1964,
+          1969,
+          1975,
+          1980,
+          1982,
+          1995
+        ],
+        "pre1995Years": [
+          1935,
+          1957,
+          1960,
+          1964,
+          1969,
+          1975,
+          1980,
+          1982
+        ],
+        "links": [],
+        "categories": [],
+        "canonWarnings": [
+          "aggpi_1995_foundation"
+        ],
+        "alreadyLive": null,
+        "score": 27
+      },
+      {
+        "title": "Federated Syndicates of Veszprem",
+        "slug": "federated-syndicates-of-veszprem",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Federated_Syndicates_of_Veszprem.wiki",
+        "bytes": 8147,
+        "class": "article",
+        "years": [
+          1957
+        ],
+        "pre1995Years": [
+          1957
+        ],
+        "links": [
+          "Azuragon",
+          "Orderism",
+          "Orderist Party of Veszprem",
+          "Unified Orderism",
+          "Veszprem Universalism"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 26
+      },
+      {
+        "title": "Solara",
+        "slug": "solara",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Solara.wiki",
+        "bytes": 9943,
+        "class": "country",
+        "years": [
+          1538,
+          2000
+        ],
+        "pre1995Years": [
+          1538
+        ],
+        "links": [
+          "Alberion Central",
+          "Avant Great War",
+          "Avant World War",
+          "Grand Duchy of Solan",
+          "John \"Lee\" Greener",
+          "Kingdom of Albion",
+          "Kingdom of Congrave",
+          "President of Solara",
+          "Solaran",
+          "Solaran War of Unification",
+          "Vice President of Solara",
+          "w:Parliamentary_system"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 25
+      },
+      {
+        "title": "Avant Great War",
+        "slug": "avant-great-war",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Avant_Great_War.wiki",
+        "bytes": 1132,
+        "class": "event",
+        "years": [
+          1937,
+          1949,
+          1951
+        ],
+        "pre1995Years": [
+          1937,
+          1949,
+          1951
+        ],
+        "links": [
+          "Continuation War",
+          "Imperial Pact",
+          "United Alignment of Nations",
+          "Vesperan Empire",
+          "alliances",
+          "deadliest conflict",
+          "global conflict",
+          "planes",
+          "strategic bombing",
+          "tanks",
+          "total war"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 24
+      },
+      {
+        "title": "Xanaqu South Industrial State Cooperation",
+        "slug": "xanaqu-south-industrial-state-cooperation",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Xanaqu_South_Industrial_State_Cooperation.wiki",
+        "bytes": 6958,
+        "class": "country",
+        "years": [
+          1952,
+          1960,
+          1975,
+          1990,
+          2000
+        ],
+        "pre1995Years": [
+          1952,
+          1960,
+          1975,
+          1990
+        ],
+        "links": [
+          "People's Federation of Xanaqu"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 24
+      },
+      {
+        "title": "List of Wars",
+        "slug": "list-of-wars",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/List_of_Wars.wiki",
+        "bytes": 457,
+        "class": "event",
+        "years": [
+          1937,
+          1949,
+          1969,
+          1973,
+          1975,
+          1981,
+          1989,
+          1990,
+          1994,
+          1997,
+          1998,
+          1999
+        ],
+        "pre1995Years": [
+          1937,
+          1949,
+          1969,
+          1973,
+          1975,
+          1981,
+          1989,
+          1990,
+          1994
+        ],
+        "links": [
+          "Avant Great War",
+          "Avant World War",
+          "Mariposian Civil War",
+          "Mariposian Wars",
+          "Second Astorian-Mariposia War",
+          "Svet-Orinan War",
+          "Volgastani-Hanovkayan War",
+          "Volgastani-Osman War",
+          "Zhensanov Continuation War"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 23
+      },
+      {
+        "title": "Come out ye' Black and Whites",
+        "slug": "come-out-ye-black-and-whites",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Come_out_ye'_Black_and_Whites.wiki",
+        "bytes": 2722,
+        "class": "article",
+        "years": [
+          1943
+        ],
+        "pre1995Years": [
+          1943
+        ],
+        "links": [
+          "Anti-Astorianists",
+          "Defense of Azmetan",
+          "Legion of Astoria",
+          "Perastan",
+          "Perastan Republican Army",
+          "Pesteran-Astorian War"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 20
+      },
+      {
+        "title": "Imperial Suomi",
+        "slug": "imperial-suomi",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Imperial_Suomi.wiki",
+        "bytes": 2658,
+        "class": "country",
+        "years": [
+          1652,
+          1658,
+          1850,
+          1958,
+          2000
+        ],
+        "pre1995Years": [
+          1652,
+          1658,
+          1850,
+          1958
+        ],
+        "links": [
+          "King of the House of Jarvinen",
+          "President",
+          "Suomi Pel",
+          "w:Constitutional_Monarchy",
+          "w:Finnish_Language",
+          "w:Finns"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 20
+      },
+      {
+        "title": "Khalari Emirates",
+        "slug": "khalari-emirates",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Khalari_Emirates.wiki",
+        "bytes": 1915,
+        "class": "country",
+        "years": [
+          1979
+        ],
+        "pre1995Years": [
+          1979
+        ],
+        "links": [
+          "Dhali",
+          "Federal Bicameral Parliament",
+          "Grand Emir of Khalari",
+          "Khalar",
+          "Khalari Federal Assembly",
+          "Khalari Federal Council",
+          "Khalari Monotheism",
+          "Khalari Morad",
+          "Khlari Eastern Time",
+          "Montelara, Khalari Emirates",
+          "Prime Minister of Khalari",
+          "Southern Dhal",
+          "Thanuli"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 19
+      },
+      {
+        "title": "Solaran Alphabet",
+        "slug": "solaran-alphabet",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Solaran_Alphabet.wiki",
+        "bytes": 3875,
+        "class": "culture-idea",
+        "years": [
+          1895,
+          1898,
+          1899,
+          1900,
+          1905
+        ],
+        "pre1995Years": [
+          1895,
+          1898,
+          1899,
+          1900,
+          1905
+        ],
+        "links": [
+          "Solaran",
+          "Solaran Academy of Linguistics",
+          "Solaran Education",
+          "Solaran Historical Society",
+          "Solaran Language Office",
+          "Solaran Ministry of Education",
+          "Solaran Parliament",
+          "Solra"
+        ],
+        "categories": [
+          "Languages",
+          "Solara"
+        ],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 19
+      },
+      {
+        "title": "Templar of Saxonia",
+        "slug": "templar-of-saxonia",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Templar_of_Saxonia.wiki",
+        "bytes": 1467,
+        "class": "country",
+        "years": [
+          1947,
+          2009
+        ],
+        "pre1995Years": [
+          1947
+        ],
+        "links": [
+          "+211",
+          ".sa",
+          "Godesfurct Waels",
+          "Iain Duncan",
+          "March of the Heavenly Knights",
+          "Minister",
+          "Orderly Chamber",
+          "Prince-Templar",
+          "Saxonia",
+          "Saxonian Taler",
+          "Saxonian language",
+          "Theocratic Elective Monarchy",
+          "Theorin language"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 19
+      },
+      {
+        "title": "Asgard Private Military Corporation",
+        "slug": "asgard-private-military-corporation",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Asgard_Private_Military_Corporation.wiki",
+        "bytes": 268,
+        "class": "organization",
+        "years": [
+          1986,
+          1998
+        ],
+        "pre1995Years": [
+          1986
+        ],
+        "links": [
+          "Emperor Mikael IV"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 18
+      },
+      {
+        "title": "Gorodovaya Syndikalizm",
+        "slug": "gorodovaya-syndikalizm",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Gorodovaya_Syndikalizm.wiki",
+        "bytes": 8395,
+        "class": "article",
+        "years": [
+          1923,
+          1924,
+          1926,
+          1927
+        ],
+        "pre1995Years": [
+          1923,
+          1924,
+          1926,
+          1927
+        ],
+        "links": [
+          "Communal Housing Program",
+          "Great Reorganization",
+          "Marina Volkhova",
+          "New Industrial Cities Movement",
+          "Orderism",
+          "Red Transport Network",
+          "Syndicalism",
+          "Unified Orderism",
+          "Viktor Zheleznyakov",
+          "Vorkuta",
+          "Vorkutan Labor Crisis",
+          "Vorkutan Workers' Assembly"
+        ],
+        "categories": [
+          "Ideologies",
+          "Radical ideologies",
+          "Syndicalist ideologies",
+          "Vorkutan history"
+        ],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 18
+      },
+      {
+        "title": "Imperial Religious Academy",
+        "slug": "imperial-religious-academy",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Imperial_Religious_Academy.wiki",
+        "bytes": 8950,
+        "class": "article",
+        "years": [
+          1710,
+          1720
+        ],
+        "pre1995Years": [
+          1710,
+          1720
+        ],
+        "links": [
+          "Avant Great War",
+          "Day of Divine Mandate",
+          "Emperor Marcus the Great",
+          "Festival of Imperial Unity",
+          "Great Temple of Vespera",
+          "High Priest of the Imperial Cult",
+          "Imperial College of Priests",
+          "Imperial Coronation Ceremony",
+          "Imperial Council",
+          "Imperial Cult",
+          "Imperial Proclamation of 1710",
+          "Imperial Religious Canon",
+          "Vesperan Empire"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 18
+      },
+      {
+        "title": "Jane Pensworth",
+        "slug": "jane-pensworth",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Jane_Pensworth.wiki",
+        "bytes": 559,
+        "class": "article",
+        "years": [
+          1877,
+          1897,
+          1901,
+          1969
+        ],
+        "pre1995Years": [
+          1877,
+          1897,
+          1901,
+          1969
+        ],
+        "links": [
+          "A Wild World"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 18
+      },
+      {
+        "title": "List of Defunct Nations",
+        "slug": "list-of-defunct-nations",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/List_of_Defunct_Nations.wiki",
+        "bytes": 967,
+        "class": "index",
+        "years": [
+          1282,
+          1594,
+          1642,
+          1804,
+          1829,
+          1850,
+          1854,
+          1892,
+          1923,
+          1933,
+          1935,
+          1949,
+          1980,
+          1998
+        ],
+        "pre1995Years": [
+          1282,
+          1594,
+          1642,
+          1804,
+          1829,
+          1850,
+          1854,
+          1892,
+          1923,
+          1933,
+          1935,
+          1949,
+          1980
+        ],
+        "links": [
+          "Astorian Republic",
+          "Bu Dynasty",
+          "Empire of Khalindar",
+          "Gengharian Khanate",
+          "Imperial Novgorv",
+          "Kazan Republic",
+          "Kingdom of Khunovgrad",
+          "Kingdom of Mariposia",
+          "Kingdom of Seraphina",
+          "Okuda Shogunate",
+          "Republic of Bakorian",
+          "Republic of Zhensanov",
+          "Sibirsk Khanate",
+          "Vesperan Empire",
+          "Volgastani-Hamed Empire"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 18
+      },
+      {
+        "title": "People's Republic of Mariposa",
+        "slug": "peoples-republic-of-mariposa",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/People's_Republic_of_Mariposa.wiki",
+        "bytes": 172,
+        "class": "country",
+        "years": [
+          1980
+        ],
+        "pre1995Years": [
+          1980
+        ],
+        "links": [
+          "Mantara"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 18
+      },
+      {
+        "title": "Volgastan Baathist Republic",
+        "slug": "volgastan-baathist-republic",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Volgastan_Baathist_Republic.wiki",
+        "bytes": 490,
+        "class": "country",
+        "years": [
+          1953
+        ],
+        "pre1995Years": [
+          1953
+        ],
+        "links": [],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 18
+      },
+      {
+        "title": "Great Temple of Vespera",
+        "slug": "great-temple-of-vespera",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Great_Temple_of_Vespera.wiki",
+        "bytes": 7245,
+        "class": "culture-idea",
+        "years": [
+          1710,
+          1715,
+          1725
+        ],
+        "pre1995Years": [
+          1710,
+          1715,
+          1725
+        ],
+        "links": [
+          "Avant Great War",
+          "Day of Divine Mandate",
+          "Divine Mandate of the First Emperor",
+          "Emperor of Vespera",
+          "Festival of Imperial Unity",
+          "High Priest of the Imperial Cult",
+          "Imperial Coronation Ceremony",
+          "Imperial Council",
+          "Imperial Crown of Vespera",
+          "Imperial Cult",
+          "Imperial Marble Quarries",
+          "Imperial Mausoleum",
+          "Imperial Proclamation of 1710",
+          "Imperial Religious Academy",
+          "Imperial Throne of Divinity",
+          "Oath of Eternal Service",
+          "Rite of Divine Anointment",
+          "Seal of Imperial Unity",
+          "Sword of Divine Authority",
+          "Unification of the Empire",
+          "Vespera",
+          "Vesperan Empire"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 17
+      },
+      {
+        "title": "Imperial Coronation Ceremony",
+        "slug": "imperial-coronation-ceremony",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Imperial_Coronation_Ceremony.wiki",
+        "bytes": 7880,
+        "class": "article",
+        "years": [
+          1710,
+          1750,
+          1780
+        ],
+        "pre1995Years": [
+          1710,
+          1750,
+          1780
+        ],
+        "links": [
+          "Crowning Rite",
+          "Day of Divine Mandate",
+          "Emperor Marcus the Great",
+          "Emperor of Vespera",
+          "Great Temple of Vespera",
+          "High Priest of the Imperial Cult",
+          "Imperial College of Priests",
+          "Imperial Council",
+          "Imperial Crown of Vespera",
+          "Imperial Cult",
+          "Imperial Oath",
+          "Imperial Proclamation of 1710",
+          "Imperial Religious Academy",
+          "Imperial Robes of Divinity",
+          "Oath of Eternal Service",
+          "Rite of Divine Anointment",
+          "Rite of Purification",
+          "Vesperan Aristocracy",
+          "Vesperan Empire",
+          "Vesperan Kingdom"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 17
+      },
+      {
+        "title": "AGGPI Principles",
+        "slug": "aggpi-principles",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/AGGPI_Principles.wiki",
+        "bytes": 7149,
+        "class": "culture-idea",
+        "years": [
+          1995,
+          1996,
+          1997
+        ],
+        "pre1995Years": [],
+        "links": [
+          "AGGPI Charter",
+          "AGGPIPF",
+          "Avant Garde Global Peace Initiative",
+          "Global Governance Review",
+          "International Law Journal",
+          "Treaty of the Concord of Istragarde"
+        ],
+        "categories": [
+          "International Organizations",
+          "Law",
+          "Organizations"
+        ],
+        "canonWarnings": [
+          "aggpi_1995_foundation"
+        ],
+        "alreadyLive": null,
+        "score": 16
+      },
+      {
+        "title": "Kaonism",
+        "slug": "kaonism",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Kaonism.wiki",
+        "bytes": 6749,
+        "class": "culture-idea",
+        "years": [
+          1841,
+          1844,
+          1848,
+          1863,
+          1865
+        ],
+        "pre1995Years": [
+          1841,
+          1844,
+          1848,
+          1863,
+          1865
+        ],
+        "links": [],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 16
+      },
+      {
+        "title": "People's Federation of Xanaqu",
+        "slug": "peoples-federation-of-xanaqu",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/People's_Federation_of_Xanaqu.wiki",
+        "bytes": 5025,
+        "class": "country",
+        "years": [
+          1934,
+          1935,
+          1936,
+          2000
+        ],
+        "pre1995Years": [
+          1934,
+          1935,
+          1936
+        ],
+        "links": [
+          "Bu Dynasty",
+          "Chairman of the Central Workers' Council",
+          "Erythrea",
+          "General Cheng Jin",
+          "Huo Ping",
+          "Khaji",
+          "La Thum",
+          "People's Federation",
+          "Qiu Guanyu",
+          "Red Army",
+          "Taoist Manifesto",
+          "Taoist Party",
+          "Xanaq",
+          "Xanaq Civil War",
+          "Xanaq Republicans",
+          "Xanaqu Yao",
+          "Xun Tao"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 15
+      },
+      {
+        "title": "Northern Alliance",
+        "slug": "northern-alliance",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Northern_Alliance.wiki",
+        "bytes": 3289,
+        "class": "article",
+        "years": [
+          1839,
+          1880,
+          1882,
+          1884,
+          1891
+        ],
+        "pre1995Years": [
+          1839,
+          1880,
+          1882,
+          1884,
+          1891
+        ],
+        "links": [
+          "5 Nation Alliance",
+          "Arashyurt Duchy",
+          "Federation of Vinterholm",
+          "Green Turban Rebels",
+          "Gwangyanski Kingdom",
+          "Imperial Rhovland",
+          "Legion of Astoria",
+          "March Conference",
+          "Mongilov Federation",
+          "Siege of Murah",
+          "Svetian War",
+          "The International Relief Alliance",
+          "Theorin Commonwealth",
+          "Theorin-Vinterholm Alliance",
+          "Vesperan Empire",
+          "Volgastani-Arabogradsk Alliance",
+          "Volgastani-Hamed Empire",
+          "Volgastani-Hamed Royal Army"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 13
+      },
+      {
+        "title": "Languages of Zhensanov",
+        "slug": "languages-of-zhensanov",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Languages_of_Zhensanov.wiki",
+        "bytes": 5164,
+        "class": "culture-idea",
+        "years": [
+          2006,
+          2007,
+          2008,
+          2009
+        ],
+        "pre1995Years": [],
+        "links": [
+          "Agashkinic",
+          "Agashkinic Cultural Society",
+          "Agashkinic Language",
+          "Kavetsian",
+          "Kavetsian Language",
+          "Kavetsian Research Institute",
+          "Murianic",
+          "Murianic Language",
+          "Murianic Language Academy",
+          "Proto-Zhensanovian",
+          "Sanovic",
+          "Tekdolian",
+          "Tekdolian Historical Archive",
+          "Tekdolian Language",
+          "Toramdic",
+          "Toramdic Language",
+          "Toramdic Language Center",
+          "Union Alphabet",
+          "Union Language Committee",
+          "Union of Zhensanov",
+          "Zhensanovian Grammar",
+          "Zhensanovian Linguistic Institute",
+          "Zhensanovian Phonology"
+        ],
+        "categories": [
+          "Languages",
+          "Zhensanov"
+        ],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 11
+      },
+      {
+        "title": "Republic of Perasta",
+        "slug": "republic-of-perasta",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Republic_of_Perasta.wiki",
+        "bytes": 1564,
+        "class": "country",
+        "years": [
+          1793
+        ],
+        "pre1995Years": [
+          1793
+        ],
+        "links": [
+          "Connor O'Neill",
+          "Mantara Central Time",
+          "Oscar Walsh",
+          "Perastan",
+          "Perastan Pound",
+          "Theorin",
+          "w:Constitutional_republic",
+          "w:President",
+          "w:Prime_minister"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 11
+      },
+      {
+        "title": "Solaran Language",
+        "slug": "solaran-language",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Solaran_Language.wiki",
+        "bytes": 5130,
+        "class": "culture-idea",
+        "years": [
+          2008,
+          2009,
+          2010
+        ],
+        "pre1995Years": [],
+        "links": [
+          "Solara",
+          "Solaran Academy of Linguistics",
+          "Solaran Alphabet",
+          "Solaran Culture",
+          "Solaran Education",
+          "Solaran Language Office",
+          "Solaran Ministry of Education",
+          "Solra",
+          "Sonism"
+        ],
+        "categories": [
+          "Languages",
+          "Solara"
+        ],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 11
+      },
+      {
+        "title": "A Wild World",
+        "slug": "a-wild-world",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/A_Wild_World.wiki",
+        "bytes": 251,
+        "class": "article",
+        "years": [
+          1021
+        ],
+        "pre1995Years": [
+          1021
+        ],
+        "links": [
+          "Gaia",
+          "Jane Pensworth"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 10
+      },
+      {
+        "title": "Orinian Empire",
+        "slug": "orinian-empire",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Orinian_Empire.wiki",
+        "bytes": 639,
+        "class": "country",
+        "years": [
+          1680
+        ],
+        "pre1995Years": [
+          1680
+        ],
+        "links": [
+          "AGGPI",
+          "Ba'athist Republic of Volgastan",
+          "Khalari",
+          "Orinian Empire",
+          "Union of Zhensanov"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 10
+      },
+      {
+        "title": "Empire of Khalindar",
+        "slug": "empire-of-khalindar",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Empire_of_Khalindar.wiki",
+        "bytes": 2705,
+        "class": "country",
+        "years": [
+          2003
+        ],
+        "pre1995Years": [],
+        "links": [
+          "Aleksandra Victoria Anne Mishia Chayka II",
+          "Anglish",
+          "Federal Chancellor of Khalindar",
+          "Sigrid Anastasia Anne Victoria Florence-Goring",
+          "State Councilor of Khalindar",
+          "Wikipedia:Belarusian Language",
+          "Wikipedia:Danish Language",
+          "Wikipedia:Icelandic Language",
+          "Wikipedia:Norwegian Language",
+          "Wikipedia:Rusyn Language"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 8
+      },
+      {
+        "title": "Union of Zhensanov",
+        "slug": "union-of-zhensanov",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Union_of_Zhensanov.wiki",
+        "bytes": 29,
+        "class": "country",
+        "years": [],
+        "pre1995Years": [],
+        "links": [],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 6
+      },
+      {
+        "title": "Avant World War",
+        "slug": "avant-world-war",
+        "sourcePath": "Miraheza-Avant-Wiki/pages/Avant_World_War.wiki",
+        "bytes": 34,
+        "class": "event",
+        "years": [],
+        "pre1995Years": [],
+        "links": [
+          "Solara-Khalindar War"
+        ],
+        "categories": [],
+        "canonWarnings": [],
+        "alreadyLive": null,
+        "score": 5
+      }
+    ],
+    "missingLinkedPages": [
+      {
+        "title": "Imperial Council",
+        "mentions": 4,
+        "sources": [
+          "Vesperan Empire",
+          "Imperial Religious Academy",
+          "Great Temple of Vespera",
+          "Imperial Coronation Ceremony"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Proclamation of 1710",
+        "mentions": 4,
+        "sources": [
+          "Vesperan Empire",
+          "Imperial Religious Academy",
+          "Great Temple of Vespera",
+          "Imperial Coronation Ceremony"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Vesperan Kingdom",
+        "mentions": 4,
+        "sources": [
+          "Vesperan Empire",
+          "Vesperan Alphabet",
+          "Vesperan Language",
+          "Imperial Coronation Ceremony"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Emperor of Vespera",
+        "mentions": 3,
+        "sources": [
+          "Vesperan Empire",
+          "Great Temple of Vespera",
+          "Imperial Coronation Ceremony"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Belcantese Cultural Resistance",
+        "mentions": 3,
+        "sources": [
+          "Belcanto Campaign",
+          "Belcantese Language",
+          "Belcanto Federation"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Day of Divine Mandate",
+        "mentions": 3,
+        "sources": [
+          "Imperial Religious Academy",
+          "Great Temple of Vespera",
+          "Imperial Coronation Ceremony"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "High Priest of the Imperial Cult",
+        "mentions": 3,
+        "sources": [
+          "Imperial Religious Academy",
+          "Great Temple of Vespera",
+          "Imperial Coronation Ceremony"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Congrave",
+        "mentions": 2,
+        "sources": [
+          "Solara-Khalindar War",
+          "Solaran-Khalindarian Confederence of 1940"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Khalindarian Empire",
+        "mentions": 2,
+        "sources": [
+          "Solara-Khalindar War",
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Western Alliance",
+        "mentions": 2,
+        "sources": [
+          "Solara-Khalindar War",
+          "Solaran-Khalindarian Confederence of 1940"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Continuation War",
+        "mentions": 2,
+        "sources": [
+          "Vesperan Empire",
+          "Avant Great War"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Global Consolidation",
+        "mentions": 2,
+        "sources": [
+          "Vesperan Empire",
+          "Belcanto Campaign"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "House of Vespera",
+        "mentions": 2,
+        "sources": [
+          "Vesperan Empire",
+          "Vesperan Language"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Navy",
+        "mentions": 2,
+        "sources": [
+          "Vesperan Empire",
+          "Belcanto Campaign"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "United Alignment of Nations",
+        "mentions": 2,
+        "sources": [
+          "Vesperan Empire",
+          "Avant Great War"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Vespera",
+        "mentions": 2,
+        "sources": [
+          "Vesperan Empire",
+          "Great Temple of Vespera"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Vesperan Historical Institute",
+        "mentions": 2,
+        "sources": [
+          "Vesperan Empire",
+          "Vesperan Language"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Pesteran-Astorian War",
+        "mentions": 2,
+        "sources": [
+          "Bakorian War",
+          "Come out ye' Black and Whites"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Theorin Commonwealth",
+        "mentions": 2,
+        "sources": [
+          "Bakorian War",
+          "Northern Alliance"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Military Archives",
+        "mentions": 2,
+        "sources": [
+          "Veszprem Invasion",
+          "Belcanto Campaign"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Syndicate Revolution of 1949",
+        "mentions": 2,
+        "sources": [
+          "Veszprem Invasion",
+          "Veszpremi Language"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Battle of Pristanište",
+        "mentions": 2,
+        "sources": [
+          "Belcanto Campaign",
+          "Belcanto Federation"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Belcanto",
+        "mentions": 2,
+        "sources": [
+          "Belcanto Campaign",
+          "Belcantese Language"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Council of Seven Crowns",
+        "mentions": 2,
+        "sources": [
+          "Belcanto Campaign",
+          "Belcanto Federation"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Siege of Belgrad",
+        "mentions": 2,
+        "sources": [
+          "Belcanto Campaign",
+          "Belcanto Federation"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Language Academy",
+        "mentions": 2,
+        "sources": [
+          "Vesperan Alphabet",
+          "Vesperan Language"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Royal Language Decree of 1652",
+        "mentions": 2,
+        "sources": [
+          "Vesperan Alphabet",
+          "Vesperan Language"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "University of Vespera",
+        "mentions": 2,
+        "sources": [
+          "Vesperan Alphabet",
+          "Vesperan Language"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Vesperan Literature",
+        "mentions": 2,
+        "sources": [
+          "Vesperan Alphabet",
+          "Vesperan Language"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Solaran",
+        "mentions": 2,
+        "sources": [
+          "Solara",
+          "Solaran Alphabet"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Perastan",
+        "mentions": 2,
+        "sources": [
+          "Come out ye' Black and Whites",
+          "Republic of Perasta"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Solaran Academy of Linguistics",
+        "mentions": 2,
+        "sources": [
+          "Solaran Alphabet",
+          "Solaran Language"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Solaran Education",
+        "mentions": 2,
+        "sources": [
+          "Solaran Alphabet",
+          "Solaran Language"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Solaran Language Office",
+        "mentions": 2,
+        "sources": [
+          "Solaran Alphabet",
+          "Solaran Language"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Solaran Ministry of Education",
+        "mentions": 2,
+        "sources": [
+          "Solaran Alphabet",
+          "Solaran Language"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Emperor Marcus the Great",
+        "mentions": 2,
+        "sources": [
+          "Imperial Religious Academy",
+          "Imperial Coronation Ceremony"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Festival of Imperial Unity",
+        "mentions": 2,
+        "sources": [
+          "Imperial Religious Academy",
+          "Great Temple of Vespera"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial College of Priests",
+        "mentions": 2,
+        "sources": [
+          "Imperial Religious Academy",
+          "Imperial Coronation Ceremony"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Bu Dynasty",
+        "mentions": 2,
+        "sources": [
+          "List of Defunct Nations",
+          "People's Federation of Xanaqu"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Volgastani-Hamed Empire",
+        "mentions": 2,
+        "sources": [
+          "List of Defunct Nations",
+          "Northern Alliance"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Crown of Vespera",
+        "mentions": 2,
+        "sources": [
+          "Great Temple of Vespera",
+          "Imperial Coronation Ceremony"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Oath of Eternal Service",
+        "mentions": 2,
+        "sources": [
+          "Great Temple of Vespera",
+          "Imperial Coronation Ceremony"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Rite of Divine Anointment",
+        "mentions": 2,
+        "sources": [
+          "Great Temple of Vespera",
+          "Imperial Coronation Ceremony"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Abyssal Ridge",
+        "mentions": 1,
+        "sources": [
+          "Solara-Khalindar War"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Albroke",
+        "mentions": 1,
+        "sources": [
+          "Solara-Khalindar War"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Battle of Solara",
+        "mentions": 1,
+        "sources": [
+          "Solara-Khalindar War"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Emperor Mikael Khalindar IV",
+        "mentions": 1,
+        "sources": [
+          "Solara-Khalindar War"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Reasalbor",
+        "mentions": 1,
+        "sources": [
+          "Solara-Khalindar War"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Silver Strait",
+        "mentions": 1,
+        "sources": [
+          "Solara-Khalindar War"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Alistair McGregor",
+        "mentions": 1,
+        "sources": [
+          "Solaran-Khalindarian Confederence of 1940"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Eliza Harrington",
+        "mentions": 1,
+        "sources": [
+          "Solaran-Khalindarian Confederence of 1940"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Fredrik Hagen",
+        "mentions": 1,
+        "sources": [
+          "Solaran-Khalindarian Confederence of 1940"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Mikael Khalindar II",
+        "mentions": 1,
+        "sources": [
+          "Solaran-Khalindarian Confederence of 1940"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Rise & Collapse of Vesperan Empire",
+        "mentions": 1,
+        "sources": [
+          "Solaran-Khalindarian Confederence of 1940"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Cultural Studies Journal",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Eastern Caliphates",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Eastern Campaigns",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Eastern Peoples",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Economic History Review",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Global Military Review",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Air Force",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Archives of Vespera",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Army",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial House of Vespera",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Ministry of Foreign Affairs",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Vesperan Air Force",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Vesperan Army",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Vesperan Military",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Imperial Vesperan Navy",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "International Security Journal",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Naval History Quarterly",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Northern Tribes",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Political Science Review",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Southern Expansion",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Vesperan",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Vesperan Military Command",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Vittorian Empire",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "w:Absolute monarchy",
+        "mentions": 1,
+        "sources": [
+          "Vesperan Empire"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Ahmet Veil",
+        "mentions": 1,
+        "sources": [
+          "Bakorian War"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      },
+      {
+        "title": "Arashiyun Caliphate",
+        "mentions": 1,
+        "sources": [
+          "Bakorian War"
+        ],
+        "reason": "missing linked page in 1994-and-back source set"
+      }
+    ],
+    "seededBridgePages": [
+      {
+        "title": "Post-Avant Great War settlement",
+        "reason": "Needed to connect the 1949 imperial collapse, reparations disputes, decolonization, and the 1990 Solara-Khalindar War."
+      },
+      {
+        "title": "Continuation War",
+        "reason": "Mentioned by the Avant Great War page as the 1949-1951 rogue Vesperan resistance period."
+      },
+      {
+        "title": "United Alignment of Nations",
+        "reason": "Primary winning coalition of the Avant Great War; needed before country/event pages can coherently reference postwar occupation policy."
+      },
+      {
+        "title": "Imperial Pact",
+        "reason": "Primary opposing coalition in the Avant Great War and framework for Vesperan-aligned states."
+      },
+      {
+        "title": "Imperial Council",
+        "reason": "Canon decision body for Khalindar and useful for Solara-Khalindar War linked context."
+      },
+      {
+        "title": "Khalindarian reparations dispute",
+        "reason": "Direct trigger for the Solara-Khalindar War and bridge from the Avant Great War settlement to 1990."
+      },
+      {
+        "title": "Albroke",
+        "reason": "Opening strike location and missing anchor for Solara-Khalindar War geography."
+      },
+      {
+        "title": "Congrave",
+        "reason": "Central Solaran city/capital theater for the 1990-1994 war."
+      },
+      {
+        "title": "Vesperan occupation system",
+        "reason": "Needed to connect Vesperan Empire, Veszprem, Malonia, Belcanto, Mariposa, and post-1949 liberation pages."
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+<!--
+AGGS draft metadata
+title: Volgastani-Hamed Empire
+category: Nation
+status: draft
+era: Khalari Imperial Age
+yearStart: 723
+yearEnd: 1892
+aliases: Volgastani Hamed Empire
+tags: Khalari, Volgastan, Svetian War, Northern Alliance
+facts:
+Government: Absolute monarchy
+Formed: 723
+Defunct: 1892
+Relevant conflict: [[Svetian War]]
+Capital reference: [[Murah]]
+Late crisis: [[Volgastani Summer Revolution]] and [[Siege of Murah]]
+-->
+The '''Volgastani-Hamed Empire''' was an absolute monarchy in Khalari. The source list of defunct nations gives its formation as 723 and its end as 1892.
+
+== Regional Role ==
+
+The empire appears in Northern Alliance source material as an eastern power that earlier Theorin-Vinterholm cooperation sought to contain. It later became one of the central opponents of the [[Svetian War]] of 1880-1884, fighting against a coalition supported by the [[Northern Alliance]] and the [[Vesperan Empire]].
+
+== Svetian War ==
+
+During the [[Svetian War]], the empire and the [[Arabogradsk-Hamed Caliphate]] opposed the Northern Alliance-backed expedition. The source says Volgastani-Arabogradsk armies were defeated at the [[Battle of Kaplan Ridge]] in 1882 and that the war ended in 1884 with reparations and the establishment of a diplomatic quarter in [[Murah]].
+
+== Collapse ==
+
+The 1891 [[Volgastani Summer Revolution]] and [[Siege of Murah]] exposed internal discontent after defeat, economic pressure, and anti-foreign anger. The empire is listed as defunct in 1892, one year after the Murah crisis.
+
+== Legacy ==
+
+The later [[Volgastan Baathist Republic]] was established in 1953, but this draft does not treat it as a direct legal continuation of the Volgastani-Hamed Empire. It preserves the older empire as a major premodern and nineteenth-century Khalari power.
+
+[[Category:Nations]]
+[[Category:Defunct Nations]]
+[[Category:Khalari]]

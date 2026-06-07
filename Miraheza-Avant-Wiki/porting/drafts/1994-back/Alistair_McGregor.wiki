@@ -1,0 +1,28 @@
+<!--
+AGGS draft metadata
+title: Alistair McGregor
+category: Person
+status: draft
+era: Great War and Postwar Settlement
+yearStart: 1940
+yearEnd: 1940
+tags: Solara, Avant Great War
+facts:
+Country: [[Solara]]
+Role: Solaran leader at the [[Solaran-Khalindarian Conference of 1940]]
+Associated event: [[Solaran-Khalindarian Conference of 1940]]
+-->
+'''Alistair McGregor''' was the Solaran leader associated with the [[Solaran-Khalindarian Conference of 1940]]. He represented Solara during negotiations that secured Khalindar's support against the [[Vesperan Empire]].
+
+== Conference Role ==
+
+McGregor's role was to bring Khalindar into the anti-Vesperan war effort without allowing Khalindarian ambitions to dominate Solaran strategy. The conference offered Khalindar territorial, economic, infrastructure, and military incentives in return for wartime commitment.
+
+== Legacy ==
+
+McGregor's wartime diplomacy helped Solara during the [[Avant Great War]], but the unresolved promises made at Congrave later became central to the [[Khalindarian reparations dispute]].
+
+Old source material inconsistently describes McGregor's exact office. This draft treats him as the Solaran leader at the conference until the office title is confirmed.
+
+[[Category:People]]
+[[Category:Solara]]

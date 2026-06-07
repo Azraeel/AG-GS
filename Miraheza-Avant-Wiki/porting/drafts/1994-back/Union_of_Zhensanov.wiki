@@ -1,0 +1,54 @@
+<!--
+AGGS draft metadata
+title: Union of Zhensanov
+category: Nation
+status: draft
+era: Great War and Modern Avant
+yearStart: 1850
+yearEnd: 1994
+aliases: Zhensanov
+tags: Zhensanov, United Alignment of Nations, AGGPI, Veszprem, Nogoyev
+facts:
+Type: Federal union
+Capital: Gobuch
+Government note: Parliamentary system with strong Zhensanov United Party dominance
+Language family: [[Zhensanovian Languages]]
+Writing standard: [[Union Alphabet]]
+Known 1949-1956 conflict: [[Nogoyevian War of Independence]]
+1994 role: Co-founder with Solara of the [[Avant Garde Global Peace Initiative]]
+Source caveat: Main extracted Zhensanov page is incomplete; bridge uses cross-page references
+-->
+The '''Union of Zhensanov''' is a federal state whose extracted main source page is incomplete, but which appears across the 1994-back lore as a major regional and diplomatic actor. It is associated with a parliamentary system, strong central party dominance, multiple constituent nations, and a long conflict with Nogoyevian separatism.
+
+This draft is a bridge page built from cross-page references. It should be replaced by a full national article when Zhensanov canon is available.
+
+== Political Structure ==
+
+The [[Nogoyevian War of Independence]] source describes Zhensanov as a vast federation of six constituent nations. Its capital is Gobuch. The state maintains parliamentary institutions, but the Zhensanov United Party has held power for decades and heavily shapes central policy.
+
+The Union's politics are marked by centralization and pressure on regional identities. Nogoyevian nationalist sources describe this as domination; Zhensanov-aligned sources would likely describe it as federal unity and stability.
+
+The [[Zhensanov United Party]] is the central party named in the Nogoyevian source. By the late 1940s, it had held power long enough that opposition groups in Nogoyev viewed the Union's parliamentary system as formally representative but practically closed to regional dissent.
+
+== Language Policy ==
+
+The [[Zhensanovian Languages]] form a diverse language family with more than one hundred regional and sub-regional languages in source material. Major branches include [[Murianic Languages|Murianic]], [[Agashkinic Languages|Agashkinic]], [[Tekdolian Languages|Tekdolian]], [[Toramdic Languages|Toramdic]], and [[Kavetsian Languages|Kavetsian]].
+
+This linguistic diversity helps explain both the Union's federal identity and its centralizing pressure. The [[Union Language Committee]] developed the [[Union Alphabet]] in the mid-twentieth century as an intended common writing system for official, educational, and public use. The exact pre-1994 adoption scope still needs confirmation. Later source material describes Sanovic as a constructed lingua franca, but that belongs to the post-1994 pass because the Sanovic source places its creation in the early twenty-first century.
+
+== Great War And Postwar Crisis ==
+
+During the [[Avant Great War]], Zhensanov committed major attention and resources to the anti-Vesperan war effort as part of the [[United Alignment of Nations]]. The older dump uses a non-canon alliance name in one place; this draft standardizes the coalition as the United Alignment.
+
+In 1949, Nogoyevian separatists declared sovereignty while Zhensanov was still strained by wartime mobilization and postwar commitments. The resulting [[Nogoyevian War of Independence]] lasted into the mid-1950s and became one of Zhensanov's defining postwar crises.
+
+The war ended large-scale ground combat in 1956 but did not produce a full political settlement. By 1994, the [[Zhensanov-Nogoyev cold peace]] remained one of the Union's major unresolved security problems.
+
+== Foreign Relations By 1994 ==
+
+By the 1980s and early 1990s, Zhensanov supported modernization in the [[Federated Syndicates of Veszprem]], providing technological assistance and strategic cooperation.
+
+In November 1994, Zhensanov and Solara formed the [[Avant Garde Global Peace Initiative]] in response to the shock of the Solara-Khalindar War and the need to deter future major conflicts. Zhensanov's later internal burdens affected how much it could contribute, but its role in the founding remains canon for the AGGSWorld port.
+
+[[Category:Nations]]
+[[Category:Zhensanov]]

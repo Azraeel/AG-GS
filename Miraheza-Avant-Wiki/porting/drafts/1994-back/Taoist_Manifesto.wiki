@@ -1,0 +1,36 @@
+<!--
+AGGS draft metadata
+title: Taoist Manifesto
+category: Ideology
+status: draft
+era: Modern Xanaqu
+yearStart: 1936
+yearEnd: 1994
+tags: Xanaqu, Taoist Party, Xun Tao, Taoism
+facts:
+Type: Political manifesto
+Associated state: [[People's Federation of Xanaqu]]
+Associated movement: [[Taoist Party]]
+Core themes: Harmony, balance, proletarian democracy, social welfare, local participation, non-intervention
+Foreign influence: [[Ryszard Flak]] and the [[Mariposa People's Liberation Front]]
+-->
+The '''Taoist Manifesto''' is the ideological text associated with [[Xun Tao]], the [[Taoist Party]], and the founding order of the [[People's Federation of Xanaqu]]. It blends Taoist political language with socialist and proletarian-democratic ideas.
+
+== Principles ==
+
+The manifesto emphasizes harmony, balance, social justice, collective welfare, and non-violence. It does not reject force entirely; old source material allows resistance to tyranny or brutal repression, but treats peace and dialogue as the preferred political path.
+
+Its political model prioritizes worker participation, local autonomy, direct democratic practices, public accountability, and social welfare. In Xanaqu, those ideas are associated with worker councils and the Central Workers' Council system.
+
+== Economic And Social Program ==
+
+The manifesto calls for equitable distribution of resources, universal basic needs, access to education and healthcare, worker participation in production, local economies, and sustainable development.
+
+These principles helped justify the replacement of the [[Bu Dynasty]] with a people's federation after the [[Xanaq Civil War]]. They also gave later foreign revolutionaries, including [[Ryszard Flak]] and the [[Mariposa People's Liberation Front]], a language for anti-monarchical and social-justice movements outside Xanaqu.
+
+== Foreign Policy ==
+
+The manifesto's foreign-policy language favors non-intervention, diplomacy, and global solidarity. In practice, later Taoist movements interpreted these ideas differently depending on local conditions, state security needs, and revolutionary politics.
+
+[[Category:Ideologies]]
+[[Category:Xanaqu]]

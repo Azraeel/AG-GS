@@ -1,0 +1,25 @@
+<!--
+AGGS draft metadata
+title: Sibirsk Khanate
+category: Defunct Nation
+status: draft
+era: Historical Reference
+yearStart: unknown
+yearEnd: unknown
+aliases:
+tags: Sibirsk, defunct nations
+facts:
+Type: Defunct khanate
+Government: Khanate
+Source basis: `List_of_Defunct_Nations`
+Open canon: Dates, location, capital, ruling dynasty, wars, successor state, and relation to neighboring states need review
+-->
+The '''Sibirsk Khanate''' is a defunct khanate named in the source list of defunct nations.
+
+No dedicated Sibirsk article has been found in the current checkout. This bridge page preserves only the source-backed name and government type.
+
+== Canon Limits ==
+
+Do not assign Sibirsk to a continent, ethnic group, dynasty, war, or successor state until stronger source material is reviewed.
+
+[[Category:Defunct Nations]]

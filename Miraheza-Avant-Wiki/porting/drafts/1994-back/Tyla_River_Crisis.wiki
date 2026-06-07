@@ -1,0 +1,27 @@
+<!--
+AGGS draft metadata
+title: Tyla River Crisis
+category: Conflict
+status: draft
+era: Suomi State Formation
+yearStart: 1658
+yearEnd: 1658
+aliases: First Tyla River Crisis, 1st Tyla River Crisis
+tags: Suomi, Lunareia, border crisis
+facts:
+Type: Border crisis
+Combatants: [[Imperial Suomi]]; [[Kingdom of Lunareia]]
+Date: 1658
+Cause: Source-attested Lunareian border incursions
+Open canon: Outcome, casualties, commanders, and exact river geography are not given
+-->
+The '''Tyla River Crisis''' was a border crisis in 1658 between early [[Imperial Suomi]] and neighboring [[Kingdom of Lunareia|Lunareia]].
+
+Old source material says Lunareia attempted multiple incursions along the border during the reign of King Jarvinen I. The source names the incident as the First or 1st Tyla River Crisis, implying either a contested border river or a later series of crises.
+
+== Canon Limits ==
+
+No extracted source currently gives the crisis's final outcome, commanders, casualties, treaty terms, or whether the border changed. This draft therefore preserves only the safe facts: Suomi had a militarized early border problem with Lunareia in 1658, and the incident became part of Suomi's state-formation memory.
+
+[[Category:Conflicts]]
+[[Category:Suomi]]

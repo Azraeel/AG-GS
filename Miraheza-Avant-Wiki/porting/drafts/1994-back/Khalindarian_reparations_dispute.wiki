@@ -1,0 +1,44 @@
+<!--
+AGGS draft metadata
+title: Khalindarian reparations dispute
+category: Treaty
+status: draft
+era: Great War and Postwar Settlement
+yearStart: 1949
+yearEnd: 1990
+aliases: Khalindarian claims dispute, Khalindarian settlement dispute
+tags: Khalindar, Solara, Avant Great War, Solara-Khalindar War
+facts:
+Origin: [[Solaran-Khalindarian Conference of 1940]]
+Disputed parties: [[Empire of Khalindar]]; [[Solara]]
+Core claim: Territory, economic compensation, infrastructure support, and military guarantees promised during the [[Avant Great War]]
+Consequence: Major cause of the [[Solara-Khalindar War]]
+-->
+The '''Khalindarian reparations dispute''' was the long-running conflict over promises made to Khalindar during the [[Solaran-Khalindarian Conference of 1940]]. It became the central diplomatic grievance between [[Solara]] and the [[Empire of Khalindar]] after the [[Avant Great War]].
+
+== Origin ==
+
+In 1940, Solara sought Khalindar's support against the [[Vesperan Empire]]. Khalindar agreed after receiving promises of territorial gains, economic access, infrastructure development, military aid, and postwar recognition.
+
+Khalindarian officials later argued that these promises were not symbolic but binding conditions of Khalindar's wartime sacrifice.
+
+== Postwar Breakdown ==
+
+After the Vesperan collapse in 1949, the postwar settlement did not award Khalindar the full expected territory or compensation. Some disputed lands were placed under other postwar arrangements, including areas associated in old source material with the Buda Republic and the Belcanto Nations.
+
+Solara defended the settlement as necessary for regional stability and postwar reconstruction. Khalindar viewed that position as proof that Solara had used Khalindar to pin down Vesperan forces and then discarded its promises.
+
+== Repeated Demands ==
+
+For decades, Khalindar repeatedly raised the issue through diplomatic channels and international forums. Khalindarian sources often frame the dispute as a long series of ignored demands rather than a single failed negotiation.
+
+Within Khalindar, the [[Imperial Council]] treated the issue as a matter of imperial dignity, wartime honor, and national survival. The dispute did not create a disloyal home front; it strengthened the argument that Khalindar had been humiliated by a wealthy and dismissive Solara.
+
+== Path To War ==
+
+By the late 1980s, the reparations issue had fused with military planning, economic frustration, and imperial ambition under [[Emperor Mikael Khalindar IV]]. Solara's wealth and confidence made the unresolved dispute more politically explosive.
+
+The immediate crisis that led to the Solara-Khalindar War began with Khalindar's renewed demand for settlement enforcement after years of refusal. Solara dismissed the claim again, and Khalindar's leadership chose war.
+
+[[Category:Treaties]]
+[[Category:Solara-Khalindar War]]

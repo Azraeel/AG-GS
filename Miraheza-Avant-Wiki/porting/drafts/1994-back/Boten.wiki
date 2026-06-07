@@ -1,0 +1,23 @@
+<!--
+AGGS draft metadata
+title: Boten
+category: Geography
+status: draft
+era: Nogoyevian History
+yearStart: unknown
+yearEnd: 1994
+aliases: Boten port
+tags: Nogoyev, Siege of Boten
+facts:
+Type: Coastal city
+Country: [[Kingdom of Nogoyev]]; later [[Tsardom of Nogoyev]]
+Known for: Port and industrial city south of [[Migov]]
+Major conflict: [[Siege of Boten]]
+Open canon: Exact location, population, and map placement need confirmation
+-->
+'''Boten''' is a Nogoyevian coastal and industrial city south of [[Migov]]. During the [[Nogoyevian War of Independence]], it became the site of the [[Siege of Boten]], one of the war's major urban engagements.
+
+The source identifies Boten as a major port city with industrial capacity and strategic value for supply lines along the Vegar Ocean.
+
+[[Category:Geography]]
+[[Category:Nogoyev]]

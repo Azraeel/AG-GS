@@ -1,0 +1,30 @@
+<!--
+AGGS draft metadata
+title: Azmetan
+category: Location
+status: draft
+era: Bakorian War
+yearStart: 1931
+yearEnd: 1935
+aliases: Defense of Azmetan, Battle for Azmetan
+tags: Bakoria, Astoria, Bakorian War
+facts:
+Type: Industrial and strategic city
+Former country: [[Bakorian Republic]]
+Known for: Decisive final phase of the [[Bakorian War]]
+Outcome: Captured and annexed by [[Astoria]]
+-->
+'''Azmetan''' was an industrial and strategic city in eastern Bakoria. Its capture by [[Astoria]] in early 1935 effectively ended the [[Bakorian War]].
+
+== Battle ==
+
+The Bakorian War source describes Azmetan as the decisive objective of the final phase. Its industrial capacity and location made it valuable to both sides, and Lord Commander Ahmet Veil personally led the Astorian forces in the final campaign.
+
+The city fell in early 1935. Scattered fighting continued afterward, but Bakoria could no longer resist as a unified state.
+
+== Settlement ==
+
+The [[Treaty of Bokevrek]] formalized Astoria's annexation of eastern Bakoria, including Azmetan. The city became a symbol in later anti-Astorian memory and appears in Perastan wartime music connected to the [[Pesteran-Astorian War]].
+
+[[Category:Locations]]
+[[Category:Bakorian War]]

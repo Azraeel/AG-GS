@@ -1,0 +1,31 @@
+<!--
+AGGS draft metadata
+title: Winter Offensive
+category: Conflict
+status: draft
+era: Nogoyevian War of Independence
+yearStart: 1952
+yearEnd: 1953
+aliases: Nogoyevian Winter Offensive
+tags: Nogoyev, Zhensanov, winter warfare, Migov
+facts:
+Type: Offensive campaign
+Part of: [[Nogoyevian War of Independence]]
+Date: Late 1952-1953
+Combatants: [[Union of Zhensanov]]; [[Kingdom of Nogoyev]]
+Objective: Push Union forces away from [[Migov]] and end shelling pressure
+Result: Nogoyevian success; Union retreat from the outskirts of Migov
+-->
+The '''Winter Offensive''' was a Nogoyevian campaign launched in late 1952 during the [[Nogoyevian War of Independence]]. Its main purpose was to push Zhensanovian forces away from the outskirts of [[Migov]] and stop the shelling that had threatened the city after the [[Battle of Migov]].
+
+The offensive took place under severe winter conditions. Snow, cold, and poor movement made the campaign costly for both sides, but Nogoyevian forces were able to use local familiarity and growing operational confidence to press westward.
+
+== Outcome ==
+
+After months of fighting, Nogoyevian forces forced the Union to retreat from the immediate approaches to Migov. The offensive helped shift the war from urban defense toward broader Nogoyevian counteroffensive operations.
+
+The campaign also set conditions for later fighting near the border, including the [[Battle of Svoshchensk Forestry]].
+
+[[Category:Conflicts]]
+[[Category:Nogoyev]]
+[[Category:Zhensanov]]

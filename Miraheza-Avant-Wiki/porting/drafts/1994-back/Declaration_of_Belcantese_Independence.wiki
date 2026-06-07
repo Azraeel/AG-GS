@@ -1,0 +1,33 @@
+<!--
+AGGS draft metadata
+title: Declaration of Belcantese Independence
+category: Event
+status: draft
+era: Post-Avant Great War Settlement
+yearStart: 1949
+yearEnd: 1949
+aliases: Belcantese Independence Declaration
+tags: Belcanto, Avant Great War, Vesperan Empire
+facts:
+Type: Independence declaration
+Date: 15 May 1949 in source material
+Location: [[Belgrad]]
+Issued by: [[Belcantese Independence Movement]]
+Result: Formation of the postwar [[Belcanto Nations]]
+-->
+The '''Declaration of Belcantese Independence''' was proclaimed on 15 May 1949 in [[Belgrad]] as local Vesperan power in Belcanto collapsed during the final phase of the [[Avant Great War]].
+
+== Background ==
+
+Belcanto had been under Vesperan occupation since the end of the [[Belcanto Campaign]]. The [[Belcantese Independence Movement]] used the breakdown of local imperial administration to restore local government and proclaim independence before the war's formal end on 3 December 1949.
+
+== Significance ==
+
+The declaration marked the transition from underground resistance to provisional state authority. It provided the political foundation for the postwar [[Belcanto Nations]] and for later constitutional reconstruction.
+
+== Legacy ==
+
+The declaration became one of the central civic memory points of postwar Belcanto. It connected language restoration, federal reconstruction, and cultural recovery to the end of Vesperan occupation.
+
+[[Category:Events]]
+[[Category:Belcanto]]

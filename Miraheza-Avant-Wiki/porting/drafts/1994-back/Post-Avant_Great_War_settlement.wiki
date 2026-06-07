@@ -1,0 +1,46 @@
+<!--
+AGGS draft metadata
+title: Post-Avant Great War settlement
+category: Treaty
+status: draft
+era: Great War and Postwar Settlement
+yearStart: 1949
+yearEnd: 1951
+aliases: Postwar settlement, Great War settlement
+tags: Avant Great War, Istragarde Treaty, Continuation War
+facts:
+Period: 1949-1951
+Preceded by: [[Avant Great War]]
+Followed by: [[Treaty of the Concord of Istragarde]]
+Key issue: Collapse of the [[Vesperan Empire]] and settlement of former imperial territories
+Unresolved issue: [[Khalindarian reparations dispute]]
+Former imperial zones: Belcanto, Malonia, Veszprem, [[Volgastan Baathist Republic|Volgastan]], [[Empire of Khalindar|Khalindar]], Mariposia, and Arashibek
+-->
+The '''Post-Avant Great War settlement''' was the unstable political, territorial, military, and legal order created after the [[Avant Great War]] ended on 3 December 1949. It covered the collapse of the [[Vesperan Empire]], the treatment of former Imperial Pact territories, the liberation or occupation of former colonies, and the disputed promises made to wartime allies.
+
+== Immediate Postwar Order ==
+
+The [[United Alignment of Nations]] victory destroyed the Vesperan imperial government but did not immediately create a stable peace. Vesperan military commands, colonial administrations, and client-state networks collapsed at different speeds. In some regions, local independence movements took power quickly. In others, United Alignment occupation authorities and provisional councils supervised demilitarization, famine relief, security, and reconstruction.
+
+The disorder was worsened by the [[Continuation War]], which lasted from 3 December 1949 to 6 February 1951. Rogue Vesperan forces resisted in several former imperial areas, delaying the final settlement of borders and governments.
+
+== Former Imperial Territories ==
+
+Belcanto declared independence in 1949 after more than five decades of Vesperan rule. Malonia was placed under United Alignment supervision while its Vesperan-backed political system was dismantled. Veszprem's postwar revolution was shaped by decades of industrial occupation and underground organization.
+
+Other Vesperan-linked regions, including territories in [[Volgastan Baathist Republic|Volgastan]], [[Empire of Khalindar|Khalindar]], [[Kingdom of Mariposia|Mariposia]], and Arashibek, required separate occupation, liberation, or border processes.
+
+== Khalindarian Claims ==
+
+One of the most damaging disputes involved promises made to Khalindar during the [[Solaran-Khalindarian Conference of 1940]]. Khalindar expected territorial gains, infrastructure investment, favorable economic treatment, and military support in exchange for its Great War contribution.
+
+After the war, several promised territories were not transferred to Khalindar. Old source material identifies the Buda Republic and Belcanto Nations as recipients of some contested lands. Solara and other victorious powers defended the decision as a stabilizing measure, while Khalindar treated it as a betrayal and later demanded reparations.
+
+== Legal Framework ==
+
+The postwar order eventually fed into the 1951 Istragarde framework, later remembered through the [[Treaty of the Concord of Istragarde]]. The treaty attempted to freeze borders, create an arbitration system, and prevent another world war, but its enforcement mechanisms were weak.
+
+The settlement solved the immediate problem of Vesperan imperial collapse but failed to settle many of the grievances created by the war.
+
+[[Category:Treaties]]
+[[Category:Avant Great War]]

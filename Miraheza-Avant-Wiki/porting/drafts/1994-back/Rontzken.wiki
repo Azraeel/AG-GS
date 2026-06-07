@@ -1,0 +1,37 @@
+<!--
+AGGS draft metadata
+title: Rontzken
+category: Language
+status: draft
+era: Rhovlandian History
+yearStart: unknown
+yearEnd: 1994
+aliases: Rontzken Bergsprech
+tags: Rhovland, Vinterholm, Viridia, language, Valderic languages
+facts:
+Type: Regional language
+Primary regions: [[Bergmark]] and [[Tiefland]]
+Associated states: [[Imperial Rhovland]]; [[Federation of Vinterholm]]
+Language family: [[Valderic languages]]; East Valderic; Mountain Valderic
+Script: [[Valderic script]]
+Literary tradition: [[Rontzken Mountain Chronicles]]
+Open canon: Speaker totals, academy references, official status chronology, and exact regional borders need review
+-->
+'''Rontzken''' is a regional language associated with mountain and mining communities in [[Imperial Rhovland]] and with the [[Federation of Vinterholm]] source infobox.
+
+The extracted source places its main speech areas in [[Bergmark]] and [[Tiefland]], where it is tied to highland settlement, mining vocabulary, metalworking, and mountain-weather terminology. This draft treats those descriptions as cultural geography rather than a fixed 1994 census.
+
+== Linguistic Profile ==
+
+Rontzken belongs to the [[Valderic languages]] and uses the [[Valderic script]] with additional cluster-marking conventions. The source emphasizes dense consonant clusters, technical mining vocabulary, and a grammatical distinction between above-ground, below-ground, and surface-level action.
+
+The language's native name, ''Rontzken Bergsprech'', links it to mountains, stone, and practical knowledge. Current drafts do not harden the extracted alphabet table because the dump contains corrupted characters.
+
+== Cultural Role ==
+
+Rontzken is associated with the [[Rontzken Mountain Chronicles]], a highland oral and literary tradition preserving mining history, mountain conflict memory, and relations between regional communities and wider Rhovlandian federal authority.
+
+The source names later academic and technical institutions, but those references are post-1994 citations or undated institutional context. They should not be treated as proof of pre-1994 founding dates.
+
+[[Category:Languages]]
+[[Category:Rhovland]]

@@ -1,0 +1,28 @@
+<!--
+AGGS draft metadata
+title: Belcantese-Northern Alliance Treaty of 1891
+category: Event
+status: draft
+era: Imperial Age
+yearStart: 1891
+yearEnd: 1891
+aliases: Belcantese Northern Alliance Treaty, Treaty of 1891
+tags: Belcanto, Northern Alliance, Vesperan Empire
+facts:
+Type: Diplomatic treaty
+Parties: [[United Kingdoms of Belcanto]]; [[Northern Alliance]]
+Date: 1891 in source material
+Consequence: Treated by Vesperan intelligence as a trigger for the [[Belcanto Campaign]]
+-->
+The '''Belcantese-Northern Alliance Treaty of 1891''' was a diplomatic agreement between the [[United Kingdoms of Belcanto]] and the [[Northern Alliance]]. Source material identifies it as the immediate political trigger for the [[Belcanto Campaign]].
+
+== Significance ==
+
+The treaty placed Belcanto closer to an anti-Vesperan alignment at a time when the [[Vesperan Empire]] was expanding and consolidating strategic trade routes. Vesperan officials treated the agreement as a threat to imperial interests.
+
+== Consequence ==
+
+The treaty did not cause the conquest by itself. It gave Vespera a pretext and strategic warning point for action against a region it already considered valuable for ports, resources, trade routes, and defensive geography.
+
+[[Category:Events]]
+[[Category:Belcanto]]

@@ -1,0 +1,48 @@
+<!--
+AGGS draft metadata
+title: Veszpremi Language
+category: Culture
+status: draft
+era: Cultural History
+yearStart: 200
+yearEnd: 1994
+aliases: Veszpremi
+tags: Veszprem, Veszpremi Underground, Unified Orderism
+facts:
+Type: Language
+Language family: South Slavic; Veszprem-Slavic
+Official state: [[Federated Syndicates of Veszprem]]
+Script: Veszpremi Cyrillic
+Role: National language; resistance language; ideological language of [[Unified Orderism]]
+-->
+The '''Veszpremi Language''' is the national language of Veszprem and the official language of the [[Federated Syndicates of Veszprem]]. It is a South Slavic language known for complex grammar, specialized technical vocabulary, and a strong connection to Veszpremi industrial and political identity.
+
+In Veszpremi history, the language is more than a means of communication. It became a symbol of resistance during Vesperan occupation and later a central cultural tool of [[Unified Orderism]].
+
+== Development ==
+
+Veszpremi developed in forested Veszpremi communities over centuries of relative isolation. Medieval Veszpremi principalities used the language for administration, law, engineering records, and industrial planning. Its technical vocabulary expanded as Veszprem became a major center of metallurgy and precision manufacturing.
+
+Veszpremi intellectual traditions placed high value on linguistic precision: the idea that complex administration and complex industry required equally precise language. Later political writers connected this idea to [[Orderism]], arguing that ordered grammar reflected ordered society.
+
+== Occupation And Resistance ==
+
+The [[Veszprem Invasion]] of 1913 put the language under pressure in occupied border districts. Vesperan authorities favored their own administrative language and tried to make imperial supervision easier by limiting Veszpremi in schools, records, and workplaces.
+
+The policy had mixed results. Veszpremi was difficult for imperial administrators to master, and underground teachers kept instruction alive in private schools, family networks, and worker circles. The language helped the [[Veszpremi Underground]] hide messages, preserve technical knowledge, and maintain identity across the occupation frontier.
+
+== Postwar Role ==
+
+After the [[Syndicate Revolution of 1949]], Veszpremi gained new political importance. The postwar state treated it as the language of liberation and industrial self-rule. Later, Unified Orderism elevated Veszpremi as the language of disciplined national organization.
+
+The state promoted standardized technical terminology for industry, military planning, education, and ideology. By the early 1990s, language policy was closely tied to loyalty. Fluency was expected in public life, and foreign-language influence was treated with suspicion.
+
+== Cultural Significance ==
+
+Veszpremi is one of the strongest links between old Veszprem, the occupation resistance, and the modern syndicate state. Its complexity is a point of pride and a barrier between insiders and outsiders.
+
+Critics of the modern state argue that language policy is also used for control, censorship, and exclusion. Supporters argue that Veszpremi survived imperial pressure because the nation refused to simplify itself for foreign rulers.
+
+[[Category:Culture]]
+[[Category:Languages]]
+[[Category:Veszprem]]

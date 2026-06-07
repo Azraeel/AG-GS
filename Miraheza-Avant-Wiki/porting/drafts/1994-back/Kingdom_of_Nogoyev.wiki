@@ -1,0 +1,36 @@
+<!--
+AGGS draft metadata
+title: Kingdom of Nogoyev
+category: Nation
+status: draft
+era: Zhensanov-Nogoyev History
+yearStart: unknown
+yearEnd: 1956
+aliases: prewar Nogoyev
+tags: Nogoyev, Zhensanov, Tsardom of Nogoyev
+facts:
+Type: Historical Nogoyevian polity and constituent nation
+Capital: [[Migov]]
+Associated state: [[Union of Zhensanov]]
+Successor: [[Tsardom of Nogoyev]]
+Major conflict: [[Nogoyevian War of Independence]]
+Open canon: Exact pre-Union sovereignty dates and monarchical lineage need confirmation
+-->
+The '''Kingdom of Nogoyev''' was the Nogoyevian polity and constituent nation associated with the [[Union of Zhensanov]] before and during the [[Nogoyevian War of Independence]]. The source uses "Kingdom of Nogoyev" for the wartime independence side, while later pages describe the restored state as the [[Tsardom of Nogoyev]].
+
+This draft treats the kingdom as the historical and wartime Nogoyevian state identity, leaving the exact transition into the Tsardom open for later canon confirmation.
+
+== Place In The Union ==
+
+Nogoyev was incorporated into the Union of Zhensanov in the mid-19th century. The source describes this as a political incorporation initially supported by many Nogoyevians, but later undermined by centralization, economic grievance, and cultural resentment.
+
+Nogoyev's capital, [[Migov]], remained the heart of Nogoyevian culture and politics. The region was located in the eastern part of the Union along the Vegar Ocean.
+
+== Independence Movement ==
+
+By the late 1940s, the [[All-Nationalist Nogoyev Party]] had become the main vehicle for sovereignty demands and Tsarist restoration. Its leaders argued that Nogoyev's monarchy represented national continuity and local self-rule against Zhensanovian centralization.
+
+In 1949, Nogoyevian leaders declared sovereignty, beginning the Nogoyevian War of Independence.
+
+[[Category:Nations]]
+[[Category:Nogoyev]]

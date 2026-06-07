@@ -1,0 +1,36 @@
+<!--
+AGGS draft metadata
+title: University of Vespera
+category: Organization
+status: draft
+era: Vesperan Empire
+yearStart: 1947
+yearEnd: 1948
+aliases: Imperial University of Vespera
+tags: Vesperan Empire, Vespera, Vesperan Language
+facts:
+Type: Higher education and research institution
+Location: [[Vespera]]
+Associated state: [[Vesperan Empire]]
+Source-attested reference window: 1947-1948
+Known source works: 1947 study on western scripts; 1948 comparative western linguistics study
+Open canon: Founding date and post-1949 institutional continuity are not established
+-->
+The '''University of Vespera''' was a major higher education and research institution in [[Vespera]], the capital of the [[Vesperan Empire]]. It appears in source material as an authority on western scripts and comparative linguistics in the final years of the empire.
+
+== Role ==
+
+The university was part of the capital's scholarly infrastructure, alongside imperial archives, the [[Imperial Language Academy]], religious schools, court libraries, and state research offices.
+
+Its likely functions included training administrators, scholars, jurists, translators, teachers, and technical specialists for the empire. It also helped preserve older western texts and study the development of the [[Vesperan Language]] and [[Vesperan Alphabet]].
+
+== Late Imperial Scholarship ==
+
+Source references attribute studies on western scripts and comparative western linguistics to the university in 1947 and 1948. These references place the institution in active scholarly use during the final phase of the [[Avant Great War]].
+
+== Collapse And Open Questions ==
+
+The university's exact fate after the fall of Vespera in 1949 is not established. It may have been destroyed, dissolved, reorganized by occupying authorities, or continued in reduced post-imperial form. This draft avoids choosing among those possibilities until the fall-of-capital and postwar successor-state lore is confirmed.
+
+[[Category:Organizations]]
+[[Category:Vesperan Empire]]

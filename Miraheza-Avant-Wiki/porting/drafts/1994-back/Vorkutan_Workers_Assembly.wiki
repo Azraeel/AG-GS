@@ -1,0 +1,29 @@
+<!--
+AGGS draft metadata
+title: Vorkutan Workers' Assembly
+category: Institution
+status: draft
+era: Industrial Political Thought
+yearStart: 1927
+yearEnd: 1994
+aliases: Vorkutan Workers Assembly, Vorkutangrad Workers' Assembly, Vorkutangrad Workers Assembly
+tags: Vorkutangrad, Gorodovaya Syndikalizm, labor politics
+facts:
+Type: City-wide worker coordination body
+Location: [[Vorkutangrad]]
+Origin: [[Vorkutan Great Reorganization]]
+Associated ideology: [[Gorodovaya Syndikalizm]]
+Open canon: Later constitutional powers and continuity to 1994 need confirmation
+-->
+The '''Vorkutan Workers' Assembly''' was the city-wide coordination body associated with the [[Vorkutan Great Reorganization]] and [[Gorodovaya Syndikalizm]].
+
+== Function ==
+
+The assembly coordinated district kollektivy across [[Vorkutangrad]]. Workshop and factory bodies handled daily production, while district assemblies managed industrial-residential units. The city-wide assembly provided broader coordination between districts, transport systems, public services, and strategic industrial needs.
+
+== Open Canon ==
+
+The source gives the assembly as a major institution of the Vorkutan model but does not define its later constitutional status. Publication should not assume that it remained unchanged through 1994 without a dedicated Vorkutangrad state-history pass.
+
+[[Category:Institutions]]
+[[Category:Vorkutangrad]]

@@ -1,0 +1,27 @@
+<!--
+AGGS draft metadata
+title: Viridia
+category: Geography
+status: draft
+era: General Geography
+yearStart: 0
+yearEnd: 1994
+tags: Viridia, Astoria, Bakoria, Rhovland, Northern Alliance
+facts:
+Type: Continent
+Relevant subregion: Northern Viridia
+Relevant states: [[Astoria]]; [[Bakorian Republic]]; [[Imperial Rhovland]]
+Relevant conflict: [[Bakorian War]]
+-->
+'''Viridia''' is a continent in the Avant world. In the 1994-back lore set, it is most important as the geographic setting containing the [[Bakorian War]] and the northern security competition around [[Astoria]], [[Bakorian Republic|Bakoria]], and the [[Northern Alliance]].
+
+== Northern Viridia ==
+
+The Bakorian War source places the conflict in northern Viridia. The region included Astorian military expansion, Bakorian republican resistance, Northern Alliance covert support, and later anti-Astorian escalation.
+
+== Source Limits ==
+
+The extracted source set currently provides Viridia mainly through references, not a full geography article. This bridge page preserves the regional anchor without fixing final continental borders, coastlines, or map subdivisions.
+
+[[Category:Geography]]
+[[Category:Continents]]

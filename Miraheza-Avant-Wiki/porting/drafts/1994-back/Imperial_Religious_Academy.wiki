@@ -1,0 +1,43 @@
+<!--
+AGGS draft metadata
+title: Imperial Religious Academy
+category: Organization
+status: draft
+era: Vesperan Empire
+yearStart: 1720
+yearEnd: 1949
+aliases: Vesperan Imperial Religious Academy
+tags: Vesperan Empire, Imperial Cult, education
+facts:
+Type: Religious education and scholarship institution
+Location: [[Great Temple of Vespera]]
+Associated religion: [[Imperial Cult]]
+Established: 1720
+Function: Training priests, ritual officials, administrators, and religious scholars
+Destroyed: During the [[Avant Great War]]
+Open canon: Source says the Academy was established in 1720 but also attributes founding to [[Emperor Marcus the Great]], whose reign is elsewhere given as 1750-1780
+-->
+The '''Imperial Religious Academy''' was the main religious education and theological institution of the [[Vesperan Empire]]. It operated inside the [[Great Temple of Vespera]] complex and trained officials of the [[Imperial Cult]].
+
+== Function ==
+
+The Academy educated priests, ritual administrators, temple officials, and scholars who served across the empire. Its curriculum covered imperial theology, ceremonial practice, religious administration, and the study of local traditions that could be integrated into the imperial religious system.
+
+Graduates formed a network of religious officials who helped standardize imperial rites and connect provincial religious life to the capital.
+
+== Political Role ==
+
+The Academy was not only a religious school. It helped the empire develop the intellectual language of controlled pluralism: local faiths could survive, but they had to recognize the emperor's divine authority and fit inside the imperial order.
+
+Academy scholars and senior priests influenced education, ceremony, law, and governance, especially where Vesperan rule needed cultural legitimacy.
+
+== Destruction And Legacy ==
+
+The Academy was destroyed during the [[Avant Great War]] along with the Great Temple. Its surviving texts, trained officials, and institutional model influenced some post-imperial religious and educational institutions, though the cult itself ceased to function as a state religion after 1949.
+
+== Canon Note ==
+
+The source material gives a possible chronology conflict: it places the Academy's establishment in 1720 but also credits [[Emperor Marcus the Great]], whose reign is elsewhere listed as 1750-1780. This draft preserves 1720 as the establishment date and treats Marcus as a later standardizer or patron until the chronology is confirmed.
+
+[[Category:Organizations]]
+[[Category:Vesperan Empire]]

@@ -1,0 +1,31 @@
+<!--
+AGGS draft metadata
+title: Theorin Commonwealth
+category: Country
+status: draft
+era: Northern Alliance
+yearStart: 1839
+yearEnd: 1994
+tags: Theorin, Northern Alliance, Bakorian War, Perasta
+facts:
+Government/status: Commonwealth; exact structure needs fuller source confirmation
+Alliance: [[Northern Alliance]]
+Original alliance role: Founding member with [[Imperial Rhovland]] and [[Federation of Vinterholm]]
+Relevant role: Covert supporter of the [[Bakorian Republic]]
+-->
+The '''Theorin Commonwealth''' is an original member of the [[Northern Alliance]] and one of the alliance's central old-world powers.
+
+== Alliance Role ==
+
+Theorin's earlier cooperation with Vinterholm formed part of the alliance system that became the Northern Alliance in 1839. The alliance was created to resist Astorian and southern state aggression and to protect monarchic and old-world political interests.
+
+During the [[Bakorian War]], Theorin supported the [[Bakorian Republic]] through the Northern Alliance system. The source describes this support as covert and constrained, not as open intervention.
+
+== Regional Links ==
+
+Theorin language and identity also appear in the source material for the [[Republic of Perasta]], which became connected to later anti-Astorian politics during the [[Pesteran-Astorian War]].
+
+The Theorin state itself needs a fuller source-backed article when more canon is available.
+
+[[Category:Countries]]
+[[Category:Northern Alliance]]

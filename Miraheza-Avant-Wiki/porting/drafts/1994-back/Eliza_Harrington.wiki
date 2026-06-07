@@ -1,0 +1,26 @@
+<!--
+AGGS draft metadata
+title: Eliza Harrington
+category: Person
+status: draft
+era: Great War and Postwar Settlement
+yearStart: 1940
+yearEnd: 1940
+tags: Solara, Avant Great War
+facts:
+Country: [[Solara]]
+Office: Foreign Minister
+Associated event: [[Solaran-Khalindarian Conference of 1940]]
+-->
+'''Eliza Harrington''' was Solara's foreign minister during the [[Solaran-Khalindarian Conference of 1940]]. She was one of the principal Solaran negotiators responsible for turning Solara's wartime need for Khalindarian support into a formal diplomatic package.
+
+== Conference Role ==
+
+Harrington handled the detailed negotiation work between Solaran and Khalindarian demands. Her task was to make the offer credible enough for Khalindar while preserving Solara's freedom to manage the wider anti-Vesperan war effort.
+
+== Legacy ==
+
+The promises negotiated at Congrave later became the subject of the [[Khalindarian reparations dispute]]. Because of that, Harrington's role is remembered less for immediate wartime diplomacy than for the long shadow the agreement cast over Solara-Khalindar relations.
+
+[[Category:People]]
+[[Category:Solara]]

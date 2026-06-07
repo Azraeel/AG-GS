@@ -1,0 +1,32 @@
+<!--
+AGGS draft metadata
+title: John "Lee" Greener
+category: Person
+status: draft
+era: Solaran State Formation
+yearStart: 1538
+yearEnd: 1538
+aliases: John Lee Greener, President Greener
+tags: Solara, Solaran War of Unification, President of Solara
+facts:
+Type: Political founder
+Known for: First [[President of Solara]]
+Associated conflict: [[Solaran War of Unification]]
+Selection: Chosen by the victorious coalition after the war because of his wartime actions
+Metadata note: yearStart marks Greener's first source-attested selection as president, not his birth or wartime start date
+Open canon: Birth date, faction, military or civilian office, term length, and later life need confirmation
+-->
+'''John "Lee" Greener''' was the first [[President of Solara]] after the [[Solaran War of Unification]].
+
+== Selection ==
+
+Old source material says the victorious coalition selected Greener as president because of his actions during the war. The source does not specify whether he was a soldier, commander, diplomat, legislator, or coalition organizer.
+
+This draft therefore treats Greener as a political founder whose authority came from wartime legitimacy and coalition approval, without assigning him a military rank or party affiliation.
+
+== Legacy ==
+
+Greener's selection helped establish the presidency as the head office of the new parliamentary democratic state. In Solaran memory, he links the end of the predecessor-state war to the beginning of national institutions.
+
+[[Category:People]]
+[[Category:Solara]]

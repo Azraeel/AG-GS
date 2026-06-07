@@ -1,0 +1,26 @@
+<!--
+AGGS draft metadata
+title: Republic of Zhensanov
+category: Defunct Nation
+status: draft
+era: Historical Reference
+yearStart: unknown
+yearEnd: unknown
+aliases:
+tags: Zhensanov, defunct nations
+facts:
+Type: Defunct republic
+Government: Republic
+Source basis: `List_of_Defunct_Nations`
+Related reviewed state: [[Union of Zhensanov]]
+Open canon: Relationship to the Union of Zhensanov, dates, capital, federal structure, and dissolution event need review
+-->
+The '''Republic of Zhensanov''' is a defunct republic named in the source list of defunct nations.
+
+The current 1994-back draft set already includes the [[Union of Zhensanov]], but the source list does not explain whether the republic was a predecessor, constituent polity, rival government, or unrelated state using the same name.
+
+== Canon Limits ==
+
+Do not treat the Republic of Zhensanov as the confirmed predecessor of the Union until stronger source material identifies the succession chain.
+
+[[Category:Defunct Nations]]

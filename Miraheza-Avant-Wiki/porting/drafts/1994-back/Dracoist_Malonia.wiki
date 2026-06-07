@@ -1,0 +1,59 @@
+<!--
+AGGS draft metadata
+title: Dracoist Malonia
+category: Nation
+status: draft
+era: Postwar and Modern Avant
+yearStart: 1993
+yearEnd: 1994
+aliases: Malonia
+tags: Malonia, Dracoism, United Alignment of Nations, Vesperan Empire
+facts:
+Type: Nation
+Ideology by 1994: [[Dracoism]]
+Postwar turning point: [[United Alignment intervention in Malonia]]
+Pre-1949 status: Vesperan-dominated puppet state
+1993-1994 development: Dracoist political consolidation
+Historical coverage: Older Malonian history back to 1731 is included as background, not as Dracoist state history
+-->
+'''Dracoist Malonia''', commonly '''Malonia''', is a strategically located state whose modern politics were shaped by Vesperan domination, postwar liberation, and the rise of [[Dracoism]].
+
+By 1994, Malonia was in the early stage of Dracoist consolidation. The state had not simply appeared out of nowhere. Its authoritarian nationalism grew from older memories of foreign control, economic exploitation, military subordination, and disappointment with postwar democratic reconstruction.
+
+== Vesperan-Dominated Era ==
+
+From 1731 to 1905, Malonia passed through monarchy, republic, and constitutional democracy. Each form promised reform, but each also came under deeper influence from the [[Vesperan Empire]].
+
+By the early 20th century, Malonia was effectively a Vesperan puppet. Vesperan-backed banks, corporations, advisors, and political loyalists shaped major economic and military decisions. Malonian resources were directed toward Vesperan markets, while Malonian military forces were increasingly subordinated to Vesperan command.
+
+This period left a long memory of humiliation. Later Malonian nationalists argued that the country had been made to look sovereign while its institutions served Vesperan interests.
+
+== Liberation In 1949 ==
+
+The [[Avant Great War]] broke the Vesperan imperial system. In 1949, the [[United Alignment of Nations]] intervened in Malonia and dismantled the Vesperan-installed puppet regime. A provisional administration involving UAN representatives and Malonian independence leaders began rebuilding state institutions.
+
+The early postwar government restored civil liberties, held elections, reorganized the military, nationalized industries formerly controlled by Vesperan interests, and tried to reduce dependence on foreign capital. This became the foundation of Malonia's first truly independent modern state.
+
+== Postwar Tensions ==
+
+Independence did not solve Malonia's deeper problems. The country inherited weak infrastructure, limited capital, regional distrust, and a military culture shaped by decades of foreign command. Reconstruction required outside aid, which created new arguments over sovereignty and dependence.
+
+By the 1960s, these tensions helped create the ideological environment in which [[Dracoism]] emerged. Dracoist writers presented democracy as too weak, foreign aid as dangerous, and pluralism as a path back to dependency.
+
+== Dracoism Rising ==
+
+Dracoism fused nationalism, state control, worker integration, hierarchy, and cultural revival. Its founder figure, [[Achilles Gavriilidis]], became known as a harsh legal and political theorist who argued that Malonia needed discipline more than compromise.
+
+The Dracoist movement grew through claims that Malonia's survival required unity, economic self-sufficiency, and the removal of foreign influence. Its darker doctrines included racial superiority, forced displacement, cultural suppression, and brutal enforcement of state order.
+
+In 1993, Dracoist leaders gained decisive influence in the government. By 1994, opposition parties, media, schools, economic planning, and military doctrine were increasingly reorganized around Dracoist principles. Later post-1994 developments require separate confirmation, but the first year already marked a clear break from the postwar liberal settlement.
+
+== Legacy By 1994 ==
+
+Malonia's 1994 identity was defined by unresolved contradictions. The country remembered Vesperan control as a national trauma and UAN intervention as liberation, yet Dracoism used that trauma to justify new authoritarian rule.
+
+The result was a state that spoke the language of independence and worker integration while concentrating power, restricting dissent, and preparing society for militarized national revival.
+
+[[Category:Nations]]
+[[Category:Malonia]]
+[[Category:Ideologies]]

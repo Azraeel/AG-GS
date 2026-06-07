@@ -1,0 +1,26 @@
+<!--
+AGGS draft metadata
+title: Valdris
+category: Geography
+status: draft
+era: Rhovlandian History
+yearStart: unknown
+yearEnd: 1994
+tags: Rhovland, Geslariena, Viridia
+facts:
+Type: Rhovlandian river-valley region
+Associated state: [[Imperial Rhovland]]
+Associated language: [[Geslariena]]
+Associated culture: River communities, agriculture, navigation, and ballad traditions
+Open canon: Exact location, administrative status, borders, cities, and population need review
+-->
+'''Valdris''' is a Rhovlandian river-valley region associated with the [[Geslariena]] language.
+
+The extracted Geslariena source links Valdris to river communities, agricultural plains, seasonal cycles, navigation vocabulary, and the [[Geslariena Folk Ballads]].
+
+== Draft Scope ==
+
+This page preserves Valdris as a cultural-geography anchor. It does not yet establish a final map location, administrative rank, capital, noble house, or 1994 demographic profile.
+
+[[Category:Geography]]
+[[Category:Rhovland]]

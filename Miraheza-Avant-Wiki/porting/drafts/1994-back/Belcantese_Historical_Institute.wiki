@@ -1,0 +1,33 @@
+<!--
+AGGS draft metadata
+title: Belcantese Historical Institute
+category: Organization
+status: draft
+era: Post-Avant Great War Settlement
+yearStart: 1975
+yearEnd: 1975
+aliases: Belcantese Historical Society
+tags: Belcanto, Belcantese Cultural Resistance, Belcanto Campaign
+facts:
+Type: Historical research institution
+State: [[Belcanto Nations]]
+Source-attested reference: 1975 work on resistance and independence
+Focus: Occupation history, cultural resistance, and postwar national memory
+Open canon: Exact founding date and continuity through 1994 are not established
+-->
+The '''Belcantese Historical Institute''' was a postwar historical research body associated with studies of the [[Belcanto Campaign]], Vesperan occupation, the [[Belcantese Cultural Resistance]], and the independence movement.
+
+== Role ==
+
+The institute helped turn preserved resistance records into postwar historical memory. It collected testimonies, underground texts, songs, occupation documents, and local archives.
+
+== Source Status ==
+
+Source material cites a 1975 historical work on resistance and independence. This draft uses 1975 as an attested reference point rather than a confirmed founding date.
+
+== Legacy ==
+
+The institute's work helped define how the postwar [[Belcanto Nations]] remembered occupation: not only as military conquest, but as a long struggle over language, culture, archives, and public identity.
+
+[[Category:Organizations]]
+[[Category:Belcanto]]

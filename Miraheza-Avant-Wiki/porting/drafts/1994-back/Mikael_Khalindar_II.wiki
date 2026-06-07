@@ -1,0 +1,26 @@
+<!--
+AGGS draft metadata
+title: Mikael Khalindar II
+category: Person
+status: draft
+era: Great War and Postwar Settlement
+yearStart: 1940
+yearEnd: 1949
+tags: Khalindar, Avant Great War
+facts:
+Country: [[Empire of Khalindar]]
+Title: Emperor
+Associated event: [[Solaran-Khalindarian Conference of 1940]]
+-->
+'''Mikael Khalindar II''' was the Khalindarian emperor who represented Khalindar at the [[Solaran-Khalindarian Conference of 1940]]. His government entered the anti-Vesperan war effort after Solara offered territorial, economic, infrastructure, and military incentives.
+
+== Conference Role ==
+
+Mikael II sought to use the [[Avant Great War]] to expand Khalindar's territory and influence. He accepted Solara's wartime offer because it promised postwar gains from Vesperan-held lands and gave Khalindar a stronger role in the regional order.
+
+== Postwar Dispute ==
+
+The failure to deliver the expected settlement damaged Mikael II's legacy and became a lasting grievance inside Khalindar. Later Khalindarian governments treated the 1940 promises as evidence that Solara had exploited Khalindar's wartime loyalty.
+
+[[Category:People]]
+[[Category:Khalindar]]

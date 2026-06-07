@@ -1,0 +1,34 @@
+<!--
+AGGS draft metadata
+title: Svetkhanul Republic
+category: Country
+status: draft
+era: Khalari Regional Order
+yearStart: 0
+yearEnd: 1994
+aliases: Svetkhanul
+tags: Khalari, Svetkhanul, Orinian Empire
+facts:
+Location: [[Khalari]]
+Geography: Coastlands, wetlands, temperate rainforest, hot deserts, grasslands, and mountain borders
+Political character: Heavily militarized state in source description
+Relevant conflict: [[Svet-Orinan War]]
+Map context: Shown on the 2003 and 2022 reference maps
+Coverage note: yearEnd indicates this 1994-back draft scope, not state dissolution
+-->
+The '''Svetkhanul Republic''' is a Khalari state shown on the 2003 and 2022 reference maps and described in the extracted Khalari geography source.
+
+== Geography ==
+
+The source places Svetkhanul within [[Khalari]] and describes a varied landscape. Its coast contains wetlands and temperate rainforest, while southern regions include hot deserts and grasslands. Northern and border areas are hilly or mountainous, including terrain connected to the mountains near [[Karkalnadag]].
+
+== Political Profile ==
+
+Svetkhanul is described as a heavily militarized state whose terrain contributes to its defensive identity. The source contrasts its strategic landscape with its limited reputation as a tourist destination.
+
+== Regional Relations ==
+
+The source list of wars names the [[Svet-Orinan War]] of 1973-1975. This draft preserves that conflict as a pre-1994 regional war involving Svetkhanul and the [[Orinian Empire]], but it does not invent an outcome or territorial settlement.
+
+[[Category:Countries]]
+[[Category:Khalari]]

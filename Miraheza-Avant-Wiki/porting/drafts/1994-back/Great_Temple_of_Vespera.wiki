@@ -1,0 +1,38 @@
+<!--
+AGGS draft metadata
+title: Great Temple of Vespera
+category: Location
+status: draft
+era: Vesperan Empire
+yearStart: 1715
+yearEnd: 1949
+aliases: Imperial temple of Vespera
+tags: Vesperan Empire, Imperial Cult, Vespera
+facts:
+Type: Temple complex and state ceremonial center
+Location: [[Vespera]]
+Associated religion: [[Imperial Cult]]
+Construction: Began 1715; completed 1725
+Role: Full canonical coronations, imperial rites, religious archives, state spectacle
+Destroyed: During the [[Avant Great War]]
+-->
+The '''Great Temple of Vespera''' was the central temple of the [[Imperial Cult]] and one of the most important symbolic institutions of the [[Vesperan Empire]]. It stood in [[Vespera]], the imperial capital, and served as the principal site for coronations, state rites, religious administration, and imperial memory.
+
+== Construction ==
+
+The source tradition places construction between 1715 and 1725, shortly after the [[Imperial Proclamation of 1710]]. The temple was designed as a physical expression of imperial unity, combining religious, architectural, political, and dynastic symbolism.
+
+== Role ==
+
+The Great Temple was the exclusive site of the full canonical [[Imperial Coronation Ceremony]]. Emergency accession rites could be performed elsewhere in exceptional circumstances, but source tradition treats the complete temple ceremony as the legitimizing form.
+
+The temple also housed major relics, archives, ceremonial spaces, and the [[Imperial Religious Academy]]. The Academy's 1720 establishment date falls before the temple's 1725 completion, so the current reading is that the Academy was founded within the temple complex while construction was still ongoing or before the complex reached its final form.
+
+The temple gave Vesperan politics a religious stage. Foreign dignitaries, provincial representatives, aristocrats, military leaders, and senior priests all appeared there during major imperial ceremonies.
+
+== Destruction ==
+
+The Great Temple was destroyed during the [[Avant Great War]] as the imperial capital fell. Its destruction became a symbolic endpoint for the Vesperan imperial system and the public authority of the Imperial Cult.
+
+[[Category:Locations]]
+[[Category:Vesperan Empire]]

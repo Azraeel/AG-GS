@@ -1,0 +1,57 @@
+<!--
+AGGS draft metadata
+title: Nogoyevian War of Independence
+category: Conflict
+status: draft
+era: Post-Avant Great War Settlement
+yearStart: 1949
+yearEnd: 1956
+aliases: Zhensanovian-Nogoyevian War, Nogoyevian Independence War
+tags: Zhensanov, Nogoyev, postwar settlement, United Alignment of Nations
+facts:
+Type: War of independence and federal secession conflict
+Date: 1949-1956
+Combatants: [[Union of Zhensanov]]; [[Kingdom of Nogoyev]]
+Cause: Nogoyevian sovereignty declaration; Tsarist restoration movement; resentment against Zhensanov centralization
+Result: Ceasefire and cold peace; Nogoyevian independence effectively secured without comprehensive peace treaty
+Major battles: [[Battle of Migov]]; [[Siege of Boten]]; [[Battle of the Black Hills]]; [[Battle of Svoshchensk Forestry]]
+-->
+The '''Nogoyevian War of Independence''', also called the '''Zhensanovian-Nogoyevian War''', was a 1949-1956 conflict between the [[Union of Zhensanov]] and [[Kingdom of Nogoyev]]. It began when Nogoyevian nationalists declared sovereignty from the Union and called for restoration of the Tsarist system.
+
+The war was one of the major postwar crises that followed the [[Avant Great War]]. Zhensanov had committed resources to the [[United Alignment of Nations]] war effort, leaving internal grievances in Nogoyev to deepen during the final years of the global war.
+
+== Background ==
+
+Nogoyev had been incorporated into the Union of Zhensanov in the mid-19th century. The source record says this incorporation was initially supported by many Nogoyevians because the six Zhensanovian constituent nations shared close cultural and historical ties.
+
+Over time, centralization under the [[Zhensanov United Party]] created resentment. Nogoyev's agrarian economy lagged behind the Union's industrial centers, while local leaders accused the central government of taxing Nogoyevian agricultural produce and resources to fund development elsewhere.
+
+The [[All-Nationalist Nogoyev Party]] turned those grievances into a sovereignty movement. It called for democratic reforms, local autonomy, and the restoration of the Tsar as a symbol of Nogoyevian continuity.
+
+== Outbreak ==
+
+In early 1949, after protests, strikes, clandestine organizing, and clashes with Union authorities, Nogoyevian leaders declared sovereignty from Zhensanov. The Union government rejected the declaration and ordered a military intervention.
+
+Union forces crossed into Nogoyev in April 1949 expecting a rapid campaign. Instead they faced prepared regular units, local militias, guerrilla networks, fortified cities, and broad civilian support for the independence movement.
+
+== Course Of The War ==
+
+The early war centered on attempts to break Nogoyevian resistance through rapid invasion, bombing, and pressure against major cities. The [[Battle of Migov]] became a years-long urban battle and one of the bloodiest engagements of the conflict. The [[Siege of Boten]] showed that the Union could not easily seize major coastal and industrial centers despite naval superiority.
+
+By 1952, Nogoyev had shifted from mostly guerrilla defense to organized counteroffensives. The [[Battle of the Black Hills]] and the winter offensive west of Migov pushed Union forces away from key urban areas. By late 1953, the [[Battle of Svoshchensk Forestry]] marked the effective end of the ground war inside Nogoyevian territory.
+
+Air and naval campaigns continued to shape the conflict. Zhensanov had stronger fleet and air assets, but poor logistics, coastal defenses, and Nogoyevian anti-aircraft fire prevented decisive control.
+
+== Ceasefire And Cold Peace ==
+
+After 1954, the war became a fortified border conflict. Skirmishes, artillery exchanges, raids, and air incidents continued, but neither side could achieve a decisive breakthrough.
+
+In early 1956, international pressure and war exhaustion produced a ceasefire. No comprehensive peace treaty resolved the underlying dispute. The result was the [[Zhensanov-Nogoyev cold peace]], with both states heavily armed along the border and politically unreconciled.
+
+== Legacy ==
+
+The war created the modern [[Tsardom of Nogoyev]] and permanently changed Zhensanov's postwar politics. For Nogoyev, it became the foundational independence struggle. For Zhensanov, it exposed the limits of central control after the Great War and remained a major source of security pressure by 1994.
+
+[[Category:Conflicts]]
+[[Category:Zhensanov]]
+[[Category:Nogoyev]]

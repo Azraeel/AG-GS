@@ -1,0 +1,35 @@
+<!--
+AGGS draft metadata
+title: Uzryta of Ledostrov
+category: People
+status: draft
+era: Ledostrov Pentarchy
+yearStart: 1942
+yearEnd: 1952
+aliases: Baron of Uzryta, Uzryta
+tags: Ledostrov, Pentarchy, Duma
+facts:
+Original title: Baron of Uzryta
+Role: Head of the [[Pentarchy of Ledostrov]]
+Rise: 1942 succession crisis after [[Count of Litwaldov]] died childless
+Rule: Regent or de facto ruler through military-backed Duma purges
+Fate: Killed by citizens during the fall of the Pentarchy
+Open canon: Exact fall year is inferred from "after a decade" and needs confirmation
+Date note: yearEnd 1952 is an approximate review marker, not exact canon
+-->
+'''Uzryta of Ledostrov''', originally the '''Baron of Uzryta''', led the [[Pentarchy of Ledostrov]] after the 1942 succession crisis.
+
+== Rise ==
+
+After the [[Count of Litwaldov]] died childless in 1942, the [[Duma of Ledostrov]] failed to elect a new duke. Uzryta and four allied nobles bribed military leaders to storm the Duma. Opposing nobles were imprisoned or executed, and the remaining assembly accepted Uzryta as regent.
+
+== Rule ==
+
+Uzryta refused to allow a normal ducal election and governed through the Pentarchy. His council forced laws through a weakened Duma, drove rapid industrialization, and relied on repression to control unrest.
+
+== Fall ==
+
+After roughly a decade of protest and army dissent, Uzryta ordered military restructuring and purges. When [[Reznikoff of Ledostrov]] and the [[Southern Defense Force of Ledostrov]] moved against the regime, some Duma members attempted to assassinate Uzryta and the other Pentarchs. Uzryta escaped the first attack but was later killed by angry citizens while seeking protection.
+
+[[Category:People]]
+[[Category:Ledostrov]]

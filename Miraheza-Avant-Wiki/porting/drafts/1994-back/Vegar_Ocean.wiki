@@ -1,0 +1,22 @@
+<!--
+AGGS draft metadata
+title: Vegar Ocean
+category: Geography
+status: draft
+era: Geographic Reference
+yearStart: unknown
+yearEnd: 1994
+aliases: Vegar
+tags: Nogoyev, Zhensanov, maritime geography
+facts:
+Type: Ocean
+Known location note: [[Kingdom of Nogoyev]] lies along the Vegar Ocean in the source
+Major conflict context: Naval operations during the [[Nogoyevian War of Independence]]
+Open canon: Exact ocean boundaries and map placement need confirmation
+-->
+The '''Vegar Ocean''' is a maritime region associated with eastern Nogoyev. The [[Nogoyevian War of Independence]] source places [[Kingdom of Nogoyev|Nogoyev]] along the Vegar Ocean and describes naval operations, blockades, and coastal defense as important parts of the war.
+
+This draft is a geographic bridge page. Its exact boundaries, neighboring seas, and map placement should be confirmed against AGGSWorld map references before final publication.
+
+[[Category:Geography]]
+[[Category:Nogoyev]]

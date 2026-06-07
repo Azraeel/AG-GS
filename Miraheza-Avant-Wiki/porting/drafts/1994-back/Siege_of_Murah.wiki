@@ -1,0 +1,34 @@
+<!--
+AGGS draft metadata
+title: Siege of Murah
+category: Conflict
+status: draft
+era: Khalari Imperial Age
+yearStart: 1891
+yearEnd: 1891
+aliases: Murah crisis
+tags: Volgastan, Murah, Northern Alliance
+facts:
+Date: 1891
+Duration: 71 days
+Part of: [[Volgastani Summer Revolution]]
+Location: [[Murah]]
+Relief force: [[The International Relief Alliance]]
+State affected: [[Volgastani-Hamed Empire]]
+-->
+The '''Siege of Murah''' was a seventy-one-day crisis during the 1891 [[Volgastani Summer Revolution]].
+
+== Crisis ==
+
+The source says anti-foreign rebels besieged [[Murah]] and trapped representatives, businessmen, and merchants from Theorin, Vinterholm, Rhovland, Gwangyanski, Aurendale, Vespera, Solara, and Astoria. The crisis threatened foreign communities that had grown around the diplomatic quarter established after the [[Svetian War]].
+
+== Relief Operation ==
+
+The [[Northern Alliance]] proposed a temporary emergency coalition, the [[The International Relief Alliance|International Relief Alliance]], to extract trapped foreign communities. The relief operation worked with the Volgastani-Hamed royal army during the siege.
+
+== Legacy ==
+
+The Murah crisis became one of the final recorded crises of the [[Volgastani-Hamed Empire]], which is listed as defunct in 1892. It also showed how nineteenth-century Khalari conflicts could pull in states from several continents.
+
+[[Category:Conflicts]]
+[[Category:Khalari]]

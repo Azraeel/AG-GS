@@ -1,0 +1,54 @@
+<!--
+AGGS draft metadata
+title: Vesperan Empire
+category: Nation
+status: draft
+era: Imperial Age and Great War
+yearStart: 1710
+yearEnd: 1949
+tags: Vesperan Empire, Imperial Pact, Avant Great War, Khalari
+facts:
+Capital: [[Vespera]]
+Government: Absolute monarchy with an [[Imperial Council]]
+State religion: [[Imperial Cult]]
+Established: 1710
+Dissolved: 1949
+Peak: Circa 1936
+Successor period: [[Post-Avant Great War settlement]]; [[Continuation War]]
+Eastern expansion: [[Eastern Campaigns]]
+-->
+The '''Vesperan Empire''', commonly called '''Vespera''', was a major imperial state that dominated global politics from the eighteenth century until its collapse at the end of the [[Avant Great War]] in 1949. At its territorial peak around 1936, the empire controlled or influenced a vast network of core territories, colonies, protectorates, client states, occupied regions, and strategic naval corridors.
+
+== Formation ==
+
+The empire was proclaimed in 1710 from the older [[Vesperan Kingdom]]. Imperial authority centered on the emperor, supported by an [[Imperial Council]] made up of senior military, administrative, religious, and aristocratic figures. Vesperan institutions promoted centralized rule, imperial loyalty, military service, and cultural assimilation.
+
+== Expansion ==
+
+Vesperan expansion used direct conquest, client governments, economic pressure, naval power, and administrative integration. The [[Eastern Campaigns]] of 1720-1750 pushed Vesperan authority into eastern territories later associated with Khalindar and Volgastan, while the [[Belcanto Campaign]] of 1892-1895 and the [[Veszprem Invasion]] of 1913 became major examples of its occupation model.
+
+Belcanto was annexed and subjected to political and cultural suppression. Veszprem's border industries were occupied and reorganized for imperial production, while the surviving Veszpremi state became a center of resistance and later ideological development.
+
+== Government And Society ==
+
+The Vesperan state was built around absolute imperial authority. The imperial military held privileged status, and military service was treated as one of the highest forms of public duty. The imperial economy emphasized state direction, resource extraction, military production, and infrastructure serving imperial strategy.
+
+Vesperan language, religion, education, and legal systems spread through both direct rule and client administrations. In many occupied territories, those systems survived after the empire's fall as institutional residue rather than active loyalty to Vespera.
+
+The [[Imperial Cult]] served as the empire's official state religion and as a major instrument of legitimacy. It presented the [[Emperor of Vespera]] as a divinely mandated ruler, centered public rites on the [[Great Temple of Vespera]], and helped integrate local faiths into a controlled imperial framework.
+
+The [[Vesperan Language]] and [[Vesperan Alphabet]] were also instruments of rule. The [[Imperial Language Academy]] standardized official grammar, script, translation practice, and administrative vocabulary, giving the imperial center a common language for courts, schools, military records, diplomacy, and provincial government.
+
+== Decline And Fall ==
+
+The [[Avant Great War]] exposed the limits of Vesperan overextension. From 1937 to 1949, the empire fought the [[United Alignment of Nations]] and its allies across multiple theaters. Military losses, resistance movements in occupied territories, strained industry, and the collapse of client governments broke the imperial system.
+
+The war ended on 3 December 1949 with United Alignment victory. The empire ceased to function as a unified state, though rogue military commands and loyalist units continued resistance during the [[Continuation War]] of 1949-1951.
+
+== Legacy ==
+
+The Vesperan Empire left behind borders, institutions, military doctrines, industrial systems, and cultural tensions that shaped the postwar world. Its collapse created immediate independence movements in places such as Belcanto and Malonia, intensified Veszpremi revolutionary politics, and forced the victorious powers to create an unstable settlement framework.
+
+[[Category:Nations]]
+[[Category:Defunct Nations]]
+[[Category:Vesperan Empire]]

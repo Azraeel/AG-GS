@@ -1,0 +1,29 @@
+<!--
+AGGS draft metadata
+title: Vanguard Order
+category: Organization
+status: draft
+era: Astorian Expansion Era
+yearStart: 1834
+yearEnd: 1994
+tags: Astoria, Vanguardism, Bakorian War
+facts:
+Type: Astorian elite ideological and governing order
+Associated ideology: Vanguardism
+Associated state: [[Astoria]]
+Relevant conflict: [[Bakorian War]]
+-->
+The '''Vanguard Order''' was the elite Astorian institution associated with the state's military government, ideological discipline, and expansionist policy during the [[Bakorian War]] era.
+
+== Role In Astoria ==
+
+The Bakorian War source identifies the creation of the Vanguard Order as part of Astoria's shift after its transformation into a stratocracy in 1834. The order helped define Astoria's centralized military politics and its belief that national survival required disciplined expansion.
+
+The order is connected to Vanguardist ideas: elite leadership, state control, militarization, cultural discipline, and economic self-sufficiency.
+
+== Bakorian War ==
+
+During the war, the Vanguard Order represented the political and military system behind Astoria's offensive. The source credits Astorian victory partly to the effectiveness of this elite structure and its coordination with the army, air wings, and occupation forces.
+
+[[Category:Organizations]]
+[[Category:Astoria]]

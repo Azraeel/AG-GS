@@ -1,0 +1,37 @@
+<!--
+AGGS draft metadata
+title: Belcantese Literature
+category: Culture
+status: draft
+era: Cultural History and Postwar Era
+yearStart: 650
+yearEnd: 1994
+aliases: Belkanski literature
+tags: Belcanto, Belcantese Language, Belcantese Cultural Resistance
+facts:
+Type: Literary and song tradition
+Language: [[Belcantese Language]]
+Early text: [[Forest Codex]]
+Occupation-era archive: [[Resistance Songbook]]
+Postwar institution: [[Belcantese Language Institute]]
+-->
+'''Belcantese Literature''' is the body of written, sung, and orally transmitted work in the [[Belcantese Language]]. It includes early codices, court texts, legal memory, songs, poems, resistance writing, school texts, and postwar restoration literature.
+
+== Early Tradition ==
+
+The [[Forest Codex]] provides the earliest source-backed written anchor for Belcantese literature. Medieval standardization through the [[Council of Tongues]] and musical education through the [[Great Conservatory of Belcanto]] strengthened the relationship between language, writing, and song.
+
+== Occupation Literature ==
+
+During Vesperan occupation, literature became a survival practice. Public Belcantese cultural life was restricted, so poems, songs, coded verses, copied manuscripts, and oral recitation helped preserve identity.
+
+The [[Resistance Songbook]] became one of the most important occupation-era collections. It preserved traditional lyrics and newly written resistance songs between 1920 and 1945 in source material.
+
+== Postwar Restoration ==
+
+After independence, Belcantese literature became central to national reconstruction. The [[Belcantese Language Institute]] and schools used preserved texts to restore language teaching and public cultural life.
+
+By 1994, Belcantese literature linked ancient written memory, medieval musical tradition, occupation resistance, and modern federal identity.
+
+[[Category:Culture]]
+[[Category:Belcanto]]

@@ -1,0 +1,33 @@
+<!--
+AGGS draft metadata
+title: Eastern Campaigns
+category: Conflict
+status: draft
+era: Vesperan Expansion
+yearStart: 1720
+yearEnd: 1750
+aliases: Vesperan Eastern Campaigns
+tags: Vesperan Empire, Khalari, Volgastan, Khalindar
+facts:
+Date: 1720-1750
+Power: [[Vesperan Empire]]
+Theater: Eastern territories later associated with [[Empire of Khalindar]] and [[Volgastan Baathist Republic]]
+Role: Early imperial expansion and administration
+Source limit: Details are source-brief and need later military-history review
+-->
+The '''Eastern Campaigns''' were Vesperan imperial campaigns fought from 1720 to 1750. The extracted Vesperan source describes them as a phase in which the [[Vesperan Empire]] established control over large portions of the eastern continent, including territories later associated with [[Empire of Khalindar|Khalindar]] and [[Volgastan Baathist Republic|Volgastan]].
+
+== Imperial Expansion ==
+
+The campaigns formed part of Vespera's early expansion after the [[Imperial Proclamation of 1710]]. They involved the conquest of local kingdoms, the creation of imperial administration, and the extension of Vesperan influence into eastern trade and military corridors.
+
+== Legacy ==
+
+The Eastern Campaigns are important because later Khalari and Khalindarian states inherited political, military, and administrative pressures from older Vesperan expansion. By the twentieth century, those legacies intersected with the [[Avant Great War]], postwar settlement, and regional claims in former imperial zones.
+
+== Source Limits ==
+
+The source gives the date range and broad territorial meaning but not a complete campaign list, battle order, or final borders. This page is a bridge for later Vesperan and Khalari history, not a final military chronicle.
+
+[[Category:Conflicts]]
+[[Category:Vesperan Empire]]

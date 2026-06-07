@@ -1,0 +1,35 @@
+<!--
+AGGS draft metadata
+title: Orinian Empire
+category: Country
+status: draft
+era: Khalari Regional Order
+yearStart: 1680
+yearEnd: 1994
+aliases: Orinia
+tags: Khalari, Orinian Empire, Svetkhanul, Volgastan
+facts:
+Established: 1680
+Founder: Adam Bako
+Location: [[Khalari]]
+Regional status: Regional power
+Relations: Ties with [[Union of Zhensanov]]; rivalry or distrust toward [[Volgastan Baathist Republic]]
+Relevant conflict: [[Svet-Orinan War]]
+Coverage note: yearEnd indicates this 1994-back draft scope, not state dissolution
+-->
+The '''Orinian Empire''' is a regional power in [[Khalari]]. The extracted source says it was established in 1680 by Adam Bako and built its status through leadership, legacy, and regional influence.
+
+== Regional Position ==
+
+Orinia is shown on the 2003 and 2022 reference maps as a large Khalari state near the [[Svetkhanul Republic]], [[Arabogradsk-Hamed Caliphate]], and Volgastani sphere. The source says Orinia maintained ties with the [[Union of Zhensanov]] and some neighboring states.
+
+== Volgastan And AGGPI ==
+
+The source states that Orinia is wary of the [[Volgastan Baathist Republic]] because both states compete for regional-power status in Khalari. It also mentions distrust of [[AGGPI]] due to later actions, but this draft treats that as a post-1994 or undated source note unless a pre-1995 incident is confirmed.
+
+== War Reference ==
+
+The source list of wars names the [[Svet-Orinan War]] of 1973-1975. This draft preserves the war as a pre-1994 Orinian conflict but does not create an outcome or territorial claim beyond the listed dates.
+
+[[Category:Countries]]
+[[Category:Khalari]]

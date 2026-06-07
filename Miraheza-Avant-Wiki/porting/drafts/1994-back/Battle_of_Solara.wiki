@@ -1,0 +1,41 @@
+<!--
+AGGS draft metadata
+title: Battle of Solara
+category: Conflict
+status: draft
+era: Solara-Khalindar War
+yearStart: 1990
+yearEnd: 1992
+aliases: Air War over Solara, Solaran air war
+tags: Solara, Khalindar, air war, Solara-Khalindar War
+facts:
+Type: Aerial campaign
+Part of: [[Solara-Khalindar War]]
+Date: Late 1990-early 1992
+Combatants: [[Solara]]; [[Empire of Khalindar]]
+Result: Solara secured air superiority and prepared the recapture of [[Congrave]]
+-->
+The '''Battle of Solara''' was the air campaign fought from late 1990 to early 1992 during the [[Solara-Khalindar War]]. It followed Khalindar's early land gains and marked the transition from Solaran defensive shock to Solaran counteroffensive planning.
+
+== Background ==
+
+After [[Albroke]], the fall of [[Congrave]], and the siege of [[Reasalbor]], the war entered a stalemate. Khalindar had shown that surprise and endurance could offset Solara's technological edge, but it could not easily force a final political collapse.
+
+Solara needed to regain control of its skies before it could retake occupied territory. Khalindar needed continued air pressure to protect its forward positions and keep Solara from rebuilding naval and ground momentum.
+
+== Campaign ==
+
+The campaign included fighter engagements, bomber raids, reconnaissance missions, air-defense battles, and strikes against ports, airfields, supply depots, and command nodes.
+
+Solara held the stronger modern air force and a more advanced air-defense network. Khalindar continued to use older aircraft, improvised basing, and high-risk raids to maintain pressure. The conflict was costly for both sides, but Solaran industry and air-defense coordination gradually shifted the balance.
+
+== Result ==
+
+By 1992, Solara had secured enough air superiority to support a major counteroffensive. Air control allowed Solara to strike Khalindarian positions in Congrave, support amphibious and ground operations, and protect the naval forces needed for the [[Battle of Congrave|recapture of Congrave]].
+
+== Legacy ==
+
+The Battle of Solara became the operational hinge of the war. Albroke proved Solara could be surprised; the air campaign proved Solara could absorb the shock, rebuild, and use its industrial and technological advantages over time.
+
+[[Category:Conflicts]]
+[[Category:Solara-Khalindar War]]

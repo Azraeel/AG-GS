@@ -1,0 +1,35 @@
+<!--
+AGGS draft metadata
+title: Central Workers Council
+category: Organization
+status: draft
+era: Modern Xanaqu
+yearStart: 1936
+yearEnd: 1994
+aliases: Central Workers' Council
+tags: Xanaqu, government, worker councils, Taoist Party
+facts:
+Type: Central governing council
+State: [[People's Federation of Xanaqu]]
+Associated ideology: [[Taoist Manifesto]]
+Head of state title: Chairman of the Central Workers' Council
+Open canon: Membership, electoral procedure, ministerial structure, and 1994 officeholders need review
+-->
+The '''Central Workers Council''' is the national governing council framework of the [[People's Federation of Xanaqu]]. The extracted Xanaqu source says the head of state is the Chairman of the Central Workers' Council and describes Xanaqu's government as a proletarian democracy based on worker councils.
+
+This bridge page preserves the institution without inventing its full constitutional design.
+
+== Role ==
+
+The council system represents the political model associated with [[Xun Tao]], the [[Taoist Party]], and the [[Taoist Manifesto]]. Regional and national worker councils participate in state decision-making, and the central council appears to be the highest coordinating body by the time the People's Federation is established in 1936.
+
+The source emphasizes worker participation, accountability, social welfare, and public political education. It does not yet define chamber size, voting rules, terms of office, ministerial appointment powers, or emergency authority.
+
+== Offices ==
+
+The source names the Chairman of the Central Workers' Council and a ministerial role attached to the same council, but the listed officeholders come from undated modern infobox material and should not be treated as fixed 1994 leaders without more evidence.
+
+For 1994-back drafting, the important canon point is structural: Xanaqu's head-of-state office is tied to a central worker-council institution rather than to a monarchy, presidency, or military junta.
+
+[[Category:Organizations]]
+[[Category:Xanaqu]]

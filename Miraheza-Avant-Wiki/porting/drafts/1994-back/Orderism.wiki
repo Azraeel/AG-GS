@@ -1,0 +1,58 @@
+<!--
+AGGS draft metadata
+title: Orderism
+category: Ideology
+status: draft
+era: Postwar Political Ideologies
+yearStart: 1949
+yearEnd: 1994
+aliases: Orderist thought
+tags: Veszprem, syndicalism, worker councils, Unified Orderism, Ledostrov, Vorkutangrad
+facts:
+Type: Political and economic ideology
+Origin: Veszpremi labor and resistance politics
+Core ideas: Worker ownership; direct democracy; collective management; anti-capitalism; decentralized planning
+Major offshoot: [[Unified Orderism]]
+Related industrial tradition: [[Gorodovaya Syndikalizm]]
+Secondary reception: Source-attested Duma faction in the [[Duchy of Ledostrov]], exact date unclear
+-->
+'''Orderism''' is a political and economic ideology associated most closely with Veszpremi labor politics after the [[Syndicate Revolution of 1949]]. It developed from syndicalist ideas, worker councils, resistance discipline, and the experience of industrial self-management under and after Vesperan occupation.
+
+Orderism should be distinguished from [[Unified Orderism]]. Orderism's older form emphasized worker control, direct democracy, and local councils. Unified Orderism later kept the language of order and syndicates but placed those ideas under a stronger central state.
+
+== Origins ==
+
+The roots of Orderism reach back to the occupied industrial districts created by the [[Veszprem Invasion]]. Veszpremi workers, engineers, and teachers organized clandestine networks to preserve language, protect technical knowledge, resist forced production, and maintain community discipline.
+
+These networks were not yet formal Orderist parties. They were practical resistance structures. After the [[Avant Great War]] and the collapse of Vesperan authority in 1949, their methods became political theory.
+
+Old source material also links Orderism to broader syndicalist traditions, including [[Gorodovaya Syndikalizm]] in [[Vorkutangrad]]. This draft treats the Vorkutan connection as an intellectual or comparative influence on urban-industrial organization, not as the origin of Veszpremi Orderism.
+
+== Principles ==
+
+Classical Orderism argues that production should be managed collectively by workers and local communities. Factories, farms, mines, and transport systems are treated as social institutions rather than private property alone.
+
+Orderist economics favors worker councils, collective ownership, egalitarian distribution, and reinvestment into public services. It is suspicious of capitalist ownership and of remote bureaucracies that make decisions without local technical knowledge.
+
+Politically, Orderism favors direct democracy, local assemblies, and accountable councils. Its supporters argue that social order comes from participation, discipline, and shared material interest rather than from inherited rank.
+
+== Foreign Affairs ==
+
+Orderism generally supports solidarity among worker movements and nations with similar social systems. It is usually non-interventionist in theory, preferring mutual aid, technical exchange, and labor diplomacy over conquest.
+
+In practice, Orderist states and movements often disagreed over how much central authority was necessary to survive in a hostile world. This argument became central to Veszprem's later development.
+
+== Ledostrov Reception ==
+
+Old source material for the [[Duchy of Ledostrov]] says Orderism was a rising ideology within the [[Duma of Ledostrov]]. This draft treats that as a secondary reception of Orderist language outside Veszprem, not as the ideology's origin.
+
+The exact date of the Ledostrov faction is unclear because the source includes 2003-era political details. Publication should avoid claiming a pre-1995 Ledostrov Orderist bloc unless the timing is confirmed.
+
+== Relationship With Unified Orderism ==
+
+After the 1957 collapse of Veszprem's parliament, many Veszpremi leaders argued that classical Orderism had failed to prevent factional chaos. The answer became [[Unified Orderism]], which reinterpreted worker councils as organs of a disciplined national state.
+
+Classical Orderists accused Unified Orderists of turning a bottom-up ideology into a one-party hierarchy. Unified Orderists answered that survival required unity, command, and ideological discipline. That dispute shaped Veszpremi politics through the 1960s, 1970s, and the eventual creation of the [[Federated Syndicates of Veszprem]].
+
+[[Category:Ideologies]]
+[[Category:Veszprem]]

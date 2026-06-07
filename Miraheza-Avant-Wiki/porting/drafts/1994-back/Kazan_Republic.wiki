@@ -1,0 +1,25 @@
+<!--
+AGGS draft metadata
+title: Kazan Republic
+category: Defunct Nation
+status: draft
+era: Historical Reference
+yearStart: unknown
+yearEnd: unknown
+aliases:
+tags: Kazan, defunct nations
+facts:
+Type: Defunct republic
+Government: Republic
+Source basis: `List_of_Defunct_Nations`
+Open canon: Dates, location, capital, constitution, conflicts, successor state, and relation to neighboring states need review
+-->
+The '''Kazan Republic''' is a defunct republic named in the source list of defunct nations.
+
+No dedicated Kazan article has been found in the current checkout. This bridge page preserves only the source-backed name and government type.
+
+== Canon Limits ==
+
+Do not assign Kazan a continent, capital, ideology, war role, successor state, or relationship to other defunct polities until stronger source material is reviewed.
+
+[[Category:Defunct Nations]]

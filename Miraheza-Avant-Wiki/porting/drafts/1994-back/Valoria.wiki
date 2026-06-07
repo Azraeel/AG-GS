@@ -1,0 +1,25 @@
+<!--
+AGGS draft metadata
+title: Valoria
+category: Geography
+status: draft
+era: Geographic Reference
+yearStart: 0
+yearEnd: 1994
+aliases: Valoria Continent
+tags: Valoria, continents, 2003 map, 2022 map
+facts:
+Type: Continent
+Source basis: `List of Continents`
+Open canon: Location, borders, major states, terrain, and 2003/2022 map placement need review
+-->
+'''Valoria''' is one of the source-listed continents of the Avant world.
+
+The current source dump provides Valoria as a continent name through the extracted [[List of Continents]], but no dedicated Valoria geography page has been found in this checkout. This draft therefore exists only as a bridge so the continent list remains complete.
+
+== Canon Limits ==
+
+Do not use Valoria to make state-placement, border, ocean, or historical claims until a map pass or stronger source material identifies its location and political geography.
+
+[[Category:Geography]]
+[[Category:Continents]]

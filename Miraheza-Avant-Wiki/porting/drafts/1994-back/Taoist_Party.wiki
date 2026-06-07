@@ -1,0 +1,34 @@
+<!--
+AGGS draft metadata
+title: Taoist Party
+category: Organization
+status: draft
+era: Modern Xanaqu
+yearStart: 1934
+yearEnd: 1994
+aliases: Xanaqu Taoist Party
+tags: Xanaqu, Xun Tao, Taoist Manifesto
+facts:
+Type: Political party or revolutionary movement
+Associated state: [[People's Federation of Xanaqu]]
+Leader figure: [[Xun Tao]]
+Role: Led anti-dynastic demonstrations and helped found Xanaqu
+Open canon: Party structure, founding date, leadership, and later status need confirmation
+-->
+The '''Taoist Party''' was the political movement associated with [[Xun Tao]] and the founding of the [[People's Federation of Xanaqu]]. It led demonstrations against the declining [[Bu Dynasty]] in late 1934 and became the ideological core of the new people's federation founded in 1936.
+
+This draft is a bridge page. The extracted Xanaqu source confirms the party's role but does not yet provide a full institutional history.
+
+== Ideology ==
+
+The party is associated with the [[Taoist Manifesto]], worker councils, proletarian democracy, social welfare, and a state structure built around the [[Central Workers Council|Central Workers' Council]].
+
+Xanaqu's political culture emphasizes education, literacy, worker participation, public debate, and collective welfare. The Taoist Party appears to be the main party framework behind those institutions.
+
+== Formation Role ==
+
+The Taoist Party's anti-dynastic demonstrations helped bring down the Bu Dynasty. After republican rivals attempted to form a northern state, the party-aligned [[Red Army of Xanaqu|Red Army]] defeated them in the [[Xanaq Civil War]], clearing the way for the People's Federation.
+
+[[Category:Organizations]]
+[[Category:Xanaqu]]
+[[Category:Ideologies]]

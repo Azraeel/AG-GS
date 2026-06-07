@@ -1,0 +1,28 @@
+<!--
+AGGS draft metadata
+title: Agashkinic Languages
+category: Culture
+status: draft
+era: Zhensanov Cultural History
+yearStart: unknown
+yearEnd: 1994
+aliases: Agashkinic, Agashkinic Language
+tags: Zhensanovian Languages, Union of Zhensanov
+facts:
+Type: Zhensanovian language branch
+Region in source: Southern steppes
+Traditional script: Syllabic script in source material
+Noted features: Vowel harmony, postpositional grammar, ejective consonants
+Open canon: Exact region, speaker count, script history, and political status need confirmation
+-->
+The '''Agashkinic Languages''' are a branch of the [[Zhensanovian Languages]] associated in source material with the southern steppes of the [[Union of Zhensanov]].
+
+The source describes Agashkinic languages as having vowel harmony, a large vowel inventory, postpositional grammar, ejective consonants, and a traditional syllabic script.
+
+== Canon Limits ==
+
+The extracted source does not provide pre-1994 political status, standardized curricula, or precise borders for Agashkinic-speaking regions. Those details remain open.
+
+[[Category:Culture]]
+[[Category:Languages]]
+[[Category:Zhensanov]]

@@ -1,0 +1,40 @@
+<!--
+AGGS draft metadata
+title: Mariposa-Astoria maritime dispute
+category: Conflict
+status: draft
+era: Istragarde Era
+yearStart: 1990
+yearEnd: 1994
+aliases: Western Strait dispute, Mariposa-Astoria EEZ dispute
+tags: Mariposa, Astoria, Istragarde Treaty, Straits of Avangard
+facts:
+Main parties: [[People's Republic of Mariposa]]; [[Astoria]]
+Location: Western [[Straits of Avangard]]
+Legal issue: Overlapping maritime and EEZ claims under the [[Treaty of the Concord of Istragarde]]
+Major crisis: 1990 fishing-trawler seizure and Astorian blockade
+Result: Temporary trade agreements in source material; unresolved by the 1994-back window
+-->
+The '''Mariposa-Astoria maritime dispute''' was an Istragarde-era dispute between the [[People's Republic of Mariposa]] and [[Astoria]] over the western [[Straits of Avangard]].
+
+== Background ==
+
+The western strait was important to Astorian shipping lanes and national security. Mariposa claimed historical fishing grounds and attempted to expand its maritime rights under the ambiguous terms of the [[Treaty of the Concord of Istragarde]].
+
+Astoria viewed Mariposa's claims as a violation of postwar territorial and maritime rules. Mariposa viewed Astorian shipping and resource activity as an encroachment on a zone needed by its export-dependent economy.
+
+== 1990 Crisis ==
+
+The dispute escalated in 1990 when Mariposa seized an Astorian fishing trawler and accused it of poaching. Astoria retaliated by imposing an economic blockade on Mariposan shipping through the strait.
+
+The blockade damaged Mariposa's export-dependent economy for several months. Diplomatic talks mediated by third-party states produced temporary trade agreements, but the underlying sovereignty and EEZ dispute remained unresolved.
+
+== Legacy By 1994 ==
+
+The dispute was part of the wider weakness of the Istragarde system. Tribunal rules and treaty language existed, but maritime states could still escalate, blockade, seize vessels, and ignore rulings when their security or economic interests were at stake.
+
+This page does not treat the dispute as the later Second Astorian-Mariposia War, which the old war list places after 1994.
+
+[[Category:Conflicts]]
+[[Category:Mariposa]]
+[[Category:Astoria]]

@@ -1,0 +1,53 @@
+<!--
+AGGS draft metadata
+title: Unified Orderism
+category: Ideology
+status: draft
+era: Postwar Political Ideologies
+yearStart: 1957
+yearEnd: 1994
+aliases: Veszpremi Unified Orderism
+tags: Veszprem, Orderism, Federated Syndicates of Veszprem, Gorodovaya Syndikalizm
+facts:
+Type: State ideology
+Origin: Veszprem after the 1957 parliamentary collapse
+Core ideas: National unity; central authority; syndicate administration; military discipline; state-directed corporatism
+Associated state: [[Federated Syndicates of Veszprem]]
+Comparative influence: [[Gorodovaya Syndikalizm]]
+-->
+'''Unified Orderism''' is the state ideology associated with the modern [[Federated Syndicates of Veszprem]]. It developed from [[Orderism]] after the political crisis that followed the 1957 disbanding of Veszprem's parliament.
+
+Where classical Orderism emphasized worker councils and decentralization, Unified Orderism argues that all social sectors must be coordinated under a single national framework. Its supporters describe this as disciplined unity. Critics describe it as one-party oligarchy with syndicate language.
+
+== Formation ==
+
+After the [[Syndicate Revolution of 1949]], Veszprem tried to combine republican institutions with worker councils and postwar resistance committees. The system struggled with factionalism, regional distrust, economic shortage, and security fears.
+
+In 1957, the original parliament was disbanded. The collapse discredited conventional parliamentary politics and created space for leaders who argued that Veszprem could not survive through loose councils alone.
+
+During the late 1950s and early 1960s, Orderist theorists, military officers, industrial planners, and security organizers reworked the revolution's language into Unified Orderism. The new doctrine promised to preserve worker participation while binding every syndicate to national goals.
+
+Wider industrial-syndicalist thought, including the older [[Gorodovaya Syndikalizm]] model from [[Vorkutangrad]], provided comparison points for how factories, districts, housing, and public services could be coordinated. Veszprem's version was more centralized and security-minded than the Vorkutan model.
+
+== Doctrine ==
+
+Unified Orderism teaches that social order must be organized, not assumed. Workers, soldiers, teachers, industrial managers, families, and local administrations are expected to serve a shared national project.
+
+The economy is built around state-directed syndicates. Key industries are owned or controlled by the state, while private enterprise exists only under strict oversight. Local syndicates manage day-to-day life, but central authorities set strategic priorities.
+
+The ideology also gives the military a central role in national identity. Training, discipline, readiness, and civic service are treated as cultural duties rather than emergency measures.
+
+== State And Society ==
+
+By the early 1980s, Unified Orderism had culminated in the establishment of the [[Federated Syndicates of Veszprem]]. The state kept federal and constitutional language, but the [[Orderist Party of Veszprem]] and central leadership controlled the main levers of politics.
+
+Education, media, culture, and religion were shaped around loyalty, discipline, and national pride. [[Veszprem Universalism]] was promoted as a social partner to state ideology, reinforcing unity and obedience.
+
+== Foreign Relations ==
+
+Unified Orderism produced a defensive and isolationist foreign policy. Veszprem restricted immigration, guarded its interior, and treated outside influence as a security risk.
+
+By the 1980s and early 1990s, Veszprem still accepted selective modernization help. The [[Union of Zhensanov]] provided technological support, while the [[People's Federation of Xanaqu]] traded industrial and technical assistance for natural resources. Veszprem benefited from these relationships but remained wary of dependence.
+
+[[Category:Ideologies]]
+[[Category:Veszprem]]

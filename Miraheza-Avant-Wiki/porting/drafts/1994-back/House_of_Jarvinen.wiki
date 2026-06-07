@@ -1,0 +1,31 @@
+<!--
+AGGS draft metadata
+title: House of Jarvinen
+category: Dynasty
+status: draft
+era: Suomi State Formation
+yearStart: 1652
+yearEnd: 1994
+aliases: Jarvinen dynasty
+tags: Suomi, Imperial Suomi, constitutional monarchy
+facts:
+Type: Royal house
+Associated state: [[Imperial Suomi]]
+Founding monarch: King Jarvinen I
+Later constitutional monarch: Jarvinen X
+Open canon: Full succession list and exact constitutional powers need confirmation
+-->
+The '''House of Jarvinen''' is the royal dynasty associated with [[Imperial Suomi]]. Old source material gives King Jarvinen I as the monarch under whom the Suomi state was established in 1652.
+
+== Historical Role ==
+
+The dynasty gives Suomi its long constitutional continuity. King Jarvinen I anchors the 1652 founding period, while Jarvinen X is associated with the 1958 restructuring that made Suomi a constitutional monarchy.
+
+The extracted source does not provide a full succession list, regnal chronology, or internal family politics. This draft therefore keeps the dynasty as a bridge page until a dedicated Suomi monarchy pass can decide which monarchs need full articles.
+
+== Constitutional Position ==
+
+By the 1994-back window, the House of Jarvinen should be treated as a constitutional royal house rather than an unlimited personal monarchy. The source's 1958 restructuring implies that royal authority had been limited by formal political institutions.
+
+[[Category:Dynasties]]
+[[Category:Suomi]]

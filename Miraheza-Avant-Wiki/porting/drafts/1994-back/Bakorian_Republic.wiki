@@ -1,0 +1,39 @@
+<!--
+AGGS draft metadata
+title: Bakorian Republic
+category: Country
+status: draft
+era: Pre-Avant Great War
+yearStart: 1829
+yearEnd: 1935
+aliases: Republic of Bakorian, Bakoria
+tags: Bakoria, Astoria, Bakorian War, Viridia
+facts:
+Government: Republic
+Region: Northern [[Viridia]]
+Defunct: 1935 as an independent prewar state in current draft scope
+Major conflict: [[Bakorian War]]
+Postwar status: Eastern Bakoria and [[Azmetan]] annexed by [[Astoria]]
+-->
+The '''Bakorian Republic''' was a republican state in northern [[Viridia]] and the main opponent of [[Astoria]] in the [[Bakorian War]].
+
+Old source material also calls the state the '''Republic of Bakorian'''. This draft uses ''Bakorian Republic'' for cleaner AGGSWorld naming.
+
+== Political Position ==
+
+Bakoria developed as a republic after the collapse of older caliphal power in the region. Unlike Astoria, which became a military state in 1834, Bakoria tried to preserve republican institutions and regional independence.
+
+Its survival depended partly on outside support. From the 1870s through the 1920s, the [[Northern Alliance]] and member states such as [[Imperial Rhovland]], [[Theorin Commonwealth]], [[Federation of Vinterholm]], and [[Kingdom of Rosenburg]] provided equipment, training, and diplomatic backing.
+
+== Bakorian War ==
+
+The Bakorian War began in 1931 after years of Astorian pressure along the frontier. Bakorian forces defended cities, mountain passes, river corridors, and industrial districts while attempting to disrupt Astorian supply lines.
+
+The fall of [[Azmetan]] in early 1935 ended Bakoria's ability to resist as a unified state. The [[Treaty of Bokevrek]] formalized Astorian annexation of eastern Bakoria and imposed military restrictions on the remaining Bakorian authorities.
+
+== Legacy ==
+
+Bakoria became a symbol of the limits of Northern Alliance protection before the Avant Great War. Later anti-Astorian movements used Bakorian defeat as proof that Astoria's military state could not be contained through covert support alone.
+
+[[Category:Countries]]
+[[Category:Defunct Nations]]

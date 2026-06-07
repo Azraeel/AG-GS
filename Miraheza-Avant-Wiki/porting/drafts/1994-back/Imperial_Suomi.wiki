@@ -1,0 +1,43 @@
+<!--
+AGGS draft metadata
+title: Imperial Suomi
+category: Country
+status: draft
+era: Northern and Central Avant
+yearStart: 1652
+yearEnd: 1994
+aliases: Suomi, Imperial State of Suomi
+tags: Suomi, Lunareia, constitutional monarchy, 2003 map
+facts:
+Government by 1994: Constitutional monarchy
+Capital: [[Rauhamaa]]
+Dynasty: [[House of Jarvinen]]
+Religion: [[Odynosian]]
+Founding anchor: Establishment under King Jarvinen I in 1652
+Constitutional anchors: [[Charter of Rights and Limitations]] in 1850; constitutional-monarchy restructuring under Jarvinen X in 1958
+Open canon: Source leaders and population are later/map-era details, not fixed 1994 facts
+-->
+'''Imperial Suomi''', also known as '''Suomi''' and formerly the '''Imperial State of Suomi''', is a constitutional monarchy shown on the 2003 and 2022 map references west or southwest of the [[Kingdom of Lunareia]] and near the central-eastern political corridor of Avant.
+
+This 1994-back draft preserves the old source's historical anchors without importing later leader, population, and development claims as 1994 facts.
+
+== Historical Overview ==
+
+Old source material describes Suomi as relatively isolated in its early history, with early settlement traditions reaching far back before the modern state. The state framework is associated with [[Rauhamaa]], where the source places early huts and a small keep near the later seat of government.
+
+The modern state anchor is 1652, when King Jarvinen I proclaimed or established the imperial Suomi state. The [[House of Jarvinen]] remained central to the country's political identity after that date.
+
+In 1658, neighboring Lunareia made multiple border incursions, producing the [[Tyla River Crisis]]. The source does not give an outcome, casualty count, or final border settlement, so this draft treats the crisis as an early state-security anchor rather than a full war narrative.
+
+== Constitutional Development ==
+
+In 1850, Suomi ratified the [[Charter of Rights and Limitations]]. The title implies a legal restriction on royal authority or a formal statement of political rights, but the source does not provide the charter text.
+
+In 1958, under Jarvinen X, Suomi was restructured into a constitutional monarchy. By the 1994-back window, the safest reading is that the monarchy remained symbolically and constitutionally important while elected or representative institutions handled much of the regular government.
+
+== 1994-Back Role ==
+
+Suomi is not yet tied to a major 1994-back war in the extracted source set. Its importance in this pass is structural: it anchors the political geography between Lunareia, Vorkutangrad, Saochai, and the wider eastern map, and gives the region an older monarchy that survived the upheavals after the [[Avant Great War]].
+
+[[Category:Countries]]
+[[Category:Suomi]]

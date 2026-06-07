@@ -1,0 +1,57 @@
+<!--
+AGGS draft metadata
+title: Federated Syndicates of Veszprem
+category: Nation
+status: draft
+era: Modern Avant
+yearStart: 1980
+yearEnd: 1994
+aliases: Veszprem
+tags: Veszprem, Unified Orderism, Orderism, Union of Zhensanov, Xanaqu
+facts:
+Type: Nation
+Location: North-east [[Azuragon]]
+Government: Centralized syndicate state influenced by [[Unified Orderism]]
+Predecessors: [[United Principalities of Veszprem]]; post-1949 Veszpremi republic
+Foreign ties by 1994: [[Union of Zhensanov]]; [[People's Federation of Xanaqu]]
+-->
+The '''Federated Syndicates of Veszprem''' are the modern Veszpremi state in north-east [[Azuragon]]. By 1994, Veszprem was known for isolationism, strict immigration controls, heavy industry, strong military culture, and adherence to [[Unified Orderism]].
+
+The state presents itself as the heir of the [[United Principalities of Veszprem]] and the [[Syndicate Revolution of 1949]], but its current form emerged much later after decades of postwar instability and ideological centralization.
+
+== Historical Background ==
+
+Veszprem's modern identity was shaped by partial Vesperan occupation after the [[Veszprem Invasion]] of 1913. The [[Vesperan Empire]] captured border industrial districts but failed to conquer the Veszpremi core. This produced a long occupation frontier, an independent interior, and a powerful culture of secrecy, technical discipline, and resistance.
+
+After the [[Avant Great War]], the [[Veszpremi Underground]] helped reunify the occupied industrial districts with the interior. The Syndicate Revolution of 1949 brought worker councils and provisional republican institutions into power.
+
+The postwar republic was unstable. Old regional authorities, worker councils, veterans, security committees, and industrial planners competed for control. In 1957, parliament was disbanded, and the crisis allowed Orderist factions to argue for a stronger state.
+
+By the early 1960s, [[Unified Orderism]] had become the dominant ideology. By the early 1980s, it had been institutionalized as the Federated Syndicates of Veszprem.
+
+== Government ==
+
+The Federated Syndicates use federal and constitutional language, but real power rests with the central leadership, the [[Orderist Party of Veszprem]], the security apparatus, and state industrial bodies. Local syndicates manage regional administration and workplace life, but they operate inside strict national directives.
+
+The system is often described as a one-party Orderist oligarchy. Elections and councils exist, but they are designed to confirm ideological unity rather than permit open political competition.
+
+== Economy ==
+
+Veszprem's economy is built around defense, energy, heavy manufacturing, strategic mining, and state-directed engineering. Key sectors are owned or tightly controlled by the state. Private enterprise exists, but it is expected to serve national priorities.
+
+The country seeks self-sufficiency and limits foreign exposure. This does not mean total isolation. By the 1980s and early 1990s, Veszprem accepted selective modernization support from the [[Union of Zhensanov]] and traded with the [[People's Federation of Xanaqu]], exchanging natural resources for industrial and technical help.
+
+== Society And Military ==
+
+Veszpremi society emphasizes discipline, language, work, military readiness, and loyalty to the state. The [[Veszpremi Language]] is treated as a marker of national endurance and ideological precision. [[Veszprem Universalism]] reinforces public values of unity and obedience.
+
+The military is central to national identity. Compulsory service, public ceremonies, youth training, and defense industries tie the armed forces to everyday life. Veszprem's deep interior remains poorly understood by outsiders, partly because the state restricts travel and treats geographic knowledge as a security matter.
+
+== Foreign Relations By 1994 ==
+
+By 1994, Veszprem had few close relationships. Its link with Zhensanov was strategic and technological, giving both states leverage in a world shaped by postwar blocs and regional competition. Its relationship with Xanaqu was more economic and more cautious, based on resource exchange and industrial support.
+
+The state remained deeply suspicious of immigration, outside media, foreign investment, and ideological influence. That suspicion was one of the clearest legacies of Veszprem's occupation experience.
+
+[[Category:Nations]]
+[[Category:Veszprem]]

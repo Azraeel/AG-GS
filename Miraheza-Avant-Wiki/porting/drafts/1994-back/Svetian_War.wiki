@@ -1,0 +1,34 @@
+<!--
+AGGS draft metadata
+title: Svetian War
+category: Conflict
+status: draft
+era: Northern Alliance Eastern Expeditions
+yearStart: 1880
+yearEnd: 1884
+aliases: War of Svetia
+tags: Khalari, Northern Alliance, Volgastani-Hamed Empire
+facts:
+Date: 1880-1884
+Main opponents: [[Volgastani-Hamed Empire]] and [[Arabogradsk-Hamed Caliphate]]
+Opposing coalition: [[Northern Alliance]]-backed expedition with [[Vesperan Empire]] cooperation
+Key battle: [[Battle of Kaplan Ridge]]
+Result: Volgastani-Arabogradsk defeat, reparations, and diplomatic quarter in [[Murah]]
+-->
+The '''Svetian War''' was a Khalari conflict fought from 1880 to 1884. It was the first major military action attributed to the [[Northern Alliance]] in the extracted source.
+
+== Background ==
+
+The Northern Alliance entered eastern politics in the late nineteenth century to support allied interests, secure resources, and prevent the [[Volgastani-Hamed Empire]] and [[Arabogradsk-Hamed Caliphate]] from dominating the region. The source also says the expedition worked with the [[Vesperan Empire]] to weaken Volgastani power.
+
+== Course ==
+
+The war culminated in the [[Battle of Kaplan Ridge]] in 1882, where Volgastani-Arabogradsk armies were defeated. The conflict continued until 1884, when the enemy coalition was forced to accept reparations and a diplomatic quarter in [[Murah]].
+
+== Legacy ==
+
+The defeat damaged the Volgastani-Hamed imperial order and helped set the conditions for the [[Volgastani Summer Revolution]] of 1891. It also marked the Northern Alliance's shift from a western defensive system into an alliance capable of projecting influence into eastern theaters.
+
+[[Category:Conflicts]]
+[[Category:Northern Alliance]]
+[[Category:Khalari]]

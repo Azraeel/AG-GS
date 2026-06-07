@@ -1,0 +1,33 @@
+<!--
+AGGS draft metadata
+title: Resistance Songbook
+category: Culture
+status: draft
+era: Vesperan Occupation and Great War
+yearStart: 1920
+yearEnd: 1945
+aliases: Belcantese Resistance Songbook
+tags: Belcanto, Belcantese Cultural Resistance, Belcantese Language
+facts:
+Type: Underground cultural compilation
+Language: [[Belcantese Language]]
+Compiled: 1920-1945 in source material
+Content: Traditional and newly composed resistance songs
+Role: Preserved Belcantese language and cultural memory during occupation
+-->
+The '''Resistance Songbook''' was an underground Belcantese compilation of traditional and newly composed songs preserved during Vesperan occupation. Source material dates its compilation to 1920-1945.
+
+== Role ==
+
+The songbook helped maintain the [[Belcantese Language]] when public Belcantese education and performance were restricted. Songs carried local history, place memory, family teaching, political warnings, and coded resistance messages.
+
+== Cultural Importance ==
+
+Belcantese identity was strongly tied to song, so preserving music also preserved political memory. The songbook became one of the most important symbols of the [[Belcantese Cultural Resistance]].
+
+== Postwar Legacy ==
+
+After independence, the songbook helped restore public Belcantese culture. Language teachers, musicians, and historians treated it as evidence that occupation had failed to erase Belcantese identity.
+
+[[Category:Culture]]
+[[Category:Belcanto]]

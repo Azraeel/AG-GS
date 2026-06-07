@@ -1,0 +1,42 @@
+<!--
+AGGS draft metadata
+title: Union Alphabet
+category: Culture
+status: draft
+era: Zhensanov Cultural History
+yearStart: unknown
+yearEnd: 1994
+aliases: Unija Alfabet
+tags: Zhensanovian Languages, Zhensanovian Scripts, Union Language Committee
+facts:
+Type: Standardized alphabet
+Associated state: [[Union of Zhensanov]]
+Associated languages: [[Zhensanovian Languages]]
+Developed by: [[Union Language Committee]]
+Development period: Mid-20th century in source material
+Structure: 45 base letters and diacritics in source material
+Direction: Left-to-right
+Open canon: Exact adoption year, enforcement law, glyph table, and digital encoding status before 1994 need confirmation
+-->
+The '''Union Alphabet''' is the standardized writing system source-attested for the [[Union of Zhensanov]] and the [[Zhensanovian Languages]].
+
+== Development ==
+
+Source material says the alphabet was developed in the mid-twentieth century as part of the [[Union Language Committee]]'s effort to create a writing system that could represent sounds across Zhensanovian languages. Its goals included phonemic coverage, learnability, cultural neutrality, and support for official and educational use.
+
+The exact adoption year, legislative process, and relationship to existing regional scripts are not yet known.
+
+== Structure And Use ==
+
+The source describes the Union Alphabet as a left-to-right alphabet with forty-five base letters and diacritics. It is designed for government documents, education materials, public signage, media publications, and broader official communication in the source set, but the exact pre-1994 adoption scope remains open.
+
+Because the extracted glyph tables contain corrupted characters and later digital references, this draft preserves the high-level structure and policy role without hardening the full character inventory for publication.
+
+== Canon Limits ==
+
+The Sanovic source later ties the Union Alphabet to a constructed Union lingua franca, but Sanovic itself is described as an early twenty-first-century language. For the 1994-back pass, the Union Alphabet is therefore treated as a pre-1994 script-standardization project for Zhensanovian languages, while Sanovic belongs to later review.
+
+[[Category:Culture]]
+[[Category:Languages]]
+[[Category:Writing Systems]]
+[[Category:Zhensanov]]

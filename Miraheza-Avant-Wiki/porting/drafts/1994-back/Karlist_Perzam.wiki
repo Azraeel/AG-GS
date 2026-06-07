@@ -1,0 +1,33 @@
+<!--
+AGGS draft metadata
+title: Karlist Perzam
+category: Country
+status: draft
+era: Istragarde Treaty Era
+yearStart: 1971
+yearEnd: 1994
+aliases: Perzam
+tags: Perzam, Istragarde Treaty, Batravalka
+facts:
+Relevant event: [[Invasion of Batravalka]]
+Legal frame invoked: [[Treaty of the Concord of Istragarde]]
+Rationale in source: Historical claims and protection of Perzamic communities
+Map context: Shown on the 2003 and 2022 reference maps
+Coverage note: yearEnd indicates this 1994-back draft scope, not state dissolution
+-->
+'''Karlist Perzam''' is a state named in the Istragarde source and shown on the 2003 and 2022 reference maps.
+
+== Istragarde-Era Crisis ==
+
+Karlist Perzam is most important in the 1994-back draft set because of the 1971 [[Invasion of Batravalka]]. Its leaders invoked the [[Treaty of the Concord of Istragarde]], historical claims, and protection of Perzamic communities to justify the surprise invasion of mineral-rich highlands.
+
+== Legacy ==
+
+The invasion became a precedent for later treaty abuse. The Istragarde system condemned the action but did not organize a military response, showing that formal border rules could be ignored by determined states. Later Volgastani policy followed a similar legal pattern through the [[Volgastani Expansionist Doctrine]].
+
+== Source Limits ==
+
+This draft does not settle Perzam's full government type, capital, founding date, or borders. It preserves the state as needed for the Istragarde failure timeline.
+
+[[Category:Countries]]
+[[Category:Postwar settlement]]

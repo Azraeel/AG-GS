@@ -1,0 +1,41 @@
+<!--
+AGGS draft metadata
+title: Elder Tongue Scribal Institutions
+category: Culture
+status: draft
+era: Solaran Cultural History
+yearStart: 0
+yearEnd: 1994
+aliases: Elder Tongue scribal colleges, Solaran sun-temples
+tags: Solara, Elder Tongue, Solra
+facts:
+Type: Classical language and temple-scribal tradition
+State: [[Solara]]
+Language: [[Solra]]
+Responsibilities: Ceremonial language training, legal and liturgical preservation, astronomy records, calendars, and textual copying
+Open canon: Later source references name an Academy of the Elder Tongue, but its pre-1994 continuity is not confirmed
+-->
+'''Elder Tongue Scribal Institutions''' were the temple, archival, and scholarly bodies associated with preserving and teaching [[Solra]], the ceremonial language of [[Solara]].
+
+== Role ==
+
+These institutions maintained standards for the Elder Tongue, trained specialist readers and calligraphers, preserved classical texts, and supported ritual, legal, archival, and ceremonial language use.
+
+They functioned differently from the [[Solaran Language Office]], which served the modern [[Solaran Language]] and [[Solaran Alphabet|Sunline]] public standard. The temple-scribal tradition guarded elite continuity; the language office served mass literacy and modern administration.
+
+== Place In Solaran Culture ==
+
+Solra was difficult by design and by inheritance. Its complexity made the academy important for clergy, archivists, legal specialists, ceremonial officials, and scholars who needed access to old records and ritual formulae.
+
+The scribal tradition helped Solara preserve the prestige of ancient language while accepting that ordinary education would use Solaran and Sunline.
+
+== Relationship To Modernization ==
+
+These older institutions did not block the 1895-1898 literacy reform in the current draft structure. Instead, Solara's language system became dual: Sunline for ordinary public life, Solra for ceremony and elite textual continuity.
+
+== Canon Notes ==
+
+The source gives post-1994 references to a named Academy of the Elder Tongue and related training bodies. This draft uses the source's earlier temple and scribal tradition for the 1994-back pass, but it does not harden the named academy as an ancient or continuous pre-1994 institution.
+
+[[Category:Organizations]]
+[[Category:Solara]]

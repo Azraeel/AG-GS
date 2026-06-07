@@ -1,0 +1,55 @@
+<!--
+AGGS draft metadata
+title: Veszprem Invasion
+category: Conflict
+status: draft
+era: Vesperan Peak Expansion
+yearStart: 1913
+yearEnd: 1913
+aliases: Invasion of Veszprem
+tags: Veszprem, Vesperan Empire, industrial warfare, Orderism
+facts:
+Type: Military campaign
+Date: March-July 1913
+Place: [[United Principalities of Veszprem]]
+Combatants: [[Vesperan Empire]]; [[United Principalities of Veszprem]]
+Result: Partial Vesperan victory; border industrial facilities occupied; core Veszpremi state survived
+Casualties: 15,000+ Vesperan military; 32,000+ Veszpremi military; 8,000+ Veszpremi civilians
+-->
+The '''Veszprem Invasion''' was a 1913 campaign by the [[Vesperan Empire]] against the [[United Principalities of Veszprem]]. It was one of the last major campaigns of Vespera's peak expansion period and marked a shift from territorial conquest alone toward the targeted seizure of industrial capacity.
+
+The invasion ended in a partial Vesperan victory. Imperial forces captured border regions, mines, foundries, and manufacturing districts, but failed to fully absorb the Veszpremi core. The result left Veszprem divided between occupied industrial zones and an independent interior that became increasingly suspicious, militarized, and resistant to foreign control.
+
+== Background ==
+
+By 1913, Veszprem had become one of the most industrialized states outside direct Vesperan control. Its metallurgy, precision engineering, machine shops, and forest-protected industrial towns made it strategically valuable. Vesperan intelligence believed Veszpremi factories could equip several divisions if the state joined an anti-imperial coalition.
+
+The immediate trigger was Veszprem's February 1913 industrial cooperation agreement with northern partners outside the Vesperan sphere. Imperial planners treated the agreement as a threat to Vesperan military superiority and ordered a campaign designed to capture production sites intact.
+
+The source record also associates Veszprem's labor resistance with early Orderist thought. Later Veszpremi histories treat this period more carefully: the occupation produced underground worker networks and proto-Orderist methods, while formal [[Orderism]] and [[Unified Orderism]] were codified decades later.
+
+== Campaign ==
+
+The invasion began in March 1913 with aerial reconnaissance and attacks on transportation links, mountain passes, and communications infrastructure. Imperial aircraft gave the campaign unusual speed for its time, allowing Vesperan forces to map defenses and coordinate artillery more precisely than in earlier wars.
+
+Ground forces then broke through the Iron Gates mountain defenses and advanced toward the major industrial belt. General Augustus Maximilian commanded the overall invasion, while Air Marshal Viktor Stormwind directed air operations and Colonel Heinrich Ironforge oversaw industrial capture detachments.
+
+Veszpremi defense was led by Prince Istvan Vesz, General Bela Kovacs, and Master Engineer Zoltan Nagy. Veszpremi forces used mountain positions, factory militias, improvised weapons, and sabotage threats to slow the advance. The fighting around Veszprem Central and the Great Foundries became the center of the campaign because both sides needed the industrial sites intact.
+
+The campaign ended in July 1913 after Vesperan forces secured several border industrial districts. Organized field resistance in the occupied belt collapsed, but the core Veszpremi state survived beyond the reach of direct imperial rule.
+
+== Occupation ==
+
+The [[Vesperan Empire]] imposed an industrial occupation rather than a full assimilation program. The Imperial Industrial Decree of 1914 placed major factories, mines, rail yards, and engineering facilities in captured districts under direct imperial administration.
+
+The occupation was pragmatic but harsh. Veszpremi workers were kept in place because imperial authorities needed their technical skill, but labor discipline, wage controls, surveillance, and language pressure hardened local resentment. Underground schools preserved the [[Veszpremi Language]], while worker circles developed covert communication methods that later became associated with the [[Veszpremi Underground]].
+
+== Legacy ==
+
+The Veszprem Invasion strengthened Vesperan industrial output and gave the empire experience in aerial warfare, industrial capture, and urban-factory combat. It also created one of the most durable anti-imperial resistance cultures in the Vesperan world.
+
+During the [[Avant Great War]], Veszpremi occupied districts became difficult for imperial authorities to secure. After Vespera's defeat in 1949, those underground networks helped drive the [[Syndicate Revolution of 1949]] and shaped the later political identity of the [[Federated Syndicates of Veszprem]].
+
+[[Category:Conflicts]]
+[[Category:Veszprem]]
+[[Category:Vesperan Empire]]

@@ -1,0 +1,30 @@
+<!--
+AGGS draft metadata
+title: Bay of Congrave
+category: Location
+status: draft
+era: Solara-Khalindar War
+yearStart: 1992
+yearEnd: 1992
+aliases: Naval Battle of the Bay of Congrave, Battle of the Bay of Congrave
+tags: Solara, Khalindar, Congrave, naval warfare
+facts:
+Type: Coastal bay and naval battle area
+Country: [[Solara]]
+Known for: Naval engagement during the [[Battle of Congrave]]
+Result: Khalindarian resupply effort defeated by Solaran air and naval forces
+-->
+The '''Bay of Congrave''' is the coastal approach to [[Congrave]] and the site of a major naval engagement during Solara's 1992 recapture of the capital in the [[Solara-Khalindar War]].
+
+== Naval Engagement ==
+
+As Solaran forces fought to retake Congrave, Khalindarian naval units attempted to reinforce and resupply their positions in the city. Control of the bay mattered because the port area was one of the main routes for equipment, ammunition, and withdrawal.
+
+Solara used its recovered air superiority, carrier aircraft, submarines, and surface vessels to attack the Khalindarian fleet. The battle inflicted serious losses and reduced Khalindar's ability to sustain its defenders inside Congrave.
+
+== Strategic Role ==
+
+The bay engagement supported the wider [[Battle of Congrave]] by isolating Khalindarian ground forces. It also showed that the [[Battle of Solara]] had changed the war: Khalindar could still contest the seas, but it could no longer rely on naval movement without heavy exposure to Solaran air power.
+
+[[Category:Locations]]
+[[Category:Solara-Khalindar War]]

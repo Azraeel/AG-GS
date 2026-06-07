@@ -1,0 +1,32 @@
+<!--
+AGGS draft metadata
+title: Vespera
+category: Location
+status: draft
+era: Imperial Age and Great War
+yearStart: 1650
+yearEnd: 1949
+tags: Vesperan Empire, Vesperan Kingdom, Avant Great War
+facts:
+Type: Imperial capital
+Country: [[Vesperan Empire]]
+Known for: [[Great Temple of Vespera]]; imperial government; fall of the [[Vesperan Empire]]
+-->
+'''Vespera''' was the capital and largest city of the [[Vesperan Empire]]. It served as the political, religious, military, and cultural center of Vesperan imperial authority from the kingdom period through the empire's collapse in 1949.
+
+== Imperial Capital ==
+
+The city housed the imperial court, central ministries, military command institutions, archives, and major cultural academies. It was also the symbolic heart of the imperial system through the [[Great Temple of Vespera]], where coronations and imperial religious ceremonies were performed.
+
+Vespera also served as the center of imperial scholarship and language policy. Institutions such as the [[Imperial Language Academy]], [[University of Vespera]], and [[Vesperan Historical Institute]] connected the capital's archives, schools, and official language standards to the wider empire.
+
+== Great War ==
+
+During the [[Avant Great War]], Vespera became a strategic and symbolic target. The capture of the imperial capital and the destruction of the Great Temple marked the practical and symbolic end of the Vesperan imperial order.
+
+== Legacy ==
+
+After 1949, Vespera remained one of the key memory sites of the postwar world. For former imperial loyalists, it represented the lost center of the old empire. For occupied peoples and the [[United Alignment of Nations]], its fall represented the collapse of Vesperan domination.
+
+[[Category:Locations]]
+[[Category:Vesperan Empire]]

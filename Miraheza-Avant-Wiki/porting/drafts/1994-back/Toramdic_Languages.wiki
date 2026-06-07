@@ -1,0 +1,28 @@
+<!--
+AGGS draft metadata
+title: Toramdic Languages
+category: Culture
+status: draft
+era: Zhensanov Cultural History
+yearStart: unknown
+yearEnd: 1994
+aliases: Toramdic, Toramdic Language
+tags: Zhensanovian Languages, Union of Zhensanov
+facts:
+Type: Zhensanovian language branch
+Region in source: Eastern coast
+Traditional script: Pictographic system in source material
+Noted features: Large case systems, consonant mutation, three-tone system, flexible word order
+Open canon: Exact region, speaker count, script history, and political status need confirmation
+-->
+The '''Toramdic Languages''' are a branch of the [[Zhensanovian Languages]] associated in source material with the eastern coast of the [[Union of Zhensanov]].
+
+The source describes Toramdic languages as having large case systems, consonant mutation, a three-tone system, flexible word order, and an older pictographic writing system.
+
+== Canon Limits ==
+
+The Toramdic source details are linguistic. They should not be used to infer a fixed eastern coastal border, naval culture, or separate coastal polity without additional source support.
+
+[[Category:Culture]]
+[[Category:Languages]]
+[[Category:Zhensanov]]

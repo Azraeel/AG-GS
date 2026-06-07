@@ -1,0 +1,33 @@
+<!--
+AGGS draft metadata
+title: Reasalbor
+category: Location
+status: draft
+era: Solara-Khalindar War
+yearStart: 1990
+yearEnd: 1990
+tags: Solara, Solara-Khalindar War
+facts:
+Type: Major Solaran city
+Country: [[Solara]]
+Known for: Siege during the [[Solara-Khalindar War]]
+Outcome: Khalindarian offensive stalled; [[Operation Dawnfire]] disrupted Khalindarian supply lines
+-->
+'''Reasalbor''' is a major Solaran city that became one of the central battlefields of the [[Solara-Khalindar War]] after the fall of [[Congrave]].
+
+== Siege ==
+
+After capturing Congrave, Khalindar moved against Reasalbor to destabilize Solara further and consolidate its early gains. Solaran forces regrouped and turned the city into a defensive strongpoint with bunkers, minefields, artillery positions, and layered urban defenses.
+
+The battle developed into a prolonged stalemate. Khalindarian forces pushed hard, but Solaran engineers and defenders made the city costly to approach and difficult to isolate.
+
+== Logistics ==
+
+Supply lines became the key issue. Solara struggled to sustain the defense after the loss of Congrave, while Khalindar used captured territory to build forward supply bases. The battle became as much a contest over logistics as over territory.
+
+== Operation Dawnfire ==
+
+The turning point came with [[Operation Dawnfire]], a Solaran counteroffensive against Khalindarian supply lines and military infrastructure. The operation weakened Khalindar's ability to continue the siege and forced withdrawals that opened the way for Solara to regain the initiative.
+
+[[Category:Locations]]
+[[Category:Solara-Khalindar War]]

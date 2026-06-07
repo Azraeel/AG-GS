@@ -1,0 +1,29 @@
+<!--
+AGGS draft metadata
+title: Zhensanovian Scripts
+category: Culture
+status: draft
+era: Zhensanov Cultural History
+yearStart: unknown
+yearEnd: 1994
+aliases: Zhensanovian writing systems
+tags: Zhensanovian Languages, Union Alphabet, Zhensanov
+facts:
+Type: Writing-system group
+Associated language family: [[Zhensanovian Languages]]
+Modern standard: [[Union Alphabet]]
+Traditional systems: Runic, syllabic, modified Cyrillic-derived, pictographic, and regional systems in source material
+Open canon: Individual script names, alphabets, literacy policy, and regional education law need confirmation
+-->
+'''Zhensanovian Scripts''' are the writing systems associated with the [[Zhensanovian Languages]].
+
+The extracted source names several traditional systems: a runic script for [[Murianic Languages]], a syllabic script for [[Agashkinic Languages]], a modified Cyrillic-derived alphabet for [[Tekdolian Languages]], and a historical pictographic system for [[Toramdic Languages]]. Other regional systems remain possible but are not yet reviewed.
+
+== Standardization ==
+
+The [[Union Alphabet]] is the modern standardized writing system in the source set. It was developed to represent sounds across the Zhensanovian language family without openly privileging one regional language branch over the others.
+
+[[Category:Culture]]
+[[Category:Languages]]
+[[Category:Writing Systems]]
+[[Category:Zhensanov]]

@@ -1,0 +1,25 @@
+<!--
+AGGS draft metadata
+title: King Aurelius III
+category: Person
+status: draft
+era: Early Vesperan History
+yearStart: 1350
+yearEnd: 1350
+tags: Vesperan Alphabet, Vesperan Language, western kingdoms
+facts:
+Role: Western king associated with early script standardization
+Known for: [[Royal Scriptorial Decree]]
+Approximate activity: Around 1350 in source material
+Open canon: Reign dates, dynasty, and exact realm are not yet established
+-->
+'''King Aurelius III''' was a western ruler associated in source material with the early standardization of the [[Vesperan Alphabet]] around 1350.
+
+The main source-backed fact about Aurelius is his connection to the [[Royal Scriptorial Decree]], which later Vesperan scholarship treated as an early foundation for written Vesperan.
+
+== Canon Note ==
+
+This is a minimal bridge page. Aurelius's reign dates, dynasty, capital, and relationship to the later [[House of Vespera]] are not yet established and should not be filled in without a broader early Vesperan history pass.
+
+[[Category:People]]
+[[Category:Vesperan history]]

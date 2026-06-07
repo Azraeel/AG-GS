@@ -1,0 +1,38 @@
+<!--
+AGGS draft metadata
+title: Battle of Migov
+category: Conflict
+status: draft
+era: Nogoyevian War of Independence
+yearStart: 1949
+yearEnd: 1952
+aliases: Siege of Migov
+tags: Nogoyev, Zhensanov, urban warfare
+facts:
+Type: Urban battle
+Date: 1949-1952
+Part of: [[Nogoyevian War of Independence]]
+Place: [[Migov]]
+Combatants: [[Union of Zhensanov]]; [[Kingdom of Nogoyev]]
+Result: Nogoyevian victory; Union retreat from Migov
+Casualties: Source claims about 450,000 military dead or casualties; classification needs confirmation
+-->
+The '''Battle of Migov''' was a 1949-1952 urban battle during the [[Nogoyevian War of Independence]]. It was fought for [[Migov]], the capital and cultural center of Nogoyev.
+
+The battle became one of the bloodiest events of the war. The source describes slow, block-by-block fighting, heavy artillery and airstrikes, fortified buildings, mines, snipers, and severe civilian hardship.
+
+== Course ==
+
+Zhensanovian forces attempted to take Migov as a decisive strategic and symbolic target. Nogoyevian defenders used the city itself as a defensive system, fighting from buildings, tunnels, barricades, and improvised strongpoints.
+
+The battle lasted three years. In 1952, a major Nogoyevian offensive forced exhausted Union forces to retreat from the city.
+
+== Legacy ==
+
+Migov became the central symbol of Nogoyevian resistance. The source describes the raising of a Nogoyevian flag at the destroyed western edge of the city as the iconic image of the victory.
+
+The casualty figure in the source is extremely high and should be checked before final publication. For now, the draft preserves it as a source claim rather than a final audited number.
+
+[[Category:Conflicts]]
+[[Category:Nogoyev]]
+[[Category:Zhensanov]]

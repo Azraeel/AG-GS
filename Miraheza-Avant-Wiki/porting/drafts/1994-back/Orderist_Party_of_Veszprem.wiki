@@ -1,0 +1,36 @@
+<!--
+AGGS draft metadata
+title: Orderist Party of Veszprem
+category: Organization
+status: draft
+era: Modern Veszprem
+yearStart: 1957
+yearEnd: 1994
+aliases: Orderist Party
+tags: Veszprem, Unified Orderism, Federated Syndicates of Veszprem
+facts:
+Type: Political party
+Ideology: [[Unified Orderism]]
+Associated state: [[Federated Syndicates of Veszprem]]
+Role by 1994: Dominant party controlling major political life
+Open canon: Exact founding date, leadership, and party congress history need confirmation
+-->
+The '''Orderist Party of Veszprem''', often called the '''Orderist Party''', is the dominant political organization of the [[Federated Syndicates of Veszprem]]. It is the main institutional carrier of [[Unified Orderism]] and controls the most important parts of Veszpremi political life by 1994.
+
+This draft is a bridge page. The extracted source confirms the party's role but does not yet provide a full party history, leadership list, or founding congress.
+
+== Origins ==
+
+The party's roots lie in the postwar crisis that followed the [[Syndicate Revolution of 1949]]. Early Veszpremi politics mixed worker councils, resistance committees, republican institutions, and regional factions.
+
+After parliament was disbanded in 1957, Orderist organizers argued that Veszprem needed a single disciplined political framework. The party became the vehicle for turning [[Orderism]] into the more centralized doctrine of Unified Orderism.
+
+== Role In The State ==
+
+By the early 1980s, the Orderist Party was central to the formation of the modern Federated Syndicates. It controlled elections, coordinated local syndicates, shaped education and media, and guarded the ideological line of the state.
+
+The party presents itself as the political expression of Veszpremi unity. Critics describe it as a one-party apparatus that uses syndicate structures to prevent real opposition.
+
+[[Category:Organizations]]
+[[Category:Veszprem]]
+[[Category:Ideologies]]

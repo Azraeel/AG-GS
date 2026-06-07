@@ -1,0 +1,22 @@
+<!--
+AGGS draft metadata
+title: Imperial College of Priests
+category: Organization
+status: draft
+era: Vesperan Empire
+yearStart: 1720
+yearEnd: 1949
+aliases: Vesperan priestly college
+tags: Vesperan Empire, Imperial Cult, priesthood
+facts:
+Type: Priestly and ceremonial body
+Associated religion: [[Imperial Cult]]
+Institutional links: [[Great Temple of Vespera]]; [[Imperial Religious Academy]]
+Role: Ritual support, priestly training, ceremonial administration
+-->
+The '''Imperial College of Priests''' was a priestly and ceremonial body of the [[Imperial Cult]]. It supported major rites, helped train religious officials, and formed part of the institutional network around the [[Great Temple of Vespera]] and the [[Imperial Religious Academy]].
+
+The college appears in source material as an assisting body during imperial ceremonies. This draft keeps the institution broad until more source-backed detail is available.
+
+[[Category:Organizations]]
+[[Category:Vesperan Empire]]

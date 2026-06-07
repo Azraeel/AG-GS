@@ -1,0 +1,22 @@
+<!--
+AGGS draft metadata
+title: Southern Seas
+category: Geography
+status: draft
+era: Geographic Reference
+yearStart: 0
+yearEnd: 1994
+aliases: Southern Sea
+tags: Alberion, Solara, maritime geography
+facts:
+Type: Maritime region
+Associated continent: [[Alberion]]
+Source role: Climatic influence on Alberion in source material
+Open canon: Exact waters, straits, islands, sea zones, and trade routes need map review
+-->
+The '''Southern Seas''' are a maritime region associated with [[Alberion]] in the extracted source material.
+
+The Alberion source says the Southern Seas moderate the continent's climate and contribute to the precipitation that supports its temperate rainforests. The exact sea boundaries, islands, naval routes, and relationship to [[Solara]] remain open for a later map pass.
+
+[[Category:Geography]]
+[[Category:Alberion]]

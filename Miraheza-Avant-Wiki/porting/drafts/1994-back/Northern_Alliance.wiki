@@ -1,0 +1,45 @@
+<!--
+AGGS draft metadata
+title: Northern Alliance
+category: Organization
+status: draft
+era: Imperial Age to Pre-Avant Great War
+yearStart: 1839
+yearEnd: 1994
+aliases: Northern Alliance against Astoria and Southern State Aggression
+tags: Northern Alliance, Astoria, Vesperan Empire, Bakorian War, Viridia, Khalari
+facts:
+Founded: 1839
+Original members: [[Theorin Commonwealth]]; [[Imperial Rhovland]]; [[Federation of Vinterholm]]
+Original purpose: Security against [[Astoria]] and southern state aggression
+Later focus: Countering [[Vesperan Empire]] expansion and supporting regional partners
+Relevant conflicts: [[Svetian War]]; [[Siege of Murah]]; [[Bakorian War]]; [[Avant Great War]]
+-->
+The '''Northern Alliance''' was a military and political alliance formed in 1839 by [[Theorin Commonwealth]], [[Imperial Rhovland]], and the [[Federation of Vinterholm]]. Its original purpose was to protect northern and western monarchies and aligned states against [[Astoria]] and other perceived threats to the old regional order.
+
+== Origins ==
+
+The alliance grew out of earlier cooperation between Theorin and Vinterholm. Rhovland joined the system through the 1839 March Conference, creating a broader framework for technology sharing, arms cooperation, trade, and mutual security.
+
+The old source gives the alliance's full early name as the ''Northern Alliance against Astoria and Southern State Aggression''. This draft keeps the shorter common name.
+
+== Expansion Of Role ==
+
+By the late nineteenth century, the alliance had become active beyond its original western core. It backed partners and commercial interests in eastern theaters, fought in the [[Svetian War]] of 1880-1884, and later joined temporary relief operations during the 1891 [[Siege of Murah]].
+
+The Svetian War connected the alliance to eastern [[Khalari]] politics. Northern Alliance-backed forces fought the [[Volgastani-Hamed Empire]] and [[Arabogradsk-Hamed Caliphate]], with [[Battle of Kaplan Ridge|Kaplan Ridge]] becoming the source-attested decisive battle. The later Murah relief operation showed the alliance's ability to organize temporary multinational action outside its original western security zone.
+
+The alliance's relationship with the [[Vesperan Empire]] was complicated. It could cooperate with Vespera against common rivals, but Vesperan expansion into Belcanto, Veszprem, and other regions eventually made Vespera a strategic threat.
+
+== Bakorian War ==
+
+During the [[Bakorian War]], the Northern Alliance supported the [[Bakorian Republic]] with supplies, training, advisors, intelligence, and diplomatic backing. It did not intervene openly against Astoria.
+
+The alliance's restraint reflected limited resources, internal disagreement, and rising concern over the Vesperan Empire. Bakoria's defeat exposed the limits of alliance guarantees and pushed members toward modernization.
+
+== Path To The Great War ==
+
+The alliance's anti-Vesperan posture helped prepare the later [[United Alignment of Nations]] coalition during the [[Avant Great War]]. It should not be confused with rejected old-source labels for the Great War coalition.
+
+[[Category:Organizations]]
+[[Category:Northern Alliance]]

@@ -1,0 +1,34 @@
+<!--
+AGGS draft metadata
+title: Operation Dawnfire
+category: Event
+status: draft
+era: Solara-Khalindar War
+yearStart: 1990
+yearEnd: 1990
+tags: Solara, Khalindar, Reasalbor, Solara-Khalindar War
+facts:
+Type: Solaran counteroffensive
+Part of: [[Solara-Khalindar War]]
+Place: Approaches to [[Reasalbor]]
+Combatants: [[Solara]]; [[Empire of Khalindar]]
+Result: Khalindarian supply lines disrupted; siege pressure reduced
+-->
+'''Operation Dawnfire''' was a Solaran counteroffensive during the siege of [[Reasalbor]] in the [[Solara-Khalindar War]]. It targeted Khalindarian supply lines, forward bases, and military infrastructure after the fall of [[Congrave]].
+
+== Background ==
+
+Khalindar's advance toward Reasalbor depended on forward depots, captured routes, artillery sites, fuel stores, and improvised logistics networks. Solara's defenders could not rely on a simple frontal victory, so they focused on weakening the system that kept the siege moving.
+
+== Operation ==
+
+The operation combined strikes, raids, interdiction, and attacks on key logistical nodes. Solaran forces targeted transport corridors, ammunition dumps, command posts, and staging areas used by Khalindarian units around Reasalbor.
+
+The exact units, commanders, and sequence of strikes need fuller tactical canon before publication as a detailed military article.
+
+== Result ==
+
+Dawnfire weakened Khalindar's ability to sustain the siege. It did not end the war, but it forced withdrawals, slowed the offensive, and helped Solara stabilize the front before the later [[Battle of Solara]] and the recapture of [[Congrave]].
+
+[[Category:Events]]
+[[Category:Solara-Khalindar War]]

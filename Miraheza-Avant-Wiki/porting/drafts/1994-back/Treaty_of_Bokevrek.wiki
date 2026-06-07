@@ -1,0 +1,29 @@
+<!--
+AGGS draft metadata
+title: Treaty of Bokevrek
+category: Treaty
+status: draft
+era: Pre-Avant Great War
+yearStart: 1935
+yearEnd: 1935
+tags: Bakorian War, Astoria, Bakoria
+facts:
+Date: Late 1935
+Parties: [[Astoria]]; [[Bakorian Republic]]
+Effect: Formalized Astorian annexation of eastern Bakoria, including [[Azmetan]]
+Additional terms: Demilitarized zones and military restrictions on remaining Bakorian authorities
+-->
+The '''Treaty of Bokevrek''' was the 1935 settlement that ended the [[Bakorian War]] and formalized Astoria's annexation of eastern Bakoria.
+
+== Terms ==
+
+The treaty recognized Astorian control over eastern Bakoria, including [[Azmetan]]. It also established demilitarized zones along the new border and imposed military restrictions on the remaining Bakorian authorities.
+
+== Consequences ==
+
+The treaty turned Astoria's battlefield victory into a territorial settlement. It weakened Bakoria, damaged confidence in [[Northern Alliance]] guarantees, and contributed to regional militarization before the [[Avant Great War]].
+
+The treaty's harsh legacy also fed anti-Astorian politics in neighboring states and helped set conditions for the [[Pesteran-Astorian War]].
+
+[[Category:Treaties]]
+[[Category:Bakorian War]]

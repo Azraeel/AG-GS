@@ -1,0 +1,44 @@
+<!--
+AGGS draft metadata
+title: Solaran Ministry of Education
+category: Organization
+status: draft
+era: Solaran Cultural History
+yearStart: 1899
+yearEnd: 1994
+aliases: Ministry of Education of Solara
+tags: Solara, education, Sunline
+facts:
+Type: State education ministry
+State: [[Solara]]
+Related reform: [[Education Reform Act of 1895]]
+Related script: [[Solaran Alphabet]]
+Responsibilities: Schools, curriculum, literacy implementation, and education standards
+Open canon: Source attests the ministry by 1899 implementation guidance, not necessarily at the start of the 1895 testing period
+-->
+The '''Solaran Ministry of Education''' was the state ministry responsible for schools, literacy implementation, curriculum guidance, and education standards in [[Solara]].
+
+== Literacy Reform ==
+
+The ministry is source-attested in connection with implementation guidance after the 1898 adoption of the [[Solaran Alphabet|Sunline]] alphabet. It supported the education system created around the [[Education Reform Act of 1895]], when Solara moved toward mass literacy in a simplified writing system.
+
+The ministry's role included teacher guidance, textbook adoption, school implementation, and coordination with language specialists.
+
+== Education System ==
+
+In the modern Solaran school system, public instruction prioritized the [[Solaran Language]] and Sunline literacy. [[Solra]], the Elder Tongue, remained important for advanced religious, archival, legal, or administrative tracks but was not the first writing system taught to most children.
+
+This structure allowed Solara to preserve ceremonial tradition while still building a literate public sphere.
+
+== Institutional Role ==
+
+The ministry worked alongside the [[Solaran Language Office]], [[Solaran Academy of Linguistics]], and [[Solaran Parliament]] in language policy. Its work gave the state practical reach into classrooms and made national standards enforceable beyond the capital.
+
+By the early 1990s, the ministry's nineteenth-century literacy legacy was part of Solara's broader administrative capacity.
+
+== Canon Notes ==
+
+The extracted source gives an 1899 implementation reference but not a full founding history for the ministry. This draft treats the ministry as source-attested for post-adoption Sunline implementation and leaves earlier institutional history open.
+
+[[Category:Organizations]]
+[[Category:Solara]]

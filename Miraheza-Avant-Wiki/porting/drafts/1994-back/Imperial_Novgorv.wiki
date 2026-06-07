@@ -1,0 +1,25 @@
+<!--
+AGGS draft metadata
+title: Imperial Novgorv
+category: Defunct Nation
+status: draft
+era: Historical Reference
+yearStart: unknown
+yearEnd: unknown
+aliases:
+tags: Novgorv, defunct nations
+facts:
+Type: Defunct monarchy
+Government: Constitutional monarchy
+Source basis: `List_of_Defunct_Nations`
+Open canon: Source spelling, dates, location, capital, dynasty, constitutional structure, and successor state need review
+-->
+'''Imperial Novgorv''' is a defunct constitutional monarchy named in the source list of defunct nations.
+
+The title preserves the source spelling '''Novgorv''' until later review confirms whether it is intentional or a dump/source spelling error.
+
+== Canon Limits ==
+
+Do not normalize the name, assign a continent, invent a ruling house, or connect Novgorv to other northern or Zhensanovian polities until stronger source material is reviewed.
+
+[[Category:Defunct Nations]]

@@ -1,0 +1,25 @@
+<!--
+AGGS draft metadata
+title: Okuda Monarchism
+category: Ideology
+status: draft
+era: Ideological Reference
+yearStart: unknown
+yearEnd: 1994
+aliases:
+tags: Okuda, monarchism, ideology
+facts:
+Type: Source-listed ideology branch
+Parent ideology: Monarchism
+Source basis: `List_of_Ideologies`
+Open canon: Name-adjacent relationship to [[Okuda Shogunate]], later Okuda Empire, doctrine, and pre-1994 political use need review
+-->
+'''Okuda Monarchism''' is a source-listed branch of monarchism.
+
+The current source list gives only the name and parent ideology. It should not be merged with the [[Okuda Shogunate]] or post-1994 Okuda Empire material until a dedicated source review confirms continuity.
+
+== Canon Limits ==
+
+Do not assign Okuda Monarchism a party, dynasty, state program, founding date, or pre-1994 political role until stronger source material is reviewed.
+
+[[Category:Ideologies]]

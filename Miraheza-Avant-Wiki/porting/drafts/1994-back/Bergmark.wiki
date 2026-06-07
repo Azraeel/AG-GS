@@ -1,0 +1,26 @@
+<!--
+AGGS draft metadata
+title: Bergmark
+category: Geography
+status: draft
+era: Rhovlandian History
+yearStart: unknown
+yearEnd: 1994
+tags: Rhovland, Rontzken, Viridia
+facts:
+Type: Rhovlandian highland region
+Associated state: [[Imperial Rhovland]]
+Associated language: [[Rontzken]]
+Associated culture: Mountain communities and mining traditions
+Open canon: Exact location, administrative status, borders, cities, and population need review
+-->
+'''Bergmark''' is a highland region associated with [[Imperial Rhovland]] and the [[Rontzken]] language.
+
+The extracted Rontzken source describes Bergmark as one of the language's principal speech regions and ties it to mountain communities, mining settlements, stonework, and highland cultural memory.
+
+== Draft Scope ==
+
+This is a cultural-geography bridge page. It does not yet establish Bergmark's constitutional status, exact borders, major cities, noble families, or 1994 population.
+
+[[Category:Geography]]
+[[Category:Rhovland]]

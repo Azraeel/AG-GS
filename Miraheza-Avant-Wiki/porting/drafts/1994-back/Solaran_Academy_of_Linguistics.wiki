@@ -1,0 +1,39 @@
+<!--
+AGGS draft metadata
+title: Solaran Academy of Linguistics
+category: Organization
+status: draft
+era: Solaran Cultural History
+yearStart: 1900
+yearEnd: 1994
+aliases: Academy of Linguistics of Solara
+tags: Solara, language, Sunline
+facts:
+Type: Scholarly language institution
+State: [[Solara]]
+Reference date: 1900 in source material
+Focus: Linguistics, script development, language research, and terminology support
+Related script: [[Solaran Alphabet]]
+-->
+The '''Solaran Academy of Linguistics''' was a scholarly institution associated with Solaran language research, script development, and terminology support.
+
+== Source Role ==
+
+Source material cites the academy in 1900 for work on the development of the [[Solaran Alphabet|Sunline]] writing system. That places the academy in the immediate aftermath of the 1898 alphabet adoption and connects it to the broader literacy reforms begun under the [[Education Reform Act of 1895]].
+
+== Work ==
+
+The academy studied Solaran grammar, dialect variation, writing systems, and the relationship between the modern [[Solaran Language]] and older [[Solra]]. It likely supported school standards, official spelling, and the adaptation of classical vocabulary into modern public usage.
+
+Its work was more scholarly than ministerial. Where the [[Solaran Ministry of Education]] implemented curriculum and the [[Solaran Language Office]] managed usage, the academy supplied research and prestige.
+
+== Place In Solaran Modernization ==
+
+The academy helped make the Sunline reform appear both modern and culturally legitimate. By studying the older classical script while supporting a simpler public alphabet, it gave Solara a way to modernize without presenting literacy reform as a break from tradition.
+
+== Canon Notes ==
+
+The source does not yet give a firm founding date or institutional charter. This draft uses 1900 as the earliest source-attested reference, not necessarily the date of creation.
+
+[[Category:Organizations]]
+[[Category:Solara]]

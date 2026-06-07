@@ -1,0 +1,30 @@
+<!--
+AGGS draft metadata
+title: Mantara
+category: Geography
+status: draft
+era: Geography
+yearStart: 0
+yearEnd: 1994
+aliases: Mantara continent
+tags: Mantara, Mariposa, geography
+facts:
+Type: Continent
+Known source role: Contains southern [[People's Republic of Mariposa|Mariposa]] in source material
+Source basis: `List of Continents`; `People's Republic of Mariposa`
+Open canon: Exact continental borders and 2003 map placement need review before publication
+-->
+'''Mantara''' is a continent of the Avant world. The extracted source list identifies Mantara as one of the world's continents, and the [[People's Republic of Mariposa]] source places Mariposa in southern Mantara.
+
+This draft exists as a bridge page for the Mariposa batch. It should not be treated as a complete geography article until the 2003 and 2022 map references are reviewed in detail.
+
+== Known Geography ==
+
+The only fixed 1994-back fact in this batch is that Mariposa is associated with southern Mantara. Later publication should add coastlines, neighboring states, mountain systems, maritime routes, and regional names only after map review.
+
+== Canon Notes ==
+
+Mantara is source-backed as a continent name, but its internal geography is not yet developed in the local drafts. Avoid using this page to make hard adjacency claims until the map pass confirms them.
+
+[[Category:Continents]]
+[[Category:Geography]]

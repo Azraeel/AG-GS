@@ -1,0 +1,34 @@
+<!--
+AGGS draft metadata
+title: The International Relief Alliance
+category: Organization
+status: draft
+era: Khalari Imperial Age
+yearStart: 1891
+yearEnd: 1891
+aliases: International Relief Alliance
+tags: Northern Alliance, Murah, Volgastan
+facts:
+Formed: 1891
+Type: Temporary emergency coalition
+Proposed by: [[Northern Alliance]]
+Purpose: Extract trapped foreigners during the [[Siege of Murah]]
+Worked with: Volgastani-Hamed royal forces
+-->
+'''The International Relief Alliance''' was a temporary emergency coalition formed during the [[Siege of Murah]] in 1891.
+
+== Formation ==
+
+The old source says the [[Northern Alliance]] proposed the relief alliance after anti-foreign rebels trapped diplomats, merchants, and other foreign communities in [[Murah]]. The coalition drew on states whose people were caught in the city, including Theorin, Vinterholm, Rhovland, Aurendale, Vespera, Solara, Astoria, and Gwangyanski interests.
+
+== Operation ==
+
+The relief force worked with the Volgastani-Hamed royal army to defend the city and extract foreign communities after seventy-one days of siege.
+
+== Source Limits ==
+
+This draft preserves the relief alliance as a temporary crisis coalition, not a permanent institution. Its exact membership list, commanders, and casualty figures need a later Murah military-detail pass.
+
+[[Category:Organizations]]
+[[Category:Northern Alliance]]
+[[Category:Khalari]]

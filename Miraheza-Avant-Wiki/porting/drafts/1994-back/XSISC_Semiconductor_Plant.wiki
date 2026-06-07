@@ -1,0 +1,28 @@
+<!--
+AGGS draft metadata
+title: XSISC Semiconductor Plant
+category: Organization
+status: draft
+era: Modern Xanaqu
+yearStart: unknown
+yearEnd: 1994
+tags: Xanaqu, XSISC, semiconductor industry, modernization
+facts:
+Type: Industrial project
+Parent institution: [[Xanaqu South Industrial State Cooperation]]
+State: [[People's Federation of Xanaqu]]
+Source period: 1990-2000 modernization section
+Open canon: Location, completion date, capacity, technology level, and 1994 operational status need review
+-->
+The '''XSISC Semiconductor Plant''' is a high-technology industrial project named in the extracted [[Xanaqu South Industrial State Cooperation]] source.
+
+The source places the plant in XSISC's 1990s modernization phase, alongside automation, telecommunications, foreign partnerships, and expanded high-technology manufacturing.
+
+== 1994-Back Treatment ==
+
+Because the source describes the broader period as 1990-2000, this draft should not assume the plant was complete or fully operational by 1994. For the current porting pass, it is safest to treat the plant as an early-1990s modernization trajectory and possible bridge into the post-1994 wiki pass.
+
+The plant is still useful for 1994-back lore because it shows the direction of Xanaqu's industrial policy before the cutoff: state industry was moving from heavy manufacturing and defense production into electronics and advanced manufacturing.
+
+[[Category:Organizations]]
+[[Category:Xanaqu]]

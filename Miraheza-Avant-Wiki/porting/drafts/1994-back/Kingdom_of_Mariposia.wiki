@@ -1,0 +1,44 @@
+<!--
+AGGS draft metadata
+title: Kingdom of Mariposia
+category: Defunct Nation
+status: draft
+era: Postwar Mariposa
+yearStart: 1949
+yearEnd: 1980
+aliases: Kingdom of Mariposa, Mariposian Kingdom
+tags: Mariposa, Mariposia, Continuation War, Mariposian Civil War
+facts:
+Type: Constitutional monarchy in source material
+Formed: 1949 in `List of Defunct Nations`
+Defunct: 1980
+Successor: [[People's Republic of Mariposa]]
+Overthrown by: [[Mariposa People's Liberation Front]]
+Known revolutionary opponent: [[Ryszard Flak]]
+Open canon: Relationship between 1949 formation and the 1949-1951 Continuation War needs review
+Open naming issue: Ryszard Flak source says he was born in 1935 in the "Kingdom of Mariposa," which may indicate an earlier monarchy, old-source wording, or a postwar reconstitution problem
+-->
+The '''Kingdom of Mariposia''' was the postwar Mariposian monarchy overthrown during the [[Mariposian Civil War]]. Source material also uses the related form '''Kingdom of Mariposa''', but that older wording is not yet fully reconciled with the kingdom's 1949 source formation date.
+
+The `List of Defunct Nations` gives the kingdom as a constitutional monarchy formed in 1949 and defunct in 1980. The exact relationship between that 1949 formation date, Vesperan collapse, the [[Continuation War]], and earlier Mariposian monarchy references remains open.
+
+== Postwar Position ==
+
+The [[Avant Great War]] source identifies Mariposia as one of the territories affected by the fall of the [[Vesperan Empire]] and the continuation of rogue Vesperan resistance. This suggests that Mariposian postwar authority was shaped by imperial collapse, occupation, and delayed settlement rather than a clean peacetime transition.
+
+The kingdom's later politics are described through the Ryszard Flak source: aristocratic privilege, social inequality, and political suppression created conditions for opposition organizing.
+
+== Revolutionary Opposition ==
+
+In 1957, [[Ryszard Flak]] began organizing anti-monarchical networks. In 1960, those efforts became the [[Mariposa People's Liberation Front]], which sought to overthrow the monarchy and establish a people's government.
+
+By 1975, protests and armed insurrection had escalated into the Mariposian Civil War. The monarchy was overthrown in 1980 and replaced by the [[People's Republic of Mariposa]].
+
+== Canon Notes ==
+
+The source list uses '''Mariposia''' while the Ryszard Flak source uses '''Mariposa'''. Current drafts keep the kingdom under the `Mariposia` spelling because that is the exact defunct-state title in the source list.
+
+Flak's 1935 birthplace is not linked here as settled canon because the source wording would place a "Kingdom of Mariposa" before this page's 1949 source formation date. This needs a user ruling before publication.
+
+[[Category:Defunct Nations]]
+[[Category:Mariposa]]

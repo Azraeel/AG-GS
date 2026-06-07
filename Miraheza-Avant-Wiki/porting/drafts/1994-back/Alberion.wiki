@@ -1,0 +1,39 @@
+<!--
+AGGS draft metadata
+title: Alberion
+category: Geography
+status: draft
+era: Geographic Reference
+yearStart: 0
+yearEnd: 1994
+aliases: Emeraldine Expanse, Alberion Continent
+tags: Alberion, Solara, Southern Seas, Kinbury Mountains
+facts:
+Type: Continent
+Location: Far southern region of the Avant world in source material
+Known for: Large temperate rainforest and strong climatic influence
+Relevant reviewed state: [[Solara]]
+Other source-named states: Indonesiarab Empire; Vesperan Federation
+Major features: [[Kinbury Mountains]]; [[Great Kinbury Basin]]; [[Southern Seas]]
+Open canon: Exact borders, state roster, ecology details, and post-1994 environmental politics need review
+-->
+'''Alberion''', also called the '''Emeraldine Expanse''' in source material, is a continent in the far southern region of the Avant world. It is most important to the current 1994-back draft set as the continental setting for [[Solara]].
+
+== Geography ==
+
+The extracted source describes Alberion as a temperate continent shaped by the [[Southern Seas]], high precipitation, and extensive rainforest. Its best-attested features are the [[Kinbury Mountains]] and the [[Great Kinbury Basin]].
+
+The source calls Alberion the home of the largest temperate rainforest on the planet. This draft preserves that ecological importance while leaving exact forest boundaries, protected areas, and resource zones open until the map and environmental lore are reviewed.
+
+== Political Role ==
+
+The source names Solara, the Indonesiarab Empire, and the Vesperan Federation as prominent nations or political entities associated with Alberion. Of those, only Solara is currently reviewed in the 1994-back draft set.
+
+For this pass, Alberion should be treated as a geographic bridge for Solaran history, especially Solara's maritime position, southern location, and later role in the [[Avant Great War]] and [[Solara-Khalindar War]].
+
+== Source Limits ==
+
+The source includes environmental concerns such as deforestation and conservation politics, but it does not date those issues. This draft does not treat them as fixed 1994 policy conflicts until a later environmental-history pass confirms their timing.
+
+[[Category:Geography]]
+[[Category:Continents]]

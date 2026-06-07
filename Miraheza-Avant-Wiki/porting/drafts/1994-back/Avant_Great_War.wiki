@@ -1,0 +1,53 @@
+<!--
+AGGS draft metadata
+title: Avant Great War
+category: Conflict
+status: draft
+era: Great War and Postwar Settlement
+yearStart: 1937
+yearEnd: 1949
+aliases: First Avant World War
+tags: Avant Great War, Vesperan Empire, United Alignment of Nations, Imperial Pact
+facts:
+Type: Global war
+Date: 17 August 1937 - 3 December 1949
+Combatants: [[United Alignment of Nations]]; [[Imperial Pact]]
+Result: United Alignment victory; collapse of the [[Vesperan Empire]]; postwar occupation and liberation of former imperial territories; [[Continuation War]]
+Casualties: 105-128 million dead
+-->
+The '''Avant Great War''', also called the '''First Avant World War''', was a global conflict fought from 17 August 1937 to 3 December 1949 between the [[United Alignment of Nations]] and the [[Imperial Pact]]. It was the largest and deadliest war in Avant history, drawing nearly every great power into military, industrial, economic, and scientific mobilization.
+
+The war is most closely associated with the decline and collapse of the [[Vesperan Empire]], whose imperial system had dominated large parts of the world before the conflict. By the late 1930s, Vesperan expansion, client-state politics, strategic bombing doctrine, and competition with anti-imperial coalitions had turned regional rivalries into a global war.
+
+== Background ==
+
+The Vesperan Empire reached its territorial peak around 1936. Its control over occupied territories, industrial corridors, naval routes, and client governments made it the central power of the [[Imperial Pact]]. Resistance to Vesperan dominance developed across older alliances, independent powers, occupied nations, and states threatened by further expansion.
+
+The [[United Alignment of Nations]] emerged as the main anti-Vesperan coalition. Its membership and degree of coordination changed during the war, but its shared aim was to break the Imperial Pact's ability to dominate the postwar order.
+
+== Course Of The War ==
+
+The war became a total war. Civilian economies were redirected into arms production, transport networks became military targets, and the boundary between front line and home front weakened. Tanks, aircraft, long-range bombing, mass conscription, and industrial logistics shaped the conflict.
+
+Strategic bombing caused enormous civilian casualties and destroyed major urban and industrial centers. Occupied territories also saw famine, forced labor, reprisals, genocidal violence, disease, and displacement.
+
+== Khalindar And Solara ==
+
+In 1940, Solara hosted the [[Solaran-Khalindarian Conference of 1940]] at [[Congrave]] to secure Khalindar's wartime support against the Vesperan Empire. Khalindar was promised territorial, economic, infrastructure, and military rewards in exchange for committing resources to the anti-Vesperan war effort.
+
+The failure to deliver the full postwar settlement became one of the most important unresolved legacies of the war and later formed the core of the [[Khalindarian reparations dispute]].
+
+== End Of The War ==
+
+The United Alignment victory on 3 December 1949 ended the Vesperan Empire as a functioning imperial state. Vesperan military, administrative, and colonial systems collapsed across multiple regions. Formerly occupied territories were placed under provisional occupation authorities, restored governments, or independence movements depending on local conditions.
+
+The end of the main war did not immediately bring stability. Rogue Vesperan military elements and remaining imperial commands continued to resist in several territories, beginning the [[Continuation War]].
+
+== Legacy ==
+
+The Avant Great War reshaped the political map of Avant. It ended Vesperan global dominance, created a weak postwar legal order, accelerated decolonization, and left unresolved territorial disputes across former imperial zones.
+
+The war's unsettled promises also shaped later conflicts. The Solara-Khalindar War of 1990-1994 was rooted in Khalindar's belief that its Great War sacrifices had been exploited and then dismissed by Solara.
+
+[[Category:Conflicts]]
+[[Category:Avant Great War]]

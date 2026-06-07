@@ -1,0 +1,51 @@
+<!--
+AGGS draft metadata
+title: People's Republic of Mariposa
+category: Country
+status: draft
+era: Postwar Mariposa
+yearStart: 1980
+yearEnd: 1994
+aliases: People's Republic of Mariposia, Mariposa
+tags: Mariposa, Mantara, Taoism, Istragarde Treaty
+facts:
+Type: People's republic
+Location: Southern [[Mantara]]
+Formed: 1980
+Predecessor: [[Kingdom of Mariposia]]
+Founding conflict: [[Mariposian Civil War]]
+Revolutionary movement: [[Mariposa People's Liberation Front]]
+Ideological influence: [[Taoism]]; [[Radical Taoism]]; [[Taoist Manifesto]]
+Major disputes: [[Mariposa-Rhovland maritime dispute]]; [[Mariposa-Astoria maritime dispute]]
+Open canon: Post-1994 coup and later Mariposian wars belong to a later pass
+-->
+The '''People's Republic of Mariposa''' is a people's republic in southern [[Mantara]]. It was formed in 1980 after the overthrow of the [[Kingdom of Mariposia]] during the [[Mariposian Civil War]].
+
+Mariposa's revolutionary generation was shaped by [[Ryszard Flak]], the [[Mariposa People's Liberation Front]], and Taoist-inspired political ideas imported through the example of [[Xun Tao]] and the [[People's Federation of Xanaqu]].
+
+== Formation ==
+
+Old source material describes Mariposa before 1980 as a kingdom marked by aristocratic privilege, social inequality, and political repression. Ryszard Flak began organizing opposition networks in 1957, founded the Mariposa People's Liberation Front in 1960, and helped turn underground agitation into mass opposition.
+
+By 1975, the opposition had expanded into protests and armed insurrection. The monarchy was overthrown in 1980, establishing the People's Republic of Mariposa. The wider conflict is listed elsewhere as the Mariposian Civil War from 1975 to 1981, so the current draft treats 1980 as the fall of the monarchy and 1981 as possible consolidation of the new regime.
+
+== Ideology And Government ==
+
+Mariposa's revolutionary language drew from [[Taoism]] and [[Radical Taoism]]. Flak's movement used ideas of balance, social justice, local participation, and anti-monarchical liberation, but the new state did not remain a simple copy of Xanaqu's model.
+
+By the early 1980s, Flak had become increasingly marginalized. Source material says the new regime grew more authoritarian and militarized, though the details of the post-1982 political order need a dedicated Mariposian government pass.
+
+== Istragarde Maritime Disputes ==
+
+In the 1980s and early 1990s, Mariposa became a major source of Istragarde-era maritime tension. The [[Treaty of the Concord of Istragarde]] created broad maritime rights and arbitration rules, but weak enforcement allowed disputes to escalate.
+
+The [[Mariposa-Rhovland maritime dispute]] flared in 1983 when Mariposa sent survey ships and naval escorts into a contested eastern strait. The [[Mariposa-Astoria maritime dispute]] escalated in 1990 after Mariposa seized an Astorian fishing vessel and Astoria imposed a blockade on Mariposan shipping.
+
+== Canon Notes ==
+
+The source set varies between '''Mariposa''' and '''Mariposia'''. Current drafts use '''People's Republic of Mariposa''' for the modern state and '''Kingdom of Mariposia''' for the predecessor, while preserving old-name aliases.
+
+The 1995 coup, Eugeniusz Bielszowicki, later patriotic music, and the 1997-onward Mariposian wars are outside this 1994-back pass and should be handled separately.
+
+[[Category:Countries]]
+[[Category:Mariposa]]

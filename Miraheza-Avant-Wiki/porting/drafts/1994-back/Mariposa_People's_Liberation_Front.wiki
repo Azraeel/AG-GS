@@ -1,0 +1,39 @@
+<!--
+AGGS draft metadata
+title: Mariposa People's Liberation Front
+category: Organization
+status: draft
+era: Postwar Mariposa
+yearStart: 1960
+yearEnd: 1994
+aliases: MPLF, Mariposian People's Liberation Front
+tags: Mariposa, Ryszard Flak, Mariposian Civil War, Taoism
+facts:
+Type: Revolutionary movement
+Founded: 1960
+Founder figure: [[Ryszard Flak]]
+Opponent: [[Kingdom of Mariposia]]
+Associated conflict: [[Mariposian Civil War]]
+Result: Helped establish the [[People's Republic of Mariposa]] in 1980
+Open canon: Post-1980 institutional continuity is not yet defined
+-->
+The '''Mariposa People's Liberation Front''' ('''MPLF''') was the revolutionary movement associated with [[Ryszard Flak]] and the overthrow of the [[Kingdom of Mariposia]].
+
+== Formation ==
+
+Flak founded the movement in 1960 after several years of underground organizing. It united opposition factions around anti-monarchical politics, social justice, and a Taoist-inspired language of balance and liberation.
+
+The MPLF drew from [[Taoism]], the [[Taoist Manifesto]], and the example of [[Xun Tao]] in [[People's Federation of Xanaqu|Xanaqu]], but it adapted those ideas to Mariposa's own monarchy, class structure, and political repression.
+
+== Revolutionary Activity ==
+
+The movement operated through clandestine meetings, underground publications, protest networks, and later armed insurrection. Flak's prison text, [[The Path to the Revolution]], became one of the movement's organizing documents after his 1964 arrest.
+
+By 1975, the MPLF had moved from underground organization into open mass protest and armed conflict, beginning the revolutionary phase of the [[Mariposian Civil War]].
+
+== After The Monarchy ==
+
+The MPLF's efforts culminated in the 1980 fall of the monarchy and the establishment of the [[People's Republic of Mariposa]]. The movement's exact post-1980 relationship to the state, military, and later authoritarian turn is not yet confirmed.
+
+[[Category:Organizations]]
+[[Category:Mariposa]]

@@ -1,0 +1,39 @@
+<!--
+AGGS draft metadata
+title: A Wild World
+category: Culture
+status: draft
+era: Solaran Cultural History
+yearStart: 1897
+yearEnd: 1994
+aliases: Wild World
+tags: Jane Pensworth, Solaran Literature, Gaia
+facts:
+Type: Book series
+Author: [[Jane Pensworth]]
+Writing began: 1897
+First book published: 1901
+Fictional setting: [[Gaia]]
+Scope: More than 21 books in source material
+Open canon: Full book list, publication order, publishers, reception, and titles need confirmation
+-->
+'''A Wild World''' is a Solaran book series written by [[Jane Pensworth]].
+
+== Publication Context ==
+
+The source says Pensworth began writing the series in 1897 and that the first book was published in 1901. This places the series in the first generation of Solaran literary production after the [[Education Reform Act of 1895]] and the adoption of the [[Solaran Alphabet|Sunline]] writing system.
+
+The source calls the series famous and says it eventually included more than twenty-one books. It does not provide a full bibliography, publisher history, sales figures, or reception history.
+
+== Fictional Setting ==
+
+The series is set in the fictional world of [[Gaia]]. Source text says the story world begins in 1021 but also covers eras thousands of years before and thousands of years after that point.
+
+One surviving source fragment, preserved locally as [[A Wild World: Book 1]], describes an ancient Gaia mythos involving elves, dragons, high technology, magic, catastrophic war, volcanic destruction, and the later decline of both civilizations.
+
+== Canon Limits ==
+
+''A Wild World'' is treated as fiction inside the AGGSWorld setting. Its fantasy races, magic, ancient empires, and Gaia chronology should not be merged into Avant political history unless the user explicitly decides that Pensworth's work has some separate mythological or metafictional canon role.
+
+[[Category:Culture]]
+[[Category:Solara]]

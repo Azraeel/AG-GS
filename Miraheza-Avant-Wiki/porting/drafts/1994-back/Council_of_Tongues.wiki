@@ -1,0 +1,31 @@
+<!--
+AGGS draft metadata
+title: Council of Tongues
+category: Event
+status: draft
+era: Medieval Belcantese History
+yearStart: 1156
+yearEnd: 1156
+aliases: Belcantese Council of Tongues
+tags: Belcanto, Belcantese Language, Council of Seven Crowns
+facts:
+Type: Language standardization council
+Date: 1156 in source material
+Subject: [[Belcantese Language]]
+Result: Formal grammar and unified writing system in source material
+Related institution: [[Great Conservatory of Belcanto]]
+-->
+The '''Council of Tongues''' was a medieval Belcantese language council dated in source material to 1156. It is credited with establishing the first formal grammar rules for the [[Belcantese Language]] and creating a unified writing system based on adapted Latin characters.
+
+== Background ==
+
+By the twelfth century, the Belcantese polities had developed closer political, commercial, and cultural ties. Shared grammar and writing standards made diplomacy, trade records, song transmission, and legal correspondence easier across the region.
+
+== Legacy ==
+
+The council became one of the foundation points of Belcantese cultural unity. Later language restoration officials used it as evidence that standardized Belcantese had existed long before Vesperan occupation.
+
+The council is also connected in source tradition to the rise of formal musical education at the [[Great Conservatory of Belcanto]], though the exact institutional relationship needs a broader medieval Belcanto pass.
+
+[[Category:Events]]
+[[Category:Belcanto]]

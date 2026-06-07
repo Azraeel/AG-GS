@@ -1,0 +1,27 @@
+<!--
+AGGS draft metadata
+title: Odynosian
+category: Religion
+status: draft
+era: Suomi Cultural History
+yearStart: 1652
+yearEnd: 1994
+aliases: Odynosian religion
+tags: Suomi, religion
+facts:
+Type: Religion or religious tradition
+Associated country: [[Imperial Suomi]]
+Source role: Listed as Suomi's religion in the Imperial Suomi source infobox
+Metadata note: yearStart follows Suomi relevance, not a confirmed religious founding date
+Open canon: Beliefs, institutions, clergy, and relationship to the monarchy need confirmation
+-->
+'''Odynosian''' is a religious tradition associated with [[Imperial Suomi]] in the old source material.
+
+The extracted Suomi source lists Odynosian as the country's religion but does not describe its theology, institutions, clergy, calendar, or relationship to the [[House of Jarvinen]]. This draft preserves the name as a canon anchor only.
+
+== Open Canon ==
+
+Before publication, Odynosian needs a dedicated religion pass. The safest current handling is to treat it as a source-attested Suomi religious identity without inventing doctrine.
+
+[[Category:Religions]]
+[[Category:Suomi]]

@@ -1,0 +1,45 @@
+<!--
+AGGS draft metadata
+title: Imperial Language Academy
+category: Organization
+status: draft
+era: Vesperan Empire
+yearStart: 1715
+yearEnd: 1949
+aliases: Vesperan Imperial Language Academy
+tags: Vesperan Empire, Vesperan Language, Vesperan Alphabet
+facts:
+Type: Imperial language and script authority
+State: [[Vesperan Empire]]
+Likely center: [[Vespera]]
+Established: 1715 in source material
+Responsibilities: Standardization and propagation of official language and script forms
+Related reform: [[Imperial Script Reform of 1725]]
+End as state institution: 1949 collapse of the [[Vesperan Empire]]
+-->
+The '''Imperial Language Academy''' was the main language authority of the [[Vesperan Empire]]. It supervised official use of the [[Vesperan Language]] and [[Vesperan Alphabet]] across imperial administration, education, diplomacy, law, military records, and ceremonial writing.
+
+== Establishment ==
+
+Source material places the Academy's establishment in 1715, shortly after the [[Imperial Proclamation of 1710]]. The timing fits the early imperial need to turn the older kingdom language into a standardized tool for a larger empire.
+
+The Academy inherited earlier kingdom-era language policy associated with the [[Royal Language Decree of 1652]] and expanded it into a more formal imperial system.
+
+== Responsibilities ==
+
+The Academy regulated official grammar, spelling, formal vocabulary, administrative terminology, and approved script forms. It also helped prepare clerical guides and official language used by imperial ministries.
+
+In practice, this made the Academy a political institution as much as a scholarly one. Standard Vesperan reduced local variation and made imperial records easier to audit from the capital.
+
+== Imperial Policy ==
+
+The Academy's work supported cultural integration policy. Provincial governments and occupation administrations could use its standards to introduce Vesperan in schools, courts, offices, archives, and official correspondence.
+
+This produced uneven results. In some core provinces, standardized Vesperan became a normal administrative language. In occupied regions such as [[Belcanto Nations|Belcanto]] and Veszpremi border districts, the same policy became associated with suppression and resistance.
+
+== Collapse And Legacy ==
+
+The Academy ceased to operate as a state authority when the Vesperan Empire collapsed in 1949. Surviving manuals, dictionaries, grammar texts, and archive practices influenced later scholarship and post-imperial cultural preservation.
+
+[[Category:Organizations]]
+[[Category:Vesperan Empire]]

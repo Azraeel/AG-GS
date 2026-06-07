@@ -1,0 +1,49 @@
+<!--
+AGGS draft metadata
+title: Education Reform Act of 1895
+category: Event
+status: draft
+era: Solaran Cultural History
+yearStart: 1895
+yearEnd: 1895
+aliases: Solaran Education Reform Act of 1895
+tags: Solara, education, literacy, Sunline
+facts:
+Type: Education and literacy reform
+State: [[Solara]]
+Passed by: [[Solaran Parliament]]
+Testing authority: [[Solaran Parliament]] education committee
+Post-adoption implementation: [[Solaran Ministry of Education]]
+Main result: Commissioned development of the [[Solaran Alphabet]]
+Follow-up adoption: 1898 Sunline adoption
+-->
+The '''Education Reform Act of 1895''' was a Solaran literacy and education reform that commissioned the development of the [[Solaran Alphabet|Sunline]] alphabet.
+
+== Background ==
+
+By the late nineteenth century, [[Solara]] needed a writing system that could support mass schooling, modern printing, newspapers, commerce, military bureaucracy, and parliamentary administration. The older [[Solra]] script remained prestigious but was too difficult for rapid national literacy work.
+
+The reform answered that problem by authorizing a new practical alphabet for the [[Solaran Language]].
+
+== Provisions ==
+
+Source material identifies the [[Solaran Parliament]] as the commissioning authority and describes the reform as a national literacy initiative. The act created the political basis for school testing, language-office review, and eventual official adoption of Sunline.
+
+The new alphabet was expected to be easier to learn, compatible with printing technology, distinct from other scripts, and suited to everyday communication.
+
+== Implementation ==
+
+Parliament's education committee oversaw the 1895-1898 testing period in the current draft structure. The [[Solaran Language Office]] is source-attested with the 1898 official standard.
+
+After adoption, the [[Solaran Ministry of Education]] is attested by 1899 implementation guidance and the [[Solaran Academy of Linguistics]] by 1900 post-adoption study.
+
+After three years of school testing, Sunline was officially adopted in 1898. The reform became a major landmark in [[Solaran Education]] and modern Solaran state-building.
+
+== Legacy ==
+
+The act helped make Solaran public life more legible and unified. It did not remove the ceremonial importance of [[Solra]], but it separated mass literacy from elite classical training.
+
+This made Solara better able to support modern administration before the [[Avant Great War]] and the later [[Solara-Khalindar War]].
+
+[[Category:Events]]
+[[Category:Solara]]

@@ -1,0 +1,42 @@
+<!--
+AGGS draft metadata
+title: Tsardom of Nogoyev
+category: Nation
+status: draft
+era: Postwar and Modern Avant
+yearStart: 1956
+yearEnd: 1994
+aliases: Nogoyev
+tags: Nogoyev, Zhensanov, Tsarism, cold peace
+facts:
+Type: Militarized monarchy with limited democratic institutions
+Capital: [[Migov]]
+Predecessor: [[Kingdom of Nogoyev]]
+Major conflict: [[Nogoyevian War of Independence]]
+Foreign relations by 1994: Hostile to [[Union of Zhensanov]]; aligned with [[People's Federation of Xanaqu]] and Hoshigoro by old source
+Open canon: Exact coronation, royal house, and 1956 settlement terms need confirmation
+-->
+The '''Tsardom of Nogoyev''' is the post-independence Nogoyevian state that emerged from the [[Nogoyevian War of Independence]]. By 1994, it was a heavily militarized monarchy with limited democratic institutions, strong nationalist politics, and deep hostility toward the [[Union of Zhensanov]].
+
+The extracted source describes Nogoyev as an absolute monarchy with integrated democratic elements. The Tsar holds supreme authority over foreign policy, defense, and national security, while elected bodies handle some legislative and administrative functions.
+
+== Formation ==
+
+The Tsardom's modern form came from the independence movement that defeated Zhensanov's attempt to reassert control from 1949 to 1956. The war restored monarchy as the core symbol of Nogoyevian sovereignty.
+
+The precise coronation, royal house, and legal settlement that transformed wartime Nogoyev into the Tsardom need confirmation. The safest current reading is that large-scale hostilities ended in 1956, while the political dispute with Zhensanov remained unresolved.
+
+== Society And Military ==
+
+Nogoyevian state culture emphasizes military service, national pride, historical grievance, and resistance to Zhensanovian influence. The government promotes a narrative that independence was won through sacrifice against a larger federal power.
+
+The state maintains large official forces and a substantial paramilitary sphere. The source says paramilitary groups conduct raids and sabotage against Zhensanovian territory, creating a blurred line between state policy, proxy action, and irregular warfare.
+
+== Foreign Relations By 1994 ==
+
+Nogoyev's foreign policy is dominated by the [[Zhensanov-Nogoyev cold peace]]. The border remains heavily militarized, and the lack of a comprehensive peace treaty leaves both states prepared for renewed conflict.
+
+Old source material describes Nogoyev as receiving military or technological support from Hoshigoro and the [[People's Federation of Xanaqu]]. Those relationships need fuller source-backed articles before the exact alliance structure is hardened.
+
+[[Category:Nations]]
+[[Category:Nogoyev]]

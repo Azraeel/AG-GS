@@ -1,0 +1,35 @@
+<!--
+AGGS draft metadata
+title: Imperial Rhovland
+category: Country
+status: draft
+era: Northern Alliance
+yearStart: 1839
+yearEnd: 1994
+aliases: Imperial Duchy of Rhovland, Rhovland
+tags: Rhovland, Northern Alliance, Bakorian War, Viridia
+facts:
+Government: Imperial duchy
+Capital: St. Blane
+Alliance: [[Northern Alliance]]
+Languages: [[Witersckar]], [[Geslariena]], [[Rontzken]]
+Relevant role: Covert supporter of the [[Bakorian Republic]] during the [[Bakorian War]]
+-->
+'''Imperial Rhovland''', formally the '''Imperial Duchy of Rhovland''', is a major [[Northern Alliance]] member and one of the alliance's original powers.
+
+== State Profile ==
+
+Rhovland is described in extracted source material as an imperial duchy with St. Blane as its capital. Its federal administrative language is [[Witersckar]], with [[Geslariena]] and [[Rontzken]] also associated with Rhovlandian regions.
+
+== Alliance Role ==
+
+Rhovland joined Theorin and Vinterholm in the 1839 alliance system that became the Northern Alliance. The alliance defended old-world monarchies and aligned states while balancing threats from Astoria, eastern powers, and later Vesperan expansion.
+
+During the [[Bakorian War]], Rhovland provided covert military support, training, equipment, intelligence, and diplomatic backing to the [[Bakorian Republic]]. That support was limited by the alliance's desire to avoid direct war with [[Astoria]] and by increasing concern about the [[Vesperan Empire]].
+
+== Later Importance ==
+
+Rhovland remained important in postwar maritime politics. The Istragarde framework later failed to resolve the [[Mariposa-Rhovland maritime dispute]] over the eastern [[Straits of Avangard]], showing that the region's security problems survived the Bakorian and Great War eras.
+
+[[Category:Countries]]
+[[Category:Northern Alliance]]

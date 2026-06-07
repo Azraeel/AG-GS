@@ -1,0 +1,48 @@
+<!--
+AGGS draft metadata
+title: Taoism
+category: Ideology
+status: draft
+era: Modern Avant
+yearStart: 1936
+yearEnd: 1994
+aliases: Political Taoism
+tags: Taoism, Taoist Manifesto, Xanaqu, Mariposa, Kaonism
+facts:
+Type: Political ideology in source material
+Foundational text: [[Taoist Manifesto]]
+Core themes: Balance, harmony, ethical leadership, decentralization, social welfare, ecological order
+Associated state: [[People's Federation of Xanaqu]]
+Foreign influence: [[Ryszard Flak]] and the Mariposian revolutionary movement
+Intellectual predecessor: [[Kaonism]]
+Open canon: Religious Taoism, if it exists in AGGSWorld, should be separated from this political ideology
+-->
+'''Taoism''' is a political ideology in the old Avantpedia source material. It is not treated here as a religion. Its political form emphasizes balance, harmony, ethical leadership, decentralization, social welfare, and alignment between law and the natural order.
+
+The ideology's central text is the [[Taoist Manifesto]], which became associated with [[Xun Tao]], the [[Taoist Party]], and the founding of the [[People's Federation of Xanaqu]].
+
+== Intellectual Background ==
+
+Old Kaonist source material describes [[Kaonism]] as a philosophical predecessor to political Taoism. Kaonism emerged in Saochi/Saochai in the nineteenth century and emphasized moralized authority, restrained hierarchy, collective stewardship, and ritual reform.
+
+This draft treats Kaonism as part of Taoism's intellectual background, not as proof that the Xanaq Taoist movement was controlled by Saochai. The source preserves an eastward migration of Kaonist ideas after the [[Purge of 1865]], which later helped shape Taoist political vocabulary.
+
+== Principles ==
+
+Political Taoism argues that government should prevent domination by any single faction, protect vulnerable communities, and keep institutions simple enough to remain accountable. It favors local governance, social welfare, ecological restraint, and leadership based on humility and moral conduct.
+
+These principles could support nonviolent reform, worker participation, and decentralized administration. They could also be radicalized by movements that believed existing states were too corrupt or hierarchical to reform peacefully.
+
+== Spread Beyond Xanaqu ==
+
+In Xanaqu, Taoism became a state-founding ideology after the fall of the [[Bu Dynasty]] and the victory of Xun Tao's movement in the [[Xanaq Civil War]].
+
+In Mariposa, [[Ryszard Flak]] interpreted Xun Tao's example as a model for anti-monarchical revolution. His movement eventually produced a more militant branch expressed through [[Radical Taoism]], the [[Mariposa People's Liberation Front]], and [[The Path to the Revolution]].
+
+== Canon Notes ==
+
+The source set includes later branches such as Radical or Revolutionary Taoism and Ultravisionary Taoism. This 1994-back draft covers the broad ideological parent and the branches relevant to Xanaqu and Mariposa before 1994.
+
+[[Category:Ideologies]]
+[[Category:Xanaqu]]
+[[Category:Mariposa]]

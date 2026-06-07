@@ -1,0 +1,29 @@
+<!--
+AGGS draft metadata
+title: General Cheng Jin
+category: Person
+status: draft
+era: Modern Xanaqu
+yearStart: 1934
+yearEnd: 1936
+aliases: Cheng Jin
+tags: Xanaqu, Bu Dynasty, Xanaq Republicans, Xanaq Civil War
+facts:
+Type: Military figure
+Affiliation: Dynastic and republican opposition to [[Xun Tao]]
+Associated movement: [[Xanaq Republicans]]
+Associated conflict: [[Xanaq Civil War]]
+Open canon: Birth date, command, rank basis, fate after the war, and later role need review
+-->
+'''General Cheng Jin''' was a military figure associated with the dynastic and republican opposition during the formation crisis of the [[People's Federation of Xanaqu]].
+
+The extracted Xanaqu source says that, after the decline or collapse of the [[Bu Dynasty]], Cheng Jin and the [[Xanaq Republicans]] attempted to found a rival state in the north. The [[Red Army of Xanaqu]] under [[Xun Tao]] defeated that effort in the [[Xanaq Civil War]].
+
+== Canon Limits ==
+
+The source does not yet provide Cheng Jin's birth date, exact command, ideology, relationship to the Bu court, fate after defeat, or whether he was among the republican members later pardoned by Xun Tao.
+
+Current drafts therefore treat him only as a named anchor for the 1934-1936 succession crisis.
+
+[[Category:People]]
+[[Category:Xanaqu]]

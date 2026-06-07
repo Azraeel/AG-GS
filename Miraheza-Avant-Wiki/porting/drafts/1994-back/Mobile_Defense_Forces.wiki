@@ -1,0 +1,28 @@
+<!--
+AGGS draft metadata
+title: Mobile Defense Forces
+category: Organization
+status: draft
+era: Astorian Expansion Era
+yearStart: 1931
+yearEnd: 1935
+tags: Astoria, Bakorian War, military
+facts:
+Type: Astorian military consolidation force
+Associated state: [[Astoria]]
+Relevant conflict: [[Bakorian War]]
+Role: Securing captured areas and protecting supply lines
+Coverage scope: Bakorian War use only; formation and disbandment dates not fixed
+-->
+The '''Mobile Defense Forces''' were Astorian military formations used to secure captured territory during the [[Bakorian War]].
+
+== Role ==
+
+The Bakorian War source describes Astorian operations as a combination of rapid breakthroughs by the [[Janissary Corps]] and consolidation by the Mobile Defense Forces. Their tasks included securing captured areas, protecting logistics, and reducing the ability of Bakorian guerrilla forces to disrupt supply lines.
+
+== Strategic Importance ==
+
+The forces made Astorian offensives more durable. Rather than relying only on rapid attacks, Astoria could hold captured areas, reopen roads, and turn battlefield gains into permanent control.
+
+[[Category:Organizations]]
+[[Category:Astoria]]

@@ -1,0 +1,56 @@
+<!--
+AGGS draft metadata
+title: Vesperan Alphabet
+category: Culture
+status: draft
+era: Cultural History and Vesperan Empire
+yearStart: 1350
+yearEnd: 1994
+aliases: Vesperan Script, Vesperan writing system
+tags: Vesperan Empire, Vesperan Language, writing systems
+facts:
+Type: Alphabet and writing system
+Language: [[Vesperan Language]]
+Early standardization: [[Royal Scriptorial Decree]]
+Kingdom codification: [[Royal Language Decree of 1652]]
+Imperial reform: [[Imperial Script Reform of 1725]]
+Official script period: 1650-1949
+Open canon: Source pages disagree on whether the mature alphabet had 28 or 32 letters
+-->
+The '''Vesperan Alphabet''' was the writing system used for the [[Vesperan Language]]. It developed from western scribal traditions into the official script of the [[Vesperan Kingdom]] and [[Vesperan Empire]].
+
+The script was important to Vesperan rule because it allowed the empire to standardize decrees, religious texts, military orders, legal records, academic writing, inscriptions, and provincial administration across a large territory.
+
+== Origins ==
+
+Source material places the early Vesperan script tradition in the western regions before the rise of the empire. It describes an older western writing tradition that developed independently from eastern scripts and was shaped by traders, religious scribes, court recorders, and local political institutions.
+
+The first major standardization is attributed to the [[Royal Scriptorial Decree]], associated in the source with [[King Aurelius III]] and dated around 1350. This produced a more stable letter inventory and formal scribal practice for royal and religious use.
+
+== Kingdom Codification ==
+
+The foundation of the [[Vesperan Kingdom]] in 1650 gave the script a stronger state role. The [[Royal Language Decree of 1652]] standardized Classical Vesperan for law and administration and codified formal and cursive script forms.
+
+This made the alphabet part of state infrastructure. Clerks, judges, court officials, administrators, and merchants could use shared written forms even when spoken dialects differed.
+
+== Imperial Reform ==
+
+During the imperial period, the [[Imperial Language Academy]] regulated spelling, formal usage, official type styles, administrative handwriting, and ceremonial inscriptions. The [[Imperial Script Reform of 1725]] is described in source material as the major imperial refinement of printed, administrative, diplomatic, and monumental forms.
+
+Imperial Vesperan writing appeared in ministry records, military orders, court archives, temple inscriptions, textbooks, treaty drafts, and public proclamations.
+
+== Post-Imperial Use ==
+
+After the fall of the [[Vesperan Empire]] in 1949, the alphabet no longer served a unified imperial state. It continued in archival work, historical scholarship, cultural preservation, ceremonial documents, and artistic or architectural references.
+
+The script also carried political memory. For loyalists, it represented the continuity of imperial culture. For former occupied peoples, it could represent coercive education, forced administration, and cultural assimilation.
+
+== Canon Notes ==
+
+The extracted pages disagree on the mature letter count. The language source describes a 28-letter alphabet, while the alphabet source describes 32 letters with extended forms. This draft preserves the conflict for review.
+
+The source includes detailed glyph tables, diacritical systems, base-12 numerals, and specialized punctuation. Those are useful design material, but this draft does not harden every technical feature as final AGGSWorld canon until the orthography is reviewed.
+
+[[Category:Culture]]
+[[Category:Writing systems]]
+[[Category:Vesperan Empire]]

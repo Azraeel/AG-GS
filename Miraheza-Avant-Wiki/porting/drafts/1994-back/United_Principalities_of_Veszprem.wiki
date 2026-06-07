@@ -1,0 +1,50 @@
+<!--
+AGGS draft metadata
+title: United Principalities of Veszprem
+category: Nation
+status: draft
+era: Pre-Great War and Great War
+yearStart: unknown
+yearEnd: 1949
+aliases: Veszpremi Principalities, Old Veszprem
+tags: Veszprem, Veszpremi Language, Vesperan Empire, Veszprem Invasion
+facts:
+Type: Historical Veszpremi state
+Capital: Veszprem Central
+Successor: [[Federated Syndicates of Veszprem]]
+Major conflict: [[Veszprem Invasion]]
+Language: [[Veszpremi Language]]
+-->
+The '''United Principalities of Veszprem''' were the historical Veszpremi state that preceded the modern [[Federated Syndicates of Veszprem]]. The principalities were a forested, industrial, and linguistically distinct state known for metallurgy, precision engineering, fortified mountain routes, and a strong tradition of local technical guilds.
+
+Although later Veszpremi governments presented the principalities as a single ancient national community, the state was a federation of regional houses, industrial towns, forest districts, and military principalities. Their unity depended less on centralized bureaucracy than on shared language, industrial interdependence, and a common fear of Vesperan expansion.
+
+== Society And Economy ==
+
+Veszprem's geography shaped its politics. Dense forests and mountains protected the interior, while river corridors and rail towns connected mines, foundries, machine shops, and military workshops. The principalities developed a technical elite of engineers, metallurgists, surveyors, and fortress builders.
+
+The [[Veszpremi Language]] became central to administration and industry. Its complex grammar and specialized technical vocabulary made it difficult for outsiders to govern Veszpremi communities without local cooperation.
+
+The principalities were not isolationist in the modern sense. They traded tools, metal goods, weapons parts, and engineering services, but they guarded technical knowledge closely and resisted foreign control over strategic industries.
+
+== Vesperan Pressure ==
+
+By the early 20th century, the [[Vesperan Empire]] viewed Veszprem as both a prize and a threat. Veszpremi steel production and precision workshops could strengthen any coalition opposing imperial dominance. Vesperan planners also feared that Veszprem's organized labor circles and communal industrial practices could inspire resistance in occupied territories.
+
+The crisis peaked in 1913 after Veszprem entered an industrial cooperation arrangement with northern partners outside the Vesperan sphere. Vespera responded with the [[Veszprem Invasion]], a campaign designed to seize factories and border facilities without destroying them.
+
+== Partial Occupation ==
+
+The invasion ended with Vespera occupying important border industrial districts while failing to conquer the Veszpremi core. This created a divided Veszpremi experience. Occupied communities endured forced production, language pressure, and labor discipline. The interior remained independent but became more defensive, suspicious, and militarized.
+
+The partial occupation gave rise to underground worker networks, technical sabotage cells, illegal schools, and resistance couriers. These groups later became associated with the [[Veszpremi Underground]].
+
+== Transition After 1949 ==
+
+The defeat of the Vesperan Empire in the [[Avant Great War]] destroyed the imperial occupation system. In 1949, Veszpremi resistance networks, worker councils, and surviving regional authorities moved to reunify the occupied belt with the interior. The resulting [[Syndicate Revolution of 1949]] ended the old principalities as a political form.
+
+Later Veszpremi governments claimed continuity with the principalities, but the state that emerged after 1949 was different: more centralized, more ideological, more militarized, and eventually reorganized into the [[Federated Syndicates of Veszprem]].
+
+[[Category:Nations]]
+[[Category:Veszprem]]
+[[Category:Historical States]]

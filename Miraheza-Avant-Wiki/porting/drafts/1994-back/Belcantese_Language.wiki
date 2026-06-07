@@ -1,0 +1,56 @@
+<!--
+AGGS draft metadata
+title: Belcantese Language
+category: Culture
+status: draft
+era: Cultural History and Postwar Era
+yearStart: 300
+yearEnd: 1994
+aliases: Belcantese, Belkanski
+tags: Belcanto, Belcantese language, Vesperan occupation
+facts:
+Type: Language
+Native name: Belkanski in source material
+Primary state: [[Belcanto Nations]]
+Script: Modified Latin alphabet in source material
+Early written evidence: [[Forest Codex]]
+Medieval standardization: [[Council of Tongues]]
+Occupation role: Resistance language under Vesperan rule
+Postwar restoration: [[Language Restoration Act of 1950]]
+Open canon: 2020 speaker numbers and later references are outside the 1994-back pass
+-->
+The '''Belcantese Language''', called '''Belkanski''' in source material, is the main language of the [[Belcanto Nations]] and one of the central markers of Belcantese identity. It developed from older northern forest and desert dialects and became closely associated with music, oral memory, regional autonomy, and resistance to Vesperan rule.
+
+== Early Development ==
+
+Source material places the earliest Belcantese-speaking communities in the northern forests and desert regions. Their language developed specialized vocabulary for forest travel, seasonal movement, agriculture, mining, maritime trade, and desert survival.
+
+The [[Forest Codex]], dated in source material to around 650, is described as the earliest known written Belcantese text. Later medieval standardization is associated with the [[Council of Tongues]] in 1156, which created formal grammar rules and a unified written tradition.
+
+== Medieval And Federal Use ==
+
+Belcantese became the common language of the pre-conquest Belcantese polities. It supported diplomacy, trade, musical education, court records, and coordination among regional kingdoms later grouped in source material as the [[United Kingdoms of Belcanto]].
+
+The language retained regional variation. Source material names several regional speech traditions tied to the old Belcantese nations, but this draft does not harden every dialect into a separate article until the political geography is reviewed.
+
+== Vesperan Occupation ==
+
+The [[Belcanto Campaign]] of 1892-1895 brought Belcanto under the [[Vesperan Empire]]. Imperial authorities promoted [[Vesperan Language|Vesperan]] in government, schools, and public culture, while limiting Belcantese institutional life.
+
+Occupation strengthened the language's political meaning. Underground schools, coded songs, private manuscripts, and oral teaching preserved Belcantese literacy. The [[Resistance Songbook]], compiled between 1920 and 1945 in source material, became one of the main symbols of this period.
+
+== Postwar Restoration ==
+
+After the Vesperan collapse in 1949, Belcantese was restored as the official national language of the Belcanto Nations. The [[Language Restoration Act of 1950]] established the [[Belcantese Language Institute]] to standardize postwar grammar, restore education, and develop terminology for government, reconstruction, technology, and diplomacy.
+
+By the early 1990s, Belcantese served as a language of state administration, public education, cultural memory, literature, and federal identity.
+
+== Canon Notes ==
+
+The source gives 2020 speaker estimates and later institutional references. This 1994-back draft preserves the historical language spine and avoids using later demographic numbers as current canon for 1994.
+
+The source also lists Vesperan among official or recognized languages in the modern country infobox. Current drafts treat Vesperan as an important archival and post-imperial legacy language unless the user confirms that it has equal official status in postwar Belcanto.
+
+[[Category:Culture]]
+[[Category:Languages]]
+[[Category:Belcanto]]

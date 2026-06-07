@@ -1,0 +1,40 @@
+<!--
+AGGS draft metadata
+title: Khalari
+category: Geography
+status: draft
+era: General Geography
+yearStart: 0
+yearEnd: 1994
+aliases: Khalari Continent
+tags: Khalari, Volgastan, Orinian Empire, Svetkhanul, Karkalnadag
+facts:
+Type: Continent
+Location: Eastern Avant world
+Noted for: Large deserts, river valleys, southern mountains, forests, and major regional powers
+Relevant states: [[Volgastan Baathist Republic]]; [[Orinian Empire]]; [[Svetkhanul Republic]]; [[Karkalnadag]]; [[Khalari Emirates]]; [[Arabogradsk-Hamed Caliphate]]
+Map context: 2003 and 2022 reference maps place the Khalari powers in the eastern world region
+Coverage note: yearEnd indicates this 1994-back draft scope, not the end of Khalari as a continent
+-->
+'''Khalari''' is the largest continent in the Avant world, located in the eastern world region. The extracted source describes it as a vast landmass defined by large desert systems, river valleys, coastal forests, wetlands, southern mountains, and competing regional powers.
+
+== Geography ==
+
+The northern and central parts of Khalari are associated with broad desert zones. River corridors and coasts support seasonal forests, wetlands, ports, and settlement belts. The southern and border regions include mountain systems, temperate forests, deciduous forests, fertile plains, and strategic passes.
+
+The source material names several important Khalari states and regions, including [[Volgastan Baathist Republic|Volgastan]], the [[Orinian Empire]], the [[Svetkhanul Republic]], [[Karkalnadag]], the [[Khalari Emirates]], and the [[Arabogradsk-Hamed Caliphate]].
+
+== Political Importance ==
+
+Khalari is a major theater for post-imperial and post-Istragarde politics. Earlier Vesperan expansion reached eastern territories later associated with Khalindar and Volgastan. By the nineteenth century, the region was tied into Northern Alliance eastern expeditions, the [[Svetian War]], and the [[Volgastani-Hamed Empire]]'s struggle with outside powers.
+
+By the late twentieth century, Khalari contained several large and militarized states. Volgastan's expansionist behavior in the 1980s and early 1990s made the region one of the clearest examples of the [[Treaty of the Concord of Istragarde]] failing to enforce its own borders and arbitration rules.
+
+== Source Limits ==
+
+The extracted Khalari page contains a heading typo that calls the geography section Erythrea. This draft treats that as a source error and preserves Khalari as the eastern desert continent named in the title, list of continents, and map context.
+
+The source and maps also vary on names such as United Provinces of Karkalnadag and Karkalnadag Kingdom. Those variants are preserved on the relevant bridge pages until the final state names are reviewed.
+
+[[Category:Geography]]
+[[Category:Continents]]

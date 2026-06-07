@@ -1,0 +1,36 @@
+<!--
+AGGS draft metadata
+title: Imperial Script Reform of 1725
+category: Event
+status: draft
+era: Vesperan Empire
+yearStart: 1725
+yearEnd: 1725
+aliases: Vesperan Imperial Script Reform
+tags: Vesperan Empire, Vesperan Alphabet, Imperial Language Academy
+facts:
+Type: Imperial writing-system reform
+State: [[Vesperan Empire]]
+Agency: [[Imperial Language Academy]]
+Date: 1725
+Subject: [[Vesperan Alphabet]]
+Result: Standardized printed, cursive, diplomatic, and monumental script forms in source material
+-->
+The '''Imperial Script Reform of 1725''' was an early imperial reform of the [[Vesperan Alphabet]]. Source material describes it as the point at which the [[Imperial Language Academy]] refined the script for imperial printing, administration, diplomacy, and public inscriptions.
+
+== Background ==
+
+The reform followed the [[Imperial Proclamation of 1710]] and the establishment of the Imperial Language Academy in 1715. The early empire needed written standards that could support mass records, provincial administration, treaty correspondence, military orders, and monumental ceremony.
+
+== Effects ==
+
+The reform standardized printed type, simplified administrative handwriting, created diplomatic forms for foreign correspondence, and regularized monumental inscription styles used in state architecture and religious settings.
+
+The reform also strengthened the relationship between script and imperial authority. Written Vesperan became easier to reproduce, teach, and inspect across a growing bureaucracy.
+
+== Legacy ==
+
+Later scholars treated the reform as one of the major reasons Imperial Vesperan records remained relatively consistent across the eighteenth and nineteenth centuries. The reform also influenced post-imperial preservation of archives after the empire's collapse in 1949.
+
+[[Category:Events]]
+[[Category:Vesperan Empire]]

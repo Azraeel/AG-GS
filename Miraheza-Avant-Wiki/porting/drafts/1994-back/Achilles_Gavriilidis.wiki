@@ -1,0 +1,48 @@
+<!--
+AGGS draft metadata
+title: Achilles Gavriilidis
+category: Person
+status: draft
+era: Postwar Political Ideologies
+yearStart: 1960
+yearEnd: 1994
+aliases: Gavriilidis
+tags: Malonia, Dracoism, Dracoist Malonia
+facts:
+Type: Political figure and theorist
+Nationality: Malonian
+Known for: Founder figure of [[Dracoism]]
+Profession: Lawyer; political organizer
+Associated state: [[Dracoist Malonia]]
+-->
+'''Achilles Gavriilidis''' was a Malonian lawyer, political organizer, and founder figure of [[Dracoism]]. He rose to prominence during the mid-20th century, when [[Dracoist Malonia|Malonia]] was struggling with the legacy of Vesperan domination, postwar reconstruction, and political instability.
+
+The old source record describes Gavriilidis as radical and brutal. This draft keeps that characterization, but treats his biography cautiously because exact offices, dates, and later titles still need canon confirmation.
+
+== Background ==
+
+Gavriilidis came from Malonia's capital region and trained as a lawyer. His legal career shaped the way he argued politics: he treated the state as an instrument that should define order, punish disloyalty, and coordinate society toward national survival.
+
+He entered public life after the [[United Alignment intervention in Malonia]], a period when Malonia was formally independent but still economically weak and politically uncertain. Gavriilidis used that instability to attack liberal reconstruction, foreign aid dependence, and pluralist politics.
+
+== Development Of Dracoism ==
+
+In the 1960s, Gavriilidis helped define the ideas that became Dracoism. He argued that Malonia had been humiliated because its state had been too weak to resist foreign control. His solution was a disciplined national order built around unity, hierarchy, economic coordination, cultural revival, and military preparedness.
+
+Gavriilidis borrowed some language from worker politics, but he rejected independent worker control. Under Dracoism, workers were to be integrated into state-sanctioned bodies and aligned with national goals.
+
+His ideology also included the most dangerous parts of Dracoist thought: racial superiority, forced displacement, cultural suppression, and the claim that dissent could be treated as treason.
+
+== Influence By 1994 ==
+
+By 1993-1994, Dracoist leaders had gained decisive influence in Malonian government. Gavriilidis's writings and political methods became central to state propaganda, legal restructuring, and security doctrine.
+
+Whether Gavriilidis personally held formal state office during every stage of consolidation needs confirmation. His ideological influence, however, was already fixed by 1994.
+
+== Legacy ==
+
+Gavriilidis is remembered by supporters as the theorist who gave Malonia discipline after generations of foreign control. Critics remember him as the architect of a doctrine that turned national trauma into authoritarian rule, repression, and future expansionism.
+
+[[Category:People]]
+[[Category:Malonia]]
+[[Category:Ideologies]]

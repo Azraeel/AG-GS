@@ -1,0 +1,45 @@
+<!--
+AGGS draft metadata
+title: Solaran-Khalindarian Conference of 1940
+category: Treaty
+status: draft
+era: Great War and Postwar Settlement
+yearStart: 1940
+yearEnd: 1940
+aliases: Solaran-Khalindarian Confederence of 1940, Congrave Conference
+tags: Solara, Khalindar, Avant Great War
+facts:
+Date: 1940
+Place: [[Congrave]], [[Solara]]
+Participants: [[Solara]]; [[Empire of Khalindar]]
+Key figures: Solaran leader [[Alistair McGregor]]; Foreign Minister [[Eliza Harrington]]; Emperor [[Mikael Khalindar II]]; General [[Fredrik Hagen]]
+Result: Khalindarian support for the anti-Vesperan war effort in exchange for territorial, economic, infrastructure, and military promises
+-->
+The '''Solaran-Khalindarian Conference of 1940''' was a wartime diplomatic conference held in [[Congrave]], [[Solara]], during the [[Avant Great War]]. It secured Khalindar's support against the [[Vesperan Empire]] and became the origin point of the later [[Khalindarian reparations dispute]].
+
+The old Miraheze page title misspelled the event as "Confederence." The corrected title is "Conference."
+
+== Background ==
+
+By 1940, the [[United Alignment of Nations]] needed additional manpower, geography, and pressure against the Vesperan Empire. Khalindar was strategically positioned to tie down Vesperan forces but was unwilling to commit without major guarantees.
+
+Solara viewed Khalindar as useful to the anti-Vesperan war effort. Khalindar viewed the war as an opportunity to secure territory, resources, and recognition that would expand imperial influence.
+
+== Negotiations ==
+
+The Solaran delegation was led by [[Alistair McGregor]] and Foreign Minister [[Eliza Harrington]]. Khalindar was represented by Emperor [[Mikael Khalindar II]] and General [[Fredrik Hagen]].
+
+The agreement promised Khalindar territorial gains from Vesperan-held lands, favorable trade access, infrastructure investment in newly acquired areas, military aid, training, intelligence sharing, and logistical support.
+
+== Postwar Dispute ==
+
+The conference became controversial after the Vesperan defeat in 1949. Khalindar argued that its wartime sacrifices had been made on the basis of Solaran promises. Solara and other postwar decision-makers did not transfer the full promised settlement.
+
+Old source material says some promised territories were instead absorbed into the Buda Republic and Belcanto Nations. Khalindar treated this as a breach of the 1940 agreement and repeatedly demanded reparations.
+
+== Legacy ==
+
+The 1940 conference turned a wartime bargain into a long-term diplomatic wound. For Solara, it was a successful wartime maneuver that helped weaken Vespera. For Khalindar, it became evidence that Solara had used the empire during the Great War and then ignored its claims afterward.
+
+[[Category:Treaties]]
+[[Category:Avant Great War]]

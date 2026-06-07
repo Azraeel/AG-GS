@@ -1,0 +1,33 @@
+<!--
+AGGS draft metadata
+title: Belcantese Language Institute
+category: Organization
+status: draft
+era: Post-Avant Great War Settlement
+yearStart: 1950
+yearEnd: 1994
+aliases: Belcanto Language Institute
+tags: Belcanto, Belcantese Language, Language Restoration Act of 1950
+facts:
+Type: Language standardization and restoration institution
+State: [[Belcanto Nations]]
+Established by: [[Language Restoration Act of 1950]]
+Responsibilities: Grammar, terminology, education standards, dictionaries, and postwar language restoration
+Open canon: Later 1995 grammar reference belongs just after the current 1994-back pass
+-->
+The '''Belcantese Language Institute''' was the postwar language authority created by the [[Language Restoration Act of 1950]]. It oversaw restoration and standardization of the [[Belcantese Language]] after more than five decades of Vesperan occupation.
+
+== Work ==
+
+The institute developed grammar standards, dictionaries, education guidance, administrative terminology, and modern vocabulary for reconstruction. It also helped collect texts preserved by the [[Belcantese Cultural Resistance]], including material connected to the [[Resistance Songbook]].
+
+== Role In State-Building ==
+
+Language policy was part of postwar state-building. The institute helped make Belcantese usable in courts, schools, public administration, diplomatic correspondence, and national cultural institutions.
+
+== Canon Note ==
+
+Source material cites a 1995 grammar from the institute. This draft covers the institution through 1994 and treats the 1995 reference as immediate post-window evidence to be used in a later pass.
+
+[[Category:Organizations]]
+[[Category:Belcanto]]

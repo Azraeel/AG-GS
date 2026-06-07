@@ -1,0 +1,28 @@
+<!--
+AGGS draft metadata
+title: Xanaq Republicans
+category: Organization
+status: draft
+era: Modern Xanaqu
+yearStart: 1934
+yearEnd: 1936
+tags: Xanaqu, Bu Dynasty, General Cheng Jin, Xanaq Civil War
+facts:
+Type: Republican faction
+Associated leader: [[General Cheng Jin]]
+Opponent: [[Taoist Party]] and [[Red Army of Xanaqu]]
+Conflict: [[Xanaq Civil War]]
+Open canon: Platform, membership, territory, foreign support, and postwar incorporation need review
+-->
+The '''Xanaq Republicans''' were the republican faction that opposed [[Xun Tao]] and the [[Taoist Party]] during the final crisis of the [[Bu Dynasty]].
+
+The extracted Xanaqu source says that, after the dynasty's collapse, the Republicans under [[General Cheng Jin]] attempted to found a rival northern state. Their defeat by the [[Red Army of Xanaqu]] in the [[Xanaq Civil War]] cleared the way for the [[People's Federation of Xanaqu]].
+
+== Postwar Treatment ==
+
+The same source says many republican members were pardoned by Xun Tao after the civil war. That detail is important because it suggests that early Xanaqu incorporated at least some defeated opponents into the new order.
+
+The faction's platform is not yet clear. Current drafts should not assume that the Republicans were democratic liberals, royalist front groups, regional separatists, or foreign-backed forces without additional canon.
+
+[[Category:Organizations]]
+[[Category:Xanaqu]]

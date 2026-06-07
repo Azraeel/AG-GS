@@ -1,0 +1,33 @@
+<!--
+AGGS draft metadata
+title: Burgrave of Sedava
+category: People
+status: draft
+era: Ledostrov Twentieth-Century Crisis
+yearStart: 1938
+yearEnd: 1938
+aliases: Sedava
+tags: Ledostrov, Sedava, Battle of Lisebev
+facts:
+Role: Duke of Ledostrov during the 1938 famine crisis
+Opponent: [[Duma of Ledostrov]]
+Defeated at: [[Battle of Lisebev]]
+Fate: Captured and executed for treason
+Successor: [[Count of Litwaldov]]
+-->
+The '''Burgrave of Sedava''' was Duke of Ledostrov during the 1938 famine crisis.
+
+== Famine Crisis ==
+
+After years of budget paralysis in the [[Duma of Ledostrov]], Sedava tried to mobilize peasants and march on [[Novoanov]]. The move was a direct challenge to the noble order.
+
+== Defeat ==
+
+The Ledostrov military remained aligned with Duma nobles. Under the [[Count of Litwaldov]], military forces defeated Sedava's untrained supporters at the [[Battle of Lisebev]]. Sedava was captured and executed for treason.
+
+== Legacy ==
+
+Sedava's failed revolt exposed how far the Duma system had deteriorated by the twentieth century. His execution also cleared the way for Litwaldov's short reign and the later 1942 succession crisis.
+
+[[Category:People]]
+[[Category:Ledostrov]]

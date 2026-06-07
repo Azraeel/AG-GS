@@ -1,0 +1,26 @@
+<!--
+AGGS draft metadata
+title: Eolus City
+category: City
+status: draft
+era: Geographic Reference
+yearStart: unknown
+yearEnd: 1994
+aliases: Eolus
+tags: Aurendale, capital, city, renewable energy
+facts:
+Type: Capital city
+Country: [[Socialist Republic of Aurendale]]
+Source role: Capital powered by wind, solar, and nuclear energy
+Open canon: Location, founding, population, city government, and 1994 energy infrastructure need review
+-->
+'''Eolus City''' is the capital of the [[Socialist Republic of Aurendale]] in the extracted source material.
+
+The Aurendale source describes Eolus City as powered by wind, solar, and nuclear energy. This draft preserves that as a source claim while leaving the exact infrastructure, date, and 1994 status open for review.
+
+== Canon Limits ==
+
+Do not assign Eolus City a founding date, population, districts, mayor, or detailed power grid until stronger source material is reviewed.
+
+[[Category:Cities]]
+[[Category:Erythrea]]

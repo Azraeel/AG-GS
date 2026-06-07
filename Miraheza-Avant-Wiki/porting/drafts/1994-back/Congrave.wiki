@@ -1,0 +1,40 @@
+<!--
+AGGS draft metadata
+title: Congrave
+category: Location
+status: draft
+era: Great War and Solara-Khalindar War
+yearStart: 1531
+yearEnd: 1994
+tags: Solara, Solara-Khalindar War, Avant Great War, Solaran War of Unification
+facts:
+Type: Solaran capital and coastal city
+Country: [[Solara]]
+Earlier state role: Center of the [[Kingdom of Congrave]]
+Known for: [[Solaran War of Unification]]; [[Solaran-Khalindarian Conference of 1940]]; [[Battle of Congrave]]
+Metadata note: yearStart is a unification-war relevance anchor, not a confirmed founding date for the city
+-->
+'''Congrave''' is the capital of [[Solara]] and one of the most important political and military cities in Solaran history. It is best known as the site of the [[Solaran-Khalindarian Conference of 1940]] and as the main battlefield of the [[Battle of Congrave]] during the [[Solara-Khalindar War]].
+
+== Early Solaran Role ==
+
+Before the formation of modern Solara, Congrave was associated with the [[Kingdom of Congrave]], one of the predecessor states in the [[Solaran War of Unification]]. The kingdom joined the [[Grand Duchy of Solan]] against the [[Kingdom of Albion]], and the coalition's victory in early 1538 led to the creation of Solara.
+
+Congrave later became the capital of the new parliamentary state, preserving the city's importance after the old kingdom was absorbed.
+
+== Great War Role ==
+
+In 1940, Solara hosted Khalindarian representatives in Congrave to negotiate Khalindar's support against the [[Vesperan Empire]]. The conference tied the city to the later [[Khalindarian reparations dispute]], because the promises made there became the basis of Khalindar's postwar claims.
+
+== Solara-Khalindar War ==
+
+During the 1990 war opening, Congrave became one of Khalindar's central targets after the attack on Albroke. Khalindar attempted to seize the city to break Solaran command, damage national morale, and force a quick settlement.
+
+The [[Battle of Congrave]] and the later Solaran recapture became defining moments of the conflict. The fighting devastated parts of the city and turned Congrave into a symbol of both Solaran vulnerability and Solaran resistance.
+
+== Legacy ==
+
+Congrave links the political cause of the war and the battlefield consequences of the war. For Khalindar, it was where Solara made promises in 1940. For Solara, it was the capital that had to be defended and later retaken.
+
+[[Category:Locations]]
+[[Category:Solara]]
