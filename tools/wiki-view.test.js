@@ -262,6 +262,7 @@ test("admin wiki editor route renders an existing page draft directly", () => {
   assert.equal(state.wikiDraft.title, "Aurendale");
   assert.match(app.innerHTML, /wiki-editor-shell/);
   assert.match(app.innerHTML, /Editing Aurendale/);
+  assert.match(app.innerHTML, /<details class="wiki-source-editor" open>/);
   assert.doesNotMatch(app.innerHTML, /wiki-masthead/);
 });
 

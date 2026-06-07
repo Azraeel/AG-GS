@@ -641,6 +641,7 @@
       draft.facts,
       draft.tags
     ].filter(Boolean).join(" ")).trim());
+    const sourceFieldsOpen = Boolean(existingPage) || !hasReadableDraft;
     return `
       <section class="wiki-editor">
         <div class="wiki-editor-head">
@@ -665,7 +666,7 @@
           ${wikiImportStatus()}
         </div>
         ${renderWikiDraftPreview()}
-        <details class="wiki-source-editor" ${hasReadableDraft ? "" : "open"}>
+        <details class="wiki-source-editor" ${sourceFieldsOpen ? "open" : ""}>
           <summary>
             <span>Source Fields</span>
             <small>Title, facts, body, tags, aliases, and related page ids</small>
