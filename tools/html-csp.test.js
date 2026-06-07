@@ -47,3 +47,12 @@ test("dedicated wiki articles use a wide text column and side rail", () => {
   assert.match(wikiCss, /\.wiki-article-main\s+\.wiki-body p,\s*\.wiki-article-main\s+\.wiki-body ul\s*{[\s\S]*max-width:\s*112ch/);
   assert.match(wikiCss, /\.wiki-article-rail\s*{[\s\S]*position:\s*sticky/);
 });
+
+test("saved wiki page edits use a wide direct editor", () => {
+  const wikiCss = fs.readFileSync(path.join(ROOT, "site/css/wiki.css"), "utf8");
+
+  assert.match(wikiCss, /\.wiki-editor-shell\s*{[\s\S]*width:\s*min\(1680px,\s*calc\(100vw - 48px\)\)/);
+  assert.match(wikiCss, /\.wiki-source-editor-direct\s*{/);
+  assert.match(wikiCss, /\.wiki-source-editor-direct\s+\.wiki-editor-grid\s*{[\s\S]*grid-template-columns:\s*repeat\(12,\s*minmax\(0,\s*1fr\)\)/);
+  assert.match(wikiCss, /\.wiki-source-editor-direct\s+textarea\[data-wiki-field="body"\]\s*{[\s\S]*min-height:\s*520px/);
+});

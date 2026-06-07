@@ -42,7 +42,8 @@
 }
 
 .wiki-editor-shell {
-  max-width: 1320px;
+  width: min(1680px, calc(100vw - 48px));
+  max-width: none;
   margin: 0 auto;
 }
 
@@ -831,6 +832,37 @@
   padding: 0 14px 14px;
 }
 
+.wiki-source-editor-direct {
+  border: 0;
+  background: transparent;
+}
+
+.wiki-source-editor-direct .wiki-editor-grid {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0;
+}
+
+.wiki-source-editor-direct .wiki-editor-title {
+  grid-column: span 4;
+}
+
+.wiki-source-editor-direct .wiki-editor-category,
+.wiki-source-editor-direct .wiki-editor-status,
+.wiki-source-editor-direct .wiki-editor-era,
+.wiki-source-editor-direct .wiki-editor-year {
+  grid-column: span 2;
+}
+
+.wiki-source-editor-direct .wiki-editor-tags,
+.wiki-source-editor-direct .wiki-editor-aliases {
+  grid-column: span 6;
+}
+
+.wiki-source-editor-direct textarea[data-wiki-field="body"] {
+  min-height: 520px;
+}
+
 .wiki-editor-wide {
   grid-column: 1 / -1;
 }
@@ -943,6 +975,24 @@
   .wiki-import-row,
   .wiki-editor-grid {
     grid-template-columns: 1fr;
+  }
+
+  .wiki-editor-shell {
+    width: min(100%, calc(100vw - 28px));
+  }
+
+  .wiki-source-editor-direct .wiki-editor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wiki-source-editor-direct .wiki-editor-title,
+  .wiki-source-editor-direct .wiki-editor-category,
+  .wiki-source-editor-direct .wiki-editor-status,
+  .wiki-source-editor-direct .wiki-editor-era,
+  .wiki-source-editor-direct .wiki-editor-year,
+  .wiki-source-editor-direct .wiki-editor-tags,
+  .wiki-source-editor-direct .wiki-editor-aliases {
+    grid-column: 1 / -1;
   }
 
   .wiki-index {

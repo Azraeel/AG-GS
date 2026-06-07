@@ -630,10 +630,37 @@
       : "";
   }
 
+  function renderWikiEditorFields(draft, options = {}) {
+    const bodyField = `
+      <label class="control-field is-text wiki-editor-wide wiki-editor-body"><span>Body</span><textarea rows="12" data-wiki-field="body">${escapeHtml(editorValue("body"))}</textarea></label>`;
+    const factsField = `
+      <label class="control-field is-text wiki-editor-wide wiki-editor-facts"><span>Fact Sheet</span><textarea rows="6" data-wiki-field="facts">${escapeHtml(editorValue("facts"))}</textarea></label>`;
+    const summaryField = `
+      <label class="control-field is-text wiki-editor-wide wiki-editor-summary"><span>Summary</span><textarea rows="3" data-wiki-field="summary">${escapeHtml(editorValue("summary"))}</textarea></label>`;
+    const standardFields = [
+      `<label class="control-field is-text wiki-editor-title"><span>Title</span><input type="text" value="${escapeHtml(editorValue("title"))}" data-wiki-field="title"></label>`,
+      `<label class="control-field is-select wiki-editor-category"><span>Category</span><select data-wiki-field="category">${pageCategoryOptions(draft.category)}</select></label>`,
+      `<label class="control-field is-select wiki-editor-status"><span>Status</span><select data-wiki-field="status">${pageStatusOptions(draft.status)}</select></label>`,
+      `<label class="control-field is-text wiki-editor-era"><span>Era</span><input type="text" value="${escapeHtml(editorValue("era"))}" data-wiki-field="era"></label>`,
+      `<label class="control-field wiki-editor-year"><span>Start Year</span><input type="number" value="${escapeHtml(editorValue("yearStart"))}" data-wiki-field="yearStart"></label>`,
+      `<label class="control-field wiki-editor-year"><span>End Year</span><input type="number" value="${escapeHtml(editorValue("yearEnd"))}" data-wiki-field="yearEnd"></label>`
+    ];
+    const tailFields = [
+      `<label class="control-field is-text wiki-editor-tags"><span>Tags</span><input type="text" value="${escapeHtml(editorValue("tags"))}" data-wiki-field="tags"></label>`,
+      `<label class="control-field is-text wiki-editor-aliases"><span>Aliases</span><input type="text" value="${escapeHtml(editorValue("aliases"))}" data-wiki-field="aliases"></label>`,
+      `<label class="control-field is-text wiki-editor-wide wiki-editor-related"><span>Related Page IDs</span><input type="text" value="${escapeHtml(editorValue("relatedPageIds"))}" data-wiki-field="relatedPageIds"></label>`
+    ];
+    const bodyAndNotes = options.bodyFirst
+      ? [bodyField, summaryField, factsField]
+      : [factsField, summaryField, bodyField];
+    return [...standardFields, ...bodyAndNotes, ...tailFields].join("");
+  }
+
   function wikiEditor() {
     if (!isAdmin || !state.wikiDraft) return "";
     const draft = state.wikiDraft;
     const existingPage = draft.id ? data.wiki.pages[draft.id] : null;
+    const isExistingEdit = Boolean(existingPage);
     const hasReadableDraft = Boolean(String([
       draft.title,
       draft.summary,
@@ -641,7 +668,34 @@
       draft.facts,
       draft.tags
     ].filter(Boolean).join(" ")).trim());
-    const sourceFieldsOpen = Boolean(existingPage) || !hasReadableDraft;
+    const sourceFieldsOpen = !hasReadableDraft;
+    const importRow = isExistingEdit ? "" : `
+        <div class="wiki-import-row">
+          <label class="control-field is-text wiki-import-field">
+            <span>Miraheze URL</span>
+            <input type="text" value="${escapeHtml(state.wikiImportSource || "")}" data-wiki-import-source>
+          </label>
+          <button class="command" type="button" data-action="wiki-import-miraheze">Import Miraheze</button>
+          ${wikiImportStatus()}
+        </div>`;
+    const editorBody = isExistingEdit
+      ? `
+        <section class="wiki-source-editor wiki-source-editor-direct" aria-label="Page editor">
+          <div class="wiki-editor-grid">
+            ${renderWikiEditorFields(draft, { bodyFirst: true })}
+          </div>
+        </section>`
+      : `
+        ${renderWikiDraftPreview()}
+        <details class="wiki-source-editor" ${sourceFieldsOpen ? "open" : ""}>
+          <summary>
+            <span>Source Fields</span>
+            <small>Title, facts, body, tags, aliases, and related page ids</small>
+          </summary>
+          <div class="wiki-editor-grid">
+            ${renderWikiEditorFields(draft)}
+          </div>
+        </details>`;
     return `
       <section class="wiki-editor">
         <div class="wiki-editor-head">
@@ -652,40 +706,13 @@
           <div class="wiki-editor-actions">
             <button class="command" type="button" data-action="wiki-back">Back</button>
             <button class="command primary" type="button" data-action="wiki-save">Save Page</button>
-            <button class="command" type="button" data-action="wiki-preview-draft">Review</button>
+            ${isExistingEdit ? "" : `<button class="command" type="button" data-action="wiki-preview-draft">Review</button>`}
             <button class="command" type="button" data-action="wiki-apply-fact-template">Fact Template</button>
             ${existingPage ? `<button class="command danger" type="button" data-action="${existingPage.archived ? "wiki-restore" : "wiki-archive"}">${existingPage.archived ? "Restore" : "Archive"}</button>` : ""}
           </div>
         </div>
-        <div class="wiki-import-row">
-          <label class="control-field is-text wiki-import-field">
-            <span>Miraheze URL</span>
-            <input type="text" value="${escapeHtml(state.wikiImportSource || "")}" data-wiki-import-source>
-          </label>
-          <button class="command" type="button" data-action="wiki-import-miraheze">Import Miraheze</button>
-          ${wikiImportStatus()}
-        </div>
-        ${renderWikiDraftPreview()}
-        <details class="wiki-source-editor" ${sourceFieldsOpen ? "open" : ""}>
-          <summary>
-            <span>Source Fields</span>
-            <small>Title, facts, body, tags, aliases, and related page ids</small>
-          </summary>
-          <div class="wiki-editor-grid">
-            <label class="control-field is-text"><span>Title</span><input type="text" value="${escapeHtml(editorValue("title"))}" data-wiki-field="title"></label>
-            <label class="control-field is-select"><span>Category</span><select data-wiki-field="category">${pageCategoryOptions(draft.category)}</select></label>
-            <label class="control-field is-select"><span>Status</span><select data-wiki-field="status">${pageStatusOptions(draft.status)}</select></label>
-            <label class="control-field is-text"><span>Era</span><input type="text" value="${escapeHtml(editorValue("era"))}" data-wiki-field="era"></label>
-            <label class="control-field"><span>Start Year</span><input type="number" value="${escapeHtml(editorValue("yearStart"))}" data-wiki-field="yearStart"></label>
-            <label class="control-field"><span>End Year</span><input type="number" value="${escapeHtml(editorValue("yearEnd"))}" data-wiki-field="yearEnd"></label>
-            <label class="control-field is-text wiki-editor-wide"><span>Fact Sheet</span><textarea rows="6" data-wiki-field="facts">${escapeHtml(editorValue("facts"))}</textarea></label>
-            <label class="control-field is-text wiki-editor-wide"><span>Summary</span><textarea rows="3" data-wiki-field="summary">${escapeHtml(editorValue("summary"))}</textarea></label>
-            <label class="control-field is-text wiki-editor-wide"><span>Body</span><textarea rows="12" data-wiki-field="body">${escapeHtml(editorValue("body"))}</textarea></label>
-            <label class="control-field is-text"><span>Tags</span><input type="text" value="${escapeHtml(editorValue("tags"))}" data-wiki-field="tags"></label>
-            <label class="control-field is-text"><span>Aliases</span><input type="text" value="${escapeHtml(editorValue("aliases"))}" data-wiki-field="aliases"></label>
-            <label class="control-field is-text wiki-editor-wide"><span>Related Page IDs</span><input type="text" value="${escapeHtml(editorValue("relatedPageIds"))}" data-wiki-field="relatedPageIds"></label>
-          </div>
-        </details>
+        ${importRow}
+        ${editorBody}
       </section>`;
   }
 
