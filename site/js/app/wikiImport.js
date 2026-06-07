@@ -172,6 +172,12 @@
     return `${"#".repeat(level)} ${heading[2].trim()}`;
   }
 
+  function convertInlineFormatting(text) {
+    return String(text || "")
+      .replace(/'''([^']+)'''/g, "**$1**")
+      .replace(/''([^']+)''/g, "*$1*");
+  }
+
   function convertBody(wikitext) {
     return String(wikitext || "")
       .split(/\r?\n/)
@@ -179,10 +185,10 @@
         if (/^\s*\[\[(?:File|Image):/i.test(line)) return "";
         const heading = convertHeadings(line.trim());
         if (heading) return heading;
-        return convertWikiLinks(line, { preferLabel: true })
-          .replace(/'''/g, "")
-          .replace(/''/g, "")
-          .trimEnd();
+        const converted = convertInlineFormatting(convertWikiLinks(line, { preferLabel: true }));
+        const unorderedList = converted.match(/^\s*\*\s+(.+)$/);
+        if (unorderedList) return `- ${unorderedList[1].trim()}`;
+        return converted.trimEnd();
       })
       .join("\n")
       .replace(/\n{3,}/g, "\n\n")

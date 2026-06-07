@@ -182,7 +182,7 @@ test("wiki body keeps heading lines separate from following paragraph text", () 
   state.selectedWikiPageId = "whitewater-crisis";
   view.renderWiki();
 
-  assert.match(app.innerHTML, /<h3>Background<\/h3>/);
+  assert.match(app.innerHTML, /<h3[^>]*>Background<\/h3>/);
   assert.match(app.innerHTML, /<p>The crisis began with disputed transit rights\.<\/p>/);
   assert.doesNotMatch(app.innerHTML, /Background\s*The crisis began/);
 });
@@ -199,9 +199,36 @@ test("wiki body renders nested headings from imported articles", () => {
   state.selectedWikiPageId = "solara-khalindar-war";
   view.renderWiki();
 
-  assert.match(app.innerHTML, /<h3>Pre-War Tensions<\/h3>/);
-  assert.match(app.innerHTML, /<h4>Historical Grievances<\/h4>/);
-  assert.match(app.innerHTML, /<h5>Key Battles within Congrave<\/h5>/);
+  assert.match(app.innerHTML, /<h3[^>]*>Pre-War Tensions<\/h3>/);
+  assert.match(app.innerHTML, /<h4[^>]*>Historical Grievances<\/h4>/);
+  assert.match(app.innerHTML, /<h5[^>]*>Key Battles within Congrave<\/h5>/);
+});
+
+test("wiki article renders contents and rich inline formatting", () => {
+  const { Engine, data, app, state, view } = createWikiView();
+  Engine.saveWikiPage(data, {
+    title: "Khalindar",
+    category: "Nation",
+    status: "published",
+    body: "## Overview\nA major power."
+  });
+  Engine.saveWikiPage(data, {
+    title: "Solara-Khalindar War",
+    category: "Conflict",
+    status: "published",
+    body: "## Pre-War Tensions\n**Solara** and *[[Khalindar]]* mobilized.\n\n### Historical Grievances\n* Naval raids expanded the conflict.\n\n## Major Battles\nThe war reached [[Congrave]]."
+  });
+
+  state.selectedWikiPageId = "solara-khalindar-war";
+  view.renderWiki();
+
+  assert.match(app.innerHTML, /wiki-contents/);
+  assert.match(app.innerHTML, /Pre-War Tensions/);
+  assert.match(app.innerHTML, /Major Battles/);
+  assert.match(app.innerHTML, /<strong>Solara<\/strong>/);
+  assert.match(app.innerHTML, /<em><button[^>]+>Khalindar<\/button><\/em>/);
+  assert.match(app.innerHTML, /<li>Naval raids expanded the conflict\.<\/li>/);
+  assert.match(app.innerHTML, /id="wiki-heading-pre-war-tensions-0"/);
 });
 
 test("wiki article and editor support structured lore fact sheets", () => {
@@ -227,7 +254,7 @@ test("wiki article and editor support structured lore fact sheets", () => {
   assert.match(app.innerHTML, /data-wiki-field="facts"/);
 });
 
-test("admin wiki editor previews the draft article before saving", () => {
+test("admin wiki editor reviews the draft as an article before source fields", () => {
   const { app, view } = createWikiView({ isAdmin: true });
 
   view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-new" } }));
@@ -242,14 +269,16 @@ test("admin wiki editor previews the draft article before saving", () => {
 
   view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-preview-draft" } }));
 
-  assert.match(app.innerHTML, /wiki-draft-preview/);
-  assert.match(app.innerHTML, /Draft Preview/);
+  assert.match(app.innerHTML, /wiki-review-article/);
+  assert.match(app.innerHTML, /Article Review/);
   assert.match(app.innerHTML, /Siege of Calblanca/);
-  assert.match(app.innerHTML, /<h3>Background<\/h3>/);
+  assert.match(app.innerHTML, /<h3[^>]*>Background<\/h3>/);
   assert.match(app.innerHTML, /The siege reshaped the frontier\./);
   assert.match(app.innerHTML, /Belligerents/);
   assert.match(app.innerHTML, /Armistice/);
   assert.match(app.innerHTML, /war/);
+  assert.match(app.innerHTML, /class="wiki-source-editor"/);
+  assert.ok(app.innerHTML.indexOf("wiki-review-article") < app.innerHTML.indexOf("wiki-source-editor"));
 });
 
 test("admin wiki editor imports a Miraheze article into a draft", async () => {
@@ -301,6 +330,9 @@ test("admin wiki editor imports a Miraheze article into a draft", async () => {
   assert.match(state.wikiDraft.body, /Pre-War Tensions/);
   assert.match(state.wikiDraft.facts, /avantpedia\.miraheze/);
   assert.match(app.innerHTML, /Imported Solara-Khalindar War/);
+  assert.match(app.innerHTML, /wiki-review-article/);
+  assert.match(app.innerHTML, /wiki-source-editor/);
+  assert.ok(app.innerHTML.indexOf("wiki-review-article") < app.innerHTML.indexOf("wiki-source-editor"));
 });
 
 test("admin wiki view renders content workbench without exposing it publicly", () => {

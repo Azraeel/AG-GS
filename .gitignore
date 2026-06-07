@@ -3,3 +3,4 @@ cloudflare/wrangler.toml
 .wrangler/
 AGENTS.md
 CONTEXT.md
+.superpowers/

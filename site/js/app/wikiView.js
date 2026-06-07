@@ -163,19 +163,80 @@
     const source = String(text || "");
     let output = "";
     let lastIndex = 0;
+    const linkWrappers = [
+      { marker: "**", open: "<strong>", close: "</strong>" },
+      { marker: "'''", open: "<strong>", close: "</strong>" },
+      { marker: "''", open: "<em>", close: "</em>" },
+      { marker: "*", open: "<em>", close: "</em>" }
+    ];
+    const renderTextMarkup = (value) => escapeHtml(value)
+      .replace(/'''([^']+)'''/g, "<strong>$1</strong>")
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/''([^']+)''/g, "<em>$1</em>")
+      .replace(/\*([^*\n]+)\*/g, "<em>$1</em>");
     source.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, target, label, offset) => {
-      output += escapeHtml(source.slice(lastIndex, offset));
+      let segmentStart = offset;
+      let segmentEnd = offset + match.length;
+      const wrapper = linkWrappers.find((candidate) => (
+        segmentStart >= candidate.marker.length
+        && source.slice(segmentStart - candidate.marker.length, segmentStart) === candidate.marker
+        && source.slice(segmentEnd, segmentEnd + candidate.marker.length) === candidate.marker
+      ));
+      if (wrapper) {
+        segmentStart -= wrapper.marker.length;
+        segmentEnd += wrapper.marker.length;
+      }
+      output += renderTextMarkup(source.slice(lastIndex, segmentStart));
       const key = String(target || "").trim().toLowerCase();
       const page = lookup.get(key);
       const linkLabel = label || target;
-      output += page
+      const renderedLink = page
         ? `<button class="wiki-inline-link" type="button" data-wiki-page="${escapeHtml(page.id)}">${safeText(linkLabel)}</button>`
         : `<span class="wiki-missing-link">${safeText(linkLabel)}</span>`;
-      lastIndex = offset + match.length;
+      output += wrapper ? `${wrapper.open}${renderedLink}${wrapper.close}` : renderedLink;
+      lastIndex = segmentEnd;
       return match;
     });
-    output += escapeHtml(source.slice(lastIndex));
+    output += renderTextMarkup(source.slice(lastIndex));
     return output;
+  }
+
+  function wikiHeadingId(title, index) {
+    const slug = Engine.wikiSlug
+      ? Engine.wikiSlug(title)
+      : String(title || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    return `wiki-heading-${slug || "section"}-${index}`;
+  }
+
+  function wikiBodyHeadings(body) {
+    const headings = [];
+    String(body || "").split(/\n/).forEach((line) => {
+      const match = line.trim().match(/^(#{2,6})\s+(.+)$/);
+      if (!match) return;
+      const level = Math.min(6, Math.max(3, match[1].length + 1));
+      const title = match[2].trim();
+      headings.push({
+        id: wikiHeadingId(title, headings.length),
+        level,
+        title
+      });
+    });
+    return headings;
+  }
+
+  function renderWikiContents(body) {
+    const headings = wikiBodyHeadings(body);
+    if (headings.length < 2) return "";
+    return `
+      <nav class="wiki-contents" aria-label="Contents">
+        <div class="wiki-contents-title">Contents</div>
+        <ol>
+          ${headings.map((heading) => `
+            <li class="depth-${safeText(heading.level)}">
+              <button type="button" data-wiki-jump="${escapeHtml(heading.id)}">${safeText(heading.title)}</button>
+            </li>`).join("")}
+        </ol>
+      </nav>`;
   }
 
   function renderWikiBody(body) {
@@ -195,6 +256,7 @@
       output.push(`<ul>${list.map((line) => `<li>${renderInlineWiki(line, lookup)}</li>`).join("")}</ul>`);
       list = [];
     };
+    let headingIndex = 0;
 
     source.split(/\n/).forEach((line) => {
       const trimmed = line.trim();
@@ -208,12 +270,14 @@
         flushParagraph();
         flushList();
         const level = Math.min(6, Math.max(3, heading[1].length + 1));
-        output.push(`<h${level}>${renderInlineWiki(heading[2], lookup)}</h${level}>`);
+        const headingTitle = heading[2].trim();
+        output.push(`<h${level} id="${escapeHtml(wikiHeadingId(headingTitle, headingIndex))}">${renderInlineWiki(headingTitle, lookup)}</h${level}>`);
+        headingIndex += 1;
         return;
       }
-      if (trimmed.startsWith("- ")) {
+      if (/^[-*]\s+/.test(trimmed)) {
         flushParagraph();
-        list.push(trimmed.slice(2));
+        list.push(trimmed.replace(/^[-*]\s+/, ""));
         return;
       }
       flushList();
@@ -222,6 +286,14 @@
     flushParagraph();
     flushList();
     return output.join("");
+  }
+
+  function renderWikiArticleRead(page) {
+    return `
+      <div class="wiki-article-read">
+        ${renderWikiContents(page.body)}
+        <div class="wiki-body">${renderWikiBody(page.body)}</div>
+      </div>`;
   }
 
   function renderWikiFacts(page) {
@@ -272,7 +344,7 @@
           <span>Updated ${safeText(fmtDateTime(page.updatedAt))}</span>
         </div>
         ${renderWikiFacts(page)}
-        <div class="wiki-body">${renderWikiBody(page.body)}</div>
+        ${renderWikiArticleRead(page)}
         <footer class="wiki-article-foot">
           <div class="wiki-tags">${(page.tags || []).map((tag) => `<span>${safeText(tag)}</span>`).join("") || `<span>No tags</span>`}</div>
           ${refs.outbound.length ? `<div class="wiki-related"><strong>Links</strong>${refs.outbound.map((item) => `<button type="button" data-wiki-page="${escapeHtml(item.id)}">${safeText(item.title)}</button>`).join("")}</div>` : ""}
@@ -314,14 +386,21 @@
     if (!isAdmin || !state.wikiDraft) return "";
     const page = wikiDraftPreviewPage();
     return `
-      <section class="wiki-draft-preview" aria-label="Draft Preview">
-        <div class="wiki-draft-preview-head">
-          <span class="section-kicker">Draft Preview</span>
-          <h4>${safeText(page.title)}</h4>
-        </div>
-        ${page.summary ? `<p class="wiki-draft-summary">${safeText(page.summary)}</p>` : ""}
+      <section class="wiki-review-article" aria-label="Article Review">
+        <header class="wiki-review-head">
+          <div>
+            <span class="section-kicker">Article Review</span>
+            <h4>${safeText(page.title)}</h4>
+            ${page.summary ? `<p>${safeText(page.summary)}</p>` : ""}
+          </div>
+          <div class="wiki-review-chips">
+            <span>${safeText(page.status === "published" ? "Published" : "Draft")}</span>
+            <span>${safeText(page.category)}</span>
+            <span>${safeText(wikiYearLabel(page))}</span>
+          </div>
+        </header>
         ${renderWikiFacts(page)}
-        <div class="wiki-body">${renderWikiBody(page.body)}</div>
+        ${renderWikiArticleRead(page)}
         <div class="wiki-tags">${(page.tags || []).map((tag) => `<span>${safeText(tag)}</span>`).join("") || `<span>No tags</span>`}</div>
       </section>`;
   }
@@ -437,6 +516,13 @@
     if (!isAdmin || !state.wikiDraft) return "";
     const draft = state.wikiDraft;
     const existingPage = draft.id ? data.wiki.pages[draft.id] : null;
+    const hasReadableDraft = Boolean(String([
+      draft.title,
+      draft.summary,
+      draft.body,
+      draft.facts,
+      draft.tags
+    ].filter(Boolean).join(" ")).trim());
     return `
       <section class="wiki-editor">
         <div class="wiki-editor-head">
@@ -446,7 +532,7 @@
           </div>
           <div class="wiki-editor-actions">
             <button class="command primary" type="button" data-action="wiki-save">Save Page</button>
-            <button class="command" type="button" data-action="wiki-preview-draft">Preview</button>
+            <button class="command" type="button" data-action="wiki-preview-draft">Review</button>
             <button class="command" type="button" data-action="wiki-apply-fact-template">Fact Template</button>
             <button class="command" type="button" data-action="wiki-cancel-edit">Cancel</button>
             ${existingPage ? `<button class="command danger" type="button" data-action="${existingPage.archived ? "wiki-restore" : "wiki-archive"}">${existingPage.archived ? "Restore" : "Archive"}</button>` : ""}
@@ -460,21 +546,27 @@
           <button class="command" type="button" data-action="wiki-import-miraheze">Import Miraheze</button>
           ${wikiImportStatus()}
         </div>
-        <div class="wiki-editor-grid">
-          <label class="control-field is-text"><span>Title</span><input type="text" value="${escapeHtml(editorValue("title"))}" data-wiki-field="title"></label>
-          <label class="control-field is-select"><span>Category</span><select data-wiki-field="category">${pageCategoryOptions(draft.category)}</select></label>
-          <label class="control-field is-select"><span>Status</span><select data-wiki-field="status">${pageStatusOptions(draft.status)}</select></label>
-          <label class="control-field is-text"><span>Era</span><input type="text" value="${escapeHtml(editorValue("era"))}" data-wiki-field="era"></label>
-          <label class="control-field"><span>Start Year</span><input type="number" value="${escapeHtml(editorValue("yearStart"))}" data-wiki-field="yearStart"></label>
-          <label class="control-field"><span>End Year</span><input type="number" value="${escapeHtml(editorValue("yearEnd"))}" data-wiki-field="yearEnd"></label>
-          <label class="control-field is-text wiki-editor-wide"><span>Fact Sheet</span><textarea rows="6" data-wiki-field="facts">${escapeHtml(editorValue("facts"))}</textarea></label>
-          <label class="control-field is-text wiki-editor-wide"><span>Summary</span><textarea rows="3" data-wiki-field="summary">${escapeHtml(editorValue("summary"))}</textarea></label>
-          <label class="control-field is-text wiki-editor-wide"><span>Body</span><textarea rows="12" data-wiki-field="body">${escapeHtml(editorValue("body"))}</textarea></label>
-          <label class="control-field is-text"><span>Tags</span><input type="text" value="${escapeHtml(editorValue("tags"))}" data-wiki-field="tags"></label>
-          <label class="control-field is-text"><span>Aliases</span><input type="text" value="${escapeHtml(editorValue("aliases"))}" data-wiki-field="aliases"></label>
-          <label class="control-field is-text wiki-editor-wide"><span>Related Page IDs</span><input type="text" value="${escapeHtml(editorValue("relatedPageIds"))}" data-wiki-field="relatedPageIds"></label>
-        </div>
         ${renderWikiDraftPreview()}
+        <details class="wiki-source-editor" ${hasReadableDraft ? "" : "open"}>
+          <summary>
+            <span>Source Fields</span>
+            <small>Title, facts, body, tags, aliases, and related page ids</small>
+          </summary>
+          <div class="wiki-editor-grid">
+            <label class="control-field is-text"><span>Title</span><input type="text" value="${escapeHtml(editorValue("title"))}" data-wiki-field="title"></label>
+            <label class="control-field is-select"><span>Category</span><select data-wiki-field="category">${pageCategoryOptions(draft.category)}</select></label>
+            <label class="control-field is-select"><span>Status</span><select data-wiki-field="status">${pageStatusOptions(draft.status)}</select></label>
+            <label class="control-field is-text"><span>Era</span><input type="text" value="${escapeHtml(editorValue("era"))}" data-wiki-field="era"></label>
+            <label class="control-field"><span>Start Year</span><input type="number" value="${escapeHtml(editorValue("yearStart"))}" data-wiki-field="yearStart"></label>
+            <label class="control-field"><span>End Year</span><input type="number" value="${escapeHtml(editorValue("yearEnd"))}" data-wiki-field="yearEnd"></label>
+            <label class="control-field is-text wiki-editor-wide"><span>Fact Sheet</span><textarea rows="6" data-wiki-field="facts">${escapeHtml(editorValue("facts"))}</textarea></label>
+            <label class="control-field is-text wiki-editor-wide"><span>Summary</span><textarea rows="3" data-wiki-field="summary">${escapeHtml(editorValue("summary"))}</textarea></label>
+            <label class="control-field is-text wiki-editor-wide"><span>Body</span><textarea rows="12" data-wiki-field="body">${escapeHtml(editorValue("body"))}</textarea></label>
+            <label class="control-field is-text"><span>Tags</span><input type="text" value="${escapeHtml(editorValue("tags"))}" data-wiki-field="tags"></label>
+            <label class="control-field is-text"><span>Aliases</span><input type="text" value="${escapeHtml(editorValue("aliases"))}" data-wiki-field="aliases"></label>
+            <label class="control-field is-text wiki-editor-wide"><span>Related Page IDs</span><input type="text" value="${escapeHtml(editorValue("relatedPageIds"))}" data-wiki-field="relatedPageIds"></label>
+          </div>
+        </details>
       </section>`;
   }
 
@@ -624,6 +716,13 @@
     const pageButton = event.target.closest?.("[data-wiki-page]");
     if (pageButton) {
       selectWikiPage(pageButton.dataset.wikiPage);
+      return true;
+    }
+    const jumpButton = event.target.closest?.("[data-wiki-jump]");
+    if (jumpButton) {
+      if (typeof document !== "undefined") {
+        document.getElementById(jumpButton.dataset.wikiJump)?.scrollIntoView({ block: "start", behavior: "smooth" });
+      }
       return true;
     }
     const actionButton = event.target.closest?.("[data-action]");

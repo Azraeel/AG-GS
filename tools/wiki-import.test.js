@@ -36,7 +36,8 @@ Over 500,000
 == Pre-War Tensions ==
 ==== Historical Grievances ====
 [[File:Harbor.png|thumb|A harbor under attack]]
-Solara and [[Empire of Khalindar|Khalindar]] clashed after the [[Avant Great War]].
+'''Solara''' and ''[[Empire of Khalindar|Khalindar]]'' clashed after the [[Avant Great War]].
+* Naval raids expanded the conflict.
 
 ===== Key Battles within Congrave =====
 ====== Government District: ======
@@ -67,6 +68,9 @@ The district fell after street fighting.
   assert.match(draft.body, /### Historical Grievances/);
   assert.match(draft.body, /#### Key Battles within Congrave/);
   assert.match(draft.body, /##### Government District:/);
+  assert.match(draft.body, /\*\*Solara\*\*/);
+  assert.match(draft.body, /\*\[\[Khalindar\]\]\*/);
+  assert.match(draft.body, /- Naval raids expanded the conflict\./);
   assert.match(draft.body, /\[\[Khalindar\]\]/);
   assert.doesNotMatch(draft.body, /File:/);
 });
