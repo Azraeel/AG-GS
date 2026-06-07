@@ -18,6 +18,8 @@
     };
 
     with (runtime) {
+  const HIDDEN_WIKI_FACT_LABELS = new Set(["source", "source url", "miraheze source"]);
+
   function wikiDraftFromPage(page = {}) {
     return {
       id: page.id || "",
@@ -383,8 +385,38 @@
       </div>`;
   }
 
+  function isVisibleWikiFact(fact) {
+    const label = String(fact?.label || "").trim().toLowerCase();
+    return Boolean(fact?.label && fact?.value && !HIDDEN_WIKI_FACT_LABELS.has(label));
+  }
+
+  function wikiFactValueParts(value) {
+    const pieces = String(value || "")
+      .split(/\s*;\s*/g)
+      .map((piece) => piece.trim())
+      .filter(Boolean);
+    if (pieces.length <= 1) return pieces;
+    const parts = [];
+    for (let index = 0; index < pieces.length; index += 1) {
+      const piece = pieces[index];
+      if (/:\s*$/.test(piece) && pieces[index + 1]) {
+        parts.push(`${piece.replace(/:\s*$/, "")}: ${pieces[index + 1]}`);
+        index += 1;
+        continue;
+      }
+      parts.push(piece);
+    }
+    return parts;
+  }
+
+  function renderWikiFactValue(value, lookup) {
+    const parts = wikiFactValueParts(value);
+    if (parts.length <= 1) return renderInlineWiki(parts[0] || value, lookup);
+    return `<ul class="wiki-fact-value-list">${parts.map((part) => `<li>${renderInlineWiki(part, lookup)}</li>`).join("")}</ul>`;
+  }
+
   function renderWikiFacts(page) {
-    const facts = (page.facts || []).filter((fact) => fact.label && fact.value);
+    const facts = (page.facts || []).filter(isVisibleWikiFact);
     if (!facts.length) return "";
     const lookup = pageLookup();
     return `
@@ -397,7 +429,7 @@
           ${facts.map((fact) => `
             <div>
               <dt>${safeText(fact.label)}</dt>
-              <dd>${renderInlineWiki(fact.value, lookup)}</dd>
+              <dd>${renderWikiFactValue(fact.value, lookup)}</dd>
             </div>`).join("")}
         </dl>
       </aside>`;

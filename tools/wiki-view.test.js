@@ -141,7 +141,7 @@ test("wiki article route renders a dedicated full-page article shell", () => {
     category: "Conflict",
     status: "published",
     summary: "A major war.",
-    facts: "Source: https://avantpedia.miraheze.org/wiki/Solara-Khalindar_War",
+    facts: "Conflict: Solaran-Khalindarian War\nSource: https://avantpedia.miraheze.org/wiki/Solara-Khalindar_War",
     body: "## Pre-War Tensions\nOpening.\n\n## Major Battles\nThe city fight."
   });
 
@@ -158,6 +158,7 @@ test("wiki article route renders a dedicated full-page article shell", () => {
   assert.match(app.innerHTML, /wiki-article-rail/);
   assert.match(app.innerHTML, /wiki-contents/);
   assert.match(app.innerHTML, /wiki-fact-sheet/);
+  assert.doesNotMatch(app.innerHTML, /avantpedia\.miraheze/);
   assert.ok(app.innerHTML.indexOf("wiki-article-main") < app.innerHTML.indexOf("wiki-article-rail"));
   assert.ok(app.innerHTML.indexOf("wiki-body") < app.innerHTML.indexOf("wiki-contents"));
   assert.doesNotMatch(app.innerHTML, /wiki-masthead/);
@@ -384,7 +385,7 @@ test("wiki article and editor support structured lore fact sheets", () => {
     title: "Aurendale",
     category: "Nation",
     status: "published",
-    facts: "Capital: Highcourt\nGovernment: Crowned republic"
+    facts: "Capital: Highcourt\nGovernment: Crowned republic\nAllies: Solara; Empire of Khalindar\nSource: https://avantpedia.miraheze.org/wiki/Aurendale"
   });
 
   state.selectedWikiPageId = "aurendale";
@@ -392,6 +393,9 @@ test("wiki article and editor support structured lore fact sheets", () => {
   assert.match(app.innerHTML, /Fact Sheet/);
   assert.match(app.innerHTML, /Capital/);
   assert.match(app.innerHTML, /Highcourt/);
+  assert.match(app.innerHTML, /<ul class="wiki-fact-value-list"><li>Solara<\/li><li>Empire of Khalindar<\/li><\/ul>/);
+  assert.doesNotMatch(app.innerHTML, /Solara; Empire of Khalindar/);
+  assert.doesNotMatch(app.innerHTML, /avantpedia\.miraheze/);
 
   view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-new" } }));
   view.handleChange(fakeEvent("[data-wiki-field]", { dataset: { wikiField: "category" }, value: "Conflict" }));

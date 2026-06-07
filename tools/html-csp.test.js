@@ -66,3 +66,10 @@ test("wiki links use colorful resolved and missing-link treatments", () => {
   assert.match(wikiCss, /\.wiki-missing-link\s*{[\s\S]*color:\s*var\(--wiki-missing-ink\)/);
   assert.match(wikiCss, /\.wiki-article-summary\s+\.wiki-inline-link,\s*\.wiki-review-summary\s+\.wiki-inline-link/);
 });
+
+test("wiki fact sheet supports clean multi-value lists", () => {
+  const wikiCss = fs.readFileSync(path.join(ROOT, "site/css/wiki.css"), "utf8");
+
+  assert.match(wikiCss, /\.wiki-fact-value-list\s*{[\s\S]*list-style:\s*none/);
+  assert.match(wikiCss, /\.wiki-fact-value-list\s+li\s*{[\s\S]*border-left:\s*3px solid var\(--wiki-link-underline\)/);
+});

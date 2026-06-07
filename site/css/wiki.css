@@ -438,6 +438,20 @@
   overflow-wrap: anywhere;
 }
 
+.wiki-fact-value-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wiki-fact-value-list li {
+  border-left: 3px solid var(--wiki-link-underline);
+  background: color-mix(in srgb, var(--blue) 9%, transparent);
+  padding: 4px 0 4px 8px;
+}
+
 .wiki-body {
   padding: 26px 30px 30px;
   font-family: Georgia, "Times New Roman", serif;
