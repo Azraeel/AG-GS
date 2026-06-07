@@ -23,7 +23,17 @@
     function routeFromHash(hash) {
       const match = String(hash || "").trim().match(/^#wiki(?:\/(.+))?$/i);
       if (!match) return null;
-      return { tab: "wiki", token: normalizeToken(match[1] || "") };
+      const token = normalizeToken(match[1] || "");
+      const lowerToken = token.toLowerCase();
+      if (lowerToken === "new") return { tab: "wiki", token: "", editorMode: "new" };
+      if (lowerToken === "edit" || lowerToken.startsWith("edit/")) {
+        return {
+          tab: "wiki",
+          token: normalizeToken(token.slice(4).replace(/^\/+/, "")),
+          editorMode: "edit"
+        };
+      }
+      return { tab: "wiki", token, editorMode: "" };
     }
 
     function comparableKeys(page) {
@@ -55,11 +65,29 @@
       return slug ? `#wiki/${encodeURIComponent(slug)}` : "#wiki";
     }
 
+    function hashForNewPage() {
+      return "#wiki/new";
+    }
+
+    function hashForEditor(page) {
+      const slug = page?.slug || Engine.wikiSlug(page?.title || page?.id || "");
+      return slug ? `#wiki/edit/${encodeURIComponent(slug)}` : hashForNewPage();
+    }
+
     function applyHashToState(state, hash) {
       const route = routeFromHash(hash);
       if (!route) return false;
       state.tab = "wiki";
       state.wikiDraft = null;
+      state.wikiEditRoute = null;
+      if (isAdmin && route.editorMode) {
+        state.wikiEditRoute = { mode: route.editorMode, token: route.token };
+        if (route.editorMode === "edit" && route.token) {
+          const page = pageForToken(route.token);
+          state.selectedWikiPageId = page?.id || "";
+        }
+        return true;
+      }
       if (route.token) {
         const page = pageForToken(route.token);
         state.selectedWikiPageId = page?.id || "";
@@ -73,6 +101,14 @@
       pushHash(hashForPage(page));
     }
 
+    function pushNewPage() {
+      pushHash(hashForNewPage());
+    }
+
+    function pushEditor(page) {
+      pushHash(hashForEditor(page));
+    }
+
     function pushHome() {
       pushHash("#wiki");
     }
@@ -81,8 +117,12 @@
       routeFromHash,
       pageForToken,
       hashForPage,
+      hashForNewPage,
+      hashForEditor,
       applyHashToState,
       pushPage,
+      pushNewPage,
+      pushEditor,
       pushHome
     };
   };

@@ -9,6 +9,8 @@
         ? ctx.wikiPageUrl
         : (page) => `#wiki/${encodeURIComponent(page?.slug || page?.id || "")}`,
       setWikiRoute: typeof ctx.setWikiRoute === "function" ? ctx.setWikiRoute : () => {},
+      setWikiEditorRoute: typeof ctx.setWikiEditorRoute === "function" ? ctx.setWikiEditorRoute : () => {},
+      setWikiHomeRoute: typeof ctx.setWikiHomeRoute === "function" ? ctx.setWikiHomeRoute : () => {},
       get data() {
         return ctx.getData();
       }
@@ -84,12 +86,84 @@
     return Engine.wikiPages(data, { includeArchived: isAdmin }).find((page) => page.id === id) || null;
   }
 
+  function wikiPageByRouteToken(token) {
+    const key = String(token || "").trim().toLowerCase();
+    if (!key) return null;
+    return Engine.wikiPages(data, { includeArchived: isAdmin }).find((page) => {
+      const keys = [
+        page.id,
+        page.slug,
+        page.title,
+        Engine.wikiSlug(page.title),
+        ...(page.aliases || []),
+        ...(page.aliases || []).map((alias) => Engine.wikiSlug(alias))
+      ];
+      return keys.map((value) => String(value || "").trim().toLowerCase()).includes(key);
+    }) || null;
+  }
+
   function selectWikiPage(id, updateRoute = true) {
     state.selectedWikiPageId = id;
     state.wikiDraft = null;
+    state.wikiEditRoute = null;
+    state.wikiDraftRouteKey = "";
     const page = wikiPageById(id);
     render();
     if (updateRoute && page) setWikiRoute(page);
+  }
+
+  function wikiEditorRouteKey(route) {
+    if (!route?.mode) return "";
+    return `${route.mode}:${route.token || ""}`;
+  }
+
+  function ensureWikiEditorDraft() {
+    if (!isAdmin || !state.wikiEditRoute?.mode) return;
+    const key = wikiEditorRouteKey(state.wikiEditRoute);
+    if (state.wikiDraft && state.wikiDraftRouteKey === key) return;
+    if (state.wikiEditRoute.mode === "edit") {
+      const page = wikiPageByRouteToken(state.wikiEditRoute.token);
+      if (page) {
+        state.selectedWikiPageId = page.id;
+        state.wikiDraft = wikiDraftFromPage(page);
+      } else {
+        state.wikiDraft = wikiDraftFromPage({
+          title: wikiReferenceTitle(state.wikiEditRoute.token),
+          category: "Concept",
+          status: "draft"
+        });
+      }
+    } else {
+      state.wikiDraft = wikiDraftFromPage({ category: "Concept", status: "draft" });
+    }
+    state.wikiDraftRouteKey = key;
+  }
+
+  function activeWikiReturnPage() {
+    return wikiPageById(state.selectedWikiPageId);
+  }
+
+  function openWikiEditor(draft, mode = "new", page = null) {
+    state.wikiDraft = draft;
+    state.wikiDraftRouteKey = page ? `${mode}:${page.slug || page.id}` : `${mode}:`;
+    state.wikiEditRoute = { mode, token: page?.slug || page?.id || "" };
+    state.wikiImportStatus = "";
+    render();
+    setWikiEditorRoute(page, mode);
+  }
+
+  function leaveWikiEditor() {
+    const page = activeWikiReturnPage();
+    state.wikiDraft = null;
+    state.wikiEditRoute = null;
+    state.wikiDraftRouteKey = "";
+    state.wikiImportStatus = "";
+    render();
+    if (page) {
+      setWikiRoute(page);
+    } else {
+      setWikiHomeRoute();
+    }
   }
 
   function wikiYearLabel(page) {
@@ -531,10 +605,10 @@
             <h3>${existingPage ? `Editing ${safeText(existingPage.title)}` : "New page"}</h3>
           </div>
           <div class="wiki-editor-actions">
+            <button class="command" type="button" data-action="wiki-back">Back</button>
             <button class="command primary" type="button" data-action="wiki-save">Save Page</button>
             <button class="command" type="button" data-action="wiki-preview-draft">Review</button>
             <button class="command" type="button" data-action="wiki-apply-fact-template">Fact Template</button>
-            <button class="command" type="button" data-action="wiki-cancel-edit">Cancel</button>
             ${existingPage ? `<button class="command danger" type="button" data-action="${existingPage.archived ? "wiki-restore" : "wiki-archive"}">${existingPage.archived ? "Restore" : "Archive"}</button>` : ""}
           </div>
         </div>
@@ -572,10 +646,20 @@
 
   function renderWiki() {
     Engine.ensureWikiState(data);
+    ensureWikiEditorDraft();
     const pages = wikiPagesForView();
     const page = selectedWikiPage(pages);
     const isEditingWiki = isAdmin && state.wikiDraft;
-    if (page && state.selectedWikiPageId !== page.id) state.selectedWikiPageId = page.id;
+    if (!isEditingWiki && page && state.selectedWikiPageId !== page.id) state.selectedWikiPageId = page.id;
+    if (isEditingWiki) {
+      app.innerHTML = `
+        <section class="wiki-shell wiki-editor-shell">
+          <main class="wiki-editor-page">
+            ${wikiEditor()}
+          </main>
+        </section>`;
+      return;
+    }
     app.innerHTML = `
       <section class="wiki-shell wiki-page-shell">
         <header class="wiki-masthead">
@@ -594,11 +678,7 @@
             ${isAdmin ? `<button class="command primary" type="button" data-action="wiki-new">New Page</button>` : ""}
           </div>
         </header>
-        ${isEditingWiki ? `
-          <main class="wiki-editor-page">
-            ${wikiEditor()}
-          </main>` : `
-          ${renderWikiWorkbench()}
+        ${renderWikiWorkbench()}
           <div class="wiki-page-frame">
             <aside class="wiki-index" aria-label="Wiki index">
               <div class="wiki-index-head">
@@ -621,7 +701,6 @@
               ${renderWikiTimeline(pages)}
             </aside>
           </div>
-        `}
       </section>`;
   }
 
@@ -708,6 +787,8 @@
     const page = Engine.saveWikiPage(data, state.wikiDraft || {});
     state.selectedWikiPageId = page.id;
     state.wikiDraft = null;
+    state.wikiEditRoute = null;
+    state.wikiDraftRouteKey = "";
     setWikiRoute(page);
     saveWorkingState(`Wiki page saved: ${page.title}.`);
   }
@@ -729,30 +810,26 @@
     if (!actionButton) return false;
     const action = actionButton.dataset.action;
     if (!action.startsWith("wiki-")) return false;
-    if (["wiki-new", "wiki-edit", "wiki-save", "wiki-archive", "wiki-restore", "wiki-apply-fact-template", "wiki-preview-draft", "wiki-start-missing", "wiki-import-miraheze"].includes(action) && !isAdmin) {
+    if (["wiki-new", "wiki-edit", "wiki-save", "wiki-archive", "wiki-restore", "wiki-apply-fact-template", "wiki-preview-draft", "wiki-start-missing", "wiki-import-miraheze", "wiki-back", "wiki-cancel-edit"].includes(action) && !isAdmin) {
       state.notice = "Admin access is required for wiki edits.";
       render();
       return true;
     }
     if (action === "wiki-start-missing") {
-      state.wikiDraft = wikiMissingLinkDraft(actionButton.dataset.wikiMissingTitle || "");
-      render();
+      openWikiEditor(wikiMissingLinkDraft(actionButton.dataset.wikiMissingTitle || ""), "new");
       return true;
     }
     if (action === "wiki-new") {
-      state.wikiDraft = wikiDraftFromPage({ category: "Concept", status: "draft" });
-      state.wikiImportStatus = "";
-      render();
+      openWikiEditor(wikiDraftFromPage({ category: "Concept", status: "draft" }), "new");
       return true;
     }
     if (action === "wiki-edit") {
-      state.wikiDraft = wikiDraftFromPage(selectedWikiPage() || {});
-      render();
+      const page = selectedWikiPage();
+      openWikiEditor(wikiDraftFromPage(page || {}), "edit", page);
       return true;
     }
-    if (action === "wiki-cancel-edit") {
-      state.wikiDraft = null;
-      render();
+    if (action === "wiki-back" || action === "wiki-cancel-edit") {
+      leaveWikiEditor();
       return true;
     }
     if (action === "wiki-save") {
@@ -780,6 +857,8 @@
       if (page) {
         Engine.archiveWikiPage(data, page.id, action === "wiki-archive");
         state.wikiDraft = null;
+        state.wikiEditRoute = null;
+        state.wikiDraftRouteKey = "";
         saveWorkingState(`Wiki page ${action === "wiki-archive" ? "archived" : "restored"}: ${page.title}.`);
       }
       return true;

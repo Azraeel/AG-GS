@@ -3,6 +3,11 @@
   gap: 18px;
 }
 
+.wiki-editor-shell {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
 .wiki-masthead {
   display: flex;
   justify-content: space-between;
@@ -568,9 +573,18 @@
   background: var(--panel);
 }
 
+.wiki-editor-shell .wiki-editor-page {
+  border: 0;
+  background: transparent;
+}
+
 .wiki-editor-page .wiki-editor {
   border-top: 0;
   background: transparent;
+}
+
+.wiki-editor-shell .wiki-editor {
+  padding: 0;
 }
 
 .wiki-editor-head {
@@ -579,6 +593,20 @@
   gap: 12px;
   align-items: center;
   margin-bottom: 14px;
+}
+
+.wiki-editor-shell .wiki-editor-head {
+  align-items: end;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.wiki-editor-shell .wiki-editor-head h3 {
+  margin: 2px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700;
+  letter-spacing: 0;
 }
 
 .wiki-import-row {

@@ -58,7 +58,7 @@ function textFormat(value) {
   return String(value ?? "");
 }
 
-function createWikiView({ isAdmin = false, wikiPageUrl = null, setWikiRoute = null, WikiImport = null } = {}) {
+function createWikiView({ isAdmin = false, wikiPageUrl = null, setWikiRoute = null, setWikiEditorRoute = null, setWikiHomeRoute = null, WikiImport = null } = {}) {
   const runtime = loadRuntime();
   const Engine = runtime.AGGS_ENGINE;
   const data = Engine.normalizeState(emptyState());
@@ -88,6 +88,8 @@ function createWikiView({ isAdmin = false, wikiPageUrl = null, setWikiRoute = nu
     fmtDateTime: textFormat,
     wikiPageUrl,
     setWikiRoute,
+    setWikiEditorRoute,
+    setWikiHomeRoute,
     WikiImport,
     saveWorkingState: (message) => {
       state.notice = message;
@@ -130,16 +132,86 @@ test("admin wiki view can create and save a page draft", () => {
   assert.match(state.notice, /Wiki page saved/);
 });
 
-test("admin wiki new page opens a separate editor workspace", () => {
-  const { app, view } = createWikiView({ isAdmin: true });
+test("admin wiki new page opens a dedicated editor route", () => {
+  const routedEditors = [];
+  const { app, view } = createWikiView({
+    isAdmin: true,
+    setWikiEditorRoute: (page, mode) => routedEditors.push({ page: page?.id || "", mode })
+  });
 
   view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-new" } }));
 
+  assert.deepEqual(routedEditors, [{ page: "", mode: "new" }]);
+  assert.match(app.innerHTML, /wiki-editor-shell/);
   assert.match(app.innerHTML, /wiki-editor-page/);
   assert.match(app.innerHTML, /wiki-editor/);
+  assert.match(app.innerHTML, /data-action="wiki-back"/);
   assert.doesNotMatch(app.innerHTML, /No Avant wiki pages have been created yet/);
+  assert.doesNotMatch(app.innerHTML, /wiki-masthead/);
   assert.doesNotMatch(app.innerHTML, /wiki-page-frame/);
   assert.doesNotMatch(app.innerHTML, /Wiki Workbench/);
+});
+
+test("admin wiki editor back returns to the selected article route", () => {
+  const routedPages = [];
+  const { Engine, data, app, state, view } = createWikiView({
+    isAdmin: true,
+    setWikiRoute: (page) => routedPages.push(page.slug)
+  });
+  Engine.saveWikiPage(data, {
+    title: "Aurendale",
+    category: "Nation",
+    status: "published"
+  });
+
+  state.selectedWikiPageId = "aurendale";
+  view.renderWiki();
+  view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-edit" } }));
+  assert.match(app.innerHTML, /wiki-editor-shell/);
+
+  view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-back" } }));
+
+  assert.equal(state.wikiDraft, null);
+  assert.equal(state.wikiEditRoute, null);
+  assert.deepEqual(routedPages, ["aurendale"]);
+  assert.match(app.innerHTML, /wiki-masthead/);
+  assert.match(app.innerHTML, /Aurendale/);
+});
+
+test("admin wiki editor route renders an existing page draft directly", () => {
+  const { Engine, data, app, state, view } = createWikiView({ isAdmin: true });
+  Engine.saveWikiPage(data, {
+    title: "Aurendale",
+    category: "Nation",
+    status: "draft",
+    body: "Draft lore."
+  });
+
+  state.wikiEditRoute = { mode: "edit", token: "aurendale" };
+  view.renderWiki();
+
+  assert.equal(state.selectedWikiPageId, "aurendale");
+  assert.equal(state.wikiDraft.title, "Aurendale");
+  assert.match(app.innerHTML, /wiki-editor-shell/);
+  assert.match(app.innerHTML, /Editing Aurendale/);
+  assert.doesNotMatch(app.innerHTML, /wiki-masthead/);
+});
+
+test("admin wiki editor route does not edit the first page when the token is missing", () => {
+  const { Engine, data, app, state, view } = createWikiView({ isAdmin: true });
+  Engine.saveWikiPage(data, {
+    title: "Aurendale",
+    category: "Nation",
+    status: "published"
+  });
+
+  state.wikiEditRoute = { mode: "edit", token: "missing-treaty" };
+  view.renderWiki();
+
+  assert.equal(state.selectedWikiPageId, "");
+  assert.equal(state.wikiDraft.title, "missing-treaty");
+  assert.match(app.innerHTML, /wiki-editor-shell/);
+  assert.doesNotMatch(app.innerHTML, /value="Aurendale"/);
 });
 
 test("wiki article shows outbound links backlinks and missing lore links", () => {

@@ -109,3 +109,30 @@ test("wiki route builds and pushes article hashes", () => {
   route.pushHome();
   assert.deepEqual(pushed, ["#wiki/whitewater-crisis", "#wiki"]);
 });
+
+test("admin wiki route can open dedicated editor pages", () => {
+  const { Engine, data, route, pushed } = routeFixture({ isAdmin: true });
+  const page = Engine.saveWikiPage(data, {
+    title: "Whitewater Crisis",
+    category: "Event",
+    status: "draft"
+  });
+  const state = { tab: "overview", selectedWikiPageId: "", wikiDraft: null, wikiEditRoute: null };
+
+  assert.equal(route.applyHashToState(state, "#wiki/new"), true);
+  assert.equal(state.tab, "wiki");
+  assert.equal(state.wikiEditRoute.mode, "new");
+  assert.equal(state.wikiEditRoute.token, "");
+  assert.equal(state.selectedWikiPageId, "");
+
+  assert.equal(route.applyHashToState(state, "#wiki/edit/whitewater-crisis"), true);
+  assert.equal(state.selectedWikiPageId, page.id);
+  assert.equal(state.wikiEditRoute.mode, "edit");
+  assert.equal(state.wikiEditRoute.token, "whitewater-crisis");
+
+  assert.equal(route.hashForNewPage(), "#wiki/new");
+  assert.equal(route.hashForEditor(page), "#wiki/edit/whitewater-crisis");
+  route.pushNewPage();
+  route.pushEditor(page);
+  assert.deepEqual(pushed, ["#wiki/new", "#wiki/edit/whitewater-crisis"]);
+});

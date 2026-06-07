@@ -1509,6 +1509,14 @@
     WikiImport: window.AGGS_APP_MODULES.WikiImport,
     wikiPageUrl: wikiRoute.hashForPage,
     setWikiRoute: wikiRoute.pushPage,
+    setWikiEditorRoute: (page, mode) => {
+      if (mode === "new") {
+        wikiRoute.pushNewPage();
+      } else {
+        wikiRoute.pushEditor(page);
+      }
+    },
+    setWikiHomeRoute: wikiRoute.pushHome,
     saveWorkingState,
     render
   });
