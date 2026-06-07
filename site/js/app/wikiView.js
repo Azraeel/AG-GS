@@ -4,6 +4,7 @@
   window.AGGS_APP_MODULES.createWikiView = function createWikiView(ctx) {
     const runtime = {
       ...ctx,
+      WikiImport: ctx.WikiImport || window.AGGS_APP_MODULES.WikiImport || null,
       wikiPageUrl: typeof ctx.wikiPageUrl === "function"
         ? ctx.wikiPageUrl
         : (page) => `#wiki/${encodeURIComponent(page?.slug || page?.id || "")}`,
@@ -202,10 +203,12 @@
         flushList();
         return;
       }
-      if (trimmed.startsWith("## ")) {
+      const heading = trimmed.match(/^(#{2,6})\s+(.+)$/);
+      if (heading) {
         flushParagraph();
         flushList();
-        output.push(`<h3>${renderInlineWiki(trimmed.slice(3), lookup)}</h3>`);
+        const level = Math.min(6, Math.max(3, heading[1].length + 1));
+        output.push(`<h${level}>${renderInlineWiki(heading[2], lookup)}</h${level}>`);
         return;
       }
       if (trimmed.startsWith("- ")) {
@@ -406,6 +409,30 @@
     return state.wikiDraft?.[field] ?? "";
   }
 
+  function importedDraftFromPage(page = {}) {
+    return {
+      id: page.id || "",
+      title: page.title || "",
+      category: page.category || "Conflict",
+      status: page.status || "draft",
+      era: page.era || "",
+      yearStart: page.yearStart ?? "",
+      yearEnd: page.yearEnd ?? "",
+      summary: page.summary || "",
+      body: page.body || "",
+      facts: page.facts || "",
+      tags: page.tags || "",
+      aliases: page.aliases || "",
+      relatedPageIds: page.relatedPageIds || ""
+    };
+  }
+
+  function wikiImportStatus() {
+    return state.wikiImportStatus
+      ? `<span class="wiki-import-status">${safeText(state.wikiImportStatus)}</span>`
+      : "";
+  }
+
   function wikiEditor() {
     if (!isAdmin || !state.wikiDraft) return "";
     const draft = state.wikiDraft;
@@ -424,6 +451,14 @@
             <button class="command" type="button" data-action="wiki-cancel-edit">Cancel</button>
             ${existingPage ? `<button class="command danger" type="button" data-action="${existingPage.archived ? "wiki-restore" : "wiki-archive"}">${existingPage.archived ? "Restore" : "Archive"}</button>` : ""}
           </div>
+        </div>
+        <div class="wiki-import-row">
+          <label class="control-field is-text wiki-import-field">
+            <span>Miraheze URL</span>
+            <input type="text" value="${escapeHtml(state.wikiImportSource || "")}" data-wiki-import-source>
+          </label>
+          <button class="command" type="button" data-action="wiki-import-miraheze">Import Miraheze</button>
+          ${wikiImportStatus()}
         </div>
         <div class="wiki-editor-grid">
           <label class="control-field is-text"><span>Title</span><input type="text" value="${escapeHtml(editorValue("title"))}" data-wiki-field="title"></label>
@@ -503,6 +538,31 @@
     state.wikiDraft[field] = value;
   }
 
+  async function importMirahezeDraft() {
+    if (!WikiImport?.fetchMirahezeWikitext || !WikiImport?.convertMirahezeWikitext) {
+      state.wikiImportStatus = "Miraheze import is unavailable.";
+      render();
+      return;
+    }
+    const source = String(state.wikiImportSource || "").trim();
+    if (!source) {
+      state.wikiImportStatus = "Enter a Miraheze URL or page title.";
+      render();
+      return;
+    }
+    state.wikiImportStatus = "Importing Miraheze page.";
+    render();
+    try {
+      const page = await WikiImport.fetchMirahezeWikitext(source);
+      state.wikiDraft = importedDraftFromPage(WikiImport.convertMirahezeWikitext(page));
+      state.wikiImportSource = page.sourceUrl || source;
+      state.wikiImportStatus = `Imported ${state.wikiDraft.title}.`;
+    } catch (error) {
+      state.wikiImportStatus = error?.message || "Miraheze import failed.";
+    }
+    render();
+  }
+
   function handleInput(event) {
     const search = event.target.closest?.("[data-wiki-search]");
     if (search) {
@@ -514,6 +574,11 @@
     if (year) {
       state.wikiYearFilter = year.value;
       render();
+      return true;
+    }
+    const importSource = event.target.closest?.("[data-wiki-import-source]");
+    if (importSource) {
+      state.wikiImportSource = importSource.value;
       return true;
     }
     const field = event.target.closest?.("[data-wiki-field]");
@@ -565,7 +630,7 @@
     if (!actionButton) return false;
     const action = actionButton.dataset.action;
     if (!action.startsWith("wiki-")) return false;
-    if (["wiki-new", "wiki-edit", "wiki-save", "wiki-archive", "wiki-restore", "wiki-apply-fact-template", "wiki-preview-draft", "wiki-start-missing"].includes(action) && !isAdmin) {
+    if (["wiki-new", "wiki-edit", "wiki-save", "wiki-archive", "wiki-restore", "wiki-apply-fact-template", "wiki-preview-draft", "wiki-start-missing", "wiki-import-miraheze"].includes(action) && !isAdmin) {
       state.notice = "Admin access is required for wiki edits.";
       render();
       return true;
@@ -577,6 +642,7 @@
     }
     if (action === "wiki-new") {
       state.wikiDraft = wikiDraftFromPage({ category: "Concept", status: "draft" });
+      state.wikiImportStatus = "";
       render();
       return true;
     }
@@ -604,6 +670,10 @@
     if (action === "wiki-preview-draft") {
       state.wikiDraft = state.wikiDraft || wikiDraftFromPage(selectedWikiPage() || {});
       render();
+      return true;
+    }
+    if (action === "wiki-import-miraheze") {
+      importMirahezeDraft();
       return true;
     }
     if (action === "wiki-archive" || action === "wiki-restore") {

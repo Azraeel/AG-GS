@@ -13,6 +13,14 @@ const ROOT = path.resolve(__dirname, "..");
     assert.match(html, /connect-src[^;]*https:\/\/cloudflareinsights\.com/);
   });
 
+  test(`${relativePath} allows and loads the Avantpedia importer before the wiki view`, () => {
+    const html = fs.readFileSync(path.join(ROOT, relativePath), "utf8");
+
+    assert.match(html, /connect-src[^;]*https:\/\/avantpedia\.miraheze\.org/);
+    assert.match(html, /wikiImport\.js\?v=/);
+    assert.ok(html.indexOf("wikiImport.js") < html.indexOf("wikiView.js"));
+  });
+
   test(`${relativePath} exposes the wiki through the top call-to-action only`, () => {
     const html = fs.readFileSync(path.join(ROOT, relativePath), "utf8");
 

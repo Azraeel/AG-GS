@@ -328,6 +328,23 @@
   font-weight: 700;
 }
 
+.wiki-body h4,
+.wiki-body h5,
+.wiki-body h6 {
+  clear: both;
+  margin: 24px 0 8px;
+  font-weight: 700;
+}
+
+.wiki-body h4 {
+  font-size: 20px;
+}
+
+.wiki-body h5,
+.wiki-body h6 {
+  font-size: 17px;
+}
+
 .wiki-body p,
 .wiki-body ul {
   max-width: 86ch;
@@ -492,6 +509,29 @@
   margin-bottom: 14px;
 }
 
+.wiki-import-row {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto minmax(160px, auto);
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.wiki-import-field {
+  min-width: 0;
+}
+
+.wiki-import-status {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
 .wiki-editor-wide {
   grid-column: 1 / -1;
 }
@@ -579,6 +619,7 @@
 
   .wiki-page-frame,
   .wiki-filter-grid,
+  .wiki-import-row,
   .wiki-editor-grid {
     grid-template-columns: 1fr;
   }

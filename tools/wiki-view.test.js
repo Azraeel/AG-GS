@@ -58,7 +58,7 @@ function textFormat(value) {
   return String(value ?? "");
 }
 
-function createWikiView({ isAdmin = false, wikiPageUrl = null, setWikiRoute = null } = {}) {
+function createWikiView({ isAdmin = false, wikiPageUrl = null, setWikiRoute = null, WikiImport = null } = {}) {
   const runtime = loadRuntime();
   const Engine = runtime.AGGS_ENGINE;
   const data = Engine.normalizeState(emptyState());
@@ -88,6 +88,7 @@ function createWikiView({ isAdmin = false, wikiPageUrl = null, setWikiRoute = nu
     fmtDateTime: textFormat,
     wikiPageUrl,
     setWikiRoute,
+    WikiImport,
     saveWorkingState: (message) => {
       state.notice = message;
     },
@@ -186,6 +187,23 @@ test("wiki body keeps heading lines separate from following paragraph text", () 
   assert.doesNotMatch(app.innerHTML, /Background\s*The crisis began/);
 });
 
+test("wiki body renders nested headings from imported articles", () => {
+  const { Engine, data, app, state, view } = createWikiView();
+  Engine.saveWikiPage(data, {
+    title: "Solara-Khalindar War",
+    category: "Conflict",
+    status: "published",
+    body: "## Pre-War Tensions\nOpening.\n\n### Historical Grievances\nOld claims.\n\n#### Key Battles within Congrave\nThe city fight."
+  });
+
+  state.selectedWikiPageId = "solara-khalindar-war";
+  view.renderWiki();
+
+  assert.match(app.innerHTML, /<h3>Pre-War Tensions<\/h3>/);
+  assert.match(app.innerHTML, /<h4>Historical Grievances<\/h4>/);
+  assert.match(app.innerHTML, /<h5>Key Battles within Congrave<\/h5>/);
+});
+
 test("wiki article and editor support structured lore fact sheets", () => {
   const { Engine, data, app, state, view } = createWikiView({ isAdmin: true });
   Engine.saveWikiPage(data, {
@@ -232,6 +250,57 @@ test("admin wiki editor previews the draft article before saving", () => {
   assert.match(app.innerHTML, /Belligerents/);
   assert.match(app.innerHTML, /Armistice/);
   assert.match(app.innerHTML, /war/);
+});
+
+test("admin wiki editor imports a Miraheze article into a draft", async () => {
+  const importedUrl = "https://avantpedia.miraheze.org/wiki/Solara-Khalindar_War";
+  const { app, state, view } = createWikiView({
+    isAdmin: true,
+    WikiImport: {
+      fetchMirahezeWikitext: async (input) => {
+        assert.equal(input, importedUrl);
+        return {
+          title: "Solara-Khalindar War",
+          sourceUrl: importedUrl,
+          wikitext: "source"
+        };
+      },
+      convertMirahezeWikitext: (source) => ({
+        id: "",
+        title: source.title,
+        category: "Conflict",
+        status: "draft",
+        era: "Modern Era",
+        yearStart: "1990",
+        yearEnd: "1994",
+        summary: "Solara-Khalindar War was a 1990-1994 conflict.",
+        body: "## Pre-War Tensions\nImported article body.",
+        facts: `Source: ${source.sourceUrl}`,
+        tags: "Solara, Khalindar",
+        aliases: "Solaran-Khalindarian War",
+        relatedPageIds: ""
+      })
+    }
+  });
+
+  view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-new" } }));
+  assert.match(app.innerHTML, /data-wiki-import-source/);
+
+  view.handleInput(fakeEvent("[data-wiki-import-source]", { value: importedUrl }));
+  assert.equal(state.wikiImportSource, importedUrl);
+
+  assert.equal(
+    view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-import-miraheze" } })),
+    true
+  );
+  await new Promise((resolve) => setImmediate(resolve));
+
+  assert.equal(state.wikiDraft.title, "Solara-Khalindar War");
+  assert.equal(state.wikiDraft.category, "Conflict");
+  assert.equal(state.wikiDraft.yearStart, "1990");
+  assert.match(state.wikiDraft.body, /Pre-War Tensions/);
+  assert.match(state.wikiDraft.facts, /avantpedia\.miraheze/);
+  assert.match(app.innerHTML, /Imported Solara-Khalindar War/);
 });
 
 test("admin wiki view renders content workbench without exposing it publicly", () => {
