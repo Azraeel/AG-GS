@@ -1,0 +1,96 @@
+{{Documentation subpage}}
+<!-- Categories go at the bottom of this page and interwikis go in Wikidata. -->
+{{used in system|in [[MediaWiki:Citethispage-content]]}}
+{{Lua|Module:List}}
+{{Uses TemplateStyles|Template:Hlist/styles.css}}
+{{tlr|clear=right|Horizontal list|dotlist|hlist1}}
+
+This template creates [[WP:HLIST|horizontal lists]]. Each item in the list may be individually styled with [[CSS]].
+
+__TOC__
+{{-}}
+== Usage ==
+'''Basic usage'''
+
+{{pre|<nowiki>{{</nowiki>hlist<nowiki>|</nowiki>''first item''<nowiki>|</nowiki>''second item''<nowiki>|</nowiki>''third item''<nowiki>|</nowiki>...<nowiki>}}</nowiki>}}
+
+'''All parameters'''
+
+{{pre|
+<nowiki>{{</nowiki>hlist
+<nowiki>|</nowiki>''first item''<nowiki>|</nowiki>''second item''<nowiki>|</nowiki>''third item''<nowiki>|</nowiki>...
+<nowiki>|class       = </nowiki>''class for div tag''
+<nowiki>|style       = </nowiki>''style for div tag''
+<nowiki>|list_style  = </nowiki>''style for ul tag''
+<nowiki>|item_style  = </nowiki>''style for all li tags''
+<nowiki>|item1_style = </nowiki>''style for first li tag''
+<nowiki>|item2_style = </nowiki>''style for second li tag''
+<nowiki>|</nowiki>...
+<nowiki>|indent      = </nowiki>''the number of tabs to indent''
+<nowiki>}}</nowiki>
+}}
+
+== Parameters ==
+* Positional parameters (<code>1</code>, <code>2</code>, <code>3</code>...): these are the list items. If no list items are present, the module will output nothing.
+* <code>class</code>: a custom class for the {{tag|div}} tags surrounding the list. Set to <code>inline</code> when using {{tlf|hlist}} inside text.
+* <code>style</code>: a custom CSS style for the {{tag|div}} tags surrounding the list, e.g. <code>font-size: 90%;</code>.
+* <code>list_style</code>: a custom CSS style for the {{tag|ul}} tags around the list. The format is the same as for the {{para|style}} parameter.
+* <code>item_style</code>: a custom CSS style for all of the list items (the {{tag|li}} tags). The format is the same as for the {{para|style}} parameter.
+* <code>item1_style</code>, <code>item2_style</code>, <code>item3_style</code>...: custom CSS styles for each of the list items. The format is the same as for the {{para|style}} parameter.
+* <code>indent</code>: the number of tabs to indent the list. Default value is 0.
+
+== Examples ==
+{{markup
+| <nowiki>{{hlist|entry1|entry2|entry3|entry4|entry5|entry6|entry7|entry8|entry9}}</nowiki>
+| {{hlist|entry1|entry2|entry3|entry4|entry5|entry6|entry7|entry8|entry9}}
+
+| <nowiki>Giant planets ({{hlist|[[Jupiter|J]]|[[Saturn|S]]|[[Uranus|U]]|[[Neptune|N]]}}).</nowiki>
+| Giant planets ({{hlist|[[Jupiter|J]]|[[Saturn|S]]|[[Uranus|U]]|[[Neptune|N]]}}).
+
+| <nowiki>Giant planets ({{hlist|class=inline|[[Jupiter|J]]|[[Saturn|S]]|[[Uranus|U]]|[[Neptune|N]]}}).</nowiki>
+| Giant planets ({{hlist|class=inline|[[Jupiter|J]]|[[Saturn|S]]|[[Uranus|U]]|[[Neptune|N]]}}).
+
+| <nowiki>{{hlist|Winner|Runner-up|Third place|indent=2}}</nowiki>
+| {{hlist|Winner|Runner-up|Third place|indent=2}}
+
+| <nowiki>{{hlist|Winner|Runner-up|Third place|item_style=color:blue;}}</nowiki>
+| {{hlist|Winner|Runner-up|Third place|item_style=color:blue;}}
+
+| <nowiki>{{hlist|Winner|Runner-up|Third place|item1_style=background-color:yellow;|item2_style=background-color:silver;}}</nowiki>
+| {{hlist|Winner|Runner-up|Third place|item1_style=background-color:yellow;|item2_style=background-color:silver;}}
+}}
+
+== Avoiding Linter errors ==
+
+{{tlf|hlist}} will produce [[Wikipedia:Linter|Linter]] [[Special:LintErrors/misc-tidy-replacement-issues|errors]] if placed inside a template that uses {{tag|span}} tags, such as {{tl|small}}, {{tl|larger}}, etc. To avoid this, use the substitutions from the table below:
+
+{| {{table}}
+! Incorrect markup !! Correct markup
+|-
+| <code><nowiki>{{small|{{hlist|...}}}}</nowiki></code> || <code><nowiki>{{hlist|...|style=font-size:85%}}</nowiki></code>
+|-
+| <code><nowiki>{{resize|{{hlist|...}}}}</nowiki></code> || <code><nowiki>{{hlist|...|style=font-size:90%}}</nowiki></code>
+|-
+| <code><nowiki>{{midsize|{{hlist|...}}}}</nowiki></code> || <code><nowiki>{{hlist|...|style=font-size:92%}}</nowiki></code>
+|-
+| <code><nowiki>{{larger|{{hlist|...}}}}</nowiki></code> || <code><nowiki>{{hlist|...|style=font-size:110%}}</nowiki></code>
+|-
+| <code><nowiki>{{big|{{hlist|...}}}}</nowiki></code> || <code><nowiki>{{hlist|...|style=font-size:120%}}</nowiki></code>
+|-
+| <code><nowiki>{{large|{{hlist|...}}}}</nowiki></code> || <code><nowiki>{{hlist|...|style=font-size:large}}</nowiki></code>
+|-
+| <code><nowiki>{{huge|{{hlist|...}}}}</nowiki></code> || <code><nowiki>{{hlist|...|style=font-size:180%}}</nowiki></code>
+|-
+| <code><nowiki>{{resize|x%|{{hlist|...}}}}</nowiki></code> || <code><nowiki>{{hlist|...|style=font-size:x%}}</nowiki></code>
+|-
+| <code><nowiki>{{font|size=x%|{{hlist|...}}}}</nowiki></code> || <code><nowiki>{{hlist|...|style=font-size:x%}}</nowiki></code>
+|-
+| <code><nowiki>{{nowrap|{{hlist|...}}}}</nowiki></code> || <code><nowiki>{{hlist|...|style=white-space: nowrap}}</nowiki></code>
+|}
+
+{{navbox lists}}
+<includeonly>{{Sandbox other||
+<!-- Categories go here, and interwikis go in Wikidata -->
+[[Category:List formatting and function templates]]
+
+}}</includeonly>

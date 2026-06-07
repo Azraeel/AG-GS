@@ -1,0 +1,9 @@
+{{High-risk|639000}}
+This module contains data taken directly from a local copy of data copied from the table at [https://www.loc.gov/standards/iso639-2/php/English_list.php Codes for the Representation of Names of Languages] on the ISO 639-1 and ISO 639-2 custodian's website.
+
+The table in this module was created using [[Module:Language/data/ISO 639-2/make]].  There should be no need to hand edit this table, so please do not do so except to reflect changes that are actually present in the source (in which case it is probably better to re-run the extraction tool on the new data).
+
+<includeonly>{{#ifeq:{{SUBPAGENAME}}|sandbox | |
+<!-- Categories below this line, please; interwikis at Wikidata -->
+[[Category:Language-related modules]]
+}}</includeonly>

@@ -1,0 +1,416 @@
+{{Documentation subpage}}
+<!-- Place categories where indicated at the bottom of this page and interwikis at Wikidata (see [[Wikipedia:Wikidata]]) -->
+{{Lua|Module:Infobox|Module:InfoboxImage|Module:Check for unknown parameters}}
+
+==Usage==
+{{parameter names example| name| logo| caption| native_name| native_name_lang| other_name| leader| foundation| dates| dissolved| merger| split| predecessor| merged| successor| country| allegiance| clans| motives| area| headquarters| newspaper| ideology| position| slogan| crimes| attacks| status| size| revenue| financing| allies| opponents| battles| flag| website| module| module2| module3| module4| module5| module6}}
+<syntaxhighlight lang="wikitext">
+{{Infobox militant organization
+| name             = 
+| logo             = 
+| caption          = 
+| native_name      = 
+| native_name_lang = 
+| other_name       = 
+| leader           = 
+| foundation       = 
+| dates            = <!-- {{Start date|YYYY|MM|DD}}–{{End date|YYYY|MM|DD}} -->
+| dissolved        = 
+| merger           = 
+| split            = 
+| predecessor      = 
+| merged           = 
+| successor        = 
+| country          = 
+| allegiance       = 
+| clans            = 
+| motives          = 
+| area             = 
+| headquarters     = 
+| newspaper        = 
+| ideology         = 
+| position         = 
+| slogan           =
+| crimes           = 
+| attacks          = 
+| status           = 
+| size             = 
+| revenue          = 
+| financing        = 
+| partof           = 
+| allies           = 
+| opponents        = 
+| battles          = 
+| flag             = 
+| website          = <!-- {{URL|example.com}} -->
+| module           = 
+| module2          = 
+| module3          = 
+| module4          = 
+| module5          = 
+| module6          = 
+}}
+</syntaxhighlight>
+{{clear}}
+
+==Example==
+{{Infobox militant organization
+| name             = Liberation Tigers of Tamil Eelam
+| logo             = 
+| caption          = The official emblem of the Liberation Tigers of Tamil Eelam.
+| native_name      = தமிழிழவிடுதலைப்புலிகள்
+| native_name_lang = ta
+| other_name       = Tamil Tigers
+| leader           = [[Velupillai Prabhakaran]]
+| foundation       = 1976
+| dates            = {{start date|1976|df=y}} – {{end date|Present|df=y}}
+| dissolved        = 
+| merger           = 
+| split            = 
+| predecessor      = 
+| merged           = 
+| successor        = 
+| country          = [[Sri Lanka]]
+| allegiance       = 
+| motives          = The creation of a separate [[Sri Lankan Tamil people|Tamil]] [[Tamil Eelam|state]] in the [[Northern Province, Sri Lanka|north]] and [[Eastern Province, Sri Lanka|east]] of [[Sri Lanka]]
+| area             = [[Sri Lanka]]
+| headquarters     =
+| newspaper        = 
+| ideology         = [[Sri Lankan Tamil Nationalism|Tamil nationalism]]
+| position         = 
+| slogan           =
+| crimes           = Numerous [[suicide attack|suicide bombings]], Crimes against life and health, [[List of attacks attributed to the LTTE|attacks against civilians]], [[Military use of children in Sri Lanka|use of child soldiers]], [[Expulsion of Muslims from Jaffna|acts of ethnic cleansing]]
+| attacks          = [[Central Bank bombing]], [[Palliyagodella massacre]], [[Dehiwala train bombing]] and others.
+| status           = As of April 24, 2009 the LTTE occupies an area of around 10 km² in the [[Mullaitivu District]], proscribed as a terrorist organization by 32 countries.<ref>http://defence.lk/new.asp?fname=20090117_03</ref>  
+| size             = couple of hundred
+| revenue          = ?
+| financing        = [[British Tamils Forum]], [[Tamil diaspora|Sri Lankan Tamil diaspora]] and other NGOs.
+| partof           = 
+| allies           = 
+| opponents        = 
+| battles          = 
+| flag             = 
+| website          = 
+}}
+
+<syntaxhighlight lang="wikitext" style="width:50%; overflow:auto; margin-right:5px">
+{{Infobox militant organization
+| name             = Liberation Tigers of Tamil Eelam
+| logo             = Ltte_emblem.jpg
+| caption          = The official emblem of the Liberation Tigers of Tamil Eelam.
+| native_name      = தமிழிழவிடுதலைப்புலிகள்
+| native_name_lang = ta
+| other_name       = Tamil Tigers
+| country          = [[Sri Lanka]]
+| allegiance       = 
+| leader           = [[Velupillai Prabhakaran]]
+| foundation       = 1976
+| dates            = {{start date|1976|df=y}} – {{end date|Present|df=y}}
+| dissolved        = 
+| merger           = 
+| split            = 
+| predecessor      = 
+| merged           = 
+| successor        = 
+| motives          = The creation of a separate [[Sri Lankan Tamil people|Tamil]] [[Tamil Eelam|state]] in the [[Northern Province, Sri Lanka|north]] and [[Eastern Province, Sri Lanka|east]] of [[Sri Lanka]]
+| area             = [[Sri Lanka]]
+| headquarters     =
+| newspaper        = 
+| ideology         = [[Sri Lankan Tamil Nationalism|Tamil nationalism]]
+| position         = 
+| slogan           =
+| crimes           = Numerous [[suicide attack|suicide bombings]], Crimes against life and health, [[List of attacks attributed to the LTTE|attacks against civilians]], [[Military use of children in Sri Lanka|use of child soldiers]], [[Expulsion of Muslims from Jaffna|acts of ethnic cleansing]]
+| attacks          = [[Central Bank bombing]], [[Palliyagodella massacre]], [[Dehiwala train bombing]] and others.
+| status           = As of April 24, 2009 the LTTE occupies an area of around 10 km² in the [[Mullaitivu District]], proscribed as a terrorist organization by 32 countries.<ref>http://defence.lk/new.asp?fname=20090117_03</ref>  
+| size             = couple of hundred
+| revenue          = ?
+| financing        = [[British Tamils Forum]], [[Tamil diaspora|Sri Lankan Tamil diaspora]] and other NGOs.
+| partof           = 
+| allies           = 
+| opponents        = 
+| battles          = 
+| flag             = 
+| website          = 
+}}
+</syntaxhighlight>
+
+==Parameters==
+
+For all fields, no wikilinks are automatically incorporated into the infobox. Therefore, if you want anything to be linked to something else, they must be added when including the template.
+
+* '''name''' – The name of the organization; most likely this will match the article title, but you can change it to something slightly different if required. ''Compulsory''; all others are optional.
+* '''logo''' – The main logo of the organization. Do not include the “Image:” prefix.
+* '''caption''' – A description of the logo or its use; will usually not be required.
+* '''native_name''' – Name in their own language.
+* '''native_name_lang''' – Use [[List of ISO 639-2 codes|ISO 639-2 code]], e.g. "fr" for French. If there is more than one native name, in different languages, enter those names using {{tl|plainlist}}, and wrapping each in {{tl|lang}}, instead.
+* '''other_name''' – known as. Separate multiple values using {{tl|plainlist}}.
+* '''leader''' – The normally recognized leader of the organization.
+* '''foundation''' – Date of foundation of the organization.
+* '''dates''' – Use {{Tl|Start date}} (and {{Tl|End date}} if appropriate).
+* '''dissolved''' – Date of dissolve.
+* '''merger''' – Merger of.
+* '''split''' – Split from.
+* '''predecessor''' – Preceded&nbsp;by.
+* '''merged''' – Merged into.
+* '''successor''' – Succeeded&nbsp;by.
+* '''country''' – Name of the country in which the organization was founded and active.
+* '''allegiance''' – Allegiance.
+* '''motives''' – The ‘’’primary’’’ objectives of the organization. Do not elaborate in the infobox; give a basic outline only, and a detailed description in the article text.
+* '''area''' – The areas in which the organization carries out its primary activities.
+* '''headquarters''' – The seat of the organization, if present.
+* '''newspaper''' – The newspaper(s) or magazine(s) of the organization (if any).
+* '''ideology''' – The ideology of the organization, if present.
+* '''position''' – Political position of the organization (if any).
+* '''slogan''' – The official slogan of the organization (if any).
+* '''crimes''' – The major ''kinds'' of crimes the organization commits; particular acts belong in the next fields.
+* '''attacks''' – A few notable attacks carried out by the organization.
+* '''status''' – The status of the organization. For example, list countries that have labeled it as a terrorist organization.
+* '''size''' – The number of members.
+* '''revenue''' – The annual income. State the currency!
+* '''financing''' – Breakdown of the revenue; how much is generated by what activity.
+* '''partof''' – If the organization is part of another group.
+* '''allies''' – The allies of the organization.
+* '''opponents''' – Opponents of the organization.
+* '''battles''' – Battles or wars fought by the organization.
+* '''flag''' – Flag, if any.
+
+* '''website''' – Website/URL if any.
+
+== Microformat ==
+{{UF-hcard-org}}
+
+== TemplateData ==
+{{TemplateData header}}
+{{collapse top|title=TemplateData}}
+<templatedata>
+{
+	"description": "An infobox for military organization",
+	"format": "{{_\n| ________________ = _\n}}\n",
+	"params": {
+		"child": {},
+		"embed": {},
+		"name": {
+			"label": "Name",
+			"description": "The name of the organization; most likely this will match the article title, but you can change it to something else if required.",
+			"example": "Liberation Tigers of Tamil Eelam",
+			"type": "string",
+			"required": true
+		},
+		"native_name": {
+			"label": "Native name",
+			"description": "The name of the organization in their own language.",
+			"example": "தமிழிழவிடுதலைப்புலிகள்",
+			"type": "string"
+		},
+		"native_name_lang": {
+			"label": "Native name language",
+			"description": "The language of the native name of the militant organization. Use ISO 639 code, e.g. \"fr\" for French. If there is more than one native name, in different languages, enter those names using {{plainlist}}, and wrapping each in {{lang}}, instead.",
+			"example": "ta"
+		},
+		"caption": {
+			"label": "Logo caption",
+			"description": "A description of the logo or its use; will usually not be required.",
+			"type": "string"
+		},
+		"image": {},
+		"logo": {
+			"label": "Logo",
+			"description": "The main logo of the organization. Do not include the “File:” or \"Image:\" prefix. SVGs are preferred, but JPGs and PNGs work just fine.",
+			"example": "Ltte-emblem.jpg",
+			"type": "wiki-file-name"
+		},
+		"image_size": {},
+		"logo_size": {},
+		"image_alt": {},
+		"other_name": {
+			"label": "Other names",
+			"description": "Alternate name(s) for the organization. If there are multiple names, wrap them in a {{plainlist}} template.",
+			"example": "Tamil Tigers"
+		},
+		"founders": {},
+		"founder": {},
+		"founding_leader": {},
+		"leader_title": {},
+		"leaders": {},
+		"leader": {},
+		"military_leader": {},
+		"political_leader": {},
+		"leader1_title": {},
+		"leader1_name": {},
+		"leader2_title": {},
+		"leader2_name": {},
+		"leader3_title": {},
+		"leader3_name": {},
+		"spokesperson": {},
+		"spokesman": {},
+		"foundation": {},
+		"dates": {},
+		"active": {},
+		"dissolved": {},
+		"dissolution": {},
+		"merger": {},
+		"split": {},
+		"split_from": {},
+		"merged": {},
+		"merged_into": {},
+		"split_to": {},
+		"country": {},
+		"allegiance": {},
+		"clans": {},
+		"motives": {},
+		"headquarters": {},
+		"area": {},
+		"ideology": {},
+		"position": {},
+        "slogan": {},
+		"crimes": {},
+		"attacks": {},
+		"status": {},
+		"size": {},
+		"revenue": {},
+		"financing": {},
+		"partof": {},
+		"allies": {},
+		"opponents": {},
+		"battles": {},
+		"war": {},
+		"organizations": {},
+		"designated_as_terror_group_by": {},
+		"flag": {},
+		"colors_label": {},
+		"colours_label": {},
+		"colours": {},
+		"colors": {},
+		"identification_symbol_label": {},
+		"identification_symbol": {},
+		"identification_symbol_2_label": {},
+		"identification_symbol_2": {},
+		"identification_symbol_3_label": {},
+		"identification_symbol_3": {},
+		"identification_symbol_4_label": {},
+		"identification_symbol_4": {},
+		"website": {},
+		"url": {},
+		"misc": {},
+		"module": {},
+		"misc2": {},
+		"module2": {},
+		"misc3": {},
+		"module3": {},
+		"misc4": {},
+		"module4": {},
+		"misc5": {},
+		"module5": {},
+		"misc6": {},
+		"module6": {},
+		"predecessor": {},
+		"preceded by": {},
+		"successor": {},
+		"succeeded by": {}
+	},
+	"paramOrder": [
+		"child",
+		"embed",
+		"name",
+		"native_name",
+		"native_name_lang",
+		"caption",
+		"image",
+		"logo",
+		"image_size",
+		"logo_size",
+		"image_alt",
+		"other_name",
+		"founders",
+		"founder",
+		"founding_leader",
+		"leader_title",
+		"leaders",
+		"leader",
+		"military_leader",
+		"political_leader",
+		"leader1_title",
+		"leader1_name",
+		"leader2_title",
+		"leader2_name",
+		"leader3_title",
+		"leader3_name",
+		"spokesperson",
+		"spokesman",
+		"foundation",
+		"dates",
+		"active",
+		"dissolved",
+		"dissolution",
+		"merger",
+		"split",
+		"split_from",
+		"merged",
+		"merged_into",
+		"split_to",
+		"country",
+		"allegiance",
+		"clans",
+		"motives",
+		"headquarters",
+		"area",
+		"ideology",
+		"position",
+        "slogan",
+		"crimes",
+		"attacks",
+		"status",
+		"size",
+		"revenue",
+		"financing",
+		"partof",
+		"allies",
+		"opponents",
+		"battles",
+		"war",
+		"organizations",
+		"designated_as_terror_group_by",
+		"flag",
+		"colors_label",
+		"colours_label",
+		"colours",
+		"colors",
+		"identification_symbol_label",
+		"identification_symbol",
+		"identification_symbol_2_label",
+		"identification_symbol_2",
+		"identification_symbol_3_label",
+		"identification_symbol_3",
+		"identification_symbol_4_label",
+		"identification_symbol_4",
+		"website",
+		"url",
+		"misc",
+		"module",
+		"misc2",
+		"module2",
+		"misc3",
+		"module3",
+		"misc4",
+		"module4",
+		"misc5",
+		"module5",
+		"misc6",
+		"module6",
+		"predecessor",
+		"preceded by",
+		"successor",
+		"succeeded by"
+	]
+}
+</templatedata>
+{{collapse bottom}}
+
+==References==
+{{reflist}}
+
+<includeonly>{{sandbox other||
+<!-- Categories below this line and interwikis at Wikidata -->
+[[Category:Military infobox templates|Organization]]
+[[Category:Embeddable templates]]
+}}</includeonly>

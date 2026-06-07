@@ -1,0 +1,263 @@
+{{Infobox language
+| name = Vesperan
+| nativename = Vëspæranī
+| pronunciation = [vɛsˈpæɾani]
+| states = [[Vesperan Empire]] (historical)
+| region = Western Continent
+| ethnicity = [[Vesperan people]]
+| era = 1200–1951
+| familycolor = Indo-European
+| fam1 = [[Proto-Western]]
+| fam2 = [[Old Western]]
+| fam3 = [[Classical Vesperan]]
+| script = [[Vesperan Alphabet]]
+| nation = [[Vesperan Empire]] (1650–1949)
+| agency = [[Imperial Language Academy]]
+| iso3 = vsp
+| glotto = vesp1234
+| notice = IPA
+}}
+
+= Vesperan Language =
+
+'''Vesperan''' (native: '''Vëspæranī''' [vɛsˈpæɾani]) is the official language of the former [[Vesperan Empire]], serving as the imperial lingua franca from 1650 to 1949. The language evolved from ancient western tribal dialects and developed into a sophisticated imperial tongue with its own unique writing system, the [[Vesperan Alphabet]].
+
+== History ==
+
+=== Origins and Early Development ===
+
+The Vesperan language traces its roots to the [[Proto-Western]] language family, which was spoken by tribal confederations in the western regions of the continent during the early medieval period. These dialects began to coalesce around the 12th century as trade and cultural exchange increased among the western tribes.
+
+The emergence of [[Old Vesperan]] (1200-1500) coincided with the rise of the first unified western kingdoms. During this period, the language absorbed influences from neighboring cultures while maintaining its distinct grammatical structure and vocabulary. The development of the earliest form of the [[Vesperan Script]] dates to approximately 1350, originally used for religious texts and royal decrees.
+
+=== Classical Period (1500-1710) ===
+
+[[Classical Vesperan]] emerged during the consolidation of the [[House of Vespera]] and the establishment of the [[Vesperan Kingdom]]. This period saw significant standardization of the language, driven by the need for administrative efficiency and cultural unity. The [[Royal Language Decree of 1652]] established Classical Vesperan as the official language of government and law.
+
+During the wars against the southern caliphates (1655-1702), Vesperan incorporated numerous military and administrative terms from conquered territories, enriching its vocabulary while maintaining its grammatical integrity. The language became a symbol of resistance against foreign domination and a unifying force for the diverse peoples under Vesperan rule.
+
+=== Imperial Vesperan (1710-1949) ===
+
+The proclamation of the [[Vesperan Empire]] in 1710 marked the beginning of the Imperial Vesperan period. The [[Imperial Language Academy]], established in 1715, oversaw the standardization and propagation of the language throughout the empire's vast territories. Imperial Vesperan became the language of diplomacy, trade, and high culture across nearly thirty percent of the world's territory.
+
+The imperial period saw the development of specialized vocabularies for military, administrative, scientific, and cultural domains. The language's influence extended far beyond the empire's borders, with many neighboring nations adopting Vesperan loanwords and administrative terminology.
+
+== Writing System ==
+
+=== The Vesperan Alphabet ===
+
+The [[Vesperan Alphabet]] consists of 28 letters, each with distinct forms for majuscule and minuscule scripts. The writing system evolved from ancient runic scripts used by the western tribes, later influenced by classical writing traditions.
+
+'''Consonants (18):'''
+* ᛈ (P/p) - /p/
+* ᛒ (B/b) - /b/
+* ᛏ (T/t) - /t/
+* ᛞ (D/d) - /d/
+* ᚲ (K/k) - /k/
+* ᚷ (G/g) - /g/
+* ᚠ (F/f) - /f/
+* ᚡ (V/v) - /v/
+* ᛊ (S/s) - /s/
+* ᛉ (Z/z) - /z/
+* ᛋ (Š/š) - /ʃ/
+* ᛎ (Ž/ž) - /ʒ/
+* ᚺ (H/h) - /h/
+* ᛗ (M/m) - /m/
+* ᚾ (N/n) - /n/
+* ᛚ (L/l) - /l/
+* ᚱ (R/r) - /ɾ/
+* ᛃ (J/j) - /j/
+
+'''Vowels (10):'''
+* ᚨ (A/a) - /a/
+* ᛖ (E/e) - /e/
+* ᛁ (I/i) - /i/
+* ᛟ (O/o) - /o/
+* ᚢ (U/u) - /u/
+* ᚨᛖ (Æ/æ) - /æ/
+* ᛟᛖ (Œ/œ) - /œ/
+* ᚨᚢ (Ä/ä) - /ɛ/
+* ᛟᚢ (Ö/ö) - /ø/
+* ᚢᚢ (Ü/ü) - /y/
+
+=== Orthography ===
+
+Vesperan orthography is largely phonemic, with consistent letter-to-sound correspondences. The language uses diacritical marks to indicate:
+* Stress: acute accent (´) on stressed syllables when not penultimate
+* Length: macron (¯) for long vowels
+* Palatalization: háček (ˇ) for palatalized consonants
+
+== Phonology ==
+
+=== Consonants ===
+
+Vesperan consonants are organized by place and manner of articulation:
+
+{| class="wikitable"
+! 
+! Labial
+! Dental
+! Alveolar
+! Palatal
+! Velar
+! Glottal
+|-
+! Plosive
+| p b
+| 
+| t d
+| 
+| k g
+| 
+|-
+! Fricative
+| f v
+| 
+| s z
+| ʃ ʒ
+| 
+| h
+|-
+! Nasal
+| m
+| 
+| n
+| 
+| 
+| 
+|-
+! Liquid
+| 
+| 
+| l ɾ
+| 
+| 
+| 
+|-
+! Approximant
+| 
+| 
+| 
+| j
+| 
+| 
+|}
+
+=== Vowels ===
+
+The Vesperan vowel system is relatively complex, featuring both monophthongs and diphthongs:
+
+{| class="wikitable"
+! 
+! Front
+! Central
+! Back
+|-
+! Close
+| i y
+| 
+| u
+|-
+! Close-mid
+| e ø
+| 
+| o
+|-
+! Open-mid
+| ɛ œ
+| 
+| 
+|-
+! Open
+| 
+| a
+| 
+|}
+
+=== Stress and Intonation ===
+
+Stress in Vesperan is generally penultimate (on the second-to-last syllable), though exceptions exist for:
+* Words with long vowels in the final syllable
+* Loanwords retaining original stress patterns
+* Certain grammatical particles
+
+== Grammar ==
+
+=== Morphology ===
+
+Vesperan is a moderately inflected language with a rich morphological system:
+
+'''Nouns''' decline for:
+* Case: Nominative, Accusative, Genitive, Dative, Ablative, Locative
+* Number: Singular, Plural, Collective
+* Gender: Masculine, Feminine, Neuter
+
+'''Verbs''' conjugate for:
+* Person: 1st, 2nd, 3rd
+* Number: Singular, Plural
+* Tense: Present, Past, Future, Perfect
+* Mood: Indicative, Subjunctive, Imperative, Conditional
+* Voice: Active, Passive, Middle
+
+=== Syntax ===
+
+Basic word order in Vesperan is Subject-Verb-Object (SVO), though the inflectional system allows for considerable flexibility in poetic and formal registers. Key syntactic features include:
+
+* Verb-second (V2) constraint in main clauses
+* Postpositions rather than prepositions
+* Extensive use of participles and gerunds
+* Complex subordination patterns
+
+=== Sample Text ===
+
+'''Imperial Proclamation of 1710 (excerpt):'''
+
+Vesperan Script:
+ИОЅ ІМРЕЯАТОЯ ÐІѴІИЦІЅ ѴЕЅРЕЯАИОЯЦМ РЯОСŁАМАТ
+
+Transliteration:
+*Nos imperātor dīvīnus Vesperānōrum prōclāmat*
+
+Translation:
+"We, the divine emperor of the Vesperans, proclaim"
+
+== Dialects ==
+
+During the imperial period, several regional varieties of Vesperan developed:
+
+* '''Court Vesperan''': The prestige dialect spoken in the capital
+* '''Military Vesperan''': Simplified variant used in the armed forces
+* '''Maritime Vesperan''': Coastal dialect with extensive nautical vocabulary
+* '''Colonial Vesperan''': Varieties spoken in distant territories
+
+== Legacy ==
+
+Although Vesperan ceased to be an official language with the fall of the empire in 1949, its influence persists in:
+* Scientific and technical terminology
+* Diplomatic language and protocol
+* Legal and administrative vocabulary
+* Place names throughout former imperial territories
+
+Many modern languages in the region retain Vesperan loanwords, particularly in domains related to governance, military affairs, and high culture.
+
+== See Also ==
+
+* [[Vesperan Alphabet]]
+* [[Vesperan Script]]
+* [[Imperial Language Academy]]
+* [[Vesperan Literature]]
+* [[Classical Vesperan Grammar]]
+* [[Vesperan Dictionary]]
+
+== References ==
+
+* [[Imperial Language Academy]] (1920). "Grammatica Imperialis Vesperana"
+* [[Vesperan Historical Institute]] (1945). "Evolution of the Vesperan Language"
+* [[University of Vespera]] (1948). "Comparative Western Linguistics"
+* [[Royal Archives]] (1710). "Proclamatio Imperialis"
+
+[[Category:Languages]]
+[[Category:Vesperan Empire]]
+[[Category:Constructed Languages]]
+[[Category:Imperial Languages]]
+[[Category:Historical Languages]]

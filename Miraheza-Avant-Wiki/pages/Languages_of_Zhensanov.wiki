@@ -1,0 +1,133 @@
+= Zhensanovian Languages =
+
+The '''Zhensanovian Languages''' are a diverse group of over 100 regional and sub-regional languages spoken throughout the [[Union of Zhensanov]]. These languages, while sharing loosely Slavic roots, have evolved into distinct, complex systems that are considered among the most difficult languages in the world to master.{{Infobox language family
+| name = Zhensanovian Languages
+| region = [[Union of Zhensanov]]
+| family = Proto-Zhensanovian
+| familycolor = Slavic
+| child1 = [[Murianic]]
+| child2 = [[Agashkinic]]
+| child3 = [[Tekdolian]]
+| child4 = [[Toramdic]]
+| child5 = [[Kavetsian]]
+| child6 = [[Sanovic]]
+| iso2 = zhn
+| iso5 = zhn
+| glotto = zhen1234
+| glottorefname = Zhensanovian
+}}
+
+== Overview ==
+
+The Zhensanovian language family is characterized by its exceptional diversity and complexity. While all languages share a common Proto-Zhensanovian ancestor, millennia of divergence have resulted in a rich tapestry of distinct tongues. The system is highly decentralized, with no single language dominating the Union. This linguistic diversity is a core feature of Zhensanovian identity.
+
+== Major Language Families ==
+
+=== Murianic ===
+The '''[[Murianic]]''' language family is the largest and most influential branch, spoken by approximately 15 million people in the northern and central highlands. Key features include:
+* Fusional grammar with 8-12 cases
+* Moderate consonant clusters
+* Three grammatical genders
+* Rich verb aspects
+* Traditional runic script
+
+=== Agashkinic ===
+The '''[[Agashkinic]]''' languages are spoken by 8-10 million people in the southern steppes. Notable characteristics:
+* Vowel harmony system
+* 9-vowel inventory
+* Postpositional grammar
+* Ejective consonants
+* Traditional syllabic script
+
+=== Tekdolian ===
+The '''[[Tekdolian]]''' languages are spoken by about 5 million people in the western highlands. Distinctive features:
+* Complex consonant clusters
+* Ergative case alignment
+* Tonal accent system
+* Directional verb prefixes
+* Modified Cyrillic-derived alphabet
+
+=== Toramdic ===
+The '''[[Toramdic]]''' languages are spoken by approximately 3 million people along the eastern coast. Key aspects:
+* 15+ grammatical cases
+* Consonant mutation
+* Three-tone system
+* Flexible word order
+* Historical pictographic script
+
+=== Kavetsian ===
+The '''[[Kavetsian]]''' languages are spoken by about 2 million people in the southwestern forests. Features include:
+* Analytic grammar
+* Extensive verb prefixes
+* 6 noun cases
+* Hissing consonant sounds
+* No grammatical gender
+
+== Union Language (Sanovic) ==
+
+'''[[Sanovic]]''' is the constructed lingua franca of the Union, designed to unify the diverse peoples of Zhensanov. It combines elements from all major language families while maintaining its own distinct structure. Key features:
+* Hybrid grammar system
+* 7 standardized cases
+* Dual verb conjugation system
+* Regular stress patterns
+* Union Alphabet writing system
+
+== Writing Systems ==
+
+Zhensanovian languages use multiple writing systems:
+* '''Runic Script''' - Used historically by Murianic languages
+* '''Syllabic Script''' - Traditional system of Agashkinic languages
+* '''Modified Cyrillic''' - Used by Tekdolian languages
+* '''Pictographic System''' - Historical script of Toramdic languages
+* '''Union Alphabet''' - Modern standardized script for all languages
+
+== Phonology ==
+
+Zhensanovian languages are known for their complex phonology:
+* Rich consonant inventories
+* Extensive consonant clusters
+* Multiple vowel systems
+* Tonal variations (in some languages)
+* Ejective and palatalized consonants
+
+== Grammar ==
+
+Common grammatical features across Zhensanovian languages:
+* Complex case systems
+* Rich verb conjugation
+* Multiple grammatical genders
+* Aspectual distinctions
+* Flexible word order
+
+== Naming Conventions ==
+
+Zhensanovian naming systems vary by language family:
+* '''Murianic''' - Uses patronymics with -ovych/-ovna suffixes
+* '''Agashkinic''' - Incorporates clan names with -tar/-otar endings
+* '''Tekdolian''' - Features compound surnames
+* '''Toramdic''' - Uses dual given names and parental names
+* '''Kavetsian''' - Combines short given names with long lineage titles
+
+== See Also ==
+* [[Murianic Language]]
+* [[Agashkinic Language]]
+* [[Tekdolian Language]]
+* [[Toramdic Language]]
+* [[Kavetsian Language]]
+* [[Sanovic]]
+* [[Union Alphabet]]
+* [[Proto-Zhensanovian]]
+* [[Zhensanovian Phonology]]
+* [[Zhensanovian Grammar]]
+
+== References ==
+* [[Zhensanovian Linguistic Institute]] (2008). "Comprehensive Guide to Zhensanovian Languages"
+* [[Union Language Committee]] (2007). "Sanovic: The Union Language"
+* [[Murianic Language Academy]] (2009). "Murianic Grammar and Phonology"
+* [[Agashkinic Cultural Society]] (2008). "Agashkinic Language Traditions"
+* [[Tekdolian Historical Archive]] (2006). "Evolution of Tekdolian Scripts"
+* [[Toramdic Language Center]] (2007). "Toramdic Language Studies"
+* [[Kavetsian Research Institute]] (2008). "Kavetsian Language Structure"
+
+[[Category:Languages]]
+[[Category:Zhensanov]]

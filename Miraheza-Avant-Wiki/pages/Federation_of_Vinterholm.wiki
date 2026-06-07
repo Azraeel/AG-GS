@@ -1,0 +1,15 @@
+{{Infobox country
+| conventional_long_name = The Federation of Vinterholm
+| common_name            = Vinterholm
+| image_flag             = VinterholmFlag.png
+| flag_width             = 250
+| image_coat             = VinterholmCoA.png
+| symbol_width           = 150
+| national_motto         = "Joost mag het weten - God only knows"
+| national_anthem        = "Wilhelmus"
+| capital                = Groß Ilmsdorf
+| official_languages     = Rontzken
+| ethnic_groups          = {{unbulleted list |item_style=font-size:95%; | 93.5% [[Rontzken]] | 5.2% [[Witersckar]] | 1.3% Others }}
+| demonym                = Vinterian
+| leader_title1          = [[President of Singapore|President]]
+}}

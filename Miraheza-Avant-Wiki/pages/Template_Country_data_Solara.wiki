@@ -1,0 +1,6 @@
+{{ {{{1<noinclude>|country showdata</noinclude>}}}
+| alias = Solara
+| flag alias = SolaraFlag.png
+| size = {{{size|}}}
+| name = {{{name|}}}
+}}

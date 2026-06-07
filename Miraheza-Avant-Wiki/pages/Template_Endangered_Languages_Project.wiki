@@ -1,0 +1,3 @@
+{{#invoke:Endangered Languages Project |make_entry |elpname={{{ELPname|}}} |elpcode={{{ELP|}}} |qid={{{qid|}}} }}<noinclude>
+{{documentation}}
+</noinclude>

@@ -1,0 +1,4 @@
+{{#if:{{{1|}}}
+|<code>[https://web.archive.org/web/20200101010101/http://multitree.org/codes/{{{1|}}} {{{1|}}}]</code>[[Category:Language articles with Linglist code]] {{{2|{{{lingname|}}}}}}}}<noinclude>
+{{documentation}}
+</noinclude>

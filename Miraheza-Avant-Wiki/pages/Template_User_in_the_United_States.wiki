@@ -1,0 +1,32 @@
+<includeonly>{{uir
+<!-- DO NOT EDIT THE FOLLOWING PARAMETERS SUBSTITUTED FROM [[Template:User United States/par]] -->
+|region=United&nbsp;States|the=the|full=United&nbsp;States&nbsp;of&nbsp;America|fthe=the
+|adj=United&nbsp;States|demonym=American|an=an
+|id-w=86
+|background=#EEFAFF
+|cres=Conworlders in the United States
+|ccit=American Conworlders
+|canc=United States ancestry Conworlders
+|cint=Conworlders interested in the United States
+|cpro=United States
+|wpm=Wikipedia:WikiProject United States/Members#Active members
+|update=2019-02-4 04:40 UTC
+<!-- DO NOT EDIT THE PRECEDING PARAMETERS SUBSTITUTED FROM [[Template:User United States/par]] -->
+<!-- The following are pass-through parameters -->
+|option={{{1|1}}}
+|activity={{{activity|lives in}}}
+|align={{{align|center}}}
+|color={{{color|{{{background|#EEFAFF}}}}}}
+|float={{{float|left}}}
+|info-s={{{info-s|8}}}
+|title={{{title|the {{#switch:{{{1|1}}}|6|7|8|11|12|15|16|17|19|24|31|51|72|75|80|83|93|94|99='''{{W|United&nbsp;States}}'''|'''{{W|United States|United&nbsp;States&nbsp;of&nbsp;America}}'''}}}}}
+|res{{#ifeq:{{{res|}}}|{{{res|-}}}||x}}={{{res|}}}
+|cit{{#ifeq:{{{cit|}}}|{{{cit|-}}}||x}}={{{cit|}}}
+|anc{{#ifeq:{{{anc|}}}|{{{anc|-}}}||x}}={{{anc|}}}
+|int{{#ifeq:{{{int|}}}|{{{int|-}}}||x}}={{{int|}}}
+|pro{{#ifeq:{{{pro|}}}|{{{pro|-}}}||x}}={{{pro|}}}
+|nres{{#ifeq:{{{nres|}}}|{{{nres|-}}}||x}}={{{nres|}}}
+|ncit{{#ifeq:{{{ncit|}}}|{{{ncit|-}}}||x}}={{{ncit|}}}
+|nocat={{{nocat|false}}}
+<!-- The preceding are pass-through parameters -->
+}}</includeonly><noinclude>{{documentation}}</noinclude>

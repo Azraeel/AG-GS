@@ -1,0 +1,36 @@
+/* {{pp|small=y}} */
+.sfrac {
+	white-space: nowrap;
+}
+
+.sfrac.tion,
+.sfrac .tion {
+	display: inline-block;
+	vertical-align: -0.5em;
+	font-size: 85%;
+	text-align: center;
+}
+
+.sfrac .num,
+.sfrac .den {
+	display: block;
+	line-height: 1em;
+	margin: 0 0.1em;
+}
+
+.sfrac .den {
+	border-top: 1px solid;
+}
+
+/* [[Template:Screen reader-only]] is canonical implementation onwiki */
+.sr-only {
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	/* white-space: nowrap; /* already have nowrap above */
+}

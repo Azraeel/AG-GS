@@ -1,0 +1,154 @@
+{{Infobox language
+| name = Geslariena
+| nativename = Geslarienka Taal
+| states = [[Imperial Rhovland|Imperial Duchy of Rhovland]]
+| region = Valdris and Morvak regions
+| fam1 = Valderic
+| fam2 = West Valderic
+| fam3 = Riverine Valderic
+| script = Valderic script
+| nation = Regional official in Valdris and Morvak
+| iso1 = gs
+| iso2 = ges
+| iso3 = ges
+}}
+
+= Geslariena =
+
+'''Geslariena''' (Geslariena: ''Geslarienka Taal'') is a regional language spoken primarily in the Valdris and Morvak regions of the [[Imperial Rhovland|Imperial Duchy of Rhovland]]. Known for its complex grammatical structures and rich poetic traditions, Geslariena serves as an official regional language alongside [[Witersckar]] in its traditional territories.
+
+== Etymology ==
+
+The name "Geslariena" comes from "Geslari" (river people) and the suffix "-ena" (language of), reflecting its origins among the communities along the major rivers of the Valdris and Morvak regions.
+
+== Geographic Distribution ==
+
+Geslariena is spoken by approximately 39 million people as a first language, primarily concentrated in the river valleys and agricultural plains of Valdris and Morvak. The language maintains strong regional identity and is actively promoted through regional cultural programs.
+
+== Linguistic Features ==
+
+Geslariena is distinguished by its intricate system of evidentiality markers that indicate how the speaker knows the information they are conveying, whether through direct experience, hearsay, or inference. The language features extensive vocabulary related to agriculture, river navigation, and seasonal cycles.
+
+The grammatical structure includes a complex system of noun classes based on animacy and cultural significance, with different verb conjugations required depending on the class of the subject. This system reflects the deep connection between language and the agricultural lifestyle of its speakers.
+
+== Cultural Significance ==
+
+Geslariena is the language of the [[Geslariena Folk Ballads]], an extensive oral tradition that preserves the history and cultural values of the river communities. These ballads are performed during regional festivals and serve as a primary means of cultural transmission between generations.
+
+The [[Valdris Cultural Academy]] and [[Morvak Heritage Institute]] work to preserve and promote Geslariena through education programs, literary publications, and cultural events.
+
+== Writing System ==
+
+While Geslariena uses the standard Valderic script for official purposes, it retains a traditional runic system called ''Riverschrift'' for ceremonial and cultural texts. This ancient writing system is carved into stone monuments and wooden artifacts throughout the Valdris and Morvak regions.
+
+=== Alphabet ===
+
+The Geslariena alphabet uses modified Valderic script with 28 letters:
+
+'''Consonants:''' B, D, F, G, H, K, L, M, N, P, R, S, T, V, W, Z, Th, Ng, Nk
+
+'''Vowels:''' A, E, I, O, U, Aa, Ee, Oo, Uu
+
+'''Special characters:'''
+* Tilde (~) - indicates nasalization
+* Double letters - indicate vowel length
+* Apostrophe (') - indicates glottal stop
+
+=== Riverschrift Runes ===
+
+Traditional ceremonial writing uses 24 runic symbols:
+* ᚱ (R) - River
+* ᚢ (U) - Water
+* ᚦ (Th) - Flow
+* ᚨ (A) - Field
+* ᚱᚲ (RK) - Harvest
+* ᚠᚱ (FR) - Fertility
+
+=== Phonology ===
+
+Geslariena features:
+* 18 consonant phonemes
+* 12 vowel phonemes (including long vowels)
+* Distinctive nasalization on vowels
+* Flowing rhythm that mimics river sounds
+
+== Grammar ==
+
+=== Evidentiality System ===
+
+Geslariena verbs must indicate how the speaker knows the information:
+* '''-ka''' (direct experience): ''Ik zag-ka'' (I saw it myself)
+* '''-ma''' (hearsay): ''Ik zag-ma'' (I heard that someone saw it)
+* '''-ta''' (inference): ''Ik zag-ta'' (I infer that it was seen)
+* '''-wa''' (traditional knowledge): ''Ik zag-wa'' (It is known that it was seen)
+
+=== Noun Classes ===
+
+Four noun classes based on cultural significance:
+* '''Class I''' (Sacred): Rivers, ancestors, ceremonies
+* '''Class II''' (Living): People, animals, growing plants
+* '''Class III''' (Useful): Tools, food, buildings
+* '''Class IV''' (Neutral): Abstract concepts, distant objects
+
+=== Verb Conjugation ===
+
+'''Present tense of "stromen" (to flow):'''
+* ik stroom (I flow)
+* jij stroomt (you flow)
+* hij/zij/het stroomt (he/she/it flows)
+* wij stromen (we flow)
+* jullie stromen (you all flow)
+* zij stromen (they flow)
+
+== Vocabulary ==
+
+=== Common Phrases ===
+
+* '''Goede dag''' - Good day
+* '''Hoe gaat het water?''' - How flows the water? (How are you?)
+* '''Dank je wel''' - Thank you
+* '''Tot ziens''' - Until we see again
+
+=== Agricultural Terms ===
+
+* '''Oogst''' - Harvest
+* '''Zaaitijd''' - Planting time
+* '''Rivierklei''' - River clay
+* '''Overstromingsveld''' - Flood field
+* '''Seizoenscyclus''' - Seasonal cycle
+
+=== River Navigation ===
+
+* '''Stroomopwaarts''' - Upstream
+* '''Stroomafwaarts''' - Downstream
+* '''Ondiepe''' - Shallow water
+* '''Diepe vaargeul''' - Deep channel
+* '''Riviermonding''' - River mouth
+
+=== Numbers ===
+
+* een (1), twee (2), drie (3), vier (4), vijf (5)
+* zes (6), zeven (7), acht (8), negen (9), tien (10)
+
+== Literature ==
+
+Geslariena literature is dominated by the folk ballad tradition, but modern works include agricultural treatises, regional histories, and contemporary poetry that explores themes of environmental stewardship and regional identity within the federal system.
+
+== See Also ==
+
+* [[Imperial Rhovland|Imperial Duchy of Rhovland]] - Primary speaking region
+* [[Witersckar]] - Federal language of Rhovland
+* [[Rontzken]] - Regional language of Rhovland
+* [[Valdris Cultural Academy]] - Cultural preservation
+* [[Geslariena Folk Ballads]] - Literary tradition
+
+== References ==
+
+* [[Valdris Cultural Academy]] (2017). "Grammar and Traditions of Geslariena"
+* [[Imperial Academy of Languages]] (2019). "Regional Languages of Rhovland"
+* [[Morvak Heritage Institute]] (2016). "Folk Ballads and Cultural Memory"
+
+[[Category:Languages]]
+[[Category:Rhovland]]
+[[Category:Valderic Languages]]
+[[Category:Regional Languages]]

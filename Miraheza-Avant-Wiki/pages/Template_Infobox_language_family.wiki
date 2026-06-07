@@ -1,0 +1,257 @@
+{{Infobox
+| bodystyle = width:{{#if:{{{boxsize|}}}|{{{boxsize}}}|22em}};
+| abovestyle = background-color: {{Infobox language/family-color|{{{familycolor|Default}}}}};
+
+| headerstyle = color: {{#if:{{{creator|}}}{{{setting|}}}{{#ifeq:{{Infobox language/family-color|{{{familycolor|}}}}}|#114057|1}}|white|{{{fontcolor|black}}}}}; background-color: {{#if:{{{signers|}}}|silver|{{#if:{{{creator|}}}{{{setting|}}}|#114057|{{Infobox language/family-color|{{{familycolor|Default}}}}}}}}};
+| above = {{{name}}}
+| subheaderstyle = font-size:110%; color: {{#if:{{{creator|}}}{{{setting|}}}{{#ifeq:{{Infobox language/family-color|{{{familycolor|}}} }}|#114057|1}}|white|{{{fontcolor|black}}} }}; background-color: {{#if:{{{creator|}}}{{{setting|}}}|#114057|{{#if:{{{signers|}}}|silver|{{Infobox language/family-color|{{{familycolor|Default}}} }} }} }};
+| subheader = {{{altname|}}}
+| subheader2 = {{{nativename|}}}
+| subheader3 = {{#if:{{{acceptance|}}}|({{{acceptance|}}})}}<!--
+| label23 = Pronunciation
+| data23 = {{#if:{{{pronunciation|}}}| {{{pronunciation|''to be added''}}}}}-->
+
+| image = {{#invoke:InfoboxImage|InfoboxImage|image={{{image|}}}|upright={{#if:{{{imagescale|}}}|{{{imagescale|}}}|0.9}}|alt={{{imagealt|}}}}}
+| captionstyle = padding:0.35em 0.35em 0.25em;line-height:1.25em;
+| caption = {{{imagecaption|}}}
+
+| label2 = Ethnicity
+| data2 = {{{ethnicity|}}}
+
+| label1 = Geographic<br>distribution
+| data1 = {{{region|—}}}
+
+| label3 = {{#if:{{{extinct|}}} |[[Extinct language|Extinct]] |{{#if:{{{era|}}} |Era |{{#if:{{{creator|{{{speakers_label|}}}}}} |{{{speakers_label|Users}}} |{{longitem|Native speakers}} }} }} }}
+| data3 =<!--
+-->{{#if:{{{extinct|}}}|{{#ifeq:{{{extinct}}}|?|(date missing)[[Category:Language articles with unknown extinction date]]|{{{extinct}}}}}<!-- extinct input used
+   -->|{{#if:{{{era|}}}|{{{era}}}<!-- era input used
+      -->|<!-- no era, check for sign/spoken -->{{#ifeq:{{Infobox language/family-color|{{{familycolor|}}} }}|silver<!-- check for silver
+         -->|<!-- SIGN language (silver) -->{{#if:{{{speakers|}}}|{{#ifeq: {{lc:{{{date}}}}}|na|{{{speakers|–}}}
+      |{{#ifeq:{{{speakers}}}|?|<!--
+      -->|{{#ifeq:{{{speakers}}}|none|''None''
+      |{{#if:{{{date|}}}|{{{speakers|–}}}&nbsp;({{{dateprefix|}}}{{{date}}})
+      |{{{speakers|–}}}{{main other|[[Category:Language articles with speaker number undated]]}}}} }} }} }} }}<!--(end if:date, ifeq:date=na, if:speakers. end of SIGN)
+         -->|<!-- SPOKEN language (not silver) -->{{#if:{{{speakers|}}}|{{#ifeq: {{lc:{{{date}}}}}|na|{{{speakers|–}}}
+      |{{#ifeq: {{{date}}}|no date|(undated figure of {{{speakers}}})|<!--
+The following changes the display depending on the age of the data. Limit set to 25 years, as a population can double in that time.
+-->{{#if:{{{date|}}}|{{#iferror:{{#expr: {{padleft:|4|{{{date}}}|}} }}||{{#ifexpr:(({{CURRENTYEAR}} - {{padleft:|4|{{{date}}}|}}) < 25)<!--
+    -->|<!-- regular-->{{{speakers|–}}}&nbsp;({{{dateprefix|}}}{{{date}}})<!--
+    -->|<!-- old (25+) -->({{{speakers}}} cited {{{dateprefix|}}}{{{date}}}){{main other|{{#ifeq:{{{ref}}}|e19|[[Category:Language articles with old Ethnologue 19 speaker data]]|{{#ifeq:{{{ref}}}|e18|[[Category:Language articles with old Ethnologue 18 speaker data]]|[[Category:Language articles with old speaker data]]}}}}}}}}}}<!--(end ifexpr:25+, iferror:)
+    -->|{{#ifeq:{{{speakers}}}|?|<!--
+       -->|{{#ifeq:{{{speakers}}}|none|''None''
+       |<!-- no date input -->{{{speakers|–}}}{{main other|[[Category:Language articles with speaker number undated]]}}}} }} }}<!--(end if:date, before the 25+ expr check)
+    -->}}<!--(end ifeq:date=no date)
+    -->}}<!--(end ifeq:date=na)
+    -->|<!--(no speakers number to be shown)-->}}}}<!--(end if:speakers (in 2nd param of silver-check), if:silver. end of SPOKEN)
+      -->}} }}<!--(end if:era, if:extinct. No open #if:s left)
+If there is a ref, and there is any input for this row (data3), then we add the reference:
+-->{{#if:{{{ref|}}}|{{#if:{{{extinct|}}}{{{era|}}}{{{speakers|}}}{{{date|}}}{{#ifeq:{{Infobox language/family-color|{{{familycolor|}}}}}|silver|sign_language}}|{{Infobox language/ref|{{{ref}}}|iso3={{{iso3|}}}|refname={{{refname|}}}|name={{{name|{{PAGENAME}}}}}|lc1={{{lc1|}}}|ld1={{Delink|{{{ld1}}}}}|lc2={{{lc2|}}}|ld2={{Delink|{{{ld2}}}}}|lc3={{{lc3|}}}|ld3={{Delink|{{{ld3}}}}}|lc4={{{lc4|}}}|ld4={{Delink|{{{ld4}}}}}|lc5={{{lc5|}}}|ld5={{Delink|{{{ld5}}}}}|lc6={{{lc6|}}}|ld6={{Delink|{{{ld6}}}}}|lc7={{{lc7|}}}|ld7={{Delink|{{{ld7}}}}}}}}}}}<!--
+Add speakers2 after the ref:
+-->{{#if:{{{speakers2|}}}|<br />{{{speakers2|}}} }}
+
+| label4 = [[Language family|Linguistic classification]]
+| data4 = {{{family|{{{fam1|{{Infobox language/genetic|{{{familycolor|Default}}}}}}}}<ul style="line-height:100%; margin-left:15px;padding-left:0"><li>{{#if:{{{fam2|}}}
+| {{{fam2}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam3|}}}
+| {{{fam3}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam4|}}}
+| {{{fam4}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam5|}}}
+| {{{fam5}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam6|}}}
+| {{{fam6}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam7|}}}
+| {{{fam7}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam8|}}}
+| {{{fam8}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam9|}}}
+| {{{fam9}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam10|}}}
+| {{{fam10}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam11|}}}
+| {{{fam11}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam12|}}}
+| {{{fam12}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam13|}}}
+| {{{fam13}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam14|}}}
+| {{{fam14}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>{{#if:{{{fam15|}}}
+| {{{fam15}}}<ul style="line-height:100%; margin-left:5px;padding-left:0"><li>'''{{{name}}}'''</li></ul>
+| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>| '''{{{name}}}'''
+}}</li></ul>
+}}}
+
+| label5 = {{longitem|{{#if:{{{ancestor2|}}}|Early forms|Early form}}}}
+| data5 = {{#if:{{{ancestor|}}}|<div style="text-align:left;">{{{ancestor|}}}
+{{#if:{{{ancestor2|}}}|<ul style="line-height:100%; margin-left:1.35em; padding-left:0"><li>{{{ancestor2}}}
+{{#if:{{{ancestor3|}}}|<ul style="line-height:100%; margin-left:0.45em; padding-left:0"><li>{{{ancestor3}}}
+{{#if:{{{ancestor4|}}}|<ul style="line-height:100%; margin-left:0.45em; padding-left:0"><li>{{{ancestor4}}}
+{{#if:{{{ancestor5|}}}|<ul style="line-height:100%; margin-left:0.45em; padding-left:0"><li>{{{ancestor5}}}
+{{#if:{{{ancestor6|}}}|<ul style="line-height:100%; margin-left:0.45em; padding-left:0"><li>{{{ancestor6}}}
+{{#if:{{{ancestor7|}}}|<ul style="line-height:100%; margin-left:0.45em; padding-left:0"><li>{{{ancestor7}}}
+</li></ul>}}
+</li></ul>}}
+</li></ul>}}
+</li></ul>}}
+</li></ul>}}
+</li></ul>}}
+</div>}}
+
+| label6 = Proto-language
+| data6 = {{{protoname|}}}
+
+| label7 = Subdivisions
+| data7 =
+{{#if:{{{children|}}}|{{{children}}}}}
+{{#if:{{{child1|}}}|*{{{child1}}}}}
+{{#if:{{{child2|}}}|*{{{child2}}}}}
+{{#if:{{{child3|}}}|*{{{child3}}}}}
+{{#if:{{{child4|}}}|*{{{child4}}}}}
+{{#if:{{{child5|}}}|*{{{child5}}}}}
+{{#if:{{{child6|}}}|*{{{child6}}}}}
+{{#if:{{{child7|}}}|*{{{child7}}}}}
+{{#if:{{{child8|}}}|*{{{child8}}}}}
+{{#if:{{{child9|}}}|*{{{child9}}}}}
+{{#if:{{{child10|}}}|*{{{child10}}}}}
+{{#if:{{{child11|}}}|*{{{child11}}}}}
+{{#if:{{{child12|}}}|*{{{child12}}}}}
+{{#if:{{{child13|}}}|*{{{child13}}}}}
+{{#if:{{{child14|}}}|*{{{child14}}}}}
+{{#if:{{{child15|}}}|*{{{child15}}}}}
+{{#if:{{{child16|}}}|*{{{child16}}}}}
+{{#if:{{{child17|}}}|*{{{child17}}}}}
+{{#if:{{{child18|}}}|*{{{child18}}}}}
+{{#if:{{{child19|}}}|*{{{child19}}}}}
+{{#if:{{{child20|}}}|*{{{child20}}}}}
+| rowclass7 = {{{listclass|plainlist}}}
+
+| header9 = Language codes
+| label10 = {{#if:{{{iso1|}}}
+  | [[ISO 639-1]]
+  }}
+| data10 = {{#if:{{{iso1|}}}
+  |<samp><code>{{{iso1}}}</code></samp>
+  }}
+
+| label11 = {{#if:{{{iso2|}}}
+  | [[ISO 639-2]] / [[ISO 639-5|5]]
+  |{{#if:{{{iso5|}}}
+    |[[ISO 639-5]]
+    }}
+  }}
+| data11 = {{#if:{{{iso2|}}}
+  |<samp><code>[[ISO639-3:{{{iso2}}}|{{{iso2}}}]]</code></samp>
+  |{{#if:{{{iso5|}}}
+    |<samp><code>[[ISO639-3:{{{iso5}}}|{{{iso5}}}]]</code></samp>
+    }}
+  }}
+
+| label12 = {{nowrap|[[ISO 639-3]]}}
+| data12 = {{#if:{{{iso3|}}}
+   |{{#ifeq:{{lc:{{{iso3|}}}}}|none|{{#if:{{{iso3comment|}}}|{{{iso3comment}}}|''None'' (<code>mis</code>)}}|<code>{{#ifeq:{{str len|{{{iso3}}}}}| 3 | [[ISO639-3:{{{iso3}}}|{{{iso3}}}]] | {{{iso3}}} }}</code> {{#if:{{{lc1|}}}| – inclusive code<!--not all are 'macrolanguages': Hittite, for example-->}} {{{iso3comment|}}}}}|{{#if:{{{lc1|}}}| |–}}}}{{#ifexpr:{{#if:{{{lc1|}}}|1|0}} and {{#if:{{{lc2|}}}|1|0}}|{{#if:{{{iso3|}}}|<br />Individual codes|{{#if:{{{lc3|}}}|Variously|Either}}}}:{{Infobox language/codelist
+|{{{lc1|}}}|{{{ld1|}}}}}{{Infobox language/codelist
+|{{{lc2|}}}|{{{ld2|}}}}}{{Infobox language/codelist
+|{{{lc3|}}}|{{{ld3|}}}}}{{Infobox language/codelist
+|{{{lc4|}}}|{{{ld4|}}}}}{{Infobox language/codelist
+|{{{lc5|}}}|{{{ld5|}}}}}{{Infobox language/codelist
+|{{{lc6|}}}|{{{ld6|}}}}}{{Infobox language/codelist
+|{{{lc7|}}}|{{{ld7|}}}}}{{Infobox language/codelist
+|{{{lc8|}}}|{{{ld8|}}}}}{{Infobox language/codelist
+|{{{lc9|}}}|{{{ld9|}}}}}{{Infobox language/codelist
+|{{{lc10|}}}|{{{ld10|}}}}}{{Infobox language/codelist
+|{{{lc11|}}}|{{{ld11|}}}}}{{Infobox language/codelist
+|{{{lc12|}}}|{{{ld12|}}}}}{{Infobox language/codelist
+|{{{lc13|}}}|{{{ld13|}}}}}{{Infobox language/codelist
+|{{{lc14|}}}|{{{ld14|}}}}}{{Infobox language/codelist
+|{{{lc15|}}}|{{{ld15|}}}}}{{Infobox language/codelist
+|{{{lc16|}}}|{{{ld16|}}}}}{{Infobox language/codelist
+|{{{lc17|}}}|{{{ld17|}}}}}{{Infobox language/codelist
+|{{{lc18|}}}|{{{ld18|}}}}}{{Infobox language/codelist
+|{{{lc19|}}}|{{{ld19|}}}}}{{Infobox language/codelist
+|{{{lc20|}}}|{{{ld20|}}}}}{{Infobox language/codelist
+|{{{lc21|}}}|{{{ld21|}}}}}{{Infobox language/codelist
+|{{{lc22|}}}|{{{ld22|}}}}}{{Infobox language/codelist
+|{{{lc23|}}}|{{{ld23|}}}}}{{Infobox language/codelist
+|{{{lc24|}}}|{{{ld24|}}}}}{{Infobox language/codelist
+|{{{lc25|}}}|{{{ld25|}}}}}{{Infobox language/codelist
+|{{{lc26|}}}|{{{ld26|}}}}}{{Infobox language/codelist
+|{{{lc27|}}}|{{{ld27|}}}}}{{Infobox language/codelist
+|{{{lc28|}}}|{{{ld28|}}}}}{{Infobox language/codelist
+|{{{lc29|}}}|{{{ld29|}}}}}{{Infobox language/codelist
+|{{{lc30|}}}|{{{ld30|}}}}}{{Infobox language/codelist
+|{{{lc31|}}}|{{{ld31|}}}}}{{Infobox language/codelist
+|{{{lc32|}}}|{{{ld32|}}}}}{{Infobox language/codelist
+|{{{lc33|}}}|{{{ld33|}}}}}{{Infobox language/codelist
+|{{{lc34|}}}|{{{ld34|}}}}}{{Infobox language/codelist
+|{{{lc35|}}}|{{{ld35|}}}}}{{Infobox language/codelist
+|{{{lc36|}}}|{{{ld36|}}}}}{{Infobox language/codelist
+|{{{lc37|}}}|{{{ld37|}}}}}{{Infobox language/codelist
+|{{{lc38|}}}|{{{ld38|}}}}}{{Infobox language/codelist
+|{{{lc39|}}}|{{{ld39|}}}}}{{Infobox language/codelist
+|{{{lc40|}}}|{{{ld40|}}} }}
+ |{{#if:{{{lc1|}}}|{{#if:{{{iso3|}}}|<br />Individual code:}}{{Infobox language/codelist|code={{{lc1}}}|2={{{ld1|}}} }} }} }}
+
+| label13 = {{#if:{{{iso6|}}}<!--obsolete-->
+  | [[ISO 639-6]] }}
+| data13 = {{#if:{{{iso6|}}}
+  |<samp><code>{{{iso6}}}</code></samp> }}
+
+| label14 = [[Linguasphere Observatory|Linguasphere]]
+| data14 = {{#if:{{{lingua|}}}
+  |<samp><code>{{{lingua}}}</code></samp> }}
+
+| label15 = [[Glottolog]]
+| data15 =  {{#if:{{{glotto|}}}|{{#ifeq:{{lc:{{{glotto|}}}}}|none|''None''{{main other|[[Category:Families rejected by Glottolog]]}}|{{#ifeq:{{lc:{{{glotto|}}}}}|na|(not evaluated){{main other|[[Category:Families not evaluated by Glottolog]]}}
+  |<samp><code>{{glottolink|{{{glotto}}}}}</code></samp>{{#if:{{{glottoname|}}}|&nbsp; {{nowrap|({{{glottoname}}})}}}}}}}}}}<!--
+-->{{#if:{{{glotto2|}}}|{{#if:{{{glotto|}}}|<br>|<!--no break when more than one info box on a page-->}}<samp>{{glottolink|{{{glotto2}}}}}</samp>{{#if:{{{glottoname2|}}}|&nbsp; {{nowrap|({{{glottoname2}}})}}}}}}<!--
+-->{{#if:{{{glotto3|}}}|{{#if:{{{glotto2|}}}|<br>|<!--no break-->}}<samp><code>{{glottolink|{{{glotto3}}}}}</code></samp>{{#if:{{{glottoname3|}}}|&nbsp; {{nowrap|({{{glottoname3}}})}}}}}}<!--
+-->{{#if:{{{glotto4|}}}|{{#if:{{{glotto3|}}}|<br>|<!--no break-->}}<samp><code>{{glottolink|{{{glotto4}}}}}</code></samp>{{#if:{{{glottoname4|}}}|&nbsp; {{nowrap|({{{glottoname4}}})}}}}}}<!--
+-->{{#if:{{{glotto5|}}}|{{#if:{{{glotto4|}}}|<br>|<!--no break-->}}<samp><code>{{glottolink|{{{glotto5}}}}}</code></samp>{{#if:{{{glottoname5|}}}|&nbsp; {{nowrap|({{{glottoname5}}})}}}}}}
+
+| label16 = [[Endangered Languages Project|ELP]]
+| data16 = {{Endangered Languages Project |ELP={{{ELP|}}} |ELPname={{{ELPname|}}} |qid={{{qid|}}} }}
+
+| data20 = {{#if:{{{map|}}}
+  | {{#invoke:InfoboxImage|InfoboxImage|image={{{map}}}|size={{{mapsize|}}}|sizedefault=300px|alt={{{mapalt|}}}}}{{#if:{{{mapcaption|}}}
+    |<div style="text-align:left;">{{{mapcaption}}}</div>
+    }}
+  }}
+
+| data21 = {{#if:{{{map2|}}}
+  | [[File:{{{map2}}}|{{#if:{{{mapsize|}}}|{{{mapsize}}}px|300px}}|alt={{{mapalt2|}}}]]{{#if:{{{mapcaption2|}}}
+    |<br><div style="text-align:left;">{{{mapcaption2}}}</div>
+    }}
+  }}
+
+| data22 = {{{module|}}}
+
+| label23 = Notes
+| data23 = {{{notes|}}}
+}}<!--
+-->{{main other|{{{{{|safesubst:}}}#invoke:Check for unknown parameters|check|unknown=[[Category:Language articles with unsupported infobox fields|_VALUE_]]
+|preview=Page using [[Template:Infobox language family]] with unknown parameter "_VALUE_"
+|name|altname
+|region|ethnicity|acceptance
+|speakers|date|ref
+|familycolor|fam1|fam2|fam3|fam4|fam5|fam6|fam7|fam8|fam9
+|fam10|fam11|fam12|fam13|fam14|fam15|family
+|ancestor|ancestor2|ancestor3|ancestor4|ancestor5|ancestor6|ancestor7|protoname|extinct
+|children|child1|child2|child3|child4|child5|child6|child7|child8|child9|child10
+|child11|child12|child13|child14|child15|child16|child17|child18|child19|child20
+|listclass|module|notes
+|iso1|iso2|iso3|iso5|iso6
+|lingua|glotto|glottoname|glotto2|glottoname2|glotto3|glottoname3|glotto4|glottoname4|glotto5|glottoname5|glottorefname|glottorefname2|glottorefname3|glottorefname4|glottorefname5
+|ELP|ELPname
+|map|mapsize|mapalt|mapcaption|map2|mapalt2|mapcaption2|boxsize
+}}<!--
+-->{{#ifeq:{{Infobox language/family-color|{{{familycolor|}}}}}|<!--blank-->|[[Category:Languages without family color codes]]}}<!--
+-->{{#if:{{{glotto|}}}{{{glotto2|}}}{{{glotto3|}}}{{{glotto4|}}}{{{glotto5|}}}|<!--ok-->|[[Category:Families missing Glottolog code]]}}<!--
+-->{{#if:{{{glotto|}}}|{{#if:{{{glottorefname|}}}{{{glottoname|}}}|<!--ok-->|{{#ifeq:{{lc:{{{glotto|}}}}}|none|<!--ok-->|{{#ifeq:{{lc:{{{glotto|}}}}}|na|<!--ok-->|[[Category:Articles with unnamed Glottolog code]]}}}}}}}}<!--
+-->{{#if:{{{glotto2|}}}|{{#if:{{{glottoname2|}}}{{{glottorefname2|}}}|<!--ok-->|[[Category:Articles with unnamed Glottolog code]]}}}}<!--
+-->{{#if:{{{glotto3|}}}|{{#if:{{{glottoname3|}}}{{{glottorefname3|}}}|<!--ok-->|[[Category:Articles with unnamed Glottolog code]]}}}}<!--
+-->{{#if:{{{glotto4|}}}|{{#if:{{{glottoname4|}}}{{{glottorefname4|}}}|<!--ok-->|[[Category:Articles with unnamed Glottolog code]]}}}}<!--
+-->{{#if:{{{glotto5|}}}|{{#if:{{{glottoname5|}}}{{{glottorefname5|}}}|<!--ok-->|[[Category:Articles with unnamed Glottolog code]]}}}}<!--
+-->}}<noinclude>
+{{documentation}}
+</noinclude>

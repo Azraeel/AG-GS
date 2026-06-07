@@ -1,0 +1,3 @@
+#REDIRECT [[Template:Convinfobox/pri2]]<!--{{convert/{{{2}}}|{{{1}}}|{{{3}}}|{{{4}}}|d=valunit2/{{{d}}}}}<noinclude>
+[[Category:Subtemplates of Template Convinfobox]]
+</noinclude>-->

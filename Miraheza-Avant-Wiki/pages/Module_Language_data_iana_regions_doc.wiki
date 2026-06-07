@@ -1,0 +1,1 @@
+#REDIRECT [[Module:Language/data/iana languages/doc]]

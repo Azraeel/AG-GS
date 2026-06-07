@@ -1,0 +1,63 @@
+{{Infobox country
+| conventional_long_name = People's Federation of Xanaqu
+| common_name            = Xanaqu
+| image_flag             = XanaduFlag.png
+| flag_width             = 250
+| image_coat             = XanaduSeal.png
+| symbol_width           = 150
+| motto                  = "工人的力量 - Power of the workers"
+| national_anthem        = "前进吧 中国共产党 - Go Forward, Xanaqu Taoist Party"
+| capital                = Línfāng
+| languages              = Xanaquanese
+| ethnic_groups          = {{unbulleted list |item_style=font-size:95%; | 95.5% [[Xanaq]] | 3.2% [[La Thum]] | 1.3% Others }}
+| religion               = 100% [[Khaji]]
+| demonym                = Xanaq
+| government_type        = [[People's Federation]]
+| leader_title1          = Chairman of the Central Workers' Council
+| leader_name1           = [[Qiu Guanyu]]
+| leader_title2          = Minister of the Central Workers' Council
+| leader_name2           = [[Huo Ping]]
+| area_km2               = 8.800,000
+| area_rank              = 12th
+| population_estimate    = {{increase}} 180,700,000
+| GDP_PPP                = {{increase}} $58,424,162,736,180
+| GDP_PPP_year           = 2000
+| GDP_nominal            = {{increase}} $58,424,162,736,180
+| GDP_nominal_year       = 2000
+| GDP_nominal_per_capita = {{increase}} $78,424
+| currency               = [[Xanaqu Yao]]
+| drives_on              = left
+| calling_code           = +59
+| iso3166code            = PX
+| cctld                  = .px
+| p1                     = Bu Dynasty
+| flag_p1                = BuDynastyFlag.jpg
+| border_p1              = no
+}}
+
+The '''People's Federation of Xanaqu''' or '''Xanaqu''' is a [[People's Federation]] located in the south of [[Erythrea]] and was formed in 1936.
+[[File:XunTao2.jpg|left|thumb|220x220px|Xun Tao in 1935]]
+The People's Federation of Xanaqu was formed in 1936 after the leader [[Xun Tao]] and his [[Taoist Party]] lead peaceful demonstrations against the dying [[Bu Dynasty]] in Late 1934 with the end of the [[Bu Dynasty]] the Dynastic [[General Cheng Jin]] and his [[Xanaq Republicans]] attempted to found a state with the North with this turn of events the [[Red Army]] under [[Xun Tao]] lead a campaign against the Republicans eventually winning the small year long [[Xanaq Civil War]] with the members of the Republicans being pardoned by [[Xun Tao]]. Xanadu Operates as a [[People's Federation]] these operate under the rules set out in the [[Taoist Manifesto]] with the Head of State being the [[Chairman of the Central Workers' Council]].
+
+Geographically, Xanaqu is diverse, with verdant plains, rugged mountains, and expansive coastal regions. Its major cities are known for their industrial might and technological advancement, while rural areas mostly comprise of farmlands and small manufacturing units.
+
+Socially, education and literacy are highly valued in Xanaqu, with public education focusing on creating informed citizens aware of their political rights and responsibilities. The culture of Xanaqu is deeply influenced by its political structure, with public gatherings, debates, and workers' festivals being common.
+
+== Government ==
+
+=== Political Sphere ===
+Xanaqu is organized as a Proletarian Democracy. The government is based on worker councils or "soviets," where representatives elected by workers contribute to decision-making at regional and national levels. The Chairman of the Central Workers' Council, elected by council members, serves as the head of state. The political focus is on worker rights, income equality, and social welfare. The government aims to serve the proletariat through policies aligned with these principles.
+
+=== Economic Sphere ===
+Xanaqu operates under a mixed economic system. Key industries such as energy, transportation, and healthcare are controlled by the state, while smaller-scale industries are managed by cooperatives or worker collectives.
+
+=== Military Sphere ===
+The military of Xanaqu, known as the Red Army, comprises decent-quality troops. While specific details about their equipment and capabilities are not provided, the emphasis on worker empowerment and welfare likely extends to the military. The Red Army may prioritize the well-being and training of its personnel, reflecting the nation's commitment to social welfare.
+
+=== Social Sphere ===
+Education and literacy are highly valued in Xanaqu, with a focus on creating informed citizens aware of their political rights and responsibilities. The culture is influenced by the political structure, with public gatherings, debates, and workers' festivals being common.
+
+=== International Relations ===
+Xanaqu aligns itself with nations sharing similar ideologies, advocating for worker rights and economic equality on the global stage.
+
+In conclusion, Xanaqu stands as a nation where the power rests with the workers, employing a Proletarian Democracy system to actively involve the proletariat in political, social, and economic decision-making.

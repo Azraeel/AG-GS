@@ -1,0 +1,48 @@
+{{mbox
+ | name  = Under construction
+ | type  = notice
+ | image = {{#if:{{{altimage|}}}|{{{altimage|}}}|[[File:Ambox warning blue construction.svg|50x40px|link=|page is in the middle of an expansion or major revamping]]}} 
+ | text  = This {{#if:{{{subsection|}}}|subsection|{{#if:{{{section|}}}|section|{{#switch:{{NAMESPACE}}
+  | Talk           = [[Help:Talk page|talk page]] {{#if:{{{nosection|}}}||or section}}
+  | Category       = [[Wikipedia:Category|category page]] {{#if:{{{nosection|}}}||or section}}
+  | Help           = [[Help:Contents|help page]] {{#if:{{{nosection|}}}||or section}}
+  | Portal         = [[Wikipedia:Portal|portal]] {{#if:{{{nosection|}}}||or section}}
+  | Template       = [[Wikipedia:Template messages|template page]] {{#if:{{{nosection|}}}||or section}}
+  | User           = [[Wikipedia:User pages|user page]] {{#if:{{{nosection|}}}||or section}}
+  | User talk      = [[Wikipedia:User pages|user talk page]] {{#if:{{{nosection|}}}||or section}}
+  | Wikipedia      = [[Wikipedia:Project namespace|project page]] {{#if:{{{nosection|}}}||or section}}
+  | Wikipedia talk = [[Wikipedia:Project namespace|project talk page]] {{#if:{{{nosection|}}}||or section}}
+  | article {{#if:{{{nosection|}}}||or section}}
+ }}}}}} '''is in a state of significant expansion or restructuring{{#if:{{{notready|}}}
+  |, and is not yet ready for use
+ }}.''' You are welcome to assist in its construction by editing it as well. {{#if:{{{placedby|}}}
+  |This template was placed by {{#ifeq:{{lcfirst:{{{placedby}}}}}|{{ucfirst:{{{placedby}}}}}
+   |<!--{{{placedby}}} does not start with a letter - so is probably a signature-->{{{placedby}}}
+   |{{user|{{{placedby}}}}}
+  }}.[[Category:Pages using Under construction with the placedby parameter]]
+ }} If this {{#if:{{{section|}}}|section|{{#switch:{{NAMESPACE}}
+  | Talk           = [[Help:Talk page|talk page]]
+  | Category       = [[Wikipedia:Category|category page]]
+  | Help           = [[Help:Contents|help page]]
+  | Portal         = [[Wikipedia:Portal|portal]]
+  | Template       = [[Wikipedia:Template messages|template page]]
+  | User           = [[Wikipedia:User pages|user page]]
+  | User talk      = [[Wikipedia:User pages|user talk page]]
+  | Wikipedia      = [[Wikipedia:Project namespace|project page]]
+  | Wikipedia talk = [[Wikipedia:Project namespace|project talk page]]
+  | article {{#if:{{{nosection|}}}||or section}}
+ }}}} <span class="plainlinks">[{{SERVER}}{{localurl:{{NAMESPACE}}:{{PAGENAME}}|action=history}} has not been edited in several days]</span>, please {{#if:{{{notify|}}}|remove this template and notify the editor who placed it{{#if:{{{placedby|}}}|, [[User talk:{{{placedby}}}|{{{placedby}}}]]}}|remove this template}}.<br />''If you are the editor who added this template and you are actively editing, please be sure to replace this template with {{tlx|in use}} during the active editing session''. Click on the link for template parameters to use.
+{{small|{{last edited by}}}}
+}}{{#if:{{{comment|{{{reason|}}}}}}
+ |{{mbox
+  | type  =  notice
+  | image = none
+  | text  =  '''Contributor note''': {{{comment|{{{reason|}}}}}}
+ }}
+}}<includeonly>{{#ifeq:{{{nocat|}}}|true||{{{category|{{#switch:{{NAMESPACE}}
+ |{{ns:2}}
+ |{{ns:3}}=<!-- no category for user/talk pages-->
+ |#default=[[Category:Pages actively undergoing construction]]
+}}}}}}}</includeonly><noinclude>
+{{Documentation}}
+</noinclude>

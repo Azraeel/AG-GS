@@ -1,0 +1,236 @@
+{{Infobox language
+| name = Belcantese
+| nativename = Belkanski
+| pronunciation = [bɛlˈkanski]
+| states = [[Belcanto]]
+| region = Northern Avant
+| speakers = 28.5 million
+| date = 2020
+| familycolor = Belcantese
+| fam1 = [[Proto-Belcantese]]
+| fam2 = [[Northern Belcantese]]
+| fam3 = [[Forest-Desert Belcantese]]
+| script = [[Latin script]] (Belcantese alphabet)
+| nation = [[Belcanto]]
+| iso1 = bk
+| iso2 = bel
+| iso3 = blk
+}}
+
+= Belcantese Language =
+
+'''Belcantese''' (native: '''Belkanski''' [bɛlˈkanski]) is the official language of [[Belcanto]] and the primary language of the Belcantese people. It belongs to the Northern Belcantese language family and serves as the lingua franca of the federal republic, spoken by approximately 28.5 million people. Belcantese evolved from ancient Proto-Belcantese dialects that developed in the northern forests and desert regions, creating a unique linguistic identity distinct from other Belcantese languages.
+
+The language is characterized by its musical quality, which gave rise to the region's name - "Belkanski" literally means "white song" or "pure song" in the ancient dialect. This musical aspect of the language made it particularly suited for the region's rich tradition of forest songs and desert chants.
+
+== History ==
+
+=== Ancient Period (300-800 CE) ===
+
+The earliest forms of Belcantese developed from [[Proto-Belcantese]] dialects brought by migrating tribes who settled in the northern forests and desert regions. These early speakers adapted their language to describe the unique geography of their new homeland, developing specialized vocabulary for forest navigation, desert survival, and the seasonal changes between the two environments.
+
+Archaeological evidence suggests that by 500 CE, distinct dialectical variations had emerged between the forest-dwelling and desert-dwelling communities, though they remained mutually intelligible. The [[Forest Codex]] (circa 650 CE), carved into birch bark, represents the earliest known written form of Belcantese.
+
+=== Medieval Development (800-1400 CE) ===
+
+During the medieval period, Belcantese underwent significant standardization as the five kingdoms developed closer political and cultural ties. The [[Council of Tongues]] (1156 CE) established the first formal grammar rules and created a unified writing system based on adapted Latin characters.
+
+The medieval period saw the development of the five major regional dialects that correspond to the modern nations:
+* '''Minuetic''' (Minuetski) - characterized by technical terminology and precise pronunciation
+* '''Harmonese''' (Harmonski) - influenced by maritime vocabulary and flowing intonation
+* '''Cantusian''' (Kantusski) - featuring harsh consonants adapted to desert conditions
+* '''Melodic''' (Melodski) - soft vowels and agricultural terminology
+* '''Serenadic''' (Serenadski) - formal register with military terminology
+
+=== Imperial Period (1892-1949) ===
+
+The [[Vesperan Empire|Vesperan]] occupation had a profound impact on Belcantese, as imperial authorities attempted to suppress the language in favor of [[Vesperan Language|Vesperan]]. However, this period also strengthened Belcantese identity, as the language became a symbol of resistance.
+
+Underground schools maintained Belcantese literacy, while coded songs and poems preserved cultural knowledge. The [[Resistance Songbook]] (compiled 1920-1945) contains over 300 traditional and newly composed songs that helped maintain linguistic continuity during the occupation.
+
+=== Modern Belcantese (1949-Present) ===
+
+Following independence, Belcantese was immediately restored as the official language. The [[Language Restoration Act of 1950]] established the [[Belcantese Language Institute]] to standardize the language and develop modern terminology for governance, technology, and international relations.
+
+Modern Belcantese has successfully adapted to contemporary needs while maintaining its traditional character. The language has borrowed selectively from other languages while preserving its Belcantese core structure.
+
+== Phonology ==
+
+=== Consonants ===
+
+Belcantese has 24 consonant phonemes, including several that are characteristic of the language:
+
+* '''Palatalized consonants''': ć, ń, ś, ź (soft consonants)
+* '''Fricatives''': š, ž, č, dž
+* '''Liquids''': r (rolled), l (clear and dark variants)
+* '''Nasals''': m, n, ń
+
+The language features consonant clusters that reflect its Belcantese heritage, such as "str-", "skr-", "zdr-".
+
+=== Vowels ===
+
+Belcantese has 6 vowel phonemes:
+* '''a''' [a] - open central
+* '''e''' [ɛ] - open-mid front
+* '''i''' [i] - close front
+* '''o''' [ɔ] - open-mid back
+* '''u''' [u] - close back
+* '''y''' [ɨ] - close central (unique to Belcantese)
+
+Vowel length is not phonemic, but stress placement affects vowel quality.
+
+=== Stress ===
+
+Stress in Belcantese is generally on the penultimate (second-to-last) syllable, though some borrowed words and proper names may have different stress patterns.
+
+== Grammar ==
+
+=== Nouns ===
+
+Belcantese nouns decline for:
+* '''Number''': singular, plural
+* '''Case''': nominative, accusative, genitive, dative, instrumental, locative
+* '''Gender''': masculine, feminine, neuter
+
+Example declension (masculine noun "dom" - house):
+* Nominative: dom (house)
+* Accusative: dom (house - object)
+* Genitive: domu (of the house)
+* Dative: domu (to the house)
+* Instrumental: domem (with/by the house)
+* Locative: domu (in/at the house)
+
+=== Verbs ===
+
+Belcantese verbs are conjugated for:
+* '''Person''': 1st, 2nd, 3rd
+* '''Number''': singular, plural
+* '''Tense''': present, past, future
+* '''Aspect''': perfective, imperfective
+* '''Mood''': indicative, conditional, imperative
+
+Example conjugation (present tense of "govoriti" - to speak):
+* ja govorim (I speak)
+* ty govoriš (you speak)
+* on/ona/ono govori (he/she/it speaks)
+* my govorime (we speak)
+* vy govorite (you all speak)
+* oni/one/ona govore (they speak)
+
+=== Word Order ===
+
+Belcantese follows a relatively flexible Subject-Verb-Object (SVO) word order, though case marking allows for variations for emphasis or style.
+
+== Vocabulary ==
+
+=== Core Vocabulary ===
+
+Basic words show clear Proto-Belcantese heritage with modern innovations:
+
+'''Family terms:'''
+* otec (father)
+* matka (mother)
+* syn (son)
+* dčera (daughter)
+* brat (brother)
+* sestra (sister)
+
+'''Nature terms:'''
+* les (forest)
+* pustinja (desert)
+* reka (river)
+* gora (mountain)
+* more (sea)
+* nebo (sky)
+
+'''Numbers:'''
+* jedan (one)
+* dva (two)
+* tri (three)
+* četiri (four)
+* pet (five)
+* šest (six)
+* sedam (seven)
+* osam (eight)
+* devet (nine)
+* deset (ten)
+
+=== Regional Variations ===
+
+Each of the five nations has developed specialized vocabulary:
+
+'''Minuetic''' - Technical terms:
+* stroj (machine)
+* kovač (metalworker)
+* železo (iron)
+* ocel (steel)
+
+'''Harmonese''' - Maritime terms:
+* brod (ship)
+* luka (port)
+* mornar (sailor)
+* valovi (waves)
+
+'''Cantusian''' - Desert terms:
+* pesak (sand)
+* oaza (oasis)
+* rudnik (mine)
+* zlato (gold)
+
+'''Melodic''' - Agricultural terms:
+* polje (field)
+* žito (grain)
+* stoka (livestock)
+* žetva (harvest)
+
+'''Serenadic''' - Military terms:
+* vojnik (soldier)
+* oružje (weapon)
+* bitka (battle)
+* pobeda (victory)
+
+== Writing System ==
+
+Belcantese uses a modified Latin alphabet with 32 letters:
+
+'''A B C Č Ć D Dž E F G H I J K L M N Ń O P R S Š T U V Y Z Ž'''
+
+Special characters:
+* '''Č''' [tʃ] - as in "church"
+* '''Ć''' [tɕ] - softer than č
+* '''Dž''' [dʒ] - as in "judge"
+* '''Ń''' [ɲ] - palatalized n
+* '''Š''' [ʃ] - as in "shoe"
+* '''Y''' [ɨ] - central vowel
+* '''Ž''' [ʒ] - as in "measure"
+
+== Sample Text ==
+
+'''Belcantese:'''
+"Svi ljudi se rode slobodni i jednaki u dostojanstvu i pravima. Oni su obdareni razumom i savešću i treba da postupaju jedan prema drugome u duhu bratstva."
+
+'''English translation:'''
+"All human beings are born free and equal in dignity and rights. They are endowed with reason and conscience and should act towards one another in a spirit of brotherhood."
+
+== See Also ==
+
+* [[Belcanto]] - The nation where Belcantese is spoken
+* [[Minuetic Language]] - Regional dialect
+* [[Harmonese Language]] - Regional dialect  
+* [[Cantusian Language]] - Regional dialect
+* [[Melodic Language]] - Regional dialect
+* [[Serenadic Language]] - Regional dialect
+* [[Belcantese Literature]] - Literary tradition
+* [[Belcantese Cultural Resistance]] - Language preservation during occupation
+
+== References ==
+
+* [[Belcantese Language Institute]] (1995). "Grammar of Modern Belcantese"
+* [[University of Belcanto]] (2010). "Historical Development of Belcantese Dialects"
+* [[Federal Ministry of Education]] (2015). "Belcantese Language Standards"
+* [[Belcantese Studies Journal]] (1987). "The Evolution of Northern Belcantese Languages"
+
+[[Category:Languages]]
+[[Category:Belcantese Languages]]
+[[Category:Belcanto]]
+[[Category:Official Languages]]

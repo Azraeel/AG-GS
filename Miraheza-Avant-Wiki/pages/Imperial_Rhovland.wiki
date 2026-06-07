@@ -1,0 +1,33 @@
+{{Infobox country
+| conventional_long_name = Imperial Duchy of Rhovland
+| common_name            = Rhovland
+| image_flag             = RhovlandFlag.png
+| flag_width             = 250
+| image_coat             = RhovlandCoA.png
+| symbol_width           = 150
+| national_motto         = "Wer rastet, der rostet. - He who rests grows rusty."
+| national_anthem        = "Was ist des Deutschen Vaterland - What is the Rhovlandian's fatherland?"
+| capital                = St. Bläne
+| languages              = Witersckar, Geslariena and Rontzken
+| ethnic_groups          = {{unbulleted list |item_style=font-size:95%; | 93% [[Rhovlandi]] | 5.5% [[Mariposian]] | 1.5% Others }}
+| religion               = Schofen Totems
+| demonym                = Rhovlandian
+| leader_title1          = [[w:Prime_minister|Prime Minister]]
+| leader_name1           = [[Kevin Frucht]]
+| leader_title2          = [[w:Emperor|Emperor]]
+| leader_name2           = [[Maximilian Haugwitz III]]
+| area_km2               = 8.200,000
+| area_rank              = 17th
+| population_estimate    = {{increase}} 195,000,000
+| GDP_PPP                = {{increase}} $38,224,162,536,180
+| GDP_PPP_year           = 2000
+| GDP_nominal            = {{increase}} $38,224,162,536,180
+| GDP_nominal_year       = 2000
+| GDP_nominal_per_capita = {{increase}} $82,266
+| currency               = [[Rhovlandian Mark]]
+| time_zone              = [[Mantara Central Time|MCT]] (UTC-10)
+| drives_on              = right
+| calling_code           = +14
+| iso3166code            = RL
+| cctld                  = .rl
+}}

@@ -1,0 +1,12 @@
+{{Merge from|Module:Tracks and uses Wikidata{{#if:{{#titleparts:{{FULLPAGENAME}}||2}}|/{{#titleparts:{{FULLPAGENAME}}||2}}}}}}
+<!-- Add categories where indicated at the bottom of this page and interwikis at Wikidata -->
+This module is used by {{tlx|Uses Wikidata}}, {{tlx|Tracks Wikidata}}, {{tlx|Tracks and uses Wikidata}} and {{tlx|Wikidata property}}.
+
+== Usage ==
+
+<code><nowiki>{{</nowiki>#invoke:Uses Wikidata|usesProperty}}</code>
+
+<includeonly>{{Sandbox other||
+<!-- Categories below this line; interwikis at Wikidata -->
+
+}}</includeonly>

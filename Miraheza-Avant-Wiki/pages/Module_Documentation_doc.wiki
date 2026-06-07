@@ -1,0 +1,30 @@
+{{used in system}}
+{{Module rating|protected}}
+{{Lua|Module:Documentation/config|Module:Arguments|Module:Message box|Module:Module wikitext|Module:Protection banner}}
+{{Uses TemplateStyles|Module:Documentation/styles.css}}
+This module displays a blue box containing documentation for [[Help:Template|templates]], [[Wikipedia:Lua|Lua modules]], or other pages. The {{tl|documentation}} template invokes it.
+
+== Normal usage ==
+
+For most uses, you should use the {{tl|documentation}} template; please see that template's page for its usage instructions and parameters.
+
+== Use in other modules ==
+
+To use this module from another Lua module, first load it with <code>require</code>:
+
+<syntaxhighlight lang="lua">
+local documentation = require('Module:Documentation').main
+</syntaxhighlight>
+
+Then you can simply call it using a table of arguments.
+<syntaxhighlight lang="lua">
+documentation{content = 'Some documentation', ['link box'] = 'My custom link box'}
+</syntaxhighlight>
+
+Please refer to the [[Template:Documentation/doc|template documentation]] for usage instructions and a list of parameters.
+
+== Porting to other wikis ==
+
+The module has a configuration file at [[Module:Documentation/config]] which is intended to allow easy translation and porting to other wikis. Please see the code comments in the config page for instructions. If you have any questions, or you need a feature which is not currently implemented, please leave a message at <span class="plainlinks">[https://en.wikipedia.org/wiki/Template_talk:Documentation Template talk:Documentation]</span><!-- this link uses external link syntax because it is intended to direct users from third-party wikis to the Wikipedia template talk page; in this situation, an internal link would unhelpfully just point to their local template talk page, and the existence of any given interwiki prefix cannot be assumed --> to get the attention of a developer.
+
+The messages that need to be customized to display a documentation template/module at the top of module pages are [[MediaWiki:Scribunto-doc-page-show]] and [[MediaWiki:Scribunto-doc-page-does-not-exist]].

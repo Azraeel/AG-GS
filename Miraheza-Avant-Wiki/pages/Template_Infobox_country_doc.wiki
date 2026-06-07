@@ -1,0 +1,3576 @@
+{{#ifeq:{{{nested|no}}}|no|{{documentation subpage}}{{hatnote|{{tl|Infobox geopolitical organisation}} and {{tl|Infobox former country}} redirect here; related parameters and examples are included below.}}}}
+{{High-use}}
+{{Lua|Module:Infobox|Module:InfoboxImage|Module:Coordinates|Module:Check for unknown parameters}}
+{{Uses TemplateStyles|Template:Infobox country/styles.css}}
+This infobox template is used to generate an infobox for the right-hand side of two specific types of article: on a country or territory, or on a geopolitical organisation. Parameter syntax and examples are detailed in the collapsed sections immediately below.
+__FORCETOC__
+== Syntax ==
+<!---------------------- Country/territory use ---------------------->
+{{hidden begin |toggle=left |titlestyle=font-size:120%; |title=Country or territory |style=font-size:100%;}}
+<syntaxhighlight lang="wikitext" style="overflow:auto;">
+{{Infobox country
+|micronation =        <!--yes if a micronation-->
+|conventional_long_name = <!--Formal or official full name of the country in English-->
+|native_name =        <!--Country's name (usually full name) in its official/defacto language(s), hence in italics (double quotemarks)-->
+|common_name =        <!--Common name in English (used for wikilinks, captions, and to produce a default iso3166 code)-->
+|status =             <!--Status of country, especially useful for micronations-->
+|image_flag =         <!--e.g. Flag of country.svg-->
+|alt_flag =           <!--alt text for flag (text shown when pointer hovers over flag)-->
+|flag_border =        <!--set to no to disable border around the flag-->
+|image_flag2 =        <!--e.g. Second-flag of country.svg-->
+|alt_flag2 =          <!--alt text for second flag-->
+|flag2_border =       <!--set to no to disable border around the flag-->
+|image_coat =         <!--e.g. Coat of arms of country.svg-->
+|alt_coat =           <!--alt text for coat of arms-->
+|symbol_type =        <!--emblem, seal, etc (if not a coat of arms)-->
+|national_motto =     <!--in inverted commas and wikilinked if link exists-->
+|englishmotto =       <!--English language version of motto-->
+|national_anthem =    <!--in inverted commas and wikilinked if link exists-->
+|royal_anthem =       <!--in inverted commas and wikilinked if link exists-->
+|other_symbol_type =  <!--Use if a further symbol exists, e.g. hymn-->
+|other_symbol =
+|image_map =          <!--e.g. LocationCountry.svg-->
+|loctext =            <!--text description of location of country-->
+|alt_map =            <!--alt text for map-->
+|map_caption =        <!--Caption to place below map-->
+|image_map_size =     <!--Map size in number of pixels-->
+|image_map2 =         <!--Another map, if required-->
+|alt_map2 =           <!--alt text for second map-->
+|map_caption2 =       <!--Caption to place below second map-->
+|image_map2_size =    <!--Map size in number of pixels-->
+|capital =            <!--Name of country/territory's capital, wikilinked if link exists-->
+|coordinates =        <!-- Coordinates for capital, using {{tl|coord}} -->
+|largest_city =       <!--Name of country/territory's largest city. Use "capital" (without quotation marks) if it's the capital.-->
+|largest_settlement_type = <!--Type of settlement if largest settlement not a city-->
+|largest_settlement = <!--Name of largest settlement-->
+|official_languages = <!--Languages recognised in legislation, constitution, etc-->
+|national_languages = <!--Country/territory-wide languages recognised but not necessarily in country/territory-wide law, etc-->
+|regional_languages = <!--Languages recognised or associated with particular regions within the country/territory-->
+|languages_type =     <!--Use to specify a further type of language, if not official, national or regional-->
+|languages =          <!--Languages of the further type-->
+|languages_sub =      <!--Is this further type of language a sub-item of the previous non-sub type? ("yes" or "no")-->
+|languages2_type =    <!--Another further type of language-->
+|languages2 =         <!--Languages of this second further type-->
+|languages2_sub =     <!--Is the second alternative type of languages a sub-item of the previous non-sub type? ("yes" or "no")-->
+|ethnic_groups =      <!--List/breakdown of ethnic groups within the country/territory-->
+|ethnic_groups_year = <!--Year of ethnic groups data (if provided)-->
+|ethnic_groups_ref =  <!--(for any ref/s to associate with ethnic groups data)-->
+|religion =           <!--Religion-->
+|religion_year =      <!--Year of religion data (if provided)-->
+|religion_ref =       <!--(for any ref/s to associate with religion data)-->
+|demonym =            <!--Term/s describing those associated with the country/territory (e.g. "Belgian" for the country Belgium)-->
+|government_type =    <!--Wikilinked if link exists-->
+|leader_title1 =      <!--(for a country, usually the head of state's (wikilinked) title, e.g. "President", "Monarch")-->
+|leader_name1 =
+|leader_title2 =      <!--(could be "Vice President", otherwise "Prime Minster", etc, etc)-->
+|leader_name2 =
+|leader_title14 =      <!--(up to 14 distinct leaders may be included)-->
+|leader_name14 = 
+|legislature =        <!--Name of the country/territory's governing body, e.g. "Parliament", "Congress", etc-->
+|upper_house =        <!--Name of governing body's upper house, if given (e.g. "Senate")-->
+|lower_house =        <!--Name of governing body's lower house, if given (e.g. "Chamber of Deputies")-->
+|sovereignty_type =   <!--Brief description of country/territory's status ("Independence [from...]", "Autonomous province [of...]", etc)-->
+|sovereignty_note = 
+|established_event1 = <!--First key event in history of country/territory's status or formation-->
+|established_date1 =  <!--Date of first key event-->
+|established_event2 = <!--Second key event-->
+|established_date2 =  <!--Date of second key event-->
+|established_event13 = <!--(up to 13 distinct events may be included)-->
+|established_date13 =
+|area_rank = 
+|area =               <!--Major area size (in [[Template:convert]] either km2 or sqmi first)-->
+|area_km2 =           <!--Major area size (in square km)-->
+|area_sq_mi =         <!--Area in square mi (requires area_km2)-->
+|area_footnote =      <!--Optional footnote for area-->
+|percent_water = 
+|area_label =         <!--Label under "Area" (default is "Total")-->
+|area_label2 =        <!--Label below area_label (optional)-->
+|area_data2 =         <!--Text after area_label2 (optional)-->
+|population_estimate = 
+|population_estimate_rank = 
+|population_estimate_year = 
+|population_census = 
+|population_census_year = 
+|population_density_km2 = 
+|population_density_sq_mi = 
+|population_density_rank = 
+|nummembers =         <!--An alternative to population for micronation-->
+|GDP_PPP =            <!--(Gross Domestic Product from Purchasing Power Parity)-->
+|GDP_PPP_rank = 
+|GDP_PPP_year = 
+|GDP_PPP_per_capita = 
+|GDP_PPP_per_capita_rank = 
+|GDP_nominal = 
+|GDP_nominal_rank = 
+|GDP_nominal_year = 
+|GDP_nominal_per_capita = 
+|GDP_nominal_per_capita_rank = 
+|Gini =               <!--(Gini measure of income inequality; input number only; valid values are between 0 and 100)-->
+|Gini_ref =           <!--(for any ref/s to associate with Gini number)-->
+|Gini_rank = 
+|Gini_year = 
+|HDI_year =           <!-- Please use the year to which the data refers, not the publication year-->
+|HDI =                <!--(Human Development Index; input number only; valid values are between 0 and 1)-->
+|HDI_change =         <!--increase/decrease/steady; rank change from previous year-->
+|HDI_rank = 
+|HDI_ref =            <!--(for any ref/s to associate with HDI number)-->
+|currency =           <!--Name/s of currency/ies used in country/territory-->
+|currency_code =      <!--ISO 4217 code/s for currency/ies (each usually three capital letters)-->
+|time_zone =          <!--e.g. GMT, PST, AST, etc, etc (wikilinked if possible)-->
+|utc_offset =         <!--in the form "+N", where N is number of hours offset-->
+|time_zone_DST =      <!--Link to DST (Daylight Saving Time) used, otherwise leave empty-->
+|utc_offset_DST =     <!--in the form "+N", where N is number of hours offset-->
+|DST_note =           <!--Optional note regarding DST use-->
+|antipodes =          <!--Place/s exactly on the opposite side of the world to country/territory-->
+|date_format =        <!--all-numeric date format and era, such as [[Common Era|CE]], [[Anno Domini|AD]], [[Hijri year|AH]], etc.; e.g. {{abbr|yyyy|year}}-{{abbr|mm|month}}-{{abbr|dd|day}} ([[Anno Domini|AD]]) -->
+|drives_on =          <!--"right" or "left" (side of road)-->
+|cctld =              <!--Internet country code top-level domain identifier (e.g. [[.br]], [[.de]], etc)-->
+|iso3166code =        <!--ISO code only; no extra text. Use to override default from common_name parameter above; omit using "omit".-->
+|calling_code =       <!--e.g. [[+1]], [[+531]], [[+44]], etc-->
+|patron_saint =       <!--Use patron_saints for multiple-->
+|image_map3 =         <!--Optional third map position, e.g. for use with reference to footnotes below it-->
+|alt_map3 =           <!--alt text for third map position-->
+|footnote_a =         <!--For any footnote <sup>a</sup> used above-->
+|footnote_b =         <!--For any footnote <sup>b</sup> used above-->
+|footnote_h =         <!--For any footnote <sup>h</sup> used above-->
+|footnotes =          <!--For any generic non-numbered footnotes-->
+}}
+</syntaxhighlight>
+{{hidden end}}
+{{hidden begin |toggle=left|title=France-specific parameters}}<!--(France-specific parameters)-->
+Note: Now redundant.
+<syntaxhighlight lang="wikitext">
+|metropole = 
+|metropole_area = 
+|metropole_area_rank = 
+|metropole_area_magnitude = 
+|metropole_areami² = 
+|metropole_population = 
+|metropole_population_estimate_rank = 
+|foot = 
+|foot2 = 
+|foot3 = 
+|foot4 = 
+|foot5 = 
+</syntaxhighlight>
+<!--(France-specific parameters)-->
+{{smaller|* If, on a particular page, the default widths provided for the flag and coat-of-arms/symbol images produce an unsatisfactory result, use ''flag_width'' (as % or px) to specify the width to be used for the flag image; the remaining width is then assigned to the coat-of-arms/symbol (if included).}}
+{{hidden end}}
+
+<!------------------------- Geopolitical use -------------------------->
+{{hidden begin |toggle=left |titlestyle=font-size:120%; |title=Geopolitical organization |style=font-size:100%;}}
+<syntaxhighlight lang="wikitext" style="overflow:auto;">
+{{Infobox geopolitical organization
+|name =              <!-- (in English) -->
+|native_name =       <!-- Long-form name in native or any/all non-English languages -->
+|linking_name =      <!-- For wikilinks, if diff from name -->
+|image_flag =        <!-- Flag image's filename -->
+|alt_flag =          <!-- alt text for flag-->
+|flag_border =       <!--set to no to disable border around the flag-->
+|symbol_type =       <!-- Symbol, Emblem, Logo, etc. -->
+|image_symbol =      <!-- Symbol image's filename -->
+|alt_symbol =        <!-- alt text for symbol -->
+|symbol_width =      <!-- Symbol image's width (default 85px) -->
+|motto =             <!-- "[motto]" -->
+|englishmotto =      <!--English language version of motto-->
+|anthem =            <!-- ''[anthem name]'' -->
+|text_symbol_type =  <!-- for other types of text symbol -->
+|text_symbol =       <!-- e.g. ''[hymn name]'' -->
+|image_map =         <!-- Map image's filename -->
+|loctext =           <!--text description of location of organization-->
+|alt_map =           <!-- alt text for map image -->
+|map_width =         <!-- Map image's width (default 250px) -->
+|map_caption = 
+|org_type =          <!-- e.g. Trade bloc -->
+|membership_type =   <!-- (default "Membership") -->
+|membership =        <!-- Type/s and/or number/s of members -->
+|admin_center_type = <!-- e.g. "Administrative center" (default) -->
+|admin_center =      <!-- Location/s of administrative center/s -->
+|languages_type =    <!-- e.g. "[[Official language]]s" (default) -->
+|languages = 
+|leader_title1 =     <!-- e.g. "Chair", "President", etc. -->
+|leader_name1 = 
+|leader_title2 =     <!-- e.g. "Deputy chair", etc. -->
+|leader_name2 = 
+|leader_title14 = 
+|leader_name14 =
+|established =       <!-- Usually a date, in lieu of event/s hereafter -->
+|established_event1 = 
+|established_date1 = 
+|established_event2 = 
+|established_date2 = 
+|established_event9 = 
+|established_date9 = 
+|official_website = 
+|area_km2 =          <!-- major area size (in sq_km) -->
+|area_sq_mi =        <!-- area in square mi (requires area_km2) -->
+|area_footnote =     <!-- optional footnote for area -->
+|percent_water = 
+|area_label =        <!-- label under "Area" (default is "Total") -->
+|area_label2 =       <!-- label below area_label (optional) -->
+|area_dabodyalign =  <!-- text after area_label2 (optional) -->
+|population_estimate = 
+|population_estimate_year = 
+|population_density_km2 = 
+|population_density_sq_mi = 
+|GDP_PPP = 
+|GDP_PPP_rank = 
+|GDP_PPP_year = 
+|GDP_PPP_per_capita = 
+|GDP_nominal = 
+|GDP_nominal_year = 
+|GDP_nominal_per_capita = 
+|Gini =              <!-- number only, 0-100 -->
+|Gini_ref =          <!-- for any ref/s to associate with Gini number -->
+|Gini_year = 
+|HDI =               <!-- number only, 0-1 -->
+|HDI_ref =           <!-- for any ref/s to associate with HDI number -->
+|HDI_year = 
+|currency = 
+|currency_code = 
+|time_zone = 
+|utc_offset =        <!-- +N, where N is number of hours -->
+|footnote1 = 
+|footnote2 = 
+|footnote7 = 
+|footnotes =         <!-- For generic non-numbered footnotes -->
+}}
+</syntaxhighlight>
+{{hidden end}}
+
+<!-------------------- Former country use ---------------------->
+{{hidden begin |toggle=left |titlestyle=font-size:120%; |title=Former country |style=font-size:100%;}}
+<syntaxhighlight lang="wikitext" style="overflow:auto;">
+{{Infobox former country
+|native_name            = <!-- Name in a modern syntax of native language(s). Leave blank if name is only in English.
+                               Separate with line breaks<br/> or use Template:Plainlist. If language uses Latin characters, place name(s) in italics. -->
+|conventional_long_name = <!-- Full name in English -->
+|common_name            = <!-- Name to be used in constructing links and category names; not for display -->
+|iso3166code = omit       <!-- For a country or geopolitical version of a country that ceased to exist prior to the introduction of iso3166-->
+|era                    = <!-- Use: "Napoleonic Wars", "Cold War", etc. -->
+|status                 = <!-- Status: see Category list on template page -->
+|status_text            = <!-- A free text to describe status at the top of the infobox. Use sparingly. -->
+|empire                 = <!-- The empire or country to which the entity was in a state of dependency -->
+|government_type        = <!-- To generate categories: "Monarchy", "Republic", etc. to generate categories -->
+<!-- Rise and fall, events, years and dates -->
+<!-- only fill in the start/end event entry if a specific article exists. Don't just say "abolition" or "declaration" -->
+|event_start            = <!-- Default: "Established" -->
+|date_start             = <!-- Optional: Date of establishment, in format 1 January (no year) -->
+|year_start             = <!-- Year of establishment -->
+|event_end              = <!-- Default: "Disestablished" -->
+|date_end               = <!-- Optional: Date of disestablishment, in format 1 January (no year) -->
+|year_end               = <!-- Year of disestablishment -->
+|year_exile_start       = <!-- Year of start of exile (if dealing with exiled government: status="Exile") -->
+|year_exile_end         = <!-- Year of end of exile (leave blank if still in exile) -->
+|event1                 = <!-- Optional: other events between "start" and "end" -->
+|date_event1            = 
+|event2                 = 
+|date_event2            = 
+|event3                 = 
+|date_event3            = 
+|event4                 = 
+|date_event4            = 
+|event5                 = 
+|date_event5            = 
+|event6                 = 
+|date_event6            = 
+|event_pre              = <!-- Optional: A crucial event that took place before "event_start" -->
+|date_pre               = 
+|event_post             = <!-- Optional: A crucial event that took place after "event_end" -->
+|date_post              = 
+<!-- Flag navigation: Preceding and succeeding entities p1 to p5 and s1 to s5 -->
+|p1                     = <!-- Name of the article for preceding entity, numbered 1-5 -->
+|flag_p1                = <!-- Default: "Flag of {{{p1}}}.svg" (size 30) -->
+|image_p1               = <!-- Use: [[File:Sin escudo.svg|20px|Image missing]] -->
+|p2                     = 
+|flag_p2                = 
+|p3                     = 
+|flag_p3                = 
+|p4                     = 
+|flag_p4                = 
+|p5                     = 
+|flag_p5                = 
+|s1                     = <!-- Name of the article for succeeding entity, numbered 1-5 -->
+|flag_s1                = <!-- Default: "Flag of {{{s1}}}.svg" (size 30) -->
+|image_s1               = <!-- Use: [[File:Sin escudo.svg|20px|Image missing]] -->
+|s2                     = 
+|flag_s2                = 
+|s3                     = 
+|flag_s3                = 
+|s4                     = 
+|flag_s4                = 
+|s5                     = 
+|flag_s5                = 
+|image_flag             = <!-- Default: Flag of {{{common_name}}}.svg -->
+|flag_alt               = <!-- Alt text for flag -->
+|image_flag2            = <!-- Second flag -->
+|flag_alt2              = <!-- Alt text for second flag -->
+|flag                   = <!-- Link target under flag image. Default: Flag of {{{common_name}}} -->
+|flag2                  = <!-- Link target under flag2 image. Default: Flag of {{{common_name}}} -->
+|flag_type              = <!-- Displayed text for link under flag. Default "Flag" -->
+|flag2_type             = <!-- Displayed text for link under flag2. Default "Flag" -->
+|image_coat             = <!-- Default: Coat of arms of {{{common_name}}}.svg -->
+|coa_size               = <!-- Size of coat of arms -->
+|coat_alt               = <!-- Alt text for coat of arms -->
+|symbol_type            = <!-- Displayed text for link under symbol. Default "Coat of arms" -->
+|symbol_type_article    = <!-- Link target under symbol image. Default: Coat of arms of {{{common_name}}} -->
+|image_map              = 
+|image_map_size         = <!--Map size in number of pixels-->
+|image_map_alt          = 
+|image_map_caption      = 
+|image_map2             = <!-- If second map is needed; does not appear by default -->
+|image_map2_size        = <!--Map size in number of pixels-->
+|image_map2_alt         = 
+|image_map2_caption     = 
+|capital                = 
+|capital_exile          = <!-- If status="Exile" -->
+|national_motto         = 
+|national_anthem        = 
+|common_languages       = 
+|religion               = 
+|demonym                = 
+|currency               = 
+<!-- Titles and names of the first and last leaders and their deputies -->
+|leader1                = <!-- Name of king or president -->
+|leader2                = 
+|leader3                = 
+|leader4                = 
+|leader21               =      <!--(up to 21 distinct leaders may be included)-->
+|year_leader1           = <!-- Years served -->
+|year_leader2           = 
+|year_leader3           = 
+|year_leader4           =
+|year_leader21               = 
+|title_leader           = <!-- Default: "King" for monarchy, otherwise "President" -->
+|representative1        = <!-- Name of representative of head of state (e.g. colonial governor) -->
+|representative2        = 
+|representative3        = 
+|representative4        = 
+|representative5        = 
+|year_representative1   = <!-- Years served -->
+|year_representative2   = 
+|year_representative3   = 
+|year_representative4   = 
+|year_representative5   = 
+|title_representative   = <!-- Default: "Governor" -->
+|deputy1                = <!-- Name of prime minister -->
+|deputy2                = 
+|deputy3                = 
+|deputy4                = 
+|year_deputy1           = <!-- Years served -->
+|year_deputy2           = 
+|year_deputy3           = 
+|year_deputy4           = 
+|title_deputy           = <!-- Default: "Prime minister" -->
+<!-- Legislature -->
+|legislature            = <!-- Name of legislature -->
+|house1                 = <!-- Name of first chamber -->
+|type_house1            = <!-- Default: "Upper house" -->
+|house2                 = <!-- Name of second chamber -->
+|type_house2            = <!-- Default: "Lower house" -->
+<!-- Area and population of a given year -->
+|stat_year1             = <!-- year of the statistic, specify either area, population or both -->
+|stat_area1             = <!-- area in square kilometres (w/o commas or spaces); area in square miles is calculated -->
+|stat_pop1              = <!-- population (w/o commas or spaces) -->
+|stat_year2             = 
+|stat_area2             = 
+|stat_pop2              = 
+|stat_year3             = 
+|stat_area3             = 
+|stat_pop3              = 
+|stat_year4             = 
+|stat_area4             = 
+|stat_pop4              = 
+|stat_year5             = 
+|stat_area5             = 
+|stat_pop5              = 
+|today                  = <!-- Present-day countries that overlap with the territorial extent of the former country. Do not use this parameter if there are more than four such countries. --><!-- Do NOT add flags, per MOS:INFOBOXFLAG -->
+|footnote_a             = <!-- Accepts wikilinks -->
+|footnote_b             = <!-- Accepts wikilinks -->
+...
+|footnote_h             = <!-- Accepts wikilinks -->
+|footnotes              = <!-- Accepts wikilinks -->
+}}
+</syntaxhighlight>
+{{hidden end}}
+
+== Examples ==
+<!------------------ Country/territory example ------------------->
+{{hidden begin |toggle=left |titlestyle=font-size:120%; |title=Country or territory |style=font-size:100%;}}
+{{Infobox country
+|conventional_long_name = Republic of Cameroon
+|native_name = {{lang|fr|République du Cameroun}}
+|common_name = Cameroon
+|image_flag = Flag of Cameroon.svg
+|alt_flag = Vertical tricolor (green, red, yellow) with a five-pointed gold star in the center of the red.
+|image_coat = Coat of arms of Cameroon.svg
+|symbol_type = Coat of arms
+|image_map = Cameroon (orthographic projection).svg
+|alt_map = Location of Cameroon on the globe.
+|national_motto = <br/>{{native phrase|fr|"Paix &ndash; Travail &ndash; Patrie"|italics=off}}<br/>{{small|"Peace &ndash; Work &ndash; Fatherland"}}
+|national_anthem = <br/>"{{native phrase|fr|[[O Cameroon, Cradle of our Forefathers|Ô Cameroun, Berceau de nos Ancêtres]]|nolink=yes|italics=off}}"<br/>{{raise|0.2em|{{small|''O Cameroon, Cradle of our Forefathers''}}&nbsp;{{lower|0.1em|<sup>a</sup>}}}}
+|official_languages = {{hlist |[[French language|French]] |[[English language|English]]}}
+|demonym = Cameroonian
+|ethnic_groups =
+ {{unbulleted list
+  | {{nowrap|31% [[Ethnic groups in Cameroon|Cameroon Highlanders]]}}
+  | 19% [[Bantu peoples|Equatorial Bantu]]
+  | 11% [[Kirdi]]
+  | 10% [[Fula people|Fulani]]
+  | {{0|0}}8% [[Bantu peoples|Northwestern Bantu]]
+  | {{0|0}}7% Eastern Nigritic
+  | 13% other African
+  | &lt;1% non-African
+ }}
+|capital = [[Yaoundé]]
+|coordinates = {{coord|3|52|N|11|31|E}}
+|largest_city = [[Douala]]
+|government_type = [[Republic]]
+|leader_title1 = [[List of heads of state of Cameroon|President]]
+|leader_name1 = [[Paul Biya]]
+|leader_title2 = [[Prime Minister of Cameroon|Prime Minister]]
+|leader_name2 = [[Philémon Yang]]
+|legislature = [[National Assembly (Cameroon)|National Assembly]]
+|area_rank = 54th <!--Demographic Yearbook 1.-->
+|area_km2 = 475,442
+|area_sq_mi = 183,568 <!--Do not remove per [[WP:MOSNUM]]-->
+|percent_water = 1.3 <!--CIA World Factbook-->
+|population_estimate = 20,129,878
+|population_estimate_rank = 58th <!--UN World Population Prospects-->
+|population_estimate_year = July 2012
+|population_census = 17,463,836
+|population_census_year = 2005
+|population_density_km2 = 39.7
+|population_density_sq_mi = 102.8 <!--Do not remove per [[WP:MOSNUM]]-->
+|population_density_rank = 167th <!--UN World Population Prospects-->
+|GDP_PPP = $47.251&nbsp;billion
+|GDP_PPP_year = 2011
+|GDP_PPP_per_capita = $2,257
+|GDP_PPP_per_capita_rank =
+|GDP_nominal = $25.759&nbsp;billion
+|GDP_nominal_year = 2011
+|GDP_nominal_per_capita = $1,230
+|sovereignty_type = Independence {{nobold|from [[France]]}}
+|established_event1 = Declared
+|established_date1 = 1 January 1960
+|established_event2 = {{nowrap|Annexation of former<br/>[[British Cameroons]]}}
+|established_date2 = 1 October 1961
+|HDI_year = 2011
+|HDI_change = increase <!--increase/decrease/steady-->
+|HDI = 0.482 <!--number only-->
+|HDI_ref =
+|HDI_rank = 150th
+|Gini_year = 2001
+|Gini_change =  <!--increase/decrease/steady-->
+|Gini = 44.6 <!--number only-->
+|Gini_ref =
+|Gini_rank =
+|currency = [[Central African CFA franc]]
+|currency_code = XAF
+|time_zone = [[West Africa Time|WAT]]
+|utc_offset = +1
+|time_zone_DST = 
+|utc_offset_DST = 
+|drives_on = right
+|calling_code = [[+237]]
+|cctld = [[.cm]]
+|footnote_a = These are the titles as given in the ''Constitution of the Republic of Cameroon'', Article X. The French version of the song is sometimes called {{lang|fr|Chant de Ralliement}}, as in ''National Anthems of the World''; and the English version "O Cameroon, Cradle of Our Forefathers", as in DeLancey and DeLancey 61.
+}}
+
+<syntaxhighlight lang="wikitext" style="overflow:auto;">
+{{Infobox country
+|conventional_long_name = Republic of Cameroon
+|native_name = {{lang|fr|République du Cameroun}}
+|common_name = Cameroon
+|image_flag = Flag of Cameroon.svg
+|alt_flag = Vertical tricolor (green, red, yellow) with a five-pointed gold star in the center of the red.
+|image_coat = Coat of arms of Cameroon.svg
+|symbol_type = Coat of arms
+|image_map = Cameroon (orthographic projection).svg
+|alt_map = Location of Cameroon on the globe.
+|national_motto = <br/>{{native phrase|fr|"Paix &ndash; Travail &ndash; Patrie"|italics=off}}<br/>{{small|"Peace &ndash; Work &ndash; Fatherland"}}
+|national_anthem = <br/>"{{native phrase|fr|[[O Cameroon, Cradle of our Forefathers|Ô Cameroun, Berceau de nos Ancêtres]]|nolink=yes|italics=off}}"<br/>{{raise|0.2em|{{small|''O Cameroon, Cradle of our Forefathers''}}&nbsp;{{lower|0.1em|<sup>a</sup>}}}}
+|official_languages = {{hlist |[[French language|French]] |[[English language|English]]}}
+|demonym = Cameroonian
+|ethnic_groups =
+ {{unbulleted list
+  | {{nowrap|31% [[Ethnic groups in Cameroon|Cameroon Highlanders]]}}
+  | 19% [[Bantu peoples|Equatorial Bantu]]
+  | 11% [[Kirdi]]
+  | 10% [[Fula people|Fulani]]
+  | {{0|0}}8% [[Bantu peoples|Northwestern Bantu]]
+  | {{0|0}}7% Eastern Nigritic
+  | 13% other African
+  | &lt;1% non-African
+ }}
+|capital = [[Yaoundé]]
+|coordinates = {{coord|3|52|N|11|31|E}}
+|largest_city = [[Douala]]
+|government_type = [[Republic]]
+|leader_title1 = [[List of heads of state of Cameroon|President]]
+|leader_name1 = [[Paul Biya]]
+|leader_title2 = [[Prime Minister of Cameroon|Prime Minister]]
+|leader_name2 = [[Philémon Yang]]
+|legislature = [[National Assembly (Cameroon)|National Assembly]]
+|area_rank = 54th <!--Demographic Yearbook 1.-->
+|area_km2 = 475,442
+|area_sq_mi = 183,568 <!--Do not remove per [[WP:MOSNUM]]-->
+|percent_water = 1.3 <!--CIA World Factbook-->
+|population_estimate = 20,129,878
+|population_estimate_rank = 58th <!--UN World Population Prospects-->
+|population_estimate_year = July 2012
+|population_census = 17,463,836
+|population_census_year = 2005
+|population_density_km2 = 39.7
+|population_density_sq_mi = 102.8 <!--Do not remove per [[WP:MOSNUM]]-->
+|population_density_rank = 167th <!--UN World Population Prospects-->
+|GDP_PPP = $47.251&nbsp;billion
+|GDP_PPP_year = 2011
+|GDP_PPP_per_capita = $2,257
+|GDP_PPP_per_capita_rank =
+|GDP_nominal = $25.759&nbsp;billion
+|GDP_nominal_year = 2011
+|GDP_nominal_per_capita = $1,230
+|sovereignty_type = Independence {{nobold|from [[France]]}}
+|established_event1 = Declared
+|established_date1 = 1 January 1960
+|established_event2 = {{nowrap|Annexation of former<br/>[[British Cameroons]]}}
+|established_date2 = 1 October 1961
+|HDI_year = 2011
+|HDI_change = increase <!--increase/decrease/steady-->
+|HDI = 0.482 <!--number only-->
+|HDI_ref = 
+|HDI_rank = 150th
+|Gini_year = 2001
+|Gini_change =  <!--increase/decrease/steady-->
+|Gini = 44.6 <!--number only-->
+|Gini_ref = 
+|Gini_rank =
+|currency = [[Central African CFA franc]]
+|currency_code = XAF
+|time_zone = [[West Africa Time|WAT]]
+|utc_offset = +1
+|time_zone_DST = not observed
+|utc_offset_DST = +1
+|drives_on = right
+|calling_code = [[+237]]
+|cctld = [[.cm]]
+|footnote_a = These are the titles as given in the ''Constitution of the Republic of Cameroon'', Article X. The French version of the song is sometimes called {{lang|fr|Chant de Ralliement}}, as in ''National Anthems of the World''; and the English version "O Cameroon, Cradle of Our Forefathers", as in DeLancey and DeLancey 61.
+}}
+</syntaxhighlight>
+{{hidden end}}
+
+<!-------------- Geopolitical organization example --------------->
+{{hidden begin |toggle=left |titlestyle=font-size:120%; |title=Geopolitical organization |style=font-size:100%;}}
+{{Infobox geopolitical organization
+|name =
+ {{collapsible list
+  |titlestyle = background:transparent;text-align:center;font-size:85%;
+  |title = {{resize|130%|European Union}}
+  |liststyle = text-align:center;
+  | {{smaller|{{native name|bg|Европейски съюз}}<br/><!--
+   -->{{native name|hr|Europska unija}}<br/><!--
+   -->{{native name|cs|Evropská unie}}<br/><!--
+   -->{{native name|da|Den Europæiske Union}}<br/><!--
+   -->{{native name|nl|Europese Unie}}<br /><!--
+   -->{{native name|et|Euroopa Liit}}<br/><!--
+   -->{{native name|fi|Euroopan unioni}}<br/><!--
+   -->{{native name|fr|Union européenne}}<br/><!--
+   -->{{native name|de|Europäische Union}}<br/><!--
+   -->{{native name|el|Ευρωπαϊκή Ένωση}}<br/><!--
+   -->{{native name|hu|Európai Unió}}<br/><!--
+   -->{{native name|ga|An tAontas Eorpach}}<br/><!--
+   -->{{native name|it|Unione europea}}<br/><!--
+   -->{{native name|lv|Eiropas Savienība}}<br/><!--
+   -->{{native name|lt|Europos Sąjunga}}<br/><!--
+   -->{{native name|mt|Unjoni Ewropea}}<br/><!--
+   -->{{native name|pl|Unia Europejska}}<br/><!--
+   -->{{native name|pt|União Europeia}}<br/><!--
+   -->{{native name|ro|Uniunea Europeană}}<br/><!--
+   -->{{native name|sk|Európska únia}}<br/><!--
+   -->{{native name|sl|Evropska unija}}<br/><!--
+   -->{{native name|es|Unión Europea}}<br/><!--
+   -->{{native name|sv|Europeiska unionen}}<!--
+ -->}}
+ }}
+|linking_name = Europe 
+|image_flag = Flag of Europe.svg
+|alt_flag = Circle of 12 gold stars on a blue background
+|motto = "[[Motto of the European Union|United in diversity]]"
+|anthem = <div style="padding-bottom:0.2em;">"[[Anthem of Europe|Ode to Joy]]"&nbsp;&nbsp;{{small|(orchestral)}}</div>[[File:Anthem of Europe (US Navy instrumental short version).ogg|center]]
+|image_map = EU Globe No Borders.svg
+|map_caption = An [[Orthographic projection (cartography)|orthographic projection]] of the world, highlighting the European Union and its Member States (green).
+|map_width = 220px
+|admin_center_type = Political centres
+|admin_center = {{unbulleted list |[[Brussels]] ([[Brussels and the European Union|de facto capital]])|[[Luxembourg (city)|Luxembourg]] |[[Strasbourg]]}}
+|largest_city = [[London]]
+|official_languages =
+ {{collapsible list
+  |titlestyle = background:transparent;text-align:left;font-weight:normal;
+  |title = [[Languages of the European Union|24 languages]]
+  | {{hlist |[[Bulgarian language|Bulgarian]] |[[Croatian language|Croatian]] |[[Czech language|Czech]] |[[Danish language|Danish]] |[[Dutch language|Dutch]] |[[English language|English]] |[[Estonian language|Estonian]] |[[Finnish language|Finnish]] |[[French language|French]] |[[German language|German]] |[[Greek language|Greek]] |[[Hungarian language|Hungarian]] |[[Irish language|Irish]] |[[Italian language|Italian]] |[[Latvian language|Latvian]] |[[Lithuanian language|Lithuanian]] |[[Maltese language|Maltese]] |[[Polish language|Polish]] |[[Portuguese language|Portuguese]] |[[Romanian language|Romanian]] |[[Slovak language|Slovak]] |[[Slovene language|Slovene]] |[[Spanish language|Spanish]] |[[Swedish language|Swedish]]}}
+ }}
+|demonym = [[Citizenship of the European Union|European]]
+|membership_type = [[Member state of the European Union|Member state]]s
+|membership =
+ {{collapsible list
+  |titlestyle = background:transparent;text-align:left;font-weight:normal;
+  |title = 27 states
+  |{{flagcountry|Austria}} |{{flagcountry|Belgium|state}} |{{flagcountry|Bulgaria}}
+  |{{flagcountry|Croatia}} |{{flagcountry|Cyprus}} |{{flagcountry|Czech Republic}} 
+  |{{flagcountry|Denmark}} |{{flagcountry|Estonia}} |{{flagcountry|Finland}} 
+  |{{flagcountry|France}}  |{{flagcountry|Germany}} |{{flagcountry|Greece}} 
+  |{{flagcountry|Hungary}} |{{flagcountry|Ireland}} |{{flagcountry|Italy}} 
+  |{{flagcountry|Latvia}} |{{flagcountry|Lithuania}} |{{flagcountry|Luxembourg}} 
+  |{{flagcountry|Malta}} |{{flagcountry|Netherlands}} |{{flagcountry|Poland}} 
+  |{{flagcountry|Portugal}} |{{flagcountry|Romania}} |{{flagcountry|Slovakia}} 
+  |{{flagcountry|Slovenia}} |{{flagcountry|Spain}} |{{flagcountry|Sweden}} 
+ }}
+|leader_title1 = [[President of the European Council|President of the European Council]]
+|leader_name1 = {{nowrap|[[Charles Michel]] ([[Mouvement Réformateur|MR]])}}
+|leader_title2 = [[President of the European Commission|President of the Commission]]
+|leader_name2 = {{nowrap|[[Ursula von der Leyen]] ([[Christian Democratic Union of Germany|CDU]])}}
+|legislature = [[Legislature of the European Union]]
+|upper_house = {{nowrap|[[Council of the European Union]]}}
+|lower_house = [[European Parliament]]
+|established_event1 = [[Treaty of Paris (1951)|Treaty of Paris]]
+|established_date1 = 23 July 1952
+|established_event2 = [[Treaty of Rome]]
+|established_date2 = 1 January 1958
+|established_event3 = {{nowrap|[[Maastricht Treaty|Treaty of Maastricht]]}}
+|established_date3 = 1 November 1993
+|official_website = {{URL|europa.eu}}
+|area_rank = 7th<sup>a</sup><!--gives link to list--><!--Calculated by taking out EU members from the list-->
+|area_km2 = 4,381,376 <!--Do not remove per [[WP:MOSNUM]]-->
+|area_sq_mi = 1,691,658 <!--Do not remove per [[WP:MOSNUM]]-->
+|percent_water = 3.08
+|population_estimate = 507,890,191
+|population_estimate_rank = 3rd<sup>a</sup><!--gives link to list--><!--Calculated by taking out EU members from the list-->
+|population_estimate_year = 2012
+|population_density_km2 = 116.2 <!--502,486,499 / 4,324,782km2 = 116.2 people/km2 (1 January 2011)-->
+|population_density_sq_mi = 300.9 <!--502,486,499 / 1,669,807sq_mi = 300.9 people/sq_mi (1 January 2011)-->
+|population_density_rank = <!--Calculated by taking out EU members from the list-->
+<!--IMF GDP data published in September 2011; so please do not use the IMF *projections* for 2011-->
+|GDP_PPP = $15.821 trillion
+|GDP_PPP_rank = 1st<sup>a</sup><!--gives link to list--><!--Calculated by taking out EU members from the list-->
+|GDP_PPP_year = 2011
+|GDP_PPP_per_capita = $31,607<!--same ref as above-->
+|GDP_PPP_per_capita_rank = 15th<sup>a</sup><!--Calculated by taking out EU members from the list-->
+|GDP_nominal = $17.577 trillion
+|GDP_nominal_rank = 1st<sup>a</sup><!--Calculated by taking out EU members from the list-->
+|GDP_nominal_year = 2011
+|GDP_nominal_per_capita = $35,116
+|GDP_nominal_per_capita_rank = 14th<sup>a</sup><!--gives link to list--><!--Calculated by taking out EU members from the list-->
+|Gini_year = 2010
+|Gini_change =  <!--increase/decrease/steady-->
+|Gini = 30.4 <!--number only-->
+|Gini_ref =
+|Gini_rank = 
+|HDI_year = 2011
+|HDI_change = increase <!--increase/decrease/steady-->
+|HDI = 0.876 <!--number only-->
+|HDI_ref =
+|HDI_rank = 13th<!--Calculated by taking out EU members from the list-->{{\}}25th<sup>a</sup><!--Calculated with EU members in the list-->
+|currency =
+{{(!}} cellspacing="0" cellpadding="0"
+{{!-}} style="height: 22px;"
+! colspan="4" style="font-size: 120%; white-space:nowrap" {{!}} [[Eurozone]]{{spaces|2}}{{nobold|{{small|(17 countries)}}}}
+{{!-}} style="height: 22px;"
+! {{flagicon|EU}}
+! [[Euro]]
+! [[Euro sign|€]]
+! [[ISO 4217|EUR]]
+{{!-}} style="height: 22px;"
+! colspan="4" style="font-size: 120%;" {{!}} [[Currencies of the European Union|Other currencies]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Bulgaria}}
+{{!}} [[Bulgarian lev|Lev]]
+{{!}} лв
+{{!}} [[ISO 4217|BGN]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Croatia}}
+{{!}} [[Croatian kuna|Kuna]]
+{{!}} kn
+{{!}} [[ISO 4217|HRK]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Czech Republic}}
+{{!}} [[Czech koruna|Koruna]]
+{{!}} Kč
+{{!}} [[ISO 4217|CZK]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Denmark}}
+{{!}} [[Danish krone|Krone]]
+{{!}} kr
+{{!}} [[ISO 4217|DKK]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Hungary}}
+{{!}} [[Hungarian forint|Forint]]
+{{!}} Ft
+{{!}} [[ISO 4217|HUF]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Latvia}}
+{{!}} [[Latvian lats|Lats]]
+{{!}} Ls
+{{!}} [[ISO 4217|LVL]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Lithuania}}
+{{!}} [[Lithuanian litas|Litas]]
+{{!}} Lt
+{{!}} [[ISO 4217|LTL]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Poland}}
+{{!}} [[Polish złoty|Złoty]]
+{{!}} zł
+{{!}} [[ISO 4217|PLN]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Romania}}
+{{!}} [[Romanian Leu|Leu]]
+{{!}} L
+{{!}} [[ISO 4217|RON]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Sweden}}
+{{!}} [[Swedish krona|Krona]]
+{{!}} kr
+{{!}} [[ISO 4217|SEK]]
+{{!)}}
+|time_zone = 
+|utc_offset = +0 to +2
+|time_zone_DST = 
+|utc_offset_DST = +1 to +3
+|date_format = 
+|cctld = [[.eu]]
+|calling_code = [[Telephone numbers in the European Union|27 codes]]
+|footnote_a = If considered as a single entity.
+}}
+
+<syntaxhighlight lang="wikitext" style="overflow:auto;">
+{{Infobox geopolitical organization
+|name =
+ {{collapsible list
+  |titlestyle = background:transparent;text-align:center;font-size:85%;
+  |title = {{resize|130%|European Union}}
+  |liststyle = text-align:center;
+  | {{smaller|{{native name|bg|Европейски съюз}}<br/><!--
+   -->{{native name|hr|Europska unija}}<br/><!--
+   -->{{native name|cs|Evropská unie}}<br/><!--
+   -->{{native name|da|Den Europæiske Union}}<br/><!--
+   -->{{native name|nl|Europese Unie}}<br /><!--
+   -->{{native name|et|Euroopa Liit}}<br/><!--
+   -->{{native name|fi|Euroopan unioni}}<br/><!--
+   -->{{native name|fr|Union européenne}}<br/><!--
+   -->{{native name|de|Europäische Union}}<br/><!--
+   -->{{native name|el|Ευρωπαϊκή Ένωση}}<br/><!--
+   -->{{native name|hu|Európai Unió}}<br/><!--
+   -->{{native name|ga|An tAontas Eorpach}}<br/><!--
+   -->{{native name|it|Unione europea}}<br/><!--
+   -->{{native name|lv|Eiropas Savienība}}<br/><!--
+   -->{{native name|lt|Europos Sąjunga}}<br/><!--
+   -->{{native name|mt|Unjoni Ewropea}}<br/><!--
+   -->{{native name|pl|Unia Europejska}}<br/><!--
+   -->{{native name|pt|União Europeia}}<br/><!--
+   -->{{native name|ro|Uniunea Europeană}}<br/><!--
+   -->{{native name|sk|Európska únia}}<br/><!--
+   -->{{native name|sl|Evropska unija}}<br/><!--
+   -->{{native name|es|Unión Europea}}<br/><!--
+   -->{{native name|sv|Europeiska unionen}}<!--
+ -->}}
+ }}
+|linking_name = Europe 
+|image_flag = Flag of Europe.svg
+|alt_flag = Circle of 12 gold stars on a blue background
+|motto = "[[Motto of the European Union|United in diversity]]"
+|anthem = <div style="padding-bottom:0.2em;">''[[Anthem of Europe|Ode to Joy]]''&nbsp;&nbsp;{{small|(orchestral)}}</div>{{center|[[File:Anthem of Europe (US Navy instrumental short version).ogg]]}}
+|image_map = EU Globe No Borders.svg
+|map_caption = An [[Orthographic projection (cartography)|orthographic projection]] of the world, highlighting the European Union and its Member States (green).
+|map_width = 220px
+|admin_center_type = Political centres
+|admin_center = {{unbulleted list |[[Brussels]] ([[Brussels and the European Union|de facto capital]])|[[Luxembourg (city)|Luxembourg]] |[[Strasbourg]]}}
+|largest_city = [[London]]
+|official_languages =
+ {{collapsible list
+  |titlestyle = background:transparent;text-align:left;font-weight:normal;
+  |title = [[Languages of the European Union|24 languages]]
+  | {{hlist |[[Bulgarian language|Bulgarian]] |[[Croatian language|Croatian]] |[[Czech language|Czech]] |[[Danish language|Danish]] |[[Dutch language|Dutch]] |[[English language|English]] |[[Estonian language|Estonian]] |[[Finnish language|Finnish]] |[[French language|French]] |[[German language|German]] |[[Greek language|Greek]] |[[Hungarian language|Hungarian]] |[[Irish language|Irish]] |[[Italian language|Italian]] |[[Latvian language|Latvian]] |[[Lithuanian language|Lithuanian]] |[[Maltese language|Maltese]] |[[Polish language|Polish]] |[[Portuguese language|Portuguese]] |[[Romanian language|Romanian]] |[[Slovak language|Slovak]] |[[Slovene language|Slovene]] |[[Spanish language|Spanish]] |[[Swedish language|Swedish]]}}
+ }}
+|demonym = [[Citizenship of the European Union|European]]
+|membership_type = [[Member state of the European Union|Member state]]s
+|membership =
+ {{collapsible list
+  |titlestyle = background:transparent;text-align:left;font-weight:normal;
+  |title = 27 states
+  |{{flagcountry|Austria}} |{{flagcountry|Belgium|state}} |{{flagcountry|Bulgaria}}
+  |{{flagcountry|Croatia}} |{{flagcountry|Cyprus}} |{{flagcountry|Czech Republic}} 
+  |{{flagcountry|Denmark}} |{{flagcountry|Estonia}} |{{flagcountry|Finland}} 
+  |{{flagcountry|France}}  |{{flagcountry|Germany}} |{{flagcountry|Greece}} 
+  |{{flagcountry|Hungary}} |{{flagcountry|Ireland}} |{{flagcountry|Italy}} 
+  |{{flagcountry|Latvia}} |{{flagcountry|Lithuania}} |{{flagcountry|Luxembourg}} 
+  |{{flagcountry|Malta}} |{{flagcountry|Netherlands}} |{{flagcountry|Poland}} 
+  |{{flagcountry|Portugal}} |{{flagcountry|Romania}} |{{flagcountry|Slovakia}} 
+  |{{flagcountry|Slovenia}} |{{flagcountry|Spain}} |{{flagcountry|Sweden}} 
+ }}
+|leader_title1 = [[President of the European Council|President of the European Council]]
+|leader_name1 = {{nowrap|[[Charles Michel]] ([[Mouvement Réformateur|MR]])}}
+|leader_title2 = [[President of the European Commission|President of the Commission]]
+|leader_name2 = {{nowrap|[[Ursula von der Leyen]] ([[Christian Democratic Union of Germany|CDU]])}}
+|legislature = [[Legislature of the European Union]]
+|upper_house = {{nowrap|[[Council of the European Union]]}}
+|lower_house = [[European Parliament]]
+|established_event1 = [[Treaty of Paris (1951)|Treaty of Paris]]
+|established_date1 = 23 July 1952
+|established_event2 = [[Treaty of Rome]]
+|established_date2 = 1 January 1958
+|established_event3 = {{nowrap|[[Maastricht Treaty|Treaty of Maastricht]]}}
+|established_date3 = 1 November 1993
+|official_website = {{URL|europa.eu}}
+|area_rank = 7th<sup>a</sup><!--gives link to list--><!--Calculated by taking out EU members from the list-->
+|area_km2 = 4,381,376 <!--Do not remove per [[WP:MOSNUM]]-->
+|area_sq_mi = 1,691,658 <!--Do not remove per [[WP:MOSNUM]]-->
+|percent_water = 3.08
+|population_estimate = 507,890,191
+|population_estimate_rank = 3rd<sup>a</sup><!--gives link to list--><!--Calculated by taking out EU members from the list-->
+|population_estimate_year = 2012
+|population_density_km2 = 116.2 <!--502,486,499 / 4,324,782km2 = 116.2 people/km2 (1 January 2011)-->
+|population_density_sq_mi = 300.9 <!--502,486,499 / 1,669,807sq_mi = 300.9 people/sq_mi (1 January 2011)-->
+|population_density_rank = <!--Calculated by taking out EU members from the list-->
+<!--IMF GDP data published in September 2011; so please do not use the IMF *projections* for 2011-->
+|GDP_PPP = $15.821 trillion
+|GDP_PPP_rank = 1st<sup>a</sup><!--gives link to list--><!--Calculated by taking out EU members from the list-->
+|GDP_PPP_year = 2011
+|GDP_PPP_per_capita = $31,607
+|GDP_PPP_per_capita_rank = 15th<sup>a</sup><!--Calculated by taking out EU members from the list-->
+|GDP_nominal = $17.577 trillion
+|GDP_nominal_rank = 1st<sup>a</sup><!--Calculated by taking out EU members from the list-->
+|GDP_nominal_year = 2011
+|GDP_nominal_per_capita = $35,116
+|GDP_nominal_per_capita_rank = 14th<sup>a</sup><!--gives link to list--><!--Calculated by taking out EU members from the list-->
+|Gini_year = 2010
+|Gini_change =  <!--increase/decrease/steady-->
+|Gini = 30.4 <!--number only-->
+|Gini_ref = 
+|Gini_rank = 
+|HDI_year = 2011
+|HDI_change = increase <!--increase/decrease/steady-->
+|HDI = 0.876 <!--number only-->
+|HDI_ref = 
+|HDI_rank = 13th<!--Calculated by taking out EU members from the list-->{{\}}25th<sup>a</sup><!--Calculated with EU members in the list-->
+|currency =
+{{(!}} cellspacing="0" cellpadding="0"
+{{!-}} style="height: 22px;"
+! colspan="4" style="font-size: 120%; white-space:nowrap" {{!}} [[Eurozone]]{{spaces|2}}{{nobold|{{small|(17 countries)}}}}
+{{!-}} style="height: 22px;"
+! {{flagicon|EU}}
+! [[Euro]]
+! [[Euro sign|€]]
+! [[ISO 4217|EUR]]
+{{!-}} style="height: 22px;"
+! colspan="4" style="font-size: 120%;" {{!}} [[Currencies of the European Union|Other currencies]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Bulgaria}}
+{{!}} [[Bulgarian lev|Lev]]
+{{!}} лв
+{{!}} [[ISO 4217|BGN]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Croatia}}
+{{!}} [[Croatian kuna|Kuna]]
+{{!}} kn
+{{!}} [[ISO 4217|HRK]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Czech Republic}}
+{{!}} [[Czech koruna|Koruna]]
+{{!}} Kč
+{{!}} [[ISO 4217|CZK]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Denmark}}
+{{!}} [[Danish krone|Krone]]
+{{!}} kr
+{{!}} [[ISO 4217|DKK]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Hungary}}
+{{!}} [[Hungarian forint|Forint]]
+{{!}} Ft
+{{!}} [[ISO 4217|HUF]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Latvia}}
+{{!}} [[Latvian lats|Lats]]
+{{!}} Ls
+{{!}} [[ISO 4217|LVL]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Lithuania}}
+{{!}} [[Lithuanian litas|Litas]]
+{{!}} Lt
+{{!}} [[ISO 4217|LTL]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Poland}}
+{{!}} [[Polish złoty|Złoty]]
+{{!}} zł
+{{!}} [[ISO 4217|PLN]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Romania}}
+{{!}} [[Romanian Leu|Leu]]
+{{!}} L
+{{!}} [[ISO 4217|RON]]
+{{!-}} style="height: 22px;"
+{{!}} {{flagicon|Sweden}}
+{{!}} [[Swedish krona|Krona]]
+{{!}} kr
+{{!}} [[ISO 4217|SEK]]
+{{!)}}
+|time_zone = 
+|utc_offset = +0 to +2
+|time_zone_DST = 
+|utc_offset_DST = +1 to +3
+|date_format = 
+|cctld = [[.eu]]
+|calling_code = [[Telephone numbers in the European Union|27 codes]]
+|footnote_a = If considered as a single entity.
+}}
+</syntaxhighlight>
+{{hidden end}}
+
+<!------------------ Former country example ------------------->
+{{hidden begin |toggle=left |titlestyle=font-size:120%; |title=Former country |style=font-size:100%;}}
+{{Infobox former country
+|native_name     = ''Deutsches Reich''
+|conventional_long_name = German Empire
+|common_name     = Germany
+|iso3166code     = omit   
+|status          = Empire
+|era             = [[New Imperialism]]/[[World War I|WWI]]
+|event_start     = [[Unification of Germany|Unification]]
+|date_start      = 18 January
+|year_start      = 1871
+|event_end       = [[German Revolution of 1918–1919|Republic declared]]
+|date_end        = 9 November
+|year_end        = 1918
+|event_post      = Formal abdication
+|date_post       = 28 November 1918
+|p1      = North German Confederation
+|flag_p1 = Flag of the German Empire.svg
+|p2      = Kingdom of Bavaria
+|flag_p2 = Flag of Bavaria (striped).svg
+|p3      = Kingdom of Württemberg
+|flag_p3 = Flagge Königreich Württemberg.svg
+|p4      = Grand Duchy of Baden
+|flag_p4 = Flagge Großherzogtum Baden (1871-1891).svg
+|p5      = Grand Duchy of Hesse
+|flag_p5 = Flagge_Großherzogtum_Hessen_ohne_Wappen.svg
+|p6      = Alsace-Lorraine
+|flag_p6 = Flag of France.svg
+|s1 = Weimar Republic
+|s2 = Republic of Alsace-Lorraine
+|s3 = Free City of Danzig
+|s4 = Second Polish Republic
+|s5 = Klaipėda Region
+|s6 = Saar (League of Nations)
+|s7 = Hlučín Region
+|s8 = South Jutland County{{!}}Northern Schleswig
+|s9 = Eupen-Malmedy
+|flag_s1 = Flag of Germany (3-2 aspect ratio).svg
+|flag_s2 = Flag of the Republic of Alsace-Lorraine.svg
+|flag_s3 = Gdansk flag.svg
+|flag_s4 = Flag of Poland.svg
+|flag_s5 = Flag of Lithuania 1918-1940.svg
+|flag_s6 = Flag of Saar 1920-1935.svg
+|flag_s7 = Flag of Bohemia.svg
+|flag_s8 = Flag of Denmark.svg
+|flag_s9 = Flag of Belgium.svg
+|image_flag  = Flag of the German Empire.svg
+|flag_alt    = Horizontal tricolor (black, white, red)
+|flag_caption  = Flag of the German Empire
+|image_coat  = Wappen Deutsches Reich - Reichsadler 1889.svg
+|symbol_type = Imperial Coat of arms
+|coat_alt    = Shield containing a black, one-headed, rightward-looking eagle with red beak, tongue and claws. On its breast is a shield with another eagle. Over its head is an imperial crown with two crossing ribbons.
+|image_map         = German Empire, Wilhelminian third version.svg
+|image_map_alt     = Located in north central Europe, containing modern Germany plus much of modern Poland
+|image_map_caption = Territory of the German Empire in 1914, prior to [[World War I]]
+|national_motto    = ''[[Gott mit uns]]''<br/>{{small|"God with us"}}
+|national_anthem   = {{plainlist|
+* ''(none official)''
+* "[[Heil dir im Siegerkranz]]" (Imperial)
+* "[[Deutschlandlied]]" (popular)
+* "[[Die Wacht am Rhein]]" (unofficial)
+}}
+|capital           = Berlin
+|common_languages  = 
+;Official language
+:[[German language|German]]
+;Unofficial minority languages
+:[[Danish language|Danish]], [[French language|French]], [[Polish language|Polish]], [[Saterland Frisian language|Frisian]], [[Old Prussian language|Old Prussian]], [[Lithuanian language|Lithuanian]]
+;Colonial languages
+:[[Bantu languages|Bantu]], [[Oshiwambo]], [[Afrikaans]], [[Swahili language|Swahili]] (African Colonies)
+:[[Chinese language|Chinese]] (Tsingtao & Jiaozhou bay)
+:[[Papuan languages]] (German New Guinea)
+:[[Samoan language|Samoan]] (German Samoa)
+|government_type   = Constitutional monarchy
+|title_leader = [[German Emperor|Emperor]]
+|leader1      = [[William I, German Emperor|William I]]
+|year_leader1 = 1871–1888
+|leader2      = [[Frederick III, German Emperor|Frederick III]]
+|year_leader2 = 1888
+|leader3      = [[Wilhelm II, German Emperor|Wilhelm II]]
+|year_leader3 = 1888–1918
+|title_deputy = [[List of Chancellors of Germany|Chancellor]]
+|deputy1      = [[Otto von Bismarck]] (first)
+|year_deputy1 = 1871–1890
+|deputy2      = [[Friedrich Ebert]] (last)
+|year_deputy2 = 8–9 Nov 1918
+|legislature  = [[Reichstag (German Empire)|Reichstag]]
+|house1       = [[Reichsrat (Germany)|Reichsrat]]
+|type_house1  = State council
+|stat_year1   = 1871
+|religion     = {{plainlist|
+* [[Lutherans]]~60%
+* [[Roman Catholics]]~40%
+}}
+|stat_pop1    = {{formatnum:41058792}}
+|stat_year2   = 1890
+|stat_pop2    = {{formatnum:49428470}}
+|stat_year4   = 1910
+|stat_pop4    = {{formatnum:64925993}}
+|stat_area4   = 540857.54
+|currency     = {{plainlist|
+* [[Vereinsthaler]], [[South German gulden]], [[Bremen thaler]], [[Hamburg mark]], [[French franc]] {{small|(until 1873, together)}}
+* [[German gold mark|Goldmark]] {{small|(1873–1914)}}
+* [[German Papiermark|Papiermark]] {{small|(after 1914)}}
+}}
+|footnotes    = Area and population not including colonial possessions
+|today        = 
+}}
+
+<syntaxhighlight lang="wikitext" style="overflow:auto;">
+{{Infobox former country
+|native_name     = ''Deutsches Reich''
+|conventional_long_name = German Empire
+|common_name     = Germany
+|iso3166code     = omit   
+|status          = Empire
+|era             = [[New Imperialism]]/[[World War I|WWI]]
+|event_start     = [[Unification of Germany|Unification]]
+|date_start      = 18 January
+|year_start      = 1871
+|event_end       = [[German Revolution of 1918–1919|Republic declared]]
+|date_end        = 9 November
+|year_end        = 1918
+|event_post      = Formal abdication
+|date_post       = 28 November 1918
+|p1      = North German Confederation
+|flag_p1 = Flag of the German Empire.svg
+|p2      = Kingdom of Bavaria
+|flag_p2 = Flag of Bavaria (striped).svg
+|p3      = Kingdom of Württemberg
+|flag_p3 = Flagge Königreich Württemberg.svg
+|p4      = Grand Duchy of Baden
+|flag_p4 = Flagge Großherzogtum Baden (1871-1891).svg
+|p5      = Grand Duchy of Hesse
+|flag_p5 = Flagge_Großherzogtum_Hessen_ohne_Wappen.svg
+|p6      = Alsace-Lorraine
+|flag_p6 = Flag of France.svg
+|s1 = Weimar Republic
+|s2 = Republic of Alsace-Lorraine
+|s3 = Free City of Danzig
+|s4 = Second Polish Republic
+|s5 = Klaipėda Region
+|s6 = Saar (League of Nations)
+|s7 = Hlučín Region
+|s8 = South Jutland County{{!}}Northern Schleswig
+|s9 = Eupen-Malmedy
+|flag_s1 = Flag of Germany (3-2 aspect ratio).svg
+|flag_s2 = Flag of the Republic of Alsace-Lorraine.svg
+|flag_s3 = Gdansk flag.svg
+|flag_s4 = Flag of Poland.svg
+|flag_s5 = Flag of Lithuania 1918-1940.svg
+|flag_s6 = Flag of Saar 1920-1935.svg
+|flag_s7 = Flag of Bohemia.svg
+|flag_s8 = Flag of Denmark.svg
+|flag_s9 = Flag of Belgium.svg
+|image_flag  = Flag of the German Empire.svg
+|flag_alt    = Horizontal tricolor (black, white, red)
+|flag_caption  = Flag of the German Empire
+|image_coat  = Wappen Deutsches Reich - Reichsadler 1889.svg
+|symbol_type = Imperial Coat of arms
+|coat_alt    = Shield containing a black, one-headed, rightward-looking eagle with red beak, tongue and claws. On its breast is a shield with another eagle. Over its head is an imperial crown with two crossing ribbons.
+|image_map         = German Empire, Wilhelminian third version.svg
+|image_map_alt     = Located in north central Europe, containing modern Germany plus much of modern Poland
+|image_map_caption = Territory of the German Empire in 1914, prior to [[World War I]]
+|national_motto    = ''[[Gott mit uns]]''<br/>{{small|"God with us"}}
+|national_anthem   = {{plainlist|
+* ''(none official)''
+* "[[Heil dir im Siegerkranz]]" (Imperial)
+* "[[Deutschlandlied]]" (popular)
+* "[[Die Wacht am Rhein]]" (unofficial)
+}}
+|capital           = Berlin
+|common_languages  = 
+;Official language
+:[[German language|German]]
+;Unofficial minority languages
+:[[Danish language|Danish]], [[French language|French]], [[Polish language|Polish]], [[Saterland Frisian language|Frisian]], [[Old Prussian language|Old Prussian]], [[Lithuanian language|Lithuanian]]
+;Colonial languages
+:[[Bantu languages|Bantu]], [[Oshiwambo]], [[Afrikaans]], [[Swahili language|Swahili]] (African Colonies)
+:[[Chinese language|Chinese]] (Tsingtao & Jiaozhou bay)
+:[[Papuan languages]] (German New Guinea)
+:[[Samoan language|Samoan]] (German Samoa)
+|government_type   = Constitutional monarchy
+|title_leader = [[German Emperor|Emperor]]
+|leader1      = [[William I, German Emperor|William I]]
+|year_leader1 = 1871–1888
+|leader2      = [[Frederick III, German Emperor|Frederick III]]
+|year_leader2 = 1888
+|leader3      = [[Wilhelm II, German Emperor|Wilhelm II]]
+|year_leader3 = 1888–1918
+|title_deputy = [[List of Chancellors of Germany|Chancellor]]
+|deputy1      = [[Otto von Bismarck]] (first)
+|year_deputy1 = 1871–1890
+|deputy2      = [[Friedrich Ebert]] (last)
+|year_deputy2 = 8–9 Nov 1918
+|legislature  = [[Reichstag (German Empire)|Reichstag]]
+|house1       = [[Reichsrat (Germany)|Reichsrat]]
+|type_house1  = State council
+|stat_year1   = 1871
+|religion     = {{plainlist|
+* [[Lutherans]]~60%
+* [[Roman Catholics]]~40%
+}}
+|stat_pop1    = {{formatnum:41058792}}
+|stat_year2   = 1890
+|stat_pop2    = {{formatnum:41058792}}
+|stat_year4   = 1910
+|stat_pop4    = {{formatnum:41058792}}
+|stat_area4   = 540857.54
+|currency     = {{plainlist|
+* [[Vereinsthaler]], [[South German gulden]], [[Bremen thaler]], [[Hamburg mark]], [[French franc]] {{small|(until 1873, together)}}
+* [[German gold mark|Goldmark]] {{small|(1873–1914)}}
+* [[German Papiermark|Papiermark]] {{small|(after 1914)}}
+}}
+|footnotes    = Area and population not including colonial possessions
+|today        = 
+}}
+</syntaxhighlight>
+{{hidden end}}
+
+== Errors ==
+If the template generates errors when calculating data for the Gini or HDI fields, it will add the article to [[:Category:Country articles requiring maintenance]]. This only happens if the page is in the [[WP:MAINSPACE|main article space]], not any other [[WP:NAMESPACE|namespaces]].
+
+== Microformat ==
+{{UF-hcard-place}}
+
+== Tracking categories ==
+* {{clc|Country articles requiring maintenance}}
+* {{clc|Pages using infobox country with unknown parameters}}
+* {{clc|Pages using infobox country with syntax problems}}
+* {{clc|Pages using infobox country or infobox former country with the flag caption or type parameters}}
+* {{clc|Pages using infobox country or infobox former country with the symbol caption or type parameters}}
+* {{clc|Former country articles using status text with Colony or Exile}}
+
+== TemplateData ==
+{{TemplateData header}}
+{{collapse top|title=TemplateData}}
+<templatedata>
+{
+	"description": "This template produces an infobox for countries that covers their major attributes such as their flags, ethnic makeup, and political system.",
+	"format": "{{_\n| ______________________ = _\n}}\n",
+	"params": {
+		"conventional_long_name": {
+			"label": "Conventional long name",
+			"type": "string",
+			"required": false,
+			"description": "Formal or official full name of the country in English.  This entry should not be enclosed in brackets.",
+			"example": "The United States of America"
+		},
+		"common_name": {},
+		"linking_name": {},
+		"native_name": {
+			"label": "Native name",
+			"type": "string",
+			"required": false,
+			"example": "{{native name|Bundesrepublik Deutschland}}",
+			"description": "Country's name (usually full name) in its native language, hence in italics (double quotemarks).  The template {{native name}} should be used with this parameter to automatically italicize the text."
+		},
+		"name": {
+			"label": "Geopolitical organisation name",
+			"type": "string",
+			"required": false,
+			"description": "Name of the geopolitical organisation in English."
+		},
+		"image_flag": {
+			"label": "Flag",
+			"type": "wiki-file-name",
+			"required": false,
+			"example": "Flag of Iceland.svg",
+			"description": "File name of an image file on Wikipedia or on Commons that contains the country's current flag.  Do not enclose this entry in double brackets and do not give it a prefix such as File:"
+		},
+		"flag_width": {
+			"label": "Flag width",
+			"type": "string",
+			"required": false,
+			"description": "If the default widths provided for the flag and coat-of-arms/symbol images produce an unsatisfactory result, use this to specify the width to be used for the flag image; the remaining width is then assigned to the coat-of-arms/symbol (if included). Can be done as a % or px."
+		},
+		"alt_flag": {
+			"label": "Flag alt text",
+			"type": "string",
+			"required": false,
+			"description": "Alternate text for flag (text shown when pointer hovers over flag)."
+		},
+		"flag_border": {
+			"label": "Flag border",
+			"type": "string",
+			"required": false,
+			"description": "Set to no to disable border around the flag."
+		},
+		"flag_caption": {
+			"label": "Flag caption",
+			"type": "string",
+			"required": false,
+			"description": "Use this parameter to enter a caption for the flag, if one is necessary.  Do not end this entry with a period.",
+			"example": "1992 version of the flag prior to the country's dissolution"
+		},
+		"image_flag2": {
+			"label": "Second flag",
+			"type": "wiki-file-name",
+			"required": false,
+			"example": "Secondflag of Namibia.svg",
+			"description": "If a country has a second flag— perhaps because of an ongoing civil war or a dispute over sovereignty— you can provide the file name of that second flag in this parameter.  Do not include the prefix File:, and do not enclose it in double brackets."
+		},
+		"alt_flag2": {
+			"label": "Second flag alt text",
+			"type": "string",
+			"required": false,
+			"description": "Alt text for second flag (text shown when pointer hovers over flag)."
+		},
+		"flag2_border": {
+			"label": "Second flag border",
+			"type": "string",
+			"required": false,
+			"description": "Set to no to disable border around the flag."
+		},
+		"image_coat": {
+			"label": "Coat of arms",
+			"type": "wiki-file-name",
+			"aliases": [
+				"image_symbol"
+			],
+			"example": "Great Seal of the United States (obverse).svg"
+		},
+		"symbol_width": {
+			"label": "Symbol width",
+			"type": "string",
+			"required": false,
+			"description": "Symbol image's width.",
+			"default": "85px"
+		},
+		"alt_coat": {
+			"label": "Coat of arms alt text",
+			"type": "string",
+			"aliases": [
+				"alt_symbol",
+				"coat_alt"
+			],
+			"required": false,
+			"description": "Alt text for coat of arms."
+		},
+		"symbol_type": {
+			"label": "Symbol type",
+			"type": "string",
+			"required": false,
+			"description": "If not a coat of arms.",
+			"example": "emblem, seal, etc"
+		},
+		"symbol_type_article": {
+			"label": "Symbol type article",
+			"type": "string",
+			"description": "An article about the type of symbol of the country"
+		},
+		"text_symbol": {
+			"label": "Text symbol",
+			"type": "string",
+			"required": false,
+			"description": "For other types of text symbol.",
+			"example": "''[hymn name]''"
+		},
+		"text_symbol_type": {
+			"label": "Text symbol type",
+			"type": "string",
+			"required": false,
+			"description": "For other types of text symbol."
+		},
+		"other_symbol": {
+			"label": "Other symbol",
+			"type": "string",
+			"required": false,
+			"description": "Use if a further symbol exists."
+		},
+		"other_symbol_type": {
+			"label": "Other symbol type",
+			"type": "string",
+			"required": false
+		},
+		"national_motto": {
+			"label": "National motto",
+			"type": "string",
+			"required": false,
+			"example": "{{lang|de|''{{lang|de|[[Das Lied der Deutschen|Einigkeit und Recht und Freiheit]]}}''}}",
+			"description": "In inverted commas and wikilinked if link exists.  Can also be used with the {{lang}} template and correct two-letter language code to designate the language of the motto where not provided in English."
+		},
+		"motto": {
+			"label": "Motto",
+			"type": "string",
+			"required": false
+		},
+		"national_anthem": {
+			"label": "National anthem",
+			"type": "string",
+			"required": false,
+			"description": "In inverted commas and wikilinked if link exists."
+		},
+		"anthem": {
+			"label": "Anthem",
+			"type": "string",
+			"required": false
+		},
+		"royal_anthem": {
+			"label": "Royal anthem",
+			"type": "string",
+			"required": false,
+			"description": "In inverted commas and wikilinked if link exists."
+		},
+		"image_map": {
+			"label": "Map",
+			"type": "string",
+			"required": false,
+			"example": "LocationCountry.svg"
+		},
+		"map_width": {
+			"label": "Map width",
+			"type": "string",
+			"required": false,
+			"description": "Map image's width.",
+			"default": "250px"
+		},
+		"alt_map": {
+			"label": "Map alt text",
+			"type": "string",
+			"required": false
+		},
+		"map_caption": {
+			"label": "Map caption",
+			"type": "string",
+			"required": false,
+			"description": "Caption to place below map."
+		},
+		"image_map2": {
+			"label": "Map 2",
+			"type": "string",
+			"required": false,
+			"description": "Another map, if required."
+		},
+		"map2_width": {
+			"label": "Map 2 width",
+			"type": "string",
+			"required": false
+		},
+		"alt_map2": {
+			"label": "Map 2 alt text",
+			"type": "string",
+			"required": false
+		},
+		"map_caption2": {
+			"label": "Map 2 caption",
+			"type": "string",
+			"required": false,
+			"description": "Caption to place below second map."
+		},
+		"image_map3": {},
+		"map3_width": {},
+		"alt_map3": {},
+		"map_caption3": {},
+		"capital": {
+			"label": "Capital",
+			"type": "string",
+			"required": false,
+			"description": "Name of country/territory's capital, wikilinked if link exists."
+		},
+		"capital_type": {
+			"label": "Capital type",
+			"type": "string",
+			"required": false
+		},
+		"coordinates": {
+			"label": "Coordinates",
+			"type": "string",
+			"required": false,
+			"description": "The geographic coordinates of the capital."
+		},
+		"latd": {
+			"label": "Latitude degrees",
+			"type": "string",
+			"required": false,
+			"description": "The degrees of the capital's latitude."
+		},
+		"latm": {
+			"label": "Latitude minutes",
+			"type": "string",
+			"description": "The minutes of the capital's latitude."
+		},
+		"latNS": {
+			"label": "Latitude NS",
+			"type": "string",
+			"description": "The direction of the capital's latitude."
+		},
+		"longd": {
+			"label": "Longitude degrees",
+			"type": "string",
+			"description": "The degrees of the capital's longitude."
+		},
+		"longm": {
+			"label": "Longitude minutes",
+			"type": "string",
+			"description": "The minutes of the capital's longitude."
+		},
+		"longEW": {
+			"label": "Longitude EW",
+			"type": "string",
+			"description": "The direction of the capital's longitude."
+		},
+		"admin_center": {
+			"label": "Administrative center",
+			"type": "string",
+			"required": false,
+			"description": "Location/s of administrative center/s."
+		},
+		"admin_center_type": {
+			"label": "Administrative center type",
+			"type": "string",
+			"required": false,
+			"default": "Administrative center"
+		},
+		"capital2": {
+			"label": "Capital 2",
+			"type": "string",
+			"required": false,
+			"description": "Name of country/territory's capital, wikilinked if link exists."
+		},
+		"capital_type2": {
+			"label": "Capital 2 type",
+			"type": "string",
+			"required": false
+		},
+		"admin_center2": {
+			"label": "Administrative center 2",
+			"type": "string",
+			"required": false
+		},
+		"admin_center_type2": {
+			"label": "Administrative center 2 type",
+			"type": "string",
+			"required": false
+		},
+		"largest_city": {
+			"label": "Largest city",
+			"type": "string",
+			"required": false,
+			"description": "Name of country/territory's largest city. Use \"capital\" (without quotemarks) if it's the capital."
+		},
+		"largest_settlement": {
+			"label": "Largest settlement",
+			"type": "string",
+			"required": false,
+			"description": "Name of largest settlement if not a city."
+		},
+		"largest_settlement_type": {
+			"label": "Largest settlement type",
+			"type": "string",
+			"required": false,
+			"description": "Type of settlement if largest settlement not a city."
+		},
+		"official_languages": {
+			"label": "Official languages",
+			"type": "string",
+			"required": false,
+			"description": "Languages recognised in legislation, constitution, etc."
+		},
+		"national_languages": {
+			"label": "National languages",
+			"type": "string",
+			"required": false,
+			"description": "Country/territory-wide languages recognised but not necessarily in country/territory-wide law, etc."
+		},
+		"regional_languages": {
+			"label": "Regional languages",
+			"type": "string",
+			"required": false,
+			"description": "Languages recognised or associated with particular regions within the country/territory."
+		},
+		"languages_type": {
+			"label": "Languages type",
+			"type": "string",
+			"description": "Use to specify a further type of language, if not official, national or regional."
+		},
+		"languages_sub": {
+			"label": "Languages sub",
+			"type": "string",
+			"required": false,
+			"description": "Is this further type of language a sub-item of the previous non-sub type?",
+			"example": "'yes' or 'no'"
+		},
+		"languages": {
+			"label": "Languages",
+			"type": "string",
+			"required": false,
+			"description": "Languages of the further type."
+		},
+		"languages2_type": {
+			"label": "2nd languages type",
+			"type": "string",
+			"description": "Use to specify a 2nd further type of language, if not official, national or regional."
+		},
+		"languages2_sub": {
+			"label": "Languages 2 sub",
+			"type": "string",
+			"required": false,
+			"description": "Is the second alternative type of languages a sub-item of the previous non-sub type?",
+			"example": "'yes or 'no'"
+		},
+		"languages2": {
+			"label": "Languages 2",
+			"type": "string",
+			"required": false,
+			"description": "Languages of the second further type."
+		},
+		"ethnic_groups": {
+			"label": "Ethnic groups",
+			"type": "string",
+			"required": false,
+			"description": "The primary ethnic groups of the country",
+			"example": "{{unbulleted list   | 68.8% [[Bumiputera (Malaysia)|Bumiputera]]   | 23.2% [[Malaysian Chinese|Chinese]]   | &nbsp;7.0% [[Malaysian Indian|Indian]]   | &nbsp;1.0% Others }}"
+		},
+		"ethnic_groups_ref": {
+			"label": "Ethnic groups reference",
+			"type": "string",
+			"required": false,
+			"description": "Reference, in <ref> format, of ethnic composition"
+		},
+		"ethnic_groups_year": {
+			"label": "Ethnic groups year",
+			"type": "number",
+			"required": false,
+			"description": "Year the ethnic group statistic is from",
+			"example": "2017"
+		},
+		"religion": {
+			"label": "Religions",
+			"type": "string",
+			"required": false,
+			"description": "List of religious affiliations in {{ublist}} format",
+			"example": "{{ublist|list_style=line-height:1.3em; |class=nowrap | 33.2% [[Buddhism in Singapore|Buddhism]]...}}"
+		},
+		"religion_ref": {
+			"label": "Religions reference",
+			"type": "string",
+			"required": false,
+			"description": "Reference, in <ref> format, of religious composition"
+		},
+		"demonym": {
+			"label": "Demonym",
+			"type": "string",
+			"required": false,
+			"description": "Name of residents of this country",
+			"example": "Singaporean",
+			"suggested": true
+		},
+		"org_type": {
+			"label": "Organization type",
+			"type": "string",
+			"required": false
+		},
+		"membership": {
+			"label": "membership",
+			"type": "string",
+			"required": false
+		},
+		"membership_type": {
+			"label": "membership_type",
+			"type": "string",
+			"required": false
+		},
+		"government_type": {
+			"label": "Type of government",
+			"type": "string",
+			"required": false,
+			"description": "The type of government, e.g. federal republic",
+			"example": "[[Monarchy]]"
+		},
+		"politics_link": {
+			"label": "Politics link",
+			"type": "string",
+			"required": false
+		},
+		"leader_title1": {
+			"label": "Leader 1 title",
+			"type": "line",
+			"required": false,
+			"description": "Title of principal leader",
+			"example": "[[President of Singapore|President]]"
+		},
+		"leader_name1": {
+			"label": "Leader 1 name",
+			"type": "line",
+			"required": false,
+			"description": "Name of principal leader",
+			"example": "[[Halimah Yacob]]"
+		},
+		"leader_title2": {
+			"label": "Leader 2 title",
+			"type": "line",
+			"required": false,
+			"description": "Title of 2nd leader",
+			"example": "[[Prime Minister of Singapore|Prime Minister]]"
+		},
+		"leader_name2": {
+			"label": "Leader 2 name",
+			"type": "line",
+			"description": "Name of 2nd leader",
+			"example": "[[Lee Hsien Loong]]"
+		},
+		"leader_title3": {
+			"label": "Leader 3 title",
+			"type": "line",
+			"required": false,
+			"description": "Title of 3rd leader",
+			"example": "[[Deputy Prime Minister of Singapore|Deputy Prime Ministers]]"
+		},
+		"leader_name3": {
+			"label": "Leader 3 name",
+			"type": "line",
+			"description": "Name of 3rd leader",
+			"example": "[[Teo Chee Hean]]<br>[[Tharman Shanmugaratnam]]"
+		},
+		"leader_title4": {
+			"label": "Leader 4 title",
+			"type": "line",
+			"required": false,
+			"description": "Title of the 4th leader",
+			"example": "[[President pro tempore of the United States Senate|President pro tempore]]"
+		},
+		"leader_name4": {
+			"label": "Leader 4 name",
+			"type": "line",
+			"description": "Name of the 4th leader"
+		},
+		"leader_title5": {
+			"label": "leader_title5",
+			"type": "string",
+			"required": false
+		},
+		"leader_name5": {
+			"label": "Leader name 5",
+			"type": "string"
+		},
+		"leader_title6": {
+			"label": "Leader title 6",
+			"type": "string",
+			"required": false
+		},
+		"leader_name6": {
+			"label": "Leader name 6",
+			"type": "string"
+		},
+		"leader_title7": {
+			"label": "Leader title7",
+			"type": "string",
+			"required": false
+		},
+		"leader_name7": {
+			"label": "Leader name 7",
+			"type": "string"
+		},
+		"leader_title8": {
+			"label": "Leader title 8",
+			"type": "string",
+			"required": false
+		},
+		"leader_name8": {
+			"label": "Leader name 8",
+			"type": "string"
+		},
+		"leader_title9": {
+			"label": "Leader title 9",
+			"type": "string",
+			"required": false
+		},
+		"leader_name9": {
+			"label": "Leader name 9",
+			"type": "string"
+		},
+		"leader_title10": {
+			"label": "Leader title 10",
+			"type": "string",
+			"required": false
+		},
+		"leader_name10": {
+			"label": "Leader name 10",
+			"type": "string"
+		},
+		"leader_title11": {
+			"label": "Leader title 11",
+			"type": "string",
+			"required": false
+		},
+		"leader_name11": {
+			"label": "Leader name 11",
+			"type": "string"
+		},
+		"leader_title12": {
+			"label": "Leader title 12",
+			"type": "string",
+			"required": false
+		},
+		"leader_name12": {
+			"label": "Leader name 12",
+			"type": "string"
+		},
+		"leader_title13": {
+			"label": "Leader title 13",
+			"type": "string",
+			"required": false
+		},
+		"leader_name13": {
+			"label": "Leader name 13",
+			"type": "string"
+		},
+		"leader_title14": {
+			"label": "Leader title 14",
+			"type": "string",
+			"required": false
+		},
+		"leader_name14": {
+			"label": "Leader name 14",
+			"type": "string"
+		},
+		"legislature": {
+			"label": "Legislature",
+			"type": "line",
+			"description": "Name of, and link to, the country's national legislature",
+			"example": "[[Parliament of Singapore|Parliament]]"
+		},
+		"upper_house": {
+			"description": "Upper house of the country or organization's legislature",
+			"type": "string",
+			"example": "[[United States House of Representatives|House of Representatives]]"
+		},
+		"lower_house": {
+			"description": "Lower house of the country or organization's legislature",
+			"label": "Lower house",
+			"type": "string",
+			"example": "[[United States House of Representatives|House of Representatives]]"
+		},
+		"sovereignty_type": {
+			"label": "Sovereignty type",
+			"type": "line",
+			"required": false,
+			"description": "Type of sovereignty this country has",
+			"example": "Independence"
+		},
+		"sovereignty_note": {
+			"label": "Sovereignty note",
+			"type": "content",
+			"required": false,
+			"description": "Note about this country's sovereignty",
+			"example": "from the [[United Kingdom]]"
+		},
+		"established": {
+			"label": "established",
+			"type": "string",
+			"required": false
+		},
+		"established_event1": {
+			"label": "Establishment event 1",
+			"type": "string",
+			"required": false
+		},
+		"established_date1": {
+			"label": "Establishment date 1",
+			"type": "string",
+			"required": false
+		},
+		"established_event2": {
+			"label": "Establishment event 2",
+			"type": "string",
+			"required": false
+		},
+		"established_date2": {
+			"label": "Establishment date 2",
+			"type": "string",
+			"required": false
+		},
+		"established_event3": {
+			"label": "Establishment event 3",
+			"type": "string",
+			"required": false
+		},
+		"established_date3": {
+			"label": "Establishment date 3",
+			"type": "string",
+			"required": false
+		},
+		"established_event4": {
+			"label": "Establishment event 4",
+			"type": "string",
+			"required": false
+		},
+		"established_date4": {
+			"label": "established_date4",
+			"type": "string",
+			"required": false
+		},
+		"established_event5": {
+			"label": "Establishment event 5",
+			"type": "string",
+			"required": false
+		},
+		"established_date5": {
+			"label": "established_date5",
+			"type": "string",
+			"required": false
+		},
+		"established_event6": {
+			"label": "established_event6",
+			"type": "string",
+			"required": false
+		},
+		"established_date6": {
+			"label": "established_date6",
+			"type": "string",
+			"required": false
+		},
+		"established_event7": {
+			"label": "established_event7",
+			"type": "string",
+			"required": false
+		},
+		"established_date7": {
+			"label": "established_date7",
+			"type": "string",
+			"required": false
+		},
+		"established_event8": {
+			"label": "established_event8",
+			"type": "string",
+			"required": false
+		},
+		"established_date8": {
+			"label": "established_date8",
+			"type": "string",
+			"required": false
+		},
+		"established_event9": {
+			"label": "established_event9",
+			"type": "string",
+			"required": false
+		},
+		"established_date9": {
+			"label": "established_date9",
+			"type": "string",
+			"required": false
+		},
+		"established_event10": {
+			"label": "established_event10",
+			"type": "string",
+			"required": false
+		},
+		"established_date10": {
+			"label": "established_date10",
+			"type": "string",
+			"required": false
+		},
+		"established_event11": {
+			"label": "established_event11",
+			"type": "string",
+			"required": false
+		},
+		"established_date11": {
+			"label": "established_date11",
+			"type": "string",
+			"required": false
+		},
+		"established_event12": {
+			"label": "established_event12",
+			"type": "string",
+			"required": false
+		},
+		"established_date12": {
+			"label": "established_date12",
+			"type": "string",
+			"required": false
+		},
+		"area_km2": {
+			"label": "Land area (km²)",
+			"type": "number",
+			"required": false,
+			"description": "Land area of the country in square kilometers",
+			"example": "722.5",
+			"suggested": true
+		},
+		"area_link": {
+			"label": "area_link",
+			"type": "string",
+			"required": false
+		},
+		"area_label": {
+			"label": "area_label",
+			"type": "string",
+			"required": false
+		},
+		"FR_foot4": {
+			"label": "FR_foot4",
+			"type": "string",
+			"required": false,
+			"deprecated": true
+		},
+		"area_footnote": {
+			"label": "area_footnote",
+			"type": "string",
+			"required": false
+		},
+		"area_rank": {
+			"label": "Area rank",
+			"type": "string",
+			"required": false,
+			"description": "Rank among countries of land area",
+			"example": "174th",
+			"suggested": true
+		},
+		"area_sq_mi": {
+			"label": "Land area (mi²)",
+			"type": "number",
+			"required": false,
+			"description": "Land area of the country in square miles",
+			"example": "290"
+		},
+		"percent_water": {
+			"label": "percent_water",
+			"type": "string",
+			"required": false
+		},
+		"area_label2": {
+			"label": "area_label2",
+			"type": "string",
+			"required": false
+		},
+		"area_data2": {
+			"label": "area_data2",
+			"type": "string",
+			"required": false
+		},
+		"area_label3": {
+			"label": "area_label3",
+			"type": "string",
+			"required": false
+		},
+		"area_data3": {
+			"label": "area_data3",
+			"type": "string",
+			"required": false
+		},
+		"FR_metropole": {
+			"label": "FR_metropole",
+			"type": "string",
+			"required": false,
+			"deprecated": true
+		},
+		"FR_foot2": {
+			"label": "FR_foot2",
+			"type": "string",
+			"required": false,
+			"deprecated": true
+		},
+		"FR_IGN_area_km2": {
+			"label": "FR_IGN_area_km2",
+			"type": "string",
+			"required": false,
+			"deprecated": true
+		},
+		"FR_IGN_area_rank": {
+			"label": "FR_IGN_area_rank",
+			"type": "string",
+			"required": false,
+			"deprecated": true
+		},
+		"FR_IGN_area_sq_mi": {
+			"label": "FR_IGN_area_sq_mi",
+			"type": "string",
+			"required": false,
+			"deprecated": true
+		},
+		"FR_foot3": {
+			"label": "FR_foot3",
+			"type": "string",
+			"required": false,
+			"deprecated": true
+		},
+		"FR_cadastre_area_km2": {
+			"label": "FR_cadastre_area_km2",
+			"type": "string",
+			"required": false,
+			"deprecated": true
+		},
+		"FR_cadastre_area_rank": {
+			"label": "FR_cadastre_area_rank",
+			"type": "string",
+			"required": false,
+			"deprecated": true
+		},
+		"FR_cadastre_area_sq_mi": {
+			"label": "FR_cadastre_area_sq_mi",
+			"type": "string",
+			"required": false,
+			"deprecated": true
+		},
+		"population_estimate": {
+			"label": "Population estimate",
+			"type": "number",
+			"required": false,
+			"description": "An estimate of the country's population",
+			"example": "24,000,000"
+		},
+		"population_census": {
+			"label": "Population census",
+			"type": "string"
+		},
+		"population_link": {
+			"label": "Population link",
+			"type": "url"
+		},
+		"population_estimate_year": {
+			"label": "Population estimate year",
+			"type": "number",
+			"description": "The year the population estimate is from",
+			"example": "2018"
+		},
+		"population_estimate_rank": {
+			"label": "Population estimate rank",
+			"type": "string",
+			"description": "Rank among countries in estimated population",
+			"example": "3rd"
+		},
+		"population_label2": {
+			"label": "population_label2",
+			"type": "string",
+			"required": false
+		},
+		"population_data2": {
+			"label": "Population data 2",
+			"type": "string",
+			"required": false
+		},
+		"population_label3": {
+			"label": "Population label 3",
+			"type": "string",
+			"required": false
+		},
+		"population_data3": {
+			"label": "Population data 3",
+			"type": "string",
+			"required": false
+		},
+		"population_census_year": {
+			"label": "Population census year",
+			"type": "number",
+			"required": false,
+			"description": "Year the population census statistics are from",
+			"example": "2010"
+		},
+		"population_census_rank": {
+			"label": "Population census rank",
+			"type": "string",
+			"description": "Rank among countries in census population",
+			"example": "3rd"
+		},
+		"population_density_km2": {
+			"label": "Population density per km²",
+			"type": "number",
+			"example": "20,212",
+			"description": "Population density per square kilometer"
+		},
+		"population_density_sq_mi": {
+			"label": "Population density per mi²",
+			"type": "number",
+			"description": "Population density per square mile",
+			"example": "20,212"
+		},
+		"pop_den_footnote": {
+			"label": "Population density footnote",
+			"type": "string",
+			"description": "footnote about the population density statistic"
+		},
+		"population_density_rank": {
+			"label": "Population density rank",
+			"type": "string",
+			"required": false,
+			"description": "Rank among countries in population density",
+			"example": "3rd"
+		},
+		"FR_metropole_population": {
+			"label": "FR_metropole_population",
+			"type": "string",
+			"required": false,
+			"deprecated": true
+		},
+		"FR_total_population_estimate_year": {
+			"label": "FR_total_population_estimate_year",
+			"type": "string",
+			"deprecated": true
+		},
+		"FR_foot": {
+			"label": "FR_foot",
+			"type": "string",
+			"deprecated": true
+		},
+		"FR_total_population_estimate": {
+			"label": "FR_total_population_estimate",
+			"type": "string",
+			"deprecated": true
+		},
+		"FR_total_population_estimate_rank": {
+			"label": "FR_total_population_estimate_rank",
+			"type": "string",
+			"deprecated": true
+		},
+		"FR_metropole_population_estimate_rank": {
+			"label": "FR_metropole_population_estimate_rank",
+			"type": "string",
+			"deprecated": true
+		},
+		"FR_foot5": {
+			"label": "FR_foot5",
+			"type": "string",
+			"required": false,
+			"deprecated": true
+		},
+		"GDP_PPP": {
+			"label": "GDP (PPP)",
+			"type": "line",
+			"required": false,
+			"description": "Gross domestic product (purchasing power parity)",
+			"example": "$554.855 billion",
+			"suggested": true
+		},
+		"GDP_PPP_year": {
+			"label": "GDP (PPP) year cited",
+			"type": "number",
+			"required": false,
+			"description": "Year the GDP (PPP) statistic is cited from",
+			"example": "2018",
+			"suggested": true
+		},
+		"GDP_PPP_rank": {
+			"label": "GDP (PPP) rank",
+			"type": "string",
+			"required": false,
+			"description": "Rank among countries for GDP PPP",
+			"example": "39th"
+		},
+		"GDP_PPP_per_capita": {
+			"label": "GDP_PPP_per_capita",
+			"type": "line",
+			"required": false,
+			"description": "Gross domestic product (purchasing power parity) per capita",
+			"example": "$98,014"
+		},
+		"GDP_PPP_per_capita_rank": {
+			"label": "GDP (PPP) per capita rank",
+			"type": "line",
+			"required": false,
+			"description": "Rank among countries for GDP PPP per capita",
+			"example": "3rd"
+		},
+		"GDP_nominal": {
+			"label": "GDP (nominal)",
+			"type": "string",
+			"required": false,
+			"description": "Nominal GDP of the country"
+		},
+		"GDP_nominal_year": {
+			"label": "GDP (nominal) year",
+			"type": "number",
+			"required": false,
+			"description": "Year cited for the country's nominal GDP statistic"
+		},
+		"GDP_nominal_rank": {
+			"label": "GDP (nominal) rank",
+			"type": "string",
+			"required": false,
+			"description": "Rank among countries for nominal GDP",
+			"example": "41st"
+		},
+		"GDP_nominal_per_capita": {
+			"label": "GDP (nominal) per capita",
+			"type": "string",
+			"required": false,
+			"description": "Nominal GDP per capita in the country",
+			"example": "$61,766"
+		},
+		"GDP_nominal_per_capita_rank": {
+			"label": "GDP (nominal) per capita rank",
+			"type": "string",
+			"required": false,
+			"description": "Rank among countries for nominal GDP per capita",
+			"example": "8th"
+		},
+		"Gini": {
+			"label": "Gini index",
+			"type": "number",
+			"required": false,
+			"description": "Gini index of the country",
+			"example": "46.4"
+		},
+		"Gini_year": {
+			"label": "Gini index year cited",
+			"type": "number",
+			"required": false,
+			"description": "Year the gini index statistic is cited for",
+			"example": "2014"
+		},
+		"Gini_change": {
+			"label": "Gini change",
+			"type": "string",
+			"required": false,
+			"description": "\"increase\" or \"decrease\" (over last year)",
+			"example": "increase"
+		},
+		"Gini_ref": {
+			"label": "Gini index reference",
+			"type": "line",
+			"required": false,
+			"description": "Reference for cited Gini index statistic"
+		},
+		"Gini_rank": {
+			"label": "Gini rank",
+			"type": "string",
+			"required": false,
+			"description": "Rank of Gini indices",
+			"example": "30th"
+		},
+		"HDI": {
+			"label": "Human development index",
+			"type": "number",
+			"required": false,
+			"example": "0.932",
+			"suggested": true,
+			"description": "The country's human development index (HDI)"
+		},
+		"HDI_year": {
+			"label": "Human Development Index year",
+			"type": "number",
+			"required": false,
+			"description": "Year to which the HDI statistic refers",
+			"example": "2017",
+			"suggested": true
+		},
+		"HDI_change": {
+			"label": "HDI change",
+			"type": "string",
+			"required": false,
+			"description": "\"increase\" or \"decrease\" from previous year",
+			"example": "increase"
+		},
+		"HDI_ref": {
+			"label": "Human Development Index reference",
+			"type": "line",
+			"required": false,
+			"description": "Reference for HDI statistic"
+		},
+		"HDI_rank": {
+			"label": "Human development index rank",
+			"type": "string",
+			"required": false,
+			"description": "Rank among countries for HDI score",
+			"example": "9th"
+		},
+		"currency": {
+			"label": "Currency",
+			"type": "line",
+			"required": false,
+			"description": "National/official currency name and article link",
+			"example": "[[Singapore dollar]]"
+		},
+		"currency_code": {
+			"label": "Currency code",
+			"type": "line",
+			"required": false,
+			"description": "Currency code of the official currency",
+			"example": "SGD"
+		},
+		"time_zone": {
+			"label": "Time zone",
+			"type": "line",
+			"required": false,
+			"description": "National time zone(s)",
+			"example": "[[Singapore Standard Time|SST]]"
+		},
+		"utc_offset": {
+			"label": "UTC offsets",
+			"type": "string",
+			"example": "−4 to −12, +10, +11"
+		},
+		"utc_offset_DST": {
+			"label": "UTF offsets (DST)",
+			"type": "string",
+			"example": "−4 to −10"
+		},
+		"DST_note": {
+			"label": "DST note",
+			"type": "string",
+			"example": "{{efn|name=\"time\"}}"
+		},
+		"time_zone_DST": {
+			"label": "Time zones (DST)",
+			"type": "string",
+			"required": false
+		},
+		"DST": {
+			"label": "Daylight savings time",
+			"type": "string",
+			"required": false
+		},
+		"antipodes": {
+			"label": "antipodes",
+			"type": "string",
+			"required": false
+		},
+		"date_format": {
+			"label": "Date format",
+			"type": "string",
+			"required": false
+		},
+		"drives_on": {
+			"label": "drives on",
+			"type": "string",
+			"required": false
+		},
+		"rail gauge": {
+			"label": "Rail gauge",
+			"type": "string",
+			"required": false
+		},
+		"calling_code": {
+			"label": "Calling code",
+			"type": "string",
+			"example": "+1"
+		},
+		"patron_saint": {
+			"label": "Patron saint",
+			"aliases": [
+				"patron_saints"
+			],
+			"type": "string",
+			"required": false
+		},
+		"iso3166code": {
+			"label": "ISO 3166 code",
+			"type": "string",
+			"description": "ISO 3166 code for the country",
+			"example": "US"
+		},
+		"cctld": {
+			"label": "Country code top level domain",
+			"type": "string",
+			"example": ".se"
+		},
+		"official_website": {
+			"label": "official_website",
+			"type": "string",
+			"required": false,
+			"description": "For geopolitical entities: do not use government website (e.g. usa.gov) for countries (e.g. [[United States]])."
+		},
+		"footnote_a": {
+			"label": "footnote_a",
+			"type": "string",
+			"required": false
+		},
+		"footnote_b": {
+			"label": "footnote_b",
+			"type": "string",
+			"required": false
+		},
+		"footnote_c": {
+			"label": "footnote_c",
+			"type": "string",
+			"required": false
+		},
+		"footnote_d": {
+			"label": "footnote_d",
+			"type": "string",
+			"required": false
+		},
+		"footnote_e": {
+			"label": "footnote_e",
+			"type": "string",
+			"required": false
+		},
+		"footnote_f": {
+			"label": "footnote_f",
+			"type": "string",
+			"required": false
+		},
+		"footnote_g": {
+			"label": "footnote_g",
+			"type": "string",
+			"required": false
+		},
+		"footnote_h": {
+			"label": "footnote_h",
+			"type": "string",
+			"required": false
+		},
+		"footnote1": {
+			"label": "footnote1",
+			"type": "string",
+			"required": false
+		},
+		"footnote2": {
+			"label": "footnote2",
+			"type": "string",
+			"required": false
+		},
+		"footnote3": {
+			"label": "footnote3",
+			"type": "string",
+			"required": false
+		},
+		"footnote4": {
+			"label": "footnote4",
+			"type": "string",
+			"required": false
+		},
+		"footnote5": {
+			"label": "footnote5",
+			"type": "string",
+			"required": false
+		},
+		"footnote6": {
+			"label": "footnote6",
+			"type": "string",
+			"required": false
+		},
+		"footnote7": {
+			"label": "footnote7",
+			"type": "string",
+			"required": false
+		},
+		"footnote8": {
+			"label": "footnote8",
+			"type": "string",
+			"required": false
+		},
+		"footnotes": {
+			"label": "footnotes",
+			"type": "string",
+			"required": false
+		},
+		"navbar": {
+			"label": "navbar",
+			"type": "string",
+			"required": false
+		},
+		"micronation": {},
+		"status": {
+			"type": "line"
+		},
+		"status_text": {
+			"type": "line"
+		},
+		"empire": {},
+		"year_end": {
+			"type": "number"
+		},
+		"year_exile_start": {
+			"type": "number"
+		},
+		"year_exile_end": {
+			"type": "number"
+		},
+		"life_span": {
+			"type": "line"
+		},
+		"year_start": {
+			"type": "number"
+		},
+		"flag_size": {
+			"type": "line"
+		},
+		"flag_alt": {
+			"type": "string"
+		},
+		"flag_alt2": {
+			"type": "string"
+		},
+		"flag_type": {
+			"type": "string"
+		},
+		"coa_size": {
+			"type": "line"
+		},
+		"englishmotto": {
+			"type": "string",
+			"label": "Motto in English",
+			"description": "The country's motto translated into English"
+		},
+		"image_map_size": {
+			"type": "line"
+		},
+		"image_map_alt": {
+			"type": "string"
+		},
+		"image_map_caption": {
+			"type": "content"
+		},
+		"image_map2_size": {
+			"type": "line"
+		},
+		"image_map2_alt": {
+			"type": "string"
+		},
+		"image_map2_caption": {
+			"type": "content"
+		},
+		"loctext": {
+			"type": "string"
+		},
+		"capital_exile": {
+			"type": "string"
+		},
+		"recognized_languages": {
+			"aliases": [
+				"recognised_languages"
+			],
+			"type": "content",
+			"label": "Recognized languages",
+			"description": "Recognized languages of the country, possibly in list format"
+		},
+		"recognized_national_languages": {
+			"aliases": [
+				"recognised_national_languages"
+			],
+			"type": "content",
+			"label": "Recognized national languages",
+			"description": "Recognized national languages of the country, possibly in list format"
+		},
+		"recognized_regional_languages": {
+			"aliases": [
+				"recognised_regional_languages"
+			],
+			"type": "content",
+			"label": "Recognized regional languages",
+			"description": "Recognized regional languages of the country, possibly in list format"
+		},
+		"common_languages": {
+			"type": "content",
+			"label": "Common languages",
+			"description": "Common languages of the country, possibly in list format",
+			"example": "{{ublist|[[English language|English]]|[[Spanish language|Spanish]]|[[Chinese language|Chinese]]}}"
+		},
+		"religion_year": {
+			"type": "number",
+			"label": "Religion statistic year",
+			"description": "Year the religion statistic is from",
+			"example": "2015"
+		},
+		"leader_title15": {
+			"type": "line"
+		},
+		"leader_name15": {
+			"type": "line"
+		},
+		"title_leader": {
+			"type": "line",
+			"label": "Leader's title",
+			"description": "Title of the country's leader",
+			"example": "[[President of the United States|President]]"
+		},
+		"year_leader1": {
+			"type": "line",
+			"label": "Leader 1 years",
+			"description": "Years the first leader reigned",
+			"example": "1776-1795"
+		},
+		"leader1": {
+			"type": "line",
+			"label": "Leader 1",
+			"description": "The first leader of the country",
+			"example": "[[George Washington]]"
+		},
+		"year_leader2": {
+			"type": "line"
+		},
+		"leader2": {
+			"type": "line"
+		},
+		"year_leader3": {
+			"type": "line"
+		},
+		"leader3": {
+			"type": "line"
+		},
+		"year_leader4": {
+			"type": "line"
+		},
+		"leader4": {
+			"type": "line"
+		},
+		"year_leader5": {
+			"type": "line"
+		},
+		"leader5": {
+			"type": "line"
+		},
+		"year_leader6": {
+			"type": "line"
+		},
+		"leader6": {
+			"type": "line"
+		},
+		"year_leader7": {
+			"type": "line"
+		},
+		"leader7": {
+			"type": "line"
+		},
+		"year_leader8": {
+			"type": "line"
+		},
+		"leader8": {
+			"type": "line"
+		},
+		"year_leader9": {
+			"type": "line"
+		},
+		"leader9": {
+			"type": "line"
+		},
+		"year_leader10": {
+			"type": "line"
+		},
+		"leader10": {
+			"type": "line"
+		},
+		"year_leader11": {
+			"type": "line",
+			"label": "Leader 11 years",
+			"description": "Year of leader 11",
+			"example": "1980-1987"
+		},
+		"leader11": {
+			"type": "line"
+		},
+		"title_representative": {
+			"type": "line",
+			"label": "Representative title",
+			"description": "Title of the country's representative",
+			"example": "[[Governor General of Canada|Governor General]]"
+		},
+		"year_representative1": {
+			"type": "line",
+			"label": "Representative 1 years",
+			"description": "Year of representative 1",
+			"example": "1492-1506"
+		},
+		"representative1": {
+			"type": "line",
+			"label": "Representative 1",
+			"description": "First representative"
+		},
+		"year_representative2": {
+			"type": "line",
+			"label": "Representative 2 years",
+			"description": "Year of representative 2",
+			"example": "1552-1580"
+		},
+		"representative2": {
+			"type": "line"
+		},
+		"year_representative3": {
+			"type": "line",
+			"label": "Representative 3 years",
+			"description": "Year of representative 3",
+			"example": "1652-1666"
+		},
+		"representative3": {
+			"type": "line"
+		},
+		"year_representative4": {
+			"type": "line",
+			"label": "Representative 4 year",
+			"description": "Year of representative 4",
+			"example": "1652-1666"
+		},
+		"representative4": {
+			"type": "line"
+		},
+		"year_representative5": {
+			"type": "line",
+			"label": "Representative 5 years",
+			"description": "Year of representative 5",
+			"example": "1652-1666"
+		},
+		"representative5": {
+			"type": "line"
+		},
+		"title_deputy": {
+			"type": "line"
+		},
+		"year_deputy1": {
+			"type": "line",
+			"label": "Deputy 1 years",
+			"description": "Years of the 1st deputy",
+			"example": "2006-2009"
+		},
+		"deputy1": {
+			"type": "line",
+			"label": "Deputy 1",
+			"description": "First deputy"
+		},
+		"year_deputy2": {
+			"type": "line",
+			"label": "Deputy 2 years",
+			"description": "Years of the 2nd deputy",
+			"example": "2009-2011"
+		},
+		"deputy2": {
+			"type": "line"
+		},
+		"year_deputy3": {
+			"type": "line",
+			"label": "Deputy 3 years",
+			"description": "Years of the 3rd deputy",
+			"example": "2011-2013"
+		},
+		"deputy3": {
+			"type": "line"
+		},
+		"year_deputy4": {
+			"type": "line",
+			"label": "Deputy 4 years",
+			"description": "Years of the 4th deputy",
+			"example": "2013-2016"
+		},
+		"deputy4": {
+			"type": "line"
+		},
+		"year_deputy5": {
+			"type": "line",
+			"label": "Deputy 5 years",
+			"description": "Years of the 5th deputy",
+			"example": "2016-2018"
+		},
+		"deputy5": {
+			"type": "line"
+		},
+		"year_deputy6": {
+			"type": "line",
+			"label": "Deputy 6 years",
+			"description": "Years of the 6th deputy",
+			"example": "2018-"
+		},
+		"deputy6": {
+			"type": "line"
+		},
+		"type_house1": {
+			"type": "line"
+		},
+		"house1": {
+			"type": "line"
+		},
+		"type_house2": {
+			"type": "line"
+		},
+		"house2": {
+			"type": "line"
+		},
+		"event_pre": {
+			"type": "line"
+		},
+		"established_event13": {
+			"label": "Establishment event 13",
+			"type": "line"
+		},
+		"established_date13": {
+			"label": "Establishment date 13",
+			"type": "date"
+		},
+		"established_event14": {
+			"type": "line"
+		},
+		"established_date14": {
+			"type": "line"
+		},
+		"established_event15": {
+			"type": "line"
+		},
+		"established_date15": {
+			"type": "line"
+		},
+		"event_start": {
+			"label": "Starting event",
+			"description": "The foundational event of the country",
+			"example": "Established",
+			"type": "string"
+		},
+		"date_pre": {},
+		"date_start": {
+			"label": "Date established",
+			"description": "Date the country, dynasty or organization was established (date of event_start)",
+			"example": "601 CE",
+			"type": "string"
+		},
+		"event1": {
+			"label": "Event 1",
+			"description": "First significant event",
+			"example": "Signing of the [[Chanyuan Treaty]] with [[Liao dynasty|Liao]]",
+			"type": "string"
+		},
+		"date_event1": {
+			"label": "Event 1 date",
+			"description": "Date of the first significant event",
+			"example": "601",
+			"type": "date"
+		},
+		"event2": {
+			"label": "Event 2",
+			"description": "Second significant event",
+			"example": "[[Alliance Conducted at Sea|Alliance with Jin]]",
+			"type": "string"
+		},
+		"date_event2": {
+			"label": "Event 2 date",
+			"description": "Date of the second significant event",
+			"type": "string"
+		},
+		"event3": {
+			"label": "Event 3",
+			"description": "Third significant event",
+			"example": "[[Jingkang Incident]]",
+			"type": "string"
+		},
+		"date_event3": {},
+		"event4": {
+			"label": "Event 4",
+			"description": "Fourth significant event",
+			"example": "Beginning of [[Mongol conquest of the Song dynasty|Mongol invasion]]",
+			"type": "string"
+		},
+		"date_event4": {},
+		"event5": {
+			"label": "Event 5",
+			"description": "Fifth significant event",
+			"example": "Fall of [[Hangzhou|Lin'an]]",
+			"type": "string"
+		},
+		"date_event5": {},
+		"event6": {
+			"label": "Event 6",
+			"description": "Sixth significant event",
+			"example": "[[Krystallnacht]]",
+			"type": "string"
+		},
+		"date_event6": {},
+		"event_end": {
+			"label": "Event ending the country",
+			"description": "The event that caused the country to stop existing or transition, if applicable",
+			"example": "[[Battle of Yamen]] (end of dynasty)",
+			"type": "string"
+		},
+		"date_end": {
+			"label": "End date",
+			"description": "Date the country stopped existing or transitioned, if applicable",
+			"example": "1433",
+			"type": "date"
+		},
+		"event_post": {},
+		"date_post": {},
+		"area_ha": {},
+		"area_acre": {},
+		"area_land_km2": {},
+		"area_land_ha": {},
+		"area_land_sq_mi": {},
+		"area_land_acre": {},
+		"area_water_km2": {},
+		"area_water_ha": {},
+		"area_water_sq_mi": {},
+		"area_water_acre": {},
+		"stat_area1": {},
+		"stat_area2": {},
+		"stat_area3": {},
+		"stat_area4": {},
+		"stat_area5": {},
+		"area_land_footnote": {},
+		"area_water_footnote": {},
+		"stat_year1": {},
+		"ref_area1": {},
+		"stat_year2": {},
+		"ref_area2": {},
+		"stat_year3": {},
+		"ref_area3": {},
+		"stat_year4": {},
+		"ref_area4": {},
+		"stat_year5": {
+			"label": "Statistic 5 year",
+			"description": "Year of statistic 5",
+			"example": "1933",
+			"type": "number"
+		},
+		"ref_area5": {},
+		"stat_pop1": {},
+		"stat_pop2": {},
+		"stat_pop3": {},
+		"stat_pop4": {},
+		"stat_pop5": {},
+		"ref_pop1": {},
+		"ref_pop2": {},
+		"ref_pop3": {},
+		"ref_pop4": {},
+		"ref_pop5": {},
+		"nummembers": {},
+		"p1": {},
+		"s1": {},
+		"flag_p1": {},
+		"image_p1": {},
+		"border_p1": {},
+		"flag_p2": {},
+		"image_p2": {},
+		"p2": {},
+		"border_p2": {},
+		"flag_p3": {},
+		"image_p3": {},
+		"p3": {},
+		"border_p3": {},
+		"flag_p4": {},
+		"image_p4": {},
+		"p4": {},
+		"border_p4": {},
+		"flag_p5": {},
+		"image_p5": {},
+		"p5": {},
+		"border_p5": {},
+		"flag_p6": {},
+		"image_p6": {},
+		"p6": {},
+		"border_p6": {},
+		"flag_p7": {},
+		"image_p7": {},
+		"p7": {},
+		"border_p7": {},
+		"flag_p8": {},
+		"image_p8": {},
+		"p8": {},
+		"border_p8": {},
+		"flag_p9": {},
+		"image_p9": {},
+		"p9": {},
+		"border_p9": {},
+		"flag_p10": {},
+		"image_p10": {},
+		"p10": {},
+		"border_p10": {},
+		"flag_p11": {},
+		"image_p11": {},
+		"p11": {},
+		"border_p11": {},
+		"flag_p12": {},
+		"image_p12": {},
+		"p12": {},
+		"border_p12": {},
+		"flag_p13": {},
+		"image_p13": {},
+		"p13": {},
+		"border_p13": {},
+		"flag_p14": {},
+		"image_p14": {},
+		"p14": {},
+		"border_p14": {},
+		"flag_p15": {},
+		"image_p15": {},
+		"p15": {},
+		"border_p15": {},
+		"flag_s1": {},
+		"image_s1": {},
+		"border_s1": {},
+		"flag_s2": {},
+		"image_s2": {},
+		"s2": {},
+		"border_s2": {},
+		"flag_s3": {},
+		"image_s3": {},
+		"s3": {},
+		"border_s3": {},
+		"flag_s4": {},
+		"image_s4": {},
+		"s4": {},
+		"border_s4": {},
+		"flag_s5": {},
+		"image_s5": {},
+		"s5": {},
+		"border_s5": {},
+		"flag_s6": {},
+		"image_s6": {},
+		"s6": {},
+		"border_s6": {},
+		"flag_s7": {},
+		"image_s7": {},
+		"s7": {},
+		"border_s7": {},
+		"flag_s8": {},
+		"image_s8": {},
+		"s8": {},
+		"border_s8": {},
+		"flag_s9": {},
+		"image_s9": {},
+		"s9": {},
+		"border_s9": {},
+		"flag_s10": {},
+		"image_s10": {},
+		"s10": {},
+		"border_s10": {},
+		"flag_s11": {},
+		"image_s11": {},
+		"s11": {},
+		"border_s11": {},
+		"flag_s12": {},
+		"image_s12": {},
+		"s12": {},
+		"border_s12": {},
+		"flag_s13": {},
+		"image_s13": {},
+		"s13": {},
+		"border_s13": {},
+		"flag_s14": {},
+		"image_s14": {},
+		"s14": {},
+		"border_s14": {},
+		"flag_s15": {},
+		"image_s15": {},
+		"s15": {},
+		"border_s15": {},
+		"today": {
+			"label": "Today part of",
+			"description": "For former countries, a list of countries of which the former country's territories are now part, if no more than four.",
+			"example": "{{plainlist| *[[Czech Republic]] *[[Denmark]] *[[France]] *[[Germany]] }}",
+			"type": "content",
+			"suggested": true
+		},
+		"footnotes2": {},
+		"symbol_caption": {},
+		"nested": {}
+	},
+	"paramOrder": [
+		"conventional_long_name",
+		"common_name",
+		"linking_name",
+		"native_name",
+		"name",
+		"image_flag",
+		"flag_width",
+		"alt_flag",
+		"flag_border",
+		"flag_caption",
+		"image_flag2",
+		"alt_flag2",
+		"flag2_border",
+		"image_coat",
+		"symbol_width",
+		"alt_coat",
+		"symbol_type",
+		"symbol_type_article",
+		"text_symbol",
+		"text_symbol_type",
+		"other_symbol",
+		"other_symbol_type",
+		"national_motto",
+		"motto",
+		"national_anthem",
+		"anthem",
+		"royal_anthem",
+		"image_map",
+		"map_width",
+		"alt_map",
+		"map_caption",
+		"image_map2",
+		"map2_width",
+		"alt_map2",
+		"map_caption2",
+		"image_map3",
+		"map3_width",
+		"alt_map3",
+		"map_caption3",
+		"capital",
+		"capital_type",
+		"coordinates",
+		"latd",
+		"latm",
+		"latNS",
+		"longd",
+		"longm",
+		"longEW",
+		"admin_center",
+		"admin_center_type",
+		"capital2",
+		"capital_type2",
+		"admin_center2",
+		"admin_center_type2",
+		"largest_city",
+		"largest_settlement",
+		"largest_settlement_type",
+		"official_languages",
+		"national_languages",
+		"regional_languages",
+		"languages_type",
+		"languages_sub",
+		"languages",
+		"languages2_type",
+		"languages2_sub",
+		"languages2",
+		"ethnic_groups",
+		"ethnic_groups_ref",
+		"ethnic_groups_year",
+		"religion",
+		"religion_ref",
+		"demonym",
+		"org_type",
+		"membership",
+		"membership_type",
+		"government_type",
+		"politics_link",
+		"leader_title1",
+		"leader_name1",
+		"leader_title2",
+		"leader_name2",
+		"leader_title3",
+		"leader_name3",
+		"leader_title4",
+		"leader_name4",
+		"leader_title5",
+		"leader_name5",
+		"leader_title6",
+		"leader_name6",
+		"leader_title7",
+		"leader_name7",
+		"leader_title8",
+		"leader_name8",
+		"leader_title9",
+		"leader_name9",
+		"leader_title10",
+		"leader_name10",
+		"leader_title11",
+		"leader_name11",
+		"leader_title12",
+		"leader_name12",
+		"leader_title13",
+		"leader_name13",
+		"leader_title14",
+		"leader_name14",
+		"legislature",
+		"upper_house",
+		"lower_house",
+		"sovereignty_type",
+		"sovereignty_note",
+		"established",
+		"established_event1",
+		"established_date1",
+		"established_event2",
+		"established_date2",
+		"established_event3",
+		"established_date3",
+		"established_event4",
+		"established_date4",
+		"established_event5",
+		"established_date5",
+		"established_event6",
+		"established_date6",
+		"established_event7",
+		"established_date7",
+		"established_event8",
+		"established_date8",
+		"established_event9",
+		"established_date9",
+		"established_event10",
+		"established_date10",
+		"established_event11",
+		"established_date11",
+		"established_event12",
+		"established_date12",
+		"area_km2",
+		"area_link",
+		"area_label",
+		"FR_foot4",
+		"area_footnote",
+		"area_rank",
+		"area_sq_mi",
+		"percent_water",
+		"area_label2",
+		"area_data2",
+		"area_label3",
+		"area_data3",
+		"FR_metropole",
+		"FR_foot2",
+		"FR_IGN_area_km2",
+		"FR_IGN_area_rank",
+		"FR_IGN_area_sq_mi",
+		"FR_foot3",
+		"FR_cadastre_area_km2",
+		"FR_cadastre_area_rank",
+		"FR_cadastre_area_sq_mi",
+		"population_estimate",
+		"population_census",
+		"population_link",
+		"population_estimate_year",
+		"population_estimate_rank",
+		"population_label2",
+		"population_data2",
+		"population_label3",
+		"population_data3",
+		"population_census_year",
+		"population_census_rank",
+		"population_density_km2",
+		"population_density_sq_mi",
+		"pop_den_footnote",
+		"population_density_rank",
+		"FR_metropole_population",
+		"FR_total_population_estimate_year",
+		"FR_foot",
+		"FR_total_population_estimate",
+		"FR_total_population_estimate_rank",
+		"FR_metropole_population_estimate_rank",
+		"FR_foot5",
+		"GDP_PPP",
+		"GDP_PPP_year",
+		"GDP_PPP_rank",
+		"GDP_PPP_per_capita",
+		"GDP_PPP_per_capita_rank",
+		"GDP_nominal",
+		"GDP_nominal_year",
+		"GDP_nominal_rank",
+		"GDP_nominal_per_capita",
+		"GDP_nominal_per_capita_rank",
+		"Gini",
+		"Gini_year",
+		"Gini_change",
+		"Gini_ref",
+		"Gini_rank",
+		"HDI",
+		"HDI_year",
+		"HDI_change",
+		"HDI_ref",
+		"HDI_rank",
+		"currency",
+		"currency_code",
+		"time_zone",
+		"utc_offset",
+		"utc_offset_DST",
+		"DST_note",
+		"time_zone_DST",
+		"DST",
+		"antipodes",
+		"date_format",
+		"drives_on",
+		"rail gauge",
+		"calling_code",
+		"patron_saint",
+		"iso3166code",
+		"cctld",
+		"official_website",
+		"footnote_a",
+		"footnote_b",
+		"footnote_c",
+		"footnote_d",
+		"footnote_e",
+		"footnote_f",
+		"footnote_g",
+		"footnote_h",
+		"footnote1",
+		"footnote2",
+		"footnote3",
+		"footnote4",
+		"footnote5",
+		"footnote6",
+		"footnote7",
+		"footnote8",
+		"footnotes",
+		"navbar",
+		"micronation",
+		"status",
+		"status_text",
+		"empire",
+		"year_end",
+		"year_exile_start",
+		"year_exile_end",
+		"life_span",
+		"year_start",
+		"flag_size",
+		"flag_alt",
+		"flag_alt2",
+		"flag_type",
+		"coa_size",
+		"englishmotto",
+		"image_map_size",
+		"image_map_alt",
+		"image_map_caption",
+		"image_map2_size",
+		"image_map2_alt",
+		"image_map2_caption",
+		"loctext",
+		"capital_exile",
+		"recognized_languages",
+		"recognized_national_languages",
+		"recognized_regional_languages",
+		"common_languages",
+		"religion_year",
+		"leader_title15",
+		"leader_name15",
+		"title_leader",
+		"year_leader1",
+		"leader1",
+		"year_leader2",
+		"leader2",
+		"year_leader3",
+		"leader3",
+		"year_leader4",
+		"leader4",
+		"year_leader5",
+		"leader5",
+		"year_leader6",
+		"leader6",
+		"year_leader7",
+		"leader7",
+		"year_leader8",
+		"leader8",
+		"year_leader9",
+		"leader9",
+		"year_leader10",
+		"leader10",
+		"year_leader11",
+		"leader11",
+		"title_representative",
+		"year_representative1",
+		"representative1",
+		"year_representative2",
+		"representative2",
+		"year_representative3",
+		"representative3",
+		"year_representative4",
+		"representative4",
+		"year_representative5",
+		"representative5",
+		"title_deputy",
+		"year_deputy1",
+		"deputy1",
+		"year_deputy2",
+		"deputy2",
+		"year_deputy3",
+		"deputy3",
+		"year_deputy4",
+		"deputy4",
+		"year_deputy5",
+		"deputy5",
+		"year_deputy6",
+		"deputy6",
+		"type_house1",
+		"house1",
+		"type_house2",
+		"house2",
+		"established_event13",
+		"established_date13",
+		"established_event14",
+		"established_date14",
+		"established_event15",
+		"established_date15",
+		"event_pre",
+		"date_pre",
+		"event_start",
+		"date_start",
+		"event1",
+		"date_event1",
+		"event2",
+		"date_event2",
+		"event3",
+		"date_event3",
+		"event4",
+		"date_event4",
+		"event5",
+		"date_event5",
+		"event6",
+		"date_event6",
+		"event_end",
+		"date_end",
+		"event_post",
+		"date_post",
+		"area_ha",
+		"area_acre",
+		"area_land_km2",
+		"area_land_ha",
+		"area_land_sq_mi",
+		"area_land_acre",
+		"area_water_km2",
+		"area_water_ha",
+		"area_water_sq_mi",
+		"area_water_acre",
+		"stat_area1",
+		"stat_area2",
+		"stat_area3",
+		"stat_area4",
+		"stat_area5",
+		"area_land_footnote",
+		"area_water_footnote",
+		"stat_year1",
+		"ref_area1",
+		"stat_year2",
+		"ref_area2",
+		"stat_year3",
+		"ref_area3",
+		"stat_year4",
+		"ref_area4",
+		"stat_year5",
+		"ref_area5",
+		"stat_pop1",
+		"stat_pop2",
+		"stat_pop3",
+		"stat_pop4",
+		"stat_pop5",
+		"ref_pop1",
+		"ref_pop2",
+		"ref_pop3",
+		"ref_pop4",
+		"ref_pop5",
+		"nummembers",
+		"p1",
+		"s1",
+		"flag_p1",
+		"image_p1",
+		"border_p1",
+		"flag_p2",
+		"image_p2",
+		"p2",
+		"border_p2",
+		"flag_p3",
+		"image_p3",
+		"p3",
+		"border_p3",
+		"flag_p4",
+		"image_p4",
+		"p4",
+		"border_p4",
+		"flag_p5",
+		"image_p5",
+		"p5",
+		"border_p5",
+		"flag_p6",
+		"image_p6",
+		"p6",
+		"border_p6",
+		"flag_p7",
+		"image_p7",
+		"p7",
+		"border_p7",
+		"flag_p8",
+		"image_p8",
+		"p8",
+		"border_p8",
+		"flag_p9",
+		"image_p9",
+		"p9",
+		"border_p9",
+		"flag_p10",
+		"image_p10",
+		"p10",
+		"border_p10",
+		"flag_p11",
+		"image_p11",
+		"p11",
+		"border_p11",
+		"flag_p12",
+		"image_p12",
+		"p12",
+		"border_p12",
+		"flag_p13",
+		"image_p13",
+		"p13",
+		"border_p13",
+		"flag_p14",
+		"image_p14",
+		"p14",
+		"border_p14",
+		"flag_p15",
+		"image_p15",
+		"p15",
+		"border_p15",
+		"flag_s1",
+		"image_s1",
+		"border_s1",
+		"flag_s2",
+		"image_s2",
+		"s2",
+		"border_s2",
+		"flag_s3",
+		"image_s3",
+		"s3",
+		"border_s3",
+		"flag_s4",
+		"image_s4",
+		"s4",
+		"border_s4",
+		"flag_s5",
+		"image_s5",
+		"s5",
+		"border_s5",
+		"flag_s6",
+		"image_s6",
+		"s6",
+		"border_s6",
+		"flag_s7",
+		"image_s7",
+		"s7",
+		"border_s7",
+		"flag_s8",
+		"image_s8",
+		"s8",
+		"border_s8",
+		"flag_s9",
+		"image_s9",
+		"s9",
+		"border_s9",
+		"flag_s10",
+		"image_s10",
+		"s10",
+		"border_s10",
+		"flag_s11",
+		"image_s11",
+		"s11",
+		"border_s11",
+		"flag_s12",
+		"image_s12",
+		"s12",
+		"border_s12",
+		"flag_s13",
+		"image_s13",
+		"s13",
+		"border_s13",
+		"flag_s14",
+		"image_s14",
+		"s14",
+		"border_s14",
+		"flag_s15",
+		"image_s15",
+		"s15",
+		"border_s15",
+		"today",
+		"footnotes2",
+		"symbol_caption",
+		"nested"
+	]
+}
+</templatedata>
+{{cob}}
+
+<includeonly>{{Sandbox other||
+<!--Categories below this line, please; interwikis at Wikidata-->
+[[Category:Country infobox templates| ]]
+[[Category:Templates that add a tracking category]]
+}}</includeonly>

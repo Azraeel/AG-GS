@@ -1,0 +1,170 @@
+{{Infobox language
+| name = Rontzken
+| nativename = Rontzken Bergsprech
+| states = [[Imperial Duchy of Rhovland]]
+| region = Bergmark and Tiefland regions
+| fam1 = Valderic
+| fam2 = East Valderic
+| fam3 = Mountain Valderic
+| script = Valderic script
+| nation = Regional official in Bergmark and Tiefland
+| iso1 = rz
+| iso2 = ron
+| iso3 = ron
+}}
+
+= Rontzken =
+
+'''Rontzken''' (Rontzken: ''Rontzken Bergsprech'') is a regional language spoken primarily in the Bergmark and Tiefland regions of the [[Imperial Duchy of Rhovland]]. Characterized by distinctive consonant clusters that reflect the mountainous terrain of its speakers, Rontzken serves as an official regional language alongside [[Witersckar]] in its traditional territories.
+
+== Etymology ==
+
+The name "Rontzken" derives from "Rontz" (stone/mountain) and "ken" (knowledge), literally meaning "mountain knowledge" or "stone wisdom." This reflects the language's deep connection to the mountainous geography and mining traditions of its speakers.
+
+== Geographic Distribution ==
+
+Rontzken is spoken by approximately 23 million people as a first language, concentrated in the highland regions of Bergmark and the mining districts of Tiefland. The language maintains strong cultural identity tied to traditional mountain communities and mining settlements.
+
+== Linguistic Features ==
+
+Rontzken is renowned for its complex consonant clusters, some containing up to five consecutive consonants, which developed to describe the precise sounds of mining, metalworking, and mountain weather phenomena. The language includes over 150 distinct terms for different types of stone, metal ores, and geological formations.
+
+The verbal system features a unique aspectual distinction that indicates whether an action is performed above ground, below ground, or at the transition between surface and underground environments. This grammatical feature reflects the central importance of mining and mountain life in Rontzken culture.
+
+== Cultural Significance ==
+
+Rontzken is the language of the [[Rontzken Mountain Chronicles]], epic narratives that preserve the history of mining communities, mountain warfare, and the relationship between highland peoples and the federal government. These chronicles are recited during traditional mountain festivals and serve as historical records of regional development.
+
+The [[Bergmark Mountain Academy]] and [[Tiefland Mining Institute]] promote Rontzken through technical education programs that combine traditional mountain knowledge with modern engineering and geological sciences.
+
+== Writing System ==
+
+Rontzken uses the standard Valderic script but employs additional diacritical marks to indicate the complex consonant clusters that are central to the language. Traditional stone carving techniques have influenced the angular style of written Rontzken, even in modern printed texts.
+
+=== Alphabet ===
+
+The Rontzken alphabet consists of 35 letters including complex clusters:
+
+'''Consonants:''' B, C, D, F, G, H, K, L, M, N, P, R, S, T, V, W, Z, Sch, Tsch, Tzk, Nkr, Str, Skr, Pfl, Spr
+
+'''Vowels:''' A, E, I, O, U, Ë, Ï, Ö
+
+'''Cluster markers:'''
+* Hyphen (-) - separates consonant clusters
+* Dot (·) - indicates cluster stress
+* Double consonants - indicate gemination
+
+=== Stone Script ===
+
+Traditional carved script uses angular forms:
+* ᚱᚢᚾ (RUN) - Stone
+* ᛒᛖᚱᚷ (BERG) - Mountain
+* ᛏᛁᛖᚠ (TIEF) - Deep
+* ᛗᛖᛏᚨᛚ (METAL) - Metal
+* ᛊᛏᛖᛁᚾ (STEIN) - Stone
+
+=== Phonology ===
+
+Rontzken features:
+* 28 consonant phonemes (including clusters)
+* 10 vowel phonemes
+* Consonant clusters up to 5 sounds
+* Distinctive gemination (doubled consonants)
+* Echo vowels in mining terminology
+
+== Grammar ==
+
+=== Spatial Aspect System ===
+
+Verbs indicate spatial relationship to ground level:
+* '''-ober''' (above ground): ''Ich arbeit-ober'' (I work above ground)
+* '''-unter''' (below ground): ''Ich arbeit-unter'' (I work below ground)
+* '''-zwischen''' (at surface): ''Ich arbeit-zwischen'' (I work at the surface)
+* '''-durch''' (through levels): ''Ich arbeit-durch'' (I work through levels)
+
+=== Noun Declension ===
+
+Five cases with mountain-specific meanings:
+* '''Nominative''': ''der Berg'' (the mountain - subject)
+* '''Accusative''': ''den Berg'' (the mountain - direct object)
+* '''Dative''': ''dem Berg'' (to/on the mountain)
+* '''Genitive''': ''des Berges'' (of the mountain)
+* '''Locative''': ''im Berg'' (inside the mountain)
+
+=== Verb Conjugation ===
+
+'''Present tense of "graben" (to dig):'''
+* ich grabe (I dig)
+* du gräbst (you dig)
+* er/sie/es gräbt (he/she/it digs)
+* wir graben (we dig)
+* ihr grabt (you all dig)
+* sie graben (they dig)
+
+== Vocabulary ==
+
+=== Common Phrases ===
+
+* '''Guten Berggruß''' - Good mountain greeting
+* '''Wie steht der Stein?''' - How stands the stone? (How are things?)
+* '''Glück auf!''' - Good luck! (traditional mining greeting)
+* '''Berg frei!''' - Mountain clear! (goodbye)
+
+=== Mining Terms ===
+
+* '''Schacht''' - Mine shaft
+* '''Stollen''' - Mine tunnel
+* '''Erzader''' - Ore vein
+* '''Grubenwasser''' - Mine water
+* '''Bergwerk''' - Mine complex
+* '''Steinhauer''' - Stone cutter
+* '''Metallschmied''' - Metal smith
+
+=== Geological Terms ===
+
+* '''Granit''' - Granite
+* '''Schiefer''' - Slate
+* '''Kalkstein''' - Limestone
+* '''Eisenerz''' - Iron ore
+* '''Kupferader''' - Copper vein
+* '''Steinbruch''' - Quarry
+
+=== Mountain Weather ===
+
+* '''Bergwind''' - Mountain wind
+* '''Steinschlag''' - Rockfall
+* '''Nebeltief''' - Deep fog
+* '''Frostsprung''' - Frost crack
+* '''Schneelawine''' - Snow avalanche
+
+=== Numbers ===
+
+* eins (1), zwei (2), drei (3), vier (4), fünf (5)
+* sechs (6), sieben (7), acht (8), neun (9), zehn (10)
+
+== Specialized Vocabulary ==
+
+The language contains extensive technical vocabulary related to mining operations, metallurgy, and mountain survival techniques. Many Rontzken terms have been adopted into [[Witersckar]] for technical and engineering contexts, particularly in construction and infrastructure development.
+
+== Literature ==
+
+Rontzken literature includes the [[Rontzken Mountain Chronicles]] as well as modern works focusing on industrial development, environmental conservation, and the balance between traditional mountain life and federal integration.
+
+== See Also ==
+
+* [[Imperial Duchy of Rhovland]] - Primary speaking region
+* [[Witersckar]] - Federal language of Rhovland
+* [[Geslariena]] - Regional language of Rhovland
+* [[Bergmark Mountain Academy]] - Cultural preservation
+* [[Rontzken Mountain Chronicles]] - Literary tradition
+
+== References ==
+
+* [[Bergmark Mountain Academy]] (2018). "Technical Vocabulary of Rontzken"
+* [[Imperial Academy of Languages]] (2019). "Regional Languages of Rhovland"
+* [[Tiefland Mining Institute]] (2017). "Mountain Chronicles and Cultural Heritage"
+
+[[Category:Languages]]
+[[Category:Rhovland]]
+[[Category:Valderic Languages]]
+[[Category:Regional Languages]]

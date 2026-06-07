@@ -1,0 +1,433 @@
+{{Documentation subpage}}
+{{#ifeq: {{FULLPAGENAME}} | Template:Coord | {{high-use|all-pages=yes}} }}
+{{Transwiki guide candidate}}
+{{lua|Module:Coordinates}}
+{{#switch: {{FULLPAGENAME}} | Template:Coord | Template:Coord/doc = {{Uses Wikidata|P625}} {{Tracks Wikidata|P625|cat=Coordinates Wikidata tracking categories}} }}
+
+When this template is used with '''display=title''', the template is not displayed on mobile. {{Navbox visibility}}
+This template is still displayed on mobile when used with '''display=inline''', e.g. in infoboxes.
+
+==Quick guide==
+{{Coord how-to}}
+
+__TOC__
+==Purpose==
+{{tlf|Coord}} provides a standard notation for encoding locations by their [[latitude]] and [[longitude]] coordinates. It is primarily for specifying the [[World Geodetic System|WGS84]] geographic coordinates of locations on [[Earth]], at the same time emitting a machine-readable [[Geo (microformat)|Geo microformat]]. However, it can also encode locations on natural satellites, dwarf planets, and planets other than Earth.
+
+* To specify celestial coordinates, use {{tl|Sky}} instead.
+* Tag articles which lack coordinates (but need them) with {{tl|Coord missing}}.
+* If the subject's location is truly unknown or disputed, note this with {{tl|Coord unknown}}.
+* If the coordinates were [[meta:Wikidata/Notes/Inclusion syntax|transcluded from Wikidata]], use {{tl|WikidataCoord}}.
+
+See also: [[Wikipedia:WikiProject Geographical coordinates]].
+
+==Features==
+Latitude and longitude may be specified (with appropriate precision) either in decimal notation or as degrees/minutes/seconds.  By default, coordinates appear in the format used to specify them.  However, the <code>format=</code> parameter can be used to force display in a particular format.  The template also accepts and displays coordinates formatted as degrees and decimal minutes as found on charts and maritime references.
+
+The template displays the formatted coordinates with a [[hyperlink]] to [[mw:GeoHack|GeoHack]]. GeoHack displays information customized to the location, including links to external mapping services.
+
+For terrestrial locations, a blue globe ([[Image:Erioll_world.svg|18px]]) appears to the left of the hyperlink. Clicking on the globe activates the [[:meta:WikiMiniAtlas|WikiMiniAtlas]] (requires [[JavaScript]]).
+
+By default, coordinates appear "in line" with the adjacent text.  However, the <code>display=</code> parameter can be used to move the coordinates up near the page title (in desktop view only; title coordinates do not display in mobile view)—or display them in both places at once.
+
+The template outputs coordinates in three formats:
+* [[Degree (angle)|Degree]]/[[Minute of arc|minutes]]/[[Second of arc|seconds]] ("DMS", precision is degrees, or degrees/minutes, or degrees/minutes/seconds, based on input precision).
+* [[Decimal degrees]] (varying the number of decimal places based on input precision)
+* A machine readable [[Geo (microformat)|Geo microformat]].
+
+Additional features
+* Logged-in users can [[#Per-user_display_customization|customize]] how coordinates appear in their browsers.
+* You can get coordinates from Wikidata by transcluding this template without any numbered arguments.
+* You can extract information from the Coord template for use in mathematical expressions. For details, see [[:Module:Coordinates]].
+* All coordinates used in a page through this template are registered in the [[mw:API:Geosearch|geosearch API]]. If a coordinate is using title display, then these coordinates will be marked as the primary coordinates with regards to the page and therefore the topic of that page.
+
+==Caveats==
+The template '''must not''' be modified without prior discussion. External tools can depend on the format of both the wikitext and/or the generated html.
+
+== Usage ==
+ '''&#123;{coord|'''''latitude'''''|'''''longitude'''''|'''''[[#1|coordinate parameters]]'''''|'''''[[#2|template parameters]]'''''}&#125;'''
+ '''&#123;{coord|'''''dd'''''|'''''N/S'''''|'''''dd'''''|'''''E/W'''''|'''''[[#1|coordinate parameters]]'''''|'''''[[#2|template parameters]]'''''}&#125;'''
+ '''&#123;{coord|'''''dd'''''|'''''mm'''''|'''''N/S'''''|'''''dd'''''|'''''mm'''''|'''''E/W'''''|'''''[[#1|coordinate parameters]]'''''|'''''[[#2|template parameters]]'''''}&#125;'''
+ '''&#123;{coord|'''''dd'''''|'''''mm'''''|'''''ss'''''|'''''N/S'''''|'''''dd'''''|'''''mm'''''|'''''ss'''''|'''''E/W'''''|'''''[[#1|coordinate parameters]]'''''|'''''[[#2|template parameters]]'''''}&#125;'''
+
+The hemisphere identifiers (''N/S'') and (''E/W''), if used, must be adjacent to the enclosing pipe "'''<code>|</code>'''" characters, and cannot be preceded or succeeded by spaces.
+
+There are two kinds of parameters, all optional:
+
+*<span id="1">'''Coordinate parameters'''</span> are parameters that {{tl|Coord}} passes to the map server. These have the format ''parameter:value'' and are separated from each other by the underscore character ( _ ). The supported coordinate parameters are ''dim:'', ''globe:'', ''region:'', ''scale:'', ''source:'', and ''type:''. See [[#Coordinate parameters|coordinate parameters]] for details and examples.
+
+*<span id="2">'''Template parameters'''</span> are parameters used by the {{tl|Coord}} template.  These have format ''parameter=value'' and are separated from each other by the pipe character ( | ). The supported template parameters are ''display='', ''format='', ''name='', and ''notes=''.
+:* '''display=''' can be one of the following:
+::* <code>display=inline</code> – Display the coordinate inline (default)
+::* <code>display=title</code> – Display the coordinate at the top of the article, beside the article's title (replaces {{tl|coor title dms}} family; coordinates are displayed in desktop view only; title coordinates do not display in mobile view)
+::** shortcut: <code>display=t</code>
+::* <code>display=inline,title</code> – Display the coordinate both inline and beside the article's title (replaces {{tl|coor at dms}} family)
+::** shortcut: <code>display=it</code>
+::* <code>display=title,inline</code> has the same effect as <code>display=inline,title</code>
+::Note: the <code>title</code> attribute indicates that the coordinates apply to the entire article, and not just one of (perhaps many) places mentioned in it—so it should only be omitted in the latter case. Additionally the title option will mark the coordinates as the primary coordinates for the page (and topic of the page) in the [[mw:API:Geosearch|geosearch API]].
+:* '''format=''' can be used to force ''dec'' or ''dms'' coordinate display.
+::* <code>format=dec</code> reformats the coordinates to <span style="text-decoration:underline;">decimal degrees</span> format.
+::* <code>format=dms</code> reformats the coordinates to <span style="text-decoration:underline;">degrees | minutes | seconds</span> format.
+:* '''name=''' can be used to annotate inline coordinates for display in map services such as the [[:meta:WikiMiniAtlas|WikiMiniAtlas]]. If omitted, the article's title (PAGENAME) is assumed.
+::Note: a ''name='' parameter causes {{tl|Coord}} to emit an [[hCard]] [[microformat]] using that name, ''even if used within an existing hCard''. Do not use when the name is that of a person (e.g for a gravesite), as the generated hCard would be invalid. Also, do not use square brackets in names.
+:* '''notes=''' specifies text to be displayed immediately following the coordinates.  This is primarily intended for adding footnotes to coordinates displayed beside the title.
+:* '''qid=''' specify Q item to display the coordinates of. Used primarily by Wikidata powered infoboxes.
+
+==Helper functions==
+
+Helper functions are available to manipulate the output from {{tl|Coord}} when it appears in a container template such as an infobox.
+
+===To extract the latitude from a Coord template===
+{{See also|Geographic coordinate conversion}}
+Use:
+
+<code><nowiki>{{#invoke:coordinates|coord2text|{{Coord|57|18|22|N|4|27|32|E}}|lat}}</nowiki> </code> → {{#invoke:coordinates|coord2text|{{Coord|57|18|22|N|4|27|32|E}}|lat}}
+
+and similarly to extract the longitude, use:
+
+<code><nowiki>{{#invoke:coordinates|coord2text|{{Coord|57|18|22|N|4|27|32|E}}|long}}</nowiki></code> → {{#invoke:coordinates|coord2text|{{Coord|57|18|22|N|4|27|32|E}}|long}}
+
+:'''Note: this method removes the microformat markup, and should not be used inside templates which emit parent microformats, such as infoboxes or table-row templates.'''
+
+=== Displaying all coordinate links on one map ===
+The template {{tl|GeoGroup}} can be used in an article with coordinates. This template creates links to mapping services which display all the coordinates on a single map, and links to other services which allow the coordinates to be used or downloaded in a variety of formats.
+
+== Examples ==
+{{for|the guideline on coordinate precision|WP:OPCOORD}}
+{| class="wikitable"
+| <code><nowiki>{{coord|43.651234|-79.383333}}</nowiki></code>
+| {{coord|43.651234|-79.383333}}
+| Toronto – Fully decimal – western hemisphere implied by negation
+|-
+| <code><nowiki>{{coord|43.65|-79.38}}</nowiki></code>
+| {{coord|43.65|-79.38}}
+| Toronto – low precision decimal
+|-
+| <code><nowiki>{{coord|43.6500|-79.3800}}</nowiki></code>
+| {{coord|43.6500|-79.3800}}
+| Toronto – medium precision decimal with trailing zeroes
+|-
+| <code><nowiki>{{coord|43.653500|N|79.384000|W}}</nowiki></code>
+| {{coord|43.653500|N|79.384000|W}}
+| Toronto – high precision decimal with explicit hemisphere notation
+|-
+| <code><nowiki>{{coord|43|29|N|79|23|W}}</nowiki></code>
+| {{coord|43|29|N|79|23|W}}
+| Toronto – degrees & minutes
+|-
+| <code><nowiki>{{coord|43|29|13|N|79|23|02|W}}</nowiki></code>
+| {{coord|43|29|4|N|79|23|0|W}}
+| Toronto – degrees, minutes & seconds
+|-
+| <code><nowiki>{{coord|43|29|12.6|N|79|23|02.4|W}}</nowiki></code>
+| {{coord|43|29|12.6|N|79|23|02.4|W}}
+| Toronto – degrees, minutes, seconds & fractions of seconds
+|-
+| <code><nowiki>{{coord|55.752222|N|37.615556|E}}</nowiki></code>
+| {{coord|55.752222|N|37.615556|E}}
+| Moscow – N & E
+|-
+| <code><nowiki>{{coord|55.752222|N|37.615556|E|format=dms}}</nowiki></code>
+| {{coord|55.752222|N|37.615556|E|format=dms}}
+| Convert to dms format
+|-
+| <code><nowiki>{{coord|39.098095|-94.587307|format=dms}}</nowiki></code>
+| {{coord|39.098095|-94.587307|format=dms}}
+| Decimal conversion without N/S/E/W
+|-
+| <code><nowiki>{{coord|55.752222|N|37.615556|E|format=dec|name=Moscow}}</nowiki></code>
+| {{coord|55.752222|N|37.615556|E|format=dec|name=Moscow}}
+| Convert to decimal and label on some maps
+|-
+| <code><nowiki>{{coord|33|55|S|18|25|E}}</nowiki></code>
+| {{coord|33|55|S|18|25|E}}
+| Cape Town – S & E
+|-
+| <code><nowiki>{{coord|35|00|N|105|00|E}}</nowiki></code>
+| {{coord|35|00|N|105|00|E}}
+| People's Republic of China
+|-
+| <code><nowiki>{{coord|22|54|30|S|43|14|37|W}}</nowiki></code>
+| {{coord|22|54|30|S|43|14|37|W}}
+| Rio – S & W
+|-
+| <code><nowiki>{{coord|22|S|43|W}}</nowiki></code>
+| {{coord|22|S|43|W}}
+| A [[Degree Confluence Project|degree confluence]].
+|-
+| <code><nowiki>{{coord|52|28|N|1|55|W|region:GB_type:city|notes=<ref>{{cite web|url=http://www.fallingrain.com/world/UK/0/Birmingham.html|title=Birmingham}}</ref>|display=inline,title}}</nowiki></code>
+| {{coord|52|28|N|1|55|W|region:GB_type:city|notes=<ref>{{cite web|url=http://www.fallingrain.com/world/UK/0/Birmingham.html|title=Birmingham}}</ref>|display=inline,title}}
+| Birmingham – with display, notes, and parameter settings; note that these coordinates are also displayed at the top of this page.
+|-
+| <code><nowiki>{{coord|51|25.813|N|0|43.945|E}}</nowiki></code>
+| {{coord|51|25.813|N|0|43.945|E}}
+| Navigation buoy in the River Medway, England.
+|-
+| <code><nowiki>{{coord|51|36.287|N|8|32.018|W}}</nowiki></code>
+| {{coord|51|36.287|N|8|32.018|W}}
+| Lighthouse at the [[Old Head of Kinsale]] as defined by the [[Commissioners of Irish Lights]].
+|}
+
+===References===
+{{reflist}}
+
+== Coordinate parameters ==
+The first unnamed parameter following the longitude is an optional string of coordinate parameters, separated by underscores. These parameters help [[mw:GeoHack|GeoHack]] select suitable map resources, and they will become more important when [[meta:Wikimaps|Wikimaps]] becomes fully functional.
+
+===== type:''T'' =====
+
+{{Wikipedia:WikiProject Geographical coordinates/type:}}
+
+===== scale:''N'' =====
+
+{{Wikipedia:WikiProject Geographical coordinates/scale:}}
+
+===== dim:''D'' =====
+
+The <code>dim:</code> parameter defines the [[diameter]] of a viewing circle centered on the coordinate. While the default unit of measurement is metres, the <code>km</code> suffix may be appended to indicate kilometres.
+
+[[tswiki:GeoHack|GeoHack]] uses <code>dim:</code> to select a [[Scale (map)|map scale]] such that the viewing circle appears roughly {{convert|10|cm|in|0}} in diameter on a 72 [[Dots per inch|dpi]] computer monitor.  If no <code>dim:</code>, <code>type:</code>, or <code>scale:</code> parameters are provided, GeoHack uses its default viewing circle of {{convert|30|km|mi}}.
+
+{| class="wikitable"
+|+ Samples
+! Subject
+! View diameter
+! Markup
+! Result
+|-
+| [[Western Hemisphere]]
+| style="text-align:right;" | {{convert|10000|km|mi}}
+| <code><nowiki>{{coord|0|N|90|W|dim:10000km}}</nowiki></code>
+| {{coord|0|N|90|W|dim:10000km}}
+|-
+| [[Ohio]]
+| style="text-align:right;" | {{convert|400|km|mi}}
+| <code><nowiki>{{coord|40.5|-82.5|dim:400km}}</nowiki></code>
+| {{coord|40.5|-82.5|dim:400km}}
+|-
+| [[Dresden]]
+| style="text-align:right;" | {{convert|20000|m|mi}}
+| <code><nowiki>{{coord|51.03|13.73|dim:20000}}</nowiki></code>
+| {{coord|51.03|13.73|dim:20000}}
+|-
+| [[Statue of Liberty]]
+| style="text-align:right;" | {{convert|100|m|ft}}
+| <code><nowiki>{{coord|40.6892|-74.0445|dim:100}}</nowiki></code>
+| {{coord|40.6892|-74.0445|dim:100}}
+|-
+|}
+
+===== region:''R'' =====
+
+{{Wikipedia:WikiProject Geographical coordinates/region:}}
+
+===== globe:''G'' =====
+
+{{Wikipedia:WikiProject Geographical coordinates/globe:}}
+
+===== source:''S'' =====
+
+{{Wikipedia:WikiProject Geographical coordinates/source:}}
+
+==Per-user display customization==
+
+{{UF-coord-classes}}
+
+==Incorrect uses and maintenance categories==
+The template has some input checks built in. Most errors display a <span style="color:red;">'''bold, red'''</span> message inline and categorize the article in the [[Wikipedia:Hidden category|hidden]] [[Wikipedia:Categorization#Non-article and maintenance categories|maintenance category]] '''[[:Category:Pages with malformed coordinate tags|Pages with malformed coordinate tags]]'''. There {{#IFEQ:{{PAGESINCATEGORY:Pages with malformed coordinate tags}}|1|is currently '''1''' page|are currently '''{{PAGESINCATEGORY:Pages with malformed coordinate tags}}''' pages}} in that category.  See the category description for further instructions.
+
+A more thorough daily report of coordinates needing repair is at [[tools:~dispenser/view/File viewer#log:coord-enwiki.log]].
+
+''See also:'' [[WT:GEO#To do]]
+
+==Internals==
+This template is completely powered by the [[Wikipedia:Lua|Lua]] <code>[[:Module:Coordinates]]</code>.
+
+===Class names===
+The class names '''geo''', '''latitude''' and '''longitude''' are used to generate the microformat and '''MUST NOT''' be changed.
+
+===History===
+This template used to use a lot of [[Template:Coord/doc/internals|sub templates]] but these have all been replaced by {{tlm|Coordinates}}.
+
+===Template Data===
+This template uses overloading{{clarify|reason=What does this mean? Where is it defined?}} which does not work well with the [[Wikipedia:TemplateData|VisualEditor/TemplateData]]. Consider using "Edit source" instead of the visual editor until this defect is corrected. To facilitate visual editing in the meantime, consider using {{tl|coordDec}} for signed decimal degrees, {{tl|coordDMS}} when degrees minutes and seconds are specified, and {{tl|coordDM}} when just degrees and minutes are given.
+
+{{TemplateData header}}
+<templatedata>{
+	"description": "Encodes the latitude and longitude coordinates of a location, provides a link to map of the location. This template does not work well with the Visual Editor, consider using {{coordDec}} for signed decimal degrees, {{coordDMS}} when degrees minutes and seconds are specified {{coordDM}} when only degrees and minutes are specified. To use this template you will need to use positional parameter following one of these schemes: {{coord | D | M | S | NS | D | M | S | EW | geo | opts}}, {{coord | D | M | NS | D | M | EW | geo | opts}}, {{coord | D| NS | D| EW | geo | opts}} {{coord | sD | sD | geo | opts}} where D is degrees, M is minutes, S seconds, sD signed decimal degrees, NS is N or S, EW is E or W, opts are named parameter and geo are the coordinate parameters described on the main doc page.",
+	"params": {
+		"1": {
+			"label": "1",
+			"description": "Either degrees latitude or a signed decimal degrees latitude",
+			"type": "number",
+			"required": false,
+			"suggested": true
+		},
+		"2": {
+			"label": "2",
+			"description": "Either: minutes latitude, signed decimal degrees longitude or 'N' or 'S'.",
+			"type": "string",
+			"required": false,
+			"suggested": true
+		},
+		"3": {
+			"label": "3",
+			"description": "Either: second latitude, degrees longitude, 'N' or 'S' or GeoHack parameters",
+			"type": "string",
+			"required": false
+		},
+		"4": {
+			"label": "4",
+			"description": "Either: degrees longitude, 'N', 'S', 'E' or 'W' or GeoHack parameters",
+			"type": "string",
+			"required": false
+		},
+		"5": {
+			"label": "5",
+			"description": "Either: degrees longitude, minutes longitude or GeoHack parameters",
+			"type": "string",
+			"required": false
+		},
+		"6": {
+			"label": "6",
+			"description": "Either: minutes longitude, 'E' or 'W' or GeoHack parameters",
+			"type": "string",
+			"required": false
+		},
+		"7": {
+			"label": "7",
+			"description": "Either second longitude, or GeoHack parameters",
+			"type": "string",
+			"required": false
+		},
+		"8": {
+			"label": "8",
+			"description": "'E' or 'W'.",
+			"type": "string",
+			"required": false
+		},
+		"9": {
+			"label": "9",
+			"description": "GeoHack parameters. Example: dim:30_region:US-WI_type:event",
+			"type": "string",
+			"required": false
+		},
+		"qid": {
+			"label": "Wikidata item",
+			"description": "Retrieve coordinates from a WikiData entry instead of from this template's parameters",
+			"type": "line",
+			"required": false,
+			"example": "Q513"
+		},
+		"display": {
+			"label": "Display",
+			"description": "Where it is displayed. Can be one of: 'inline' in the body of the article, 'title' at the top of the article or 'inline,title' both",
+			"type": "line",
+			"default": "inline",
+			"suggested": true,
+			"required": false,
+			"suggestedvalues": [
+				"inline",
+				"title",
+				"inline,title"
+			]
+		},
+		"name": {
+			"label": "Name",
+			"description": "a label to place on maps (default is PAGENAME)",
+			"type": "string",
+			"required": false
+		},
+		"notes": {
+			"label": "Notes",
+			"description": "text displayed immediately following the coordinates",
+			"type": "string",
+			"required": false
+		},
+		"format": {
+			"label": "Format",
+			"description": "How the coordinates are displayed, either 'dec' or 'dms'",
+			"type": "line",
+			"required": false,
+			"suggestedvalues": [
+				"dec",
+				"dms"
+			]
+		},
+		"nosave": {
+			"label": "Geosearch",
+			"description": "Set to 'true' if you want to avoid this coordinate to be registered in the geosearch API.",
+			"type": "string",
+			"required": false
+		}
+	}
+}</templatedata>
+<!--
+  "1": {
+    "label": "Latitude degrees",
+    "description": "The degrees part of the latitude. This can either be a whole number in which case minutes and seconds can also be provided in subsequent parameters, or in decimal format, negative for south e.g. -79.38.",
+    "type": "number",
+    "required": true
+  },
+  "2": {
+    "label": "Latitude minutes",
+    "description": "The minutes part of the latitude. Do not be overly precise, 1' is approximately 1.5km, Not used if decimal degrees are specified.",
+    "type": "number",
+    "required": false
+  },
+  "3": {
+    "label": "Latitude seconds",
+    "description": "The minutes part of the latitude. Do not be overly precise,  1\" is approximately 30m. Not used if decimal degrees are specified.",
+    "type": "number",
+    "required": false
+  },
+  "4": {
+    "label": "Latitude direction",
+    "description": "Direction part of latitude: N or S. Not used if decimal degrees are specified.",
+    "type": "string",  
+    "required": false
+  },
+  "5": {
+    "label": "Longitude degrees",
+    "description": "The degrees part of the longitude. This can either be a whole number in which case minutes and seconds can also be provided in subsequent parameters, or in decimal format, negative for west e.g. -79.38.",
+    "type": "number",
+    "required": true
+  },
+  "6": {
+    "label": "Longitude minutes",
+    "description": "The minutes part of the longitude. Do not be overly precise—1' is approximately 1.5 km. Not used if decimal degrees are specified.",
+    "type": "number",
+    "required": false
+  },
+  "7": {
+    "label": "Longitude seconds",
+    "description": "The minutes part of the longitude. Do not be overly precise—1\" is approximately 30 m. Not used if decimal degrees are specified.",
+    "type": "number",
+    "required": false
+  },
+  "8": {
+    "label": "Longitude direction",
+    "description": "Direction part of longitude: E or W. Not used if decimal degrees are specified.",
+    "type": "string",  
+    "required": false
+  },
+  "9": {
+    "label": "Coordinate parameters",
+    "description": "Optional parameters separated by an underscore '_', dim:N (viewing diameter in metres), region:R (ISO 3166-1 alpha-2 or ISO 3166-2 code), type:T (e.g. landmark or city (30,000)). For example 'dim:30_region:US-WI_type:event'",
+    "type": "string",  
+    "required": false
+  },
+
+-->
+
+== See also ==
+* [[Special:PrefixIndex/Template:GeoTemplate]], for the geohack page templates used on Earth and other bodies
+
+<includeonly>{{Sandbox other||
+<!-- Categories below this line; interwikis at Wikidata -->
+[[Category:Coordinates conversion templates]]
+[[Category:Coordinates templates]]
+[[Category:TemplateData documentation with overload problems]]
+[[Category:Templates generating Geo]]
+[[Category:Title templates]]
+}}</includeonly>

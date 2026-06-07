@@ -1,0 +1,6 @@
+<noinclude>{{For|the template that changes text color|Template:Navy (color)}}</noinclude>{{country data {{{1}}} 
+| navy/core
+| variant = {{{variant|{{{2|}}}}}}
+| size = {{{size|}}}
+| name = {{{name|}}} 
+}}<noinclude>{{documentation}}</noinclude>

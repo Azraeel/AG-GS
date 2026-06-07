@@ -1,0 +1,462 @@
+require('strict')
+local p = {}
+local arg = mw.getCurrentFrame().args.config
+local configfile = 'Module:Authority control/config' .. (arg and arg~='' and ('/' .. arg) or '')
+local config = mw.loadData(configfile)
+local title = mw.title.getCurrentTitle()
+local namespace = title.namespace
+local testcases = title.subpageText == config.i18n.testcases
+
+local function needsAttention(sortkey)
+	return '[[' .. config.i18n.category .. ':' .. config.i18n.attentioncat .. '|' .. sortkey .. title.text .. ']]'
+end
+
+local function addCat(cat,sortkey)
+	if cat and cat ~= '' and (namespace == 0 or namespace == 14 or testcases) then
+		local redlinkcat = ''
+		if testcases == false then
+			local success, exists = pcall(function() return mw.title.new(cat, 14).exists end)
+			if success and not exists then 
+				redlinkcat = needsAttention('N')
+			end
+		end
+		if sortkey then
+			cat = '[[' .. config.i18n.category .. ':'..cat..'|' .. sortkey .. title.text .. ']]'
+		else
+			cat = '[[' .. config.i18n.category .. ':'..cat..']]'
+		end
+		cat = cat .. redlinkcat
+		return cat
+	else
+		return ''
+	end
+end
+
+local function getCatForId(id,faulty)
+	local cat = string.format(
+		config.i18n.cat,
+		(faulty and config.i18n.faulty..' ' or '') .. id
+	)
+	return addCat(cat)
+end
+
+local function getIdsFromWikidata(qid,property)
+	local function getquals(statement,qualid)
+		if statement.qualifiers and statement.qualifiers['P'..qualid] then
+			return mw.wikibase.renderSnak(statement.qualifiers['P'..qualid][1])
+		else
+			return false
+		end
+	end
+	local ids = {}
+	if qid then
+		for _, statement in ipairs(mw.wikibase.getBestStatements(qid,property)) do
+			if statement.mainsnak.datavalue then
+				local val = statement.mainsnak.datavalue.value
+				if val then
+					local namedas = getquals(statement,1810) or getquals(statement,742) or ''
+					table.insert(ids,{id=val,name=namedas})
+				end
+			end
+		end
+	end
+	return ids
+end
+
+local _makelink = function(conf,val,nextid,qid) --validate values and create a link
+	local function tooltip(text,label)
+		if label and label~='' then
+			return mw.getCurrentFrame():expandTemplate{title = "Tooltip", args = {text,label}}
+		else
+			return text
+		end
+	end
+	local link
+	if nextid==1 then
+		if conf.prefix then
+			link = '*' .. conf.prefix .. '\n**'
+		else
+			link = '*'
+		end
+	else
+		link = '\n**'
+	end
+	local valid_value = false
+	if conf.customlink then -- use function to validate and generate link
+		local label = nextid>1 and nextid
+		local newlink= require(config.auxiliary)[conf.customlink](val.id,label)
+		if newlink then
+			link = link .. newlink
+			valid_value = true
+		end
+	else
+		if conf.pattern then -- use pattern to determine validity if defined
+			valid_value = string.match(val.id,'^'..conf.pattern..'$')
+		elseif conf.patterns then
+			for _,pattern in ipairs(conf.patterns) do
+				valid_value = val.id:match('^'..pattern..'$')
+				if valid_value then break end
+			end
+		elseif conf.valid then -- otherwise use function to determine validity
+			valid_value = require(config.auxiliary)[conf.valid](val.id)
+		else -- no validation possible
+			valid_value = val.id
+		end
+		if valid_value then
+			local newlink
+			local label = conf.label
+			if not label or nextid>1 then
+				label = tostring(nextid)
+			end
+			if conf.link then
+				valid_value = valid_value:gsub('%%', '%%%%')
+				newlink = '[' .. mw.ustring.gsub(conf.link,'%$1',valid_value) .. ' ' .. label .. ']'
+			else
+				newlink = valid_value
+			end
+			link = link .. '<span class="uid">'..tooltip(newlink,val.name)..'</span>'
+		end
+	end
+	if valid_value then
+		link = link .. getCatForId(conf.category or conf[1])
+	else
+		--local preview = require("Module:If preview")
+		local wdlink = qid and '[[:wikidata:' .. qid .. '#P' .. conf.property .. ']]' or ''
+		local tooltip = string.format(
+			config.i18n.idnotvalid,
+			conf[1],
+			val.id
+		)
+		link = link .. '[[File:' .. config.i18n.warningicon .. '|20px|frameless|link=' .. wdlink .. '|' .. tooltip .. '.]]'
+		if conf.errorcat then
+			link = link .. addCat(conf.errorcat)
+		else
+			link = link .. getCatForId(conf.category or conf[1],true)
+		end
+		link = link .. addCat(config.i18n.allfaultycat,conf[1])-- .. preview._warning({'The '..conf[1]..' id '..val..' is not valid.'})
+	end
+	return link
+end
+
+--[[==========================================================================]]
+--[[                                   Main                                   ]]
+--[[==========================================================================]]
+function p.authorityControl(frame)
+	local function resolveQID(qid)
+		if qid then
+			qid = 'Q'..mw.ustring.gsub(qid, '^[Qq]', '')
+			if mw.wikibase.isValidEntityId(qid) and mw.wikibase.entityExists(qid) then
+				local sitelink = mw.wikibase.getSitelink(qid)
+				if sitelink then
+					return mw.wikibase.getEntityIdForTitle(sitelink) or mw.wikibase.getEntity(qid).id
+				end
+				return mw.wikibase.getEntity(qid).id
+			end
+		end
+	end
+	local conf = config.config
+	local parentArgs = frame:getParent().args
+	local auxCats = ''
+	local rct = false -- boolean to track if there are any links to be returned
+	local qid,topic
+	local wikilink = function(qid,hideifequal)
+		local label,sitelink = mw.wikibase.getLabel(qid),mw.wikibase.getSitelink(qid)
+		if label then
+			if sitelink then
+				local target = mw.title.new(sitelink)
+				if target==title or (target.isRedirect and target.redirectTarget==title) then -- do not link
+					return label
+				else -- make wikilink to article
+					return '[[' .. sitelink .. '|' .. label .. ']]'
+				end
+			else
+				return label
+			end
+		else
+			auxCats = auxCats .. needsAttention('L')
+			return qid
+		end
+	end
+	if namespace == 0 then
+		qid = mw.wikibase.getEntityIdForCurrentPage()
+	end
+	if qid then -- article is connected to Wikidata item
+		if parentArgs.qid and (resolveQID(parentArgs.qid) ~= qid) then -- non-matching qid parameter
+			auxCats = auxCats .. needsAttention('D')
+		end
+	else -- page is not connected to any Wikidata item
+		qid = resolveQID(parentArgs.qid) -- check qid parameter if no wikidata item is connected
+		if qid then -- qid parameter is valid, set topic to display
+			topic = mw.wikibase.getLabel(qid)
+			if topic then
+				if mw.ustring.lower(title.subpageText) == mw.ustring.lower(topic) then -- suppress topic display if subpagename equals topic up to case change
+					topic = nil
+				end
+				if topic and mw.wikibase.getSitelink(qid) then -- make wikilink to article
+					topic = '[[' .. mw.wikibase.getSitelink(qid) .. '|' .. topic .. ']]'
+				end
+			else
+				auxCats = auxCats .. needsAttention('L')
+			end
+		elseif parentArgs.qid and parentArgs.qid~='' then -- invalid qid has been supplied, add to tracking cat
+			auxCats = auxCats .. needsAttention('Q')
+		end
+	end
+	local qids = {} -- setup any additional QIDs
+	if parentArgs.additional=='auto' and qid then  -- check P527 for parts to add additional qids
+		local checkparts = function(property)
+			local parts = mw.wikibase.getBestStatements(qid,property)
+			if parts then
+				for _,part in ipairs(parts) do
+					if part.mainsnak.datavalue and part.mainsnak.datavalue.value.id then
+						local resolvedqid = resolveQID(part.mainsnak.datavalue.value.id)
+						if resolvedqid then
+							table.insert(qids,resolvedqid)
+		end end end end end
+		for _,part in ipairs(config.auto_additional) do
+			checkparts('P'..tostring(part))
+		end
+	elseif parentArgs.additional and parentArgs.additional ~= '' then
+		for _,v in ipairs(mw.text.split(parentArgs.additional,"%s*,%s*")) do
+			v = resolveQID(v)
+			if v then
+				if v == qid then -- duplicate of qid parameter
+					auxCats = auxCats .. needsAttention('R')
+				end
+				table.insert(qids,v)
+			else -- invalid QID specified
+				auxCats = auxCats .. needsAttention('A')
+			end
+		end
+	end
+
+	local sections = {}
+	local localparams = false
+	local numsections = 0
+	for _,_ in ipairs(config.sections) do numsections = numsections + 1 end
+	for _ = 1,#qids+numsections do table.insert(sections,{}) end
+	local qslink = '' -- setup link to add using QuickStatements
+
+	-- check which identifiers to show/suppress in template
+	local show = {} -- setup list
+	local showall = true
+	local function stripP(pid)
+		if pid:match("^[Pp]%d+$") then
+			pid = mw.ustring.gsub(pid,'[Pp]','') --strip P from property number
+		end
+		if pid:match("^%d+$") then
+			return tonumber(pid)
+		end
+	end
+	local function addshowlist(list)
+		if list and list ~= '' then
+			for _,v in ipairs(mw.text.split(string.lower(list),"%s*,%s*")) do
+				local vprop = stripP(v)
+				if vprop then -- e.g. show=P214 to show one particular property
+					show[vprop] = true
+				else -- e.g. show=arts to use whitelist
+					if config.whitelists[v] then
+						for _,w in ipairs(config.whitelists[v].properties) do
+							show[w] = true
+						end
+					end
+				end
+			end
+			showall = false
+		end
+	end
+	addshowlist(frame.args.show) -- check show= parameter on wrapper template
+	addshowlist(parentArgs.show or parentArgs.country) -- check show parameter on article template
+	if parentArgs.suppress then
+		local suppresslist = mw.text.split(parentArgs.suppress,"%s*,%s*") -- split parameter by comma
+		for _,v in ipairs(suppresslist) do
+			v = stripP(string.upper(v))
+			if v then
+				show[v] = false
+				auxCats = auxCats .. '[[' .. config.i18n.category .. ':' .. config.i18n.suppressedcat .. ']]'
+			else
+				auxCats = auxCats .. needsAttention('P')
+			end
+		end
+	end
+	
+	local function makeSections(qid,addit)
+		local tval = {}
+		local function parameter_is_used(property)
+			local used = false
+			if property then
+				if tval[property] then
+					if tval[property][1] then
+						used = true
+					end
+				elseif tval[property] == false then -- property has been manually suppressed
+					used = true
+				end
+			end
+			return used
+		end
+		for _, params in ipairs(conf) do
+			tval[params.property] = getIdsFromWikidata(qid, 'P' .. params.property) -- setup table for values with property number as key
+			local showb = true
+			if (show[params.property] == nil) and (show[string.upper(params[1])] == nil ) then
+				showb = showall -- if not specified then depends on showall
+			elseif (show[params.property] == false) or (show[string.upper(params[1])] == false) then -- if either are false then id will be suppressed
+				showb = false
+			end
+			if not showb then
+				tval[params.property] = false -- indicates the identifier is suppressed
+			elseif not addit then
+				local val = parentArgs[mw.ustring.lower(params[1])] or parentArgs[params[1]]
+				if val and val~='' then -- add local parameter to list if not already in
+					localparams = true
+					local bnew = true
+					for _, w in pairs(tval[params.property]) do
+						if val == w.id then
+							bnew = false
+						end
+					end
+					if bnew then -- add new value to table
+						if qid then
+							qslink = qslink .. '%7C%7C' .. qid .. '%7CP' .. params.property .. '%7C%22' .. mw.uri.encode(val,"PATH") .. '%22%7CS143%7CQ328'
+						end
+						table.insert(tval[params.property],{id=val,name=''})
+					end
+				end
+			end
+			local suppress = false
+			if params.suppressedbyproperty then
+				for _,sc in ipairs(params.suppressedbyproperty) do
+					if parameter_is_used(sc) then
+						suppress = true
+					end
+				end
+			end
+			if tval[params.property] ~= false and not suppress then
+				local tlinks = {} -- setup table for links
+				local nextIdVal = 1
+				local row = ''
+				for _,val in ipairs(tval[params.property]) do
+					local link = _makelink(params,val,nextIdVal,qid)
+					row = row .. link
+					table.insert(tlinks,link)
+					nextIdVal = nextIdVal + 1
+				end
+				if nextIdVal>=2 then
+					row = row .. '\n'
+					table.insert(sections[addit or params.section],row)
+					rct = true
+				end
+			end
+		end
+	end
+	local function pencil(qid)
+		if not qid then
+			return ''
+		end
+		local args = { pid = 'identifiers' } -- #target the list of identifiers
+		args.qid = qid
+		return require('Module:EditAtWikidata')._showMessage(args)
+	end
+
+	makeSections(qid,false)
+	for c = 1,#qids do
+		makeSections(qids[c],numsections+c)
+	end
+
+	--configure Navbox
+	local outString = ''
+	if rct or localparams then -- there is at least one link to display
+		local Navbox = require('Module:Navbox')
+		local sect,lastsect = 0,0
+		local navboxArgs = {
+			name  = 'Authority control',
+			navboxclass = 'authority-control',
+			bodyclass = 'hlist',
+			state = parentArgs.state or config.i18n.autocollapse,
+			navbar = 'off'
+		}
+		for c=1,numsections+#qids do
+			if #sections[c] ~= 0 then -- section is non-empty
+				sect = sect + 1
+				lastsect = c
+				local sectname
+				if c <= numsections then -- regular section
+					sectname = config.sections[c].name
+				else -- section from additional qid
+					local qid = qids[c-numsections]
+					sectname = wikilink(qid) .. pencil(qid)
+				end
+				navboxArgs['group' .. c] = sectname
+				navboxArgs['list' .. c] = table.concat(sections[c])
+			end
+		end
+		if localparams then
+			lastsect = lastsect + 1
+			sect = sect + 1
+			navboxArgs['group' .. lastsect] = config.i18n.warning
+			local warning = frame:expandTemplate{title = config.i18n.errortemplate, args = {config.i18n.localparams}}
+			if qslink ~= '' then
+				warning = warning .. ' ' .. config.i18n.movetowd .. '<span class="qs autoconfirmed-show">&#32;[[File:Commons to Wikidata QuickStatements.svg|20px|link=https://quickstatements.toolforge.org/#/v1=' .. qslink .. '|' .. config.i18n.addtowd .. ']]</span>'
+			elseif not qid then
+				if namespace == 0 then
+					warning = warning .. ' ' .. config.i18n.connecttowd
+				elseif namespace==14 or namespace==2 or namespace==118 then
+					warning = warning .. ' ' .. config.i18n.qidcode
+				end
+			end
+			navboxArgs['list' .. lastsect] = warning
+		end
+		if topic then -- display in expanded form with topic
+			navboxArgs.title = config.i18n.aclink .. ' &ndash; ' .. topic .. pencil(qid)
+		elseif sect == 1 then -- special display when only one section
+			if lastsect <= numsections then
+				if config.sections[lastsect].hidelabelwhenalone then -- no special label when only general or other IDs are present
+					navboxArgs['group' .. lastsect] = config.i18n.aclink .. pencil(qid)
+				else -- other regular section
+					navboxArgs['group' .. lastsect] = config.i18n.aclink .. ': ' .. navboxArgs['group' .. lastsect] .. pencil(qid)
+				end
+			else -- section from additional qid
+				navboxArgs['group' .. lastsect] = config.i18n.aclink .. ': ' .. navboxArgs['group' .. lastsect]
+			end
+		else -- add title to navbox
+			navboxArgs.title = config.i18n.aclink .. pencil(qid)
+		end
+		outString = Navbox._navbox(navboxArgs)
+	end
+
+	if parentArgs.state
+		and parentArgs.state~=''
+		and parentArgs.state~=config.i18n.collapsed
+		and parentArgs.state~=config.i18n.expanded
+		and parentArgs.state~=config.i18n.autocollapse then --invalid state parameter
+		auxCats = auxCats .. needsAttention('S')
+	end
+	if testcases then
+		auxCats = mw.ustring.gsub(auxCats, '(%[%[)(' .. config.i18n.category .. ')', '%1:%2') --for easier checking
+	end
+
+	--out
+	outString = outString..auxCats
+	if namespace ~= 0 then
+		outString = mw.ustring.gsub(outString,'(%[%[)(' .. config.i18n.category .. ':' .. config.i18n.Articles .. ')([^%|%]]+)%|?[^%|%]]*(%]%])','%1:%2%3%4')
+		outString = mw.ustring.gsub(outString,'(%[%[)(' .. config.i18n.category .. ':' .. config.i18n.All_articles .. ')([^%|%]]+)%|?[^%|%]]*(%]%])','%1:%2%3%4')
+	end
+	local check = require('Module:Check for unknown parameters')._check
+	local sortkey
+	if namespace == 0 then
+		sortkey = '*' .. title.text
+	else
+		sortkey = title.fullText
+	end
+	outString = outString .. check({
+		['unknown'] = '[[' .. config.i18n.category .. ':' .. config.i18n.pageswithparams .. '|' .. sortkey .. ']]',
+		['preview'] = config.i18n.previewwarning, 'show', 'country', 'suppress', 'additional', 'qid', 'state'
+		}, parentArgs)
+	return outString
+end
+
+p.makelink = function(conf,val,nextid,qid)
+	return _makelink(conf,val,nextid,qid)
+end
+
+return p

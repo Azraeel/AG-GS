@@ -1,0 +1,269 @@
+{{infobox
+| bodyclass = vcard
+| bodystyle = {{WPMILHIST Infobox style|main_box_raw}}
+
+| aboveclass = hproduct
+| abovestyle = {{WPMILHIST Infobox style|header_raw}}
+| above = <includeonly> <span class="fn org"> {{{name|{{PAGENAMEBASE}}}}} </span> </includeonly>
+
+| imagestyle = {{WPMILHIST Infobox style|image_box_raw}}
+| image = {{#invoke:InfoboxImage|InfoboxImage|image={{{image|}}}|size={{{image_size|}}}|sizedefault=frameless|alt={{{alt|}}}}}
+| caption = {{{caption|}}}
+
+| labelstyle = padding-right:1em
+| headerstyle = {{WPMILHIST Infobox style|header_raw}}
+
+| label1 =  Type
+| data1 = {{{type|}}}
+
+| label2 =  Place&nbsp;of&nbsp;origin
+| data2 = {{{origin|}}}
+
+| header3 = {{#if:{{{service|}}}{{{used_by|}}}{{{wars|}}}| Service history}}
+
+| label4 =  In&nbsp;service
+| data4 = {{{service|}}}
+
+| label5 =  Used&nbsp;by
+| data5 = {{{used_by|}}}
+
+| label6 =  Wars
+| data6 = {{{wars|}}}
+
+| header7 = {{#if:{{{designer|}}}{{{design_date|}}}{{{manufacturer|}}}{{{unit_cost|}}}{{{production_date|}}}{{{number|}}}{{{variants|}}}| Production history }}
+
+| label8 =  Designer
+| data8 = {{{designer|}}}
+
+| label9 =  Designed
+| data9 = {{{design_date|}}}
+
+| label10 =  Manufacturer
+| data10 = {{{manufacturer|}}}
+
+| label11 =  Unit&nbsp;cost
+| data11 = {{{unit_cost|}}}
+
+| label12 =  Produced
+| data12 = {{{production_date|}}}
+
+| label13 =  {{abbr|No.|Number}}&nbsp;built
+| data13 = {{{number|}}}
+
+| label14 =  Variants
+| data14 = {{{variants|}}}
+
+| header15 = {{#if:{{{weight|}}}{{{length|}}}{{{part_length|}}}{{{width|}}}{{{height|}}}{{{diameter|}}}{{{crew|}}}{{{passengers|}}}{{{cartridge|}}}{{{cartridge_weight|}}}{{{caliber|}}}{{{barrels|}}}{{{action|}}}{{{breech|}}}{{{recoil|}}}{{{carriage|}}}{{{elevation|}}}{{{traverse|}}}{{{rate|}}}{{{velocity|}}}{{{range|}}}{{{max_range|}}}{{{feed|}}}{{{sights|}}}{{{blade_type|}}}{{{hilt_type|}}}{{{sheath_type|}}}{{{head_type|}}}{{{haft_type|}}}{{{filling|}}}{{{filling_weight|}}}{{{detonation|}}}{{{yield|}}}{{{armour|}}}{{{primary_armament|}}}{{{secondary_armament|}}}{{{engine|}}}{{{engine_power|}}}{{{pw_ratio|}}}{{{payload_capacity|}}}{{{transmission|}}}{{{suspension|}}}{{{clearance|}}}{{{wingspan|}}}{{{propellant|}}}{{{fuel_capacity|}}}{{{vehicle_range|}}}{{{ceiling|}}}{{{altitude|}}}{{{boost|}}}{{{depth|}}}{{{speed|}}}{{{guidance|}}}{{{steering|}}}{{{accuracy|}}}{{{launch_platform|}}}{{{transport|}}}| Specifications {{#if:{{{spec_label|}}}| ({{{spec_label}}})}} }}
+
+| label16 =  Weight
+| data16 = {{{weight|}}}
+
+| label17 =  Length
+| data17 = {{{length|}}}
+
+| label18 =  {{#if:{{{is_ranged|}}}{{{is_artillery|}}}| {{w|Gun barrel|Barrel}}|{{#if:{{{is_bladed|}}}| Blade}}}}&nbsp;length
+| data18 = {{{part_length|}}}
+
+| label19 =  Width
+| data19 = {{{width|}}}
+
+| label20 =  Height
+| data20 = {{{height|}}}
+
+| label21 =  Diameter
+| data21 =  {{{diameter|}}}
+
+| label22 =  Crew
+| data22 =  {{{crew|}}}
+
+| label23 =  Passengers
+| data23 =  {{{passengers|}}}
+
+| data24 = {{#if:{{{weight|}}}{{{length|}}}{{{part_length|}}}{{{width|}}}{{{height|}}}{{{diameter|}}}{{{crew|}}}{{{passengers|}}}| 
+{{#if:{{{is_ranged|}}}{{{is_artillery|}}}{{{is_bladed|}}}{{{is_explosive|}}}|{{#if:{{{cartridge|}}}{{{cartridge_weight|}}}{{{caliber|}}}{{{barrels|}}}{{{action|}}}{{{breech|}}}{{{recoil|}}}{{{carriage|}}}{{{elevation|}}}{{{traverse|}}}{{{rate|}}}{{{velocity|}}}{{{range|}}}{{{max_range|}}}{{{feed|}}}{{{sights|}}}{{{blade_type|}}}{{{hilt_type|}}}{{{sheath_type|}}}{{{head_type|}}}{{{haft_type|}}}{{{filling|}}}{{{filling_weight|}}}{{{detonation|}}}{{{yield|}}}| <hr/> }}}}}}
+
+| label25 = {{#if:{{{is_artillery|}}}| {{W|Shell (projectile)|Shell}}|{{W|Cartridge (firearms)|Cartridge}}}}
+| data25 = {{#if:{{{is_ranged|}}}{{{is_artillery|}}}| {{{cartridge|}}} }}
+
+| label26 = {{#if:{{{is_artillery|}}}| {{W|Shell (projectile)|Shell}}|{{W|Cartridge (firearms)|Cartridge}}}} weight
+| data26 = {{#if:{{{is_ranged|}}}{{{is_artillery|}}}| {{{cartridge_weight|}}} }}
+
+| label27 = {{#if:{{{is_UK|}}}| {{W|Caliber|Calibre}} | {{W|Caliber}}}}
+| data27 = {{#if:{{{is_ranged|}}}{{{is_artillery|}}}| {{{caliber|}}} }}
+
+| label28 = Barrels
+| data28 = {{#if:{{{is_ranged|}}}{{{is_artillery|}}}| {{{barrels|}}} }}
+
+| label29 = {{W|Action (firearms)|Action}}
+| data29 = {{#if:{{{is_ranged|}}}| {{{action|}}} }}
+
+| label30 = {{W|Breech-loading weapon|Breech}}
+| data30 = {{#if:{{{is_artillery|}}}| {{{breech|}}} }}
+
+| label31 = {{W|Recoil}}
+| data31 = {{#if:{{{is_artillery|}}}| {{{recoil|}}} }}
+
+| label32 = Carriage
+| data32 = {{#if:{{{is_artillery|}}}| {{{carriage|}}} }}
+
+| label33 = {{W|Elevation (ballistics)|Elevation}}
+| data33 = {{#if:{{{is_artillery|}}}| {{{elevation|}}} }}
+
+| label34 = {{W|Gun laying|Traverse}}
+| data34 = {{#if:{{{is_artillery|}}}| {{{traverse|}}} }}
+
+| label35 = {{W|Rate of fire|Rate&nbsp;of&nbsp;fire}}
+| data35 = {{#if:{{{is_ranged|}}}{{{is_artillery|}}}| {{{rate|}}} }}
+
+| label36 = {{W|Muzzle velocity|Muzzle&nbsp;velocity}}
+| data36 = {{#if:{{{is_ranged|}}}{{{is_artillery|}}}| {{{velocity|}}} }}
+
+| label37 = Effective&nbsp;firing&nbsp;range
+| data37 = {{#if:{{{is_ranged|}}} {{{is_explosive|}}}{{{is_artillery|}}}| {{{range|}}} }}
+
+| label38 = Maximum&nbsp;firing&nbsp;range
+| data38 = {{#if:{{{is_ranged|}}}{{{is_explosive|}}}{{{is_artillery|}}}| {{{max_range|}}} }}
+
+| label39 = Feed&nbsp;system
+| data39 = {{#if:{{{is_ranged|}}}| {{{feed|}}} }}
+
+| label40 ={{w|Aperture}}
+| data40 = {{{aperture|}}}
+
+| label41 = {{w|Lens}}
+| data41 = {{{lens|}}}
+
+| label42 = Beam energy
+| data42 = {{{beam_energy|}}}
+
+| label43 = Pulse energy
+| data43 = {{{pulse_energy|}}}
+
+| label44 = Pulse amount
+| data44 = {{{pulse_amount|}}}
+
+| label45 = Pulse spacing
+| data45 = {{{pulse_spacing|}}}
+
+| label46 = Power supply
+| data46 = {{{power_supply|}}}
+
+| label47 = Stored shots
+| data47 = {{{stored_shots|}}}
+
+| label48 = {{w|Rate of fire|Sustained&nbsp;rate&nbsp;of&nbsp;fire}}
+| data48 = {{{sustained_rate|}}}
+
+| label49 = {{w|Rate of fire|Maximum&nbsp;rate&nbsp;of&nbsp;fire}}
+| data49 = {{{maximum_rate|}}}
+
+| label50 = {{w|Focal length|Effective&nbsp;focal&nbsp;range}}
+| data50 = {{{effective_range|}}}
+
+| label51 = Sights
+| data51 = {{#if:{{{is_ranged|}}}{{{is_artillery|}}}| {{{sights|}}} }}
+
+| label52 = {{W|Blade}}&nbsp;type
+| data52 = {{#if:{{{is_bladed|}}}| {{{blade_type|}}} }}
+
+| label53 = {{W|Hilt}}&nbsp;type
+| data53 = {{#if:{{{is_bladed|}}}| {{{hilt_type|}}} }}
+
+| label54 = {{W|Scabbard}}/{{W|Scabbard|sheath}}
+| data54 = {{#if:{{{is_bladed|}}}| {{{sheath_type|}}} }}
+
+| label55 = Head&nbsp;type
+| data55 = {{#if:{{{is_bladed|}}}| {{{head_type|}}} }}
+
+| label56 = {{W|wikt:haft|Haft}}&nbsp;type
+| data56 = {{#if:{{{is_bladed|}}}| {{{haft_type|}}} }}
+
+| label57 = {{#if:{{{is_missile|}}}| Warhead|Filling}}
+| data57 = {{#if:{{{is_explosive|}}}{{{is_missile|}}}| {{{filling|}}} }}
+
+| label58 = {{#if:{{{is_missile|}}}| Warhead|Filling}}&nbsp;weight
+| data58 = {{#if:{{{is_explosive|}}}{{{is_missile|}}}| {{{filling_weight|}}} }}
+
+| label59 = <div style="line-height:1.25em">Detonation<br/>mechanism</div>
+| data59 = {{#if:{{{is_explosive|}}}{{{is_missile|}}}| {{{detonation|}}} }}
+
+| label60 = Blast&nbsp;yield
+| data60= {{#if:{{{is_explosive|}}}{{{is_missile|}}}| {{{yield|}}} }}
+
+| data61 = {{#if:{{{is_vehicle|}}}{{{is_missile|}}}| {{#if:{{{armour|}}}{{{primary_armament|}}}{{{secondary_armament|}}}{{{engine|}}}{{{engine_power|}}}{{{pw_ratio|}}}{{{payload_capacity|}}}{{{transmission|}}}{{{suspension|}}}{{{clearance|}}}{{{wingspan|}}}{{{propellant|}}}{{{fuel_capacity|}}}{{{vehicle_range|}}}{{{ceiling|}}}{{{altitude|}}}{{{boost|}}}{{{depth|}}}{{{speed|}}}{{{guidance|}}}{{{steering|}}}{{{accuracy|}}}{{{launch_platform|}}}{{{transport|}}}| <hr/> }}}}
+
+| label62 = {{W|Vehicle armour|{{#if:{{{is_UK|}}}| Armour|Armor}}}}
+| data62 = {{#if:{{{is_vehicle|}}}| {{{armour|}}} }}
+
+| label63 = <div style="line-height:1.25em">Main<br/>armament</div>
+| data63 = {{#if:{{{is_vehicle|}}}| {{{primary_armament|}}} }}
+
+| label64 = <div style="line-height:1.25em">Secondary<br/>armament</div>
+| data64 = {{#if:{{{is_vehicle|}}}| {{{secondary_armament|}}} }}
+
+| label65 = Engine
+| data65 = {{#if:{{{is_vehicle|}}}{{{is_missile|}}}| {{br separated entries|1={{{engine|}}}| 2={{{engine_power|}}}}} }}
+
+| label66 = Power/weight
+| data66 = {{#if:{{{is_vehicle|}}}| {{{pw_ratio|}}} }}
+
+| label67 = Payload&nbsp;capacity
+| data67 = {{#if:{{{is_vehicle|}}}| {{{payload_capacity|}}} }}
+
+| label68 = Transmission
+| data68 = {{#if:{{{is_vehicle|}}}| {{{transmission|}}} }}
+
+| label69 = Suspension
+| data69 = {{#if:{{{is_vehicle|}}}| {{{suspension|}}} }}
+
+| label70 = Ground&nbsp;clearance
+| data70 = {{#if:{{{is_vehicle|}}}| {{{clearance|}}} }}
+
+| label71 = Wingspan
+| data71 = {{#if:{{{is_missile|}}}| {{{wingspan|}}} }}
+
+| label72 = Propellant
+| data72 = {{#if:{{{is_missile|}}}| {{{propellant|}}} }}
+
+| label73 = Fuel&nbsp;capacity
+| data73 = {{#if:{{{is_vehicle|}}}| {{{fuel_capacity|}}} }}
+
+| label74 = <div style="line-height:1.25em">Operational<br/>range</div>
+| data74 = {{#if:{{{is_vehicle|}}}{{{is_missile|}}}| {{{vehicle_range|}}} }}
+
+| label75 = Flight ceiling
+| data75 = {{#if:{{{is_missile|}}}| {{{ceiling|}}} }}
+
+| label76 = Flight altitude
+| data76 = {{#if:{{{is_missile|}}}| {{{altitude|}}} }}
+
+| label77 = Boost time
+| data77 = {{#if:{{{is_missile|}}}| {{{boost|}}} }}
+
+| label78 = Maximum depth
+| data78 = {{#if:{{{is_missile|}}}| {{{depth|}}} }}
+
+| label79 = Speed
+| data79 = {{#if:{{{is_vehicle|}}}{{{is_missile|}}}| {{{speed|}}} }}
+
+| label80 = <div style="line-height:1.25em">Guidance<br/>system</div>
+| data80 = {{#if:{{{is_vehicle|}}}{{{is_missile|}}}| {{{guidance|}}} }}
+
+| label81 = <div style="line-height:1.25em">Steering<br/>system</div>
+| data81 = {{#if:{{{is_vehicle|}}}{{{is_missile|}}}| {{{steering|}}} }}
+
+| label82 = Accuracy
+| data82 = {{#if:{{{is_missile|}}}| {{{accuracy|}}} }}
+
+| label83 = <div style="line-height:1.25em">Launch<br/>platform</div>
+| data83 = {{#if:{{{is_missile|}}}| {{{launch_platform|}}} }}
+
+| label84 = Transport
+| data84 = {{#if:{{{is_missile|}}}| {{{transport|}}} }} 
+
+| label85 = <small>References</small>
+| data85 = {{{ref|}}}
+
+}}<noinclude>
+{{Documentation}}
+</noinclude>

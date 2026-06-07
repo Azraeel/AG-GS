@@ -1,0 +1,14 @@
+{{High-use}}
+{{Used in system|in [[MediaWiki:Watchlist-messages]]}}
+== Usage ==
+
+ &#123;{#invoke:{{BASEPAGENAME}}|''function_name''}}
+==See also==
+* {{tl|Spellnum per MOS}}
+* {{tl|Number to word}}
+* [[Module:StripToNumbers]] - extract a number from a string (supports negatives and decimals) and return it, or optionally return a halved value
+
+<includeonly>{{#ifeq:{{SUBPAGENAME}}|sandbox||
+<!-- Categories go here and interwikis go in Wikidata. -->
+[[Category:Modules for general use‎]]
+}}</includeonly>

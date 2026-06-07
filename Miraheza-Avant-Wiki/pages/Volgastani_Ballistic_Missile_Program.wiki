@@ -1,0 +1,76 @@
+The Volgastani Ballistic Missile Program represents the cornerstone of Volgastan's strategic military capabilities, emphasizing long-range precision and advanced explosive technologies. This program incorporates a range of missile systems modeled after proven designs, enhanced with additional range and payload capacities to meet Volgastan's defensive and offensive requirements.
+
+== Missile Systems ==
+
+=== VGS-200R ===
+The VGS-200R is a direct replica of the Soviet UR-200 ICBM, adapted for Volgastani use. It is a versatile missile capable of delivering a variety of warheads over long distances.
+
+- Range: 12,000 km
+
+- Warhead: Conventional or high-explosive
+
+- Payload Capacity: 3,000 kg
+
+=== VGS-100M2 ===
+Modeled after the UR-100N, the VGS-100M2 offers improved reliability and payload flexibility, serving as a key component of Volgastan's strategic arsenal.
+
+- Range: 10,000 km
+
+- Warhead: Conventional or high-explosive
+
+- Payload Capacity: 4,000 kg
+
+=== VNS-110M4 ===
+The VNS-110M4 is based on the R-9 ICBM, enhanced to extend its range by an additional 1,000 km, making it a formidable medium-range ballistic missile.
+
+- Range: 14,000 km
+
+- Warhead**: Conventional or high-explosive
+
+- Payload Capacity: 2,000 kg
+
+=== VNS-90M2 ===
+An upgrade of the R-7 design, the VNS-90M2 provides increased range, making it suitable for both strategic and tactical applications.
+
+- Range: 10,000 km
+
+- Warhead: Conventional or high-explosive
+
+- Payload Capacity: 1,500 kg
+
+=== VAS-700M5 ===
+The VAS-700M5 is an extended-range version of the R-16 ICBM, capable of delivering larger payloads over greater distances.
+
+- Range: 18,000 km
+
+- Warhead: Conventional or high-explosive
+
+- Payload Capacity: 5,000 kg
+
+=== VAS-900M7 ===
+Based on the R-36MUTTKh, the VAS-900M7 incorporates significant enhancements to extend its range and payload capacity, making it the most powerful missile in Volgastan's arsenal.
+
+- Range: 18,000 km
+
+- Warhead: Conventional or high-explosive
+
+- Payload Capacity: 8,800 kg
+
+== Advanced Explosives ==
+
+=== Exalon-75 ===
+Exalon-75 is a cutting-edge high-energy explosive material used in Volgastan's ballistic missile warheads. With an energy density of 7.5 MJ/kg, Exalon-75 offers unparalleled explosive power, significantly enhancing the destructive capability of the missiles it is deployed in.
+
+- Energy Density: 7.5 MJ/kg
+
+- Explosive Yield: Up to 15.77 kilotons for an 8,800 kg payload
+
+=== Octanitrocubane ===
+Octanitrocubane is another advanced explosive utilized in Volgastan's missile program. Known for its high energy density and stability, it is a key component in high-yield conventional warheads.
+
+- Energy Density: 7.0 MJ/kg
+
+- Explosive Yield: Up to 14.72 kilotons for an 8,800 kg payload
+
+== Conclusion ==
+The Volgastani Ballistic Missile Program exemplifies the nation's commitment to maintaining a robust and technologically advanced missile arsenal. Through the integration of advanced missile systems and powerful high-energy explosives like Exalon-75 and Octanitrocubane, Volgastan ensures its strategic military readiness and deterrence capabilities.

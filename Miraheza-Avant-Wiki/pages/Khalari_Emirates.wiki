@@ -1,0 +1,41 @@
+{{Infobox country
+| conventional_long_name = Khalari Emirates
+| common_name            = Khalari Emirates
+| image_flag             = .png
+| flag_width             = 250
+| image_coat             = .png
+| symbol_width           = 150
+| national_motto         = "One Charter, One Shore" <br>
+''Original Translation: "Var Kharto, Var Shari"''
+| national_anthem        = "The Charter Endures"<br>
+''Original Translation: "Al Kharto Nadhar"''
+| capital                = [[Montelara, Khalari Emirates|Montelara]]
+| languages              = Khalarian, Dhali
+| ethnic_groups          = {{unbulleted list |item_style=font-size:95%; | 62.5% [[Khalar]] | 24.5% [[Dhali]] | 11% [[Thanuli]] | 2% Others }}
+| religion = {{unbulleted list|item_style=font-size:95%;| 71% [[Khalari Monotheism]]| 24.5% [[Southern Dhal]]| 4.5% Others }}
+| demonym                = Khalaro
+| government_type        = Federal Constitutional Monarchy
+| leader_title1          = [[Grand Emir of Khalari|Grand Emir]]
+| leader_name1           = Edran Naros
+| legislature            = [[Federal Bicameral Parliament]]
+| upper_house            = [[Khalari Federal Council|Federal Senate]]
+| lower_house            = [[Khalari Federal Assembly|Federal Assembly]]
+| leader_title2          = [[Prime Minister of Khalari|Prime Minister]]
+| leader_name2           = Seran Arna
+| established            = 1979
+| area_km2               = 0
+| area_rank              = 0
+| population_estimate    = {{increase}} 65,200,000
+| currency               = [[Khalari Morad]]
+| time_zone              = [[Khlari Eastern Time|KET]] (UTC+11)
+| drives_on              = right
+| calling_code           = +90
+| iso3166code            = KL
+| cctld                  = .kl
+| p1                     = 
+| flag_p1                = 
+| border_p1              = no
+| flag_p2                = 
+| p2                     = 
+| border_p2              = 
+}}

@@ -1,0 +1,20 @@
+{{Documentation subpage}}
+{{High-use}}
+
+An inline formatting template primarily meant to handle the linewrapping of groupnames in {{tl|Navbox}}es or relatively long entries in infoboxes and sidebars. It reduces the padding between the text and the edge of the cell, minimizing the height of the <code>group</code> parameter.
+
+== Parameters ==
+* {{para|1}} - The item, i.e. the text to display
+* {{para|style}} - Additional [[CSS]] code for styling
+
+== Tracking categories ==
+* {{Category link with count|Pages using Template:Longitem with unnamed style parameter}}
+
+== See also ==
+* {{tl|longlink}}
+
+<includeonly>{{Sandbox other||
+<!-- Categories below this line, please: -->
+[[Category:Inline templates]]
+[[Category:Text-specific formatting and function templates]]
+}}</includeonly>

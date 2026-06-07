@@ -1,0 +1,17 @@
+{{Module other|{{Module rating|p}}}}
+{{High-use|approximately 2050000}}
+{{Lua|Module:Arguments|Module:TableTools|Module:Separated entries}}
+<!-- Please, place template categories where indicated at the bottom of this page. -->
+== Usage ==
+[[Module:Separated entries]] serves as a template front-end to <code>[[mw:Extension:Scribunto/Lua reference manual#mw.text.listToText|mw.text.listToText]]</code>. It takes [[Variadic function|any number]] of positional parameters and [[Concatenation|pieces them together]] with {{Para|separator}}. {{Para|conjunction}} can be optionally defined if a different separator is desired between the last and second last items. The starting positional parameter can be specified using {{Para|start}}. Leading and trailing whitespace is stripped. To add deliberate leading and trailing whitespace, use the HTML escape code <code>&amp;#32;</code> for a space and <code>&amp;#10;</code> for a "newline". Separated entries does not raise any errors by design.
+
+ <nowiki>{{</nowiki>#invoke:{{BASEPAGENAME}}|''main''|separator=...}}
+
+== See also ==
+* {{Template link|Enum}}
+* {{Module link|params}}
+
+<includeonly>{{Sandbox other||
+<!-- Template categories below this line, please. -->
+[[Category:Wikipedia metatemplates]]
+}}</includeonly>

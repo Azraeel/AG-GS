@@ -1,0 +1,12 @@
+/* {{pp-template}} */
+@media screen {
+  html.skin-theme-clientpref-night .infobox-has-images-with-white-backgrounds img {
+      background: white;
+  }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  html.skin-theme-clientpref-os .infobox-has-images-with-white-backgrounds img {
+      background: white;
+  }
+}

@@ -1,0 +1,62 @@
+{{Documentation subpage}}
+{{lua|Module:Suppress categories}}
+{{template shortcut|strip categories|suppresscats|stripcats|supcat}}
+<!-- Categories go at the bottom of this page and interwikis go in Wikidata. -->
+
+This template strips [[Help:Category|categories]] from [[Help:Wiki markup|wikitext]]. For example, if passed the code "<code><nowiki>foo[[Category:Some category]]</nowiki></code>", it will return only "<code>foo</code>". It can be used to strip categories from templates as well; if passed the code "<code><nowiki>{{my template}}</nowiki></code>", it will return the template output minus the categories.
+
+The template properly handles categories escaped with the [[Help:Colon trick|colon trick]], categories whose names include invalid characters such as "<code>></code>", and categories that are surrounded with [[WP:NOWIKI|nowiki]] tags. However, it does not support complex wikitext such as nested links or [[WP:MAGIC|magic words]] like <code><nowiki>__TOC__</nowiki></code>. Even so, it should still remove the vast majority of categories from any given wikitext.
+
+== Usage ==
+
+<syntaxhighlight lang="wikitext">{{suppress categories|''input text''}}</syntaxhighlight>
+
+== Examples ==
+
+{| class="wikitable"
+! Code
+! Output
+|-
+| <code><nowiki>{{suppress categories|foo}}</nowiki></code>
+| {{suppress categories|foo}}
+|-
+| <code><nowiki>{{suppress categories|foo[[Category:Some category]]}}</nowiki></code>
+| {{suppress categories|foo[[Category:Some category]]}}
+|-
+| <code><nowiki>{{suppress categories|foo[[Category:Some category]]bar[[Category:Another category]]}}</nowiki></code>
+| {{suppress categories|foo[[Category:Some category]]bar[[Category:Another category]]}}
+|-
+| <code><nowiki>{{suppress categories|foo{{{some_parameter|[[Category:Bar]]}}}}}</nowiki></code>
+| {{suppress categories|foo{{{some_parameter|[[Category:Bar]]}}}}}
+|-
+| <code><nowiki>{{suppress categories|foo[[Category:Bad ca[]tegory link]]}}</nowiki></code>
+| {{suppress categories|foo[[Category:Bad ca[]tegory link]]}}
+|-
+| <code><nowiki>{{suppress categories|foo[[:Category:Colon trick]]}}</nowiki></code>
+| {{suppress categories|foo[[:Category:Colon trick]]}}
+|-
+| <code><nowiki>{{suppress categories|foo[[Category:Piped link|bar]]}}</nowiki></code>
+| {{suppress categories|foo[[Category:Piped link|bar]]}}
+|-
+| <code><nowiki>{{suppress categories|foo[[Category:Piped link|ba[]r]]}}</nowiki></code>
+| {{suppress categories|foo[[Category:Piped link|ba[]r]]}}
+|-
+| <code><nowiki>{{suppress categories|foo[[non-category link]]}}</nowiki></code>
+| {{suppress categories|foo[[non-category link]]}}
+|-
+| <code><nowiki>{{suppress categories|foo[[ Category : Some category with spaces ]]}}</nowiki></code>
+| {{suppress categories|foo[[ Category : Some category with spaces ]]}}
+|-
+| <code><nowiki>{{suppress categories|{{User alternative account name|Example}}}}</nowiki></code>
+| {{suppress categories|{{User alternative account name|Example}}}}
+|-
+|}
+
+== See also ==
+
+* [[Wikipedia:Category suppression]]
+
+<includeonly>{{Sandbox other||
+<!-- Categories go here, and interwikis go in Wikidata -->
+[[Category:Wikipedia categorization|τSuppress categories]]
+}}</includeonly>

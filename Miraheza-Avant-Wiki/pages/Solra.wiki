@@ -1,0 +1,228 @@
+= Solra =
+
+'''Solra''' ({{lang|sol|𐍖𐰇𐰴𐰤}}), known as the '''Elder Tongue''', is the ceremonial and liturgical language of [[Solara]]. It is an archaic, prestige idiom reserved for state decrees, temple liturgy, and the most formal acts of diplomacy. The language is entirely distinct from the everyday Solaran vernacular and is noted for its ornate, non‑Latin script, its vast vowel inventory, and a grammar that is elaborate yet internally regular. Mastery of the Elder Tongue is traditionally regarded as a prerequisite for entry into Solara's priesthood, royal bureaucracy, and scholarly orders.
+
+== History ==
+
+Linguistic tradition places the codification of the Elder Tongue in the early dynastic era, when Solara's first sun‑temples sought a unified medium for astronomy, ritual calendars, and legal canons. Over subsequent centuries the spoken form fossilised: while the popular dialect continued to evolve, the ceremonial register was deliberately safeguarded by scribal colleges, giving the language its present air of antiquity and difficulty.
+
+== Phonology ==
+
+The Elder Tongue possesses '''16 consonant phonemes'''—including the uvular stop /q/, a voiceless lateral fricative /ɬ/, and a glottal stop /ʔ/—and an extraordinary '''41 phonemic vowels''' distinguished by height, backness, rounding, nasalisation, and length. This spectrum of vowel quality produces the language's characteristic "sung" resonance during chanted recitations. Stress is fixed on the initial syllable of a lexical word.
+
+== Script ==
+
+All texts are written in a right‑to‑left abugida comprising '''31 symbols''':
+* '''16 base glyphs''' represent consonants carrying an inherent neutral vowel
+* '''15 secondary signs'''—drawn as dots, hooks, wedges or tiny crosses—modify the base glyphs to express the full range of vowels, mark length, create diphthongs, or suppress the default vowel for true consonant clusters
+
+Because several vowel phonemes share a single diacritic, correct pronunciation must be learned from context or tradition, reinforcing the script's esoteric reputation. The graphic style favours broken symmetry, sweeping curves, and angular forks, intentionally avoiding any resemblance to Latin, Cyrillic, or other real‑world alphabets.
+
+=== Diacritic System ===
+
+{| class="wikitable"
+|+ Diacritic System
+! Mark #
+! Placement
+! Shape description
+! Values
+|-
+| ①
+| above
+| small filled circle
+| /a, aː/
+|-
+| ②
+| above
+| hollow circle
+| /ɑ/
+|-
+| ③
+| above
+| tiny crescent open right
+| /i, iː/
+|-
+| ④
+| above
+| tiny crescent open left
+| /ɪ/
+|-
+| ⑤
+| above
+| small V‑tick
+| /u, uː/
+|-
+| ⑥
+| above
+| shallow ∧ wedge
+| /ʉ, y/
+|-
+| ⑦
+| above
+| dot + tail (looks like ⟡)
+| /e, eː/
+|-
+| ⑧
+| above
+| tiny zig ( ∿ )
+| /ɛ/
+|-
+| ⑨
+| below
+| short vertical stroke
+| /o, oː/
+|-
+| ⑩
+| below
+| short hook left
+| /ɔ/
+|-
+| ⑪
+| below
+| minute loop
+| nasalised vowel set (/ã ẽ õ/)
+|-
+| ⑫
+| beside‑left
+| horizontal dash
+| lengthen preceding vowel
+|-
+| ⑬
+| beside‑left
+| double dash
+| diphthong glide /w/
+|-
+| ⑭
+| beside‑right
+| single upward tick
+| diphthong glide /j/
+|-
+| ⑮
+| below
+| small × cross
+| null‑vowel (kills inherent vowel)
+|}
+
+=== Consonant Base Glyphs ===
+
+{| class="wikitable"
+|+ Consonant Base Glyphs
+! Glyph
+! Name
+! Description
+! Example
+|-
+| ①
+| qar
+| long stem then hook left
+| 𐍖
+|-
+| ②
+| sul
+| tall L ends in claw‑tip
+| 𐰇
+|-
+| ③
+| ḷyx
+| twin forks merging under‑hook
+| 𐰴
+|-
+| ④
+| khu
+| twin peaks joined by short tie
+| 𐰤
+|-
+| ⑤
+| phet
+| J‑hook open R→
+| 𐱂
+|-
+| ⑥
+| sha
+| split arc two arms
+| 𐰤
+|-
+| ⑦
+| rut
+| peak + tail falls
+| 𐱈
+|-
+| ⑧
+| mau
+| river‑s fluid
+| ⸍
+|-
+| ⑨
+| nah
+| rising L then foot
+| 𐰇
+|-
+| ⑩
+| zen
+| spiral
+| 𐰴
+|-
+| ⑪
+| wūr
+| hook‑zigzag
+| 𐰤
+|-
+| ⑫
+| thlë
+| peak‑spray
+| 𐱂
+|-
+| ⑬
+| ŋor
+| tight curl loop
+| 𐰤
+|-
+| ⑭
+| xaʔ
+| wave‑bar
+| 𐱈
+|-
+| ⑮
+| lym
+| branching Y‑twig
+| ⸍
+|-
+| ⑯
+| ʔa
+| closed dot ring
+| 𐰇
+|}
+
+== Grammar ==
+
+Word order is '''subject–object–verb''' by default, though extensive case marking allows poetic inversion. Nouns inflect for '''five cases'''—nominative, accusative, genitive, dative‑locative, and instrumental—and for singular, plural, and an archaic dual. Verbs conjugate with prefixed tense markers (recent past, remote past, present, future) and suffixed agreement endings that indicate person and number; optional optative and imperative forms appear in prayers and royal edicts. Aspect is inferred contextually or via adverbs, keeping verbal paradigms manageable compared with the language's complexity in other domains. Postpositions follow noun phrases, and equative sentences frequently omit the verb "to be," lending inscriptions a lapidary quality.
+
+== Sociolinguistic Role ==
+
+The Elder Tongue functions as Solara's liturgical and ceremonial standard. Statutory law, coronation oaths, celestial almanacs, and temple hymns are all composed in this register. Literacy in the script is limited to roughly ten percent of the population—chiefly clergy, nobles, and archivists—while spoken proficiency is rarer still. Modern Solaran borrows prestige vocabulary from the Elder Tongue (especially for science, jurisprudence, and art), yet the classical grammar remains intact and resistant to simplification.
+
+== Example ==
+
+> 𐍖𐰇𐰴 𐱂̣𐰤 𐱈⸍   
+> *Ara haloim isanur* — "Glory to the Eternal Sun."
+
+Here the base glyphs (right to left) are overlaid with vowel diacritics; the final cluster carries a dative ending to express the sense "unto the Sun."
+
+== Present Status ==
+
+The Solaran government maintains an Academy of the Elder Tongue that issues orthographic standards, compiles dictionaries, and trains calligraphers. While proposals to simplify the script arise periodically, such reforms are invariably rejected on the grounds that the language's very difficulty symbolises Solara's continuity with its mythic past and the discipline required to serve the Sun Throne.
+
+== See Also ==
+* [[Solaran Language]]
+* [[Sonism]]
+* [[Solaran Culture]]
+* [[Solaran Education]]
+
+== References ==
+* [[Solaran Academy of the Elder Tongue]] (2009). "The Complete Guide to Solra"
+* [[Solaran Temple Archives]] (2008). "Liturgical Texts in the Elder Tongue"
+* [[Solaran Royal College]] (2007). "Ceremonial Language in State Affairs"
+* [[Solaran Scriptorium]] (2009). "Calligraphic Standards of the Elder Tongue"
+
+[[Category:Languages]]
+[[Category:Solara]]

@@ -1,0 +1,23 @@
+{{#if:{{NAMESPACE}}||
+  {{#if:{{{1|}}} 
+  | {{#if:{{#property:P18}}
+    | {{#ifeq:{{filepath:{{{1|}}} }}|{{filepath:{{#property:P18}} }}
+      | 
+      | 
+      }}
+    | {{#if:{{#property:P41}}{{#property:P94}}{{#property:P117}}{{#property:P154}}{{#property:P242}}
+      | 
+      | 
+      }}
+    }}
+  | {{#if:{{#property:P18}}
+    | {{#if:{{{2|}}} 
+      | 
+      | [[Category:No local image but image on Wikidata]] 
+     }}
+    | 
+    }}
+  }}
+}}<noinclude>
+{{doc}}
+</noinclude>

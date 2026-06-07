@@ -1,0 +1,176 @@
+{{Infobox military conflict
+| conflict          = Bakorian War
+| partof            = [[Astorian Expansion Era]]
+| image             = 
+| caption           = 
+| date              = 1931–1935
+| place             = [[Bakorian Republic]], [[Viridia]]
+| result            = Decisive Astorian victory, resulting in the annexation of eastern Bakoria including [[Azmetan]], the establishment of Astorian military dominance in northern Viridia, which triggered the [[Pesteran-Astorian War]] and led to increased [[Northern Alliance]] support for regional powers
+| territory         = Eastern Bakoria annexed by Astoria
+| combatant1        = {{ubl
+  |[[File:Astoria.png|25px]] [[Legion of Astoria]]
+  |[[Vanguard Order]]
+  |[[Janissary Corps]]
+  |[[Mobile Defense Forces]]
+}}
+| combatant2        = {{ubl
+  |[[Bakorian Republic]]
+  |'''Covert Support:'''
+  |[[Northern Alliance]]
+  |[[Imperial Rhovland]]
+  |[[Theorin Commonwealth]]
+  |[[Federation of Vinterholm]]
+  |[[Kingdom of Rosenburg]]
+}}
+| commander1        = {{ubl
+  |[[Lord Commander]] [[Ahmet Veil]]
+  |General Ibrahim Kaynarca
+  |Admiral Selim Pasha
+}}
+| commander2        = {{ubl
+  |President Mikhail Kovac
+  |General Stefan Dragomir
+  |Admiral Ivan Petrov
+}}
+| strength1         = 1.2 million troops
+| strength2         = 800,000 troops
+| casualties1       = 350,000+ military casualties
+| casualties2       = 500,000+ military casualties<br>200,000+ civilian casualties
+}}
+
+The '''Bakorian War''' (1931-1935) was a major military conflict between the [[Legion of Astoria]] and the [[Bakorian Republic]] that resulted in significant territorial changes and shifted the balance of power in northern [[Viridia]]. The war marked a crucial turning point in regional history, demonstrating Astoria's military superiority and the effectiveness of its [[Vanguard Order]], while also highlighting the limitations of the [[Northern Alliance]]'s ability to protect its allies during this period.
+
+The conflict began after decades of growing tensions between Astoria's expanding military influence and Bakoria's efforts to maintain its independence. The war was characterized by large-scale military operations, innovative tactics, and significant civilian casualties. It ended with Astoria's decisive victory and the annexation of eastern Bakoria, including the strategic city of [[Azmetan]].
+
+The war's outcome had far-reaching consequences, leading directly to the [[Pesteran-Astorian War]] and influencing the military policies of nations throughout the region. It also marked a significant failure for the [[Northern Alliance]], which had provided covert support to Bakoria but was unable to prevent its defeat.
+
+== Background ==
+
+=== Naming ===
+The conflict is officially known as the Bakorian War in most historical records, though it has been referred to by various names. In Astorian military documents, it was often called the "Eastern Campaign" or "Operation Steel Dawn." Bakorian sources typically refer to it as the "Great Patriotic War" or "War of National Defense."
+
+=== Historical Context ===
+The roots of the conflict trace back to the early 19th century, when both Astoria and Bakoria emerged from the collapse of the [[Arashiyun Caliphate]] and [[Mamoonid Caliphate]]. Initially, both nations shared a common history of resistance against caliphal rule and maintained cooperative relations. However, their paths diverged significantly after Astoria's transformation into a stratocracy in 1834 under General Mustafa Kaynarca.
+
+The establishment of Astoria's military government and the creation of the [[Vanguard Order]] marked a fundamental shift in regional dynamics. While Bakoria maintained its republican system and sought to develop peaceful relations with its neighbors, Astoria increasingly viewed its military power as a tool for territorial expansion and resource acquisition.
+
+=== Military Preparations ===
+By the late 1880s, under Lord Commander Ahmet Veil, Astoria had implemented its [[Forward Defense Doctrine]], which justified military expansion as necessary for national security. This led to the establishment of forward military bases along the Bakorian border and increased military presence in contested regions.
+
+The Bakorian Republic, concerned by these developments, sought support from the [[Northern Alliance]]. From the 1870s through the 1920s, alliance members including [[Imperial Rhovland]], [[Theorin Commonwealth]], [[Federation of Vinterholm]], and [[Kingdom of Rosenburg]] provided military supplies, equipment, and training to Bakoria. However, by the late 1920s, the Northern Alliance's focus had shifted to preparing for potential conflict with the [[Vesperan Empire]], limiting their ability to support Bakoria effectively.
+
+=== Order of Battle ===
+The Astorian forces were organized into three main army groups:
+* Northern Army Group (commanded by General Ibrahim Kaynarca)
+  - 3rd Janissary Corps ("Kara Şahin")
+  - 7th Infantry Division
+  - 12th Infantry Division
+  - 15th Armoured Division
+  - 1st Air Wing
+* Central Army Group (commanded by Lord Commander Ahmet Veil)
+  - 1st Janissary Corps ("Kılıç Ustaları")
+  - 5th Infantry Division
+  - 9th Mechanized Division
+  - 11th Mechanized Division
+  - 2nd Air Wing
+* Southern Army Group (commanded by Admiral Selim Pasha)
+  - 2nd Janissary Division
+  - 4th Infantry Division
+  - 8th Armoured Division
+  - 14th Infantry Division
+  - 3rd Air Wing
+
+The Bakorian forces were organized into:
+* Western Defense Command (commanded by General Stefan Dragomir)
+  - 1st Bakorian Army ("Western Shield")
+  - 3rd Bakorian Army
+  - 1st Bakorian Air Fleet
+* Eastern Defense Command (commanded by Admiral Ivan Petrov)
+  - 2nd Bakorian Army
+  - 4th Bakorian Army
+  - 2nd Bakorian Air Fleet
+  - Coastal Defense Fleet
+
+== Course of the War ==
+
+=== Initial Phase (1931) ===
+The war began with a massive Astorian offensive along multiple fronts, utilizing the elite [[Janissary Corps]] for rapid penetration into Bakorian territory while the [[Mobile Defense Forces]] secured captured areas. The Astorian air wings provided crucial reconnaissance and close air support during the initial advances. The Bakorian military, despite years of Northern Alliance training and equipment, was caught off guard by the scale and sophistication of the Astorian attack.
+
+The initial phase was marked by three major engagements that set the tone for the conflict. The [[Battle of the Northern Plains]] in March 1931 demonstrated Astoria's superior military capabilities and tactical prowess. This was followed by the [[Siege of Kovacgrad]] from April to June 1931, which tested both sides' resolve and resources. The [[Battle of the Eastern Corridor]] in July and August 1931 further consolidated Astorian gains and demonstrated their strategic advantages.
+
+=== Middle Phase (1932-1933) ===
+The middle phase of the war was characterized by Bakorian attempts to stabilize their defensive lines while conducting guerrilla operations against Astorian supply lines. Air superiority became a crucial factor as both sides engaged in aerial reconnaissance and ground support missions. The Northern Alliance provided covert support through arms shipments and military advisors, but their assistance was limited by their focus on the growing Vesperan threat.
+
+This period saw several significant operations that would shape the war's outcome. The [[Defense of the Mountain Passes]] throughout 1932 showcased Bakorian resilience and tactical innovation. The [[Campaign of the Three Rivers]] spanning 1932-1933 demonstrated the complexity of modern warfare and logistics. The [[Battle of the Southern Highlands]] in 1933 proved to be a turning point in Astorian strategic thinking.
+
+=== Final Phase (1934-1935) ===
+The war's final phase centered on the [[Battle for Azmetan]], which would prove decisive. The city's strategic location and industrial capacity made it a crucial objective for both sides. Lord Commander Ahmet Veil personally led the Astorian forces in what would become one of the most significant urban battles of the era.
+
+The fall of Azmetan in early 1935 effectively ended Bakorian resistance, though scattered fighting continued for several months. The war officially concluded with the [[Treaty of Bokevrek]] in late 1935, which formalized Astoria's annexation of eastern Bakoria.
+
+== Military Operations ==
+
+=== Strategy and Tactics ===
+The war showcased the effectiveness of Astoria's military doctrine and the capabilities of its elite forces. The Astorian approach emphasized rapid, coordinated attacks by the Janissary Corps, complemented by the Mobile Defense Forces' ability to secure and consolidate gains. Their strategy integrated air and naval power with ground operations, supported by advanced logistics and supply chain management. The Astorians also demonstrated exceptional prowess in intelligence and counter-intelligence operations.
+
+In response, the Bakorians adopted a defensive strategy focusing on natural barriers and fortified positions, while employing guerrilla warfare tactics in occupied territories. They made consistent efforts to disrupt Astorian supply lines and coordinated closely with Northern Alliance military advisors. The Bakorian response also included significant civilian mobilization and resistance movements, though these proved insufficient to turn the tide of the war.
+
+== International Response ==
+
+=== Northern Alliance Involvement ===
+The Northern Alliance's response to the conflict was significantly constrained by several interconnected factors. Their primary focus on the growing Vesperan threat diverted crucial resources and attention away from the Bakorian conflict. Limited military resources further hampered their ability to provide substantial aid, while internal disagreements over the extent of intervention created additional obstacles. The alliance also harbored serious concerns about direct confrontation with Astoria, which influenced their cautious approach to support.
+
+Despite these limitations, alliance members managed to provide significant material support to Bakoria throughout the conflict. This assistance included substantial military equipment and supplies, comprehensive training programs for Bakorian forces, vital intelligence sharing, and persistent diplomatic support in international forums. However, this level of support, while significant, ultimately proved insufficient to prevent Bakoria's defeat against the superior Astorian military machine.
+
+=== Regional Impact ===
+The war's effects on regional politics and military planning were profound and far-reaching. Astoria's decisive victory demonstrated their unmatched military superiority in the region, while simultaneously exposing the limitations of Northern Alliance support mechanisms. This realization prompted widespread military modernization programs among neighboring states, leading to increased regional militarization as nations sought to protect themselves against potential Astorian expansion. Perhaps most significantly, the conflict's outcome directly triggered the subsequent [[Pesteran-Astorian War]], further destabilizing the region.
+
+== Consequences ==
+
+=== Territorial Changes ===
+The [[Treaty of Bokevrek]] (1935) formalized Astoria's annexation of eastern Bakoria, including the industrial center of Azmetan. The treaty established demilitarized zones along the new borders and imposed military restrictions on Bakoria.
+
+=== Military Impact ===
+The war validated Astoria's Forward Defense Doctrine and demonstrated the effectiveness of their military organization. The Northern Alliance initiated military modernization programs in response, while Bakoria underwent comprehensive military reforms. The conflict highlighted the growing importance of urban warfare and elite military units.
+
+=== Political Effects ===
+The war cemented Astoria's position as the dominant military power in the region while undermining confidence in Northern Alliance security guarantees. This led to increased militarization among neighboring states and directly contributed to the outbreak of the [[Pesteran-Astorian War]].
+
+=== Economic and Social Impact ===
+The conflict caused extensive civilian casualties and displacement, severe industrial infrastructure destruction, and widespread economic disruption. Occupied territories experienced significant demographic changes as populations adjusted to new political realities.
+
+== See Also ==
+[[Legion of Astoria]]
+[[Bakorian Republic]]
+[[Northern Alliance]]
+[[Vanguard Order]]
+[[Pesteran-Astorian War]]
+[[Forward Defense Doctrine]]
+[[Ahmet Veil]]
+[[Battle for Azmetan]]
+[[Treaty of Bokevrek]]
+
+== References ==
+=== Notes ===
+<references group="note"/>
+
+=== Citations ===
+{{reflist}}
+
+=== Bibliography ===
+* {{cite book |last=Veil |first=Ahmet |title=The Eastern Campaign: Military Memoirs |year=1940 |publisher=Astorian Military Press |location=[[Azmetan]]}}
+* {{cite book |last=Kovac |first=Mikhail |title=The Fall of Bakoria: A President's Account |year=1938 |publisher=Bakorian Historical Society |location=[[Kovacgrad]]}}
+* {{cite book |last=Kaynarca |first=Ibrahim |title=Forward Defense: The Astorian Military Doctrine |year=1936 |publisher=Astorian Military Press |location=[[Azmetan]]}}
+* {{cite book |last=Dragomir |first=Stefan |title=The Defense of Bakoria: Military Analysis |year=1937 |publisher=Northern Alliance Military Review |location=[[Rhovland]]}}
+
+=== Further Reading ===
+* {{cite book |last=Petrov |first=Ivan |title=Naval Operations in the Bakorian War |year=1939 |publisher=Bakorian Naval Institute |location=[[Kovacgrad]]}}
+* {{cite book |last=Pasha |first=Selim |title=The Janissary Corps: Elite Forces in Modern Warfare |year=1941 |publisher=Astorian Military Press |location=[[Azmetan]]}}
+* {{cite book |last=Northern Alliance Military Command |title=Analysis of the Bakorian Conflict |year=1936 |publisher=Northern Alliance Press |location=[[Rhovland]]}}
+
+[[Category:Wars]]
+[[Category:Military History]]
+[[Category:Bakorian History]]
+[[Category:Astorian History]]
+[[Category:20th Century Conflicts]]
+[[Category:Northern Alliance]]

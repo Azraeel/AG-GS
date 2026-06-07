@@ -1,0 +1,51 @@
+{{ {{{|safesubst:}}}#invoke:Unsubst||date=__DATE__ |$B=
+{{#ifexpr:{{#expr:{{#iferror:{{#time:U|{{{date}}}}}|2000000000}}>=1341100800}}*{{#if:{{{reason|<noinclude>x</noinclude>}}}|0|1}}*{{#ifeq:{{{nocat}}}|true|0|1}}
+ |{{error|1=You must add a {{para|reason}} parameter to this Cleanup template – replace it with <code><nowiki>{{Cleanup|</nowiki>{{#if:{{{1|}}}|{{{1|}}}{{!}}|}}{{#if:{{{date|}}}|<nowiki>date=</nowiki>{{{date|}}}{{!}}}}<nowiki>reason=<Fill reason here>}}</nowiki></code>, or remove the Cleanup template.<br style="clear:both;">
+}}{{Category handler
+  |nocat    = {{{nocat|}}}
+  |main     = {{DMC|Cleanup tagged articles without a reason field|from|{{{date|}}}}}
+ }}
+ |{{main other
+  |{{ambox
+   | name  = Cleanup
+   | subst = <includeonly>{{subst:</includeonly><includeonly>substcheck}}</includeonly>
+   | type  = style
+   | class = ambox-Cleanup
+   | small = {{{small|}}}
+   | sect  = {{{1|}}}
+   | issue = may '''require [[Constructed Worlds:Cleanup|cleanup]]''' to meet the Constructed Worlds Wikis [[Constructed Worlds:Manual of Style|quality standards]]. {{#if:{{{2|{{{reason|}}}}}}
+    |The specific problem is: '''{{Terminate sentence|{{{2|{{{reason}}}}}}}}'''
+   }}
+   | talk  = {{{talk|{{{talksection|}}}}}}
+   | fix   = {{#if:{{{2|{{{reason|}}}}}}|
+    |No [[Template:Cleanup/doc|cleanup reason]] has been specified.
+   }} Please help [{{fullurl:{{FULLPAGENAME}}|action=edit}} improve this {{{1|{{SUBJECTSPACE formatted}}}}}] if you can.
+   | removalnotice = yes
+   | date  = {{{date|}}}
+   | cat   = Articles needing cleanup
+   | all   = All pages needing cleanup
+   | cat2  = Cleanup tagged articles with{{#if:{{{2|{{{reason|}}}}}}||out}} a reason field
+  }}
+  |{{mbox
+   | demospace = {{{demospace|}}}
+   | type      = style
+   | text      = This {{{1|{{SUBJECTSPACE formatted}}}}} '''may require [[Constructed Worlds:Cleanup|cleanup]] to meet the Constructed Worlds Wiki's [[Constructed Worlds:Manual of Style|quality standards]]'''.  {{#if:{{{2|{{{reason|}}}}}}
+    |The specific problem is: '''{{Terminate sentence|{{{2|{{{reason}}}}}}}}'''
+    |No [[Template:Cleanup/doc|cleanup reason]] has been specified.
+   }} Please help [{{fullurl:{{FULLPAGENAME}}|action=edit}} improve this {{{1|{{SUBJECTSPACE formatted}}}}}] if you can{{#ifeq:{{SUBJECTSPACE}}|{{NAMESPACE}}
+    |&#59; the [[{{TALKPAGENAME}}{{#if:{{{talksection|}}}|&#35;{{{talksection}}}}}|talk page]] may contain suggestions.
+    |.
+   }}
+  }}
+ | demospace = {{{demospace|<noinclude>main</noinclude>}}}
+ }}{{Category handler
+  |page     = {{SUBJECTPAGENAME}}
+  |nocat    = {{{nocat|}}}
+  |category = {{DMC|Constructed Worlds categories needing cleanup|from|{{{date|}}}}}
+  |template = {{#ifeq:{{#titleparts:{{FULLPAGENAME}}|1}}|Template:Cleanup||{{DMC|Constructed Worlds templates needing cleanup|from|{{{date|}}}}}}}
+  |other    = {{DMCA|Constructed Worlds pages needing cleanup|from|{{{date|}}}}}
+ }}
+}}
+}}<noinclude>
+{{Documentation}}
+</noinclude>

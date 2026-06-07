@@ -1,0 +1,29 @@
+
+
+==Vehicles==
+===Light tanks===
+{| class='wikitable sortable'
+! Image
+! Manufacturer
+! Designation
+! Type
+! Country of Origin
+! Operators
+! Notes
+|-
+| [[File:M551 sheridan.jpg|150px]]
+| TBD
+| M551 Sheridan
+| Amphibious light tank
+| {{Flag|Solara}}
+| TBD
+| Limited use
+|-
+| 
+| TBD
+| M560 Rowan [HSTVL]
+| Light tank
+| 
+| TBD
+| Limited use
+|-

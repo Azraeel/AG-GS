@@ -1,0 +1,12 @@
+{{Infobox officeholder
+| name                = Jane Pensworth
+| image               = Janepensworth.jpg
+| width               = 250
+| birth_date          = June 15th, 1877
+| death_date          = December 11th, 1969
+| awards              = National Solaran Writers Award
+| caption             = Jane Pensworth in 1901.
+.
+}}
+
+'''Jane Pensworth''' was a renowned Solarian writer n the early 20th century she gained fame for her book series titled "[[A Wild World]]." She commenced writing the series in 1897, and the first book was published in 1901.

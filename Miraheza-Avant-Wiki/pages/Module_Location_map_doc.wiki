@@ -1,0 +1,35 @@
+{{Module rating|protected}}
+<!-- Categories go at the bottom of this page and interwikis go in Wikidata. -->
+{{High-use}}
+{{Lua|Module:Arguments}}
+{{Uses TemplateStyles|Module:Location map/styles.css}}
+
+== Usage ==
+
+This module implements the {{tl|Location map}} and {{tl|Location map~}} templates. Please see the template pages for usage instructions.
+
+== Known issues ==
+Since the introduction of support for different captions when multiple maps are utilized, an issue has been highlighted.<br />
+Some infobox templates use their caption parameter directly instead of passing it to this module. This results in the display of a "##" between the two captions.<br />
+If you are unable to edit the infobox template, contact {{u|Bellezzasolo}}.
+
+== Tracking/maintenance categories ==
+* [[:Category:Location maps with possible errors|Category:Location maps with possible errors]]
+** {{clc|Location maps with different longitude and latitude precisions}}
+** {{clc|Location maps with marks outside map and outside parameter not set}}
+** {{clc|Location maps with a name containing a pipe‎}}
+** {{clc|Location maps with removed parameters‎}}
+** {{clc|Location maps with negative degrees and minutes or seconds}}
+* Tracking for a change (see talk): {{clc|Pages using location map with a double number sign in the caption}}
+
+== See also ==
+* [https://en.wikipedia.org/wiki/Special:PrefixIndex?prefix=Location+map&namespace=828 All Module: pages beginning with "Location map"]
+* [[Module:Location map/info]]
+* [[Module:Location map/multi]]
+
+<includeonly>{{#ifeq:{{SUBPAGENAME}}|sandbox||
+<!-- Categories go here and interwikis go in Wikidata. -->
+[[Category:Location map modules]]
+[[Category:Modules that add a tracking category]]
+
+}}</includeonly>

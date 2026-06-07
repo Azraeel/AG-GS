@@ -1,0 +1,49 @@
+'''{{W|Discord (software)|Discord}}''' ([https://discord.gg official website]) is a real-time chatting platform. The Avant-Garde Wiki officially operates and maintains a server as an additional service to its central operations on Miraheze.
+
+==Join==
+
+The Constructed Worlds Wiki's official Discord server is located '''[https://discord.gg/67ukxm9P here]'''. You must have a Discord account with a verified e-mail to join. Upon joining, you will be brought to a welcome channel where you may self-authenticate yourself if you have a registered account on Miraheze. 
+==Bots==
+
+*Ballsdex
+*DISBOARD
+*Mee6
+*Dyno
+*Tupperbox
+*Uzox
+*YAGPDB.xyz
+*zuki.gm
+
+==Rules and ops==
+
+A copy of the Discord's servers are available at [[Avant Garde Official:Discord/Rules|Discord/Rules]].
+
+Users with sysop privileges on the wiki automatically have ops status on the Discord server, either as administrator or moderator.
+
+==Verification==
+
+To verify your Discord account, type <code>.auth</code> when you join and follow the instructions that are sent to you via direct message.
+
+==Categories and channels==
+
+===Administration===
+
+*<code>#annoucement</code> – announcements regarding the server and updates on the wiki, as well as updates from other select servers
+
+===General===
+
+*<code>#main</code> – general discussion related to the Avant Garde official and its community, as well as off-topic discussion
+
+===Misc===
+
+*<code>#shitpost</code> – memes and shitposting content
+*<code>#debates-and-politics</code> – politics and news discussion/debate
+*<code>#wiki-hub - post the article related to AG Wiki
+
+===Archived===
+
+TBA
+
+===Deleted===
+
+TBA

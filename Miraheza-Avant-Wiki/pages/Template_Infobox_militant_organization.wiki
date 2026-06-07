@@ -1,0 +1,169 @@
+{{infobox
+| child      = {{#ifeq:{{lc:{{{child|{{{embed|}}}}}} }}|yes|yes}}
+| bodyclass  = vcard
+| aboveclass = fn org
+| above      = {{#ifeq:{{lc:{{{embed|}}}}}|yes|| {{{name|<includeonly>{{PAGENAMEBASE}}</includeonly>}}} }}
+| abovestyle = background-color: #DEDFDE;
+
+| subheader      = {{#if:{{{native_name|}}} |<span class="nickname" {{#if:{{{native_name_lang|}}}|lang="{{{native_name_lang}}}"}}>{{{native_name}}}</span>}}
+
+| imageclass = logo
+| imagestyle = {{#if:{{{caption|}}}|border-bottom: 1px solid #aaa}}
+| image      = {{#invoke:InfoboxImage|InfoboxImage|image={{{image|{{{logo|}}}}}}|size={{{image_size|{{{logo_size|}}}}}}|sizedefault=200px|alt={{{image_alt|}}}}}
+| caption    = {{{caption|}}}
+
+| label2  = Also known as
+|  data2  = {{{other_name|}}}
+| class2  = nickname
+
+| label3  = {{#if:{{{founders|}}}|Founders|Founder}}
+| data3   = {{{founders|{{{founder|}}}}}}
+
+| label4  = Founding leader
+| data4   = {{{founding_leader|}}}
+
+| label5  = {{#if:{{{leader_title|}}}|{{{leader_title}}}|{{#if:{{{leaders|}}}|Leaders|Leader}}}}
+|  data5  = {{#if:{{{leaders|}}}|{{{leaders}}}|{{{leader|}}}}}
+| class5  = agent
+
+| label6  = Military leader
+| data6   = {{{military_leader|}}}
+| label7  = Political leader
+| data7   = {{{political_leader|}}}
+| label8  = {{{leader1_title|}}}
+| data8   = {{{leader1_name|}}}
+| label9  = {{{leader2_title|}}}
+| data9   = {{{leader2_name|}}}
+| label10 = {{{leader3_title|}}}
+| data10  = {{{leader3_name|}}}
+| label11 = {{{leader4_title|}}}
+| data11  = {{{leader4_name|}}}
+| label12 = {{#if:{{{spokesperson|}}}|Spokesperson|Spokesman}}
+| data12  = {{{spokesperson|{{{spokesman|}}}}}}
+
+| label14 = Foundation
+|  data14 = {{{foundation|}}}
+
+| label15  = {{nowrap|Dates of operation}}
+|  data15  = {{{dates|{{{active|}}}}}}
+
+| label16  = Dissolved
+|  data16  = {{{dissolved|{{{dissolution|}}}}}}
+
+| label17  = Merger&nbsp;of
+|  data17  = {{{merger|}}}
+
+| label18  = Split from
+|  data18  = {{{split|{{{split_from|}}}}}}
+
+| label19  = Merged into
+|  data19  = {{{merged|{{{merged_into|}}}}}}
+
+| label20 = Split to
+| data20  = {{{split_to|}}}
+
+| label30 = Country
+|  data30 = {{{country|}}}
+
+| label31 = Allegiance
+|  data31 = {{{allegiance|}}}
+
+| label37  = Group(s)
+| data37   = {{{clans|}}}
+
+| label42 = Motives
+|  data42 = {{{motives|}}}
+
+| label43 = Headquarters
+|  data43 = {{{headquarters|}}}
+
+| label44 = Newspaper
+|  data44 = {{{newspaper|}}}
+
+| label45 = Active&nbsp;regions
+|  data45 = {{{area|}}}
+| class45 = label
+
+| label46 = [[List of political ideologies|Ideology]]
+|  data46 = {{{ideology|}}}
+
+| label47 = [[Political spectrum|Political&nbsp;position]]
+|  data47 = {{{position|}}}
+| class47 = category
+
+| label48 = Slogan
+|  data48 = {{{slogan|}}}
+
+| label49 = Major actions
+|  data49 = {{{crimes|}}}
+
+| label50 = Notable attacks
+|  data50 = {{{attacks|}}}
+
+| label51 = Status
+|  data51 = {{{status|}}}
+
+| label52 = Size
+|  data52 = {{{size|}}}
+
+| label53 = Annual revenue
+|  data53 = {{{revenue|}}}
+
+| label54 = Means of revenue
+|  data54 = {{{financing|}}}
+
+| label55 = Part of
+|  data55 = {{{partof|}}}
+
+| label56 = Allies
+|  data56 = {{{allies|}}}
+
+| label57 = Opponents
+|  data57 = {{{opponents|}}}
+
+| label58 = Battles and wars
+|  data58 = {{{battles|{{{war|}}}}}}
+
+| label64 = Organization(s)
+| data64  = {{{organizations|}}}
+
+| label67= [[List of designated terrorist groups|Designated as a terrorist group]] by
+|  data67 = {{{designated_as_terror_group_by|}}}
+
+| label68 = Flag
+|  data68 = {{{flag|}}}
+
+| label70 = {{if empty|{{{colors_label|}}}|{{{colours_label|}}}|{{#if:{{{colours|}}}|Colours|Colors}}}}
+|  data70 = {{#if:{{{colours|}}}|{{{colours|}}}|{{{colors|}}}}}
+
+| header79 = {{#ifeq:{{{identification_symbol_label|}}}|none|{{{identification_symbol|}}}|}}
+
+| label80  = {{#if:{{{identification_symbol_label|}}}|{{{identification_symbol_label|}}}|Identification symbol}}
+| data80   = {{#ifeq:{{{identification_symbol_label|}}}|none||{{{identification_symbol|}}} }}
+| label81  = {{#if:{{{identification_symbol_2_label|}}}|{{{identification_symbol_2_label|}}}|Second identification symbol}}
+| data81   = {{{identification_symbol_2|}}}
+| label82  = {{#if:{{{identification_symbol_3_label|}}}|{{{identification_symbol_3_label|}}}|Third identification symbol}}
+| data82   = {{{identification_symbol_3|}}}
+| label83  = {{#if:{{{identification_symbol_4_label|}}}|{{{identification_symbol_4_label|}}}|Fourth identification symbol}}
+| data83   = {{{identification_symbol_4|}}}
+
+| label89 = Website
+|  data89 = {{{website|{{{url|}}}}}}
+
+| data94     = {{{misc|{{{module|}}}}}}
+| data95     = {{{misc2|{{{module2|}}}}}}
+| data96     = {{{misc3|{{{module3|}}}}}}
+| data97     = {{{misc4|{{{module4|}}}}}}
+| data98     = {{{misc5|{{{module5|}}}}}}
+| data99     = {{{misc6|{{{module6|}}}}}}
+
+| belowstyle = border-top:1px #aaa solid
+
+| below      = {{succession links
+   | left = {{#if:{{{predecessor|{{{preceded by|{{{preceded_by|}}}}}}}}}|'''Preceded&nbsp;by'''<br>{{{predecessor|{{{preceded by|{{{preceded_by|}}}}}}}}} }}
+   | noarrows = yes
+   | center = 
+   | right = {{#if:{{{successor|{{{succeeded by|{{{succeeded_by|}}}}}}}}}|'''Succeeded&nbsp;by'''<br>{{{successor|{{{succeeded by|{{{succeeded_by|}}}}}}}}} }}
+ }}
+
+}}{{#invoke:Check for unknown parameters|check|unknown={{main other|[[Category:Pages using infobox militant organization with unknown parameters|_VALUE_{{PAGENAME}}]]}}|preview=Page using [[Template:Infobox militant organization]] with unknown parameter "_VALUE_"|ignoreblank=y| active | allegiance | allies | area | attacks | battles | caption | child | clans | colors | colors_label | colours | colours_label | country | crimes | dates | designated_as_terror_group_by | dissolution | dissolved | embed | financing | flag | foundation | founder | founders | founding_leader | headquarters | identification_symbol | identification_symbol_2 | identification_symbol_2_label | identification_symbol_3 | identification_symbol_3_label | identification_symbol_4 | identification_symbol_4_label | identification_symbol_label | ideology | image | image_alt | image_size | leader | leader_title | leader1_name | leader1_title | leader2_name | leader2_title | leader3_name | leader3_title |leader4_name | leader4_title | leaders | logo | logo_size | merged | merged_into | merger | military_leader | misc | misc2 | misc3 | misc4 | misc5 | misc6 | module | module2 | module3 | module4 | module5 | module6 | motives | name | native_name | native_name_lang | newspaper | opponents | organizations | other_name | partof | political_leader | position | preceded by | preceded_by | predecessor | revenue | size | slogan | split | split_from | split_to | spokesman | spokesperson | status | succeeded by | succeeded_by | successor | url | war | website }}<noinclude>{{documentation}}</noinclude>

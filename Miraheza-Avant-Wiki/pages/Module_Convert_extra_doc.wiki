@@ -1,0 +1,125 @@
+{{high-use|212}}
+This module can be used to quickly add a new unit for use with {{tl|convert}}. When satisfied that a unit is working correctly, ask at [[Module talk:Convert]] for the unit to be moved to the permanent list of units.
+
+See [[Template:Convert/unit sandbox]] for a good way to prepare unit definitions that can be copied into this page.
+
+The following extracts from [[Module:Convert/data]] show examples that could be used to define a new unit. Any number of spaces can be used where blanks are shown in the following.
+
+{{collapse top|title=Examples for additions to <code>Module:Convert/extra</code> {{nobold|1=(For the actual module code see [[#EndOfDoc|below]])}}|bg=#CEF2E0|b-color=#A3BFB1|bg2=#F5FFFA}}
+
+<syntaxhighlight lang="lua" highlight="1">
+-- These are EXAMPLES on the documentation page. Scroll down to see the module content.
+local extra_units = {
+    -- Similar to a redirect: "sqm" is an alias for "m2".
+    -- {{convert|1.5|m2|sp=us}}  → 1.5 square meters (16 sq ft)
+    -- {{convert|1.5|sqm|sp=us}} → 1.5 square meters (16 sq ft)
+    ["sqm"] = {
+        target   = "m2",
+    },
+    -- A simple unit, showing the minimum that is required.
+    -- The "ha" is the unit code used to identify the unit:
+    -- {{convert|1.5|ha}} → 1.5 hectares (3.7 acres)
+    ["ha"] = {
+        name1    = "hectare",
+        symbol   = "ha",
+        utype    = "area",
+        scale    = 10000,
+        default  = "acre",
+    },
+    -- A unit which accepts an SI prefix. There is no "name1" field because it
+    -- has to be constructed (mJ gives "millijoule"; MJ gives "megajoule").
+    -- {{convert|125|kJ}} → 125 kilojoules (30,000 cal)
+    ["J"] = {
+        _name1   = "joule",
+        _symbol  = "J",
+        utype    = "energy",
+        scale    = 1,
+        prefixes = 1,
+        default  = "cal",
+        link     = "Joule",
+    },
+    -- A unit where US and plural names are required.
+    -- {{convert|125|cm/s2}} → 125 centimetres per second squared (4.1 ft/s²)
+    ["cm/s2"] = {
+        name1    = "centimetre per second squared",
+        name1_us = "centimeter per second squared",
+        name2    = "centimetres per second squared",
+        name2_us = "centimeters per second squared",
+        symbol   = "cm/s<sup>2</sup>",
+        utype    = "acceleration",
+        scale    = 0.01,
+        default  = "ft/s2",
+        link     = "Gal (unit)",
+    },
+    -- A "per" unit is defined as the ratio of two other units.
+    -- {{convert|125|g/cm3}} → 125 grams per cubic centimetre (4.5 lb/cu in)
+    ["g/cm3"] = {
+        per      = { "g", "cm3" },
+        utype    = "density",
+        default  = "lb/cuin",
+    },
+    -- If the automatic "per" link is not wanted, a link can be specified.
+    -- {{convert|125|g/cm3|lk=on|disp=unit}} → [[gram]]s per [[cubic centimetre]]
+    -- {{convert|125|g/m3|lk=on|disp=unit}} → [[density|grams per cubic metre]]
+    ["g/m3"] = {
+ per  = { "g", "m3" },
+ utype  = "density",
+ default  = "lb/cuyd",
+ link  = "density",
+    },
+    -- Characters "$" and "£" are recognized as currency symbols.
+    -- {{convert|125|$/acre}} → $125 per acre ($310/ha)
+    ["$/acre"] = {
+        per      = { "$", "acre" },
+        utype    = "cost $ per unit area",
+        default  = "$/ha",
+    },
+    -- An output unit can be defined as a combination of existing units.
+    -- {{convert|2|ha|ft2 m2}} → 2 hectares (220,000 sq ft; 20,000 m²)
+    -- Any number of output units can be specified.
+    -- NOTE: There may be no need to define a combination because a convert
+    --       can specify the output by joining unit codes with "+":
+    -- {{convert|1.2|acre|ft2+yd2+m2}} → 1.2 acres (52,000 sq ft; 5,800 sq yd; 4,900 m²)
+    ["ft2 m2"] = {
+        combination = { "ft2", "m2" },
+        utype    = "area",
+    },
+    -- An output unit can be defined using subunits (from least to most significant).
+    -- {{convert|90|in|ydftin}} → 90 inches (2 yd 1 ft 6 in)
+    ["ydftin"] = {
+        combination = { "in", "ft", "yd" },
+        multiple = { 12, 3 },
+        utype    = "length",
+    },
+}
+</syntaxhighlight>
+
+{{collapse bottom}}
+
+{| class="wikitable"
+! Field !! Description
+|-
+| <code>symbol</code> || Unit identifier used when <code>abbr=on</code> is in effect.
+|-
+| <code>name1</code> || Singular name of the unit used when <code>abbr=off</code> is in effect.
+|-
+| <code>name2</code> || Plural name of the unit; not required if it is the same as <code>name1</code> plus "s".
+|-
+| <code>name1_us</code> || Singular name when <code>sp=us</code> is in effect; not required if the same as <code>name1</code>.
+|-
+| <code>name2_us</code> || Plural name when <code>sp=us</code> is in effect; not required if the same as <code>name1_us</code> plus "s".
+|-
+| <code>utype</code> || Unit type; must be exactly the same as the <code>utype</code> of any other unit used in a conversion.
+|-
+| <code>scale</code> || Number of base units in the unit being defined.
+|-
+| <code>default</code> || Unit code of the default output used when no output unit is specified in a conversion.
+|-
+| <code>target</code> || Unit code of an existing unit (the unit being defined "redirects" to the existing unit).
+|-
+| <code>prefixes</code> || Use 1 if an SI prefix is accepted; 2 is used for <code>m<sup>2</sup></code>, and 3 is used for <code>m<sup>3</sup></code>.
+|-
+| <code>link</code> || Article title used when <code>lk=on</code> is in effect; not required if it is the same as <code>name1</code>.
+|}
+
+{{anchor|EndOfDoc}}

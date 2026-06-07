@@ -1,0 +1,297 @@
+= Sanovic Dictionary =
+
+This is a dictionary of the [[Sanovic]] language, showing words in both the [[Union Alphabet]] and their romanized forms with IPA pronunciations.{{Infobox dictionary
+| name = Sanovic Dictionary
+| language = [[Sanovic]]
+| publisher = [[Union Language Committee]]
+| pub_date = 2009
+| pages = 1,200
+| isbn = 978-0-000-00000-0
+}}
+
+== Basic Words ==
+
+{| class="wikitable"
+|+ Basic Words
+! Union Alphabet
+! Romanized
+! IPA
+! English
+! Origin
+|-
+| Ja
+| Ja
+| [ja]
+| I
+| Murianic
+|-
+| Ty
+| Ty
+| [ty]
+| You (singular)
+| Murianic
+|-
+| On/Ona/Ono
+| On/Ona/Ono
+| [on]/[ona]/[ono]
+| He/She/It
+| Murianic
+|-
+| My
+| My
+| [my]
+| We
+| Murianic
+|-
+| Vy
+| Vy
+| [vy]
+| You (plural)
+| Murianic
+|-
+| Oni
+| Oni
+| [oni]
+| They
+| Murianic
+|}
+
+== Nature ==
+
+{| class="wikitable"
+|+ Nature Words
+! Union Alphabet
+! Romanized
+! IPA
+! English
+! Origin
+|-
+| Vɔdan
+| Vɔdan
+| [vɔdan]
+| Water
+| Murianic
+|-
+| Zɛmla
+| Zɛmla
+| [zɛmla]
+| Earth
+| Murianic
+|-
+| Künɛ
+| Künɛ
+| [kynɛ]
+| Sun
+| Agashkinic
+|-
+| Tagɔr
+| Tagɔr
+| [tagɔr]
+| Mountain
+| Tekdolian
+|-
+| Tlum
+| Tlum
+| [tlum]
+| Forest
+| Tekdolian
+|-
+| Mɔrɛ
+| Mɔrɛ
+| [mɔrɛ]
+| Sea
+| Murianic
+|}
+
+== People and Society ==
+
+{| class="wikitable"
+|+ People and Society Words
+! Union Alphabet
+! Romanized
+! IPA
+! English
+! Origin
+|-
+| Narɔd
+| Narɔd
+| [narɔd]
+| People
+| Toramdic
+|-
+| Čɛlɔvɛk
+| Čɛlɔvɛk
+| [tʃɛlɔvɛk]
+| Person
+| Murianic
+|-
+| Druz
+| Druz
+| [druz]
+| Friend
+| Murianic
+|-
+| Sɛmja
+| Sɛmja
+| [sɛmja]
+| Family
+| Murianic
+|-
+| Gɔrɔd
+| Gɔrɔd
+| [gɔrɔd]
+| City
+| Murianic
+|-
+| Dɛrɛvnja
+| Dɛrɛvnja
+| [dɛrɛvnja]
+| Village
+| Murianic
+|}
+
+== Government and Politics ==
+
+{| class="wikitable"
+|+ Government and Politics Words
+! Union Alphabet
+! Romanized
+! IPA
+! English
+! Origin
+|-
+| Gɔsudarstvɔ
+| Gɔsudarstvɔ
+| [gɔsudarstvɔ]
+| State
+| Murianic
+|-
+| Prɛdstavitɛl
+| Prɛdstavitɛl
+| [prɛdstavitɛl]
+| Representative
+| Murianic
+|-
+| Zakɔn
+| Zakɔn
+| [zakɔn]
+| Law
+| Murianic
+|-
+| Prɛzidɛnt
+| Prɛzidɛnt
+| [prɛzidɛnt]
+| President
+| Murianic
+|-
+| Parlamɛnt
+| Parlamɛnt
+| [parlamɛnt]
+| Parliament
+| Murianic
+|}
+
+== Verbs ==
+
+{| class="wikitable"
+|+ Common Verbs
+! Union Alphabet
+! Romanized
+! IPA
+! English
+! Origin
+! Conjugation
+|-
+| Govɔrit
+| Govɔrit
+| [govɔrit]
+| To speak
+| Murianic
+| Suffix
+|-
+| Dɛlat
+| Dɛlat
+| [dɛlat]
+| To do
+| Murianic
+| Suffix
+|-
+| Idti
+| Idti
+| [idti]
+| To go
+| Murianic
+| Suffix
+|-
+| Ozidat
+| Ozidat
+| [ozidat]
+| To wait
+| Kavetsian
+| Particle
+|-
+| Razumɛt
+| Razumɛt
+| [razumɛt]
+| To understand
+| Murianic
+| Suffix
+|}
+
+== Adjectives ==
+
+{| class="wikitable"
+|+ Common Adjectives
+! Union Alphabet
+! Romanized
+! IPA
+! English
+! Origin
+|-
+| Vɛlikij
+| Vɛlikij
+| [vɛlikij]
+| Great
+| Murianic
+|-
+| Malɛnjkij
+| Malɛnjkij
+| [malɛnjkij]
+| Small
+| Murianic
+|-
+| Krɛpkij
+| Krɛpkij
+| [krɛpkij]
+| Strong
+| Murianic
+|-
+| Slabij
+| Slabij
+| [slabij]
+| Weak
+| Murianic
+|-
+| Krɛpɔstnɔj
+| Krɛpɔstnɔj
+| [krɛpɔstnɔj]
+| Beautiful
+| Toramdic
+|}
+
+== See Also ==
+* [[Sanovic]]
+* [[Union Alphabet]]
+* [[Zhensanovian Languages]]
+* [[Union Language Committee]]
+
+== References ==
+* [[Union Language Committee]] (2009). "Official Sanovic Dictionary"
+* [[Zhensanovian Linguistic Institute]] (2008). "Etymological Dictionary of Sanovic"
+* [[Union Education Ministry]] (2009). "Sanovic Vocabulary Guide"
+* [[Sanovic Language Academy]] (2008). "Sanovic Word Origins"
+* [[Union Cultural Society]] (2007). "Sanovic in Daily Life"
+
+[[Category:Dictionaries]]
+[[Category:Zhensanov]]
+[[Category:Languages]]

@@ -1,0 +1,4 @@
+<includeonly><span class="wrap">{{{1|&#32;}}}</span></includeonly><noinclude>
+{{documentation}}
+<!-- Add categories to the /doc subpage, not here! -->
+</noinclude>

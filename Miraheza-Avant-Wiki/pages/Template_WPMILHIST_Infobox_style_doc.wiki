@@ -1,0 +1,68 @@
+{{Documentation subpage}}
+{{lua|Module:WPMILHIST Infobox style|Module:Data}}
+{| {{WPMILHIST Infobox style|main_box}}
+|-
+! colspan="2" {{WPMILHIST Infobox style|header_bar}} | Title
+|-
+| colspan="2" {{WPMILHIST Infobox style|sub_header_bar}} | Subtitle
+|-
+| colspan="2" {{WPMILHIST Infobox style|image_box}} | [[File:Bad Title Example.png|200px]] <br/> This is a caption.
+|-
+! style="padding-right: 1em;" | Label
+| Field contents
+|- 
+! style="padding-right: 1em;" | Second label
+| First term,<br/> Second term,<br/> Third term
+|-
+! colspan="2" {{WPMILHIST Infobox style|header_bar}} | Secondary header
+|-
+| style="width:50%;"| Lorem ipsum dolor sit amet consectetur adipisicing elit
+| style="width:50%; padding-left: 0.25em; border-left: {{WPMILHIST Infobox style|internal_border}}" | sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+|-
+| colspan="2" style="text-align: center; border-top: {{WPMILHIST Infobox style|section_border}}" | ''Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.''
+|-
+! colspan="2" {{WPMILHIST Infobox style|header_bar}} | Final header
+|-
+| colspan="2" {{WPMILHIST Infobox style|image_box_plain}} | [[File:Bad Title Example.png|200px]] <br/> This is another caption.
+|}
+The [[Wikipedia:Manual of Style/Military history#Infobox templates|various primary and auxiliary infobox templates]] and [[Wikipedia:Manual of Style/Military history#Navigation templates|navigation templates]] maintained by the Military history WikiProject are all coded to use a common set of styling characteristics.  This is needed primarily because a number of the templates are designed to be stacked together to present the appearance of a continuous block; it is also beneficial for providing a consistent appearance to the entire set of articles within our scope.
+
+The style is controlled by the {{tl|WPMILHIST Infobox style}} template, which generates a number of different codes based on the parameter passed to it.
+
+* '''<code><nowiki>{{WPMILHIST Infobox style|main_box}}</nowiki></code>''' – produces the CSS <code>class</code> and <code>style</code> parameters for an infobox at a width of 315 [[pixels]].
+* '''<code><nowiki>{{WPMILHIST Infobox style|main_box_raw}}</nowiki></code>''' – produces the raw CSS <code>style</code> parameters for an infobox at a width of 315 pixels.
+* '''<code><nowiki>{{WPMILHIST Infobox style|main_box_raw_auto_width}}</nowiki></code>''' – produces the raw CSS <code>style</code> parameters for an infobox (same as <code>main_box_raw</code> but without <code>width:315px</code>).
+* '''<code><nowiki>{{WPMILHIST Infobox style|header_bar}}</nowiki></code>''' – produces the CSS <code>style</code> parameters for a horizontal header bar in an infobox.
+* '''<code><nowiki>{{WPMILHIST Infobox style|header_raw}}</nowiki></code>''' – produces the raw CSS <code>style</code> parameters for a horizontal header bar in an infobox.
+* '''<code><nowiki>{{WPMILHIST Infobox style|header_color}}</nowiki></code>''' – produces the raw CSS <code>style</code> color attributes for a horizontal header bar in an infobox.
+* '''<code><nowiki>{{WPMILHIST Infobox style|sub_header_bar}}</nowiki></code>''' – produces the CSS <code>style</code> parameters for a horizontal sub-header bar in an infobox.
+* '''<code><nowiki>{{WPMILHIST Infobox style|sub_header_raw}}</nowiki></code>''' – produces the raw CSS <code>style</code> parameters for a horizontal sub-header bar in an infobox.
+* '''<code><nowiki>{{WPMILHIST Infobox style|image_box}}</nowiki></code>''' – produces the CSS <code>style</code> parameters for a standard image & caption block with a bottom border.
+* '''<code><nowiki>{{WPMILHIST Infobox style|image_box_raw}}</nowiki></code>''' – produces the raw CSS <code>style</code> parameters for a standard image & caption block with a bottom border.
+* '''<code><nowiki>{{WPMILHIST Infobox style|image_box_plain}}</nowiki></code>''' – produces the CSS <code>style</code> parameters for a standard image & caption block ''without'' a bottom border; this is typically used when the image block is placed immediately above a header bar, or at the bottom of the infobox.
+* '''<code><nowiki>{{WPMILHIST Infobox style|image_box_plain_raw}}</nowiki></code>''' – produces the raw CSS <code>style</code> parameters for a standard image & caption block ''without'' a bottom border; this is typically used when the image block is placed immediately above a header bar, or at the bottom of the infobox.
+* '''<code><nowiki>{{WPMILHIST Infobox style|internal_border}}</nowiki></code>''' – produces the raw CSS <code>style</code> attributes for a border between parts of the same infobox section.
+* '''<code><nowiki>{{WPMILHIST Infobox style|section_border}}</nowiki></code>''' – produces the raw CSS <code>style</code> attributes for a border between different infobox sections.
+* '''<code><nowiki>{{WPMILHIST Infobox style|nav_box}}</nowiki></code>''' – produces the raw CSS <code>style</code> attributes for a collapsible navigation template at a width of 315 [[pixels]].
+* '''<code><nowiki>{{WPMILHIST Infobox style|nav_box_child}}</nowiki></code>''' – produces the raw CSS <code>style</code> attributes for a collapsible navigation template (same as <code>nav_box</code> but at a width of 305 pixels and without <code>margin-left:1em</code>).
+* '''<code><nowiki>{{WPMILHIST Infobox style|nav_box_wide}}</nowiki></code>''' – produces the raw CSS <code>style</code> attributes for a full-width collapsible navigation template.
+* '''<code><nowiki>{{WPMILHIST Infobox style|nav_box_header}}</nowiki></code>''' – produces the raw CSS <code>style</code> attributes for the header bar in a collapsible navigation template.
+*'''<code><nowiki>{{WPMILHIST Infobox style|nav_box_wide_header}}</nowiki></code>''' – produces the raw CSS <code>style</code> attributes for the header bar in a full-width collapsible navigation template.
+* '''<code><nowiki>{{WPMILHIST Infobox style|nav_box_label}}</nowiki></code>''' – produces the raw CSS <code>style</code> attributes for a row label in a collapsible navigation template.
+
+A sample template using some of these options can be seen at right.  From the top, it includes:
+# The main <code>header_bar</code> in a table heading cell.
+# A <code>sub_header_bar</code> in a normal table cell.
+# An <code>image_box</code>.
+# Two normal fields with labels.
+# A secondary <code>header_bar</code> in a heading cell.
+# A pair of cells divided by an <code>internal_border</code>.
+# A cell with a <code>section_border</code> at the top.
+# Another secondary <code>header_bar</code> in a heading cell.
+# An <code>image_box_plain</code>.
+
+More sophisticated samples of the code can be found by examining the actual infoboxes used by the project.<noinclude>
+[[Category:WikiProject Military history template instructions| ]]
+</noinclude><includeonly>{{Sandbox other||
+[[Category:WikiProject Military history templates| ]]
+}}</includeonly>

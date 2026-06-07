@@ -1,0 +1,16 @@
+{{userbox
+| border-c = {{{border-c|#23272A}}}
+| id       = {{{id|[[File:Discord_white_D.svg|20px]]}}}
+| id-op    = height: auto; padding: 3px 1px 0 0;
+| id-c     = {{{id-c|#586AEA}}}
+| id-fc    = {{{id-fc|}}}
+| id-s     = {{{id-s|}}}
+| info     = This user chats on the '''{{colored link|#586AEA|Avant Garde Official:Discord|Avant Garde Official Discord}}''' server{{#if:{{{1|{{{account|}}}}}}|{{sp}}as ''{{{1|{{{account}}}}}}''|}}.
+| info-c   = {{{info-c|#2C2F33}}}
+| info-s   = {{{info-s|}}}
+| info-fc  = {{{info-fc|#FFFFFF}}}
+<includeonly>
+| usercategory = Avantpedian who use Discord (software)
+| nocat = {{{nocat|}}}
+</includeonly>
+}}<noinclude>{{Documentation}}</noinclude>

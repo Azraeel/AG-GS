@@ -1,0 +1,68 @@
+/* {{pp|small=yes}} */
+.reflist {
+	margin-bottom: 0.5em;
+	list-style-type: decimal;
+}
+
+@media screen {
+	/* can we remove the font size declarations? .references gets a font-size in
+	 * common.css that is always 90, and there is nothing else in reflist out in
+	 * the wild. May affect column sizes.
+	 */
+	 /* make smaller only on screens */
+	.reflist {
+		font-size: 90%;        /* Default font-size */
+	}
+}
+
+.reflist .references {
+	font-size: 100%;           /* Reset font-size when nested in .reflist */
+	margin-bottom: 0;          /* Avoid double margin when nested in .reflist */
+	list-style-type: inherit;  /* Enable custom list style types */
+}
+
+/* columns-2 and columns-3 are legacy for "2 or more" column view from when the
+ * template was implemented with column-count.
+ */
+.reflist-columns-2 {
+	column-width: 30em;
+}
+
+.reflist-columns-3 {
+	column-width: 25em;
+}
+
+/* Reset top margin for lists embedded in columns */
+.reflist-columns {
+	margin-top: 0.3em;
+}
+
+.reflist-columns ol {
+	margin-top: 0;
+}
+
+/* Avoid elements breaking between columns */
+.reflist-columns li {
+	page-break-inside: avoid; /* Removed from CSS in favor of break-inside c. 2020 */
+	break-inside: avoid-column;
+}
+
+.reflist-upper-alpha {
+	list-style-type: upper-alpha;
+}
+
+.reflist-upper-roman {
+	list-style-type: upper-roman;
+}
+
+.reflist-lower-alpha {
+	list-style-type: lower-alpha;
+}
+
+.reflist-lower-greek {
+	list-style-type: lower-greek;
+}
+
+.reflist-lower-roman {
+	list-style-type: lower-roman;
+}

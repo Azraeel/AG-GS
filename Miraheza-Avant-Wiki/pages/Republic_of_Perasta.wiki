@@ -1,0 +1,32 @@
+{{Infobox country
+| conventional_long_name = Republic of Perasta
+| common_name            = Perasta
+| image_flag             = PerastaFlag.jpg
+| flag_width             = 250
+| image_coat             = PerastaCOA.png
+| symbol_width           = 150
+| national_motto         = "Bullets a day keeps the Astorian away"
+| national_anthem        = "Come Out ye Black and Tans"
+| capital                = Talborn
+| languages              = Theorin, Old Theorin and Old Perastan
+| ethnic_groups          = {{unbulleted list |item_style=font-size:95%; | 87% [[Perastan]] | 10.5% [[Theorin]] | 2.5% Others }}
+| religion               = Schofen Totems
+| demonym                = Perastan
+| government_type        = [[w:Constitutional_republic|Constitutional republic]]
+| leader_title1          = [[w:President|President]]
+| leader_name1           = [[Oscar Walsh]]
+| leader_title2          = [[w:Prime_minister|Prime Minister]]
+| leader_name2           = [[Connor O'Neill]]
+| established            = 1793
+| area_km2               = 9.400,000
+| area_rank              = 14th
+| population_estimate    = {{increase}} 127,000,000
+| currency               = [[Perastan Pound]]
+| time_zone              = [[Mantara Central Time|MCT]] (UTC-11)
+| drives_on              = left
+| calling_code           = +60
+| iso3166code            = PS
+| cctld                  = .ps
+}}
+
+The '''Republic of Perasta''' or just '''Perasta''' is a [https://simple.wikipedia.org/wiki/Constitutional_republic Constitutional republic] on the top of [INSERT] formed in 1793.

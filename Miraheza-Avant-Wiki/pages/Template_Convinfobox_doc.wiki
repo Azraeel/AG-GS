@@ -1,0 +1,153 @@
+{{Documentation subpage}}
+{{high-use|135543}}
+<!-- EDIT TEMPLATE DOCUMENTATION BELOW THIS LINE -->
+This template is a frontend for {{tl|convert}}.  It is intended as a meta-template for use within the code for a template, where the input is not known ''a priori''.  For unit conversions within articles, one should use {{tl|convert}} directly.
+
+This template accepts from four to seven unnamed parameters.  Odd parameters must be numerical (or empty) and specify the numerical value of a measurement and the intended precision of the conversion.  Even parameters must be unit codes as used in {{tlf|convert}}.  Named parameters are the same as used by {{tlf|convert}}.
+
+This template differs from {{tlf|convert}} in the following respects.
+
+* The units to convert to and the units to convert from must be specified (therefore there are no default convert-to units).
+* Fields for the numerical value of a measurement may be left blank.
+* The default is to abbreviate units (where abbreviations exist).
+* Range conversions are not available.
+
+This template may be used when it is unknown in which direction the conversion is to be made.  The direction is determined as shown in the following examples.
+
+* <code><nowiki>{{convinfobox|100|m2||sqft}}</nowiki></code> → {{convinfobox|100|m2||sqft}}
+* <code><nowiki>{{convinfobox||m2|100|sqft}}</nowiki></code> → {{convinfobox||m2|100|sqft}}
+
+==Dual conversions==
+Dual conversions may be performed by adding a fifth (possibly blank) and sixth unnamed parameter.
+
+* <code><nowiki>{{convinfobox|375|ml||impoz||USoz}}</nowiki></code> → {{convinfobox|375|ml||impoz||USoz}}
+* <code><nowiki>{{convinfobox||ml|40|impoz||USoz}}</nowiki></code> → {{convinfobox||ml|40|impoz||USoz}}
+* <code><nowiki>{{convinfobox||ml||impoz|32|USoz}}</nowiki></code> → {{convinfobox||ml||impoz|32|USoz}}
+
+==Paired units==
+Length may be expressed in feet and inches.
+
+* <code><nowiki>{{convinfobox|180|cm||ft||in}}</nowiki></code> → {{convinfobox|180|cm||ft||in}}
+* <code><nowiki>{{convinfobox||cm|5|ft||in}}</nowiki></code> → {{convinfobox||cm|5|ft||in}}
+* <code><nowiki>{{convinfobox||cm||ft|120|in}}</nowiki></code> → {{convinfobox||cm||ft|120|in}}
+* <code><nowiki>{{convinfobox||cm|5|ft|6|in}}</nowiki></code> → {{convinfobox||cm|5|ft|6|in}}
+* <code><nowiki>{{convinfobox||ft||in|180|cm}}</nowiki></code> → {{convinfobox||ft||in|180|cm}}
+* <code><nowiki>{{convinfobox|5|ft||in||cm}}</nowiki></code> → {{convinfobox|5|ft||in||cm}}
+* <code><nowiki>{{convinfobox||ft|120|in||cm}}</nowiki></code> → {{convinfobox||ft|120|in||cm}}
+* <code><nowiki>{{convinfobox|5|ft|6|in||cm}}</nowiki></code> → {{convinfobox|5|ft|6|in||cm}}
+
+Similarly, mass may be expressed in pounds and ounces.
+
+* <code><nowiki>{{convinfobox|8.5|kg||lb||oz}}</nowiki></code> → {{convinfobox|8.5|kg||lb||oz}}
+* <code><nowiki>{{convinfobox||kg|4|lb|3|oz}}</nowiki></code> → {{convinfobox||kg|4|lb|3|oz}}
+
+Mass may also be expressed in stone and pounds.
+
+* <code><nowiki>{{convinfobox|65|kg||st||lb}}</nowiki></code> → {{convinfobox|65|kg||st||lb}}
+* <code><nowiki>{{convinfobox||kg|10|st||lb}}</nowiki></code> → {{convinfobox||kg|10|st||lb}}
+* <code><nowiki>{{convinfobox||kg|10|st|7|lb}}</nowiki></code> → {{convinfobox||kg|10|st|7|lb}}
+* <code><nowiki>{{convinfobox||kg||st|145|lb}}</nowiki></code> → {{convinfobox||kg||st|145|lb}}
+
+==Specifying more than one value==
+The template currently bases conversions on the first non-blank numerical value ignoring any secondary or tertiary values.
+
+* <code><nowiki>{{convinfobox|100|m2|100|sqft}}</nowiki></code> → {{convinfobox|100|m2|100|sqft}}
+* <code><nowiki>{{convinfobox|375|ml|40|impoz||USoz}}</nowiki></code> → {{convinfobox|375|ml|40|impoz||USoz}}
+* <code><nowiki>{{convinfobox|375|ml||impoz|32|USoz}}</nowiki></code> → {{convinfobox|375|ml||impoz|32|USoz}}
+* <code><nowiki>{{convinfobox||ml|40|impoz|32|USoz}}</nowiki></code> → {{convinfobox||ml|40|impoz|32|USoz}}
+
+==Rounding==
+As with {{tlf|convert}} rounding can be done automatically or manually by specifying the precision and/or number of significant figures in the converted value.  The number of significant figures can be determined by the parameter {{para|sigfig|}}.  The precision can be determined by the fifth (if there is no sixth) or seventh (if there is a sixth) unnamed parameter as shown in the examples below.
+
+* <code><nowiki>{{convinfobox|100|m2||sqft|4}}</nowiki></code> → {{convinfobox|100|m2||sqft|4}}
+* <code><nowiki>{{convinfobox|100|m2||sqft|sigfig=4}}</nowiki></code> → {{convinfobox|100|m2||sqft|sigfig=4}}
+* <code><nowiki>{{convinfobox||ml|40|impoz||USoz|2}}</nowiki></code> → {{convinfobox||ml|40|impoz||USoz|2}}
+* <code><nowiki>{{convinfobox||ml|40|impoz||USoz|sigfig=3}}</nowiki></code> → {{convinfobox||ml|40|impoz||USoz|sigfig=3}}
+* <code><nowiki>{{convinfobox||kg|10|st|7|lb|3}}</nowiki></code> → {{convinfobox||kg|10|st|7|lb|3}}
+* <code><nowiki>{{convinfobox||kg|10|st|7|lb|sigfig=5}}</nowiki></code> → {{convinfobox||kg|10|st|7|lb|sigfig=5}}
+
+Specify precision "0" to prevent rounding of values ending in zero:
+* kilograms (kg)
+** with "0": <code><nowiki>{{convinfobox|110|kg||lb|0}}</nowiki></code> → {{convinfobox|110|kg||lb|0}}
+** without: <code><nowiki>{{convinfobox|110|kg||lb}}</nowiki></code> → {{convinfobox|110|kg||lb}}
+* pounds (lb)
+** with "0": <code><nowiki>{{convinfobox||kg|240|lb|0}}</nowiki></code> → {{convinfobox||kg|240|lb|0}}
+** without: <code><nowiki>{{convinfobox||kg|240|lb}}</nowiki></code> → {{convinfobox||kg|240|lb}}
+* metres (m)
+** with "0": <code><nowiki>{{convinfobox|100|m||ft|0}}</nowiki></code> → {{convinfobox|100|m||ft|0}}
+** without: <code><nowiki>{{convinfobox|100|m||ft}}</nowiki></code> → {{convinfobox|100|m||ft}}
+* inches (in)
+** with "0": <code><nowiki>{{convinfobox||cm|100|in|0}}</nowiki></code> → {{convinfobox||cm|100|in|0}}
+** without: <code><nowiki>{{convinfobox||cm|100|in}}</nowiki></code> → {{convinfobox||cm|100|in}}
+
+==Leaving all numerical fields blank==
+If all numerical value fields are left blank the template returns nothing.
+
+* <code><nowiki>{{convinfobox||m2||sqft}}</nowiki></code> → {{convinfobox||m2||sqft}}
+* <code><nowiki>{{convinfobox||ml||impoz||USoz}}</nowiki></code> → {{convinfobox||ml||impoz||USoz}}
+
+==See also==
+; Supporting templates
+* [[Template:Convert]] (invokes [[Module:Convert]])
+* [[:Category:Subtemplates of Template Convinfobox]]
+** [[Template:Convinfobox/2]]
+** [[Template:Convinfobox/3]]
+** [[Template:Convinfobox/pri2]]
+** [[Template:Convinfobox/pri3]]
+** [[Template:Convinfobox/prisec3]]
+** [[Template:Convinfobox/priter3]]
+** [[Template:Convinfobox/sec2]]
+** [[Template:Convinfobox/sec3]]
+** [[Template:Convinfobox/secter3]]
+** [[Template:Convinfobox/ter3]]
+
+; Templates transcluding {{tl|convinfobox}}
+{{Collapsible list | framestyle = border 1px; | titlestyle = text-align:left;background-color:lightgrey; |
+# [[Template:Infobox amusement park]]
+# [[Template:Infobox animal]]
+# [[Template:Infobox bandy biography]]
+# [[Template:Infobox body of water]]
+# [[Template:Infobox cemetery]]
+# [[Template:Infobox college football player]]
+# [[Template:Infobox combat robot]]
+# [[Template:Infobox diocese]]
+# [[Template:Infobox figure skater]]
+# [[Template:Infobox football biography]]
+# [[Template:Infobox hiking trail]]
+# [[Template:Infobox islands/area]]
+#* [[Template:Infobox islands]] (via [[Template:Infobox islands/area]])
+# [[Template:Infobox mountain]]
+#* [[Template:Infobox Berg]] (via [[Template:Infobox mountain]])
+# [[Template:Infobox mountain range]]
+#* [[Template:Infobox Gebirgsgruppe]] (via [[Template:Infobox mountain range]])
+# [[Template:Infobox NFL player]]
+# [[Template:Infobox person]]
+# [[Template:Infobox pipeline]]
+# [[Template:Infobox power transmission line]]
+# [[Template:Infobox protected area]]
+# [[Template:Infobox rail line]]
+#* [[Template:Infobox Paris Metro line]] (via [[Template:Infobox rail line]])
+# [[Template:Infobox rugby biography]]
+# [[Template:Infobox rugby league biography]]
+# [[Template:Infobox sportsperson]]
+#* [[Template:Infobox biathlete]] (via [[Template:Infobox sportsperson]])
+#* [[Template:Infobox boxer (amateur)]] (via [[Template:Infobox sportsperson]])
+#* [[Template:Infobox sailor]] (via [[Template:Infobox sportsperson]])
+#* [[Template:Infobox speed skater]] (via [[Template:Infobox sportsperson]])
+#* [[Template:Infobox sport wrestler]] (via [[Template:Infobox sportsperson]])
+#* [[Template:Infobox swimmer]] (via [[Template:Infobox sportsperson]])
+# [[Template:Infobox tennis biography]]
+# [[Template:Infobox themed area]]
+# [[Template:Infobox valley]]
+# [[Template:Infobox water park]]
+# [[Template:Infobox YouTube personality]]
+}}
+
+{{Math templates|conversion}}
+
+<includeonly>{{Sandbox other||
+<!-- Categories go here -->
+[[Category:Subtemplates of Template Convinfobox| ]]
+[[Category:Convert-like templates|{{SUBPAGENAME}}]]
+
+}}</includeonly>

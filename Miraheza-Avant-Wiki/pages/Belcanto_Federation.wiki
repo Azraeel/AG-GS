@@ -1,0 +1,154 @@
+{{Infobox country
+| conventional_long_name = Belcanto Nations
+| native_name            = Belkanski Narodi
+| common_name            = Belcanto
+| region                 = Northern Avant
+| status                 = Federal Republic
+| image_flag             = [[File:BelcantoFlag.png|border|200px|Flag of the Belcanto Nations]]
+| image_coat             = [[File:BelcantoCoat.png|border|150px|Coat of Arms of the Belcanto Nations]]
+| flag_footnote          = The Federal Flag of the Belcanto Nations
+| national_motto         = "Jedinstvo u Raznolikosti" (Unity in Diversity)
+| national_anthem        = "Pesma Slobode" (Song of Freedom)
+| image_map              = [[File:BelcantoMap.png|border|300px|Map of the Belcanto Nations]]
+| alt_map                = Map of the Belcanto Nations
+| map_caption            = The Belcanto Nations (in green) and their federal territories
+| capital                = Belgrad
+| largest_city           = Pristanište, Belgrad
+| official_languages     = [[Belcantese Language|Belcantese]], Vesperan
+| recognized_languages   = Belcantese, Vesperan, Minuetski, Harmonski, Kantusski, Melodski, Serenadski
+| demonym                = Belcantese
+| government_type        = Federal Parliamentary Republic
+| leader_title1          = President
+| leader_name1           = Marija Belkanska
+| leader_title2          = Prime Minister
+| leader_name2           = Petar Radović
+| legislature            = Federal Assembly
+| upper_house            = Senate of Nations
+| lower_house            = Chamber of Representatives
+| sovereignty_type       = Independence
+| established_event1     = Ancient Belcantese Kingdoms
+| established_date1      = c. 800 CE
+| established_event2     = [[Belcanto Campaign|Vesperan Conquest]]
+| established_date2      = 1892-1895
+| established_event3     = Federal Independence
+| established_date3      = 1949
+| currency               = Belcanto Lira (₤)
+| currency_code          = BEL
+| time_zone              = Belcanto Standard Time (BST)
+| date_format            = DD/MM/YYYY
+| drives_on              = Right
+| cctld                  = .bc
+| calling_code           = +39
+}}
+
+= Belcanto Nations =
+
+The '''Belcanto Nations''' (Belcantese: ''Belkanski Narodi''), officially the '''Federal Republic of the Belcanto Nations''', is a federal parliamentary republic located in northern Avant. Comprising five distinct kingdoms united under a federal system, the Belcanto Nations emerged as an independent state following the collapse of the [[Vesperan Empire]] in 1949. The nation is renowned for its vast forests, desert regions, diverse musical traditions, and complex history of resistance against imperial domination.
+
+The Belcanto Nations represent a unique experiment in federal governance, bringing together historically distinct peoples who were united first by [[Belcanto Campaign|Vesperan conquest]] in the 1890s and later by their shared struggle for independence. The federation's name derives from the ancient Belcantese musical tradition of "Belkanski" (white song), which became a symbol of cultural resistance during the imperial period.
+
+== Etymology ==
+
+The name "Belcanto" originates from the ancient [[Belcantese Language|Belcantese]] phrase "Belkanski," meaning "white song" or "pure song." This musical term became deeply associated with the region's identity during the medieval period, when the various Belcantese kingdoms were renowned throughout the continent for their sophisticated musical traditions that echoed through their vast forests and resonated across their desert plains.
+
+During the [[Vesperan Empire|Vesperan]] occupation (1892-1949), the term took on additional significance as a symbol of cultural resistance. The imperial authorities attempted to suppress local musical traditions in favor of [[Vesperan Language|Vesperan]] cultural forms, but the Belcantese people maintained their musical heritage in secret. Underground performances of traditional "Belkanski" songs became acts of defiance, and the phrase evolved into a rallying cry for independence.
+
+The plural form "Belcanto Nations" was adopted upon independence in 1949 to reflect the federal structure that united five distinct nations: [[Minuet]], [[Harmonia]], [[Cantus]], [[Melodia]], and the [[Serenade Kingdom]]. Each nation maintains its own cultural identity, dialect, and economic specialization while participating in the federal system.
+
+== History ==
+
+=== Ancient and Medieval Period ===
+
+The Belcanto region has been inhabited for over two millennia, with archaeological evidence suggesting the presence of sophisticated forest and desert civilizations as early as 300 BCE. The area's strategic location along major northern trade routes connecting the eastern and western continents made it a crossroads of cultural and commercial exchange.
+
+During the medieval period (800-1400 CE), the region was dominated by five independent nations, each with distinct cultural and economic characteristics. [[Minuet]] became renowned for its early industrial innovations and forest-based metalworking, while [[Harmonia]] controlled crucial northern maritime trade routes. [[Cantus]] dominated the desert mining regions, [[Melodia]] controlled the forest clearings and agricultural areas, and the [[Serenade Kingdom]] emerged as the primary military power. These nations were characterized by their sophisticated artistic traditions, particularly in music and forest architecture, and their complex system of diplomatic alliances.
+
+The medieval Belcantese kingdoms were renowned for their musical innovations, particularly the development of polyphonic singing techniques that would later influence musical traditions across the continent. The [[Great Conservatory of Belcanto]] (founded 1156) became a center of musical learning that attracted students from across the known world.
+
+=== Early Modern Period (1400-1800) ===
+
+The early modern period saw the gradual consolidation of Belcantese political power under the [[Belcanto Federation]] (1456-1892), a confederation that balanced regional autonomy with collective defense. This period was marked by significant cultural flowering, with Belcantese composers, architects, and artists gaining international recognition.
+
+The United Kingdoms maintained their independence through a combination of diplomatic skill, strategic alliances, and their vast forest and desert geography, which made invasion difficult. They successfully resisted several attempts at conquest by neighboring powers, including the [[Northern Maritime Wars]] (1634-1641) and the [[Eastern Expansion Conflicts]] (1723-1729).
+
+The [[Federal Council]] served as the confederation's governing body, with each nation sending representatives to coordinate foreign policy, trade, and military affairs while preserving local autonomy. This sophisticated federal system would later influence their post-independence government structure.
+
+=== Vesperan Conquest and Imperial Period (1892-1949) ===
+
+The [[Belcanto Campaign]] (1892-1895) marked the end of Belcantese independence and the beginning of over fifty years of imperial rule. The campaign was part of the [[Vesperan Empire]]'s broader strategy of consolidating control over strategic territories during its period of global expansion.
+
+==== The Vesperan Invasion ====
+
+The Vesperan invasion began in 1892 with a coordinated assault on the northern coastal regions, utilizing the empire's superior naval power to establish beachheads along the Belcantese coastline. The [[Battle of Pristanište]] (September 1892) saw the destruction of the Belcantese naval fleet and the capture of the region's primary port.
+
+The vast forest interior proved more challenging for Vesperan forces, leading to a prolonged campaign characterized by guerrilla warfare and fierce resistance from forest militias. The [[Siege of Belgrad]] (1893-1894) lasted fourteen months and resulted in significant casualties on both sides before the capital finally fell to imperial forces.
+
+The final phase of the conquest involved the systematic clearing of forest strongholds and the suppression of desert resistance movements. The [[Battle of Sedam Gajeva]] (1895) marked the effective end of organized Belcantese resistance, though sporadic guerrilla activity continued for several years in the deep forests and remote desert regions.
+
+==== Imperial Administration ====
+
+Following the conquest, the Vesperan Empire implemented a comprehensive program of political and cultural integration. The traditional [[Federal Council]] was dissolved and replaced with an imperial governorship based in the renamed capital of "New Vespera" (formerly Belgrad).
+
+The imperial administration pursued a policy of cultural assimilation, mandating the use of [[Vesperan Language|Vesperan]] in government and education while attempting to suppress local traditions. The [[Imperial Cultural Decree of 1897]] banned public performances of traditional Belcantese music and required all cultural institutions to promote Vesperan imperial values.
+
+Despite these efforts, Belcantese cultural identity proved remarkably resilient. Underground networks preserved traditional music, literature, and customs, while a growing independence movement began to organize resistance activities. The [[Belcantese Cultural Resistance]] became a model for other occupied territories within the empire.
+
+==== Economic Integration ====
+
+The Vesperan Empire integrated the Belcanto region into its global economic system, exploiting the area's natural resources and strategic location. The empire established major logging operations in the forest regions, mining operations in the desert areas, and expanded port facilities to support imperial northern trade routes.
+
+While this integration brought some economic benefits, including improved infrastructure and access to global markets, it also resulted in the extraction of wealth from the region and the subordination of local economic interests to imperial priorities. The [[Imperial Economic Survey of 1905]] documented the systematic transfer of Belcantese resources to support imperial military and administrative expenses.
+
+=== Independence and Modern Era (1949-Present) ===
+
+The collapse of the [[Vesperan Empire]] following the [[Avant Great War]] (1937-1949) created an opportunity for Belcantese independence. The [[Belcantese Independence Movement]], which had been organizing throughout the imperial period, emerged from underground to establish a provisional government.
+
+The [[Declaration of Belcantese Independence]] was proclaimed on May 15, 1949, in the restored capital of Belgrad. The new federal republic adopted a constitution that balanced regional autonomy with national unity, drawing on both traditional Belcantese governance structures and modern democratic principles.
+
+The early years of independence were marked by significant challenges, including economic reconstruction, the integration of diverse regional populations, and territorial disputes with neighboring states. The [[Territorial Settlement of 1951]] resolved most border issues, though some disputes with [[Empire of Khalindar|Khalindar]] regarding promised territories remained contentious.
+
+== Government and Politics ==
+
+The Belcanto Nations operate under a federal parliamentary system that balances national coordination with regional autonomy. The [[Federal Constitution of 1949]] established a bicameral legislature, an elected presidency, and an independent judiciary, while guaranteeing significant self-governance rights to the seven constituent regions.
+
+The [[Federal Assembly]] consists of the [[Senate of Nations]] (representing the seven regions equally) and the [[Chamber of Representatives]] (representing population-based constituencies). The President serves as head of state, while the Prime Minister leads the government and is responsible to the Federal Assembly.
+
+Each of the five constituent nations maintains its own parliament, government, and cultural institutions, with authority over education, culture, local economic development, and regional infrastructure. This system reflects the historical diversity of the Belcantese peoples while providing the coordination necessary for effective national governance.
+
+=== The Five Nations ===
+
+The federal structure encompasses five distinct nations, each with specialized economic roles:
+
+**[[Minuet]]**: As the federation's industrial powerhouse, Minuet has a strong manufacturing base contributing significantly to the national GDP. The nation is home to major industries including steel, machinery, and chemicals. However, declining global demand for industrial goods and competition from other manufacturing hubs have created economic challenges that require federal coordination to address.
+
+**[[Harmonia]]**: Controlling crucial maritime routes, Harmonia serves as the federation's commercial hub. Its strategic coastal position has enabled it to become a center for trade and commerce, with ports and shipping industries vital to the national economy. While this brings prosperity, it also makes Harmonia vulnerable to global trade fluctuations and maritime disputes.
+
+**[[Cantus]]**: The mining heartland of the federation, Cantus is rich in minerals and natural resources. The extraction of precious metals, rare earth elements, and coal drives its economy and provides crucial raw materials for Minuet's industries. However, environmental concerns, federal regulations, and the volatility of global commodity prices pose ongoing challenges.
+
+**[[Melodia]]**: With fertile lands and favorable climate, Melodia serves as the federation's agricultural center. It is a leading producer of grains, fruits, and livestock, supplying a significant portion of the federation's food needs. The nation faces challenges in modernizing traditional farming methods and adapting to climate variations.
+
+**[[Serenade Kingdom]]**: Known for its military traditions, the Serenade Kingdom plays a key role in the federation's defense. Its military industries and well-trained forces are a source of national pride and a critical component of the federal economy. The kingdom faces the ongoing challenge of balancing military spending with social development while maintaining military ethics and aligning defense goals with the federation's peaceful aspirations.
+
+== See Also ==
+
+* [[Belcanto Campaign]] - The imperial conquest
+* [[Vesperan Empire]] - Former imperial ruler
+* [[Ancient Belcantese Kingdoms]] - Pre-conquest history
+* [[Belcantese Cultural Resistance]] - Independence movement
+* [[Empire of Khalindar]] - Territorial disputes
+* [[Federal Constitution of 1949]] - Founding document
+* [[Council of Seven Crowns]] - Traditional governance
+
+== References ==
+
+* [[Belcantese Historical Institute]] (1975). "The Struggle for Independence: A Comprehensive History"
+* [[Federal Ministry of Culture]] (1999). "Cultural Heritage and National Identity in the Belcanto Nations"
+* [[Vesperan Imperial Archives]] (1940). "Administrative Reports from the Belcanto Governorship"
+* [[International Studies Quarterly]] (1965). "Federal Systems in Post-Imperial States"
+* [[Journal of Belcantese Studies]] (1989). "Music as Resistance: Cultural Identity Under Imperial Rule"
+
+[[Category:Countries]]
+[[Category:Federal Republics]]
+[[Category:Belcanto Nations]]
+[[Category:Former Vesperan Territories]]
+[[Category:Post-Imperial States]]

@@ -1,0 +1,24 @@
+<infobox>
+	<title source="title">
+		<default>{{PAGENAME}}</default>
+	</title>
+	<image source="image"/>
+	<data source="data1">
+		<label>Label</label>
+	</data>
+	<data source="data2">
+		<label>Label</label>
+	</data>
+	<data source="data3">
+		<label>Label</label>
+	</data>
+	<data source="data4">
+		<label>Label</label>
+	</data>
+	<data source="data5">
+		<label>Label</label>
+	</data>
+	<data source="data6">
+		<label>Label</label>
+	</data>
+</infobox>

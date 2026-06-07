@@ -1,0 +1,1 @@
+<span class="flagicon">[[File:{{{flag alias-{{{variant}}}|{{#if:{{{flag alias|}}}|{{{flag alias}}}|Flag placeholder.svg}}}}}|{{#if:{{{size|}}}|{{{size}}}|23x15px}}|{{{border-{{{variant}}}|{{{border|border}}}}}} |alt={{{alias}}}|link={{{alias}}}]]</span><noinclude>{{documentation}}</noinclude>

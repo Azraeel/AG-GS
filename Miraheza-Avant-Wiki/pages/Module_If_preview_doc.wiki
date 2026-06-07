@@ -1,0 +1,19 @@
+{{Module rating|protected}}
+{{High-use}}
+{{Lua|Module:If preview/configuration}}
+{{Uses TemplateStyles|Module:If preview/styles.css}}
+
+This module implements {{Tl|If preview}} and {{Tl|Preview warning}}. It helps templates/modules determine if they are being previewed.
+
+Prefer implementing the template versions in other templates.
+
+In a module to use the <code>main()</code>, you need to pass a frame table with an args table.
+
+For the preview warning, use <code>_warning()</code>.
+
+<includeonly>{{#ifeq:{{SUBPAGENAME}}|sandbox | |
+<!-- Please, categories below this line and interwikis at Wikidata -->
+
+}}</includeonly><noinclude>
+[[pt:Módulo:If preview/doc]]
+</noinclude>

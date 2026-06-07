@@ -1,0 +1,9 @@
+{{userbox-level
+| level    = 
+| id       = {{W|English language|en}}
+| info     = This user is a '''[[:Category:User en-N|native speaker]]''' of the '''{{W|English&nbsp;language}}'''.
+| nocat = {{{nocat|false}}}
+| usercategory = User en-N
+}}<noinclude>
+{{Documentation|Template:User x}}
+</noinclude>

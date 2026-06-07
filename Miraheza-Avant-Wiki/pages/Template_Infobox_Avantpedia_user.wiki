@@ -1,0 +1,403 @@
+{{#if:{{NAMESPACE}}|{{Infobox
+| bodyclass   = vcard
+| bodystyle   = {{#if:{{{fontcolor|}}}|color: {{{fontcolor}}};}} {{#if:{{{width|}}}|width: {{{width}}};}} {{#if:{{{tablecolor|}}}|background-color: {{{tablecolor}}}}}
+| headerstyle = {{#if:{{{color|}}}|background-color: {{{color}}}}}; {{#if:{{{headerfontcolor|}}}|color: {{{headerfontcolor}}}}}
+| abovestyle  = {{#if:{{{abovecolor|}}}|background-color: {{{abovecolor}}}|}}; {{#if:{{{abovefontcolor|}}}|color: {{{abovefontcolor}}}|}}
+| autoheaders = y
+
+| title       = <includeonly>{{#if:{{{abovefontcolor|}}}||{{{title|{{BASEPAGENAME}}}}} {{#if:{{{status|}}}|<br /><small>{{{status}}}</small>}}}}</includeonly>
+| above       = {{#if:{{{abovefontcolor|}}}|{{{title|{{BASEPAGENAME}}}}} {{#if:{{{status|}}}|<br /><small>{{{status}}}</small>}}}}
+
+| subheader   = —&nbsp;<span class="role">{{#if:{{{role|}}}|{{{role}}}|[[Wikipedia]]n}}</span>&nbsp;<!--
+                -->{{#switch:{{lc:{{{gender|{{Gender:{{#titleparts:{{BASEPAGENAME}}|1}}|m|f|NONE}}}}}}}
+                        |[[male]]|male|m={{tooltip|&#9794;|male|class=gender|style=font-size: larger;}}&nbsp;
+                        |[[female]]|female|f={{tooltip|&#9792;|female|class=gender|style=font-size: larger;}}&nbsp;
+                        |other|o={{tooltip|1=<span style="line-height: 12px;">[[File:Gender sign.svg|x12px|alt=other gender|link=]]</span>|2=other gender|class=gender}}&nbsp;
+                        ||none=
+                        |#default={{tooltip|1=<span style="line-height: 12px;">[[File:Gender sign.svg|x12px|alt={{{gender}}}|link=]]</span>|2={{{gender}}}|class=gender}}&nbsp;
+                    }}—
+
+| image       = {{#invoke:InfoboxImage|InfoboxImage|image={{{image|}}}|alt={{{image_alt|}}}|size={{{image_width|238px}}}|title={{{image_caption|}}}}}
+| caption     = {{{image_caption|}}}
+
+| label1      = Name
+| data1       = {{#if:{{{honorific prefix|{{{honorific_prefix|}}}}}}|<span class="honorific-prefix">{{{honorific prefix|{{{honorific_prefix|}}}}}}&nbsp;</span>}}{{#if:{{{name|}}}|<includeonly><div class="fn" style="display:inline;">{{{name|}}}</div></includeonly>}}{{#if:{{{honorific suffix|{{{honorific_suffix|}}}}}}|&nbsp;<span class="honorific-suffix">{{{honorific suffix|{{{honorific_suffix|}}}}}}</span>}}
+
+| label2      = Born
+| data2       = {{br separated entries|1={{#if:{{{birthname|{{{birth_name|}}}}}}|<span class="nickname">{{{birthname|{{{birth_name}}}}}}</span>}}|2={{{birthdate|{{{birth_date|}}}}}}|3={{#if:{{{birthplace|{{{birth_place|}}}}}}|<div class="birthplace">{{{birthplace|{{{birth_place}}}}}}</div>}}}}
+
+| label3      = Name in real life
+| data3       = {{{real_name|}}}
+| class3      = nickname
+
+| label4      = Gender
+| data4       = {{{custom_gender|}}}
+
+| label5      = Pronouns
+| data5       = {{{pronoun|}}}
+
+| label6      = Nationality
+| data6       = {{{nationality|}}}
+| class6      = category
+
+| label7      = Country
+| data7       = {{#ifexist:template:country data {{ucfirst:{{{country}}}}}|{{flag|{{ucfirst:{{{country}}}}}}}|{{ucfirst:{{{country|}}}}}}}
+
+| label8      = Current&nbsp;location
+| data8       = {{#if:{{{location|}}}| {{#ifeq:{{#if:{{{country|}}}|1|0}}{{#ifexist:{{{location}}}, {{{country}}}|1|0}}|11<!-- i.e. both conditions are met-->|[[{{{location}}}, {{{country}}}|{{{location}}}]] | {{#ifeq:{{#ifeq:{{strfind short|{{{location|}}}|,|1}}|0|0|1}}{{#ifexist:{{{location|}}}|1|0}}|11<!-- i.e. both conditions are met-->| [[{{{location}}}]] | {{{location}}} }} }} }}
+| class8      = label
+
+| label9      = Languages
+| data9       = {{{languages|}}}
+| class9      = category
+
+| label10     = Time&nbsp;zone
+| data10      = {{#if:{{{timezone|}}}|{{#if:{{isValidPageName|{{{timezone}}}}}|[[{{{timezone}}}]]|{{{timezone}}}}}}}
+
+| label11     = Current&nbsp;time
+| data11      = {{{current_time|}}}
+
+| label13     = Ethnicity
+| data13      = {{{ethnicity|}}}
+| class13     = category
+
+| label14     = Race
+| data14      = {{{race|}}}
+| class14     = category
+
+| label15     = Height
+| data15      = {{{height|}}}
+
+| label16     = Weight
+| data16      = {{{weight|}}}
+
+| label17     = Hair
+| data17      = {{{hair|}}}
+
+| label18     = Eyes
+| data18      = {{{eyes|}}}
+
+| label19     = [[Handedness|{{color|{{{fontcolor|}}}|Handedness}}]]
+| data19      = {{{handedness|}}}
+
+| label20     = [[Blood&nbsp;type|{{color|{{{fontcolor|}}}|Blood&nbsp;type}}]]
+| data20      = {{{blood_type|{{{bloodtype|}}}}}}
+
+| label21     = Sexuality
+| data21      = {{{sexuality|}}}
+| class21     = category
+
+| label22     = [[Intelligence quotient|{{color|{{{fontcolor|}}}|IQ}}]]
+| data22      = {{{iq|}}}
+
+| label23     = [[Myers–Briggs Type Indicator|{{color|{{{fontcolor|}}}|Personality&nbsp;type}}]]
+| data23      = {{{personality_type|}}}
+| class23     = category
+
+| label24     = {{#switch:{{lc:{{{alignment|}}}}}|lawful good|neutral good|chaotic good|lawful neutral|neutral|true neutral|chaotic neutral|lawful evil|neutral evil|chaotic evil=[[Alignment (Dungeons & Dragons)|{{color|{{{fontcolor|}}}|Alignment}}]]|light side|lightside|light|jedi|dark side|darkside|dark|sith=[[Alignment (role-playing games)#Star Wars|{{color|{{{fontcolor|}}}|Alignment}}]]|#default=[[Alignment (role-playing games)|{{color|{{{fontcolor|}}}|Alignment}}]]}}
+| data24      = {{#switch:{{lc:{{{alignment|}}}}}|lawful good|neutral good|chaotic good|lawful neutral|neutral|true neutral|chaotic neutral|lawful evil|neutral evil|chaotic evil=[[{{{alignment|}}}]]|light side|lightside|light|jedi=[[Force (Star Wars)|{{color|{{{fontcolor|}}}|Light Side}}]]|dark side|darkside|dark|sith=[[Dark side (Star Wars)|{{color|{{{fontcolor|}}}|Dark Side}}]]|#default={{{alignment|}}}}}
+| class24     = category
+
+| header25    = Family and friends
+
+| label26     = Marital&nbsp;status
+| data26      = {{{marital status|}}}
+| class26     = category
+
+| label27     = Spouse
+| data27      = {{{spouse|{{{partner|}}}}}}
+
+| label28     = Girlfriend
+| data28      = {{{girlfriend|}}}
+
+| label29     = Boyfriend
+| data29      = {{{boyfriend|}}}
+
+| label30     = Children
+| data30      = {{{children|}}}
+
+| label31     = Siblings
+| data31      = {{{siblings|}}}
+
+| label32     = Parents
+| data32      = {{{parents|}}}
+
+| label33     = Pets
+| data33      = {{{pets|}}}
+
+| header34    = Education and employment
+
+| label35     = Occupation
+| data35      = {{{occupation|}}}
+| class35     = role
+
+| label36     = Employer
+| data36      = {{{employer|}}}
+| class36     = org
+
+| label37     = Education
+| data37      = {{{education|}}}
+
+| label38     = Primary school
+| data38      = {{{primaryschool|}}}
+
+| label39     = Intermediate school
+| data39      = {{{intschool|}}}
+
+| label40     = High school
+| data40      = {{{highschool|}}}
+
+| label41     = College
+| data41      = {{{college|}}}
+
+| label42     = University
+| data42      = {{{university|}}}
+
+| label43     = Classes
+| data43      = {{{classes|}}}
+
+| header44    = Hobbies, favourites and beliefs
+
+| label45     = Hobbies
+| data45      = {{{hobbies|}}}
+
+| label46     = Religion
+| data46      = {{{religion|}}}
+| class46     = category
+
+| label47     = Politics
+| data47      = {{{politics|}}}
+
+| label48     = [[Pseudonym|{{color|{{{fontcolor|}}}|Aliases}}]]
+| data48      = {{{aliases|}}}
+| class48     = nickname
+
+| label49     = Movies
+| data49      = {{{movies|}}}
+
+| label50     = Shows
+| data50      = {{{shows|}}}
+
+| label51     = Books
+| data51      = {{{books|}}}
+
+| label52     = Music
+| data52      = {{{music|}}}
+
+| header62    = {{#if:{{{interests|}}}|Interests}}
+
+| data63      = {{#if:{{{interests|}}}|<div style="text-align: left">
+{{{interests|}}}
+</div>}}
+
+| header64    = Contact info
+
+| label65     = Website
+| data65      = {{{website|}}}
+
+| label66     = Blog
+| data66      = {{{blog|}}}
+
+| label67     = Email
+| data67      = {{{email|}}}
+
+| label68     = [[ICQ|{{color|{{{fontcolor|}}}|ICQ}}]]
+| data68      = {{#if:{{{icq|}}}|[https://people.icq.com/people/about_me.php?uin={{urlencode:{{{icq}}}}} {{{icq}}}]}}
+
+| label69     = [[AOL Instant Messenger|{{color|{{{fontcolor|}}}|AIM}}]]
+| data69      = {{{aim|}}}
+
+| label70     = [[GTalk|{{color|{{{fontcolor|}}}|GTalk}}]]
+| data70      = {{{gtalk|}}}
+
+| label71     = [[Extensible Messaging and Presence Protocol|{{color|{{{fontcolor|}}}|XMPP}}]]
+| data71      = {{{jabber|}}}
+
+| label72     = [[Skype|{{color|{{{fontcolor|}}}|Skype}}]]
+| data72      = {{{skype|}}}
+
+| label73     = .Mac
+| data73      = {{{mac|}}}
+
+| label74     = [[WP:IRC|{{color|{{{fontcolor|}}}|IRC}}]]
+| data74      = {{{irc|}}}
+
+| label75     = [[WP:Discord|{{color|{{{fontcolor|}}}|Discord}}]]
+| data75      = {{{discord|}}}
+
+| label76     = [[Facebook|{{color|{{{fontcolor|}}}|Facebook}}]]
+| data76      = {{#if:{{{facebook|}}}|[https://www.facebook.com/{{urlencode:{{{facebook}}}}} {{{facebook}}}]}}
+
+| label77     = [[Flickr|{{color|{{{fontcolor|}}}|Flickr}}]]
+| data77      = {{#if:{{{flickr|}}}|[https://www.flickr.com/photos/{{urlencode:{{{flickr}}}}} {{{flickr}}}]}}
+
+| label78     = [[GitHub|{{color|{{{fontcolor|}}}|GitHub}}]]
+| data78      = {{#if:{{{github|}}}|[https://github.com/{{urlencode:{{{github}}}}} {{{github}}}]}}
+
+| label79     = [[Instagram|{{color|{{{fontcolor|}}}|Instagram}}]]
+| data79      = {{#if:{{{instagram|}}}|[https://www.instagram.com/{{urlencode:{{{instagram}}}}} {{{instagram}}}]}}
+
+| label80     = [[LinkedIn|{{color|{{{fontcolor|}}}|LinkedIn}}]]
+| data80      = {{#if:{{{linkedin|}}}|[https://www.linkedin.com/in/{{urlencode:{{{linkedin}}}}}/ {{{linkedin}}}]}}
+
+| label81     = [[Mastodon (social network)|{{color|{{{fontcolor|}}}|Mastodon}}]]
+| data81      = {{#if:{{{mastodon|}}}|{{url|{{{mastodon}}}}}}}
+
+| label82     = [[Myspace|{{color|{{{fontcolor|}}}|Myspace}}]]
+| data82      = {{{myspace|}}}
+
+| label83     = [[Pinterest|{{color|{{{fontcolor|}}}|Pinterest}}]]
+| data83      = {{{pinterest|}}}
+
+| label84     = [[Twitter|{{color|{{{fontcolor|}}}|Twitter}}]]
+| data84      = {{#if:{{{twitter|}}}|[https://twitter.com/{{urlencode:{{{twitter}}}}} {{{twitter}}}]}}
+
+| label85     = [[YouTube|{{color|{{{fontcolor|}}}|YouTube}}]]
+| data85      = {{#if:{{{youtube|}}}|[https://www.youtube.com/{{urlencode:{{{youtube}}}}} {{{youtube}}}]}}
+
+| header87    = [[Special:Prefixindex/User:{{BASEPAGENAMEE}}/|{{color|{{{headerfontcolor|{{{fontcolor|}}}}}}|{{BASEPAGENAME}} subpages}}]]
+
+| data88      = {{#if:{{{subpages|}}}|<div style="text-align: left">
+{{{subpages|}}}
+</div>}}
+
+| header89    = Account statistics
+
+| label90     = Joined
+| data90      = {{{joined_date|}}}
+
+| label91     = First edit
+| data91      = {{{first_edit|}}}
+
+| label92     = [[WP:CONFIRM|{{color|{{{fontcolor|}}}|{{#if:{{{autoconfirmed|}}}|{{#if:{{{confirmed|}}}|Confirmed<br />}}Autoconfirmed|{{#if:{{{confirmed|}}}|Confirmed}}}}}}]]
+| data92      = {{#if:{{{autoconfirmed|}}}|{{#if:{{{confirmed|}}}|{{{confirmed}}}<br />}}{{{autoconfirmed}}}|{{#if:{{{confirmed|}}}|{{{confirmed}}}}}}}
+
+| label93     = [[Wikipedia:Extended confirmed editors|{{color|{{{fontcolor|}}}|Extended confirmed}}]]
+| data93      = {{{extended_confirmed|}}}
+
+| label94     = [[WP:Account creator|{{color|{{{fontcolor|}}}|Account creator}}]]
+| data94      = {{{account_creator|}}}
+
+| label95     = [[WP:Autopatrolled|{{color|{{{fontcolor|}}}|Autopatrolled}}]]
+| data95      = {{{autopatrolled|}}}
+
+| label96     = [[WP:File mover|{{color|{{{fontcolor|}}}|File mover}}]]
+| data96      = {{{file_mover|}}}
+
+| label97     = [[WP:Mass message senders|{{color|{{{fontcolor|}}}|{{Abbr|MMS|Mass message sender}}}}]]
+| data97      = {{{mass_message_sender|}}}
+
+| label98     = [[WP:NPR|{{color|{{{fontcolor|}}}|New page reviewer}}]]
+| data98      = {{{new_page_reviewer|}}}
+
+| label99     = [[WP:Page mover|{{color|{{{fontcolor|}}}|Page mover}}]]
+| data99      = {{{page_mover|}}}
+
+| label100     = [[WP:Reviewing pending changes|{{color|{{{fontcolor|}}}|Pending changes reviewer}}]]
+| data100      = {{{reviewer|}}}
+
+| label101     = [[WP:Rollback|{{color|{{{fontcolor|}}}|Rollbacker}}]]
+| data101      = {{{rollbacker|}}}
+
+| label102     = [[WP:Template editor|{{color|{{{fontcolor|}}}|Template editor}}]]
+| data102      = {{{template_editor|}}}
+
+| label103     = [[Wikipedia:Edit filter helper|{{color|{{{fontcolor|}}}|Edit filter helper}}]]
+| data103      = {{{edit_filter_helper|}}}
+
+| label104     = [[WP:EFM|{{color|{{{fontcolor|}}}|Edit filter manager}}]]
+| data104      = {{{edit_filter_manager|}}}
+
+| label105     = [[WP:Administrators|{{color|{{{fontcolor|}}}|Administrator}}]]
+| data105      = {{{admin|}}}
+
+| label106     = [[WP:Bureaucrats|{{color|{{{fontcolor|}}}|Bureaucrat}}]]
+| data106      = {{{bureaucrat|}}}
+
+| label107     = [[WP:CheckUser|{{color|{{{fontcolor|}}}|CheckUser}}]]
+| data107      = {{{check_user|}}}
+
+| label108     = [[WP:Oversight|{{color|{{{fontcolor|}}}|Oversighter}}]]
+| data108      = {{{overseer|}}}
+
+| data109      = {{#ifeq:{{Yesno|1={{{adminstats|no}}}}}|yes|{{Adminstats|1={{BASEPAGENAME}}|style={{#ifeq:{{Yesno|1={{{adminstats_style|no}}}}}|yes|{{{adminstats_style|{{BASEPAGENAME}}/Mystyle}}}}}}}}}
+
+| label119     = [[xtools:ec/en.wikipedia.org/{{ROOTPAGENAME}}|{{color|{{{fontcolor|}}}|Edit count}}]]
+| data119      = {{{edit_count|}}}
+
+| label120     = {{#if:{{{permissions|}}}|<span class="plainlinks">[{{fullurl:Special:ListUsers|limit=1&username={{ROOTPAGENAMEE}}}} {{color|{{{fontcolor|}}}|Permissions}}]</span>}}
+| data120      = {{{permissions|}}}
+
+| label121     = {{{custom_label_account_1|}}}
+| data121      = {{{custom_data_account_1|}}}
+
+| header122    = _BLANK_
+
+| label123     = Signature
+| data123      = {{{signature|}}}
+
+| data124     = {{{module|}}}
+| data125     = {{{module2|}}}
+| data126     = {{{module3|}}}
+
+| header127    = {{#if:{{{userboxes|}}}|Userboxes}}
+
+| data128      = {{#if:{{{userboxes|}}}|
+<table style="background: transparent; vertical-align: middle !important; text-align: center; font-size: 95%; color: {{{fontcolor|#000000}}}; margin: auto; border-spacing: 0px; border-collapse: collapse;">
+<tr><td>
+{{{userboxes|}}}
+</td></tr>
+</table>
+}}
+
+| header129    = {{{custom_header|}}}
+
+| data140      = {{#if:{{{custom_data|}}}|<div style="text-align: left">
+{{{custom_data|}}}
+</div>}}
+| label141     = {{{custom_label1|}}}
+| data141      = {{{custom_data1|}}}
+| label142     = {{{custom_label2|}}}
+| data142      = {{{custom_data2|}}}
+| label143     = {{{custom_label3|}}}
+| data143      = {{{custom_data3|}}}
+| label144     = {{{custom_label4|}}}
+| data144      = {{{custom_data4|}}}
+| label145     = {{{custom_label5|}}}
+| data145      = {{{custom_data5|}}}
+| label146     = {{{custom_label6|}}}
+| data146      = {{{custom_data6|}}}
+| label147     = {{{custom_label7|}}}
+| data147      = {{{custom_data7|}}}
+| label148     = {{{custom_label8|}}}
+| data148      = {{{custom_data8|}}}
+| label149     = {{{custom_label9|}}}
+| data149      = {{{custom_data9|}}}
+
+}}|{{error|[[Template:Infobox Avantpedia user]] must not appear in articles. Try [[Template:Infobox person]] instead.}}}}{{Category handler
+|page = {{{demopage|}}}
+|nocat = {{{nocat|false}}}
+|user = {{#if:{{{location_category|}}}|[[Category:Avantpedian in {{{location_category}}}]]|{{#if:{{{location|}}}{{{country|}}}| {{#ifexist:Category:Wikipedians in {{{location|}}}, {{{country|}}}
+    | [[Category:{{resolve category redirect|Avantpedian in {{{location|}}}, {{{country|}}}}}]]
+    | {{#ifexist:Category:Avantpedian in {{{location}}}
+        | [[Category:{{resolve category redirect|Avantpedian in {{{location}}}}}]]
+            <!-- The lines below were broken for years, so for compatibility they do not now over-ride the
+                 {{{country}}} categorization. -->
+        | {{#ifexist:Category:Avantpedian in {{#invoke:string|replace|{{{location|}}}|.*,%s?||plain=false}}
+           | [[Category:{{resolve category redirect|Avantpedian in {{#invoke:string|replace|{{{location|}}}|.*,%s?||plain=false}}}}]]
+        }}{{#if:{{{country|}}}
+          | {{#ifexist:Category:Avantpedian in {{{country}}}
+               | [[Category:{{resolve category redirect|Avantpedian in {{{country}}}}}]]
+               | {{#ifexist:Category:Avantpedian in the {{{country|}}}
+                  | [[Category:{{resolve category redirect|Avantpedian in the {{{country}}}}}]]
+                  | {{#ifexist:template:country data {{{country}}}
+                     |{{#ifexist:Category:Avantpedian in {{getalias|{{{country|}}}}}
+                       | [[Category:{{resolve category redirect Avantpedian in {{getalias|{{{country|}}}}}}}]]
+                       | {{#ifexist:Category:Avantpedian in the {{getalias|{{{country|}}}}}
+                          | [[Category:{{resolve category redirect|Avantpedian in the {{getalias|{{{country|}}}}}}}]]
+      }} }} }} }} }} }} }} }} }}}}<!--
+    Gender category should remain independent of location category.
+   -->{{#switch:{{lc:{{{gender|{{Gender:{{#titleparts:{{BASEPAGENAME}}|1}}|m|f|NONE}}}}}}}
+           |[[male]]|male|m=[[Category:Male Avantpedian]]
+           |[[female]]|female|f=[[Category:Female Avantpedian]]}}
+}}{{#invoke:Check for unknown parameters|check|unknown={{main other|[[Category:Pages using infobox Avantpedia user with unknown parameters|_VALUE_{{PAGENAME}}]]}}|preview=Page using [[Template:Infobox Avantpedia user]] with unknown parameter "_VALUE_"|ignoreblank=y| abovecolor | abovefontcolor | account_creator | admin | adminstats | adminstats_style | aim | aliases | alignment | autoconfirmed | autopatrolled | birth_date | birth_name | birth_place | birthdate | birthname | birthplace | blog | blood_type | books | boyfriend | bureaucrat | check_user | children | classes | college | color | confirmed | country | current_time | custom_data | custom_data_account_1 | custom_data1 | custom_data2 | custom_data3 | custom_data4 | custom_data5 | custom_data6 | custom_data7 | custom_data8 | custom_data9 | custom_gender | custom_header | custom_label_account_1 | custom_label1 | custom_label2 | custom_label3 | custom_label4 | custom_label5 | custom_label6 | custom_label7 | custom_label8 | custom_label9 | demopage | discord | edit_count | edit_filter_helper | edit_filter_manager | education | email | employer | ethnicity | extended_confirmed | eyes | facebook | file_mover | first_edit | flickr | fontcolor | gender | girlfriend | github | gtalk | hair | handedness | headerfontcolor | height | highschool | hobbies | honorific prefix | honorific suffix | honorific_prefix | honorific_suffix | icq | image | image_alt | image_caption | image_width | instagram | interests | intschool | iq | irc | jabber | joined_date | languages | linkedin | location | location_category | mac | marital status | mass_message_sender | mastodon | module | module2 | module3 | movies | music | myspace | name | nationality | new_page_reviewer | nocat | occupation | overseer | page_mover | parents | partner | permissions | personality_type | pets | pinterest | politics | primaryschool | pronoun | race | real_name | religion | reviewer | role | rollbacker | sexuality | shows | siblings | signature | skype | spouse | status | subpages | tablecolor | template_editor | timezone | title | twitter | university | userboxes | website | weight | width | youtube }}<noinclude>{{Documentation}}</noinclude>

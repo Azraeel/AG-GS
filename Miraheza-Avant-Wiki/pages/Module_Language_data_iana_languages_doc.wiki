@@ -1,0 +1,12 @@
+{{High-use}}
+
+This module contains data taken directly from a local copy of an IANA [https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry language-subtag-registry file].
+
+The table in this module was created using the awb script at [[User:Trappist_the_monk/IANA_subtag_registry_file_update|IANA subtag registry file update]] or by [[Module:Language/data/iana languages/make]].  There should be no need to hand edit this table, so please do not do so except to reflect changes that are actually present in the source (in which case it is probably better to re-run one of the tools on a new data file).
+
+The data in this table come from records that are not 'Deprecated', do not have a 'Preferred-Value', and are not 'Private use'.
+
+<includeonly>{{#ifeq:{{SUBPAGENAME}}|sandbox | |
+<!-- Categories below this line, please; interwikis at Wikidata -->
+[[Category:Language-related modules]]
+}}</includeonly>

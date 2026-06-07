@@ -1,0 +1,11 @@
+/.gitattributes text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+
+Miraheza-Avant-Wiki/avantpediawiki.xml text eol=lf
+Miraheza-Avant-Wiki/README.md text eol=lf
+Miraheza-Avant-Wiki/pages/*.wiki text eol=lf
+scripts/*.py text eol=lf

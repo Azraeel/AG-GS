@@ -1,0 +1,41 @@
+Initially known as the Imperial State of Suomi, now mostly known as Suomi, the nation is seen as a Regional Power on it's continent. While not a Military, Economic, or Political Powerhouse as of yet, there have been and are strides to improve that within the nation for the decades to come.{{Infobox country
+| conventional_long_name = Imperial Suomi
+| common_name            = Suomi
+| flag_width             = 250
+| symbol_width           = 150
+| motto                  = "Taistele Suomen puolesta"
+| anthem                 = "Royal Color Anthem"
+| capital                = Rauhamaa
+| national_languages     = [[w:Finnish_Language|Suomi]]
+| ethnic_groups          = {{unbulleted list | 92.8% [[w:Finns|Suomi]] |
+7.2% Other }}
+| religion               = Odynosian
+| demonym                = Suomish
+| government_type        = [[w:Constitutional_Monarchy|Constitutional Monarchy]]
+| leader_title1          = [[President|President]]
+| leader_name1           = Aapo Koskinen
+| leader_title2          = [[King of the House of Jarvinen|King]]
+| leader_name2           = Sampo Jarvinen XII
+| legislature            = Chamber of State Governors
+| upper_house            = Lower House of State Representatives
+| established_event1     = Establishment under King Jarvinen I
+| established_date1      = 1652
+| established_event2     = Ratification of Charter of Rights and Limitations
+| established_date2      = 1850
+| established_event3     = Restructuring into Constitutional Monarchy under Jarvinen X
+| established_date3      = 1958
+| population_estimate    = {{increase}} 43,744,676
+| HDI                    = {{increase}} 0.897
+| HDI_year               = 2000
+| currency               = [[Suomi Pel]]
+| drives_on              = Right
+| calling_code           = +72
+| iso3166code            = SU
+| cctld                  = .su
+}}
+
+== Historical Overview ==
+The History of Suomi can be described as decently peaceful, however with spots of internal strife and exterior threats. The Earliest records place tribes living in the area around 8,500 BC, with limited external migration to the region leaving it fairly isolated. The first nations rose up around the early 800's, with the framework for Suomi having been found in the now Capital City of Rauhamaa, with Huts and a small Keep located in a National Preservation Site next to the now, Presidential Palace.
+
+=== Reign of Jarvinen I ===
+Nothing of note happened up to the proclamation of Imperial Suomi in 1652, with Jarvinen the First taking reign. However, in 1658, the neighboring Lunareia attempted multiple incursions along the border causing the 1st Tyla River Crisis.

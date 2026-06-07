@@ -1,0 +1,13 @@
+{{Module rating|protected}}
+<!-- Please place categories where indicated at the bottom of this page and interwikis at Wikidata (see [[Wikipedia:Wikidata]]) -->
+== Usage ==
+This module is invoked by {{tl|WPMILHIST Infobox style}}; see template documentation for usage.
+
+Used also as a meta-module in [[Module:Military navigation]] in the following manner:
+
+<syntaxhighlight lang='lua'> local styles = mw.loadData('Module:WPMILHIST Infobox style') </syntaxhighlight>
+
+<includeonly>{{#ifeq:{{SUBPAGENAME}}|sandbox | |
+<!-- Categories below this line, please; interwikis at Wikidata -->
+
+}}</includeonly>

@@ -1,0 +1,13 @@
+{{Used in system}}
+{{Module rating|protected}}
+{{Lua|Module:Arguments}}
+
+Implements {{Template link|Template link general}} and other templates in its family
+
+==Basic usage==
+<syntaxhighlight lang="wikitext">{{#invoke:Template link general|main}}</syntaxhighlight>
+This module is used by {{Template link|Template link general}} and related templates to display links to templates. It is similar to {{Template link|Template link}} but with additional formatting options and the ability to include parameters in the display. See {{Slink|Template:Template link general#Parameters}} for the full list, which can be enabled by passing any value to them (such as "on", "yes", etc).
+
+<noinclude>
+[[pt:Módulo:Link de predefinição em geral/doc]]
+</noinclude>

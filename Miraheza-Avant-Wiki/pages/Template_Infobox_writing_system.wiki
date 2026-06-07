@@ -1,0 +1,146 @@
+<includeonly>{{Infobox
+| autoheaders = y
+| bodystyle = {{{bodystyle|}}}
+| headerstyle = background:#ddd
+| labelstyle = padding-right:0.6em;<!-- ensures at least 0.6em between a label's end and its data -->
+
+<!-- Main heading (`|above=`) -->
+| abovestyle =
+       padding:0.25em;
+    background:{{#switch:{{lc:{{{type|}}}}}
+                |abjad|[[abjad]]|impure abjad|impure [[abjad]]|consonantary|[[consonantary]]=palegreen
+                |alphabet|[[alphabet]]=lightblue   |abugida|[[abugida]]=navajowhite
+                |syllabary|[[syllabary]]=pink      |semisyllabary|[[semisyllabary]]|semi-syllabary|[[semi-syllabary]]=violet
+                |manual|[[manual alphabets|manual]]|[[manual]]=paleturquoise   |pictographic|[[pictographic]]=palegoldenrod
+                |ideographic|[[ideographic]]=gold  |logographic|[[logographic]]|[[logosyllabic]]=mistyrose
+                |stenography|[[stenography]] |shorthand|[[shorthand]] =
+                  {{#switch:{{lc:{{{SHtype|}}}}}
+                   |abjad|[[abjad]]|impure abjad|impure [[abjad]]|consonantal|[[consonantal]]=palegreen
+                   |alphabetic|[[alphabetic]]=lightblue   |abugida|[[abugida]]=navajowhite
+                   |syllabic|[[syllabic]]=pink            |semisyllabic|[[semisyllabic]]|semi-syllabary|[[semi-syllabary]]=violet
+                   |undeciphered|[[undeciphered writing systems|undeciphered]]=gainsboro
+                   |alternative|[[list of writing systems#alternative alphabets|alternative]]=khaki
+                   |#default=turquoise
+                  }}
+                |undeciphered|[[undeciphered writing systems|undeciphered]]=gainsboro
+                |alternative|[[list of writing systems#alternative alphabets|alternative]]=khaki
+                |tactile|[[tactile alphabet|tactile]]=white;font-variant:small-caps
+                |#default=white
+               }};
+
+| above = {{{name|{{PAGENAMEBASE}}}}}<br /><div style="font-weight:normal">{{{altname|{{{native_name|}}}}}}</div>
+
+<!-- IMAGE -->
+| imagestyle = padding-top:0.4em;padding-bottom:0.4em;{{{imagestyle|}}}
+| image     = {{#invoke:InfoboxImage|InfoboxImage|image={{{sample|}}}|size={{{image size|{{{image_size|{{{imagesize|}}}}}}}}}|alt={{{alt|}}}|class={{{imageclass|skin-invert-image}}}}} 
+| captionstyle = border-bottom:1px solid #aaa;<!-- to ensure caption and first line of info kept distinct -->{{{captionstyle|}}}
+| caption = {{{caption|}}}
+
+<!-- TOP -->
+| label3 = Script type
+|  data3 = {{{typedesc-prefix|}}} {{#if:{{{SHline|}}}{{{SHform|}}}{{{SHtype|}}}{{{mode|}}}{{{type|}}}
+           | {{longitem|style=line-height:1.25em
+              | {{#if:{{{SHline|}}}|{{{SHline|}}}-line|}} {{{SHform|}}} {{{SHtype|}}} {{{mode|}}} {{{type|}}}
+          }} }} {{{typedesc|}}}
+
+| label5 = Creator
+|  data5 = {{{creator|}}}
+
+| label7 = Created
+|  data7 = {{#if:{{{date|}}} |{{{date}}} }}
+
+| label9 = Published
+|  data9 = {{#if:{{{SHdates|}}}{{{published|}}}
+           | {{longitem|style=line-height:1.25em
+              |   {{#if:{{{SHdates|}}} |{{{SHdates}}}}} {{#if:{{{published|}}} |{{{published}}}}}
+          }} }}
+
+| label11 = {{longitem|Time period}}
+|  data11 = {{{time|}}}
+
+| label13 = Status
+|  data13 = {{{status|}}}
+
+| label15 = Direction
+|  data15 = {{#invoke:String2 | ucfirst | {{#invoke:WikidataIB|getValue |P1406 |{{{direction|}}} |qid={{{qid|}}} |onlysourced=no |fwd=ALL}} }} {{{direction comment|}}}
+
+| label17 = Official script
+|  data17 = {{{official script|}}}
+| label18 = Region
+|  data18 = {{{region|}}}
+
+| label19 = {{longitem|Print basis}}
+|  data19 = {{{print|}}}
+
+| label21 = {{engvar|defaultWord=Romanized |defaultLang=en-US |en-US=Romanized |us=Romanized | gb=Romanised |engvar={{{engvar|}}} }} from
+|  data21 = {{{romanised-from|{{{romanized-from|}}}}}}
+
+<!-- LANGUAGES -->
+| label25 = Language
+|  data25 = {{{language|}}}
+
+| label26 = Languages
+|  data26 = {{{languages|}}}
+
+<!-- RELATED SCRIPTS -->
+| header30= Related scripts
+
+| label33 = {{#if:{{{fam1|{{{family|}}}}}} |{{longitem|Parent systems}}}}
+|  data33 = {{#if:{{{fam1|{{{family|}}}}}}
+           | <div style="padding-top:0.15em;">{{{fam1|{{{family}}}}}}<!--
+ --><ul><li>{{#if:{{{fam2|}}}|{{{fam2}}}<!--
+ --><ul style="margin-left:0.8em;"><li>{{#if:{{{fam3|}}}|{{{fam3}}}<!--
+ --><ul style="margin-left:0.8em;"><li>{{#if:{{{fam4|}}}|{{{fam4}}}<!--
+ --><ul style="margin-left:0.8em;"><li>{{#if:{{{fam5|}}}|{{{fam5}}}<!--
+ --><ul style="margin-left:0.8em;"><li>{{#if:{{{fam6|}}}|{{{fam6}}}<!--
+ --><ul style="margin-left:0.8em;"><li>{{#if:{{{fam7|}}}|{{{fam7}}}<!--
+ --><ul style="margin-left:0.8em;"><li>{{#if:{{{fam8|}}}|{{{fam8}}}<!--
+ --><ul style="margin-left:0.8em;"><li>{{#if:{{{fam9|}}}|{{{fam9}}}<!--
+ --><ul style="margin-left:0.8em;"><li>{{#if:{{{fam10|}}}|{{{fam10}}}<!--
+ --><ul style="margin-left:0.8em;"><li>{{#if:{{{fam11|}}}|{{{fam11}}}<!--
+ --><ul style="margin-left:0.8em;"><li>{{#if:{{{fam12|}}}|{{{fam12}}}<!--
+ --><ul style="margin-left:0.8em;"><li>{{#if:{{{fam13|}}}|{{{fam13}}}<!--
+ --><ul style="margin-left:0.8em;"><li>{{#if:{{{fam14|}}}|{{{fam14}}}<!--
+ --><ul style="margin-left:0.8em;"><!--
+  --><li>{{#if:{{{fam15|}}} |{{{fam15}}} <ul style="margin-left:0.3em;"><li>{{{name|{{PAGENAMEBASE}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}} }}</li><!--
+ --></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul> |{{{name|{{PAGENAMEBASE}}}}}}}</li></ul><!--
+--></div> }}
+
+| label37 = {{longitem|Child systems}}
+|  data37 = {{{children|}}}
+
+| label39 = {{longitem|Sister systems}}
+|  data39 = {{{sisters|}}}
+
+<!-- ISO 15924 -->
+| header40= ISO 15924
+
+| label43 = [[ISO 15924]]
+|  data43 = {{#if:{{ISO 15924 code|{{{iso15924|}}}|default=}} |{{mono|1={{ISO 15924 code|{{{iso15924|}}} }}}} {{mono|1=({{ISO 15924 number|alpha4={{{iso15924|}}}}})}},&#x20;&#x200B;{{ISO 15924 name|{{{iso15924|}}}}}{{Main other|[[Category:Scripts with ISO 15924 four-letter codes]]}}}} {{{iso15924 note|}}}
+
+<!-- UNICODE -->
+| header50= [[Unicode]]
+
+| label53 = {{longitem|Unicode alias}}
+|  data53 = {{#if:{{{iso15924|}}} |{{ISO 15924 alias|{{{iso15924|}}}}}}}
+
+| label55 = {{longitem|[[Unicode range]]}}
+|  data55 = {{#switch:{{lc:{{{unicode|}}}}}
+ |no|not|none|not in unicode=Not in Unicode
+ |#default={{{unicode|}}}}}
+
+<!-- FOOTNOTES -->
+|header60 = _BLANK_
+|  data61 = {{#if:{{{footnotes|}}} |<div style="border-top:1px solid #aaa;text-align:left;">{{{footnotes}}}</div>}}
+
+| belowclass = noprint selfref
+| belowstyle = text-align:left; background:#eee;
+| below = {{#switch:{{lc:{{{note|{{{ipa-note|yes}}}}}}}}
+ |none|no|0=
+ |#default={{Infobox writing system/ipa-note}}}}
+}}<!--
+-->{{#invoke:Check for unknown parameters|check|unknown={{main other|[[Category:Pages using infobox writing system with unknown parameters|_VALUE_]]}}|preview = Page using [[Template:Infobox writing system]] with unknown parameter "_VALUE_"|ignoreblank=y
+| SHdates | SHform | SHline | SHtype | alt | altname | bodystyle | caption | captionstyle | children | creator | date | direction comment | direction | engvar | fam10 | fam11 | fam12 | fam13 | fam14 | fam15 | fam1 | fam2 | fam3 | fam4 | fam5 | fam6 | fam7 | fam8 | fam9 | family | footnotes | image size | imagesize | imagestyle | ipa-note | iso15924 note | iso15924 | language | languages | mode | name | native_name | note | official script | print | published | qid | region | romanized_from | romanised_from | sample | sisters | status | time | type | typedesc | typedesc-prefix | unicode
+}}<!--
+
+--></includeonly><noinclude>{{Documentation}}</noinclude>

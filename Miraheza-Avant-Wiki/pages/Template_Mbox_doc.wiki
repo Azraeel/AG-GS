@@ -1,0 +1,53 @@
+{{Documentation subpage}}
+<!-- Please add categories at the bottom of this page, and interwikis at Wikidata (see Wikipedia:Wikidata) -->
+{{Cascade-protected template}}
+{{Used in system}}
+{{Lua|Module:Message box}}
+{{Mbox templates (small)}}
+
+{{tl|Mbox}} stands for '''M'''ulti-namespace message'''box''', a [[WP:MTM|metatemplate]] with which [[Wikipedia:Namespace|namespace]]-sensitive {{cl|Mbox and messagebox templates|messagebox templates}} can be implemented. 
+
+The most common are {{tl|Ambox}} for articles, {{tl|Tmbox}} for talk pages, {{tl|Imbox}} for file (formerly image) pages, {{tl|Cmbox}} for category pages and {{tl|Ombox}} for other types of page.
+
+== Usage ==
+This template should only be used for message boxes that really need to adapt their style. Most message boxes do not need this and should use one of the varieties just listed. Using those templates directly means that your template will look the same on its template page and at any other place you show it, which makes it clear on what kind of pages it is supposed to be used. It also gives you access to any extra features those templates offer, and it saves some server load.
+
+This template takes the same parameters as {{tl|Ambox}}, {{tl|Imbox}}, etc. Some of the boxes this template calls only handles images of max 52px width, thus that limitation also applies to this template or you will get ugly padding problems.
+
+=== Parameters ===
+List of all parameters:
+<syntaxhighlight lang="wikitext">
+{{Mbox
+| name = name of the template
+| demospace = {{{demospace|}}} / main / talk / file / category / other
+| type  = speedy / delete / content / style / notice / move / protection
+| image = none / [[File:Some image.svg|40px]]
+| imageright = [[File:Some image.svg|40px]]
+| style=CSS values
+| textstyle=CSS values
+| text  = The message body text.
+| small = {{{small|left}}} / left / no
+| smallimage = none / [[File:Some image.svg|30px]]
+| smallimageright = none / [[File:Some image.svg|30px]]
+| smalltext  = A shorter message body text.
+| plainlinks = no
+}}
+</syntaxhighlight>
+
+Note: The small parameters only have effect when the template appears on an article, talk or "other" page type. For their associated documentation, see {{tl|Ambox}}, {{tl|Tmbox}} and/or {{tl|Ombox}}. Using the small parameters when they are not valid has no effect, but also does no harm.
+
+== About demospace ==
+This template optionally takes the "demospace" parameter as described at {{tl|Namespace detect}}. That parameter is only for testing and demonstration purposes. If you want to lock your message box to one style then instead use one of the other mboxes directly.
+
+Namespace "Image:" was renamed to "File:" on 11 December 2008. This template was updated to understand both names well before that, thus it still works fine. For backwards compatibility it still understands "demospace&nbsp;= image" which means the same thing as "demospace&nbsp;= file". But using "demospace&nbsp;= image" is now deprecated.
+
+== Mbox family ==
+{{Mbox templates see also}}
+
+== See also ==
+* [[:Category:Mbox and messagebox templates]]
+
+<includeonly>{{Sandbox other||
+<!-- Add categories below this line, and interwikis at Wikidata -->
+[[Category:Mbox and messagebox templates]]
+}}</includeonly>

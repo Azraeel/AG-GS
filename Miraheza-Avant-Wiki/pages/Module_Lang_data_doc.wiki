@@ -1,0 +1,14 @@
+{{High-use}}
+{{Lua|Module:Language/data/iana languages|Module:Language/data/iana scripts|Module:Language/data/iana regions|Module:Language/data/iana variants|Module:Language/data/iana suppressed scripts}}
+
+This module holds various support tables used by [[Module:Lang]]
+* <code>lang_name_table</code> – this table provides language name data used in the creation of categories and, for the {{tld|lang-??}} templates, the language name annotation
+* <code>override</code> – this table overrides data in <code>lang_name_table</code>; commonly used when an en.wiki article title differs from the name for the standard's language
+* <code>rtl_scripts</code> – a list of ISO 15924 scripts that are written right-to-left; data taken from the table at [[ISO 15924#List of codes]]
+* <code>translit_title_table</code> – a table of tables that is used in the creation of the <code>title=</code> attribute of the {{tag|i}} tags that wrap transliterated text; data adapted from {{tlx|transl}}
+* <code>article_name</code> – this table overrides <code>lang_name_table</code> and <code>override</code> for (typically) disambiguated en.wiki article names
+
+<includeonly>{{#ifeq:{{SUBPAGENAME}}|sandbox | |
+<!-- Categories below this line, please; interwikis at Wikidata -->
+[[Category:Language-related modules]]
+}}</includeonly>

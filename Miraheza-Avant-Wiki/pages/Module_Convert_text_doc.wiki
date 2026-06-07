@@ -1,0 +1,7 @@
+{{Module rating|protected}}
+{{High-use}}
+This page defines text used by [[Module:Convert]]. All documentation (from [[Module:Convert/doc]]) is at that module. The text includes messages and categories output by the module, and parameters used as input.
+
+This is a separate module to simplify translation for use on another wiki. For example, see <code>translation_table</code> and the other tables in [[:bn:Module:Convert/text]]. Documentation is at [[Template:Convert/Transwiki guide]].
+
+Any changes should first be tested at [[Module:Convert/text/sandbox]]—see [[Template:Convert/testcases#Sandbox testcases]].

@@ -1,0 +1,59 @@
+__NOTOC__
+
+<div style="background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d); color: white; padding: 2em; border-radius: 10px; margin-bottom: 1.5em; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+    <h1 style="font-size: 2.5em; margin-bottom: 0.2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">The World of Avant Garde</h1>
+    <p style="font-size: 1.2em; max-width: 800px; margin: 0 auto;">A world of dual moons, diverse nations, and endless possibilities</p>
+</div>
+
+== Overview ==
+
+Avant Garde is a terrestrial planet located in a solar system that mirrors many characteristics of Earth's own celestial neighborhood. The planet serves as the primary setting for the Avant-Garde roleplay universe, featuring a complex political landscape, diverse cultures, and a unique astronomical feature that sets it apart from Earth: a dual-moon system.
+
+== Astronomical Characteristics ==
+
+=== Basic Parameters ===
+Avant Garde is a terrestrial planet with a nitrogen-oxygen atmosphere. The planet has a surface gravity of approximately 1.0g, an axial tilt of 23.5°, and completes one rotation every 24 hours. The planet orbits its star once every 365.25 days.
+
+=== The Dual-Moon System ===
+
+Avant Garde's most distinctive feature is its dual-moon system, which consists of two natural satellites orbiting the planet at different distances. This configuration creates unique astronomical phenomena and cultural influences that have shaped the world's civilizations.
+
+==== Primary Moon ====
+The primary moon orbits at a distance of 384,000 kilometers and completes one orbit every 29.53 days. It appears at full lunar diameter in the night sky and creates standard lunar tides.
+
+==== Secondary Moon ====
+The secondary moon orbits at a distance of 800,000 to 1,000,000 kilometers and completes one orbit every 50 to 80 days. It appears at one-third of the primary moon's diameter in the night sky and creates tides amounting to no more than 5% of the primary moon's effect.
+
+==== Stability and Resonance ====
+Both moons orbit within the planet's gravitational sphere of influence. The secondary moon follows a nearly circular orbit, and both satellites move in similar orbital planes. The moons maintain stable orbits through gravitational resonance.
+
+== Effects on Civilization ==
+
+=== Calendar Systems ===
+The dual-moon system has created complex calendar systems across Avant Garde's nations. The primary moon creates a 29.53-day cycle, while the secondary moon creates a 50-80 day "long month." Major celebrations may only align every few years when both cycles coincide. Farmers account for both lunar cycles when planning planting and harvesting.
+
+=== Tidal Patterns ===
+The dual-moon system creates subtle tidal variations. Standard lunar tides remain dominant, but every few weeks the secondary moon creates gentle long-period tidal beats. When both moons align, tidal ranges increase by a few centimeters. Coastal communities experience different tidal patterns based on their location.
+
+=== Astronomical Phenomena ===
+The dual-moon system creates unique astronomical phenomena. The secondary moon creates annular solar eclipses due to its smaller size. When the secondary moon passes through the planet's shadow, it creates long, rusty-red lunar eclipses. In the night sky, the secondary moon appears as a smaller, slower-moving companion to the primary moon. Many cultures have developed mythologies around the dual-moon system.
+
+== Cultural Impact ==
+
+The dual-moon system has influenced Avant Garde's civilizations in many ways. Many religions incorporate the dual-moon system into their cosmologies, assigning different deities to each satellite. The moons feature prominently in artistic and literary traditions as symbols of duality and balance. Sailors use both moons for celestial navigation. Various cultures have developed unique timekeeping systems based on the dual cycles. Many cultural events and festivals are timed to coincide with specific lunar alignments.
+
+== Scientific Understanding ==
+
+Modern nations on Avant Garde have developed sophisticated astronomical knowledge. Scientists understand how the dual-moon system maintains stability. Advanced models predict complex tidal patterns. Detailed knowledge of both moons' orbital characteristics has been accumulated through centuries of observation. Historical records document the system's behavior over multiple generations.
+
+== Future Exploration ==
+
+As technology advances, nations have begun planning missions to explore both moons. Primary moon exploration programs include manned missions and research stations. Secondary moon missions require longer-duration spaceflight but offer unique scientific opportunities. Research focuses on understanding the dual-moon system's formation and evolution. Resource utilization plans include potential mining operations on both lunar bodies.
+
+== Related Topics ==
+
+The study of Avant Garde's dual-moon system connects to numerous related fields. The broader celestial neighborhood is explored in the [[Solar System]] article. Scientific understanding of the cosmos is detailed in [[Astronomy in Avant Garde]]. Timekeeping systems based on the dual moons are examined in [[Lunar Calendars]]. The oceanic and atmospheric effects of the moon system are analyzed in [[Tidal Patterns]]. Cultural interpretations of the celestial bodies are explored in [[Cultural Astronomy]].
+
+== References ==
+
+The dual-moon system provides a unique astronomical environment that has shaped Avant Garde's civilizations and cultures throughout history.

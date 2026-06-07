@@ -1,0 +1,64 @@
+{{Documentation subpage}}<!-- PLEASE ADD CATEGORIES WHERE INDICATED AT THE BOTTOM OF THIS PAGE -->
+{{High-use|946171}}
+{{Lua|Module:Side box}}
+{{Template shortcut|Sidebox}}
+<div style="clear:right;margin-top:1.0em;">
+{{Side box |metadata=No
+ | above = '''''above''''' content appears here, in a separate row above the main text area
+ | image = {{smaller|('''''image''''')}} 
+ | text = '''''text''''' content, the box's main content, appears here
+ | imageright = {{longitem|style=font-size:90%|1=('''''image<br/>right'''''{{hair space}})}}
+ | below = '''''below''''' content appears here, in a separate row below the main text area
+}}
+{{Parameter names example|_template=Side box
+|above
+|image
+|text
+|imageright
+|below
+}}
+This template is a meta-template that can be used to create nicely-styled floating content boxes (see example directly opposite).
+</div>
+
+==Parameters==
+{| class="wikitable"
+! Parameter !! Description
+|-
+| metadata    || Set as {{para|metadata|no}} to suppress the [[Meta element|HTML "metadata" class]].
+|-
+| position    || Set as {{para|position|left}} to position the box on the left-hand rather than right-hand side of the page and remove the float.
+|-
+| class       || [[CSS]] [[HTML attribute|class]]es to apply to the box.
+|-
+| style       || [[CSS styles]] to apply to the box.
+|-
+| role        || [[WAI-ARIA]] role, such as note or figure, to apply to the box.
+|-
+| labelledby  || HTML id of an element that acts as a label for the box.
+|-
+| abovestyle  || CSS styles to apply to the "above" cell (see next parameter) only.
+|-
+| above       || Content to appear in a separate row above the main cell (and spanning the entire width of the box).
+|-
+| image       || A full image tag (or other content); if this is not present or set as {{code|none}}, no image is displayed.
+|-
+| textclass   || CSS classes to apply to the text cells only. (default: 'plainlist')
+|-
+| textstyle   || CSS styles to apply to the text cells only.
+|-
+| text        || Text to display in the box.
+|-
+| imageright  || A full image tag (or other content) to display in a separate table cell on the box's righthand side.
+|-
+| below       || Content to appear in a separate row underneath the main cell (and spanning the entire width of the box).
+|}
+
+==See also==
+* {{tl|sidebar}}
+* {{tl|Mbox}}
+* {{tl|Box-r}}
+
+<includeonly>{{Sandbox other||<!--CATEGORIES BELOW THIS LINE, PLEASE:-->
+[[Category:Box templates]]
+[[Category:Sidebar meta-templates]]
+}}</includeonly>

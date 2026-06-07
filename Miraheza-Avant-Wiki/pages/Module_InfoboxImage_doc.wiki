@@ -1,0 +1,262 @@
+{{used in system}}
+{{Module rating|protected}}
+
+==Overview==
+This module is used within infoboxes to process the image parameters and tidy up the formatting of the result.
+
+==Parameters==
+{| class="wikitable"
+! Parameter
+! Description
+|-
+| image
+| Required. The main parameter that should be passed over which contains the image info.
+|-
+| size
+| Size to display image, in pixels. Use is discouraged per [[WP:THUMBSIZE]]; see {{Para|upright}} below instead.
+|-
+| maxsize
+| Maximum size to display image. Note: If no size or sizedefault params specified then image will be shown at maxsize.
+|-
+| sizedefault
+| The size to use for the image if no size param is specified. Defaults to [[Wikipedia:Autosizing images|frameless]].
+|-
+| alt
+| Alt text for the image.
+|-
+| title
+| Title text for image (mouseover text).
+|-
+| border
+| If yes, then a border is added.
+|-
+| page
+| The page number to be displayed when using a multi-page image.
+|-
+| upright
+| If upright=yes, adds "upright" which displays image at 75% of default image size (which is 220px if not changed at [[Special:Preferences]]). If a value, adds "upright=''value''" to image, where values less than 1 scale the image down (0.9 = 90%) and values greater than 1 scale the image up (1.15 = 115%).
+|-
+| center
+| If yes, then the image is centered.
+|-
+| thumbtime
+| thumbtime param, used for video clips.
+|-
+| suppressplaceholder
+| If no, then will not suppress certain placeholder images. See {{section link||Placeholder images which can be suppressed}}.
+|-
+| link
+| Page to go to when clicking on the image.
+|-
+| class
+| HTML classes to add to the image.
+|}
+
+Note: If you specify the maxsize or sizedefault params, then you should include the px after the number.
+
+{{Use dmy dates|date=July 2016}}
+
+==Parameters displayed in image syntax==
+All parameters:
+:<syntaxhighlight lang="wikitext" style="overflow:auto;">{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} | size={{{size}}} | maxsize={{{maxsize}}} | sizedefault={{{sizedefault}}} | upright={{{upright}}} | alt={{{alt}}} | title={{{title}}} | thumbtime={{{thumbtime}}} | link={{{link}}} | border=yes | center=yes | page={{{page}}} | class={{{class}}} }}</syntaxhighlight>
+:<code>{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} | size={{{size}}} | maxsize={{{maxsize}}} | sizedefault={{{sizedefault}}} | upright={{{upright}}} | alt={{{alt}}} | title={{{title}}} | thumbtime={{{thumbtime}}} | link={{{link}}} | border=yes | center=yes | page={{{page}}} | class={{{class}}}}}</code>
+
+When "size" and "maxsize" are defined, the smaller of the two is used (if "px" is omitted it will be added by the module):
+:<syntaxhighlight lang="wikitext" style="overflow:auto;">{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} | size=300px | maxsize=250px }}</syntaxhighlight>
+:<code>{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} | size=300px | maxsize=250px }}</code>
+
+When "size" is not defined, "sizedefault" is used, even if larger than "maxsize" (in actual use "px" is required after the number; omitted here to show it is not added by the module):
+:<syntaxhighlight lang="wikitext" style="overflow:auto;">{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} | sizedefault=250px | maxsize=200px }}</syntaxhighlight>
+:<code>{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} | sizedefault=250px | maxsize=200px }}</code>
+
+When "size" and "sizedefault" are not defined, "maxsize" is used (in actual use "px" is required after the number; omitted here to show it is not added by the module):
+:<syntaxhighlight lang="wikitext" style="overflow:auto;">{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} | maxsize=250px }}</syntaxhighlight>
+:<code>{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} | maxsize=250px }}</code>
+
+When "size", "sizedefault", and "maxsize" are not defined, "frameless" is added, which displays the image at the default thumbnail size (220px, but logged in users can change this at [[Special:Preferences]]) and is required if using "upright" to scale the default size:
+:<syntaxhighlight lang="wikitext" style="overflow:auto;">{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} }}</syntaxhighlight>
+:<code>{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} }}</code>
+
+Use of "upright" without a number value, which displays the image at approximately 75% of the user's default size (multiplied by 0.75 then rounded to nearest 10):
+:<syntaxhighlight lang="wikitext" style="overflow:auto;">{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} | upright = yes }}</syntaxhighlight>
+:<code>{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} | upright = yes }}</code>
+
+When "alt" is used without "title", the alt text is also used as the title:
+:<syntaxhighlight lang="wikitext" style="overflow:auto;">{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} | alt = Alt text }}</syntaxhighlight>
+:<code>{{#invoke:InfoboxImage | InfoboxImage | image={{{image}}} | alt = Alt text }}</code>
+
+For more information, see [[Wikipedia:Extended image syntax]].
+
+==Sample usage==
+<syntaxhighlight lang="wikitext" style="overflow:auto;">
+|image = {{#invoke:InfoboxImage|InfoboxImage|image={{{image|}}}|upright={{{image_upright|1}}}|alt={{{alt|}}}}}
+</syntaxhighlight>
+
+==Examples==
+{| class="wikitable"
+|-
+| {{mlx|InfoboxImage|InfoboxImage}}
+| {{#invoke:InfoboxImage|InfoboxImage}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=}}
+|-
+|
+{{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg}}<br />
+{{mlx|InfoboxImage|InfoboxImage|image{{=}}File:Abbey Rd Studios.jpg}}<br />
+{{mlx|InfoboxImage|InfoboxImage|image{{=}}Image:Abbey Rd Studios.jpg}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Abbey Rd Studios.jpg}}
+|-
+|
+{{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg|upright{{=}}yes}}<br />
+| {{#invoke:InfoboxImage|InfoboxImage|image=Abbey Rd Studios.jpg|upright=yes}}
+|-
+|
+{{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg|upright{{=}}1.2}}<br />
+| {{#invoke:InfoboxImage|InfoboxImage|image=Abbey Rd Studios.jpg|upright=1.2}}
+|-
+|
+{{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg|size{{=}}100px}}<br />
+{{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg|size{{=}}100}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Abbey Rd Studios.jpg|size=100px}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}{{elc|Image:Abbey Rd Studios.jpg|200px}}}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=[[Image:Abbey Rd Studios.jpg|200px]]}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}{{elc|Image:Abbey Rd Studios.jpg|200px}}|title=Abbey Road!}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=[[Image:Abbey Rd Studios.jpg|200px]]|title=Abbey Road!}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg|sizedefault{{=}}250px|alt{{=}}The front stairs and door of Abbey Road Studios}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Abbey Rd Studios.jpg|sizedefault=250px|alt=The front stairs and door of Abbey Road Studios}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg|sizedefault{{=}}250|alt{{=}}The front stairs and door of Abbey Road Studios}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Abbey Rd Studios.jpg|sizedefault=250|alt=The front stairs and door of Abbey Road Studios}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg|sizedefault{{=}}250px|alt{{=}}The front stairs and door of Abbey Road Studios|title=Exterior, front view of Abbey Road studios}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Abbey Rd Studios.jpg|sizedefault=250px|alt=The front stairs and door of Abbey Road Studios|title=Exterior, front view of Abbey Road studios}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg|alt{{=}}The front stairs and door of Abbey Road Studios}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Abbey Rd Studios.jpg|alt=The front stairs and door of Abbey Road Studios}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg|size{{=}}100px|alt{{=}}The front stairs and door of Abbey Road Studios}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Abbey Rd Studios.jpg|size=100px|alt=The front stairs and door of Abbey Road Studios}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}Bandera de Bilbao.svg|size{{=}}100|border{{=}}yes}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Bandera de Bilbao.svg|size=200|border=yes}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}Image is needed male.svg}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Image is needed male.svg}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}Image is needed male.svg|suppressplaceholder=no}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Image is needed male.svg|suppressplaceholder=no}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}{{elc|File:Image is needed male.svg|200px}}}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=[[File:Image is needed male.svg|200px]]}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}{{elc|File:Image is needed male.svg|200px}}|suppressplaceholder{{=}}no}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=[[File:Image is needed male.svg|200px]]|suppressplaceholder=no}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg|size=50px|maxsize{{=}}100px}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Abbey Rd Studios.jpg|size=50px|maxsize=100px}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg|size=200px|maxsize{{=}}100px}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Abbey Rd Studios.jpg|size=200px|maxsize=100px}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}{{elc|File:Abbey Rd Studios.jpg|200px}}|maxsize{{=}}100px}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=[[File:Abbey Rd Studios.jpg|200px]]|maxsize=100px}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}Abbey Rd Studios.jpg|maxsize{{=}}100px|center{{=}}yes}}
+| {{#invoke:InfoboxImage|InfoboxImage|image=Abbey Rd Studios.jpg|maxsize=100px|center=yes}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}no such image|maxsize{{=}}100px|center{{=}}yes}}<!-- this issue sh'd be fixed somewhow-->
+| {{#invoke:InfoboxImage|InfoboxImage|image=no such image|maxsize=100px|center=yes}}
+|-
+| {{mlx|InfoboxImage|InfoboxImage|image{{=}}{{tji|Multiple image|width: 60|image1: Yellow card.svg|image2: Red card.svg}}}}
+| {{#invoke:InfoboxImage|InfoboxImage|image={{multiple image|width=50|image1=Yellow card.svg|image2=Red card.svg}}}}
+|}
+
+== Placeholder images which can be suppressed ==
+{|
+| style="vertical-align:top;" |
+* [[:File:Blue - replace this image female.svg]]
+* [[:File:Blue - replace this image male.svg]]
+* [[:File:Female no free image yet.png]]
+* [[:File:Male no free image yet.png]]
+* [[:File:Flag of None (square).svg]]
+* [[:File:Flag of None.svg]]
+* [[:File:Flag of.svg]]
+* [[:File:Green - replace this image female.svg]]
+* [[:File:Green - replace this image male.svg]]
+* [[:File:Image is needed female.svg]]
+* [[:File:Image is needed male.svg]]
+* [[:File:Location map of None.svg]]
+* [[:File:Male no free image yet.png]]
+* [[:File:Missing flag.png]]
+* [[:File:No flag.svg]]
+* [[:File:No free portrait.svg]]
+* [[:File:No portrait (female).svg]]
+* [[:File:No portrait (male).svg]]
+* [[:File:Red - replace this image female.svg]]
+* [[:File:Red - replace this image male.svg]]
+* [[:File:Replace this image female (blue).svg]]
+* [[:File:Replace this image female.svg]]
+* [[:File:Replace this image male (blue).svg]]
+* [[:File:Replace this image male.svg]]
+* [[:File:Silver - replace this image female.svg]]
+* [[:File:Silver - replace this image male.svg]]
+* [[:File:Replace this image.svg]]
+* [[:File:Cricket no pic.png]]
+* [[:File:CarersLogo.gif]]
+* [[:File:Diagram Needed.svg]]
+* [[:File:Example.jpg]]
+* [[:File:Image placeholder.png]]
+* [[:File:No male portrait.svg]]
+* [[:File:Nocover-upload.png]]
+* [[:File:NoDVDcover copy.png]]
+* [[:File:Noribbon.svg]]
+| style="vertical-align:top;" |
+* [[:File:No portrait-BFD-test.svg]]
+* [[:File:Placeholder barnstar ribbon.png]]
+* [[:File:Project Trains no image.png]]
+* [[:File:Image-request.png]]
+* [[:File:Sin bandera.svg]]
+* [[:File:Sin escudo.svg]]
+* [[:File:Replace this image - temple.png]]
+* [[:File:Replace this image butterfly.png]]
+* [[:File:Replace this image.svg]]
+* [[:File:Replace this image1.svg]]
+* [[:File:Resolution angle.png]]
+* [[:File:Image-No portrait-text-BFD-test.svg]]
+* [[:File:Insert image here.svg]]
+* [[:File:No image available.png]]
+* [[:File:NO IMAGE YET square.png]]
+* [[:File:NO IMAGE YET.png]]
+* [[:File:No Photo Available.svg]]
+* [[:File:No Screenshot.svg]]
+* [[:File:No-image-available.jpg]]
+* [[:File:Null.png]]
+* [[:File:PictureNeeded.gif]]
+* [[:File:Place holder.jpg]]
+* [[:File:Unbenannt.JPG]]
+* [[:File:UploadACopyrightFreeImage.svg]]
+* [[:File:UploadAnImage.gif]]
+* [[:File:UploadAnImage.svg]]
+* [[:File:UploadAnImageShort.svg]]
+* [[:File:CarersLogo.gif]]
+* [[:File:Diagram Needed.svg]]
+* [[:File:No male portrait.svg]]
+* [[:File:NoDVDcover copy.png]]
+* [[:File:Placeholder barnstar ribbon.png]]
+* [[:File:Project Trains no image.png]]
+* [[:File:Image-request.png]]
+|}
+
+== Tracking categories ==
+* {{clc|Pages using infoboxes with thumbnail images}}
+
+<includeonly>{{Sandbox other||
+{{DEFAULTSORT:Image, {{PAGENAME}}}}
+[[Category:Modules for image handling]]
+[[Category:Modules that add a tracking category]]
+[[Category:Infobox modules]]
+}}</includeonly>

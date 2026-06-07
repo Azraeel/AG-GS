@@ -1,0 +1,220 @@
+= Solaran Alphabet =
+
+The '''Solaran Alphabet''', also known as '''Sunline''', is the standard writing system for the [[Solaran]] language.
+
+== History ==
+
+The Sunline alphabet was commissioned by the [[Solaran Parliament]] in 1895 as part of a national literacy initiative. It was designed to be:
+* Easier to learn than the Elder Tongue's abugida
+* Compatible with modern printing technology
+* Suitable for everyday communication
+* Distinct from other world scripts
+
+The development of Sunline was a response to the growing need for mass literacy during Solara's industrial expansion in the late 19th century. The alphabet was officially adopted in 1898 after three years of development and testing in schools across the nation. The Parliament's Education Committee played a crucial role in overseeing the project, ensuring that the new writing system would serve both educational and practical needs of the growing nation.
+
+== Structure ==
+
+The Sunline alphabet consists of '''26 letters''', derived from simplified and rotated strokes of the classical script. It is written left-to-right, with vowels and consonants written on the same line.
+
+=== Consonants ===
+
+{| class="wikitable"
+|+ Solaran Consonant Letters
+! Letter
+! Name
+! IPA
+! Description
+|-
+| A
+| aq
+| /q/
+| Deep-throated stop
+|-
+| B
+| be
+| /b/
+| Voiced bilabial plosive
+|-
+| C
+| ce
+| /ʃ/
+| Voiceless postalveolar fricative
+|-
+| D
+| de
+| /d/
+| Voiced alveolar plosive
+|-
+| E
+| e
+| /ʔ/
+| Glottal stop
+|-
+| F
+| fe
+| /f/
+| Voiceless labiodental fricative
+|-
+| G
+| ge
+| /g/
+| Voiced velar plosive
+|-
+| H
+| he
+| /x/
+| Voiceless velar fricative
+|-
+| I
+| i
+| /j/
+| Palatal approximant
+|-
+| J
+| je
+| /ɬ/
+| Voiceless lateral fricative
+|-
+| K
+| ke
+| /k/
+| Voiceless velar plosive
+|-
+| L
+| le
+| /l/
+| Alveolar lateral approximant
+|-
+| M
+| me
+| /m/
+| Bilabial nasal
+|-
+| N
+| ne
+| /n/
+| Alveolar nasal
+|-
+| O
+| o
+| /ŋ/
+| Velar nasal
+|-
+| P
+| pe
+| /p/
+| Voiceless bilabial plosive
+|-
+| R
+| re
+| /r/
+| Alveolar trill
+|-
+| S
+| se
+| /s/
+| Voiceless alveolar fricative
+|-
+| T
+| te
+| /t/
+| Voiceless alveolar plosive
+|-
+| U
+| u
+| /w/
+| Labial-velar approximant
+|}
+
+=== Vowels ===
+
+{| class="wikitable"
+|+ Solaran Vowel Letters
+! Letter
+! Name
+! IPA
+! Description
+|-
+| A
+| a
+| /a/
+| Open central unrounded
+|-
+| E
+| e
+| /e/
+| Close-mid front unrounded
+|-
+| I
+| i
+| /i/
+| Close front unrounded
+|-
+| O
+| o
+| /o/
+| Close-mid back rounded
+|-
+| U
+| u
+| /u/
+| Close back rounded
+|-
+| Y
+| y
+| /ʉ/
+| Close central rounded
+|-
+| Ä
+| ä
+| /ə/
+| Mid central
+|-
+| Ö
+| ö
+| /ɔ/
+| Open-mid back rounded
+|-
+| Ë
+| ë
+| /ɪ/
+| Near-close near-front unrounded
+|}
+
+== Punctuation ==
+
+The Sunline alphabet uses several punctuation marks:
+* '''.''' - Full stop
+* ''',''' - Comma
+* '''?''' - Question mark
+* '''!''' - Exclamation mark
+* '''"''' - Quotation marks
+* '''-''' - Hyphen
+* ''':''' - Colon
+* ''';''' - Semicolon
+
+== Usage ==
+
+The Sunline alphabet is used for:
+* Everyday writing and communication
+* Official government documents
+* Education (primary and secondary)
+* Newspapers and media
+* Business and commerce
+* Street signs and public information
+
+== See Also ==
+* [[Solaran]]
+* [[Solra]]
+* [[Solaran Language Office]]
+* [[Solaran Education]]
+
+== References ==
+* [[Solaran Language Office]] (1898). "Official Sunline Alphabet Standard"
+* [[Solaran Ministry of Education]] (1899). "Implementation Guidelines for the Sunline Alphabet"
+* [[Solaran Parliament]] (1895). "Education Reform Act of 1895"
+* [[Solaran Academy of Linguistics]] (1900). "The Development of the Sunline Writing System"
+* [[Solaran Historical Society]] (1905). "A Century of Solaran Writing Systems"
+
+[[Category:Languages]]
+[[Category:Solara]]

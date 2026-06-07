@@ -1,0 +1,26 @@
+<span class="plainlinks {{{class|}}}" {{ {{{|safesubst:}}}#if:{{{style|}}}|style="{{{style|}}}"}}>(<noinclude><!--
+
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{1|}}}|{{{1}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{2|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{2}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{3|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{3}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{4|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{4}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{5|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{5}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{6|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{6}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{7|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{7}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{8|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{8}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{9|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{9}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{10|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{10}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{11|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{11}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{12|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{12}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{13|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{13}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{14|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{14}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{15|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{15}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{16|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{16}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{17|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{17}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{18|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{18}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{19|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{19}}}}}<noinclude><!--
+--></noinclude>{{ {{{|safesubst:}}}#if:{{{20|}}}|{{ {{{|safesubst:}}}int:{{{separator|pipe}}}-separator}}{{{20}}}}}<noinclude><!--
+
+--></noinclude>)</span><noinclude>
+{{documentation}}
+</noinclude>

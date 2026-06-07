@@ -1,0 +1,134 @@
+{{Infobox language
+| name = Witersckar
+| nativename = Witersckar Sprache
+| states = [[Imperial Duchy of Rhovland]]
+| region = Central [[Viridia]]
+| fam1 = Valderic
+| fam2 = West Valderic
+| fam3 = High Valderic
+| script = Valderic script
+| nation = [[Imperial Duchy of Rhovland]]
+| iso1 = wt
+| iso2 = wit
+| iso3 = wit
+}}
+
+= Witersckar =
+
+'''Witersckar''' (Witersckar: ''Witersckar Sprache'') is the official federal language of the [[Imperial Duchy of Rhovland]] and serves as the primary administrative and diplomatic language throughout the duchy. Descended from the administrative language of the [[Valderic Empire]], Witersckar developed extensive vocabulary for legal, diplomatic, and military terminology during centuries of imperial administration.
+
+== Etymology ==
+
+The name "Witersckar" derives from the Valderic words "witer" (wise) and "sckar" (speech), literally meaning "wise speech" or "learned language." This reflects its historical role as the language of education, law, and administration throughout the former Valderic territories.
+
+== Geographic Distribution ==
+
+Witersckar is spoken as a first language by approximately 180 million people in Rhovland and as a second language by virtually all educated citizens throughout the duchy. The language serves as the medium of instruction in federal universities, government proceedings, and inter-regional commerce.
+
+== Linguistic Features ==
+
+Witersckar is characterized by its complex system of grammatical cases inherited from Valderic, extensive compound word formation, and sophisticated verbal conjugation system that indicates not only tense and mood but also the speaker's relationship to the information being conveyed. The language contains over 200 distinct terms for various types of legal proceedings and diplomatic protocols.
+
+== Dialects ==
+
+The standard form of Witersckar, known as ''Hochwitersckar'' (High Witersckar), is based on the dialect spoken in St. Bläne and is used in all official contexts. Regional variations exist but are generally mutually intelligible with the standard form.
+
+== Writing System ==
+
+Witersckar uses the Valderic script, a modified version of the ancient Valderic alphabet that includes additional characters for sounds that developed after the empire's collapse. The script is written left-to-right and includes diacritical marks to indicate stress and vowel length.
+
+=== Alphabet ===
+
+The Witersckar alphabet consists of 32 letters:
+
+'''Consonants:''' B, C, D, F, G, H, J, K, L, M, N, P, Q, R, S, T, V, W, X, Z, Sch, Tsch, Tz
+
+'''Vowels:''' A, E, I, O, U, Ä, Ö, Ü, Ei
+
+'''Diacritical marks:'''
+* Acute accent (´) - indicates primary stress
+* Grave accent (`) - indicates secondary stress
+* Circumflex (^) - indicates long vowels
+* Umlaut (¨) - vowel modification
+
+=== Phonology ===
+
+Witersckar contains 24 consonant phonemes and 16 vowel phonemes (including 8 long vowels). The language features:
+* Complex consonant clusters at word boundaries
+* Vowel length distinction (short vs. long)
+* Fixed stress patterns (typically on the first syllable)
+* Extensive use of compound words
+
+== Grammar ==
+
+=== Case System ===
+
+Witersckar employs six grammatical cases:
+* '''Nominative''' (subject): ''der Kaiser'' (the emperor)
+* '''Accusative''' (direct object): ''den Kaiser'' (the emperor)
+* '''Dative''' (indirect object): ''dem Kaiser'' (to the emperor)
+* '''Genitive''' (possession): ''des Kaisers'' (of the emperor)
+* '''Instrumental''' (means): ''mit dem Kaiser'' (with the emperor)
+* '''Locative''' (location): ''beim Kaiser'' (at the emperor's)
+
+=== Verb Conjugation ===
+
+Witersckar verbs conjugate for person, number, tense, mood, and evidentiality:
+
+'''Present tense of "sprechen" (to speak):'''
+* ich spreche (I speak)
+* du sprichst (you speak)
+* er/sie/es spricht (he/she/it speaks)
+* wir sprechen (we speak)
+* ihr sprecht (you all speak)
+* sie sprechen (they speak)
+
+=== Word Order ===
+
+Standard word order is Subject-Verb-Object (SVO) in main clauses, but becomes Subject-Object-Verb (SOV) in subordinate clauses.
+
+== Vocabulary ==
+
+=== Common Phrases ===
+
+* '''Guten Tag''' - Good day
+* '''Wie geht es Ihnen?''' - How are you? (formal)
+* '''Danke schön''' - Thank you
+* '''Entschuldigung''' - Excuse me
+* '''Auf Wiedersehen''' - Goodbye
+
+=== Legal/Diplomatic Terms ===
+
+* '''Bundesverfassung''' - Federal Constitution
+* '''Kaiserlicher Erlass''' - Imperial Decree
+* '''Parlamentsverhandlung''' - Parliamentary Negotiation
+* '''Bündnisvertrag''' - Alliance Treaty
+* '''Regionalautonomie''' - Regional Autonomy
+
+=== Numbers ===
+
+* eins (1), zwei (2), drei (3), vier (4), fünf (5)
+* sechs (6), sieben (7), acht (8), neun (9), zehn (10)
+
+== Literature ==
+
+Witersckar literature includes the renowned [[Witersckar Epic Cycles]], which chronicle the rise and fall of the Valderic Empire and the establishment of Rhovland's federal system. Modern Witersckar literature focuses heavily on political philosophy, federal governance, and diplomatic theory.
+
+== See Also ==
+
+* [[Imperial Duchy of Rhovland]] - Primary speaking region
+* [[Geslariena]] - Regional language of Rhovland
+* [[Rontzken]] - Regional language of Rhovland
+* [[Valderic Empire]] - Historical origin
+* [[Imperial Academy of Languages]] - Language standardization body
+
+== References ==
+
+* [[Imperial Academy of Languages]] (2018). "Standard Grammar of Witersckar"
+* [[University of St. Bläne]] (2015). "Valderic Linguistic Heritage"
+* [[Federal Ministry of Education]] (2020). "Language Policy in Federal Governance"
+
+[[Category:Languages]]
+[[Category:Rhovland]]
+[[Category:Valderic Languages]]
+[[Category:Official Languages]]
