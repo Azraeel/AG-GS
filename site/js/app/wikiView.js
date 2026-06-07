@@ -11,6 +11,7 @@
       setWikiRoute: typeof ctx.setWikiRoute === "function" ? ctx.setWikiRoute : () => {},
       setWikiEditorRoute: typeof ctx.setWikiEditorRoute === "function" ? ctx.setWikiEditorRoute : () => {},
       setWikiHomeRoute: typeof ctx.setWikiHomeRoute === "function" ? ctx.setWikiHomeRoute : () => {},
+      setLedgerRoute: typeof ctx.setLedgerRoute === "function" ? ctx.setLedgerRoute : () => {},
       get data() {
         return ctx.getData();
       }
@@ -74,11 +75,10 @@
     });
   }
 
-  function selectedWikiPage(pages = wikiPagesForView()) {
+  function selectedWikiPage() {
+    if (!state.selectedWikiPageId) return null;
     const allPages = Engine.wikiPages(data, { includeArchived: isAdmin });
     return allPages.find((page) => page.id === state.selectedWikiPageId)
-      || pages[0]
-      || allPages.find((page) => !page.archived && (isAdmin || page.status === "published"))
       || null;
   }
 
@@ -220,6 +220,18 @@
         ${page.status === "draft" ? `<span class="status warning">Draft</span>` : ""}
         ${page.archived ? `<span class="status">Archived</span>` : ""}
       </button>`).join("");
+  }
+
+  function renderWikiFocusBar(title, actions = "") {
+    return `
+      <div class="wiki-focus-bar">
+        <button class="command compact" type="button" data-action="wiki-back-ledger">Back to Ledger</button>
+        <div class="wiki-focus-title">
+          <span class="section-kicker">Avant Wiki</span>
+          <strong>${safeText(title || data.wiki.meta.title)}</strong>
+        </div>
+        <div class="wiki-focus-actions">${actions}</div>
+      </div>`;
   }
 
   function pageLookup() {
@@ -648,20 +660,31 @@
     Engine.ensureWikiState(data);
     ensureWikiEditorDraft();
     const pages = wikiPagesForView();
-    const page = selectedWikiPage(pages);
+    const page = selectedWikiPage();
     const isEditingWiki = isAdmin && state.wikiDraft;
-    if (!isEditingWiki && page && state.selectedWikiPageId !== page.id) state.selectedWikiPageId = page.id;
     if (isEditingWiki) {
       app.innerHTML = `
         <section class="wiki-shell wiki-editor-shell">
+          ${renderWikiFocusBar("Editing lore")}
           <main class="wiki-editor-page">
             ${wikiEditor()}
           </main>
         </section>`;
       return;
     }
+    if (page) {
+      app.innerHTML = `
+        <section class="wiki-shell wiki-article-shell">
+          ${renderWikiFocusBar(page.title, `<button class="command compact" type="button" data-action="wiki-home">Back to Wiki</button>`)}
+          <main class="wiki-document wiki-article-document">
+            ${renderWikiArticle(page)}
+          </main>
+        </section>`;
+      return;
+    }
     app.innerHTML = `
       <section class="wiki-shell wiki-page-shell">
+        ${renderWikiFocusBar(data.wiki.meta.title)}
         <header class="wiki-masthead">
           <div class="wiki-title-block">
             <span class="wiki-site-mark">Avantpedia / 0-2020</span>
@@ -810,6 +833,19 @@
     if (!actionButton) return false;
     const action = actionButton.dataset.action;
     if (!action.startsWith("wiki-")) return false;
+    if (action === "wiki-back-ledger") {
+      setLedgerRoute();
+      return true;
+    }
+    if (action === "wiki-home") {
+      state.selectedWikiPageId = "";
+      state.wikiDraft = null;
+      state.wikiEditRoute = null;
+      state.wikiDraftRouteKey = "";
+      render();
+      setWikiHomeRoute();
+      return true;
+    }
     if (["wiki-new", "wiki-edit", "wiki-save", "wiki-archive", "wiki-restore", "wiki-apply-fact-template", "wiki-preview-draft", "wiki-start-missing", "wiki-import-miraheze", "wiki-back", "wiki-cancel-edit"].includes(action) && !isAdmin) {
       state.notice = "Admin access is required for wiki edits.";
       render();

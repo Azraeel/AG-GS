@@ -82,6 +82,7 @@
     wikiDraft: null,
     wikiImportSource: "",
     wikiImportStatus: "",
+    ledgerReturnTab: "overview",
     selectedEquipmentDesignId: "",
     equipmentCategoryFilter: "all",
     rosterImportText: "",
@@ -320,6 +321,17 @@
     } else {
       clearWikiRouteHash();
     }
+  }
+
+  function returnFromWikiToLedger() {
+    const nextTab = canAccessTab(state.ledgerReturnTab) ? state.ledgerReturnTab : "overview";
+    state.tab = nextTab === "wiki" ? "overview" : nextTab;
+    state.selectedWikiPageId = "";
+    state.wikiDraft = null;
+    state.wikiEditRoute = null;
+    clearWikiRouteHash();
+    render();
+    scrollToPageTop();
   }
 
   function populationFor(id, year = data.meta.currentYear) {
@@ -1517,6 +1529,7 @@
       }
     },
     setWikiHomeRoute: wikiRoute.pushHome,
+    setLedgerRoute: returnFromWikiToLedger,
     saveWorkingState,
     render
   });
@@ -1562,6 +1575,8 @@
     }
     clearTimeout(deferredRenderTimer);
     if (!canAccessTab(state.tab)) state.tab = "overview";
+    if (state.tab !== "wiki") state.ledgerReturnTab = state.tab;
+    document.body.classList.toggle("is-wiki-focus", state.tab === "wiki");
     ensureSelectedNation();
     tabs.forEach((tab) => {
       const relatedTabs = (tab.dataset.relatedTabs || "").split(" ").filter(Boolean);

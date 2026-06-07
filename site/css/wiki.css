@@ -3,6 +3,44 @@
   gap: 18px;
 }
 
+.wiki-focus-bar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  min-height: 48px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.wiki-focus-title {
+  min-width: 0;
+  text-align: center;
+}
+
+.wiki-focus-title strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.wiki-focus-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+
+.wiki-article-shell {
+  display: grid;
+  gap: 18px;
+  min-height: calc(100vh - 54px);
+}
+
 .wiki-editor-shell {
   max-width: 1320px;
   margin: 0 auto;
@@ -214,6 +252,35 @@
   min-width: 0;
   border: 1px solid var(--line);
   background: var(--panel);
+}
+
+.wiki-article-document {
+  border: 0;
+  background: transparent;
+}
+
+.wiki-article-document .wiki-article {
+  min-height: calc(100vh - 92px);
+}
+
+.wiki-article-document .wiki-article-head {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.wiki-article-document .wiki-provenance,
+.wiki-article-document .wiki-body,
+.wiki-article-document .wiki-article-foot {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.wiki-article-document .wiki-fact-sheet {
+  margin-right: 0;
+}
+
+.wiki-article-document .wiki-contents {
+  margin-left: 0;
 }
 
 .wiki-article {
@@ -791,6 +858,19 @@
 }
 
 @media (max-width: 820px) {
+  .wiki-focus-bar {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .wiki-focus-title {
+    text-align: left;
+  }
+
+  .wiki-focus-actions {
+    justify-content: flex-start;
+  }
+
   .wiki-masthead,
   .wiki-article-head,
   .wiki-review-head,
@@ -829,10 +909,19 @@
     margin: 18px 20px 0;
   }
 
+  .wiki-article-document .wiki-fact-sheet {
+    margin: 18px 0 0;
+  }
+
   .wiki-contents {
     width: auto;
     margin-left: 20px;
     margin-right: 20px;
+  }
+
+  .wiki-article-document .wiki-contents {
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .wiki-article-head,

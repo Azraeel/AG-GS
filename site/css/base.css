@@ -123,6 +123,21 @@ body {
     var(--paper);
 }
 
+body.is-wiki-focus {
+  background: var(--paper);
+}
+
+body.is-wiki-focus .topbar,
+body.is-wiki-focus .tabs,
+body.is-wiki-focus .footer {
+  display: none;
+}
+
+body.is-wiki-focus .app-shell {
+  min-height: 100vh;
+  padding: 16px clamp(14px, 3vw, 36px) 38px;
+}
+
 button,
 input,
 select {

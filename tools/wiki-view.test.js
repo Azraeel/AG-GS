@@ -58,7 +58,7 @@ function textFormat(value) {
   return String(value ?? "");
 }
 
-function createWikiView({ isAdmin = false, wikiPageUrl = null, setWikiRoute = null, setWikiEditorRoute = null, setWikiHomeRoute = null, WikiImport = null } = {}) {
+function createWikiView({ isAdmin = false, wikiPageUrl = null, setWikiRoute = null, setWikiEditorRoute = null, setWikiHomeRoute = null, setLedgerRoute = null, WikiImport = null } = {}) {
   const runtime = loadRuntime();
   const Engine = runtime.AGGS_ENGINE;
   const data = Engine.normalizeState(emptyState());
@@ -90,6 +90,7 @@ function createWikiView({ isAdmin = false, wikiPageUrl = null, setWikiRoute = nu
     setWikiRoute,
     setWikiEditorRoute,
     setWikiHomeRoute,
+    setLedgerRoute,
     WikiImport,
     saveWorkingState: (message) => {
       state.notice = message;
@@ -106,10 +107,69 @@ test("wiki view renders the Avant wiki shell for public readers", () => {
 
   assert.match(app.innerHTML, /Avant World Wiki/);
   assert.match(app.innerHTML, /wiki-page-shell/);
+  assert.match(app.innerHTML, /wiki-focus-bar/);
+  assert.match(app.innerHTML, /data-action="wiki-back-ledger"/);
   assert.match(app.innerHTML, /wiki-masthead/);
   assert.match(app.innerHTML, /wiki-document/);
   assert.doesNotMatch(app.innerHTML, /wiki-layout/);
   assert.match(app.innerHTML, /No Avant wiki pages/);
+});
+
+test("wiki home stays a focused home instead of auto-opening the first page", () => {
+  const { Engine, data, app, state, view } = createWikiView();
+  Engine.saveWikiPage(data, {
+    title: "Solara-Khalindar War",
+    category: "Conflict",
+    status: "published",
+    body: "## Overview\nWar article."
+  });
+
+  view.renderWiki();
+
+  assert.equal(state.selectedWikiPageId, "");
+  assert.match(app.innerHTML, /wiki-page-shell/);
+  assert.match(app.innerHTML, /wiki-masthead/);
+  assert.match(app.innerHTML, /Solara-Khalindar War/);
+  assert.doesNotMatch(app.innerHTML, /wiki-article-shell/);
+  assert.doesNotMatch(app.innerHTML, /<h3[^>]*>Overview<\/h3>/);
+});
+
+test("wiki article route renders a dedicated full-page article shell", () => {
+  const { Engine, data, app, state, view } = createWikiView();
+  Engine.saveWikiPage(data, {
+    title: "Solara-Khalindar War",
+    category: "Conflict",
+    status: "published",
+    summary: "A major war.",
+    body: "## Pre-War Tensions\nOpening.\n\n## Major Battles\nThe city fight."
+  });
+
+  state.selectedWikiPageId = "solara-khalindar-war";
+  view.renderWiki();
+
+  assert.match(app.innerHTML, /wiki-article-shell/);
+  assert.match(app.innerHTML, /wiki-focus-bar/);
+  assert.match(app.innerHTML, /data-action="wiki-back-ledger"/);
+  assert.match(app.innerHTML, /data-action="wiki-home"/);
+  assert.match(app.innerHTML, /Solara-Khalindar War/);
+  assert.match(app.innerHTML, /wiki-contents/);
+  assert.doesNotMatch(app.innerHTML, /wiki-masthead/);
+  assert.doesNotMatch(app.innerHTML, /wiki-page-frame/);
+  assert.doesNotMatch(app.innerHTML, /Wiki Workbench/);
+});
+
+test("wiki back to ledger action delegates to the app shell", () => {
+  const routed = [];
+  const { view } = createWikiView({
+    setLedgerRoute: () => routed.push("ledger")
+  });
+
+  assert.equal(
+    view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-back-ledger" } })),
+    true
+  );
+
+  assert.deepEqual(routed, ["ledger"]);
 });
 
 test("admin wiki view can create and save a page draft", () => {
@@ -174,7 +234,8 @@ test("admin wiki editor back returns to the selected article route", () => {
   assert.equal(state.wikiDraft, null);
   assert.equal(state.wikiEditRoute, null);
   assert.deepEqual(routedPages, ["aurendale"]);
-  assert.match(app.innerHTML, /wiki-masthead/);
+  assert.match(app.innerHTML, /wiki-article-shell/);
+  assert.doesNotMatch(app.innerHTML, /wiki-masthead/);
   assert.match(app.innerHTML, /Aurendale/);
 });
 

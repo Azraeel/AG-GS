@@ -28,3 +28,13 @@ const ROOT = path.resolve(__dirname, "..");
     assert.doesNotMatch(html, /class="tab"[^>]*data-tab="wiki"/);
   });
 });
+
+test("wiki focus mode hides the ledger chrome and is toggled by app render", () => {
+  const baseCss = fs.readFileSync(path.join(ROOT, "site/css/base.css"), "utf8");
+  const appJs = fs.readFileSync(path.join(ROOT, "site/app.js"), "utf8");
+
+  assert.match(baseCss, /body\.is-wiki-focus\s+\.topbar/);
+  assert.match(baseCss, /body\.is-wiki-focus\s+\.tabs/);
+  assert.match(baseCss, /body\.is-wiki-focus\s+\.footer/);
+  assert.match(appJs, /classList\.toggle\("is-wiki-focus",\s*state\.tab === "wiki"\)/);
+});
