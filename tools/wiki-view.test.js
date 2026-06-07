@@ -141,6 +141,7 @@ test("wiki article route renders a dedicated full-page article shell", () => {
     category: "Conflict",
     status: "published",
     summary: "A major war.",
+    facts: "Source: https://avantpedia.miraheze.org/wiki/Solara-Khalindar_War",
     body: "## Pre-War Tensions\nOpening.\n\n## Major Battles\nThe city fight."
   });
 
@@ -152,7 +153,13 @@ test("wiki article route renders a dedicated full-page article shell", () => {
   assert.match(app.innerHTML, /data-action="wiki-back-ledger"/);
   assert.match(app.innerHTML, /data-action="wiki-home"/);
   assert.match(app.innerHTML, /Solara-Khalindar War/);
+  assert.match(app.innerHTML, /wiki-article-layout/);
+  assert.match(app.innerHTML, /wiki-article-main/);
+  assert.match(app.innerHTML, /wiki-article-rail/);
   assert.match(app.innerHTML, /wiki-contents/);
+  assert.match(app.innerHTML, /wiki-fact-sheet/);
+  assert.ok(app.innerHTML.indexOf("wiki-article-main") < app.innerHTML.indexOf("wiki-article-rail"));
+  assert.ok(app.innerHTML.indexOf("wiki-body") < app.innerHTML.indexOf("wiki-contents"));
   assert.doesNotMatch(app.innerHTML, /wiki-masthead/);
   assert.doesNotMatch(app.innerHTML, /wiki-page-frame/);
   assert.doesNotMatch(app.innerHTML, /Wiki Workbench/);

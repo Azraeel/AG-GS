@@ -38,3 +38,12 @@ test("wiki focus mode hides the ledger chrome and is toggled by app render", () 
   assert.match(baseCss, /body\.is-wiki-focus\s+\.footer/);
   assert.match(appJs, /classList\.toggle\("is-wiki-focus",\s*state\.tab === "wiki"\)/);
 });
+
+test("dedicated wiki articles use a wide text column and side rail", () => {
+  const wikiCss = fs.readFileSync(path.join(ROOT, "site/css/wiki.css"), "utf8");
+
+  assert.match(wikiCss, /\.wiki-article-layout\s*{/);
+  assert.match(wikiCss, /grid-template-columns:\s*minmax\(0,\s*1fr\)\s+minmax\(280px,\s*360px\)/);
+  assert.match(wikiCss, /\.wiki-article-main\s+\.wiki-body p,\s*\.wiki-article-main\s+\.wiki-body ul\s*{[\s\S]*max-width:\s*112ch/);
+  assert.match(wikiCss, /\.wiki-article-rail\s*{[\s\S]*position:\s*sticky/);
+});

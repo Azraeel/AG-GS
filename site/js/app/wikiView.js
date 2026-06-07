@@ -374,10 +374,11 @@
     return output.join("");
   }
 
-  function renderWikiArticleRead(page) {
+  function renderWikiArticleRead(page, options = {}) {
+    const includeContents = options.includeContents !== false;
     return `
       <div class="wiki-article-read">
-        ${renderWikiContents(page.body)}
+        ${includeContents ? renderWikiContents(page.body) : ""}
         <div class="wiki-body">${renderWikiBody(page.body)}</div>
       </div>`;
   }
@@ -402,7 +403,42 @@
       </aside>`;
   }
 
-  function renderWikiArticle(page) {
+  function renderWikiArticleHead(page) {
+    return `
+      <header class="wiki-article-head">
+        <div>
+          <span class="section-kicker">${safeText(page.category)} / ${safeText(wikiYearLabel(page))}</span>
+          <h2>${safeText(page.title)}</h2>
+          ${page.summary ? `<p>${safeText(page.summary)}</p>` : ""}
+        </div>
+        <div class="wiki-article-actions">
+          <a class="wiki-permalink" href="${escapeHtml(wikiPageUrl(page))}">Page Link</a>
+          ${safeStatus(page.status === "published" ? "Published" : "Draft", page.status === "published" ? "positive" : "warning")}
+          ${page.archived ? safeStatus("Archived") : ""}
+          ${isAdmin ? `<button class="command compact" type="button" data-action="wiki-edit">Edit</button>` : ""}
+        </div>
+      </header>`;
+  }
+
+  function renderWikiArticleProvenance(page) {
+    return `
+      <div class="wiki-provenance">
+        <span>${safeText(page.era || "No era")}</span>
+        <span>Updated ${safeText(fmtDateTime(page.updatedAt))}</span>
+      </div>`;
+  }
+
+  function renderWikiArticleFooter(page, refs) {
+    return `
+      <footer class="wiki-article-foot">
+        <div class="wiki-tags">${(page.tags || []).map((tag) => `<span>${safeText(tag)}</span>`).join("") || `<span>No tags</span>`}</div>
+        ${refs.outbound.length ? `<div class="wiki-related"><strong>Links</strong>${refs.outbound.map((item) => `<button type="button" data-wiki-page="${escapeHtml(item.id)}">${safeText(item.title)}</button>`).join("")}</div>` : ""}
+        ${refs.backlinks.length ? `<div class="wiki-related"><strong>Linked From</strong>${refs.backlinks.map((item) => `<button type="button" data-wiki-page="${escapeHtml(item.id)}">${safeText(item.title)}</button>`).join("")}</div>` : ""}
+        ${refs.missingLinks.length ? `<div class="wiki-related wiki-missing-links"><strong>Missing</strong>${refs.missingLinks.map((item) => wikiMissingLinkLabel(item)).join("")}</div>` : ""}
+      </footer>`;
+  }
+
+  function renderWikiArticle(page, options = {}) {
     if (!page) {
       return `
         <article class="wiki-article">
@@ -410,33 +446,29 @@
         </article>`;
     }
     const refs = Engine.wikiPageReferences(data, page.id, { includeArchived: isAdmin });
+    const footer = renderWikiArticleFooter(page, refs);
+    const articleTools = [renderWikiFacts(page), renderWikiContents(page.body)].filter(Boolean).join("");
+    if (options.dedicated) {
+      return `
+        <article class="wiki-article">
+          ${renderWikiArticleHead(page)}
+          ${renderWikiArticleProvenance(page)}
+          <div class="wiki-article-layout">
+            <div class="wiki-article-main">
+              ${renderWikiArticleRead(page, { includeContents: false })}
+              ${footer}
+            </div>
+            ${articleTools ? `<div class="wiki-article-rail" aria-label="Article tools">${articleTools}</div>` : ""}
+          </div>
+        </article>`;
+    }
     return `
       <article class="wiki-article">
-        <header class="wiki-article-head">
-          <div>
-            <span class="section-kicker">${safeText(page.category)} / ${safeText(wikiYearLabel(page))}</span>
-            <h2>${safeText(page.title)}</h2>
-            ${page.summary ? `<p>${safeText(page.summary)}</p>` : ""}
-          </div>
-          <div class="wiki-article-actions">
-            <a class="wiki-permalink" href="${escapeHtml(wikiPageUrl(page))}">Page Link</a>
-            ${safeStatus(page.status === "published" ? "Published" : "Draft", page.status === "published" ? "positive" : "warning")}
-            ${page.archived ? safeStatus("Archived") : ""}
-            ${isAdmin ? `<button class="command compact" type="button" data-action="wiki-edit">Edit</button>` : ""}
-          </div>
-        </header>
-        <div class="wiki-provenance">
-          <span>${safeText(page.era || "No era")}</span>
-          <span>Updated ${safeText(fmtDateTime(page.updatedAt))}</span>
-        </div>
+        ${renderWikiArticleHead(page)}
+        ${renderWikiArticleProvenance(page)}
         ${renderWikiFacts(page)}
         ${renderWikiArticleRead(page)}
-        <footer class="wiki-article-foot">
-          <div class="wiki-tags">${(page.tags || []).map((tag) => `<span>${safeText(tag)}</span>`).join("") || `<span>No tags</span>`}</div>
-          ${refs.outbound.length ? `<div class="wiki-related"><strong>Links</strong>${refs.outbound.map((item) => `<button type="button" data-wiki-page="${escapeHtml(item.id)}">${safeText(item.title)}</button>`).join("")}</div>` : ""}
-          ${refs.backlinks.length ? `<div class="wiki-related"><strong>Linked From</strong>${refs.backlinks.map((item) => `<button type="button" data-wiki-page="${escapeHtml(item.id)}">${safeText(item.title)}</button>`).join("")}</div>` : ""}
-          ${refs.missingLinks.length ? `<div class="wiki-related wiki-missing-links"><strong>Missing</strong>${refs.missingLinks.map((item) => wikiMissingLinkLabel(item)).join("")}</div>` : ""}
-        </footer>
+        ${footer}
       </article>`;
   }
 
@@ -677,7 +709,7 @@
         <section class="wiki-shell wiki-article-shell">
           ${renderWikiFocusBar(page.title, `<button class="command compact" type="button" data-action="wiki-home">Back to Wiki</button>`)}
           <main class="wiki-document wiki-article-document">
-            ${renderWikiArticle(page)}
+            ${renderWikiArticle(page, { dedicated: true })}
           </main>
         </section>`;
       return;
