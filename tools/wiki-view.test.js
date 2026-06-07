@@ -129,6 +129,18 @@ test("admin wiki view can create and save a page draft", () => {
   assert.match(state.notice, /Wiki page saved/);
 });
 
+test("admin wiki new page opens a separate editor workspace", () => {
+  const { app, view } = createWikiView({ isAdmin: true });
+
+  view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-new" } }));
+
+  assert.match(app.innerHTML, /wiki-editor-page/);
+  assert.match(app.innerHTML, /wiki-editor/);
+  assert.doesNotMatch(app.innerHTML, /No Avant wiki pages have been created yet/);
+  assert.doesNotMatch(app.innerHTML, /wiki-page-frame/);
+  assert.doesNotMatch(app.innerHTML, /Wiki Workbench/);
+});
+
 test("wiki article shows outbound links backlinks and missing lore links", () => {
   const { Engine, data, app, state, view } = createWikiView();
   Engine.saveWikiPage(data, {
@@ -195,6 +207,31 @@ test("wiki article and editor support structured lore fact sheets", () => {
 
   assert.match(state.wikiDraft.facts, /Belligerents:/);
   assert.match(app.innerHTML, /data-wiki-field="facts"/);
+});
+
+test("admin wiki editor previews the draft article before saving", () => {
+  const { app, view } = createWikiView({ isAdmin: true });
+
+  view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-new" } }));
+  view.handleInput(fakeEvent("[data-wiki-field]", { dataset: { wikiField: "title" }, value: "Siege of Calblanca" }));
+  view.handleInput(fakeEvent("[data-wiki-field]", { dataset: { wikiField: "category" }, value: "Conflict" }));
+  view.handleInput(fakeEvent("[data-wiki-field]", { dataset: { wikiField: "facts" }, value: "Belligerents: Calblanca; Bingtau\nOutcome: Armistice" }));
+  view.handleInput(fakeEvent("[data-wiki-field]", { dataset: { wikiField: "tags" }, value: "war, calblanca" }));
+  view.handleInput(fakeEvent("[data-wiki-field]", {
+    dataset: { wikiField: "body" },
+    value: "Opening summary.\n\n## Background\nThe siege reshaped the frontier."
+  }));
+
+  view.handleClick(fakeEvent("[data-action]", { dataset: { action: "wiki-preview-draft" } }));
+
+  assert.match(app.innerHTML, /wiki-draft-preview/);
+  assert.match(app.innerHTML, /Draft Preview/);
+  assert.match(app.innerHTML, /Siege of Calblanca/);
+  assert.match(app.innerHTML, /<h3>Background<\/h3>/);
+  assert.match(app.innerHTML, /The siege reshaped the frontier\./);
+  assert.match(app.innerHTML, /Belligerents/);
+  assert.match(app.innerHTML, /Armistice/);
+  assert.match(app.innerHTML, /war/);
 });
 
 test("admin wiki view renders content workbench without exposing it publicly", () => {

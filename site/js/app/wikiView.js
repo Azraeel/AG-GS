@@ -298,6 +298,31 @@
       </aside>`;
   }
 
+  function wikiDraftPreviewPage() {
+    const previewState = Engine.clone(data);
+    const draft = state.wikiDraft || {};
+    return Engine.saveWikiPage(previewState, {
+      ...draft,
+      title: String(draft.title || "").trim() || "Untitled Page"
+    });
+  }
+
+  function renderWikiDraftPreview() {
+    if (!isAdmin || !state.wikiDraft) return "";
+    const page = wikiDraftPreviewPage();
+    return `
+      <section class="wiki-draft-preview" aria-label="Draft Preview">
+        <div class="wiki-draft-preview-head">
+          <span class="section-kicker">Draft Preview</span>
+          <h4>${safeText(page.title)}</h4>
+        </div>
+        ${page.summary ? `<p class="wiki-draft-summary">${safeText(page.summary)}</p>` : ""}
+        ${renderWikiFacts(page)}
+        <div class="wiki-body">${renderWikiBody(page.body)}</div>
+        <div class="wiki-tags">${(page.tags || []).map((tag) => `<span>${safeText(tag)}</span>`).join("") || `<span>No tags</span>`}</div>
+      </section>`;
+  }
+
   function wikiWorkbenchPageRows(pages, emptyText) {
     if (!pages.length) return `<div class="empty compact">${safeText(emptyText)}</div>`;
     return pages.slice(0, 6).map((page) => `
@@ -394,6 +419,7 @@
           </div>
           <div class="wiki-editor-actions">
             <button class="command primary" type="button" data-action="wiki-save">Save Page</button>
+            <button class="command" type="button" data-action="wiki-preview-draft">Preview</button>
             <button class="command" type="button" data-action="wiki-apply-fact-template">Fact Template</button>
             <button class="command" type="button" data-action="wiki-cancel-edit">Cancel</button>
             ${existingPage ? `<button class="command danger" type="button" data-action="${existingPage.archived ? "wiki-restore" : "wiki-archive"}">${existingPage.archived ? "Restore" : "Archive"}</button>` : ""}
@@ -413,6 +439,7 @@
           <label class="control-field is-text"><span>Aliases</span><input type="text" value="${escapeHtml(editorValue("aliases"))}" data-wiki-field="aliases"></label>
           <label class="control-field is-text wiki-editor-wide"><span>Related Page IDs</span><input type="text" value="${escapeHtml(editorValue("relatedPageIds"))}" data-wiki-field="relatedPageIds"></label>
         </div>
+        ${renderWikiDraftPreview()}
       </section>`;
   }
 
@@ -420,6 +447,7 @@
     Engine.ensureWikiState(data);
     const pages = wikiPagesForView();
     const page = selectedWikiPage(pages);
+    const isEditingWiki = isAdmin && state.wikiDraft;
     if (page && state.selectedWikiPageId !== page.id) state.selectedWikiPageId = page.id;
     app.innerHTML = `
       <section class="wiki-shell wiki-page-shell">
@@ -439,30 +467,34 @@
             ${isAdmin ? `<button class="command primary" type="button" data-action="wiki-new">New Page</button>` : ""}
           </div>
         </header>
-        ${renderWikiWorkbench()}
-        <div class="wiki-page-frame">
-          <aside class="wiki-index" aria-label="Wiki index">
-            <div class="wiki-index-head">
-              <span class="section-kicker">Index</span>
-              <h3>Browse Lore</h3>
-            </div>
-            <div class="wiki-filter-grid">
-              <label class="control-field is-select"><span>Category</span><select data-wiki-filter="category">${categoryOptions(state.wikiCategoryFilter || "all")}</select></label>
-              <label class="control-field is-select"><span>Era</span><select data-wiki-filter="era">${eraOptions(state.wikiEraFilter || "all")}</select></label>
-              <label class="control-field"><span>Year</span><input type="number" value="${escapeHtml(state.wikiYearFilter || "")}" data-wiki-year-filter></label>
-              ${isAdmin ? `<label class="control-field is-select"><span>Status</span><select data-wiki-filter="status">${statusOptions(state.wikiStatusFilter || "all")}</select></label>` : ""}
-              ${isAdmin ? `<button class="command compact ${state.wikiShowArchived ? "is-active" : ""}" type="button" data-action="wiki-toggle-archived">${state.wikiShowArchived ? "Hide Archived" : "Show Archived"}</button>` : ""}
-            </div>
-            <div class="wiki-list">${wikiPageList(pages)}</div>
-          </aside>
-          <main class="wiki-document">
-            ${renderWikiArticle(page)}
+        ${isEditingWiki ? `
+          <main class="wiki-editor-page">
             ${wikiEditor()}
-          </main>
-          <aside class="wiki-side-rail" aria-label="Wiki timeline">
-            ${renderWikiTimeline(pages)}
-          </aside>
-        </div>
+          </main>` : `
+          ${renderWikiWorkbench()}
+          <div class="wiki-page-frame">
+            <aside class="wiki-index" aria-label="Wiki index">
+              <div class="wiki-index-head">
+                <span class="section-kicker">Index</span>
+                <h3>Browse Lore</h3>
+              </div>
+              <div class="wiki-filter-grid">
+                <label class="control-field is-select"><span>Category</span><select data-wiki-filter="category">${categoryOptions(state.wikiCategoryFilter || "all")}</select></label>
+                <label class="control-field is-select"><span>Era</span><select data-wiki-filter="era">${eraOptions(state.wikiEraFilter || "all")}</select></label>
+                <label class="control-field"><span>Year</span><input type="number" value="${escapeHtml(state.wikiYearFilter || "")}" data-wiki-year-filter></label>
+                ${isAdmin ? `<label class="control-field is-select"><span>Status</span><select data-wiki-filter="status">${statusOptions(state.wikiStatusFilter || "all")}</select></label>` : ""}
+                ${isAdmin ? `<button class="command compact ${state.wikiShowArchived ? "is-active" : ""}" type="button" data-action="wiki-toggle-archived">${state.wikiShowArchived ? "Hide Archived" : "Show Archived"}</button>` : ""}
+              </div>
+              <div class="wiki-list">${wikiPageList(pages)}</div>
+            </aside>
+            <main class="wiki-document">
+              ${renderWikiArticle(page)}
+            </main>
+            <aside class="wiki-side-rail" aria-label="Wiki timeline">
+              ${renderWikiTimeline(pages)}
+            </aside>
+          </div>
+        `}
       </section>`;
   }
 
@@ -533,7 +565,7 @@
     if (!actionButton) return false;
     const action = actionButton.dataset.action;
     if (!action.startsWith("wiki-")) return false;
-    if (["wiki-new", "wiki-edit", "wiki-save", "wiki-archive", "wiki-restore", "wiki-apply-fact-template", "wiki-start-missing"].includes(action) && !isAdmin) {
+    if (["wiki-new", "wiki-edit", "wiki-save", "wiki-archive", "wiki-restore", "wiki-apply-fact-template", "wiki-preview-draft", "wiki-start-missing"].includes(action) && !isAdmin) {
       state.notice = "Admin access is required for wiki edits.";
       render();
       return true;
@@ -566,6 +598,11 @@
       state.wikiDraft = state.wikiDraft || wikiDraftFromPage(selectedWikiPage() || {});
       const template = Engine.wikiFactTemplate(state.wikiDraft.category || "Concept");
       state.wikiDraft.facts = factsToText(template);
+      render();
+      return true;
+    }
+    if (action === "wiki-preview-draft") {
+      state.wikiDraft = state.wikiDraft || wikiDraftFromPage(selectedWikiPage() || {});
       render();
       return true;
     }
