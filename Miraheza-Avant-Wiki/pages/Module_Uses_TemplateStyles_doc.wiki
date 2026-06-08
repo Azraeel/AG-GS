@@ -1,4 +1,0 @@
-{{Lua|Module:Uses TemplateStyles/config|Module:Yesno|Module:List|Module:TableTools|Module:Message box|Module:TNT}}
-<!-- uses data [[c:Data:I18n/Uses_TemplateStyles.tab]] -->
-
-Implements {{tl|Uses TemplateStyles}}

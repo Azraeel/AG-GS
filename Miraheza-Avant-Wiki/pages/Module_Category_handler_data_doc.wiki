@@ -1,3 +1,0 @@
-{{Module rating|protected}}
-{{used in system}}
-{{Lua|Module:Category handler/config|Module:Category handler/shared|Module:Category handler/blacklist}}

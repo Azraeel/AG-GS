@@ -1,3 +1,0 @@
-<span style="font-family: monospace,Courier; white-space: pre-wrap !important; word-wrap: break-word; max-width: 1200px; overflow: auto;" class="plainlinks">[[discord:channels/{{{1|<noinclude>221049808784326656</noinclude>}}}|{{#if:{{{2|<noinclude>Wikimedia Community</noinclude>}}}|{{{2|<noinclude>Wikimedia Community</noinclude>}}}|}}]]</span> <sup class="plainlinks">{{#ifeq:{{{1|<noinclude>221049808784326656</noinclude>}}}|221049808784326656|[[Wikipedia:Discord#top|<span style="color:green;">join on Discord</span>]]|{{#if:{{{joincode|}}}|[[discord:invite/{{{joincode|}}}|<span style="color:green;">join on Discord</span>]]}}}}</sup><noinclude>
-{{documentation}}
-</noinclude>

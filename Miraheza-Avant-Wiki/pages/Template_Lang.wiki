@@ -1,3 +1,0 @@
-<includeonly>{{#invoke:Lang|{{{fn|lang}}}}}</includeonly><noinclude>
-{{Documentation}}
-</noinclude>

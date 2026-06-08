@@ -1,5 +1,0 @@
-#REDIRECT [[Template:Visible anchor]]
-
-{{Redirect category shell|
-{{R from template shortcut}}
-}}

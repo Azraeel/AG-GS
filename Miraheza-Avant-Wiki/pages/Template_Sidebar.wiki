@@ -1,2 +1,0 @@
-{{#invoke:Sidebar|sidebar}}<noinclude>
-{{documentation}}</noinclude>

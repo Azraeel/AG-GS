@@ -1,7 +1,0 @@
-<div style="float:left; border:1px solid #999; margin:1px;" class="wikipediauserbox ">
-{| cellspacing="0" style="width:238px; background:#EEE;"
-|[[File:Cube.svg|40px]]
-| style="text-align:left; font-size:8pt; padding:0 4px 0 4px; height:45px; line-height:1.25em; color:black; vertical-align: middle;" | This is an example of a template. For help with templates, see [[Help:Template]].
-|}</div><noinclude>
-{{doc}}
-</noinclude>

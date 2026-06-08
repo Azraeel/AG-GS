@@ -1,3 +1,0 @@
-{{{{{|safesubst:}}}#Invoke:String|replace|{{{1|{{{{{|safesubst:}}}PAGENAME}}}}}|%s+%b()$||1|false}}<noinclude>
-{{documentation}}
-</noinclude>

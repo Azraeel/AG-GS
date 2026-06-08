@@ -1,4 +1,0 @@
-{{#ifeq:{{{1}}}|-||{{#iferror:{{#invoke:Page|invalid|{{{1}}}}}||valid}}}}<noinclude>
-{{documentation}}
-<!-- Categories go on the /doc subpage, and interwikis go on Wikidata. -->
-</noinclude>

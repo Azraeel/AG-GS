@@ -1,6 +1,0 @@
-<span class="flagicon">[[File:{{{flag alias-naval-{{{variant}}}|{{{flag alias-{{{variant}}}|{{{flag alias-naval|{{{flag alias}}}}}}}}}}}}|{{#if:{{{size|}}}|{{{size}}}|23x20px}}|{{{border-naval-{{{variant}}}|{{{border-{{{variant}}}|{{{border-naval|{{{border|border}}}}}}}}}}}} |alt=|link=]]&nbsp;</span>{{#if: {{{name|}}}
- |[[{{{link alias-naval|{{{shortname alias|{{{alias}}}}}} Navy}}}|{{{name}}}]]
- |[[{{{link alias-naval|{{{shortname alias|{{{alias}}}}}} Navy}}}]]
-}}<noinclude>
-{{Documentation}}
-</noinclude>

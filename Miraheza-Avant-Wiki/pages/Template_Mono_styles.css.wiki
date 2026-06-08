@@ -1,5 +1,0 @@
-/* {{pp-template}} */
-.monospaced {
-	/* "monospace, monospace" per [[WP:MONO]] */
-	font-family: monospace, monospace;
-}

@@ -1,6 +1,0 @@
-<span style="display:none">(<span class="bday">{{{1}}}-{{padleft:{{MONTHNUMBER|{{{2}}}}}|2|0}}-{{padleft:{{{3}}}|2|0}}</span>)</span>{{#if:{{{df|}}}
- |{{#expr:{{{3}}}}} {{MONTHNAME|{{{2}}}}}
- |{{MONTHNAME|{{{2<noinclude>|1</noinclude>}}}}} {{#expr:{{{3<noinclude>|1</noinclude>}}}}},
-}} {{#expr:{{{1<noinclude>|1900</noinclude>}}}}}<noinclude>
-{{Documentation|Template:Birth date and age/doc}}
-</noinclude>

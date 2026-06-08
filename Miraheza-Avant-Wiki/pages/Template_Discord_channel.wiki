@@ -1,4 +1,0 @@
-<span class="discord-channel" style="font-family: monospace,Courier; white-space: pre-wrap; word-wrap: break-word; max-width: 1200px; overflow: auto;" class="plainlinks">[https://discord.com/channels/{{{guildid|1127536319984312430}}}/{{urlencode:{{{1|<noinclude>1127536319984312430</noinclude>}}}}} {{#if:{{{2|<noinclude>general</noinclude>}}}|&zwnj;#&zwnj;{{{2|<noinclude>general</noinclude>}}}|&lt;#{{{1|}}}&gt;}}]</span> <sup class="plainlinks">{{#if:{{{joincode|}}}|[https://discord.gg/{{{joincode|}}} <span style="color:green;">join on Discord</span>]|[Avant Garde Official:Discord#top|<span style="color:green;">join on Discord</span>]]}}</sup><noinclude>
-{{documentation}}
-{{WPAN}}
-</noinclude>

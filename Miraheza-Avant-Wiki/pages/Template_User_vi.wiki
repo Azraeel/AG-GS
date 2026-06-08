@@ -1,9 +1,0 @@
-{{userbox-level
-| level    = 
-| id       = [[Vietnamese language|vi]]
-| info     = {{lang|vi|Thành viên này sử dụng '''[[:Category:User vi|tiếng Việt]]''' như ngôn ngữ '''[[:Category:User vi-N|mẹ đẻ]]'''.|italic=no}}
-| usercategory = User vi-N
-| nocat = {{{nocat|}}}
-}}<noinclude>
-{{Documentation|Template:User x}}
-</noinclude>

@@ -1,1 +1,0 @@
-[[Wikipedia:{{{1}}}|{{{2|{{{1}}}}}}]]<noinclude>[[Category:Templates]]</noinclude>

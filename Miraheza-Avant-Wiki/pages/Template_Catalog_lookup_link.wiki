@@ -1,3 +1,0 @@
-{{#invoke:Catalog lookup link|main}}<noinclude>
-{{documentation}}
-</noinclude>

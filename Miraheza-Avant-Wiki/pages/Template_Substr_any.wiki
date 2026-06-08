@@ -1,3 +1,0 @@
-<includeonly>{{{{{|safesubst:}}}#invoke:String|sublength|s={{{1}}}|i={{{2|0}}}|len={{{3|0}}}}}</includeonly><noinclude>
-{{documentation}}
-</noinclude>

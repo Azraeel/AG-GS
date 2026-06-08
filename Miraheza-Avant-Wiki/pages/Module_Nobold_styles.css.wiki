@@ -1,5 +1,0 @@
-/* {{pp-template}} */
-/* Styling for Template:Nobold */
-.nobold {
-	font-weight: normal;
-}

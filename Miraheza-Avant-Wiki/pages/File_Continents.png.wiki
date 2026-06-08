@@ -1,1 +1,0 @@
- A map showing the Geographic positions of each continent.

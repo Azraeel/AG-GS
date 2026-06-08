@@ -1,4 +1,0 @@
-/* {{pp-template}} */
-.vanchor > :target ~ .vanchor-text {
-	background-color: #b1d2ff;
-}

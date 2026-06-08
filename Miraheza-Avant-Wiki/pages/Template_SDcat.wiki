@@ -1,3 +1,0 @@
-<includeonly>{{#invoke:SDcat |setCat}}</includeonly><noinclude>
-{{documentation}}
-</noinclude>

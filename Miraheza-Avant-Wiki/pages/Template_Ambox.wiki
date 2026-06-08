@@ -1,4 +1,0 @@
-{{#invoke:Message box|ambox}}{{#ifeq:{{{small}}}|left|[[Category:Articles using small message boxes]]}}<noinclude>
-{{documentation}}
-<!-- Categories go on the /doc subpage, and interwikis go on Wikidata. -->
-</noinclude>

@@ -1,3 +1,0 @@
-[[File:Increase2.svg|{{{size|11px}}}|alt={{{1|Increase}}}|link=|{{{1|Increase}}}]]<noinclude>
-{{documentation}}
-</noinclude>

@@ -1,4 +1,0 @@
-#REDIRECT [[Template:Documentation]]
-{{rcat shell|
-{{R from template shortcut}}
-}}

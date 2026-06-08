@@ -1,9 +1,0 @@
-{{Module rating|protected}}
-{{High-use}}
-This page defines the conversion data used by [[Module:Convert]]. All documentation (from [[Module:Convert/doc]]) is at that page.
-
-'''Do not manually add units to this page.''' First add the unit definitions in [[Module:Convert/documentation/conversion data]]. And then update this page by copying the results from [[Module:Convert/makeunits]] (those results appear at [[Module talk:Convert/makeunits]]).
-
-Any changes should first be tested at [[Module:Convert/data/sandbox]]—see [[Module:Convert/sandbox/testcases]].
-
-New units can be manually added at [[Module:Convert/extra]] as a temporary measure before being incorporated into this main table.

@@ -1,3 +1,0 @@
-{{encodefirst|{{#if:{{{1|}}}|{{REVISIONUSER:{{{1|}}}}}|{{REVISIONUSER}}}}}}<noinclude>
-{{Documentation}}
-</noinclude>

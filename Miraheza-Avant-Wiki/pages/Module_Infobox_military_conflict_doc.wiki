@@ -1,7 +1,0 @@
-{{Lua|Module:WPMILHIST Infobox style|Module:Location map|Module:InfoboxImage|Module:Arguments}}
-{{Uses TemplateStyles|Module:Infobox military conflict/styles.css}}
-Implements {{tl|Infobox military conflict}}
-<includeonly>{{#ifeq:{{SUBPAGENAME}}|sandbox | |
-<!-- Categories below this line, please; interwikis at Wikidata -->
-[[Category:Infobox modules]]
-}}</includeonly>

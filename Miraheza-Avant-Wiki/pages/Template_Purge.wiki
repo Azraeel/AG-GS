@@ -1,3 +1,0 @@
-{{#invoke:Purge|main}}<noinclude>
-{{documentation}}
-</noinclude>
