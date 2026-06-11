@@ -23,6 +23,12 @@
     Total: { militaryGrowthMultiplier: 1.5, civilianPenalty: -0.6, militaryFactoryMultiplier: 1, maintenanceCost: 3, supplyMultiplier: 2 }
   };
   const MOBILIZED_BUDGET_UNLOCK = { None: 0, Partial: 0.45, Full: 0.78, Total: 1.08 };
+  const MOBILIZED_BUDGET_RESOLVE = {
+    None: { base: 1, scale: 0, exponent: 1, min: 1, max: 1 },
+    Partial: { base: 1, scale: 0, exponent: 1, min: 1, max: 1 },
+    Full: { base: 0.82, scale: 0.45, exponent: 2, min: 0.82, max: 1.27 },
+    Total: { base: 0.2, scale: 1.95, exponent: 2.4, min: 0.2, max: 2.15 }
+  };
   const MOBILIZATION_FINANCE = {
     None: { activationShare: 0, rampRate: 0, strainStartYears: 0, strainRate: 0, maxStrain: 0, autoSpendShare: 0 },
     Partial: { activationShare: 0.68, rampRate: 0.24, strainStartYears: 2.8, strainRate: 0.075, maxStrain: 0.55, autoSpendShare: 0.52 },
@@ -860,6 +866,12 @@
     return clamp(0.5 + development * 0.32 + stability * 0.28 + corruptionControl * 0.22, 0.45, 1.28);
   }
 
+  function mobilizedBudgetResolveMultiplier(level, warSupport) {
+    const profile = MOBILIZED_BUDGET_RESOLVE[level] || MOBILIZED_BUDGET_RESOLVE.None;
+    const resolve = Math.pow(clamp(warSupport, 0, 1), profile.exponent);
+    return clamp(profile.base + resolve * profile.scale, profile.min, profile.max);
+  }
+
   function wartimeBudgetPeakBonusFromInputs(inputs, peacetimeBudgetCapacity) {
     const unlock = MOBILIZED_BUDGET_UNLOCK[inputs.mobilizationLevel] || 0;
     if (unlock <= 0) return 0;
@@ -868,7 +880,8 @@
     const warSupport = clamp(number(inputs.national?.warSupport, 50) / 100, 0, 1);
     const readiness = clamp(0.62 + warSupport * 0.38, 0.45, 1);
     const latentBudgetDepth = clamp(Math.pow(Math.max(foundation * 0.95, 1) / Math.max(peacetimeBudgetCapacity, 1000), 0.25), 0.85, 1.35);
-    return Math.max(0, roundCurrency(foundation * stateCapacity * readiness * latentBudgetDepth * unlock));
+    const resolveMultiplier = mobilizedBudgetResolveMultiplier(inputs.mobilizationLevel, warSupport);
+    return Math.max(0, roundCurrency(foundation * stateCapacity * readiness * latentBudgetDepth * unlock * resolveMultiplier));
   }
 
   function mobilizationFinanceAbility(inputs) {
