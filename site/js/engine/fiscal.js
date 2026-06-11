@@ -265,9 +265,15 @@
       };
     }
 
+    function archivedNationIds(data) {
+      return new Set(data.meta?.archivedNationIds || []);
+    }
+
     function recalculateBudgets(data, options = {}) {
       const shouldUpdateDebt = options.updateDebt === true;
+      const archived = archivedNationIds(data);
       for (const id of Object.keys(data.national || {})) {
+        if (archived.has(id)) continue;
         const national = data.national[id];
         const budgetCapacity = calculateBudgetForNation(data, id, {
           version: options.budgetFormulaVersion,

@@ -74,6 +74,7 @@
     republic_of_shangri_la: "svg_label_1720",
     serranova_military_junta: "svg_label_455",
     solara: "svg_label_294",
+    surnovska_republic: "svg_label_464",
     templar_of_saxonia: "svg_label_714",
     theorin_commonwealth: "svg_label_2035",
     tsardom_of_nogoyev: "svg_label_1426",

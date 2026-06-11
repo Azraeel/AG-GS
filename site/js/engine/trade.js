@@ -68,10 +68,15 @@
       return "Minor Power";
     }
 
+    function archivedNationIds(data) {
+      return new Set(data.meta?.archivedNationIds || []);
+    }
+
     function nationIdsForNetwork(data) {
+      const archived = archivedNationIds(data);
       return (data.nations || [])
         .map((nation) => nation.id)
-        .filter((id) => data.national?.[id] && data.trade?.[id]);
+        .filter((id) => !archived.has(id) && data.national?.[id] && data.trade?.[id]);
     }
 
     function tradeNetworkState(data) {
@@ -2239,7 +2244,7 @@
 
     function recalculateTrade(data, options = {}) {
       const tradeNetworkSnapshot = calculateTradeNetwork(data, { includeLanes: false });
-      for (const id of Object.keys(data.trade || {})) {
+      for (const id of nationIdsForNetwork(data)) {
         stripRemovedTradeStats(data.trade[id]);
         const next = calculateTradeForNation(data, id, {
           ...options,
