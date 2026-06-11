@@ -841,12 +841,16 @@
   }
 
   function mobilizedBudgetFoundation(inputs) {
-    const populationBase = Math.sqrt(Math.max(inputs.population, 0) / 1_000_000) * 900;
-    const civilianBase = Math.sqrt(Math.max(inputs.civFactories, 0)) * 1400;
-    const shipyardBase = Math.sqrt(Math.max(inputs.shipyards, 0)) * 2800;
-    const militaryBase = Math.sqrt(Math.max(inputs.militaryFactories, 0)) * 900;
-    const developmentBase = clamp(inputs.developmentLevel, 0, 20) * 1600;
-    return populationBase + civilianBase + shipyardBase + militaryBase + developmentBase;
+    const populationBase = Math.sqrt(Math.max(inputs.population, 0) / 1_000_000) * 650;
+    const civilianBase = Math.sqrt(Math.max(inputs.civFactories, 0)) * 1700;
+    const shipyardBase = Math.sqrt(Math.max(inputs.shipyards, 0)) * 3200;
+    const militaryBase = Math.sqrt(Math.max(inputs.militaryFactories, 0)) * 1200;
+    const developmentBase = clamp(inputs.developmentLevel, 0, 20) * 1900;
+    const industryDepth = Math.max(inputs.civFactories, 0)
+      + Math.max(inputs.shipyards, 0) * 1.8
+      + Math.max(inputs.militaryFactories, 0) * 1.3;
+    const advancedIndustrialSurge = industryDepth * clamp(inputs.developmentLevel / 20, 0, 1) * 45;
+    return populationBase + civilianBase + shipyardBase + militaryBase + developmentBase + advancedIndustrialSurge;
   }
 
   function mobilizedBudgetStateCapacity(inputs) {
@@ -863,8 +867,8 @@
     const stateCapacity = mobilizedBudgetStateCapacity(inputs);
     const warSupport = clamp(number(inputs.national?.warSupport, 50) / 100, 0, 1);
     const readiness = clamp(0.62 + warSupport * 0.38, 0.45, 1);
-    const sleepingGiant = clamp(Math.sqrt(Math.max(foundation * 1.12, 1) / Math.max(peacetimeBudgetCapacity, 1000)), 0.65, 1.85);
-    return Math.max(0, roundCurrency(foundation * stateCapacity * readiness * sleepingGiant * unlock));
+    const latentBudgetDepth = clamp(Math.pow(Math.max(foundation * 0.95, 1) / Math.max(peacetimeBudgetCapacity, 1000), 0.25), 0.85, 1.35);
+    return Math.max(0, roundCurrency(foundation * stateCapacity * readiness * latentBudgetDepth * unlock));
   }
 
   function mobilizationFinanceAbility(inputs) {
