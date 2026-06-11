@@ -348,6 +348,10 @@
 
   function renderEditorRail(nation, national, trade) {
     const recent = changeHistoryRows(nation.id, 3);
+    const wartimeHeadroom = Engine.number(national.wartimeBudgetHeadroom, 0);
+    const wartimeBonus = Engine.number(national.wartimeBudgetBonus, 0);
+    const autoMobilizationBe = Engine.number(national.wartimeBudgetAutoExpenditure, 0);
+    const hasWartimeCapacity = wartimeBonus > 0 || wartimeHeadroom > 0 || Engine.number(national.mobilizedBudgetCapacity, 0) > Engine.number(national.budgetCapacity, 0);
     return `
       <aside class="editor-rail">
         <section class="editor-rail-panel derived-preview">
@@ -359,13 +363,13 @@
             ${state.notice ? `<span class="status positive">${safeText(state.notice)}</span>` : ""}
           </div>
           <div class="rail-detail-grid">
-            ${detailItem("Budget Capacity", `${budgetCapacityText(nation.id)}${budgetCapacityNote(nation.id) ? ` (${budgetCapacityNote(nation.id)})` : ""}`)}
-            ${Engine.number(national.wartimeBudgetAutoExpenditure, 0) > 0 ? detailItem("Auto Mobilization BE", fmtNumber(national.wartimeBudgetAutoExpenditure)) : ""}
-            ${Engine.number(national.wartimeBudgetHeadroom, 0) > 0 ? detailItem("Wartime Headroom", fmtNumber(national.wartimeBudgetHeadroom)) : ""}
+            ${detailItem("Displayed Budget Capacity", `${budgetCapacityText(nation.id)}${budgetCapacityNote(nation.id) ? ` (${budgetCapacityNote(nation.id)})` : ""}`)}
+            ${hasWartimeCapacity ? detailItem("Auto Mobilization BE", autoMobilizationBe > 0 ? fmtNumber(autoMobilizationBe) : "Not started") : ""}
+            ${wartimeHeadroom > 0 ? detailItem("Available Wartime Headroom", fmtNumber(wartimeHeadroom)) : ""}
             ${Engine.number(national.mobilizationYears, 0) > 0 ? detailItem("Mobilization Strain", fmtDecimalPercent(national.mobilizationStrain)) : ""}
-            ${detailItem("Primary Balance", fmtSigned(national.primaryBalance))}
+            ${detailItem("Peacetime Fiscal Balance", fmtSigned(national.primaryBalance))}
             ${detailItem("Debt Service", fmtNumber(national.debtService))}
-            ${detailItem("Effective Balance", fmtSigned(national.budgetBalance))}
+            ${detailItem("Effective Balance After Auto BE", fmtSigned(national.budgetBalance))}
             ${detailItem("Treasury Reserve", fmtNumber(national.treasuryReserve))}
             ${detailItem("Reserve Change", fmtSigned(national.treasuryChange))}
             ${detailItem("Debt", fmtPercent(national.debt))}

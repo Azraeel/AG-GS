@@ -1064,15 +1064,15 @@
 
   function fieldLabel(dataset, path) {
     const labels = {
-      budgetCapacity: "Budget Capacity",
-      primaryBalance: "Primary Balance",
-      budgetBalance: "Effective Balance",
+      budgetCapacity: "Peacetime Budget Capacity",
+      primaryBalance: "Peacetime Fiscal Balance",
+      budgetBalance: "Effective Balance After Auto BE",
       wartimeBudgetPeakBonus: "Peak Wartime BC Bonus",
       wartimeBudgetBonus: "Wartime BC Bonus",
       wartimeBudgetAutoExpenditure: "Auto Mobilization BE",
-      wartimeBudgetHeadroom: "Wartime Headroom",
+      wartimeBudgetHeadroom: "Available Wartime Headroom",
       effectiveBudgetExpenditure: "Effective Expenditure",
-      mobilizedBudgetCapacity: "Budget Capacity",
+      mobilizedBudgetCapacity: "Displayed Budget Capacity",
       mobilizationFinanceLevel: "Mobilization Finance Level",
       mobilizationYears: "Mobilization Years",
       mobilizationReadiness: "Mobilization Readiness",
