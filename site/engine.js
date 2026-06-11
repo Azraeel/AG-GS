@@ -841,7 +841,7 @@
   }
 
   function mobilizedBudgetFoundation(inputs) {
-    const populationBase = Math.sqrt(Math.max(inputs.population, 0) / 1_000_000) * 650;
+    const populationBase = Math.sqrt(Math.max(inputs.population, 0) / 1_000_000) * 250;
     const civilianBase = Math.sqrt(Math.max(inputs.civFactories, 0)) * 1700;
     const shipyardBase = Math.sqrt(Math.max(inputs.shipyards, 0)) * 3200;
     const militaryBase = Math.sqrt(Math.max(inputs.militaryFactories, 0)) * 1200;
