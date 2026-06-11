@@ -98,18 +98,21 @@
           {
             key: "civilianSectors",
             label: "Civilian",
+            className: "industrial-tier-group",
             raw: (row) => Engine.industrialSectorOutputs(row).civilian.physical,
             render: (_, row) => tierBreakdownCell(Engine.industrialSectorOutputs(row).civilian, civilianTiers)
           },
           {
             key: "militarySectors",
             label: "Military",
+            className: "industrial-tier-group industrial-tier-divider",
             raw: (row) => Engine.industrialSectorOutputs(row).military.physical,
             render: (_, row) => tierBreakdownCell(Engine.industrialSectorOutputs(row).military, militaryTiers)
           },
           {
             key: "shipyardSectors",
             label: "Shipyards",
+            className: "industrial-tier-group industrial-tier-divider",
             raw: (row) => Engine.industrialSectorOutputs(row).shipyard.physical,
             render: (_, row) => tierBreakdownCell(Engine.industrialSectorOutputs(row).shipyard, shipyardTiers)
           }

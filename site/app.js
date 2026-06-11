@@ -641,8 +641,10 @@
               <tr>
                 ${visibleColumns
                   .map(
-                    (column) =>
-                      `<th class="${column.numeric ? "numeric" : ""}" data-table="${escapeHtml(id)}" data-key="${escapeHtml(column.key)}">${safeText(column.label)}${sortLabel(sort, column)}</th>`
+                    (column) => {
+                      const columnClass = [column.numeric ? "numeric" : "", column.className || ""].filter(Boolean).join(" ");
+                      return `<th class="${escapeHtml(columnClass)}" data-table="${escapeHtml(id)}" data-key="${escapeHtml(column.key)}">${safeText(column.label)}${sortLabel(sort, column)}</th>`;
+                    }
                   )
                   .join("")}
               </tr>
@@ -656,7 +658,8 @@
                         .map((column) => {
                           const value = column.raw ? column.raw(row) : row[column.key];
                           const rendered = column.render ? column.render(value, row) : safeText(value);
-                          return `<td class="${column.numeric ? "numeric" : ""}">${rendered}</td>`;
+                          const columnClass = [column.numeric ? "numeric" : "", column.className || ""].filter(Boolean).join(" ");
+                          return `<td class="${escapeHtml(columnClass)}">${rendered}</td>`;
                         })
                         .join("")}
                     </tr>`

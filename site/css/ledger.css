@@ -806,6 +806,26 @@ tbody td {
   min-width: 230px;
 }
 
+th.industrial-tier-group {
+  text-align: center;
+}
+
+th.industrial-tier-divider,
+td.industrial-tier-divider {
+  border-left: 2px solid var(--line-strong);
+  padding-left: 18px;
+}
+
+th.industrial-tier-divider {
+  box-shadow:
+    inset 10px 0 14px -14px rgba(0, 0, 0, 0.75),
+    inset 0 -1px 0 var(--line-strong);
+}
+
+td.industrial-tier-divider {
+  box-shadow: inset 10px 0 14px -14px rgba(0, 0, 0, 0.48);
+}
+
 .industrial-tier-cell span {
   display: grid;
   gap: 2px;
