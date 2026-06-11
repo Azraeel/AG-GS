@@ -134,7 +134,7 @@
       const military = data.military?.[id] || {};
       const industrial = data.industrial?.[id] || {};
       const budgetCapacity = roundCurrency(options.budgetCapacity ?? national.budgetCapacity);
-      const budgetExpenditure = roundCurrency(options.budgetExpenditure ?? national.budgetExpenditure);
+      const budgetExpenditure = roundCurrency(options.budgetExpenditure ?? national.effectiveBudgetExpenditure ?? national.budgetExpenditure);
       const storedDebtPercent = Math.max(0, number(national.debt, 0));
       const storedDebtPrincipal = number(national.debtPrincipal, null);
       const debtPrincipal = storedDebtPrincipal !== null && storedDebtPrincipal > 0
@@ -282,9 +282,16 @@
         const budgetCapacity = budgetBreakdown?.budgetCapacity ?? null;
         if (budgetCapacity === null) continue;
         national.budgetCapacity = budgetCapacity;
+        national.wartimeBudgetPeakBonus = Math.max(0, roundCurrency(budgetBreakdown.wartimeBudgetPeakBonus));
         national.wartimeBudgetBonus = Math.max(0, roundCurrency(budgetBreakdown.wartimeBudgetBonus));
+        national.wartimeBudgetAutoExpenditure = Math.max(0, roundCurrency(budgetBreakdown.wartimeBudgetAutoExpenditure));
+        national.wartimeBudgetHeadroom = Math.max(0, roundCurrency(budgetBreakdown.wartimeBudgetHeadroom));
+        national.effectiveBudgetExpenditure = roundCurrency(budgetBreakdown.effectiveBudgetExpenditure ?? number(national.budgetExpenditure, 0));
+        national.mobilizationEffectiveness = roundPercent(budgetBreakdown.mobilizationEffectiveness);
+        national.mobilizationAbility = roundPercent(budgetBreakdown.mobilizationAbility);
+        national.mobilizationEnduranceYears = roundPercent(budgetBreakdown.mobilizationEnduranceYears);
         national.mobilizedBudgetCapacity = roundCurrency(budgetCapacity + national.wartimeBudgetBonus);
-        let fiscal = calculateFiscalForNation(data, id, { budgetCapacity });
+        let fiscal = calculateFiscalForNation(data, id, { budgetCapacity, budgetExpenditure: national.effectiveBudgetExpenditure });
         if (!fiscal) continue;
         applyFiscalFields(national, fiscal);
         if (shouldUpdateDebt) {
@@ -292,7 +299,7 @@
           national.debt = fiscal.nextDebtPercent;
           national.debtServiceRate = fiscal.nextDebtServiceRate;
           national.treasuryReserve = fiscal.nextTreasuryReserve;
-          fiscal = calculateFiscalForNation(data, id, { budgetCapacity });
+          fiscal = calculateFiscalForNation(data, id, { budgetCapacity, budgetExpenditure: national.effectiveBudgetExpenditure });
           if (fiscal) applyFiscalFields(national, fiscal);
         }
       }

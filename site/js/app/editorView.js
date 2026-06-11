@@ -360,6 +360,9 @@
           </div>
           <div class="rail-detail-grid">
             ${detailItem("Budget Capacity", `${budgetCapacityText(nation.id)}${budgetCapacityNote(nation.id) ? ` (${budgetCapacityNote(nation.id)})` : ""}`)}
+            ${Engine.number(national.wartimeBudgetAutoExpenditure, 0) > 0 ? detailItem("Auto Mobilization BE", fmtNumber(national.wartimeBudgetAutoExpenditure)) : ""}
+            ${Engine.number(national.wartimeBudgetHeadroom, 0) > 0 ? detailItem("Wartime Headroom", fmtNumber(national.wartimeBudgetHeadroom)) : ""}
+            ${Engine.number(national.mobilizationYears, 0) > 0 ? detailItem("Mobilization Strain", fmtDecimalPercent(national.mobilizationStrain)) : ""}
             ${detailItem("Primary Balance", fmtSigned(national.primaryBalance))}
             ${detailItem("Debt Service", fmtNumber(national.debtService))}
             ${detailItem("Effective Balance", fmtSigned(national.budgetBalance))}

@@ -23,6 +23,12 @@
     Total: { militaryGrowthMultiplier: 1.5, civilianPenalty: -0.6, militaryFactoryMultiplier: 1, maintenanceCost: 3, supplyMultiplier: 2 }
   };
   const MOBILIZED_BUDGET_UNLOCK = { None: 0, Partial: 0.45, Full: 0.78, Total: 1.08 };
+  const MOBILIZATION_FINANCE = {
+    None: { activationShare: 0, rampRate: 0, strainStartYears: 0, strainRate: 0, maxStrain: 0, autoSpendShare: 0 },
+    Partial: { activationShare: 0.68, rampRate: 0.24, strainStartYears: 2.8, strainRate: 0.075, maxStrain: 0.55, autoSpendShare: 0.52 },
+    Full: { activationShare: 0.58, rampRate: 0.27, strainStartYears: 2.1, strainRate: 0.105, maxStrain: 0.66, autoSpendShare: 0.72 },
+    Total: { activationShare: 0.48, rampRate: 0.31, strainStartYears: 1.35, strainRate: 0.16, maxStrain: 0.78, autoSpendShare: 0.9 }
+  };
   const TRADE_POLICY = { Protectionist: { efficiency: -15, capacity: -10 }, Balanced: { efficiency: 0, capacity: 0 }, "Open Market": { efficiency: 10, capacity: 8 }, "Free Trade": { efficiency: 20, capacity: 15 } };
   const SANCTIONS = {
     None: { efficiency: 0, capacity: 0, flow: 0, balance: 0 },
@@ -850,7 +856,7 @@
     return clamp(0.5 + development * 0.32 + stability * 0.28 + corruptionControl * 0.22, 0.45, 1.28);
   }
 
-  function wartimeBudgetBonusFromInputs(inputs, peacetimeBudgetCapacity) {
+  function wartimeBudgetPeakBonusFromInputs(inputs, peacetimeBudgetCapacity) {
     const unlock = MOBILIZED_BUDGET_UNLOCK[inputs.mobilizationLevel] || 0;
     if (unlock <= 0) return 0;
     const foundation = mobilizedBudgetFoundation(inputs);
@@ -859,6 +865,66 @@
     const readiness = clamp(0.62 + warSupport * 0.38, 0.45, 1);
     const sleepingGiant = clamp(Math.sqrt(Math.max(foundation * 1.12, 1) / Math.max(peacetimeBudgetCapacity, 1000)), 0.65, 1.85);
     return Math.max(0, roundCurrency(foundation * stateCapacity * readiness * sleepingGiant * unlock));
+  }
+
+  function mobilizationFinanceAbility(inputs) {
+    const development = clamp(inputs.developmentLevel / 20, 0, 1);
+    const stability = clamp(inputs.stability / 100, 0, 1.15);
+    const corruptionControl = clamp((100 - inputs.corruption) / 100, 0, 1);
+    const warSupport = clamp(number(inputs.national?.warSupport, 50) / 100, 0, 1);
+    const industryDepth = clamp(Math.sqrt(Math.max(inputs.civFactories + inputs.militaryFactories + inputs.shipyards, 0)) / 36, 0, 1);
+    return clamp(0.36 + development * 0.24 + stability * 0.2 + corruptionControl * 0.17 + warSupport * 0.14 + industryDepth * 0.24, 0.35, 1.25);
+  }
+
+  function mobilizationFinanceEndurance(inputs) {
+    const development = clamp(inputs.developmentLevel / 20, 0, 1);
+    const stability = clamp(inputs.stability / 100, 0, 1.15);
+    const corruptionControl = clamp((100 - inputs.corruption) / 100, 0, 1);
+    const warSupport = clamp(number(inputs.national?.warSupport, 50) / 100, 0, 1);
+    const populationDepth = clamp(Math.sqrt(Math.max(inputs.population, 0) / 25_000_000), 0, 1.7);
+    const shipyardDepth = clamp(Math.sqrt(Math.max(inputs.shipyards, 0)) / 12, 0, 1);
+    return clamp(0.65 + development * 1.7 + stability * 1.15 + corruptionControl * 1.25 + warSupport * 0.8 + populationDepth * 0.65 + shipyardDepth * 0.55, 0.75, 6.5);
+  }
+
+  function mobilizationFinanceMetricsFromInputs(inputs, peacetimeBudgetCapacity) {
+    const level = inputs.mobilizationLevel || "None";
+    const profile = MOBILIZATION_FINANCE[level] || MOBILIZATION_FINANCE.None;
+    const peakBonus = wartimeBudgetPeakBonusFromInputs(inputs, peacetimeBudgetCapacity);
+    const national = inputs.national || {};
+    if (!peakBonus || level === "None") {
+      return {
+        wartimeBudgetPeakBonus: 0,
+        wartimeBudgetBonus: 0,
+        wartimeBudgetAutoExpenditure: 0,
+        wartimeBudgetHeadroom: 0,
+        effectiveBudgetExpenditure: roundCurrency(number(national.budgetExpenditure, 0)),
+        mobilizationEffectiveness: 0,
+        mobilizationAbility: 0,
+        mobilizationEnduranceYears: 0
+      };
+    }
+    const storedLevel = national.mobilizationFinanceLevel || level;
+    const sameLevel = storedLevel === level;
+    const mobilizationYears = sameLevel ? Math.max(0, number(national.mobilizationYears, 0)) : 0;
+    const readiness = clamp(sameLevel ? number(national.mobilizationReadiness, 1) : 1, 0, 1);
+    const strain = clamp(sameLevel ? number(national.mobilizationStrain, 0) : 0, 0, profile.maxStrain);
+    const effectiveness = clamp(readiness * (1 - strain), 0, 1);
+    const currentBonus = roundCurrency(peakBonus * effectiveness);
+    const autoSpendShare = mobilizationYears > 0
+      ? clamp(profile.autoSpendShare * (0.88 + readiness * 0.12 + strain * 0.12), 0, 0.95)
+      : 0;
+    const autoExpenditure = Math.min(roundCurrency(currentBonus * autoSpendShare), Math.max(0, currentBonus - 1));
+    const headroom = Math.max(0, roundCurrency(currentBonus - autoExpenditure));
+    return {
+      wartimeBudgetPeakBonus: peakBonus,
+      wartimeBudgetBonus: currentBonus,
+      wartimeBudgetAutoExpenditure: autoExpenditure,
+      wartimeBudgetHeadroom: headroom,
+      effectiveBudgetExpenditure: roundCurrency(number(national.budgetExpenditure, 0) + autoExpenditure),
+      mobilizationEffectiveness: roundPercent(effectiveness),
+      mobilizationAbility: roundPercent(mobilizationFinanceAbility(inputs)),
+      mobilizationEnduranceYears: roundPercent(mobilizationFinanceEndurance(inputs))
+    };
   }
 
   function calculateTariffBurdenForNation(data, id) {
@@ -988,9 +1054,9 @@
       taxRevenue: populationContribution,
       ...budgetCapacityFromBreakdown(peacetimeInputs, industrialBudgetContribution(peacetimeInputs), populationContribution)
     };
-    const wartimeBudgetBonus = wartimeBudgetBonusFromInputs(inputs, breakdown.budgetCapacity);
-    breakdown.wartimeBudgetBonus = wartimeBudgetBonus;
-    breakdown.mobilizedBudgetCapacity = breakdown.budgetCapacity + wartimeBudgetBonus;
+    const mobilizationFinance = mobilizationFinanceMetricsFromInputs(inputs, breakdown.budgetCapacity);
+    Object.assign(breakdown, mobilizationFinance);
+    breakdown.mobilizedBudgetCapacity = breakdown.budgetCapacity + breakdown.wartimeBudgetBonus;
     return breakdown;
   }
 
@@ -1021,9 +1087,9 @@
       taxBurden,
       ...budgetCapacityFromBreakdown(peacetimeInputs, industrialBudgetContribution(peacetimeInputs), populationContribution, tariffRevenue)
     };
-    const wartimeBudgetBonus = wartimeBudgetBonusFromInputs(inputs, breakdown.budgetCapacity);
-    breakdown.wartimeBudgetBonus = wartimeBudgetBonus;
-    breakdown.mobilizedBudgetCapacity = breakdown.budgetCapacity + wartimeBudgetBonus;
+    const mobilizationFinance = mobilizationFinanceMetricsFromInputs(inputs, breakdown.budgetCapacity);
+    Object.assign(breakdown, mobilizationFinance);
+    breakdown.mobilizedBudgetCapacity = breakdown.budgetCapacity + breakdown.wartimeBudgetBonus;
     return breakdown;
   }
 
@@ -1217,6 +1283,67 @@
     return military.militarySupply - currentSupply;
   }
 
+  function advanceMobilizationFinance(data, id, years = 1) {
+    const inputs = budgetInputsForNation(data, id);
+    if (!inputs) return null;
+    const national = inputs.national;
+    const level = inputs.mobilizationLevel || "None";
+    const profile = MOBILIZATION_FINANCE[level] || MOBILIZATION_FINANCE.None;
+    const yearsAdvanced = Math.max(0, number(years, 1));
+    if (level === "None" || !profile.autoSpendShare) {
+      national.mobilizationFinanceLevel = "None";
+      national.mobilizationYears = 0;
+      national.mobilizationReadiness = 0;
+      national.mobilizationStrain = 0;
+      national.mobilizationEffectiveness = 0;
+      national.wartimeBudgetAutoExpenditure = 0;
+      national.wartimeBudgetHeadroom = 0;
+      national.effectiveBudgetExpenditure = roundCurrency(number(national.budgetExpenditure, 0));
+      return {
+        level: "None",
+        years: 0,
+        readiness: 0,
+        strain: 0,
+        effectiveness: 0
+      };
+    }
+
+    const previousLevel = national.mobilizationFinanceLevel || level;
+    const ability = mobilizationFinanceAbility(inputs);
+    const enduranceYears = mobilizationFinanceEndurance(inputs);
+    const sameLevel = previousLevel === level;
+    const previousReadiness = number(national.mobilizationReadiness, profile.activationShare * ability);
+    const previousStrain = number(national.mobilizationStrain, 0);
+    const previousYears = Math.max(0, number(national.mobilizationYears, 0));
+    const baseReadiness = sameLevel
+      ? previousReadiness
+      : Math.max(profile.activationShare * ability, previousReadiness * 0.62);
+    const baseStrain = sameLevel ? previousStrain : previousStrain * 0.45;
+    const mobilizationYears = roundPercent((sameLevel ? previousYears : 0) + yearsAdvanced);
+    const readiness = clamp(baseReadiness + profile.rampRate * ability * yearsAdvanced, 0, 1);
+    const yearsOverEndurance = Math.max(0, mobilizationYears - (profile.strainStartYears + enduranceYears));
+    const strainTarget = clamp(yearsOverEndurance * profile.strainRate / Math.max(ability, 0.42), 0, profile.maxStrain);
+    const strain = clamp(Math.max(baseStrain, strainTarget), 0, profile.maxStrain);
+    const effectiveness = clamp(readiness * (1 - strain), 0, 1);
+
+    national.mobilizationFinanceLevel = level;
+    national.mobilizationYears = mobilizationYears;
+    national.mobilizationReadiness = roundPercent(readiness);
+    national.mobilizationStrain = roundPercent(strain);
+    national.mobilizationEffectiveness = roundPercent(effectiveness);
+    national.mobilizationAbility = roundPercent(ability);
+    national.mobilizationEnduranceYears = roundPercent(enduranceYears);
+    return {
+      level,
+      years: mobilizationYears,
+      readiness: national.mobilizationReadiness,
+      strain: national.mobilizationStrain,
+      effectiveness: national.mobilizationEffectiveness,
+      ability: national.mobilizationAbility,
+      enduranceYears: national.mobilizationEnduranceYears
+    };
+  }
+
   function recalculateAll(data, options = {}) {
     ensureTradeV4State(data);
     let previousSignature = "";
@@ -1291,6 +1418,7 @@
       recalculateTrade(data);
       for (const nation of activeNations) advanceIndustry(data, nation.id, 1);
       recalculateBudgets(data);
+      for (const nation of activeNations) advanceMobilizationFinance(data, nation.id, 1);
       recalculateTrade(data);
       recalculateBudgets(data, { updateDebt: true });
       recalculateTrade(data);
@@ -1402,6 +1530,7 @@
     archiveWikiPage,
     advancePopulation,
     advanceIndustry,
+    advanceMobilizationFinance,
     advanceToYear,
     updateValue,
     snapshot,
