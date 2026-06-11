@@ -29,6 +29,16 @@
     Full: { base: 0.82, scale: 0.45, exponent: 2, min: 0.82, max: 1.27 },
     Total: { base: 0.2, scale: 1.95, exponent: 2.4, min: 0.2, max: 2.15 }
   };
+  const INDUSTRIAL_SECTOR_WEIGHTS = {
+    civilian: { basic: 1, improved: 5, advanced: 30 },
+    military: { basic: 1, improved: 4, advanced: 12 },
+    shipyard: { medium: 1, large: 10, mega: 40 }
+  };
+  const INDUSTRIAL_SECTOR_CONFIG = {
+    civilian: { totalKey: "civilianFactories", sectorsKey: "civilianSectors", defaultTier: "basic", tiers: ["basic", "improved", "advanced"], weights: INDUSTRIAL_SECTOR_WEIGHTS.civilian },
+    military: { totalKey: "militaryFactories", sectorsKey: "militarySectors", defaultTier: "basic", tiers: ["basic", "improved", "advanced"], weights: INDUSTRIAL_SECTOR_WEIGHTS.military },
+    shipyard: { totalKey: "shipyards", sectorsKey: "shipyardSectors", defaultTier: "medium", tiers: ["medium", "large", "mega"], weights: INDUSTRIAL_SECTOR_WEIGHTS.shipyard }
+  };
   const MOBILIZATION_FINANCE = {
     None: { activationShare: 0, rampRate: 0, strainStartYears: 0, strainRate: 0, maxStrain: 0, autoSpendShare: 0 },
     Partial: { activationShare: 0.68, rampRate: 0.24, strainStartYears: 2.8, strainRate: 0.075, maxStrain: 0.55, autoSpendShare: 0.52 },
@@ -714,6 +724,62 @@
     return FISCAL_MODELS[value] ? value : "";
   }
 
+  function sectorValue(sectors, tier) {
+    return Math.max(0, number(sectors?.[tier], 0));
+  }
+
+  function industrialSectorBreakdown(industrial, config) {
+    const physicalTotal = Math.max(0, number(industrial?.[config.totalKey], 0));
+    const sectors = industrial?.[config.sectorsKey] || {};
+    const hasSectorData = config.tiers.some((tier) => Object.prototype.hasOwnProperty.call(sectors, tier));
+    const values = {};
+    if (!hasSectorData) {
+      config.tiers.forEach((tier) => {
+        values[tier] = tier === config.defaultTier ? physicalTotal : 0;
+      });
+    } else {
+      let nonDefaultTotal = 0;
+      config.tiers.forEach((tier) => {
+        if (tier === config.defaultTier) return;
+        values[tier] = sectorValue(sectors, tier);
+        nonDefaultTotal += values[tier];
+      });
+      values[config.defaultTier] = Object.prototype.hasOwnProperty.call(sectors, config.defaultTier)
+        ? sectorValue(sectors, config.defaultTier)
+        : Math.max(0, physicalTotal - nonDefaultTotal);
+    }
+    const physical = config.tiers.reduce((total, tier) => total + values[tier], 0);
+    const effective = config.tiers.reduce((total, tier) => total + values[tier] * config.weights[tier], 0);
+    return { ...values, physical, effective, legacyTotal: physicalTotal };
+  }
+
+  function industrialSectorOutputs(industrial) {
+    return {
+      civilian: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.civilian),
+      military: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.military),
+      shipyard: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.shipyard)
+    };
+  }
+
+  function hasIndustrialSectorData(industrial, config) {
+    const sectors = industrial?.[config.sectorsKey];
+    return Boolean(sectors && typeof sectors === "object" && config.tiers.some((tier) => Object.prototype.hasOwnProperty.call(sectors, tier)));
+  }
+
+  function syncIndustrialSectorTotal(industrial, path) {
+    if (!industrial || !path.includes("Sectors.")) return;
+    const config = Object.values(INDUSTRIAL_SECTOR_CONFIG).find((candidate) => path.startsWith(`${candidate.sectorsKey}.`));
+    if (!config) return;
+    industrial[config.totalKey] = roundCurrency(industrialSectorBreakdown(industrial, config).physical);
+  }
+
+  function applyIndustrialSectorDefaultDelta(industrial, config, previousBreakdown, delta) {
+    if (!hasIndustrialSectorData(industrial, config) || !delta) return;
+    const sectors = industrial[config.sectorsKey] || {};
+    sectors[config.defaultTier] = Math.max(0, roundCurrency(number(previousBreakdown?.[config.defaultTier], 0) + delta));
+    industrial[config.sectorsKey] = sectors;
+  }
+
   function fiscalModelForNation(data, id, national = data.national?.[id]) {
     const explicit = normalizeFiscalModel(national?.fiscalModel);
     if (explicit) return explicit;
@@ -723,7 +789,8 @@
     const development = number(national?.developmentLevel, 0);
     const stability = number(national?.governmentalStability, 0);
     const health = national?.economicHealth || "Recovery";
-    const industrialScale = number(industrial.civilianFactories, 0) + number(industrial.militaryFactories, 0) + number(industrial.shipyards, 0);
+    const sectorOutput = industrialSectorOutputs(industrial);
+    const industrialScale = sectorOutput.civilian.effective + sectorOutput.military.effective + sectorOutput.shipyard.effective;
     const isStrongEconomy = ["Prosperity", "Expansion"].includes(health);
     const isHighCapacity = development >= 18 && stability >= 85 && isStrongEconomy && industrialScale >= 650;
     if (isHighCapacity && taxRatePercent >= 24) return "Welfare State";
@@ -738,9 +805,13 @@
     const trade = data.trade[id];
     if (!national || !industrial || !military || !trade) return null;
 
-    const civFactories = number(industrial.civilianFactories, 0);
-    const militaryFactories = number(industrial.militaryFactories, 0);
-    const shipyards = number(industrial.shipyards, 0);
+    const sectorOutput = industrialSectorOutputs(industrial);
+    const civFactories = sectorOutput.civilian.effective;
+    const militaryFactories = sectorOutput.military.effective;
+    const shipyards = sectorOutput.shipyard.effective;
+    const physicalCivFactories = sectorOutput.civilian.physical;
+    const physicalMilitaryFactories = sectorOutput.military.physical;
+    const physicalShipyards = sectorOutput.shipyard.physical;
     const developmentLevel = number(national.developmentLevel, 0);
     const population = getPopulation(data, id);
     const corruption = number(national.corruption, 0);
@@ -761,6 +832,10 @@
       civFactories,
       militaryFactories,
       shipyards,
+      physicalCivFactories,
+      physicalMilitaryFactories,
+      physicalShipyards,
+      sectorOutput,
       developmentLevel,
       population,
       corruption,
@@ -832,10 +907,11 @@
   }
 
   function industrialBudgetContribution(inputs) {
-    const { civFactories, militaryFactories, shipyards, developmentLevel, mobilization } = inputs;
+    const { civFactories, militaryFactories, shipyards, physicalCivFactories, physicalMilitaryFactories, physicalShipyards, developmentLevel, mobilization } = inputs;
     const effectiveContributionRate = 5 + developmentLevel * 0.75;
     const developmentMultiplier = 1 + developmentLevel * 0.25;
-    return ((civFactories * effectiveContributionRate) + (militaryFactories * effectiveContributionRate * mobilization.militaryFactoryMultiplier) + (shipyards * effectiveContributionRate * 1.5)) / (1 + (civFactories + militaryFactories + shipyards) * 0.0025) * developmentMultiplier;
+    const physicalIndustry = physicalCivFactories + physicalMilitaryFactories + physicalShipyards;
+    return ((civFactories * effectiveContributionRate) + (militaryFactories * effectiveContributionRate * mobilization.militaryFactoryMultiplier) + (shipyards * effectiveContributionRate * 1.5)) / (1 + physicalIndustry * 0.0025) * developmentMultiplier;
   }
 
   function peacetimeBudgetInputs(inputs) {
@@ -1042,8 +1118,8 @@
   }
 
   function budgetCapacityFromBreakdown(inputs, industrialContribution, populationContribution, tariffRevenue = 0) {
-    const { civFactories, militaryFactories, shipyards, mobilization, national, tradeBalance } = inputs;
-    const maintenanceCost = (civFactories + shipyards + militaryFactories * mobilization.maintenanceCost) * 0.1;
+    const { physicalCivFactories, physicalMilitaryFactories, physicalShipyards, mobilization, national, tradeBalance } = inputs;
+    const maintenanceCost = (physicalCivFactories + physicalShipyards + physicalMilitaryFactories * mobilization.maintenanceCost) * 0.1;
     const baseBudgetTotal = 10 + industrialContribution + populationContribution - maintenanceCost;
     const tradeImpactOnBudget = Math.max(0.1, 1 + (tradeBalance / Math.max(baseBudgetTotal, 100)) * 0.1);
     const budgetCapacity = Math.max(0, Math.round(baseBudgetTotal * tradeImpactOnBudget + number(tariffRevenue, 0)) + number(national.budgetAdjustment, 0));
@@ -1235,6 +1311,7 @@
     const currentFactories = number(industrial.civilianFactories, 0);
     const currentMilitaryFactories = number(industrial.militaryFactories, 0);
     const currentShipyards = number(industrial.shipyards, 0);
+    const currentSectorOutput = industrialSectorOutputs(industrial);
     const healthStatus = national.economicHealth || "Recovery";
     if (!(healthStatus in HEALTH_GROWTH)) return null;
     const yearsAdvanced = Math.max(1, number(yearDifference, 1));
@@ -1279,6 +1356,12 @@
     industrial.civilianFactories = Math.max(currentFactories + Math.floor(baseGrowth * (1 + mobilization.civilianPenalty)), 0);
     industrial.militaryFactories = Math.max(currentMilitaryFactories + militaryFactoryGrowth, 0);
     industrial.shipyards = Math.max(currentShipyards + Math.floor(baseGrowth / 3), 0);
+    applyIndustrialSectorDefaultDelta(industrial, INDUSTRIAL_SECTOR_CONFIG.civilian, currentSectorOutput.civilian, industrial.civilianFactories - currentFactories);
+    applyIndustrialSectorDefaultDelta(industrial, INDUSTRIAL_SECTOR_CONFIG.military, currentSectorOutput.military, industrial.militaryFactories - currentMilitaryFactories);
+    applyIndustrialSectorDefaultDelta(industrial, INDUSTRIAL_SECTOR_CONFIG.shipyard, currentSectorOutput.shipyard, industrial.shipyards - currentShipyards);
+    if (hasIndustrialSectorData(industrial, INDUSTRIAL_SECTOR_CONFIG.civilian)) syncIndustrialSectorTotal(industrial, "civilianSectors.basic");
+    if (hasIndustrialSectorData(industrial, INDUSTRIAL_SECTOR_CONFIG.military)) syncIndustrialSectorTotal(industrial, "militarySectors.basic");
+    if (hasIndustrialSectorData(industrial, INDUSTRIAL_SECTOR_CONFIG.shipyard)) syncIndustrialSectorTotal(industrial, "shipyardSectors.medium");
     return {
       civilianFactories: industrial.civilianFactories - currentFactories,
       militaryFactories: industrial.militaryFactories - currentMilitaryFactories,
@@ -1295,7 +1378,8 @@
     const mobilization = MOBILIZATION[military.mobilizationLevel || "None"] || MOBILIZATION.None;
     const techGap = Math.max(0, number(military.equipmentComplexity, 4) - maxComplexityForDevelopment(national.developmentLevel));
     const techGapPenalty = Math.max(0.05, 1 - techGap * (0.95 / 11));
-    const monthlyIncrement = number(industrial.militaryFactories, 0) * 0.2 * mobilization.supplyMultiplier * complexityMultiplier(military.equipmentComplexity) * techGapPenalty * (1 + number(military.militaryOrganization, 0) * 0.01);
+    const militaryOutput = industrialSectorOutputs(industrial).military.effective;
+    const monthlyIncrement = militaryOutput * 0.2 * mobilization.supplyMultiplier * complexityMultiplier(military.equipmentComplexity) * techGapPenalty * (1 + number(military.militaryOrganization, 0) * 0.01);
     military.militarySupply = Number((currentSupply + monthlyIncrement * months).toFixed(1));
     return military.militarySupply - currentSupply;
   }
@@ -1465,11 +1549,15 @@
     if (path.includes(".")) {
       const segments = path.split(".");
       let target = data[dataset][id];
-      for (let i = 0; i < segments.length - 1; i++) target = target[segments[i]];
+      for (let i = 0; i < segments.length - 1; i++) {
+        if (!target[segments[i]] || typeof target[segments[i]] !== "object") target[segments[i]] = {};
+        target = target[segments[i]];
+      }
       target[segments[segments.length - 1]] = value;
     } else {
       data[dataset][id][path] = value;
     }
+    if (dataset === "industrial") syncIndustrialSectorTotal(data.industrial[id], path);
     if (dataset === "national" && path === "debt") {
       const row = data.national[id];
       row.debt = Math.max(0, number(value, 0));
@@ -1523,6 +1611,7 @@
     clearTransitPolicy,
     tradeLogisticsFor,
     tradeTierForFlow,
+    industrialSectorOutputs,
     fiscalModelForNation,
     calculateTaxBurdenForNation,
     calculateTariffBurdenForNation,
@@ -1552,6 +1641,6 @@
     updateValue,
     snapshot,
     exportDataJs,
-    constants: { HEALTH_GROWTH, HEALTH_DEMOGRAPHICS, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, CHILD_POLICY_POPULATION_EFFECT, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, POPULATION_FORMULAS, FISCAL_MODELS, TARIFF_POLICY_LIMITS, WIKI_CATEGORIES, WIKI_STATUSES, WIKI_FACT_TEMPLATES }
+    constants: { HEALTH_GROWTH, HEALTH_DEMOGRAPHICS, HEALTH_BUDGET, HEALTH_TRADE, CHILD_POLICY, CHILD_POLICY_POPULATION_EFFECT, MOBILIZATION, TRADE_POLICY, SANCTIONS, DEBT_RULES, BUDGET_FORMULAS, TARIFF_FORMULAS, POPULATION_FORMULAS, FISCAL_MODELS, TARIFF_POLICY_LIMITS, INDUSTRIAL_SECTOR_WEIGHTS, WIKI_CATEGORIES, WIKI_STATUSES, WIKI_FACT_TEMPLATES }
   };
 })();

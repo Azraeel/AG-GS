@@ -109,7 +109,10 @@
         mobilizationLevel: "None",
         militaryFactories: 10,
         civilianFactories: 100,
-        shipyards: 10
+        shipyards: 10,
+        civilianSectors: { basic: 100, improved: 0, advanced: 0 },
+        militarySectors: { basic: 10, improved: 0, advanced: 0 },
+        shipyardSectors: { medium: 10, large: 0, mega: 0 }
       },
       population: {
         mandatoryChildPolicy: "No Policy",
@@ -335,15 +338,26 @@
 
   function renderEditorSummary(nation, national, trade, industrial, military, currentYear) {
     const coverage = coverageFor(nation.id).filter((set) => set.hasData).length;
+    const sectorOutput = Engine.industrialSectorOutputs(industrial);
+    const physicalFactories = sectorOutput.civilian.physical + sectorOutput.military.physical;
+    const effectiveFactories = sectorOutput.civilian.effective + sectorOutput.military.effective;
+    const factorySummary = effectiveFactories === physicalFactories
+      ? fmtNumber(physicalFactories)
+      : `${fmtNumber(physicalFactories)} / ${fmtNumber(effectiveFactories)} eff.`;
     return `
       <div class="editor-summary">
         ${overviewFact("Population", fmtCompact(populationFor(nation.id, currentYear)))}
         ${overviewFact("Budget", budgetCapacityText(nation.id))}
         ${overviewFact("Trade Flow", fmtCompact(trade.tradeFlow))}
-        ${overviewFact("Factories", fmtNumber((Number(industrial.civilianFactories) || 0) + (Number(industrial.militaryFactories) || 0)))}
+        ${overviewFact("Factories", factorySummary)}
         ${overviewFact("Supply", fmtPercent(military.militarySupply))}
         ${overviewFact("Coverage", `${coverage}/${datasets.length}`)}
       </div>`;
+  }
+
+  function renderSectorSummary(label, output) {
+    const effectiveNote = output.effective === output.physical ? "" : ` / ${fmtNumber(output.effective)} effective`;
+    return `<div class="industrial-sector-summary"><span>${safeText(label)}</span><strong>${safeText(`${fmtNumber(output.physical)} physical${effectiveNote}`)}</strong></div>`;
   }
 
   function renderEditorRail(nation, national, trade) {
@@ -420,6 +434,7 @@
     const national = data.national[nation.id] || {};
     const trade = data.trade[nation.id] || {};
     const industrial = data.industrial[nation.id] || {};
+    const sectorOutput = Engine.industrialSectorOutputs(industrial);
     const military = data.military[nation.id] || {};
     const intelligence = data.intelligence[nation.id] || {};
     const eclipse = data.eclipse[nation.id] || {};
@@ -508,6 +523,18 @@
               ${fieldControl("industrial", "civilianFactories", "Civilian Factories", industrial.civilianFactories)}
               ${fieldControl("industrial", "militaryFactories", "Military Factories", industrial.militaryFactories)}
               ${fieldControl("industrial", "shipyards", "Shipyards", industrial.shipyards)}
+              ${renderSectorSummary("Civilian Sectors", sectorOutput.civilian)}
+              ${fieldControl("industrial", "civilianSectors.basic", "Basic Civilian", sectorOutput.civilian.basic)}
+              ${fieldControl("industrial", "civilianSectors.improved", "Improved Civilian", sectorOutput.civilian.improved)}
+              ${fieldControl("industrial", "civilianSectors.advanced", "Advanced Civilian", sectorOutput.civilian.advanced)}
+              ${renderSectorSummary("Military Sectors", sectorOutput.military)}
+              ${fieldControl("industrial", "militarySectors.basic", "Basic Military", sectorOutput.military.basic)}
+              ${fieldControl("industrial", "militarySectors.improved", "Improved Military", sectorOutput.military.improved)}
+              ${fieldControl("industrial", "militarySectors.advanced", "Advanced Military", sectorOutput.military.advanced)}
+              ${renderSectorSummary("Shipyard Sectors", sectorOutput.shipyard)}
+              ${fieldControl("industrial", "shipyardSectors.medium", "Medium Shipyards", sectorOutput.shipyard.medium)}
+              ${fieldControl("industrial", "shipyardSectors.large", "Large Shipyards", sectorOutput.shipyard.large)}
+              ${fieldControl("industrial", "shipyardSectors.mega", "Mega Shipyards", sectorOutput.shipyard.mega)}
             </section>
             <section class="editor-section editor-section-civic">
               <h3>Civic Schedule</h3>

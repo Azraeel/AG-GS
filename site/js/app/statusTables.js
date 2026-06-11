@@ -16,7 +16,8 @@
       fmtDecimalPercent,
       fmtSigned,
       displayBudgetCapacity,
-      budgetCapacityCell
+      budgetCapacityCell,
+      Engine
     } = ctx;
 
     function renderNational() {
@@ -81,7 +82,10 @@
           { key: "mobilizationLevel", label: "Mobilization", render: (v) => safeStatus(v) },
           { key: "militaryFactories", label: "Military Factories", numeric: true, render: fmtNumber },
           { key: "civilianFactories", label: "Civilian Factories", numeric: true, render: fmtNumber },
-          { key: "shipyards", label: "Shipyards", numeric: true, render: fmtNumber }
+          { key: "shipyards", label: "Shipyards", numeric: true, render: fmtNumber },
+          { key: "civilianEffective", label: "Civilian Output", numeric: true, secondary: true, raw: (row) => Engine.industrialSectorOutputs(row).civilian.effective, render: fmtNumber },
+          { key: "militaryEffective", label: "Military Output", numeric: true, secondary: true, raw: (row) => Engine.industrialSectorOutputs(row).military.effective, render: fmtNumber },
+          { key: "shipyardEffective", label: "Shipyard Output", numeric: true, secondary: true, raw: (row) => Engine.industrialSectorOutputs(row).shipyard.effective, render: fmtNumber }
         ],
         "industrial"
       );

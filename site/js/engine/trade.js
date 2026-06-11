@@ -48,11 +48,58 @@
       normalizeChokepointControl,
       cloneChokepoints
     } = tradePolicyHelpers;
+    const INDUSTRIAL_SECTOR_WEIGHTS = {
+      civilian: { basic: 1, improved: 5, advanced: 30 },
+      military: { basic: 1, improved: 4, advanced: 12 },
+      shipyard: { medium: 1, large: 10, mega: 40 }
+    };
+    const INDUSTRIAL_SECTOR_CONFIG = {
+      civilian: { totalKey: "civilianFactories", sectorsKey: "civilianSectors", defaultTier: "basic", tiers: ["basic", "improved", "advanced"], weights: INDUSTRIAL_SECTOR_WEIGHTS.civilian },
+      military: { totalKey: "militaryFactories", sectorsKey: "militarySectors", defaultTier: "basic", tiers: ["basic", "improved", "advanced"], weights: INDUSTRIAL_SECTOR_WEIGHTS.military },
+      shipyard: { totalKey: "shipyards", sectorsKey: "shipyardSectors", defaultTier: "medium", tiers: ["medium", "large", "mega"], weights: INDUSTRIAL_SECTOR_WEIGHTS.shipyard }
+    };
 
     function stripRemovedTradeStats(row) {
       if (!row || typeof row !== "object" || Array.isArray(row)) return row;
       for (const key of REMOVED_TRADE_STAT_KEYS) delete row[key];
       return row;
+    }
+
+    function sectorValue(sectors, tier) {
+      return Math.max(0, number(sectors?.[tier], 0));
+    }
+
+    function industrialSectorBreakdown(industrial, config) {
+      const physicalTotal = Math.max(0, number(industrial?.[config.totalKey], 0));
+      const sectors = industrial?.[config.sectorsKey] || {};
+      const hasSectorData = config.tiers.some((tier) => Object.prototype.hasOwnProperty.call(sectors, tier));
+      const values = {};
+      if (!hasSectorData) {
+        config.tiers.forEach((tier) => {
+          values[tier] = tier === config.defaultTier ? physicalTotal : 0;
+        });
+      } else {
+        let nonDefaultTotal = 0;
+        config.tiers.forEach((tier) => {
+          if (tier === config.defaultTier) return;
+          values[tier] = sectorValue(sectors, tier);
+          nonDefaultTotal += values[tier];
+        });
+        values[config.defaultTier] = Object.prototype.hasOwnProperty.call(sectors, config.defaultTier)
+          ? sectorValue(sectors, config.defaultTier)
+          : Math.max(0, physicalTotal - nonDefaultTotal);
+      }
+      const physical = config.tiers.reduce((total, tier) => total + values[tier], 0);
+      const effective = config.tiers.reduce((total, tier) => total + values[tier] * config.weights[tier], 0);
+      return { ...values, physical, effective, legacyTotal: physicalTotal };
+    }
+
+    function industrialSectorOutputs(industrial) {
+      return {
+        civilian: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.civilian),
+        military: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.military),
+        shipyard: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.shipyard)
+      };
     }
 
     function calculateTradeForNation(data, id, options = {}) {
@@ -180,6 +227,7 @@
       const national = data.national?.[id] || {};
       const trade = data.trade?.[id] || {};
       const industrial = data.industrial?.[id] || {};
+      const sectorOutput = industrialSectorOutputs(industrial);
       return {
         id,
         population: getPopulation(data, id),
@@ -189,9 +237,13 @@
         economicHealth: national.economicHealth || "Recovery",
         budgetCapacity: roundCurrency(national.budgetCapacity),
         budgetAdjustment: roundCurrency(national.budgetAdjustment),
-        civilianFactories: number(industrial.civilianFactories, 0),
-        militaryFactories: number(industrial.militaryFactories, 0),
-        shipyards: number(industrial.shipyards, 0),
+        civilianFactories: sectorOutput.civilian.effective,
+        militaryFactories: sectorOutput.military.effective,
+        shipyards: sectorOutput.shipyard.effective,
+        physicalCivilianFactories: sectorOutput.civilian.physical,
+        physicalMilitaryFactories: sectorOutput.military.physical,
+        physicalShipyards: sectorOutput.shipyard.physical,
+        sectorOutput,
         tradeCapacity: roundCurrency(trade.tradeCapacity),
         tradeBalance: roundCurrency(trade.tradeBalance),
         tradeFlow: roundCurrency(trade.tradeFlow),
