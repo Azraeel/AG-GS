@@ -26,8 +26,8 @@
   const MOBILIZATION_FINANCE = {
     None: { activationShare: 0, rampRate: 0, strainStartYears: 0, strainRate: 0, maxStrain: 0, autoSpendShare: 0 },
     Partial: { activationShare: 0.68, rampRate: 0.24, strainStartYears: 2.8, strainRate: 0.075, maxStrain: 0.55, autoSpendShare: 0.52 },
-    Full: { activationShare: 0.58, rampRate: 0.27, strainStartYears: 2.1, strainRate: 0.105, maxStrain: 0.66, autoSpendShare: 0.72 },
-    Total: { activationShare: 0.48, rampRate: 0.31, strainStartYears: 1.35, strainRate: 0.16, maxStrain: 0.78, autoSpendShare: 0.9 }
+    Full: { activationShare: 0.58, rampRate: 0.27, strainStartYears: 2.1, strainRate: 0.105, maxStrain: 0.66, autoSpendShare: 0.54 },
+    Total: { activationShare: 0.48, rampRate: 0.31, strainStartYears: 1.35, strainRate: 0.16, maxStrain: 0.78, autoSpendShare: 0.58 }
   };
   const TRADE_POLICY = { Protectionist: { efficiency: -15, capacity: -10 }, Balanced: { efficiency: 0, capacity: 0 }, "Open Market": { efficiency: 10, capacity: 8 }, "Free Trade": { efficiency: 20, capacity: 15 } };
   const SANCTIONS = {
