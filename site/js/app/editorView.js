@@ -338,7 +338,7 @@
     return `
       <div class="editor-summary">
         ${overviewFact("Population", fmtCompact(populationFor(nation.id, currentYear)))}
-        ${overviewFact("Budget", fmtNumber(national.budgetCapacity))}
+        ${overviewFact("Budget", budgetCapacityText(nation.id))}
         ${overviewFact("Trade Flow", fmtCompact(trade.tradeFlow))}
         ${overviewFact("Factories", fmtNumber((Number(industrial.civilianFactories) || 0) + (Number(industrial.militaryFactories) || 0)))}
         ${overviewFact("Supply", fmtPercent(military.militarySupply))}
@@ -359,7 +359,7 @@
             ${state.notice ? `<span class="status positive">${safeText(state.notice)}</span>` : ""}
           </div>
           <div class="rail-detail-grid">
-            ${detailItem("Budget Capacity", fmtNumber(national.budgetCapacity))}
+            ${detailItem("Budget Capacity", `${budgetCapacityText(nation.id)}${budgetCapacityNote(nation.id) ? ` (${budgetCapacityNote(nation.id)})` : ""}`)}
             ${detailItem("Primary Balance", fmtSigned(national.primaryBalance))}
             ${detailItem("Debt Service", fmtNumber(national.debtService))}
             ${detailItem("Effective Balance", fmtSigned(national.budgetBalance))}

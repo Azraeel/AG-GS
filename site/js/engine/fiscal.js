@@ -10,7 +10,7 @@
       HEALTH_INTEREST_RISK,
       SANCTIONS_INTEREST_RISK,
       MOBILIZATION_INTEREST_RISK,
-      calculateBudgetForNation
+      calculateBudgetBreakdownForNation
     } = deps;
 
     function debtRiskForPercent(debtPercent) {
@@ -275,12 +275,15 @@
       for (const id of Object.keys(data.national || {})) {
         if (archived.has(id)) continue;
         const national = data.national[id];
-        const budgetCapacity = calculateBudgetForNation(data, id, {
+        const budgetBreakdown = calculateBudgetBreakdownForNation(data, id, {
           version: options.budgetFormulaVersion,
           tariffFormulaVersion: options.tariffFormulaVersion
         });
+        const budgetCapacity = budgetBreakdown?.budgetCapacity ?? null;
         if (budgetCapacity === null) continue;
         national.budgetCapacity = budgetCapacity;
+        national.wartimeBudgetBonus = Math.max(0, roundCurrency(budgetBreakdown.wartimeBudgetBonus));
+        national.mobilizedBudgetCapacity = roundCurrency(budgetCapacity + national.wartimeBudgetBonus);
         let fiscal = calculateFiscalForNation(data, id, { budgetCapacity });
         if (!fiscal) continue;
         applyFiscalFields(national, fiscal);

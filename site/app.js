@@ -441,6 +441,34 @@
     return `<article class="metric"><span>${safeText(label)}</span><strong>${safeText(value)}</strong><small>${safeText(subtext)}</small></article>`;
   }
 
+  function displayBudgetCapacity(id) {
+    return Engine.displayBudgetCapacity(data, id);
+  }
+
+  function wartimeBudgetBonus(id) {
+    return Engine.wartimeBudgetBonus(data, id);
+  }
+
+  function budgetCapacityText(id) {
+    return fmtNumber(displayBudgetCapacity(id));
+  }
+
+  function budgetCapacityNote(id, fallback = "") {
+    const bonus = wartimeBudgetBonus(id);
+    return bonus > 0 ? `+${fmtNumber(bonus)} wartime` : fallback;
+  }
+
+  function budgetCapacityCell(id) {
+    const display = displayBudgetCapacity(id);
+    const bonus = wartimeBudgetBonus(id);
+    if (bonus <= 0) return fmtNumber(display);
+    return `
+      <span class="budget-capacity-composite">
+        <strong>${safeText(fmtNumber(display))}</strong>
+        <small>+${safeText(fmtNumber(bonus))} wartime</small>
+      </span>`;
+  }
+
   function overviewFact(label, value) {
     return `<div class="overview-fact"><span>${safeText(label)}</span><strong>${safeText(value)}</strong></div>`;
   }
@@ -528,7 +556,7 @@
     const currentYear = data.meta.currentYear;
     const active = visibleNations();
     const totalPopulation = active.reduce((total, nation) => total + populationFor(nation.id, currentYear), 0);
-    const totalBudget = sumValues(data.national, (row) => row.budgetCapacity);
+    const totalBudget = active.reduce((total, nation) => total + displayBudgetCapacity(nation.id), 0);
     const totalTradeFlow = sumValues(data.trade, (row) => row.tradeFlow);
     const totalActive = sumValues(data.military, (row) => activeMilitary(row));
     const totalFleet = sumValues(data.naval, (row) => row.total);
@@ -554,7 +582,7 @@
       </section>
       <div class="overview-panels">
         ${topList("Largest Populations", `Population (${currentYear})`, dataId => populationFor(dataId, currentYear), fmtCompact)}
-        ${topList("Budget Capacity", "National Status", dataId => data.national[dataId]?.budgetCapacity, fmtNumber)}
+        ${topList("Budget Capacity", "National Status", displayBudgetCapacity, fmtNumber)}
       </div>
       <div class="overview-panels">
         ${topList("Trade Flow", "Trade Status", dataId => data.trade[dataId]?.tradeFlow, fmtCompact)}
@@ -685,7 +713,9 @@
     fmtNumber,
     fmtPercent,
     fmtDecimalPercent,
-    fmtSigned
+    fmtSigned,
+    displayBudgetCapacity,
+    budgetCapacityCell
   });
   const {
     renderNational,
@@ -717,7 +747,9 @@
     fmtNumber,
     fmtPercent,
     fmtCompact,
-    fmtSigned
+    fmtSigned,
+    budgetCapacityText,
+    budgetCapacityNote
   });
   const {
     renderTradeNetwork,
@@ -988,6 +1020,8 @@
     scheduleSharedPublish,
     render,
     syncLabel,
+    budgetCapacityText,
+    budgetCapacityNote,
     overviewFact,
     changeHistoryRows,
     renderChangeBadge,
@@ -1032,6 +1066,8 @@
       budgetCapacity: "Budget Capacity",
       primaryBalance: "Primary Balance",
       budgetBalance: "Effective Balance",
+      wartimeBudgetBonus: "Wartime BC Bonus",
+      mobilizedBudgetCapacity: "Budget Capacity",
       treasuryReserve: "Treasury Reserve",
       treasuryDeposit: "Treasury Reserve Deposit",
       deficitBeforeReserve: "Deficit Before Reserve",
@@ -1168,6 +1204,7 @@
     "national.deficitRisk",
     "national.sanctionsRisk",
     "national.mobilizationRisk",
+    "national.wartimeBudgetBonus",
     "national.tradeBalanceRisk",
     "national.debtTrendRisk",
     "national.repaymentShareLimit",
@@ -1422,7 +1459,7 @@
           </div>
           <div class="nation-stat-strip">
             ${dossierMetric("Population", fmtCompact(populationFor(selected.id, currentYear)), `${fmtNumber(populationFor(selected.id, currentYear))} in ${currentYear}`)}
-            ${dossierMetric("Budget Capacity", fmtNumber(national?.budgetCapacity), national ? `${fmtSigned(national.primaryBalance)} balance` : "No national row")}
+            ${dossierMetric("Budget Capacity", budgetCapacityText(selected.id), national ? budgetCapacityNote(selected.id, `${fmtSigned(national.primaryBalance)} balance`) : "No national row")}
             ${dossierMetric("Trade Flow", fmtCompact(trade?.tradeFlow), trade ? `${fmtSigned(trade.tradeBalance)} balance` : "No trade row")}
             ${dossierMetric("Active Personnel", fmtCompact(militaryPersonnel), "Military total")}
             ${dossierMetric("Fleet", fmtNumber(naval?.total), "Tracked naval assets")}
@@ -1810,7 +1847,7 @@
     Engine.recalculateAll(data);
     const afterValue = historyFieldValue(dataset, path, readFieldValue(data, dataset, id, path));
     const changes = recordChange(entryKey, id, dataset, path, afterValue, nationSnapshot(data, id));
-    const bcDelta = changes.find((change) => change.key === "national.budgetCapacity");
+    const bcDelta = changes.find((change) => change.key === "national.mobilizedBudgetCapacity") || changes.find((change) => change.key === "national.budgetCapacity");
     state.notice = `${byId(id)?.name || "Nation"} updated${bcDelta ? `; BC ${fmtSigned(bcDelta.delta)}` : ""}.`;
     saveLedger();
     scheduleSharedPublish(state.notice);

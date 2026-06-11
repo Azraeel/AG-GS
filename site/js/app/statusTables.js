@@ -14,7 +14,9 @@
       fmtNumber,
       fmtPercent,
       fmtDecimalPercent,
-      fmtSigned
+      fmtSigned,
+      displayBudgetCapacity,
+      budgetCapacityCell
     } = ctx;
 
     function renderNational() {
@@ -29,7 +31,7 @@
           { key: "warSupport", label: "War Support", numeric: true, secondary: true, render: fmtPercent },
           { key: "corruption", label: "Corruption", numeric: true, secondary: true, render: fmtPercent },
           { key: "developmentLevel", label: "Development", numeric: true, render: fmtNumber },
-          { key: "budgetCapacity", label: "Budget Capacity", numeric: true, render: fmtNumber },
+          { key: "budgetCapacity", label: "Budget Capacity", numeric: true, raw: (row) => displayBudgetCapacity(row.id), render: (_, row) => budgetCapacityCell(row.id) },
           { key: "budgetExpenditure", label: "Expenditure", numeric: true, secondary: true, render: fmtNumber },
           { key: "budgetBalance", label: "Budget Balance", numeric: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
           { key: "treasuryReserve", label: "Treasury Reserve", numeric: true, render: fmtNumber },

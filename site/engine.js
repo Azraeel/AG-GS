@@ -22,6 +22,7 @@
     Full: { militaryGrowthMultiplier: 1, civilianPenalty: -0.4, militaryFactoryMultiplier: 0.8, maintenanceCost: 2, supplyMultiplier: 1.5 },
     Total: { militaryGrowthMultiplier: 1.5, civilianPenalty: -0.6, militaryFactoryMultiplier: 1, maintenanceCost: 3, supplyMultiplier: 2 }
   };
+  const MOBILIZED_BUDGET_UNLOCK = { None: 0, Partial: 0.45, Full: 0.78, Total: 1.08 };
   const TRADE_POLICY = { Protectionist: { efficiency: -15, capacity: -10 }, Balanced: { efficiency: 0, capacity: 0 }, "Open Market": { efficiency: 10, capacity: 8 }, "Free Trade": { efficiency: 20, capacity: 15 } };
   const SANCTIONS = {
     None: { efficiency: 0, capacity: 0, flow: 0, balance: 0 },
@@ -736,7 +737,8 @@
     const taxRatePercent = taxRate > 1 ? taxRate : taxRate * 100;
     const fiscalModel = fiscalModelForNation(data, id, national);
     const fiscalProfile = FISCAL_MODELS[fiscalModel] || FISCAL_MODELS.Standard;
-    const mobilization = MOBILIZATION[military.mobilizationLevel || industrial.mobilizationLevel || "None"] || MOBILIZATION.None;
+    const mobilizationLevel = military.mobilizationLevel || industrial.mobilizationLevel || "None";
+    const mobilization = MOBILIZATION[mobilizationLevel] || MOBILIZATION.None;
     const tradeBalance = number(trade.tradeBalance, 0);
     const stability = number(national.governmentalStability, 70);
     return {
@@ -755,6 +757,7 @@
       taxRatePercent,
       fiscalModel,
       fiscalProfile,
+      mobilizationLevel,
       mobilization,
       tradeBalance,
       stability
@@ -821,6 +824,41 @@
     const effectiveContributionRate = 5 + developmentLevel * 0.75;
     const developmentMultiplier = 1 + developmentLevel * 0.25;
     return ((civFactories * effectiveContributionRate) + (militaryFactories * effectiveContributionRate * mobilization.militaryFactoryMultiplier) + (shipyards * effectiveContributionRate * 1.5)) / (1 + (civFactories + militaryFactories + shipyards) * 0.0025) * developmentMultiplier;
+  }
+
+  function peacetimeBudgetInputs(inputs) {
+    return {
+      ...inputs,
+      mobilizationLevel: "None",
+      mobilization: MOBILIZATION.None
+    };
+  }
+
+  function mobilizedBudgetFoundation(inputs) {
+    const populationBase = Math.sqrt(Math.max(inputs.population, 0) / 1_000_000) * 900;
+    const civilianBase = Math.sqrt(Math.max(inputs.civFactories, 0)) * 1400;
+    const shipyardBase = Math.sqrt(Math.max(inputs.shipyards, 0)) * 2800;
+    const militaryBase = Math.sqrt(Math.max(inputs.militaryFactories, 0)) * 900;
+    const developmentBase = clamp(inputs.developmentLevel, 0, 20) * 1600;
+    return populationBase + civilianBase + shipyardBase + militaryBase + developmentBase;
+  }
+
+  function mobilizedBudgetStateCapacity(inputs) {
+    const development = clamp(inputs.developmentLevel / 20, 0, 1);
+    const stability = clamp(inputs.stability / 100, 0, 1.15);
+    const corruptionControl = clamp((100 - inputs.corruption) / 100, 0, 1);
+    return clamp(0.5 + development * 0.32 + stability * 0.28 + corruptionControl * 0.22, 0.45, 1.28);
+  }
+
+  function wartimeBudgetBonusFromInputs(inputs, peacetimeBudgetCapacity) {
+    const unlock = MOBILIZED_BUDGET_UNLOCK[inputs.mobilizationLevel] || 0;
+    if (unlock <= 0) return 0;
+    const foundation = mobilizedBudgetFoundation(inputs);
+    const stateCapacity = mobilizedBudgetStateCapacity(inputs);
+    const warSupport = clamp(number(inputs.national?.warSupport, 50) / 100, 0, 1);
+    const readiness = clamp(0.62 + warSupport * 0.38, 0.45, 1);
+    const sleepingGiant = clamp(Math.sqrt(Math.max(foundation * 1.12, 1) / Math.max(peacetimeBudgetCapacity, 1000)), 0.65, 1.85);
+    return Math.max(0, roundCurrency(foundation * stateCapacity * readiness * sleepingGiant * unlock));
   }
 
   function calculateTariffBurdenForNation(data, id) {
@@ -940,20 +978,26 @@
   function legacyBudgetBreakdown(data, id) {
     const inputs = budgetInputsForNation(data, id);
     if (!inputs) return null;
+    const peacetimeInputs = peacetimeBudgetInputs(inputs);
     const { developmentLevel, population, taxRate, corruption, economicHealth } = inputs;
     const developmentImpact = Math.pow(developmentLevel / 10, 3) * (1 + developmentLevel / 20);
     const taxRateScalingFactor = 1 + Math.sqrt(Math.max(0, (taxRate * 100 - 1) / 100));
     const populationContribution = (Math.log(Math.max(population, 1)) + population / 250000) * taxRateScalingFactor * developmentImpact * ((100 - corruption) / 100) * (HEALTH_BUDGET[economicHealth] || 1);
-    return {
+    const breakdown = {
       formulaVersion: "legacy",
       taxRevenue: populationContribution,
-      ...budgetCapacityFromBreakdown(inputs, industrialBudgetContribution(inputs), populationContribution)
+      ...budgetCapacityFromBreakdown(peacetimeInputs, industrialBudgetContribution(peacetimeInputs), populationContribution)
     };
+    const wartimeBudgetBonus = wartimeBudgetBonusFromInputs(inputs, breakdown.budgetCapacity);
+    breakdown.wartimeBudgetBonus = wartimeBudgetBonus;
+    breakdown.mobilizedBudgetCapacity = breakdown.budgetCapacity + wartimeBudgetBonus;
+    return breakdown;
   }
 
   function tax2026BudgetBreakdown(data, id, options = {}) {
     const inputs = budgetInputsForNation(data, id);
     if (!inputs) return null;
+    const peacetimeInputs = peacetimeBudgetInputs(inputs);
     const { developmentLevel, population, taxRatePercent, corruption, economicHealth, stability, fiscalProfile } = inputs;
     const taxBurden = calculateTaxBurdenForNation(data, id);
     const developmentCollection = clamp(0.18 + Math.pow(clamp(developmentLevel, 0, 20) / 20, 1.35) * 0.95, 0.18, 1.15);
@@ -975,8 +1019,11 @@
       collectionEfficiency,
       taxDrag,
       taxBurden,
-      ...budgetCapacityFromBreakdown(inputs, industrialBudgetContribution(inputs), populationContribution, tariffRevenue)
+      ...budgetCapacityFromBreakdown(peacetimeInputs, industrialBudgetContribution(peacetimeInputs), populationContribution, tariffRevenue)
     };
+    const wartimeBudgetBonus = wartimeBudgetBonusFromInputs(inputs, breakdown.budgetCapacity);
+    breakdown.wartimeBudgetBonus = wartimeBudgetBonus;
+    breakdown.mobilizedBudgetCapacity = breakdown.budgetCapacity + wartimeBudgetBonus;
     return breakdown;
   }
 
@@ -989,6 +1036,15 @@
   function calculateBudgetForNation(data, id, options = {}) {
     const breakdown = calculateBudgetBreakdownForNation(data, id, options);
     return breakdown ? breakdown.budgetCapacity : null;
+  }
+
+  function wartimeBudgetBonus(data, id) {
+    return Math.max(0, roundCurrency(data.national?.[id]?.wartimeBudgetBonus));
+  }
+
+  function displayBudgetCapacity(data, id) {
+    const national = data.national?.[id] || {};
+    return roundCurrency(number(national.mobilizedBudgetCapacity, number(national.budgetCapacity, 0) + wartimeBudgetBonus(data, id)));
   }
 
   const fiscalFactory = window.AGGS_ENGINE_MODULES?.createFiscal;
@@ -1005,7 +1061,7 @@
     HEALTH_INTEREST_RISK,
     SANCTIONS_INTEREST_RISK,
     MOBILIZATION_INTEREST_RISK,
-    calculateBudgetForNation
+    calculateBudgetBreakdownForNation
   });
 
   function advancePopulation(data, id, fromYear, toYear) {
@@ -1214,7 +1270,7 @@
   function snapshot(data, year) {
     const ids = visibleNationIds(data);
     const totalPopulation = ids.reduce((total, id) => total + getPopulation(data, id, year), 0);
-    const budgetCapacity = ids.reduce((total, id) => total + number(data.national?.[id]?.budgetCapacity, 0), 0);
+    const budgetCapacity = ids.reduce((total, id) => total + displayBudgetCapacity(data, id), 0);
     const tradeFlow = ids.reduce((total, id) => total + number(data.trade?.[id]?.tradeFlow, 0), 0);
     const militaryRows = ids.map((id) => data.military?.[id]).filter(Boolean);
     const militarySupplyAverage = militaryRows.reduce((total, row) => total + number(row.militarySupply, 0), 0) / Math.max(militaryRows.length, 1);
@@ -1328,6 +1384,8 @@
     calculateTariffRevenueForNation,
     calculateBudgetBreakdownForNation,
     calculateBudgetForNation,
+    wartimeBudgetBonus,
+    displayBudgetCapacity,
     calculateFiscalForNation,
     calculateAnnualDebtUpdate,
     recalculateAll,

@@ -725,3 +725,22 @@ select optgroup {
   overflow: auto;
   scrollbar-width: thin;
 }
+
+.budget-capacity-composite {
+  display: inline-grid;
+  justify-items: end;
+  gap: 2px;
+  line-height: 1.05;
+}
+
+.budget-capacity-composite strong {
+  font: inherit;
+  font-weight: 900;
+}
+
+.budget-capacity-composite small {
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 900;
+  white-space: nowrap;
+}
