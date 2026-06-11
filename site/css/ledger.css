@@ -799,6 +799,36 @@ tbody td {
   min-width: 0;
 }
 
+.industrial-tier-cell {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(68px, 1fr));
+  gap: 6px;
+  min-width: 230px;
+}
+
+.industrial-tier-cell span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--subtle-bg);
+}
+
+.industrial-tier-cell small {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.industrial-tier-cell strong {
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.15;
+}
+
 .editor-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

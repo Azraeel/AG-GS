@@ -72,7 +72,22 @@
       );
     }
 
+    function tierBreakdownCell(output, tiers) {
+      return `
+        <div class="industrial-tier-cell">
+          ${tiers.map((tier) => `
+            <span>
+              <small>${safeText(tier.label)}</small>
+              <strong>${safeText(fmtNumber(output[tier.key]))}</strong>
+            </span>
+          `).join("")}
+        </div>`;
+    }
+
     function renderIndustrial() {
+      const civilianTiers = [{ key: "basic", label: "Basic" }, { key: "improved", label: "Improved" }, { key: "advanced", label: "Advanced" }];
+      const militaryTiers = [{ key: "basic", label: "Basic" }, { key: "improved", label: "Improved" }, { key: "advanced", label: "Advanced" }];
+      const shipyardTiers = [{ key: "medium", label: "Medium" }, { key: "large", label: "Large" }, { key: "mega", label: "Mega" }];
       tablePanel(
         "Industrial Status",
         "Production capacity and mobilization settings used by the economic and military supply models.",
@@ -80,12 +95,24 @@
         [
           { key: "nation", label: "Nation", render: (_, row) => nationCell(row.id) },
           { key: "mobilizationLevel", label: "Mobilization", render: (v) => safeStatus(v) },
-          { key: "militaryFactories", label: "Military Factories", numeric: true, render: fmtNumber },
-          { key: "civilianFactories", label: "Civilian Factories", numeric: true, render: fmtNumber },
-          { key: "shipyards", label: "Shipyards", numeric: true, render: fmtNumber },
-          { key: "civilianEffective", label: "Civilian Output", numeric: true, secondary: true, raw: (row) => Engine.industrialSectorOutputs(row).civilian.effective, render: fmtNumber },
-          { key: "militaryEffective", label: "Military Output", numeric: true, secondary: true, raw: (row) => Engine.industrialSectorOutputs(row).military.effective, render: fmtNumber },
-          { key: "shipyardEffective", label: "Shipyard Output", numeric: true, secondary: true, raw: (row) => Engine.industrialSectorOutputs(row).shipyard.effective, render: fmtNumber }
+          {
+            key: "civilianSectors",
+            label: "Civilian",
+            raw: (row) => Engine.industrialSectorOutputs(row).civilian.physical,
+            render: (_, row) => tierBreakdownCell(Engine.industrialSectorOutputs(row).civilian, civilianTiers)
+          },
+          {
+            key: "militarySectors",
+            label: "Military",
+            raw: (row) => Engine.industrialSectorOutputs(row).military.physical,
+            render: (_, row) => tierBreakdownCell(Engine.industrialSectorOutputs(row).military, militaryTiers)
+          },
+          {
+            key: "shipyardSectors",
+            label: "Shipyards",
+            raw: (row) => Engine.industrialSectorOutputs(row).shipyard.physical,
+            render: (_, row) => tierBreakdownCell(Engine.industrialSectorOutputs(row).shipyard, shipyardTiers)
+          }
         ],
         "industrial"
       );
