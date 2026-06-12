@@ -539,6 +539,34 @@
     var(--subtle-bg);
 }
 
+.trade-map-loading {
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  min-height: min(720px, calc(100vh - 180px));
+  padding: 24px;
+  text-align: center;
+  background:
+    radial-gradient(circle at center, color-mix(in srgb, var(--nation-color, var(--blue)) 18%, transparent), transparent 34%),
+    var(--subtle-bg);
+}
+
+.trade-map-loading h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.trade-map-loading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+}
+
 .trade-network-header {
   display: grid;
   grid-template-columns: minmax(340px, 0.82fr) minmax(0, 1.18fr);

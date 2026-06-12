@@ -456,7 +456,7 @@
   }
 
   function tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool) {
-    const mapConfig = TradeMap.mapConfig?.() || { hasRealSvg: false, assetPath: "assets/world-map.png", width: 100, height: 100, viewBox: "0 0 100 100", sourceTerritoryCount: 0 };
+    const mapConfig = TradeMap.mapConfig?.() || { hasRealSvg: false, hasBasemap: false, assetPath: "assets/world-map.png", width: 100, height: 100, viewBox: "0 0 100 100", sourceTerritoryCount: 0 };
     const mapAssetHref = `${isAdmin ? "../" : ""}${mapConfig.assetPath}`;
     const tradeZoneOverlay = tradeZoneOverlayConfig();
     const showTradeZoneOverlay = Boolean(tradeZoneOverlay) && (state.tradeMapLayer === "seaZones" || state.tradeMapLayer === "ports");
@@ -529,7 +529,7 @@
                 </feMerge>
               </filter>
             </defs>
-            ${mapConfig.hasRealSvg ? `<image class="trade-map-basemap ${showTradeZoneOverlay ? "trade-map-zone-overlay" : ""}" href="${escapeHtml(activeMapHref)}" x="0" y="0" width="${mapConfig.width}" height="${mapConfig.height}" preserveAspectRatio="none">
+            ${mapConfig.hasBasemap ? `<image class="trade-map-basemap ${showTradeZoneOverlay ? "trade-map-zone-overlay" : ""}" href="${escapeHtml(activeMapHref)}" x="0" y="0" width="${mapConfig.width}" height="${mapConfig.height}" preserveAspectRatio="none">
               ${showTradeZoneOverlay ? `<title>${fmtNumber(tradeZoneOverlay.seaZoneCount)} sea zones / ${fmtNumber(tradeZoneOverlay.straitCount)} straits</title>` : ""}
             </image>` : ""}
             <g class="trade-map-grid" aria-hidden="true">
@@ -611,6 +611,18 @@
       </div>`;
   }
 
+  function tradeMapLoadingHtml(selected) {
+    const failed = state.tradeMapShapeStatus === "failed";
+    return `
+      <section class="trade-network-workspace" style="--nation-color:${safeColor(selected?.color)}">
+        <div class="trade-map-loading">
+          <span class="section-kicker">Global Trade Network</span>
+          <h2>${safeText(selected?.name || "Trade Map")}</h2>
+          <p>${failed ? "Map failed to load." : "Loading map."}</p>
+        </div>
+      </section>`;
+  }
+
   function renderTradeNetwork() {
     Engine.ensureTradeV4State(data);
     TradeMap.ensureGeography?.(data);
@@ -630,6 +642,11 @@
       return;
     }
     if (selected.id !== state.selectedNation) state.selectedNation = selected.id;
+    const mapConfig = TradeMap.mapConfig?.() || {};
+    if (!mapConfig.hasShapeManifest) {
+      app.innerHTML = tradeMapLoadingHtml(selected);
+      return;
+    }
     const trade = data.trade[selected.id] || {};
     const impact = network.nations[selected.id] || {};
     const flowDelta = Engine.number(impact.tradeFlowDelta, 0);

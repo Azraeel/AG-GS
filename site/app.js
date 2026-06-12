@@ -109,6 +109,7 @@
     tradeMapLayer: "trade",
     tradeNetworkDirectionFilter: "all",
     tradeNetworkSizeFilter: "all",
+    tradeMapShapeStatus: hasTradeMapShapes() ? "ready" : "idle",
     showDetails: false,
     notice: ""
   };
@@ -149,16 +150,22 @@
   }
 
   function loadTradeMapShapes(options = {}) {
-    if (hasTradeMapShapes()) return Promise.resolve(true);
+    if (hasTradeMapShapes()) {
+      state.tradeMapShapeStatus = "ready";
+      return Promise.resolve(true);
+    }
+    if (state.tradeMapShapeStatus !== "loading") state.tradeMapShapeStatus = "loading";
     return loadAppScript("js/app/tradeMapShapes.js", hasTradeMapShapes)
       .then(() => {
+        state.tradeMapShapeStatus = "ready";
         TradeMap.ensureGeography?.(data);
         Engine.recalculateAll(data);
         if (options.rerender && state.tab === "tradeNetwork") render({ force: true });
         return true;
       })
       .catch(() => {
-        const message = "Detailed map outlines could not be loaded. The compact map remains available.";
+        state.tradeMapShapeStatus = "failed";
+        const message = "Detailed map outlines could not be loaded.";
         const shouldRerender = options.rerender && state.tab === "tradeNetwork" && state.notice !== message;
         state.notice = message;
         if (shouldRerender) render({ force: true });

@@ -169,9 +169,12 @@
     const height = Number(viewBox.height) || DEFAULT_MAP_VIEWBOX.height;
     const areaPerViewBoxUnitSqMi = WORLD_SURFACE_AREA_SQ_MI / Math.max(1, width * height);
     const meanRadiusMi = Math.sqrt(WORLD_SURFACE_AREA_SQ_MI / (4 * Math.PI));
+    const hasShapeManifest = Boolean(manifest);
     return {
-      hasRealSvg: Boolean(manifest || cache?.assetPath),
-      hasShapeManifest: Boolean(manifest),
+      hasRealSvg: hasShapeManifest,
+      hasShapeManifest,
+      hasBasemap: Boolean(manifest?.assetPath || cache?.assetPath),
+      hasCachedTargets: Boolean(cache),
       assetPath: manifest?.assetPath || cache?.assetPath || "assets/world-map.png",
       width,
       height,
@@ -604,9 +607,9 @@
 
   function visualTargetForNation(nation, geographyProfile, index) {
     const config = mapConfig();
-    const territoryTarget = config.hasRealSvg ? territoryTargetForNation(nation) : null;
+    const territoryTarget = (config.hasShapeManifest || config.hasCachedTargets) ? territoryTargetForNation(nation) : null;
     if (territoryTarget) return territoryTarget;
-    const labelTarget = config.hasRealSvg ? labelTargetForNation(nation) : null;
+    const labelTarget = config.hasShapeManifest ? labelTargetForNation(nation) : null;
     if (labelTarget) return labelTarget;
     const visualProfile = profileForViewBox(geographyProfile);
     return {
@@ -614,7 +617,7 @@
       y: visualProfile.y,
       path: territoryPath(visualProfile, index),
       transform: "",
-      anchorSource: config.hasRealSvg ? "generated-fallback" : "generated",
+      anchorSource: (config.hasShapeManifest || config.hasCachedTargets) ? "generated-fallback" : "generated",
       labelClusterId: "",
       labelPathIndices: [],
       sourceBounds: null
