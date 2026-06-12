@@ -64,6 +64,7 @@
         governmentalCorruption: 20,
         crimeRate: 20,
         governmentalEfficiency: 100,
+        effectiveGovernmentalEfficiency: 100,
         literacyRate: 95,
         developmentLevel: 10,
         budgetCapacity: 0,

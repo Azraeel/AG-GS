@@ -32,6 +32,7 @@
           { key: "publicUnrest", label: "Unrest", numeric: true, render: fmtNumber },
           { key: "warSupport", label: "War Support", numeric: true, secondary: true, render: fmtPercent },
           { key: "governmentalEfficiency", label: "Gov Efficiency", numeric: true, secondary: true, render: fmtPrecisePercent },
+          { key: "effectiveGovernmentalEfficiency", label: "Applied Efficiency", numeric: true, secondary: true, render: fmtPrecisePercent },
           { key: "governmentalCorruption", label: "Gov Corruption", numeric: true, secondary: true, render: fmtPercent },
           { key: "crimeRate", label: "Crime Rate", numeric: true, secondary: true, render: fmtPercent },
           { key: "literacyRate", label: "Literacy", numeric: true, secondary: true, render: fmtPercent },

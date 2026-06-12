@@ -1,7 +1,7 @@
 (function () {
   window.AGGS_APP_FORMAT = function createFormat(Engine) {
     const decimalPercentFields = new Set(["national.taxRate"]);
-    const precisePercentFields = new Set(["national.governmentalEfficiency"]);
+    const precisePercentFields = new Set(["national.governmentalEfficiency", "national.effectiveGovernmentalEfficiency"]);
     const wholePercentFields = new Set([
       "national.debt",
       "national.computedInterestRate",

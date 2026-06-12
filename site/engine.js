@@ -9,6 +9,12 @@
   const GOVERNANCE_MAX_BUREAUCRACY_PRESSURE = 6;
   const GOVERNANCE_WARNING_EFFICIENCY = 99.95;
   const GOVERNANCE_HIGH_CAPACITY_MIN_EFFICIENCY = 70;
+  const GOVERNANCE_CRIME_LITERACY_NEUTRAL = 95;
+  const GOVERNANCE_CRIME_LITERACY_SENSITIVITY = 1.15;
+  const GOVERNANCE_CRIME_ADJUSTMENT_RATE = 0.18;
+  const GOVERNANCE_CORRUPTION_ADJUSTMENT_RATE = 0.12;
+  const GOVERNANCE_EFFICIENCY_ADJUSTMENT_RATE = 0.1;
+  const GOVERNANCE_EFFECTIVE_EFFICIENCY_ADJUSTMENT_RATE = 0.28;
   const LITERACY_NEUTRAL_RATE = 95;
   const LITERACY_POPULATION_SLOWDOWN_MAX = 0.32;
 
@@ -208,7 +214,8 @@
     const legacyCorruption = percentStat(national?.corruption, 0);
     const governmentalCorruption = percentStat(national?.governmentalCorruption, legacyCorruption);
     const crimeRate = percentStat(national?.crimeRate, legacyCorruption);
-    const governmentalEfficiency = clamp(number(national?.governmentalEfficiency, GOVERNANCE_DEFAULT_EFFICIENCY), 0, GOVERNANCE_DEFAULT_EFFICIENCY);
+    const governmentalEfficiencyTarget = clamp(number(national?.governmentalEfficiency, GOVERNANCE_DEFAULT_EFFICIENCY), 0, GOVERNANCE_DEFAULT_EFFICIENCY);
+    const governmentalEfficiency = clamp(number(national?.effectiveGovernmentalEfficiency, governmentalEfficiencyTarget), 0, GOVERNANCE_DEFAULT_EFFICIENCY);
     const efficiencyGap = Math.max(0, GOVERNANCE_DEFAULT_EFFICIENCY - governmentalEfficiency);
     const nearPerfectGap = Math.min(efficiencyGap, 1);
     const deepBureaucracyGap = Math.max(0, efficiencyGap - nearPerfectGap);
@@ -221,6 +228,8 @@
       governmentalCorruption,
       crimeRate,
       governmentalEfficiency,
+      governmentalEfficiencyTarget,
+      effectiveGovernmentalEfficiency: governmentalEfficiency,
       efficiencyGap,
       efficiencyMultiplier,
       bureaucracyPressure,
@@ -287,6 +296,7 @@
       if (isBlank(national.governmentalCorruption)) national.governmentalCorruption = governance.governmentalCorruption;
       if (isBlank(national.crimeRate)) national.crimeRate = governance.crimeRate;
       if (isBlank(national.governmentalEfficiency)) national.governmentalEfficiency = GOVERNANCE_DEFAULT_EFFICIENCY;
+      if (isBlank(national.effectiveGovernmentalEfficiency)) national.effectiveGovernmentalEfficiency = clamp(number(national.governmentalEfficiency, GOVERNANCE_DEFAULT_EFFICIENCY), 0, GOVERNANCE_DEFAULT_EFFICIENCY);
       if (isBlank(national.literacyRate)) national.literacyRate = LITERACY_NEUTRAL_RATE;
     });
   }
@@ -1433,6 +1443,107 @@
     };
   }
 
+  function moveToward(currentValue, targetValue, rate, maxDown, maxUp, years = 1) {
+    const gap = number(targetValue, 0) - number(currentValue, 0);
+    const yearScale = Math.max(0, number(years, 1));
+    return clamp(gap * rate * yearScale, -maxDown * yearScale, maxUp * yearScale);
+  }
+
+  function advanceGovernance(data, id, years = 1) {
+    const national = data.national[id];
+    if (!national) return null;
+    const yearsAdvanced = Math.max(0, number(years, 1));
+    if (!yearsAdvanced) return null;
+
+    const legacyCorruption = percentStat(national.corruption, 0);
+    const literacy = literacyRateForNational(national);
+    const development = clamp(number(national.developmentLevel, 0), 0, 20);
+    const stability = percentStat(national.governmentalStability, 70);
+    const unrest = clamp(number(national.publicUnrest, 0), 0, 10);
+    const health = national.economicHealth || "Recovery";
+    const healthCrimePressure = { Prosperity: -3, Expansion: -1.5, Recovery: 0, Slowdown: 2, Recession: 5, Depression: 8 }[health] || 0;
+    const healthCorruptionPressure = { Prosperity: -2, Expansion: -1, Recovery: 0, Slowdown: 1.5, Recession: 3, Depression: 5 }[health] || 0;
+
+    const currentCrime = percentStat(national.crimeRate, legacyCorruption);
+    const literacyDeficit = Math.max(0, GOVERNANCE_CRIME_LITERACY_NEUTRAL - literacy);
+    const lowStabilityCrimePressure = Math.max(0, 68 - stability) * 0.35;
+    const crimeTarget = clamp(
+      10
+        + literacyDeficit * GOVERNANCE_CRIME_LITERACY_SENSITIVITY
+        + unrest * 2.2
+        + lowStabilityCrimePressure
+        + healthCrimePressure
+        - development * 0.2,
+      3,
+      100
+    );
+    const crimeChange = moveToward(currentCrime, crimeTarget, GOVERNANCE_CRIME_ADJUSTMENT_RATE, 2.2, 4.5, yearsAdvanced);
+    const nextCrime = roundPercent(clamp(currentCrime + crimeChange, 0, 100));
+
+    const currentCorruption = percentStat(national.governmentalCorruption, legacyCorruption);
+    const crimeCorruptionPressure = Math.max(0, nextCrime - 25) * 1.25;
+    const lowStabilityCorruptionPressure = Math.max(0, 65 - stability) * 0.25;
+    const corruptionTarget = clamp(
+      10
+        + crimeCorruptionPressure
+        + lowStabilityCorruptionPressure
+        + unrest * 1.2
+        + healthCorruptionPressure
+        - development * 0.1,
+      4,
+      100
+    );
+    const corruptionChange = moveToward(currentCorruption, corruptionTarget, GOVERNANCE_CORRUPTION_ADJUSTMENT_RATE, 1.5, 3.0, yearsAdvanced);
+    const nextCorruption = roundPercent(clamp(currentCorruption + corruptionChange, 0, 100));
+
+    const currentEfficiency = clamp(number(national.governmentalEfficiency, GOVERNANCE_DEFAULT_EFFICIENCY), 0, GOVERNANCE_DEFAULT_EFFICIENCY);
+    const corruptionEfficiencyPressure = Math.max(0, nextCorruption - 30) * 0.65;
+    const crimeEfficiencyPressure = Math.max(0, nextCrime - 60) * 0.15;
+    const instabilityEfficiencyPressure = Math.max(0, 70 - stability) * 0.08;
+    const efficiencyTarget = clamp(
+      GOVERNANCE_DEFAULT_EFFICIENCY
+        - corruptionEfficiencyPressure
+        - crimeEfficiencyPressure
+        - instabilityEfficiencyPressure
+        + development * 0.05,
+      45,
+      GOVERNANCE_DEFAULT_EFFICIENCY
+    );
+    const efficiencyChange = moveToward(currentEfficiency, efficiencyTarget, GOVERNANCE_EFFICIENCY_ADJUSTMENT_RATE, 1.2, 0.8, yearsAdvanced);
+    const nextEfficiency = roundPercent(clamp(currentEfficiency + efficiencyChange, 0, GOVERNANCE_DEFAULT_EFFICIENCY));
+
+    const currentEffectiveEfficiency = clamp(
+      number(national.effectiveGovernmentalEfficiency, currentEfficiency),
+      0,
+      GOVERNANCE_DEFAULT_EFFICIENCY
+    );
+    const effectiveEfficiencyChange = moveToward(
+      currentEffectiveEfficiency,
+      nextEfficiency,
+      GOVERNANCE_EFFECTIVE_EFFICIENCY_ADJUSTMENT_RATE,
+      0.75,
+      1.0,
+      yearsAdvanced
+    );
+    const nextEffectiveEfficiency = roundPercent(clamp(currentEffectiveEfficiency + effectiveEfficiencyChange, 0, GOVERNANCE_DEFAULT_EFFICIENCY));
+
+    national.crimeRate = nextCrime;
+    national.governmentalCorruption = nextCorruption;
+    national.governmentalEfficiency = nextEfficiency;
+    national.effectiveGovernmentalEfficiency = nextEffectiveEfficiency;
+
+    return {
+      crimeRate: nextCrime,
+      crimeChange: roundPercent(nextCrime - currentCrime),
+      governmentalCorruption: nextCorruption,
+      governmentalCorruptionChange: roundPercent(nextCorruption - currentCorruption),
+      governmentalEfficiency: nextEfficiency,
+      governmentalEfficiencyChange: roundPercent(nextEfficiency - currentEfficiency),
+      effectiveGovernmentalEfficiency: nextEffectiveEfficiency,
+      effectiveGovernmentalEfficiencyChange: roundPercent(nextEffectiveEfficiency - currentEffectiveEfficiency)
+    };
+  }
+
   function yearlyMilitaryFactoryGrowth(baseGrowth, national, currentMilitaryFactories, mobilizationLevel) {
     const growth = number(baseGrowth, 0);
     if (growth < 0) return Math.floor(growth * 0.25);
@@ -1652,9 +1763,24 @@
     const totalPopulation = ids.reduce((total, id) => total + getPopulation(data, id, year), 0);
     const budgetCapacity = ids.reduce((total, id) => total + displayBudgetCapacity(data, id), 0);
     const tradeFlow = ids.reduce((total, id) => total + number(data.trade?.[id]?.tradeFlow, 0), 0);
+    const nationalRows = ids.map((id) => data.national?.[id]).filter(Boolean);
+    const crimeRateAverage = nationalRows.reduce((total, row) => total + number(row.crimeRate, row.corruption), 0) / Math.max(nationalRows.length, 1);
+    const governmentalCorruptionAverage = nationalRows.reduce((total, row) => total + number(row.governmentalCorruption, row.corruption), 0) / Math.max(nationalRows.length, 1);
+    const governmentalEfficiencyAverage = nationalRows.reduce((total, row) => total + number(row.governmentalEfficiency, GOVERNANCE_DEFAULT_EFFICIENCY), 0) / Math.max(nationalRows.length, 1);
+    const effectiveGovernmentalEfficiencyAverage = nationalRows.reduce((total, row) => total + number(row.effectiveGovernmentalEfficiency, row.governmentalEfficiency), 0) / Math.max(nationalRows.length, 1);
     const militaryRows = ids.map((id) => data.military?.[id]).filter(Boolean);
     const militarySupplyAverage = militaryRows.reduce((total, row) => total + number(row.militarySupply, 0), 0) / Math.max(militaryRows.length, 1);
-    return { year, totalPopulation, budgetCapacity, tradeFlow, militarySupplyAverage: Number(militarySupplyAverage.toFixed(1)) };
+    return {
+      year,
+      totalPopulation,
+      budgetCapacity,
+      tradeFlow,
+      crimeRateAverage: roundPercent(crimeRateAverage),
+      governmentalCorruptionAverage: roundPercent(governmentalCorruptionAverage),
+      governmentalEfficiencyAverage: roundPercent(governmentalEfficiencyAverage),
+      effectiveGovernmentalEfficiencyAverage: roundPercent(effectiveGovernmentalEfficiencyAverage),
+      militarySupplyAverage: Number(militarySupplyAverage.toFixed(1))
+    };
   }
 
   function advanceToYear(data, targetYear) {
@@ -1667,6 +1793,7 @@
     const activeNations = visibleNations(data);
     for (let year = startYear + 1; year <= endYear; year++) {
       for (const nation of activeNations) advancePopulation(data, nation.id, year - 1, year);
+      for (const nation of activeNations) advanceGovernance(data, nation.id, 1);
       data.meta.currentYear = year;
       recalculateTrade(data);
       for (const nation of activeNations) advanceIndustry(data, nation.id, 1);
@@ -1788,6 +1915,7 @@
     saveWikiPage,
     archiveWikiPage,
     advancePopulation,
+    advanceGovernance,
     advanceIndustry,
     advanceMobilizationFinance,
     advanceToYear,

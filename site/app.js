@@ -63,7 +63,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260612-literacy-rate";
+  const APP_ASSET_VERSION = "20260612-governance-simulation";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
 
@@ -1195,6 +1195,7 @@
       publicUnrest: "Public Unrest",
       warSupport: "War Support",
       governmentalEfficiency: "Governmental Efficiency",
+      effectiveGovernmentalEfficiency: "Applied Governmental Efficiency",
       governmentalCorruption: "Governmental Corruption",
       crimeRate: "Crime Rate",
       corruption: "Legacy Corruption",
@@ -1583,6 +1584,7 @@
             ${dossierSection("National", [
               dossierRow("Stability", fmtPercent(national?.governmentalStability)),
               dossierRow("Gov Efficiency", fmtPrecisePercent(national?.governmentalEfficiency ?? 100)),
+              dossierRow("Applied Efficiency", fmtPrecisePercent(national?.effectiveGovernmentalEfficiency ?? national?.governmentalEfficiency ?? 100)),
               dossierRow("Gov Corruption", fmtPercent(national?.governmentalCorruption ?? national?.corruption)),
               dossierRow("Crime Rate", fmtPercent(national?.crimeRate ?? national?.corruption)),
               dossierRow("Literacy", fmtPercent(national?.literacyRate ?? 95)),
