@@ -498,7 +498,7 @@ tbody td {
   grid-template-columns: repeat(6, minmax(96px, 1fr));
   gap: 0;
   align-items: stretch;
-  border-top: 3px solid var(--editor-major-line);
+  border-top: 1px solid var(--editor-soft-line);
   border-bottom: 1px solid var(--editor-soft-line);
   background:
     linear-gradient(135deg, var(--hero-wash), transparent 42%),
@@ -544,7 +544,7 @@ tbody td {
   align-items: center;
   justify-content: space-between;
   padding: 14px 16px;
-  border-bottom: 3px solid var(--editor-major-line);
+  border-bottom: 1px solid var(--editor-soft-line);
 }
 
 .nation-manager-head h2 {
@@ -603,7 +603,7 @@ tbody td {
 .roster-restore-card {
   grid-column: span 6;
   grid-template-columns: minmax(0, 1fr);
-  border-top: 3px solid var(--editor-major-line);
+  border-top: 1px solid var(--editor-soft-line);
 }
 
 .roster-rename-card .command,
