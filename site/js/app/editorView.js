@@ -179,16 +179,26 @@
   function renderNationManagement(nation) {
     const color = nation?.color || "#63a4ff";
     const archived = archivedNations();
+    const activeCount = visibleNations().length;
     return `
-      <section class="panel roster-manager" aria-label="Roster manager">
+      <section class="panel roster-manager nation-manager" aria-label="Nation manager">
         <div class="panel-head compact-head">
           <div>
-            <h2>Roster Manager</h2>
-            <p>Create countries, archive inactive records, and restore archived countries without losing datasets.</p>
+            <h2>Nation Manager</h2>
+            <p>Country selection and roster operations.</p>
           </div>
-          <span class="status">${fmtNumber(visibleNations().length)} active / ${fmtNumber(archived.length)} archived</span>
+          <span class="status">${fmtNumber(activeCount)} active / ${fmtNumber(archived.length)} archived</span>
         </div>
-        <div class="roster-tools-grid">
+        <div class="roster-tools-grid nation-manager-grid">
+          <div class="nation-manager-select-card">
+            <label class="select-shell editor-nation-picker nation-manager-picker" for="editorNationSelect">
+              <span>Editing</span>
+              <select id="editorNationSelect" data-nation-select ${activeCount ? "" : "disabled"}>
+                ${activeCount ? nationOptionsHtml(nation?.id || "") : `<option>No active countries</option>`}
+              </select>
+            </label>
+            ${state.notice ? `<span class="status positive">${safeText(state.notice)}</span>` : ""}
+          </div>
           <div class="roster-create-card">
             <label class="control-field roster-name-field" for="newNationName">
               <span>Name</span>
@@ -424,7 +434,6 @@
   }
 
   function renderEditorRail(nation, national, trade) {
-    const recent = changeHistoryRows(nation.id, 3);
     const wartimeHeadroom = Engine.number(national.wartimeBudgetHeadroom, 0);
     const wartimeBonus = Engine.number(national.wartimeBudgetBonus, 0);
     const autoMobilizationBe = Engine.number(national.wartimeBudgetAutoExpenditure, 0);
@@ -454,24 +463,6 @@
             ${detailItem("Projected Debt", fmtPercent(national.projectedDebt))}
             ${detailItem("Trade Flow", fmtNumber(trade.tradeFlow))}
           </div>
-        </section>
-        <section class="editor-rail-panel">
-          <div class="editor-rail-head compact">
-            <h3>Recent Change Impact</h3>
-          </div>
-          ${recent.length ? `
-            <div class="rail-change-list">
-              ${recent
-                .map((entry) => {
-                  const impacts = visibleChangeImpacts(entry).slice(0, 3);
-                  return `
-                  <div class="rail-change-row">
-                    <strong>${escapeHtml(entry.label || entry.field || "Edit")}</strong>
-                    <div class="change-impact">${impacts.length ? impacts.map(renderChangeBadge).join("") : `<span class="status">No calculated change</span>`}</div>
-                  </div>`;
-                })
-                .join("")}
-            </div>` : `<div class="empty compact">No changes recorded yet.</div>`}
         </section>
       </aside>`;
   }
@@ -511,16 +502,7 @@
         <div class="panel-head editor-panel-head">
           <div>
             <h2>Nation Editor</h2>
-            <p>Pick a record, edit its stats, and dependent systems recalculate automatically.</p>
-          </div>
-          <div class="editor-head-controls">
-            <label class="select-shell editor-nation-picker" for="editorNationSelect">
-              <span>Editing</span>
-              <select id="editorNationSelect" data-nation-select>
-                ${nationOptionsHtml(nation.id)}
-              </select>
-            </label>
-            ${state.notice ? `<span class="status positive">${safeText(state.notice)}</span>` : ""}
+            <p>Current state fields and derived systems.</p>
           </div>
         </div>
         ${renderEditorSummary(nation, national, trade, industrial, military, currentYear)}
@@ -612,7 +594,6 @@
           ${renderEditorRail(nation, national, trade)}
         </div>
       </section>
-      ${renderChangeHistoryPanel(nation.id, 6)}
     `;
   }
 
