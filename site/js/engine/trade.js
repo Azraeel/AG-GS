@@ -1509,7 +1509,26 @@
       return Object.fromEntries(Object.entries(targets).map(([id, value]) => [id, Math.max(0, value) * scale]));
     }
 
-    function laneAffinity(importer, exporter, tariffRate, policy, hubMultiplier, routeNetwork = null) {
+    function routeGravityPreference(route, exporterHubExposure = 0) {
+      const type = route?.routeType || "interregional";
+      const distance = clamp(number(route?.routeDistance, 50) / 100, 0, 1.4);
+      const routeClass = {
+        border: 1.65,
+        regional: 1.2,
+        ocean: 0.98,
+        "land-sea": 0.84,
+        interregional: 0.66,
+        "distant-inland": 0.46,
+        unmapped: 0.62
+      }[type] || 0.74;
+      const distancePressure = clamp(1.08 - distance * 0.3, 0.76, 1.1);
+      const globalHubPressure = clamp((exporterHubExposure - 2.1) / 6.5, 0, 1);
+      const nearbyRoute = type === "border" || type === "regional";
+      const distantHubFriction = clamp(1 - globalHubPressure * (nearbyRoute ? 0.5 : 0.74), 0.38, 1);
+      return clamp(routeClass * distancePressure * distantHubFriction, 0.2, 1.85);
+    }
+
+    function laneAffinity(importer, exporter, tariffRate, policy, hubMultiplier, routeNetwork = null, exporterHubExposure = 0) {
       if (policy.embargo) return 0;
       const importerAccess = policyNetworkAccess(importer.tradePolicy) * sanctionNetworkAccess(importer.sanctionsLevel);
       const exporterAccess = policyNetworkAccess(exporter.tradePolicy) * sanctionNetworkAccess(exporter.sanctionsLevel);
@@ -1520,7 +1539,8 @@
       const diversityBridge = clamp(0.84 + Math.sqrt(Math.max(0, exporter.economicTradeDiversity) + Math.max(0, importer.economicTradeDiversity) + 1) / 80, 0.84, 1.24);
       const route = routeForLane(routeNetwork, importer.id, exporter.id);
       const routeMultiplier = route ? route.multiplier : 1;
-      return Math.max(0, hubMultiplier * openness * tariffAccess * policyAccess * complementarity * diversityBridge * routeMultiplier);
+      const gravity = routeGravityPreference(route, exporterHubExposure);
+      return Math.max(0, hubMultiplier * openness * tariffAccess * policyAccess * complementarity * diversityBridge * routeMultiplier * gravity);
     }
 
     function balanceLanesToTargets(lanes, importTargets, exportTargets, iterations = 28) {
@@ -1593,11 +1613,12 @@
     function directBilateralTradeShare(input, worldTradeFlow) {
       const tradeFlow = Math.max(0, number(input.tradeFlow, 0));
       const worldShare = worldTradeFlow > 0 ? tradeFlow / worldTradeFlow : 0;
-      const scalePressure = clamp((worldShare - 0.045) / 0.24, 0, 1);
-      const diversityPressure = clamp(Math.sqrt(Math.max(0, number(input.economicTradeDiversity, 0))) / 42, 0, 0.34);
+      const scalePressure = clamp((worldShare - 0.035) / 0.22, 0, 1);
+      const megaHubPressure = clamp((worldShare - 0.16) / 0.16, 0, 1);
+      const diversityPressure = clamp(Math.sqrt(Math.max(0, number(input.economicTradeDiversity, 0))) / 38, 0, 0.38);
       const openness = policyNetworkAccess(input.tradePolicy) * sanctionNetworkAccess(input.sanctionsLevel);
       const opennessBonus = clamp((openness - 1) * 0.04, -0.08, 0.08);
-      return clamp(0.92 - scalePressure * 0.36 - diversityPressure * 0.14 + opennessBonus, 0.52, 0.94);
+      return clamp(0.9 - scalePressure * 0.34 - megaHubPressure * 0.1 - diversityPressure * 0.16 + opennessBonus, 0.4, 0.94);
     }
 
     function selectVisibleLaneKeys(lanes, nations, inputsById, worldPool, ids) {
@@ -1858,6 +1879,7 @@
       const hubInputs = inputsById;
       const worldTradeFlow = ids.reduce((total, id) => total + Math.max(0, hubInputs[id].tradeFlow), 0);
       const hubMultipliers = Object.fromEntries(ids.map((id) => [id, tradeHubMultiplier(hubInputs[id], worldTradeFlow, ids.length)]));
+      const hubExposures = Object.fromEntries(ids.map((id) => [id, globalHubExposure(hubInputs[id], worldTradeFlow, ids.length)]));
       const rawImportBaseTargets = {};
       const rawImportTargets = {};
       const rawExportBaseTargets = {};
@@ -1882,8 +1904,8 @@
           const exporter = inputsById[exporterId];
           const supplyWeight = Math.max(0, rawExportBaseTargets[exporterId] || 0);
           const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
-          actualAccess += supplyWeight * laneAffinity(importer, exporter, tariffRate, lanePolicyFor(lanePolicies, importerId, exporterId), hubMultipliers[exporterId], routeNetwork);
-          neutralAccess += supplyWeight * laneAffinity(importer, exporter, importer.tariffRate, { embargo: false, sanctionsLevel: "None" }, hubMultipliers[exporterId], neutralRouteNetwork);
+          actualAccess += supplyWeight * laneAffinity(importer, exporter, tariffRate, lanePolicyFor(lanePolicies, importerId, exporterId), hubMultipliers[exporterId], routeNetwork, hubExposures[exporterId]);
+          neutralAccess += supplyWeight * laneAffinity(importer, exporter, importer.tariffRate, { embargo: false, sanctionsLevel: "None" }, hubMultipliers[exporterId], neutralRouteNetwork, hubExposures[exporterId]);
         }
         const marketAccess = neutralAccess > 0 ? actualAccess / neutralAccess : 0;
         rawImportTargets[importerId] = rawImportBaseTargets[importerId] * clamp(marketAccess, 0.02, 1.08);
@@ -1898,8 +1920,8 @@
           const importer = inputsById[importerId];
           const demandWeight = Math.max(0, rawImportBaseTargets[importerId] || 0);
           const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
-          actualAccess += demandWeight * laneAffinity(importer, exporter, tariffRate, lanePolicyFor(lanePolicies, importerId, exporterId), hubMultipliers[exporterId], routeNetwork);
-          neutralAccess += demandWeight * laneAffinity(importer, exporter, importer.tariffRate, { embargo: false, sanctionsLevel: "None" }, hubMultipliers[exporterId], neutralRouteNetwork);
+          actualAccess += demandWeight * laneAffinity(importer, exporter, tariffRate, lanePolicyFor(lanePolicies, importerId, exporterId), hubMultipliers[exporterId], routeNetwork, hubExposures[exporterId]);
+          neutralAccess += demandWeight * laneAffinity(importer, exporter, importer.tariffRate, { embargo: false, sanctionsLevel: "None" }, hubMultipliers[exporterId], neutralRouteNetwork, hubExposures[exporterId]);
         }
         const marketAccess = neutralAccess > 0 ? actualAccess / neutralAccess : 0;
         rawExportTargets[exporterId] = rawExportBaseTargets[exporterId] * clamp(marketAccess, 0.02, 1.08);
@@ -1934,7 +1956,7 @@
           const tariffRate = targetedTariffFor(targetedTariffs, importerId, exporterId, importer.tariffRate);
           const policy = lanePolicyFor(lanePolicies, importerId, exporterId);
           const route = routeForLane(routeNetwork, importerId, exporterId) || laneGeography(importerId, exporterId, geography);
-          const affinity = laneAffinity(importer, exporter, tariffRate, policy, hubMultipliers[exporterId], routeNetwork);
+          const affinity = laneAffinity(importer, exporter, tariffRate, policy, hubMultipliers[exporterId], routeNetwork, hubExposures[exporterId]);
           const targetProduct = Math.sqrt(Math.max(0, directImportTargets[importerId] || 0) * Math.max(0, directExportTargets[exporterId] || 0));
           lanes.push({
             importerId,
