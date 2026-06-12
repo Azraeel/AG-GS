@@ -110,7 +110,6 @@
     tradeNetworkDirectionFilter: "all",
     tradeNetworkSizeFilter: "all",
     tradeMapShapeStatus: hasTradeMapShapes() ? "ready" : "idle",
-    showDetails: false,
     notice: ""
   };
   let tradeMapPanelDrag = null;
@@ -671,8 +670,7 @@
       return;
     }
 
-    const hasSecondaryColumns = columns.some((column) => column.secondary);
-    const visibleColumns = columns.filter((column) => !column.secondary || state.showDetails);
+    const visibleColumns = columns;
     let sort = state.sort[id] || { key: visibleColumns[0].key, dir: "asc" };
     if (!visibleColumns.some((column) => column.key === sort.key)) sort = { key: visibleColumns[0].key, dir: "asc" };
     const col = columns.find((column) => column.key === sort.key) || visibleColumns[0];
@@ -694,7 +692,6 @@
           </div>
           <div class="panel-actions">
             ${isStatusTable ? statusViewSelectHtml(id) : ""}
-            ${hasSecondaryColumns ? `<button class="command compact ${state.showDetails ? "is-active" : ""}" type="button" data-action="toggle-detail-columns">${state.showDetails ? "Focused Columns" : "Detailed Columns"}</button>` : ""}
             <span class="status">${fmtNumber(sortedRows.length)} rows</span>
           </div>
         </div>
@@ -731,7 +728,6 @@
             </tbody>
           </table>
         </div>
-        ${hasSecondaryColumns && !state.showDetails ? `<div class="table-note">Showing the most-used columns. Use Detailed Columns for the full ledger view.</div>` : ""}
       </section>
     `;
     restoreTableScroll(id);
@@ -2135,10 +2131,6 @@
         data.meta.currentYear = Number(currentInput?.value || data.meta.currentYear);
         Engine.recalculateAll(data);
         saveWorkingState(`Recalculated ${data.meta.currentYear}.`);
-      } else if (action === "toggle-detail-columns") {
-        rememberVisibleTableScroll();
-        state.showDetails = !state.showDetails;
-        render();
       } else if (action === "reset-state") {
         resetWorkingState();
       } else if (action === "export-json") {

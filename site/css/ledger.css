@@ -743,15 +743,6 @@ tbody td {
   border-color: var(--button-active-bg);
 }
 
-.table-note {
-  padding: 10px 16px;
-  color: var(--muted);
-  background: var(--subtle-bg);
-  border-top: 1px solid var(--line);
-  font-size: 13px;
-  font-weight: 700;
-}
-
 .change-history-panel {
   margin-top: 14px;
 }
