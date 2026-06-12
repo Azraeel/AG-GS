@@ -19,7 +19,8 @@
       "national.sanctionsRisk",
       "national.mobilizationRisk",
       "national.tradeBalanceRisk",
-      "national.debtTrendRisk"
+      "national.debtTrendRisk",
+      "national.literacyRate"
     ]);
 
     function escapeHtml(value) {

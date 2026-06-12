@@ -34,6 +34,7 @@
           { key: "governmentalEfficiency", label: "Gov Efficiency", numeric: true, secondary: true, render: fmtPrecisePercent },
           { key: "governmentalCorruption", label: "Gov Corruption", numeric: true, secondary: true, render: fmtPercent },
           { key: "crimeRate", label: "Crime Rate", numeric: true, secondary: true, render: fmtPercent },
+          { key: "literacyRate", label: "Literacy", numeric: true, secondary: true, render: fmtPercent },
           { key: "developmentLevel", label: "Development", numeric: true, render: fmtNumber },
           { key: "budgetCapacity", label: "Budget Capacity", numeric: true, raw: (row) => displayBudgetCapacity(row.id), render: (_, row) => budgetCapacityCell(row.id) },
           { key: "budgetExpenditure", label: "Expenditure", numeric: true, secondary: true, render: fmtNumber },

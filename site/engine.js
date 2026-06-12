@@ -9,6 +9,8 @@
   const GOVERNANCE_MAX_BUREAUCRACY_PRESSURE = 6;
   const GOVERNANCE_WARNING_EFFICIENCY = 99.95;
   const GOVERNANCE_HIGH_CAPACITY_MIN_EFFICIENCY = 70;
+  const LITERACY_NEUTRAL_RATE = 95;
+  const LITERACY_POPULATION_SLOWDOWN_MAX = 0.32;
 
   const HEALTH_GROWTH = { Depression: -6.2, Recession: -4.1, Slowdown: -2.2, Recovery: 1.4, Expansion: 3.2, Prosperity: 4.8 };
   const INDUSTRIAL_HEALTH_MOMENTUM = { Prosperity: 0.18, Expansion: 0.12, Recovery: 0.04, Slowdown: 0.1, Recession: 0.16, Depression: 0.24 };
@@ -43,9 +45,9 @@
     shipyard: { medium: 1, large: 10, mega: 40 }
   };
   const INDUSTRIAL_SECTOR_CONFIG = {
-    civilian: { totalKey: "civilianFactories", sectorsKey: "civilianSectors", defaultTier: "basic", tiers: ["basic", "improved", "advanced"], weights: INDUSTRIAL_SECTOR_WEIGHTS.civilian },
-    military: { totalKey: "militaryFactories", sectorsKey: "militarySectors", defaultTier: "basic", tiers: ["basic", "improved", "advanced"], weights: INDUSTRIAL_SECTOR_WEIGHTS.military },
-    shipyard: { totalKey: "shipyards", sectorsKey: "shipyardSectors", defaultTier: "medium", tiers: ["medium", "large", "mega"], weights: INDUSTRIAL_SECTOR_WEIGHTS.shipyard }
+    civilian: { totalKey: "civilianFactories", sectorsKey: "civilianSectors", defaultTier: "basic", tiers: ["basic", "improved", "advanced"], weights: INDUSTRIAL_SECTOR_WEIGHTS.civilian, literacyImpact: { improved: "improved", advanced: "advanced" } },
+    military: { totalKey: "militaryFactories", sectorsKey: "militarySectors", defaultTier: "basic", tiers: ["basic", "improved", "advanced"], weights: INDUSTRIAL_SECTOR_WEIGHTS.military, literacyImpact: { improved: "improved", advanced: "advanced" } },
+    shipyard: { totalKey: "shipyards", sectorsKey: "shipyardSectors", defaultTier: "medium", tiers: ["medium", "large", "mega"], weights: INDUSTRIAL_SECTOR_WEIGHTS.shipyard, literacyImpact: { large: "improved", mega: "advanced" } }
   };
   const MOBILIZATION_FINANCE = {
     None: { activationShare: 0, rampRate: 0, strainStartYears: 0, strainRate: 0, maxStrain: 0, autoSpendShare: 0 },
@@ -229,6 +231,55 @@
     };
   }
 
+  function literacyRateForNational(national = {}) {
+    return clamp(number(national?.literacyRate, LITERACY_NEUTRAL_RATE), 0, 100);
+  }
+
+  function interpolateByLiteracy(literacyRate, points) {
+    const literacy = literacyRateForNational({ literacyRate });
+    if (literacy >= LITERACY_NEUTRAL_RATE) return 1;
+    if (literacy <= points[0].rate) return points[0].multiplier;
+    for (let index = 1; index < points.length; index++) {
+      const previous = points[index - 1];
+      const next = points[index];
+      if (literacy > next.rate) continue;
+      const span = Math.max(1, next.rate - previous.rate);
+      const progress = clamp((literacy - previous.rate) / span, 0, 1);
+      return previous.multiplier + (next.multiplier - previous.multiplier) * progress;
+    }
+    return points[points.length - 1].multiplier;
+  }
+
+  function literacyIndustrialMultiplier(national = {}, impact = "") {
+    const literacy = literacyRateForNational(national);
+    if (!impact || literacy >= LITERACY_NEUTRAL_RATE) return 1;
+    const curve = impact === "advanced"
+      ? [
+          { rate: 0, multiplier: 0.15 },
+          { rate: 55, multiplier: 0.25 },
+          { rate: 70, multiplier: 0.5 },
+          { rate: 80, multiplier: 0.7 },
+          { rate: 90, multiplier: 0.9 },
+          { rate: 95, multiplier: 1 }
+        ]
+      : [
+          { rate: 0, multiplier: 0.35 },
+          { rate: 55, multiplier: 0.55 },
+          { rate: 70, multiplier: 0.72 },
+          { rate: 80, multiplier: 0.85 },
+          { rate: 90, multiplier: 0.96 },
+          { rate: 95, multiplier: 1 }
+        ];
+    return clamp(interpolateByLiteracy(literacy, curve), 0.05, 1);
+  }
+
+  function literacyPopulationGrowthSlowdown(national = {}) {
+    const literacy = literacyRateForNational(national);
+    if (literacy <= LITERACY_NEUTRAL_RATE) return 0;
+    const highLiteracyShare = clamp((literacy - LITERACY_NEUTRAL_RATE) / Math.max(1, 100 - LITERACY_NEUTRAL_RATE), 0, 1);
+    return Math.pow(highLiteracyShare, 1.15) * LITERACY_POPULATION_SLOWDOWN_MAX;
+  }
+
   function normalizeGovernanceFields(data) {
     Object.values(data.national || {}).forEach((national) => {
       if (!national || typeof national !== "object") return;
@@ -236,6 +287,7 @@
       if (isBlank(national.governmentalCorruption)) national.governmentalCorruption = governance.governmentalCorruption;
       if (isBlank(national.crimeRate)) national.crimeRate = governance.crimeRate;
       if (isBlank(national.governmentalEfficiency)) national.governmentalEfficiency = GOVERNANCE_DEFAULT_EFFICIENCY;
+      if (isBlank(national.literacyRate)) national.literacyRate = LITERACY_NEUTRAL_RATE;
     });
   }
 
@@ -778,7 +830,7 @@
     return Math.max(0, number(sectors?.[tier], 0));
   }
 
-  function industrialSectorBreakdown(industrial, config) {
+  function industrialSectorBreakdown(industrial, config, national = {}) {
     const physicalTotal = Math.max(0, number(industrial?.[config.totalKey], 0));
     const sectors = industrial?.[config.sectorsKey] || {};
     const hasSectorData = config.tiers.some((tier) => Object.prototype.hasOwnProperty.call(sectors, tier));
@@ -799,15 +851,20 @@
         : Math.max(0, physicalTotal - nonDefaultTotal);
     }
     const physical = config.tiers.reduce((total, tier) => total + values[tier], 0);
-    const effective = config.tiers.reduce((total, tier) => total + values[tier] * config.weights[tier], 0);
-    return { ...values, physical, effective, legacyTotal: physicalTotal };
+    const literacyMultipliers = {};
+    const effective = config.tiers.reduce((total, tier) => {
+      const literacyMultiplier = literacyIndustrialMultiplier(national, config.literacyImpact?.[tier]);
+      literacyMultipliers[tier] = literacyMultiplier;
+      return total + values[tier] * config.weights[tier] * literacyMultiplier;
+    }, 0);
+    return { ...values, physical, effective, legacyTotal: physicalTotal, literacyMultipliers };
   }
 
-  function industrialSectorOutputs(industrial) {
+  function industrialSectorOutputs(industrial, national = {}) {
     return {
-      civilian: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.civilian),
-      military: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.military),
-      shipyard: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.shipyard)
+      civilian: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.civilian, national),
+      military: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.military, national),
+      shipyard: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.shipyard, national)
     };
   }
 
@@ -853,7 +910,7 @@
     const stability = number(national?.governmentalStability, 0);
     const governance = governanceMetrics(national);
     const health = national?.economicHealth || "Recovery";
-    const sectorOutput = industrialSectorOutputs(industrial);
+    const sectorOutput = industrialSectorOutputs(industrial, national);
     const industrialScale = sectorOutput.civilian.effective + sectorOutput.military.effective + sectorOutput.shipyard.effective;
     const isStrongEconomy = ["Prosperity", "Expansion"].includes(health);
     const isHighCapacity = development >= 18 && stability >= 85 && governance.governmentalEfficiency >= GOVERNANCE_HIGH_CAPACITY_MIN_EFFICIENCY && isStrongEconomy && industrialScale >= 650;
@@ -869,7 +926,7 @@
     const trade = data.trade[id];
     if (!national || !industrial || !military || !trade) return null;
 
-    const sectorOutput = industrialSectorOutputs(industrial);
+    const sectorOutput = industrialSectorOutputs(industrial, national);
     const civFactories = sectorOutput.civilian.effective;
     const militaryFactories = sectorOutput.military.effective;
     const shipyards = sectorOutput.shipyard.effective;
@@ -1338,7 +1395,8 @@
     const stressPenalty = unrest * 0.045 + corruption * 0.004 + bureaucracyDrag * 0.28 + taxGrowthPenalty;
     const sizeDamping = clamp(1 - Math.max(0, Math.log10(currentPopulation / 6000000)) * 0.2, 0.5, 1);
     const maturityStabilizer = economicHealth === "Prosperity" ? maturity * 0.18 : 0;
-    const naturalGrowth = (demographicBase + healthProfile.naturalGrowth + maturityStabilizer + stabilityEffect + policyEffect - stressPenalty) * sizeDamping;
+    const literacyGrowthSlowdown = literacyPopulationGrowthSlowdown(national);
+    const naturalGrowth = (demographicBase + healthProfile.naturalGrowth + maturityStabilizer + stabilityEffect + policyEffect - stressPenalty - literacyGrowthSlowdown) * sizeDamping;
     const migrationDamping = clamp(1 - Math.max(0, Math.log10(currentPopulation / 25000000)) * 0.26, 0.28, 1) * clamp(1 - maturity * 0.35, 0.55, 1);
     const migrationAttractiveness = healthProfile.migration
       + clamp((stability - 60) * 0.007, -0.35, 0.28)
@@ -1369,6 +1427,7 @@
       inertiaDamping: roundPercent(inertiaMultiplier * 100),
       normalAnnualMovement: roundCurrency(normalAnnualMovement),
       maturityStabilizer: roundPercent(maturityStabilizer),
+      literacyGrowthSlowdown: roundPercent(literacyGrowthSlowdown),
       policyEffect: roundPercent(policyEffect),
       stressPenalty: roundPercent(stressPenalty)
     };
@@ -1400,7 +1459,7 @@
     const currentFactories = number(industrial.civilianFactories, 0);
     const currentMilitaryFactories = number(industrial.militaryFactories, 0);
     const currentShipyards = number(industrial.shipyards, 0);
-    const currentSectorOutput = industrialSectorOutputs(industrial);
+    const currentSectorOutput = industrialSectorOutputs(industrial, national);
     const healthStatus = national.economicHealth || "Recovery";
     if (!(healthStatus in HEALTH_GROWTH)) return null;
     const yearsAdvanced = Math.max(1, number(yearDifference, 1));
@@ -1469,7 +1528,7 @@
     const mobilization = MOBILIZATION[military.mobilizationLevel || "None"] || MOBILIZATION.None;
     const techGap = Math.max(0, number(military.equipmentComplexity, 4) - maxComplexityForDevelopment(national.developmentLevel));
     const techGapPenalty = Math.max(0.05, 1 - techGap * (0.95 / 11));
-    const militaryOutput = industrialSectorOutputs(industrial).military.effective;
+    const militaryOutput = industrialSectorOutputs(industrial, national).military.effective;
     const monthlyIncrement = militaryOutput * 0.2 * mobilization.supplyMultiplier * complexityMultiplier(military.equipmentComplexity) * techGapPenalty * (1 + number(military.militaryOrganization, 0) * 0.01);
     military.militarySupply = Number((currentSupply + monthlyIncrement * months).toFixed(1));
     return military.militarySupply - currentSupply;

@@ -64,6 +64,7 @@
         governmentalCorruption: 20,
         crimeRate: 20,
         governmentalEfficiency: 100,
+        literacyRate: 95,
         developmentLevel: 10,
         budgetCapacity: 0,
         budgetExpenditure: 0,
@@ -399,7 +400,7 @@
 
   function renderEditorSummary(nation, national, trade, industrial, military, currentYear) {
     const coverage = coverageFor(nation.id).filter((set) => set.hasData).length;
-    const sectorOutput = Engine.industrialSectorOutputs(industrial);
+    const sectorOutput = Engine.industrialSectorOutputs(industrial, national);
     const physicalFactories = sectorOutput.civilian.physical + sectorOutput.military.physical;
     const effectiveFactories = sectorOutput.civilian.effective + sectorOutput.military.effective;
     const factorySummary = effectiveFactories === physicalFactories
@@ -495,7 +496,7 @@
     const national = data.national[nation.id] || {};
     const trade = data.trade[nation.id] || {};
     const industrial = data.industrial[nation.id] || {};
-    const sectorOutput = Engine.industrialSectorOutputs(industrial);
+    const sectorOutput = Engine.industrialSectorOutputs(industrial, national);
     const military = data.military[nation.id] || {};
     const intelligence = data.intelligence[nation.id] || {};
     const eclipse = data.eclipse[nation.id] || {};
@@ -532,6 +533,7 @@
               ${fieldControl("national", "governmentalEfficiency", "Gov Efficiency %", national.governmentalEfficiency ?? 100)}
               ${fieldControl("national", "governmentalCorruption", "Gov Corruption %", national.governmentalCorruption ?? national.corruption)}
               ${fieldControl("national", "crimeRate", "Crime Rate %", national.crimeRate ?? national.corruption)}
+              ${fieldControl("national", "literacyRate", "Literacy %", national.literacyRate ?? 95)}
               ${fieldControl("national", "developmentLevel", "Development", national.developmentLevel)}
               ${fieldControl("national", "fiscalModel", "Fiscal Model", Engine.fiscalModelForNation(data, nation.id), "select", Object.keys(Engine.constants.FISCAL_MODELS))}
               ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}
