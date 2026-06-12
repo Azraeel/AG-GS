@@ -433,10 +433,9 @@ tbody td {
 }
 
 .nation-editor-shell {
-  --editor-line-color: #00d9ff;
-  --editor-soft-line: var(--editor-line-color);
-  --editor-major-line: var(--editor-line-color);
-  --editor-accent-line: var(--editor-line-color);
+  --editor-soft-line: var(--line);
+  --editor-major-line: #1f9bff;
+  --editor-accent-line: #1f9bff;
   overflow: hidden;
 }
 
@@ -500,7 +499,7 @@ tbody td {
   gap: 0;
   align-items: stretch;
   border-top: 3px solid var(--editor-major-line);
-  border-bottom: 2px solid var(--editor-soft-line);
+  border-bottom: 1px solid var(--editor-soft-line);
   background:
     linear-gradient(135deg, var(--hero-wash), transparent 42%),
     var(--subtle-bg);
@@ -927,7 +926,7 @@ td.industrial-tier-divider {
   align-content: start;
   padding: 16px 18px 10px;
   border-bottom: 5px solid var(--subtle-bg);
-  box-shadow: inset 0 -2px 0 var(--editor-soft-line);
+  box-shadow: inset 0 -1px 0 var(--editor-soft-line);
   background: transparent;
 }
 
@@ -976,7 +975,7 @@ td.industrial-tier-divider {
   padding: 8px 0;
   border: 0;
   border-radius: 0;
-  box-shadow: inset 0 -2px 0 var(--editor-soft-line);
+  box-shadow: inset 0 -1px 0 var(--editor-soft-line);
   background: transparent;
 }
 
@@ -1075,7 +1074,7 @@ td.industrial-tier-divider {
 .rail-detail-grid .detail-item {
   min-height: 0;
   padding: 10px 0;
-  box-shadow: inset 0 -2px 0 var(--editor-soft-line);
+  box-shadow: inset 0 -1px 0 var(--editor-soft-line);
 }
 
 .rail-detail-grid .detail-item strong {
@@ -1091,7 +1090,7 @@ td.industrial-tier-divider {
   display: grid;
   gap: 6px;
   padding: 10px 0 12px;
-  border-bottom: 2px dotted var(--editor-major-line);
+  border-bottom: 1px dotted var(--editor-soft-line);
 }
 
 .editor-history-row-head {

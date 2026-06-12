@@ -70,7 +70,7 @@
   .roster-rename-card {
     grid-column: span 4;
     border-top: 3px solid var(--editor-major-line);
-    border-right: 2px solid var(--editor-soft-line);
+    border-right: 1px solid var(--editor-soft-line);
   }
 
   .roster-archive-card {
