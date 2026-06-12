@@ -2,8 +2,8 @@
   const STORAGE_KEY = "aggs-operations-state-v4";
   const TRADE_V4_FORMULA_VERSION = "trade2028";
   const GOVERNANCE_DEFAULT_EFFICIENCY = 100;
-  const GOVERNANCE_EFFICIENCY_DECAY = 0.95;
-  const GOVERNANCE_MIN_EFFICIENCY_MULTIPLIER = 0.03;
+  const GOVERNANCE_EFFICIENCY_GAP_PENALTY = 0.08;
+  const GOVERNANCE_MIN_EFFICIENCY_MULTIPLIER = 0.25;
   const GOVERNANCE_MAX_BUREAUCRACY_PRESSURE = 6;
   const GOVERNANCE_WARNING_EFFICIENCY = 99.95;
   const GOVERNANCE_HIGH_CAPACITY_MIN_EFFICIENCY = 70;
@@ -206,7 +206,7 @@
     const crimeRate = percentStat(national?.crimeRate, legacyCorruption);
     const governmentalEfficiency = clamp(number(national?.governmentalEfficiency, GOVERNANCE_DEFAULT_EFFICIENCY), 0, GOVERNANCE_DEFAULT_EFFICIENCY);
     const efficiencyGap = Math.max(0, GOVERNANCE_DEFAULT_EFFICIENCY - governmentalEfficiency);
-    const efficiencyMultiplier = clamp(Math.pow(GOVERNANCE_EFFICIENCY_DECAY, efficiencyGap * 100), GOVERNANCE_MIN_EFFICIENCY_MULTIPLIER, 1);
+    const efficiencyMultiplier = clamp(1 - Math.sqrt(efficiencyGap) * GOVERNANCE_EFFICIENCY_GAP_PENALTY, GOVERNANCE_MIN_EFFICIENCY_MULTIPLIER, 1);
     const bureaucracyPressure = clamp(1 / Math.max(efficiencyMultiplier, 0.05), 1, GOVERNANCE_MAX_BUREAUCRACY_PRESSURE);
     return {
       legacyCorruption,

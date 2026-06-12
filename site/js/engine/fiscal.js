@@ -41,10 +41,10 @@
 
     function governmentalEfficiencyRiskForPercent(efficiencyPercent) {
       const efficiency = number(efficiencyPercent, 100);
-      if (efficiency < 99) return 5;
-      if (efficiency < 99.5) return 4;
-      if (efficiency < 99.8) return 3;
-      if (efficiency < 99.95) return 2;
+      if (efficiency < 50) return 5;
+      if (efficiency < 70) return 4;
+      if (efficiency < 85) return 3;
+      if (efficiency < 95) return 2;
       if (efficiency < 99.99) return 1;
       return 0;
     }
