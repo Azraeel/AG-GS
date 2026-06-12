@@ -69,8 +69,8 @@
 
   .roster-rename-card {
     grid-column: span 4;
-    border-top: 2px solid var(--editor-major-line);
-    border-right: 1px solid var(--editor-soft-line);
+    border-top: 3px solid var(--editor-major-line);
+    border-right: 2px solid var(--editor-soft-line);
   }
 
   .roster-archive-card {
@@ -240,7 +240,7 @@
   .editor-rail {
     position: static;
     border-left: 0;
-    border-top: 3px solid var(--editor-major-line);
+    border-top: 4px solid var(--editor-major-line);
   }
 
   .editor-summary {
@@ -265,7 +265,7 @@
   .roster-rename-card,
   .roster-archive-card,
   .roster-restore-card {
-    border-top: 2px solid var(--editor-major-line);
+    border-top: 3px solid var(--editor-major-line);
   }
 
   .roster-create-card {

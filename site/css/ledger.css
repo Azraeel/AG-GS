@@ -433,8 +433,10 @@ tbody td {
 }
 
 .nation-editor-shell {
-  --editor-soft-line: var(--line);
-  --editor-major-line: var(--line-strong);
+  --editor-line-color: #00d9ff;
+  --editor-soft-line: var(--editor-line-color);
+  --editor-major-line: var(--editor-line-color);
+  --editor-accent-line: var(--editor-line-color);
   overflow: hidden;
 }
 
@@ -458,7 +460,7 @@ tbody td {
   gap: 0;
   align-items: start;
   padding: 0;
-  border-top: 3px solid var(--editor-major-line);
+  border-top: 4px solid var(--editor-major-line);
 }
 
 .editor-sections {
@@ -477,7 +479,7 @@ tbody td {
 }
 
 .editor-column-primary {
-  border-right: 2px solid var(--editor-major-line);
+  border-right: 3px solid var(--editor-major-line);
 }
 
 .editor-rail {
@@ -486,7 +488,7 @@ tbody td {
   align-content: start;
   min-width: 0;
   padding: 14px;
-  border-left: 3px solid var(--editor-major-line);
+  border-left: 4px solid var(--editor-major-line);
   background:
     linear-gradient(180deg, var(--hero-wash), transparent 44%),
     var(--subtle-bg);
@@ -497,8 +499,8 @@ tbody td {
   grid-template-columns: repeat(6, minmax(96px, 1fr));
   gap: 0;
   align-items: stretch;
-  border-top: 2px solid var(--editor-major-line);
-  border-bottom: 1px solid var(--editor-soft-line);
+  border-top: 3px solid var(--editor-major-line);
+  border-bottom: 2px solid var(--editor-soft-line);
   background:
     linear-gradient(135deg, var(--hero-wash), transparent 42%),
     var(--subtle-bg);
@@ -543,7 +545,7 @@ tbody td {
   align-items: center;
   justify-content: space-between;
   padding: 14px 16px;
-  border-bottom: 2px solid var(--editor-major-line);
+  border-bottom: 3px solid var(--editor-major-line);
 }
 
 .nation-manager-head h2 {
@@ -602,7 +604,7 @@ tbody td {
 .roster-restore-card {
   grid-column: span 6;
   grid-template-columns: minmax(0, 1fr);
-  border-top: 2px solid var(--editor-major-line);
+  border-top: 3px solid var(--editor-major-line);
 }
 
 .roster-rename-card .command,
@@ -925,7 +927,7 @@ td.industrial-tier-divider {
   align-content: start;
   padding: 16px 18px 10px;
   border-bottom: 5px solid var(--subtle-bg);
-  box-shadow: inset 0 -1px 0 var(--editor-soft-line);
+  box-shadow: inset 0 -2px 0 var(--editor-soft-line);
   background: transparent;
 }
 
@@ -956,17 +958,17 @@ td.industrial-tier-divider {
   color: var(--ink);
   font-size: 16px;
   padding-bottom: 10px;
-  border-bottom: 2px solid var(--editor-major-line);
+  border-bottom: 4px solid var(--editor-major-line);
 }
 
 .editor-section h3::after {
   position: absolute;
   left: 0;
-  bottom: -2px;
-  width: 48px;
-  height: 2px;
+  bottom: -4px;
+  width: 76px;
+  height: 4px;
   content: "";
-  background: var(--blue);
+  background: var(--editor-accent-line);
 }
 
 .editor-section .control-field {
@@ -974,7 +976,7 @@ td.industrial-tier-divider {
   padding: 8px 0;
   border: 0;
   border-radius: 0;
-  box-shadow: inset 0 -1px 0 var(--editor-soft-line);
+  box-shadow: inset 0 -2px 0 var(--editor-soft-line);
   background: transparent;
 }
 
@@ -987,7 +989,7 @@ td.industrial-tier-divider {
   min-height: 34px;
   margin-top: 8px;
   padding-top: 10px;
-  border-top: 2px solid var(--editor-major-line);
+  border-top: 3px solid var(--editor-major-line);
   color: var(--muted);
   font-size: 11px;
   font-weight: 850;
@@ -1044,7 +1046,7 @@ td.industrial-tier-divider {
 .editor-history-panel {
   margin-top: 16px;
   padding-top: 14px;
-  border-top: 3px double var(--editor-major-line);
+  border-top: 5px double var(--editor-major-line);
 }
 
 .editor-rail-head {
@@ -1073,7 +1075,7 @@ td.industrial-tier-divider {
 .rail-detail-grid .detail-item {
   min-height: 0;
   padding: 10px 0;
-  box-shadow: inset 0 -1px 0 var(--editor-soft-line);
+  box-shadow: inset 0 -2px 0 var(--editor-soft-line);
 }
 
 .rail-detail-grid .detail-item strong {
@@ -1089,7 +1091,7 @@ td.industrial-tier-divider {
   display: grid;
   gap: 6px;
   padding: 10px 0 12px;
-  border-bottom: 1px dotted var(--editor-major-line);
+  border-bottom: 2px dotted var(--editor-major-line);
 }
 
 .editor-history-row-head {
