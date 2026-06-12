@@ -1808,31 +1808,6 @@
     return `${draft?.id || ""}:${draft?.dataset || ""}:${draft?.path || ""}`;
   }
 
-  const industrialBalancePreserveFields = new Set(["civilianFactories", "militaryFactories", "shipyards"]);
-  const industrialSectorPrefixes = ["civilianSectors.", "militarySectors.", "shipyardSectors."];
-
-  function shouldPreserveBalanceForEdit(dataset, path) {
-    return dataset === "industrial"
-      && (
-        industrialBalancePreserveFields.has(path)
-        || industrialSectorPrefixes.some((prefix) => path.startsWith(prefix))
-      );
-  }
-
-  function preserveBudgetBalance(id, previousBalance) {
-    const national = data.national?.[id];
-    if (!national || previousBalance === null || previousBalance === undefined) return false;
-    const currentBalance = Engine.number(national.budgetBalance, 0);
-    const delta = currentBalance - Engine.number(previousBalance, 0);
-    if (Math.abs(delta) < 0.5) return false;
-    const currentExpenditure = Engine.number(national.budgetExpenditure, 0);
-    const nextExpenditure = Math.max(0, Math.round(currentExpenditure + delta));
-    if (Math.abs(nextExpenditure - currentExpenditure) < 0.5) return false;
-    national.budgetExpenditure = nextExpenditure;
-    Engine.recalculateAll(data);
-    return true;
-  }
-
   function recordChange(entryKey, id, dataset, path, afterValue, afterMetrics) {
     const pending = pendingEdits.get(entryKey);
     if (!pending) return [];
@@ -1900,8 +1875,6 @@
       value = Number((Engine.number(rawValue, statRate) - statRate).toFixed(2));
     }
     const entryKey = `${id}:${dataset}:${path}`;
-    const preserveBalance = shouldPreserveBalanceForEdit(dataset, path);
-    const previousBalance = preserveBalance ? Engine.number(data.national?.[id]?.budgetBalance, 0) : null;
     if (!pendingEdits.has(entryKey)) {
       pendingEdits.set(entryKey, {
         historyKey: `${entryKey}:${Date.now()}`,
@@ -1916,11 +1889,10 @@
       if (dataset === "industrial" && data.military[id]) data.military[id].mobilizationLevel = value;
     }
     Engine.recalculateAll(data);
-    const balancePreserved = preserveBalance && preserveBudgetBalance(id, previousBalance);
     const afterValue = historyFieldValue(dataset, path, readFieldValue(data, dataset, id, path));
     const changes = recordChange(entryKey, id, dataset, path, afterValue, nationSnapshot(data, id));
     const bcDelta = changes.find((change) => change.key === "national.mobilizedBudgetCapacity") || changes.find((change) => change.key === "national.budgetCapacity");
-    state.notice = `${byId(id)?.name || "Nation"} updated${bcDelta ? `; BC ${fmtSigned(bcDelta.delta)}` : ""}${balancePreserved ? "; balance held by BE" : ""}.`;
+    state.notice = `${byId(id)?.name || "Nation"} updated${bcDelta ? `; BC ${fmtSigned(bcDelta.delta)}` : ""}.`;
     saveLedger();
     scheduleSharedPublish(state.notice);
     updateSourceNote();

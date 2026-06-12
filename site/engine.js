@@ -773,6 +773,19 @@
     industrial[config.totalKey] = roundCurrency(industrialSectorBreakdown(industrial, config).physical);
   }
 
+  function ensureExplicitIndustrialSectorDefault(industrial, path) {
+    if (!industrial || !path.includes("Sectors.")) return;
+    const config = Object.values(INDUSTRIAL_SECTOR_CONFIG).find((candidate) => path.startsWith(`${candidate.sectorsKey}.`));
+    if (!config) return;
+    const sectors = industrial[config.sectorsKey] && typeof industrial[config.sectorsKey] === "object" && !Array.isArray(industrial[config.sectorsKey])
+      ? industrial[config.sectorsKey]
+      : {};
+    if (!Object.prototype.hasOwnProperty.call(sectors, config.defaultTier)) {
+      sectors[config.defaultTier] = roundCurrency(industrialSectorBreakdown(industrial, config)[config.defaultTier]);
+    }
+    industrial[config.sectorsKey] = sectors;
+  }
+
   function applyIndustrialSectorDefaultDelta(industrial, config, previousBreakdown, delta) {
     if (!hasIndustrialSectorData(industrial, config) || !delta) return;
     const sectors = industrial[config.sectorsKey] || {};
@@ -1546,6 +1559,7 @@
       return;
     }
     if (!data[dataset][id]) data[dataset][id] = {};
+    if (dataset === "industrial") ensureExplicitIndustrialSectorDefault(data.industrial[id], path);
     if (path.includes(".")) {
       const segments = path.split(".");
       let target = data[dataset][id];
