@@ -478,6 +478,7 @@
     const nation = byId(state.selectedNation) || visibleNations()[0];
     if (!nation) {
       app.innerHTML = `
+        ${renderNationManagement(null)}
         <section class="panel">
           <div class="panel-head">
             <div>
@@ -488,7 +489,6 @@
           </div>
           <div class="empty">Open the live site through Cloudflare, or publish a valid state from the admin API.</div>
         </section>
-        ${renderNationManagement(null)}
       `;
       return;
     }
@@ -504,6 +504,7 @@
     const currentYear = data.meta.currentYear;
 
     app.innerHTML = `
+      ${renderNationManagement(nation)}
       <section class="panel">
         <div class="panel-head editor-panel-head">
           <div>
@@ -608,7 +609,6 @@
           ${renderEditorRail(nation, national, trade)}
         </div>
       </section>
-      ${renderNationManagement(nation)}
       ${renderChangeHistoryPanel(nation.id, 6)}
     `;
   }
