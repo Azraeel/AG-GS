@@ -63,7 +63,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260612-trade-map-shapes-wait";
+  const APP_ASSET_VERSION = "20260612-editor-first";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
 
@@ -1104,6 +1104,7 @@
     escapeHtml,
     fmtNumber,
     fmtPercent,
+    fmtDecimalPercent,
     fmtCompact,
     fmtSigned
   });
