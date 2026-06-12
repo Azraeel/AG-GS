@@ -432,54 +432,83 @@ tbody td {
   padding: 16px;
 }
 
+.nation-editor-shell {
+  overflow: hidden;
+}
+
+.editor-empty-state {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px 16px;
+  border-top: 1px solid var(--line);
+}
+
+.editor-empty-state .empty {
+  padding: 12px 0;
+  text-align: left;
+}
+
 .editor-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 340px);
-  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) minmax(310px, 350px);
+  gap: 0;
   align-items: start;
-  padding: 12px;
+  padding: 0;
+  border-top: 1px solid var(--line);
 }
 
 .editor-sections {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 0;
   align-items: start;
   min-width: 0;
 }
 
-.editor-rail {
+.editor-column {
   display: grid;
-  gap: 12px;
+  grid-template-columns: 1fr;
   align-content: start;
   min-width: 0;
 }
 
+.editor-column-primary {
+  border-right: 1px solid var(--line);
+}
+
 .editor-rail {
-  position: sticky;
-  top: 178px;
+  display: grid;
+  gap: 0;
+  align-content: start;
+  min-width: 0;
+  padding: 14px;
+  border-left: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, var(--hero-wash), transparent 44%),
+    var(--subtle-bg);
 }
 
 .editor-summary {
   display: grid;
   grid-template-columns: repeat(6, minmax(96px, 1fr));
-  gap: 10px;
+  gap: 0;
   align-items: stretch;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
   background:
     linear-gradient(135deg, var(--hero-wash), transparent 42%),
     var(--subtle-bg);
 }
 
 .editor-summary .overview-fact {
-  padding: 3px 0;
+  min-width: 0;
+  padding: 12px 14px;
   border-top: 0;
   border-left: 0;
 }
 
 .editor-summary .overview-fact + .overview-fact {
-  padding-left: 12px;
   border-left: 1px solid var(--line);
 }
 
@@ -491,22 +520,37 @@ tbody td {
   margin-top: 12px;
 }
 
-.roster-manager {
-  box-shadow: var(--metric-shadow);
-}
-
 .roster-tools-grid {
   display: grid;
-  grid-template-columns: minmax(250px, 0.8fr) minmax(560px, 1.5fr) minmax(230px, 0.7fr) repeat(2, minmax(200px, 0.6fr));
-  gap: 12px;
-  padding: 12px;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.nation-manager {
   background:
     linear-gradient(135deg, var(--hero-wash), transparent 46%),
     var(--subtle-bg);
 }
 
-.nation-manager .panel-head {
+.nation-manager-head {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--line);
+}
+
+.nation-manager-head h2 {
+  margin: 0;
+}
+
+.nation-manager-head p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
 }
 
 .nation-manager-select-card,
@@ -518,13 +562,17 @@ tbody td {
   gap: 10px;
   align-items: end;
   min-width: 0;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel);
+  padding: 12px 14px;
+  border-right: 1px solid var(--line);
+  background: transparent;
+}
+
+.roster-restore-card {
+  border-right: 0;
 }
 
 .nation-manager-select-card {
+  grid-column: span 3;
   align-content: end;
 }
 
@@ -536,17 +584,22 @@ tbody td {
 }
 
 .roster-create-card {
+  grid-column: span 6;
   grid-template-columns: minmax(150px, 1fr) 66px minmax(160px, 0.85fr) auto;
   align-items: end;
 }
 
 .roster-rename-card {
+  grid-column: span 3;
   grid-template-columns: minmax(0, 1fr) auto;
+  border-right: 0;
 }
 
 .roster-archive-card,
 .roster-restore-card {
+  grid-column: span 6;
   grid-template-columns: minmax(0, 1fr);
+  border-top: 1px solid var(--line);
 }
 
 .roster-rename-card .command,
@@ -867,35 +920,34 @@ td.industrial-tier-divider {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 0 16px;
   align-content: start;
-  padding: 12px 14px 6px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--subtle-bg);
+  padding: 16px 18px 10px;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
 }
 
 .editor-section-national,
 .editor-section-military {
-  grid-column: span 7;
+  grid-column: 1 / -1;
 }
 
 .editor-section-trade,
 .editor-section-intelligence {
-  grid-column: span 5;
+  grid-column: 1 / -1;
 }
 
 .editor-section-population,
 .editor-section-industrial {
-  grid-column: span 6;
+  grid-column: 1 / -1;
 }
 
 .editor-section-civic {
   grid-column: 1 / -1;
-  grid-template-columns: repeat(3, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
 .editor-section h3 {
   grid-column: 1 / -1;
-  margin-bottom: 4px;
+  margin: 0 0 4px;
   color: var(--ink);
   font-size: 16px;
   padding-bottom: 7px;
@@ -969,10 +1021,9 @@ td.industrial-tier-divider {
 .editor-rail-panel {
   display: grid;
   gap: 12px;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--subtle-bg);
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .editor-rail-head {
@@ -995,12 +1046,12 @@ td.industrial-tier-divider {
 .rail-detail-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 0 14px;
 }
 
 .rail-detail-grid .detail-item {
-  min-height: 66px;
-  padding: 9px;
+  min-height: 0;
+  padding: 10px 0;
 }
 
 .rail-detail-grid .detail-item strong {
@@ -1038,11 +1089,12 @@ td.industrial-tier-divider {
 }
 
 .derived-preview {
-  background:
-    linear-gradient(135deg, var(--hero-wash), transparent 48%),
-    var(--subtle-bg);
+  background: transparent;
 }
 
 .derived-preview .detail-item {
-  background: var(--panel);
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
 }
