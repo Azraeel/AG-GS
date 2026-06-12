@@ -1590,6 +1590,16 @@
       return worldPool > 0 ? (tradeFlow / worldPool) * Math.max(1, nationCount) : 0;
     }
 
+    function directBilateralTradeShare(input, worldTradeFlow) {
+      const tradeFlow = Math.max(0, number(input.tradeFlow, 0));
+      const worldShare = worldTradeFlow > 0 ? tradeFlow / worldTradeFlow : 0;
+      const scalePressure = clamp((worldShare - 0.045) / 0.24, 0, 1);
+      const diversityPressure = clamp(Math.sqrt(Math.max(0, number(input.economicTradeDiversity, 0))) / 42, 0, 0.34);
+      const openness = policyNetworkAccess(input.tradePolicy) * sanctionNetworkAccess(input.sanctionsLevel);
+      const opennessBonus = clamp((openness - 1) * 0.04, -0.08, 0.08);
+      return clamp(0.92 - scalePressure * 0.36 - diversityPressure * 0.14 + opennessBonus, 0.52, 0.94);
+    }
+
     function selectVisibleLaneKeys(lanes, nations, inputsById, worldPool, ids) {
       const visible = new Set();
       const importerCounts = Object.fromEntries(ids.map((id) => [id, 0]));
@@ -1709,11 +1719,30 @@
       Object.values(nations).forEach((row) => {
         row.importFlow = roundCurrency(row.importFlow);
         row.exportFlow = roundCurrency(row.exportFlow);
+        row.directImportFlow = row.importFlow;
+        row.directExportFlow = row.exportFlow;
+        row.diffuseImportFlow = 0;
+        row.diffuseExportFlow = 0;
         row.tariffRevenue = roundCurrency(row.tariffRevenue);
         row.importCost = roundCurrency(row.importCost);
         row.transitFlowLoss = roundCurrency(row.transitFlowLoss);
       });
       return nations;
+    }
+
+    function addDiffuseMarketFlow(nations, importTargets, exportTargets) {
+      for (const [id, row] of Object.entries(nations || {})) {
+        const directImport = roundCurrency(row.importFlow);
+        const directExport = roundCurrency(row.exportFlow);
+        const diffuseImport = Math.max(0, roundCurrency(number(importTargets?.[id], 0) - directImport));
+        const diffuseExport = Math.max(0, roundCurrency(number(exportTargets?.[id], 0) - directExport));
+        row.directImportFlow = directImport;
+        row.directExportFlow = directExport;
+        row.diffuseImportFlow = diffuseImport;
+        row.diffuseExportFlow = diffuseExport;
+        row.importFlow = roundCurrency(directImport + diffuseImport);
+        row.exportFlow = roundCurrency(directExport + diffuseExport);
+      }
     }
 
     function applyExportAnchorsToLanes(lanes, exportAnchors, lanePolicies) {
@@ -1884,6 +1913,18 @@
       const poolScale = rawWorldPool > 0 ? currentWorldPool / rawWorldPool : 0;
       const importTargets = normalizeTargets(rawImportTargets, currentWorldPool);
       const exportTargets = normalizeTargets(rawExportTargets, currentWorldPool);
+      const directShareById = Object.fromEntries(ids.map((id) => [id, directBilateralTradeShare(inputsById[id], worldTradeFlow)]));
+      const rawDirectImportTargets = Object.fromEntries(ids.map((id) => [id, importTargets[id] * directShareById[id]]));
+      const rawDirectExportTargets = Object.fromEntries(ids.map((id) => [id, exportTargets[id] * directShareById[id]]));
+      const directWorldPool = Math.min(
+        currentWorldPool,
+        (
+          Object.values(rawDirectImportTargets).reduce((total, value) => total + Math.max(0, value), 0)
+          + Object.values(rawDirectExportTargets).reduce((total, value) => total + Math.max(0, value), 0)
+        ) / 2
+      );
+      const directImportTargets = normalizeTargets(rawDirectImportTargets, directWorldPool);
+      const directExportTargets = normalizeTargets(rawDirectExportTargets, directWorldPool);
 
       for (const importerId of ids) {
         const importer = inputsById[importerId];
@@ -1894,7 +1935,7 @@
           const policy = lanePolicyFor(lanePolicies, importerId, exporterId);
           const route = routeForLane(routeNetwork, importerId, exporterId) || laneGeography(importerId, exporterId, geography);
           const affinity = laneAffinity(importer, exporter, tariffRate, policy, hubMultipliers[exporterId], routeNetwork);
-          const targetProduct = Math.sqrt(Math.max(0, importTargets[importerId] || 0) * Math.max(0, exportTargets[exporterId] || 0));
+          const targetProduct = Math.sqrt(Math.max(0, directImportTargets[importerId] || 0) * Math.max(0, directExportTargets[exporterId] || 0));
           lanes.push({
             importerId,
             exporterId,
@@ -1926,7 +1967,7 @@
         }
       }
 
-      balanceLanesToTargets(lanes, importTargets, exportTargets);
+      balanceLanesToTargets(lanes, directImportTargets, directExportTargets);
       for (const lane of lanes) {
         const importer = inputsById[lane.importerId];
         const flow = lane.currentFlow;
@@ -1938,6 +1979,7 @@
       applyExportAnchorsToLanes(lanes, exportAnchors, lanePolicies);
       applyImportAnchorsToLanes(lanes, importAnchors, lanePolicies);
       nations = summarizeTrackedLanes(ids, lanes, targetedTariffs, exportAnchors, importAnchors, lanePolicies, transitPolicies);
+      addDiffuseMarketFlow(nations, importTargets, exportTargets);
       const visibleLaneKeys = includeLanes ? selectVisibleLaneKeys(lanes, nations, inputsById, currentWorldPool, ids) : null;
       const showAllLanes = options.laneVisibility === "all" || options.includeAllLanes === true;
       const visibleLanes = includeLanes
@@ -1951,6 +1993,8 @@
           rawTradeFlow: roundCurrency(rawWorldPool),
           capacityTradeFlow: roundCurrency(capacityWorldPool),
           currentTradeFlow: roundCurrency(currentWorldPool),
+          directTradeFlow: roundCurrency(directWorldPool),
+          diffuseTradeFlow: roundCurrency(Math.max(0, currentWorldPool - directWorldPool)),
           rawImportPool: roundCurrency(rawWorldPool),
           capacityImportPool: roundCurrency(capacityWorldPool),
           currentImportPool: roundCurrency(currentWorldPool),
@@ -2008,8 +2052,16 @@
         nations[id] = {
           importFlow: roundCurrency(current.importFlow),
           exportFlow: roundCurrency(current.exportFlow),
+          directImportFlow: roundCurrency(current.directImportFlow),
+          directExportFlow: roundCurrency(current.directExportFlow),
+          diffuseImportFlow: roundCurrency(current.diffuseImportFlow),
+          diffuseExportFlow: roundCurrency(current.diffuseExportFlow),
           neutralImportFlow: roundCurrency(neutral.importFlow),
           neutralExportFlow: roundCurrency(neutral.exportFlow),
+          neutralDirectImportFlow: roundCurrency(neutral.directImportFlow),
+          neutralDirectExportFlow: roundCurrency(neutral.directExportFlow),
+          neutralDiffuseImportFlow: roundCurrency(neutral.diffuseImportFlow),
+          neutralDiffuseExportFlow: roundCurrency(neutral.diffuseExportFlow),
           tradeFlowDelta: roundCurrency(tradeFlowDelta),
           tradeBalanceDelta: roundCurrency(tradeBalanceDelta),
           tariffRevenueDelta: roundCurrency(tariffRevenueDelta),
@@ -2050,8 +2102,12 @@
         rawTradeFlow: roundCurrency(currentFlows.worldPool?.rawTradeFlow),
         capacityTradeFlow: roundCurrency(currentFlows.worldPool?.capacityTradeFlow),
         currentTradeFlow: roundCurrency(currentFlows.worldPool?.currentTradeFlow),
+        directTradeFlow: roundCurrency(currentFlows.worldPool?.directTradeFlow),
+        diffuseTradeFlow: roundCurrency(currentFlows.worldPool?.diffuseTradeFlow),
         tradeFlowDelta: roundCurrency(number(currentFlows.worldPool?.currentTradeFlow, 0) - number(neutralFlows.worldPool?.currentTradeFlow, 0)),
         neutralImportPool: roundCurrency(neutralFlows.worldPool?.currentTradeFlow),
+        neutralDirectTradeFlow: roundCurrency(neutralFlows.worldPool?.directTradeFlow),
+        neutralDiffuseTradeFlow: roundCurrency(neutralFlows.worldPool?.diffuseTradeFlow),
         rawImportPool: roundCurrency(currentFlows.worldPool?.rawTradeFlow),
         capacityImportPool: roundCurrency(currentFlows.worldPool?.capacityTradeFlow),
         currentImportPool: roundCurrency(currentFlows.worldPool?.currentTradeFlow),
