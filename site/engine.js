@@ -1,6 +1,12 @@
 (function () {
   const STORAGE_KEY = "aggs-operations-state-v4";
   const TRADE_V4_FORMULA_VERSION = "trade2028";
+  const GOVERNANCE_DEFAULT_EFFICIENCY = 100;
+  const GOVERNANCE_EFFICIENCY_DECAY = 0.95;
+  const GOVERNANCE_MIN_EFFICIENCY_MULTIPLIER = 0.03;
+  const GOVERNANCE_MAX_BUREAUCRACY_PRESSURE = 6;
+  const GOVERNANCE_WARNING_EFFICIENCY = 99.95;
+  const GOVERNANCE_HIGH_CAPACITY_MIN_EFFICIENCY = 70;
 
   const HEALTH_GROWTH = { Depression: -6.2, Recession: -4.1, Slowdown: -2.2, Recovery: 1.4, Expansion: 3.2, Prosperity: 4.8 };
   const INDUSTRIAL_HEALTH_MOMENTUM = { Prosperity: 0.18, Expansion: 0.12, Recovery: 0.04, Slowdown: 0.1, Recession: 0.16, Depression: 0.24 };
@@ -198,10 +204,10 @@
     const legacyCorruption = percentStat(national?.corruption, 0);
     const governmentalCorruption = percentStat(national?.governmentalCorruption, legacyCorruption);
     const crimeRate = percentStat(national?.crimeRate, legacyCorruption);
-    const governmentalEfficiency = clamp(number(national?.governmentalEfficiency, 100), 0, 100);
-    const efficiencyGap = Math.max(0, 100 - governmentalEfficiency);
-    const efficiencyMultiplier = clamp(Math.pow(0.95, efficiencyGap * 100), 0.03, 1);
-    const bureaucracyPressure = clamp(1 / Math.max(efficiencyMultiplier, 0.05), 1, 6);
+    const governmentalEfficiency = clamp(number(national?.governmentalEfficiency, GOVERNANCE_DEFAULT_EFFICIENCY), 0, GOVERNANCE_DEFAULT_EFFICIENCY);
+    const efficiencyGap = Math.max(0, GOVERNANCE_DEFAULT_EFFICIENCY - governmentalEfficiency);
+    const efficiencyMultiplier = clamp(Math.pow(GOVERNANCE_EFFICIENCY_DECAY, efficiencyGap * 100), GOVERNANCE_MIN_EFFICIENCY_MULTIPLIER, 1);
+    const bureaucracyPressure = clamp(1 / Math.max(efficiencyMultiplier, 0.05), 1, GOVERNANCE_MAX_BUREAUCRACY_PRESSURE);
     return {
       legacyCorruption,
       governmentalCorruption,
@@ -223,7 +229,7 @@
       const governance = governanceMetrics(national);
       if (isBlank(national.governmentalCorruption)) national.governmentalCorruption = governance.governmentalCorruption;
       if (isBlank(national.crimeRate)) national.crimeRate = governance.crimeRate;
-      if (isBlank(national.governmentalEfficiency)) national.governmentalEfficiency = 100;
+      if (isBlank(national.governmentalEfficiency)) national.governmentalEfficiency = GOVERNANCE_DEFAULT_EFFICIENCY;
     });
   }
 
@@ -844,7 +850,7 @@
     const sectorOutput = industrialSectorOutputs(industrial);
     const industrialScale = sectorOutput.civilian.effective + sectorOutput.military.effective + sectorOutput.shipyard.effective;
     const isStrongEconomy = ["Prosperity", "Expansion"].includes(health);
-    const isHighCapacity = development >= 18 && stability >= 85 && governance.governmentalEfficiency >= 70 && isStrongEconomy && industrialScale >= 650;
+    const isHighCapacity = development >= 18 && stability >= 85 && governance.governmentalEfficiency >= GOVERNANCE_HIGH_CAPACITY_MIN_EFFICIENCY && isStrongEconomy && industrialScale >= 650;
     if (isHighCapacity && taxRatePercent >= 24) return "Welfare State";
     if (isHighCapacity) return "High Capacity State";
     return "Standard";
@@ -949,7 +955,7 @@
     if (taxPressure > 0) warnings.push(`Tax rate is ${roundPercent(taxPressure)} points above the sustainable rate.`);
     if (suggestedUnrestChange > 0) warnings.push(`Consider +${suggestedUnrestChange} public unrest if this tax level persists.`);
     if (collectionMultiplier < 0.8) warnings.push("High tax pressure is reducing collection efficiency.");
-    if (governance.governmentalEfficiency < 70) warnings.push("Low governmental efficiency is slowing tax administration.");
+    if (governance.governmentalEfficiency < GOVERNANCE_HIGH_CAPACITY_MIN_EFFICIENCY) warnings.push("Low governmental efficiency is slowing tax administration.");
     if (populationGrowthPenalty > 0) warnings.push("Population growth and immigration are under tax pressure.");
     if (industryGrowthMultiplier < 0.9) warnings.push("Long-term industry growth is under tax pressure.");
 
@@ -1110,7 +1116,7 @@
     if (tariffPressure > 0) warnings.push(`Tariff is ${roundPercent(tariffPressure)} points above the ${tradePolicy} comfort line.`);
     if (tariffShockScore >= 18) warnings.push("Tariff shock is severely reducing trade competitiveness.");
     else if (tariffShockScore >= 8) warnings.push("Tariff shock is reducing trade competitiveness.");
-    if (governance.governmentalEfficiency < 99.95) warnings.push("Bureaucratic drag is amplifying tariff shock.");
+    if (governance.governmentalEfficiency < GOVERNANCE_WARNING_EFFICIENCY) warnings.push("Bureaucratic drag is amplifying tariff shock.");
     return {
       tariffRate,
       tradePolicy,
@@ -1170,7 +1176,7 @@
     else if (tariffRate >= 10) warnings.push("Elevated tariff rates may slow trade growth if kept long-term.");
     if (sanctionsLevel !== "None") warnings.push(`${sanctionsLevel} sanctions are reducing collectible tariff revenue.`);
     if (corruption >= 45) warnings.push("Governmental corruption is reducing tariff collection efficiency.");
-    if (governance.governmentalEfficiency < 99.95) warnings.push("Governmental inefficiency is reducing tariff collection efficiency.");
+    if (governance.governmentalEfficiency < GOVERNANCE_WARNING_EFFICIENCY) warnings.push("Governmental inefficiency is reducing tariff collection efficiency.");
     if (tradeFlow <= 0 && tariffRate > 0) warnings.push("No active trade flow is available for tariff collection.");
     return {
       tariffRate,
@@ -1561,7 +1567,9 @@
     number,
     clamp,
     roundCurrency,
-    roundPercent
+    roundPercent,
+    governanceMetrics,
+    industrialSectorOutputs
   });
 
   function ensureTradeV4State(data) {

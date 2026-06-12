@@ -7,7 +7,9 @@
       number,
       clamp,
       roundCurrency,
-      roundPercent
+      roundPercent,
+      governanceMetrics,
+      industrialSectorOutputs
     } = deps;
     const DEFAULT_MAP_WIDTH = 100;
     const DEFAULT_MAP_HEIGHT = 100;
@@ -48,82 +50,14 @@
       normalizeChokepointControl,
       cloneChokepoints
     } = tradePolicyHelpers;
-    const INDUSTRIAL_SECTOR_WEIGHTS = {
-      civilian: { basic: 1, improved: 5, advanced: 30 },
-      military: { basic: 1, improved: 4, advanced: 12 },
-      shipyard: { medium: 1, large: 10, mega: 40 }
-    };
-    const INDUSTRIAL_SECTOR_CONFIG = {
-      civilian: { totalKey: "civilianFactories", sectorsKey: "civilianSectors", defaultTier: "basic", tiers: ["basic", "improved", "advanced"], weights: INDUSTRIAL_SECTOR_WEIGHTS.civilian },
-      military: { totalKey: "militaryFactories", sectorsKey: "militarySectors", defaultTier: "basic", tiers: ["basic", "improved", "advanced"], weights: INDUSTRIAL_SECTOR_WEIGHTS.military },
-      shipyard: { totalKey: "shipyards", sectorsKey: "shipyardSectors", defaultTier: "medium", tiers: ["medium", "large", "mega"], weights: INDUSTRIAL_SECTOR_WEIGHTS.shipyard }
-    };
-
     function stripRemovedTradeStats(row) {
       if (!row || typeof row !== "object" || Array.isArray(row)) return row;
       for (const key of REMOVED_TRADE_STAT_KEYS) delete row[key];
       return row;
     }
 
-    function sectorValue(sectors, tier) {
-      return Math.max(0, number(sectors?.[tier], 0));
-    }
-
-    function percentStat(value, fallback = 0) {
-      return clamp(number(value, fallback), 0, 100);
-    }
-
-    function governanceMetrics(national = {}) {
-      const legacyCorruption = percentStat(national?.corruption, 0);
-      const governmentalCorruption = percentStat(national?.governmentalCorruption, legacyCorruption);
-      const crimeRate = percentStat(national?.crimeRate, legacyCorruption);
-      const governmentalEfficiency = clamp(number(national?.governmentalEfficiency, 100), 0, 100);
-      const efficiencyGap = Math.max(0, 100 - governmentalEfficiency);
-      const efficiencyMultiplier = clamp(Math.pow(0.95, efficiencyGap * 100), 0.03, 1);
-      const bureaucracyPressure = clamp(1 / Math.max(efficiencyMultiplier, 0.05), 1, 6);
-      return {
-        governmentalCorruption,
-        crimeRate,
-        governmentalEfficiency,
-        efficiencyMultiplier,
-        bureaucracyPressure,
-        fiscalCorruption: roundPercent(governmentalCorruption * 0.85 + crimeRate * 0.15),
-        logisticsCorruption: roundPercent(governmentalCorruption * 0.35 + crimeRate * 0.65),
-        stateCapacityCorruption: roundPercent(governmentalCorruption * 0.75 + crimeRate * 0.25)
-      };
-    }
-
-    function industrialSectorBreakdown(industrial, config) {
-      const physicalTotal = Math.max(0, number(industrial?.[config.totalKey], 0));
-      const sectors = industrial?.[config.sectorsKey] || {};
-      const hasSectorData = config.tiers.some((tier) => Object.prototype.hasOwnProperty.call(sectors, tier));
-      const values = {};
-      if (!hasSectorData) {
-        config.tiers.forEach((tier) => {
-          values[tier] = tier === config.defaultTier ? physicalTotal : 0;
-        });
-      } else {
-        let nonDefaultTotal = 0;
-        config.tiers.forEach((tier) => {
-          if (tier === config.defaultTier) return;
-          values[tier] = sectorValue(sectors, tier);
-          nonDefaultTotal += values[tier];
-        });
-        values[config.defaultTier] = Object.prototype.hasOwnProperty.call(sectors, config.defaultTier)
-          ? sectorValue(sectors, config.defaultTier)
-          : Math.max(0, physicalTotal - nonDefaultTotal);
-      }
-      const physical = config.tiers.reduce((total, tier) => total + values[tier], 0);
-      const effective = config.tiers.reduce((total, tier) => total + values[tier] * config.weights[tier], 0);
-      return { ...values, physical, effective, legacyTotal: physicalTotal };
-    }
-
-    function industrialSectorOutputs(industrial) {
-      return {
-        civilian: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.civilian),
-        military: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.military),
-        shipyard: industrialSectorBreakdown(industrial, INDUSTRIAL_SECTOR_CONFIG.shipyard)
-      };
+    function governanceEfficiencyMultiplier(input = {}) {
+      return clamp(number(input.governmentalEfficiencyMultiplier, 1), 0.05, 1);
     }
 
     function calculateTradeForNation(data, id, options = {}) {
@@ -183,7 +117,7 @@
       const civilianFactories = Math.max(0, number(input.civilianFactories, 0));
       const stability = clamp(number(input.governmentalStability, 70), 0, 100);
       const corruption = clamp(number(input.corruption, 0), 0, 100);
-      const efficiencyMultiplier = clamp(number(input.governmentalEfficiencyMultiplier, 1), 0.05, 1);
+      const efficiencyMultiplier = governanceEfficiencyMultiplier(input);
       const bureaucracyDrag = 1 - efficiencyMultiplier;
       const reliability = clamp(48 + stability * 0.44 - corruption * 0.34 + development * 1.05 - bureaucracyDrag * 18, 0, 100);
       const maritime = clamp(Math.sqrt(shipyards) * 1.2 + development * 0.22 + (stability - 50) * 0.035 - corruption * 0.022 - bureaucracyDrag * 1.1, 0, 10);
@@ -367,7 +301,7 @@
         0,
         100
       );
-      return clamp(baseStrength * clamp(number(input.governmentalEfficiencyMultiplier, 1), 0.05, 1), 0, 100);
+      return clamp(baseStrength * governanceEfficiencyMultiplier(input), 0, 100);
     }
 
     function valueAddedProfile(input) {
@@ -392,7 +326,7 @@
       const industrialMarket = input.civilianFactories * 1500 + input.militaryFactories * 340 + input.shipyards * 3000;
       const budgetMarket = Math.sqrt(Math.max(input.budgetCapacity, 0)) * 1900;
       const developmentFactor = clamp(0.46 + clamp(input.developmentLevel, 0, 20) / 22, 0.46, 1.36);
-      const stabilityFactor = clamp(0.74 + number(input.governmentalStability, 70) / 360 - number(input.corruption, 0) / 290, 0.42, 1.08) * clamp(number(input.governmentalEfficiencyMultiplier, 1), 0.05, 1);
+      const stabilityFactor = clamp(0.74 + number(input.governmentalStability, 70) / 360 - number(input.corruption, 0) / 290, 0.42, 1.08) * governanceEfficiencyMultiplier(input);
       const healthFactor = { Prosperity: 1.14, Expansion: 1.08, Recovery: 1, Slowdown: 0.84, Recession: 0.62, Depression: 0.38 }[input.economicHealth] || 1;
       return Math.max(120, (populationMarket + industrialMarket + budgetMarket) * developmentFactor * stabilityFactor * healthFactor);
     }
@@ -492,7 +426,7 @@
 
     function laneTariffRevenue(flow, tariffRate, importerInput) {
       const collectionCorruption = number(importerInput.governmentalCorruption, importerInput.corruption);
-      const collection = clamp((0.42 + importerInput.developmentLevel / 34 + (100 - collectionCorruption) / 260) * clamp(number(importerInput.governmentalEfficiencyMultiplier, 1), 0.05, 1), 0.05, 1);
+      const collection = clamp((0.42 + importerInput.developmentLevel / 34 + (100 - collectionCorruption) / 260) * governanceEfficiencyMultiplier(importerInput), 0.05, 1);
       return flow * (tariffRate / 100) * 0.55 * collection;
     }
 
