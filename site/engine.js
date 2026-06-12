@@ -2,7 +2,9 @@
   const STORAGE_KEY = "aggs-operations-state-v4";
   const TRADE_V4_FORMULA_VERSION = "trade2028";
   const GOVERNANCE_DEFAULT_EFFICIENCY = 100;
-  const GOVERNANCE_EFFICIENCY_GAP_PENALTY = 0.08;
+  const GOVERNANCE_HIGH_EFFICIENCY_LINEAR_PENALTY = 0.006;
+  const GOVERNANCE_LOW_EFFICIENCY_GAP_PENALTY = 0.0395;
+  const GOVERNANCE_LOW_EFFICIENCY_GAP_EXPONENT = 0.7;
   const GOVERNANCE_MIN_EFFICIENCY_MULTIPLIER = 0.25;
   const GOVERNANCE_MAX_BUREAUCRACY_PRESSURE = 6;
   const GOVERNANCE_WARNING_EFFICIENCY = 99.95;
@@ -206,7 +208,11 @@
     const crimeRate = percentStat(national?.crimeRate, legacyCorruption);
     const governmentalEfficiency = clamp(number(national?.governmentalEfficiency, GOVERNANCE_DEFAULT_EFFICIENCY), 0, GOVERNANCE_DEFAULT_EFFICIENCY);
     const efficiencyGap = Math.max(0, GOVERNANCE_DEFAULT_EFFICIENCY - governmentalEfficiency);
-    const efficiencyMultiplier = clamp(1 - Math.sqrt(efficiencyGap) * GOVERNANCE_EFFICIENCY_GAP_PENALTY, GOVERNANCE_MIN_EFFICIENCY_MULTIPLIER, 1);
+    const nearPerfectGap = Math.min(efficiencyGap, 1);
+    const deepBureaucracyGap = Math.max(0, efficiencyGap - nearPerfectGap);
+    const efficiencyPenalty = nearPerfectGap * GOVERNANCE_HIGH_EFFICIENCY_LINEAR_PENALTY
+      + Math.pow(deepBureaucracyGap, GOVERNANCE_LOW_EFFICIENCY_GAP_EXPONENT) * GOVERNANCE_LOW_EFFICIENCY_GAP_PENALTY;
+    const efficiencyMultiplier = clamp(1 - efficiencyPenalty, GOVERNANCE_MIN_EFFICIENCY_MULTIPLIER, 1);
     const bureaucracyPressure = clamp(1 / Math.max(efficiencyMultiplier, 0.05), 1, GOVERNANCE_MAX_BUREAUCRACY_PRESSURE);
     return {
       legacyCorruption,
