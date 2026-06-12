@@ -1197,7 +1197,8 @@
   function budgetCapacityFromBreakdown(inputs, industrialContribution, populationContribution, tariffRevenue = 0) {
     const { physicalCivFactories, physicalMilitaryFactories, physicalShipyards, mobilization, national, tradeBalance } = inputs;
     const maintenanceCost = (physicalCivFactories + physicalShipyards + physicalMilitaryFactories * mobilization.maintenanceCost) * 0.1;
-    const baseBudgetTotal = 10 + industrialContribution + populationContribution - maintenanceCost;
+    const administrativeCapacityMultiplier = clamp(0.35 + number(inputs.governance?.efficiencyMultiplier, 1) * 0.65, 0.35, 1);
+    const baseBudgetTotal = (10 + industrialContribution + populationContribution - maintenanceCost) * administrativeCapacityMultiplier;
     const tradeImpactOnBudget = Math.max(0.1, 1 + (tradeBalance / Math.max(baseBudgetTotal, 100)) * 0.1);
     const budgetCapacity = Math.max(0, Math.round(baseBudgetTotal * tradeImpactOnBudget + number(tariffRevenue, 0)) + number(national.budgetAdjustment, 0));
     return {
@@ -1206,6 +1207,7 @@
       populationContribution,
       tariffRevenue: roundCurrency(tariffRevenue),
       maintenanceCost,
+      administrativeCapacityMultiplier,
       baseBudgetTotal,
       tradeImpactOnBudget
     };
