@@ -63,7 +63,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260612-governance-simulation";
+  const APP_ASSET_VERSION = "20260612-editor-history-lines";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
 
@@ -1106,7 +1106,8 @@
     fmtPercent,
     fmtDecimalPercent,
     fmtCompact,
-    fmtSigned
+    fmtSigned,
+    fmtHistoryChangeValue
   });
   const {
     renderEditor,

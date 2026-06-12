@@ -433,6 +433,8 @@ tbody td {
 }
 
 .nation-editor-shell {
+  --editor-soft-line: var(--line);
+  --editor-major-line: var(--line-strong);
   overflow: hidden;
 }
 
@@ -456,7 +458,7 @@ tbody td {
   gap: 0;
   align-items: start;
   padding: 0;
-  border-top: 1px solid var(--line);
+  border-top: 3px solid var(--editor-major-line);
 }
 
 .editor-sections {
@@ -475,7 +477,7 @@ tbody td {
 }
 
 .editor-column-primary {
-  border-right: 1px solid var(--line);
+  border-right: 2px solid var(--editor-major-line);
 }
 
 .editor-rail {
@@ -484,7 +486,7 @@ tbody td {
   align-content: start;
   min-width: 0;
   padding: 14px;
-  border-left: 1px solid var(--line);
+  border-left: 3px solid var(--editor-major-line);
   background:
     linear-gradient(180deg, var(--hero-wash), transparent 44%),
     var(--subtle-bg);
@@ -495,7 +497,8 @@ tbody td {
   grid-template-columns: repeat(6, minmax(96px, 1fr));
   gap: 0;
   align-items: stretch;
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--editor-major-line);
+  border-bottom: 1px solid var(--editor-soft-line);
   background:
     linear-gradient(135deg, var(--hero-wash), transparent 42%),
     var(--subtle-bg);
@@ -509,7 +512,7 @@ tbody td {
 }
 
 .editor-summary .overview-fact + .overview-fact {
-  border-left: 1px solid var(--line);
+  border-left: 1px solid var(--editor-soft-line);
 }
 
 .editor-summary .overview-fact strong {
@@ -540,7 +543,7 @@ tbody td {
   align-items: center;
   justify-content: space-between;
   padding: 14px 16px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--editor-major-line);
 }
 
 .nation-manager-head h2 {
@@ -563,7 +566,7 @@ tbody td {
   align-items: end;
   min-width: 0;
   padding: 12px 14px;
-  border-right: 1px solid var(--line);
+  border-right: 1px solid var(--editor-soft-line);
   background: transparent;
 }
 
@@ -599,7 +602,7 @@ tbody td {
 .roster-restore-card {
   grid-column: span 6;
   grid-template-columns: minmax(0, 1fr);
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--editor-major-line);
 }
 
 .roster-rename-card .command,
@@ -921,7 +924,8 @@ td.industrial-tier-divider {
   gap: 0 16px;
   align-content: start;
   padding: 16px 18px 10px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 5px solid var(--subtle-bg);
+  box-shadow: inset 0 -1px 0 var(--editor-soft-line);
   background: transparent;
 }
 
@@ -946,20 +950,31 @@ td.industrial-tier-divider {
 }
 
 .editor-section h3 {
+  position: relative;
   grid-column: 1 / -1;
   margin: 0 0 4px;
   color: var(--ink);
   font-size: 16px;
-  padding-bottom: 7px;
-  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--editor-major-line);
+}
+
+.editor-section h3::after {
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 48px;
+  height: 2px;
+  content: "";
+  background: var(--blue);
 }
 
 .editor-section .control-field {
   min-height: 46px;
   padding: 8px 0;
   border: 0;
-  border-bottom: 1px solid var(--line);
   border-radius: 0;
+  box-shadow: inset 0 -1px 0 var(--editor-soft-line);
   background: transparent;
 }
 
@@ -972,7 +987,7 @@ td.industrial-tier-divider {
   min-height: 34px;
   margin-top: 8px;
   padding-top: 10px;
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--editor-major-line);
   color: var(--muted);
   font-size: 11px;
   font-weight: 850;
@@ -1026,6 +1041,12 @@ td.industrial-tier-divider {
   background: transparent;
 }
 
+.editor-history-panel {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 3px double var(--editor-major-line);
+}
+
 .editor-rail-head {
   display: flex;
   gap: 12px;
@@ -1052,10 +1073,63 @@ td.industrial-tier-divider {
 .rail-detail-grid .detail-item {
   min-height: 0;
   padding: 10px 0;
+  box-shadow: inset 0 -1px 0 var(--editor-soft-line);
 }
 
 .rail-detail-grid .detail-item strong {
   font-size: 18px;
+}
+
+.editor-history-list {
+  display: grid;
+  gap: 0;
+}
+
+.editor-history-row {
+  display: grid;
+  gap: 6px;
+  padding: 10px 0 12px;
+  border-bottom: 1px dotted var(--editor-major-line);
+}
+
+.editor-history-row-head {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.editor-history-row-head strong {
+  min-width: 0;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.editor-history-row-head span {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.editor-history-value {
+  color: var(--ink);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
+.editor-history-impact {
+  margin-top: 2px;
+}
+
+.editor-history-impact.is-empty {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .rail-change-list {
@@ -1094,7 +1168,6 @@ td.industrial-tier-divider {
 
 .derived-preview .detail-item {
   border: 0;
-  border-bottom: 1px solid var(--line);
   border-radius: 0;
   background: transparent;
 }

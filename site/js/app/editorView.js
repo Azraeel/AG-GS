@@ -433,6 +433,42 @@
     return `<div class="industrial-sector-summary"><span>${safeText(label)}</span><strong>${safeText(`${fmtNumber(output.physical)} physical${effectiveNote}`)}</strong></div>`;
   }
 
+  function editorHistoryTime(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "Unknown";
+    return date.toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  }
+
+  function renderEditorChangeHistory(nation) {
+    const rows = changeHistoryRows(nation.id, 5);
+    return `
+      <section class="editor-rail-panel editor-history-panel">
+        <div class="editor-rail-head compact">
+          <div>
+            <span class="section-kicker">Nation Change History</span>
+            <h3>Change History</h3>
+          </div>
+          <span class="status">${fmtNumber(rows.length)} shown</span>
+        </div>
+        ${rows.length ? `
+          <div class="editor-history-list" aria-label="Recent nation changes">
+            ${rows.map((entry) => {
+              const impacts = visibleChangeImpacts(entry);
+              const key = fieldKey(entry.dataset, entry.field);
+              return `
+                <article class="editor-history-row">
+                  <div class="editor-history-row-head">
+                    <strong>${escapeHtml(entry.label || entry.field || "Change")}</strong>
+                    <span>${editorHistoryTime(entry.changedAt)}</span>
+                  </div>
+                  <div class="editor-history-value">${escapeHtml(fmtHistoryChangeValue(key, entry.beforeValue))}<span aria-hidden="true"> &rarr; </span>${escapeHtml(fmtHistoryChangeValue(key, entry.afterValue))}</div>
+                  <div class="editor-history-impact change-impact ${impacts.length ? "" : "is-empty"}">${impacts.length ? impacts.map((impact) => renderChangeBadge(impact)).join("") : "No calculated impact"}</div>
+                </article>`;
+            }).join("")}
+          </div>` : `<div class="empty compact">No changes recorded for this nation.</div>`}
+      </section>`;
+  }
+
   function renderEditorRail(nation, national, trade) {
     const wartimeHeadroom = Engine.number(national.wartimeBudgetHeadroom, 0);
     const wartimeBonus = Engine.number(national.wartimeBudgetBonus, 0);
@@ -464,6 +500,7 @@
             ${detailItem("Trade Flow", fmtNumber(trade.tradeFlow))}
           </div>
         </section>
+        ${renderEditorChangeHistory(nation)}
       </aside>`;
   }
 
