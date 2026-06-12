@@ -12,6 +12,7 @@
       "publish-live-state",
       "apply-tax-unrest",
       "create-nation",
+      "rename-nation",
       "archive-nation",
       "restore-nation",
       "save-equipment-design",

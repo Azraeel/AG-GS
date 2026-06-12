@@ -1046,6 +1046,7 @@
   const {
     renderEditor,
     createNationFromEditor,
+    renameSelectedNationFromEditor,
     archiveSelectedNationFromEditor,
     restoreArchivedNationFromEditor,
     fieldControl
@@ -1977,6 +1978,8 @@
         return;
       } else if (action === "create-nation") {
         createNationFromEditor();
+      } else if (action === "rename-nation") {
+        renameSelectedNationFromEditor();
       } else if (action === "archive-nation") {
         archiveSelectedNationFromEditor();
       } else if (action === "restore-nation") {

@@ -202,6 +202,13 @@
             </label>
             <button class="command primary roster-create-command" type="button" data-action="create-nation">Create Nation</button>
           </div>
+          <div class="roster-rename-card">
+            <label class="control-field roster-name-field" for="renameNationName">
+              <span>Rename Selected</span>
+              <input id="renameNationName" type="text" value="${escapeHtml(nation?.name || "")}" placeholder="Country name" autocomplete="off" ${nation ? "" : "disabled"}>
+            </label>
+            <button class="command" type="button" data-action="rename-nation" ${nation ? "" : "disabled"}>Rename</button>
+          </div>
           <div class="roster-archive-card">
             <label class="control-field" for="archiveNationSelect">
               <span>Archive Country</span>
@@ -256,6 +263,57 @@
     }, ...(data.meta.changeHistory || [])].slice(0, 60);
     state.selectedNation = id;
     state.notice = `${name} created. Fill out its stats below.`;
+    saveLedger();
+    populateNationSelect();
+    scheduleSharedPublish(state.notice);
+    updateSourceNote();
+    render();
+  }
+
+  function renameSelectedNationFromEditor() {
+    const nation = byId(state.selectedNation);
+    const nameInput = document.getElementById("renameNationName");
+    const nextName = String(nameInput?.value || "").trim();
+    if (!nation) {
+      state.notice = "Select a country to rename first.";
+      render();
+      return;
+    }
+    if (!nextName) {
+      state.notice = "Enter a country name first.";
+      render();
+      return;
+    }
+    if (nextName === nation.name) {
+      state.notice = `${nation.name} already has that name.`;
+      render();
+      return;
+    }
+    const duplicate = data.nations.some((candidate) => candidate.id !== nation.id && String(candidate.name || "").trim().toLowerCase() === nextName.toLowerCase());
+    if (duplicate) {
+      state.notice = `${nextName} already exists.`;
+      render();
+      return;
+    }
+    const previousName = nation.name;
+    nation.name = nextName;
+    data.meta.changeHistory = [{
+      key: `nation-renamed:${nation.id}:${Date.now()}`,
+      nationId: nation.id,
+      nationName: nextName,
+      dataset: "nations",
+      field: "name",
+      label: "Renamed Nation",
+      beforeValue: previousName,
+      afterValue: nextName,
+      changedAt: new Date().toISOString(),
+      changes: [],
+      deltas: []
+    }, ...(data.meta.changeHistory || [])].slice(0, 60);
+    if (data.tradeNetwork?.geography?.nations?.[nation.id]) {
+      data.tradeNetwork.geography.nations[nation.id].nationName = nextName;
+    }
+    state.notice = `${previousName} renamed to ${nextName}.`;
     saveLedger();
     populateNationSelect();
     scheduleSharedPublish(state.notice);
@@ -553,6 +611,7 @@
       return {
         renderEditor,
         createNationFromEditor,
+        renameSelectedNationFromEditor,
         archiveSelectedNationFromEditor,
         restoreArchivedNationFromEditor,
         fieldControl

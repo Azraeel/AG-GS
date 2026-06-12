@@ -497,7 +497,7 @@ tbody td {
 
 .roster-tools-grid {
   display: grid;
-  grid-template-columns: minmax(520px, 1fr) minmax(250px, 0.34fr) minmax(250px, 0.34fr);
+  grid-template-columns: minmax(380px, 1.35fr) minmax(260px, 0.8fr) repeat(2, minmax(220px, 0.65fr));
   gap: 12px;
   padding: 12px;
   background:
@@ -506,6 +506,7 @@ tbody td {
 }
 
 .roster-create-card,
+.roster-rename-card,
 .roster-archive-card,
 .roster-restore-card {
   display: grid;
@@ -523,11 +524,16 @@ tbody td {
   align-items: end;
 }
 
+.roster-rename-card {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
 .roster-archive-card,
 .roster-restore-card {
   grid-template-columns: minmax(0, 1fr);
 }
 
+.roster-rename-card .command,
 .roster-archive-card .command,
 .roster-restore-card .command {
   width: 100%;
