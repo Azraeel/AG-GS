@@ -61,6 +61,9 @@
         publicUnrest: 0,
         warSupport: 50,
         corruption: 20,
+        governmentalCorruption: 20,
+        crimeRate: 20,
+        governmentalEfficiency: 100,
         developmentLevel: 10,
         budgetCapacity: 0,
         budgetExpenditure: 0,
@@ -526,7 +529,9 @@
               ${fieldControl("national", "governmentalStability", "Stability %", national.governmentalStability)}
               ${fieldControl("national", "publicUnrest", "Public Unrest", national.publicUnrest)}
               ${fieldControl("national", "warSupport", "War Support %", national.warSupport)}
-              ${fieldControl("national", "corruption", "Corruption %", national.corruption)}
+              ${fieldControl("national", "governmentalEfficiency", "Gov Efficiency %", national.governmentalEfficiency ?? 100)}
+              ${fieldControl("national", "governmentalCorruption", "Gov Corruption %", national.governmentalCorruption ?? national.corruption)}
+              ${fieldControl("national", "crimeRate", "Crime Rate %", national.crimeRate ?? national.corruption)}
               ${fieldControl("national", "developmentLevel", "Development", national.developmentLevel)}
               ${fieldControl("national", "fiscalModel", "Fiscal Model", Engine.fiscalModelForNation(data, nation.id), "select", Object.keys(Engine.constants.FISCAL_MODELS))}
               ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}

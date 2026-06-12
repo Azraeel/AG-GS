@@ -141,7 +141,9 @@
           <div><span>Civ Factories</span><strong>${fmtNumber(logistics.civilianFactories || 0)}</strong></div>
           <div><span>Development</span><strong>${fmtNumber(logistics.development || 0)}</strong></div>
           <div><span>Stability</span><strong>${fmtPercent(logistics.stability || 0)}</strong></div>
-          <div><span>Corruption</span><strong>${fmtPercent(logistics.corruption || 0)}</strong></div>
+          <div><span>Gov Efficiency</span><strong>${fmtNumber(logistics.governmentalEfficiency ?? 100)}%</strong></div>
+          <div><span>Gov Corruption</span><strong>${fmtPercent(logistics.governmentalCorruption || 0)}</strong></div>
+          <div><span>Crime Rate</span><strong>${fmtPercent(logistics.crimeRate || 0)}</strong></div>
         </div>
       </div>`;
   }

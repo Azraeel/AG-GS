@@ -69,6 +69,30 @@
       return Math.max(0, number(sectors?.[tier], 0));
     }
 
+    function percentStat(value, fallback = 0) {
+      return clamp(number(value, fallback), 0, 100);
+    }
+
+    function governanceMetrics(national = {}) {
+      const legacyCorruption = percentStat(national?.corruption, 0);
+      const governmentalCorruption = percentStat(national?.governmentalCorruption, legacyCorruption);
+      const crimeRate = percentStat(national?.crimeRate, legacyCorruption);
+      const governmentalEfficiency = clamp(number(national?.governmentalEfficiency, 100), 0, 100);
+      const efficiencyGap = Math.max(0, 100 - governmentalEfficiency);
+      const efficiencyMultiplier = clamp(Math.pow(0.95, efficiencyGap * 100), 0.03, 1);
+      const bureaucracyPressure = clamp(1 / Math.max(efficiencyMultiplier, 0.05), 1, 6);
+      return {
+        governmentalCorruption,
+        crimeRate,
+        governmentalEfficiency,
+        efficiencyMultiplier,
+        bureaucracyPressure,
+        fiscalCorruption: roundPercent(governmentalCorruption * 0.85 + crimeRate * 0.15),
+        logisticsCorruption: roundPercent(governmentalCorruption * 0.35 + crimeRate * 0.65),
+        stateCapacityCorruption: roundPercent(governmentalCorruption * 0.75 + crimeRate * 0.25)
+      };
+    }
+
     function industrialSectorBreakdown(industrial, config) {
       const physicalTotal = Math.max(0, number(industrial?.[config.totalKey], 0));
       const sectors = industrial?.[config.sectorsKey] || {};
@@ -159,9 +183,11 @@
       const civilianFactories = Math.max(0, number(input.civilianFactories, 0));
       const stability = clamp(number(input.governmentalStability, 70), 0, 100);
       const corruption = clamp(number(input.corruption, 0), 0, 100);
-      const reliability = clamp(48 + stability * 0.44 - corruption * 0.34 + development * 1.05, 0, 100);
-      const maritime = clamp(Math.sqrt(shipyards) * 1.2 + development * 0.22 + (stability - 50) * 0.035 - corruption * 0.022, 0, 10);
-      const corridors = clamp(Math.sqrt(civilianFactories) * 0.42 + development * 0.3 + (stability - 50) * 0.04 - corruption * 0.032, 0, 10);
+      const efficiencyMultiplier = clamp(number(input.governmentalEfficiencyMultiplier, 1), 0.05, 1);
+      const bureaucracyDrag = 1 - efficiencyMultiplier;
+      const reliability = clamp(48 + stability * 0.44 - corruption * 0.34 + development * 1.05 - bureaucracyDrag * 18, 0, 100);
+      const maritime = clamp(Math.sqrt(shipyards) * 1.2 + development * 0.22 + (stability - 50) * 0.035 - corruption * 0.022 - bureaucracyDrag * 1.1, 0, 10);
+      const corridors = clamp(Math.sqrt(civilianFactories) * 0.42 + development * 0.3 + (stability - 50) * 0.04 - corruption * 0.032 - bureaucracyDrag * 1.45, 0, 10);
       const overall = clamp((maritime + corridors) * 4.2 + reliability * 0.16, 0, 100);
       return {
         maritime: roundPercent(maritime),
@@ -172,7 +198,10 @@
         civilianFactories: roundCurrency(civilianFactories),
         development: roundPercent(development),
         stability: roundPercent(stability),
-        corruption: roundPercent(corruption)
+        corruption: roundPercent(corruption),
+        governmentalCorruption: roundPercent(number(input.governmentalCorruption, corruption)),
+        crimeRate: roundPercent(number(input.crimeRate, corruption)),
+        governmentalEfficiency: roundPercent(number(input.governmentalEfficiency, 100))
       };
     }
 
@@ -227,13 +256,19 @@
       const national = data.national?.[id] || {};
       const trade = data.trade?.[id] || {};
       const industrial = data.industrial?.[id] || {};
+      const governance = governanceMetrics(national);
       const sectorOutput = industrialSectorOutputs(industrial);
       return {
         id,
         population: getPopulation(data, id),
         developmentLevel: number(national.developmentLevel, 0),
         governmentalStability: number(national.governmentalStability, 70),
-        corruption: number(national.corruption, 0),
+        corruption: governance.logisticsCorruption,
+        governmentalCorruption: governance.governmentalCorruption,
+        crimeRate: governance.crimeRate,
+        governmentalEfficiency: governance.governmentalEfficiency,
+        governmentalEfficiencyMultiplier: governance.efficiencyMultiplier,
+        bureaucracyPressure: governance.bureaucracyPressure,
         economicHealth: national.economicHealth || "Recovery",
         budgetCapacity: roundCurrency(national.budgetCapacity),
         budgetAdjustment: roundCurrency(national.budgetAdjustment),
@@ -322,7 +357,7 @@
       const shipyardScore = clamp(Math.sqrt(Math.max(input.shipyards, 0)) / 10, 0, 1);
       const stabilityScore = clamp(number(input.governmentalStability, 70) / 100, 0, 1);
       const corruptionScore = clamp((100 - number(input.corruption, 0)) / 100, 0, 1);
-      return clamp(
+      const baseStrength = clamp(
         diversityScore * 30
           + developmentScore * 22
           + industryScore * 18
@@ -332,6 +367,7 @@
         0,
         100
       );
+      return clamp(baseStrength * clamp(number(input.governmentalEfficiencyMultiplier, 1), 0.05, 1), 0, 100);
     }
 
     function valueAddedProfile(input) {
@@ -356,7 +392,7 @@
       const industrialMarket = input.civilianFactories * 1500 + input.militaryFactories * 340 + input.shipyards * 3000;
       const budgetMarket = Math.sqrt(Math.max(input.budgetCapacity, 0)) * 1900;
       const developmentFactor = clamp(0.46 + clamp(input.developmentLevel, 0, 20) / 22, 0.46, 1.36);
-      const stabilityFactor = clamp(0.74 + number(input.governmentalStability, 70) / 360 - number(input.corruption, 0) / 290, 0.42, 1.08);
+      const stabilityFactor = clamp(0.74 + number(input.governmentalStability, 70) / 360 - number(input.corruption, 0) / 290, 0.42, 1.08) * clamp(number(input.governmentalEfficiencyMultiplier, 1), 0.05, 1);
       const healthFactor = { Prosperity: 1.14, Expansion: 1.08, Recovery: 1, Slowdown: 0.84, Recession: 0.62, Depression: 0.38 }[input.economicHealth] || 1;
       return Math.max(120, (populationMarket + industrialMarket + budgetMarket) * developmentFactor * stabilityFactor * healthFactor);
     }
@@ -455,7 +491,8 @@
     }
 
     function laneTariffRevenue(flow, tariffRate, importerInput) {
-      const collection = clamp(0.42 + importerInput.developmentLevel / 34 + (100 - importerInput.corruption) / 260, 0.35, 1);
+      const collectionCorruption = number(importerInput.governmentalCorruption, importerInput.corruption);
+      const collection = clamp((0.42 + importerInput.developmentLevel / 34 + (100 - collectionCorruption) / 260) * clamp(number(importerInput.governmentalEfficiencyMultiplier, 1), 0.05, 1), 0.05, 1);
       return flow * (tariffRate / 100) * 0.55 * collection;
     }
 

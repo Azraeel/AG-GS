@@ -190,6 +190,43 @@
     return Number(number(value, 0).toFixed(2));
   }
 
+  function percentStat(value, fallback = 0) {
+    return clamp(number(value, fallback), 0, 100);
+  }
+
+  function governanceMetrics(national = {}) {
+    const legacyCorruption = percentStat(national?.corruption, 0);
+    const governmentalCorruption = percentStat(national?.governmentalCorruption, legacyCorruption);
+    const crimeRate = percentStat(national?.crimeRate, legacyCorruption);
+    const governmentalEfficiency = clamp(number(national?.governmentalEfficiency, 100), 0, 100);
+    const efficiencyGap = Math.max(0, 100 - governmentalEfficiency);
+    const efficiencyMultiplier = clamp(Math.pow(0.95, efficiencyGap * 100), 0.03, 1);
+    const bureaucracyPressure = clamp(1 / Math.max(efficiencyMultiplier, 0.05), 1, 6);
+    return {
+      legacyCorruption,
+      governmentalCorruption,
+      crimeRate,
+      governmentalEfficiency,
+      efficiencyGap,
+      efficiencyMultiplier,
+      bureaucracyPressure,
+      fiscalCorruption: roundPercent(governmentalCorruption * 0.85 + crimeRate * 0.15),
+      logisticsCorruption: roundPercent(governmentalCorruption * 0.35 + crimeRate * 0.65),
+      socialCorruption: roundPercent(governmentalCorruption * 0.25 + crimeRate * 0.75),
+      stateCapacityCorruption: roundPercent(governmentalCorruption * 0.75 + crimeRate * 0.25)
+    };
+  }
+
+  function normalizeGovernanceFields(data) {
+    Object.values(data.national || {}).forEach((national) => {
+      if (!national || typeof national !== "object") return;
+      const governance = governanceMetrics(national);
+      if (isBlank(national.governmentalCorruption)) national.governmentalCorruption = governance.governmentalCorruption;
+      if (isBlank(national.crimeRate)) national.crimeRate = governance.crimeRate;
+      if (isBlank(national.governmentalEfficiency)) national.governmentalEfficiency = 100;
+    });
+  }
+
   function ensureState(data = {}) {
     data.meta = data.meta || {};
     data.meta.title = data.meta.title || "AG-GS Global Ledger";
@@ -224,6 +261,7 @@
     data.tradeNetwork.lanePolicies = data.tradeNetwork.lanePolicies && typeof data.tradeNetwork.lanePolicies === "object" && !Array.isArray(data.tradeNetwork.lanePolicies)
       ? data.tradeNetwork.lanePolicies
       : {};
+    normalizeGovernanceFields(data);
     normalizeDebtServiceRates(data);
     ensureWikiState(data);
     return data;
@@ -801,11 +839,12 @@
     const taxRatePercent = taxRate > 1 ? taxRate : taxRate * 100;
     const development = number(national?.developmentLevel, 0);
     const stability = number(national?.governmentalStability, 0);
+    const governance = governanceMetrics(national);
     const health = national?.economicHealth || "Recovery";
     const sectorOutput = industrialSectorOutputs(industrial);
     const industrialScale = sectorOutput.civilian.effective + sectorOutput.military.effective + sectorOutput.shipyard.effective;
     const isStrongEconomy = ["Prosperity", "Expansion"].includes(health);
-    const isHighCapacity = development >= 18 && stability >= 85 && isStrongEconomy && industrialScale >= 650;
+    const isHighCapacity = development >= 18 && stability >= 85 && governance.governmentalEfficiency >= 70 && isStrongEconomy && industrialScale >= 650;
     if (isHighCapacity && taxRatePercent >= 24) return "Welfare State";
     if (isHighCapacity) return "High Capacity State";
     return "Standard";
@@ -827,7 +866,8 @@
     const physicalShipyards = sectorOutput.shipyard.physical;
     const developmentLevel = number(national.developmentLevel, 0);
     const population = getPopulation(data, id);
-    const corruption = number(national.corruption, 0);
+    const governance = governanceMetrics(national);
+    const corruption = governance.fiscalCorruption;
     const economicHealth = national.economicHealth || "Recovery";
     const taxRate = number(national.taxRate, 0);
     const taxRatePercent = taxRate > 1 ? taxRate : taxRate * 100;
@@ -851,6 +891,10 @@
       sectorOutput,
       developmentLevel,
       population,
+      governance,
+      governmentalCorruption: governance.governmentalCorruption,
+      crimeRate: governance.crimeRate,
+      governmentalEfficiency: governance.governmentalEfficiency,
       corruption,
       economicHealth,
       taxRate,
@@ -867,13 +911,15 @@
   function calculateTaxBurdenForNation(data, id) {
     const inputs = budgetInputsForNation(data, id);
     if (!inputs) return null;
-    const { taxRatePercent, developmentLevel, corruption, economicHealth, stability, national, fiscalModel, fiscalProfile } = inputs;
+    const { taxRatePercent, developmentLevel, corruption, economicHealth, stability, national, fiscalModel, fiscalProfile, governance } = inputs;
+    const bureaucracyMultiplier = governance.efficiencyMultiplier;
     const sustainableTaxRate = roundPercent(clamp(4 + developmentLevel * 0.4 + fiscalProfile.sustainableTaxBonus, 3, 42));
     const taxPressure = roundPercent(Math.max(0, taxRatePercent - sustainableTaxRate));
     const healthPressure = { Prosperity: 0.75, Expansion: 0.9, Recovery: 1, Slowdown: 1.35, Recession: 1.75, Depression: 2.25 }[economicHealth] || 1;
     const stabilityPressure = 1 + clamp((70 - stability) / 60, 0, 1.25);
     const corruptionPressure = 1 + clamp(corruption / 180, 0, 0.75);
-    const pressureScore = roundPercent(taxPressure * healthPressure * stabilityPressure * corruptionPressure * fiscalProfile.pressureMultiplier);
+    const bureaucracyPressure = governance.bureaucracyPressure;
+    const pressureScore = roundPercent(taxPressure * healthPressure * stabilityPressure * corruptionPressure * bureaucracyPressure * fiscalProfile.pressureMultiplier);
     let tier = "Stable";
     if (pressureScore > 16) tier = "Crisis";
     else if (pressureScore > 9) tier = "Volatile";
@@ -883,11 +929,15 @@
     const baseUnrestChange = tier === "Crisis" ? 3 : tier === "Volatile" ? 2 : tier === "Agitated" ? 1 : 0;
     const currentUnrest = clamp(number(national.publicUnrest, 0), 0, 10);
     const suggestedUnrestChange = clamp(baseUnrestChange, 0, Math.max(0, 10 - currentUnrest));
-    const minimumCollectionMultiplier = fiscalProfile.collectionFloor * clamp(1 - corruption / 240, 0.5, 1);
+    const collectionCeiling = clamp(bureaucracyMultiplier, 0.05, 1);
+    const minimumCollectionMultiplier = Math.min(
+      fiscalProfile.collectionFloor * clamp(1 - corruption / 240, 0.5, 1) * clamp(bureaucracyMultiplier, 0.2, 1),
+      collectionCeiling
+    );
     const normalCollectionDrag = clamp(1 - taxRatePercent * (0.0022 + corruption / 60000) * fiscalProfile.avoidanceMultiplier, 0.82, 1);
     const saturationMultiplier = clamp(1 / (1 + pressureScore * 0.08), fiscalProfile.collectionFloor, 1);
     const avoidanceMultiplier = clamp(1 - taxPressure * (0.005 + corruption / 12000) * fiscalProfile.avoidanceMultiplier, 0.45, 1);
-    const collectionMultiplier = roundPercent(clamp(normalCollectionDrag * saturationMultiplier * avoidanceMultiplier, minimumCollectionMultiplier, 1));
+    const collectionMultiplier = roundPercent(clamp(normalCollectionDrag * saturationMultiplier * avoidanceMultiplier * bureaucracyMultiplier, minimumCollectionMultiplier, collectionCeiling));
     const normalPopulationDrag = taxRatePercent * 0.012 * healthPressure * fiscalProfile.populationPenaltyMultiplier;
     const normalImmigrationDrag = taxRatePercent * 0.008 * healthPressure * fiscalProfile.immigrationPenaltyMultiplier;
     const normalIndustryDrag = taxRatePercent * 0.0035 * healthPressure * fiscalProfile.industryPenaltyMultiplier;
@@ -899,6 +949,7 @@
     if (taxPressure > 0) warnings.push(`Tax rate is ${roundPercent(taxPressure)} points above the sustainable rate.`);
     if (suggestedUnrestChange > 0) warnings.push(`Consider +${suggestedUnrestChange} public unrest if this tax level persists.`);
     if (collectionMultiplier < 0.8) warnings.push("High tax pressure is reducing collection efficiency.");
+    if (governance.governmentalEfficiency < 70) warnings.push("Low governmental efficiency is slowing tax administration.");
     if (populationGrowthPenalty > 0) warnings.push("Population growth and immigration are under tax pressure.");
     if (industryGrowthMultiplier < 0.9) warnings.push("Long-term industry growth is under tax pressure.");
 
@@ -951,8 +1002,9 @@
   function mobilizedBudgetStateCapacity(inputs) {
     const development = clamp(inputs.developmentLevel / 20, 0, 1);
     const stability = clamp(inputs.stability / 100, 0, 1.15);
-    const corruptionControl = clamp((100 - inputs.corruption) / 100, 0, 1);
-    return clamp(0.5 + development * 0.32 + stability * 0.28 + corruptionControl * 0.22, 0.45, 1.28);
+    const corruptionControl = clamp((100 - inputs.governance.stateCapacityCorruption) / 100, 0, 1);
+    const baseCapacity = 0.5 + development * 0.32 + stability * 0.28 + corruptionControl * 0.22;
+    return clamp(baseCapacity * inputs.governance.efficiencyMultiplier, 0.05, 1.28);
   }
 
   function mobilizedBudgetResolveMultiplier(level, warSupport) {
@@ -976,20 +1028,22 @@
   function mobilizationFinanceAbility(inputs) {
     const development = clamp(inputs.developmentLevel / 20, 0, 1);
     const stability = clamp(inputs.stability / 100, 0, 1.15);
-    const corruptionControl = clamp((100 - inputs.corruption) / 100, 0, 1);
+    const corruptionControl = clamp((100 - inputs.governance.stateCapacityCorruption) / 100, 0, 1);
     const warSupport = clamp(number(inputs.national?.warSupport, 50) / 100, 0, 1);
     const industryDepth = clamp(Math.sqrt(Math.max(inputs.civFactories + inputs.militaryFactories + inputs.shipyards, 0)) / 36, 0, 1);
-    return clamp(0.36 + development * 0.24 + stability * 0.2 + corruptionControl * 0.17 + warSupport * 0.14 + industryDepth * 0.24, 0.35, 1.25);
+    const baseAbility = 0.36 + development * 0.24 + stability * 0.2 + corruptionControl * 0.17 + warSupport * 0.14 + industryDepth * 0.24;
+    return clamp(baseAbility * inputs.governance.efficiencyMultiplier, 0.05, 1.25);
   }
 
   function mobilizationFinanceEndurance(inputs) {
     const development = clamp(inputs.developmentLevel / 20, 0, 1);
     const stability = clamp(inputs.stability / 100, 0, 1.15);
-    const corruptionControl = clamp((100 - inputs.corruption) / 100, 0, 1);
+    const corruptionControl = clamp((100 - inputs.governance.stateCapacityCorruption) / 100, 0, 1);
     const warSupport = clamp(number(inputs.national?.warSupport, 50) / 100, 0, 1);
     const populationDepth = clamp(Math.sqrt(Math.max(inputs.population, 0) / 25_000_000), 0, 1.7);
     const shipyardDepth = clamp(Math.sqrt(Math.max(inputs.shipyards, 0)) / 12, 0, 1);
-    return clamp(0.65 + development * 1.7 + stability * 1.15 + corruptionControl * 1.25 + warSupport * 0.8 + populationDepth * 0.65 + shipyardDepth * 0.55, 0.75, 6.5);
+    const baseEndurance = 0.65 + development * 1.7 + stability * 1.15 + corruptionControl * 1.25 + warSupport * 0.8 + populationDepth * 0.65 + shipyardDepth * 0.55;
+    return clamp(baseEndurance * inputs.governance.efficiencyMultiplier, 0.05, 6.5);
   }
 
   function mobilizationFinanceMetricsFromInputs(inputs, peacetimeBudgetCapacity) {
@@ -1043,18 +1097,20 @@
     const health = national.economicHealth || "Recovery";
     const healthPressure = { Prosperity: 0.9, Expansion: 1, Recovery: 1.1, Slowdown: 1.35, Recession: 1.7, Depression: 2.1 }[health] || 1.1;
     const stabilityPressure = 1 + clamp((70 - number(national.governmentalStability, 70)) / 90, 0, 0.8);
-    const corruptionPressure = 1 + clamp(number(national.corruption, 0) / 220, 0, 0.55);
+    const governance = governanceMetrics(national);
+    const corruptionPressure = 1 + clamp(governance.fiscalCorruption / 220, 0, 0.55);
     const importReliance = Math.max(0, number(tradeRow.importReliance, 0));
     const exportReliance = Math.max(0, number(tradeRow.exportReliance, 0));
     const importShare = clamp(importReliance / Math.max(importReliance + exportReliance, 1), 0.25, 0.75);
     const importExposure = clamp(0.85 + importShare * 0.55, 0.95, 1.25);
     const policySensitivity = TARIFF_POLICY_SENSITIVITY[tradePolicy] ?? TARIFF_POLICY_SENSITIVITY.Balanced;
-    const tariffShockScore = roundPercent(tariffPressure * healthPressure * stabilityPressure * corruptionPressure * importExposure * policySensitivity);
+    const tariffShockScore = roundPercent(tariffPressure * healthPressure * stabilityPressure * corruptionPressure * governance.bureaucracyPressure * importExposure * policySensitivity);
     const collectionFriction = clamp(1 - tariffPressure * 0.06 - Math.max(0, tariffPressure - 6) * 0.045 - Math.max(0, tariffPressure - 14) * 0.07, 0.12, 1);
     const warnings = [];
     if (tariffPressure > 0) warnings.push(`Tariff is ${roundPercent(tariffPressure)} points above the ${tradePolicy} comfort line.`);
     if (tariffShockScore >= 18) warnings.push("Tariff shock is severely reducing trade competitiveness.");
     else if (tariffShockScore >= 8) warnings.push("Tariff shock is reducing trade competitiveness.");
+    if (governance.governmentalEfficiency < 99.95) warnings.push("Bureaucratic drag is amplifying tariff shock.");
     return {
       tariffRate,
       tradePolicy,
@@ -1091,7 +1147,8 @@
     const tariffRate = clamp(number(tradeRow.tariffRate, 0), 0, 50);
     const tradeFlow = Math.max(0, storedTradeFlow ?? number(calculatedTrade.tradeFlow, 0));
     const developmentLevel = number(national.developmentLevel, 0);
-    const corruption = number(national.corruption, 0);
+    const governance = governanceMetrics(national);
+    const corruption = governance.governmentalCorruption;
     const tradePolicy = tradeRow.tradePolicy || "Balanced";
     const sanctionsLevel = tradeRow.sanctionsLevel || "None";
     const policyCollection = { "Free Trade": 1, "Open Market": 0.95, Balanced: 0.9, Protectionist: 0.82 }[tradePolicy] || 0.9;
@@ -1099,7 +1156,7 @@
     const developmentCollection = clamp(0.45 + developmentLevel / 32, 0.45, 1.05);
     const corruptionCollection = clamp(1 - corruption / 160, 0.45, 1);
     const highTariffFriction = tariffBurden.collectionFriction;
-    const collectionEfficiency = clamp(policyCollection * sanctionsCollection * developmentCollection * corruptionCollection * highTariffFriction, 0, 1.2);
+    const collectionEfficiency = clamp(policyCollection * sanctionsCollection * developmentCollection * corruptionCollection * highTariffFriction * governance.efficiencyMultiplier, 0, 1.2);
     const importReliance = Math.max(0, number(tradeRow.importReliance, 0));
     const exportReliance = Math.max(0, number(tradeRow.exportReliance, 0));
     const importShare = clamp(importReliance / Math.max(importReliance + exportReliance, 1), 0.25, 0.75);
@@ -1112,7 +1169,8 @@
     if (tariffRate >= 20) warnings.push("High tariff rates are reducing collection efficiency and trade competitiveness.");
     else if (tariffRate >= 10) warnings.push("Elevated tariff rates may slow trade growth if kept long-term.");
     if (sanctionsLevel !== "None") warnings.push(`${sanctionsLevel} sanctions are reducing collectible tariff revenue.`);
-    if (corruption >= 45) warnings.push("Corruption is reducing tariff collection efficiency.");
+    if (corruption >= 45) warnings.push("Governmental corruption is reducing tariff collection efficiency.");
+    if (governance.governmentalEfficiency < 99.95) warnings.push("Governmental inefficiency is reducing tariff collection efficiency.");
     if (tradeFlow <= 0 && tariffRate > 0) warnings.push("No active trade flow is available for tariff collection.");
     return {
       tariffRate,
@@ -1151,10 +1209,10 @@
     const inputs = budgetInputsForNation(data, id);
     if (!inputs) return null;
     const peacetimeInputs = peacetimeBudgetInputs(inputs);
-    const { developmentLevel, population, taxRate, corruption, economicHealth } = inputs;
+    const { developmentLevel, population, taxRate, corruption, economicHealth, governance } = inputs;
     const developmentImpact = Math.pow(developmentLevel / 10, 3) * (1 + developmentLevel / 20);
     const taxRateScalingFactor = 1 + Math.sqrt(Math.max(0, (taxRate * 100 - 1) / 100));
-    const populationContribution = (Math.log(Math.max(population, 1)) + population / 250000) * taxRateScalingFactor * developmentImpact * ((100 - corruption) / 100) * (HEALTH_BUDGET[economicHealth] || 1);
+    const populationContribution = (Math.log(Math.max(population, 1)) + population / 250000) * taxRateScalingFactor * developmentImpact * ((100 - corruption) / 100) * governance.efficiencyMultiplier * (HEALTH_BUDGET[economicHealth] || 1);
     const breakdown = {
       formulaVersion: "legacy",
       taxRevenue: populationContribution,
@@ -1170,13 +1228,13 @@
     const inputs = budgetInputsForNation(data, id);
     if (!inputs) return null;
     const peacetimeInputs = peacetimeBudgetInputs(inputs);
-    const { developmentLevel, population, taxRatePercent, corruption, economicHealth, stability, fiscalProfile } = inputs;
+    const { developmentLevel, population, taxRatePercent, corruption, economicHealth, stability, fiscalProfile, governance } = inputs;
     const taxBurden = calculateTaxBurdenForNation(data, id);
     const developmentCollection = clamp(0.18 + Math.pow(clamp(developmentLevel, 0, 20) / 20, 1.35) * 0.95, 0.18, 1.15);
     const stabilityFactor = clamp(0.55 + stability / 200, 0.4, 1.1);
     const corruptionFactor = clamp((100 - corruption) / 100, 0.05, 1);
     const healthFactor = HEALTH_BUDGET[economicHealth] || 1;
-    const collectionEfficiency = clamp(developmentCollection * stabilityFactor * corruptionFactor * healthFactor * fiscalProfile.collectionEfficiencyMultiplier, 0.05, 1.35);
+    const collectionEfficiency = clamp(developmentCollection * stabilityFactor * corruptionFactor * healthFactor * fiscalProfile.collectionEfficiencyMultiplier * governance.efficiencyMultiplier, 0.05, 1.35);
     const taxDrag = taxBurden?.collectionMultiplier ?? 1;
     const taxRevenue = (population / 125000) * clamp(taxRatePercent, 0, 60) * collectionEfficiency * taxDrag * fiscalProfile.taxYieldMultiplier;
     const legacyPopulationContribution = legacyBudgetBreakdown(data, id)?.populationContribution || 0;
@@ -1233,6 +1291,7 @@
     HEALTH_INTEREST_RISK,
     SANCTIONS_INTEREST_RISK,
     MOBILIZATION_INTEREST_RISK,
+    governanceMetrics,
     calculateBudgetBreakdownForNation
   });
 
@@ -1249,7 +1308,9 @@
     const stability = number(national.governmentalStability, 0);
     const unrest = number(national.publicUnrest, 0);
     const development = number(national.developmentLevel, 0);
-    const corruption = number(national.corruption, 0);
+    const governance = governanceMetrics(national);
+    const corruption = governance.socialCorruption;
+    const bureaucracyDrag = 1 - governance.efficiencyMultiplier;
     const immigrationRate = number(national.immigrationRate, 0);
     const taxBurden = calculateTaxBurdenForNation(data, id) || {};
     const effectiveImmigrationRate = immigrationRate - number(taxBurden.immigrationPenalty, 0);
@@ -1260,7 +1321,7 @@
     const stabilityEffect = clamp((stability - 65) * 0.0038, -0.32, 0.22);
     const policyEffect = (CHILD_POLICY_POPULATION_EFFECT[policy] || 0) * clamp(1 - maturity * 0.25, 0.72, 1.05);
     const taxGrowthPenalty = number(taxBurden.populationGrowthPenalty, 0) * 0.55;
-    const stressPenalty = unrest * 0.045 + corruption * 0.004 + taxGrowthPenalty;
+    const stressPenalty = unrest * 0.045 + corruption * 0.004 + bureaucracyDrag * 0.28 + taxGrowthPenalty;
     const sizeDamping = clamp(1 - Math.max(0, Math.log10(currentPopulation / 6000000)) * 0.2, 0.5, 1);
     const maturityStabilizer = economicHealth === "Prosperity" ? maturity * 0.18 : 0;
     const naturalGrowth = (demographicBase + healthProfile.naturalGrowth + maturityStabilizer + stabilityEffect + policyEffect - stressPenalty) * sizeDamping;
@@ -1270,6 +1331,7 @@
       + clamp((development - 10) * 0.025, -0.15, 0.28)
       - unrest * 0.045
       - corruption * 0.006
+      - bureaucracyDrag * 0.5
       - number(taxBurden.immigrationPenalty, 0) * 0.4;
     const migrationGrowth = clamp((effectiveImmigrationRate * 0.15 + migrationAttractiveness * 0.08) * migrationDamping, -0.9, 0.9);
     const rawGrowthRate = clamp(naturalGrowth + migrationGrowth, -4.5, 3.5);
@@ -1341,10 +1403,12 @@
     const industrialScale = Math.sqrt(Math.max(totalIndustrialCapacity, 0));
     const developmentScale = number(national.developmentLevel, 0);
     const stabilityScale = clamp(number(national.governmentalStability, 70) / 100, 0, 1.2);
-    const corruptionDrag = clamp(number(national.corruption, 0) / 160, 0, 0.55);
+    const governance = governanceMetrics(national);
+    const corruptionDrag = clamp(governance.stateCapacityCorruption / 160, 0, 0.55);
+    const bureaucracyScale = governance.efficiencyMultiplier;
     const healthSignal = HEALTH_GROWTH[healthStatus] * yearsAdvanced;
-    const positiveScale = 1 + industrialScale / 28 + developmentScale / 55 + stabilityScale * 0.22 - corruptionDrag;
-    const negativeScale = 1 + industrialScale / 45 + corruptionDrag * 0.45 + clamp((65 - number(national.governmentalStability, 70)) / 120, 0, 0.35);
+    const positiveScale = (1 + industrialScale / 28 + developmentScale / 55 + stabilityScale * 0.22 - corruptionDrag) * bureaucracyScale;
+    const negativeScale = (1 + industrialScale / 45 + corruptionDrag * 0.45 + clamp((65 - number(national.governmentalStability, 70)) / 120, 0, 0.35)) * governance.bureaucracyPressure;
     const impactFromHealth = healthSignal >= 0
       ? healthSignal * positiveScale * healthMomentum
       : healthSignal * negativeScale * healthMomentum;

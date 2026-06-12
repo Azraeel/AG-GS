@@ -10,6 +10,7 @@
       HEALTH_INTEREST_RISK,
       SANCTIONS_INTEREST_RISK,
       MOBILIZATION_INTEREST_RISK,
+      governanceMetrics,
       calculateBudgetBreakdownForNation
     } = deps;
 
@@ -35,6 +36,16 @@
       if (corruption >= 75) return 3;
       if (corruption >= 50) return 2;
       if (corruption >= 30) return 1;
+      return 0;
+    }
+
+    function governmentalEfficiencyRiskForPercent(efficiencyPercent) {
+      const efficiency = number(efficiencyPercent, 100);
+      if (efficiency < 99) return 5;
+      if (efficiency < 99.5) return 4;
+      if (efficiency < 99.8) return 3;
+      if (efficiency < 99.95) return 2;
+      if (efficiency < 99.99) return 1;
       return 0;
     }
 
@@ -143,15 +154,17 @@
       const debtPercent = budgetCapacity > 0 ? roundPercent((debtPrincipal / budgetCapacity) * 100) : storedDebtPercent;
       const treasuryReserve = Math.max(0, roundCurrency(national.treasuryReserve));
       const primaryBalance = roundCurrency(budgetCapacity - budgetExpenditure);
+      const governance = governanceMetrics(national);
       const debtRisk = debtRiskForPercent(debtPercent);
       const stabilityRisk = stabilityRiskForPercent(national.governmentalStability);
       const healthRisk = HEALTH_INTEREST_RISK[national.economicHealth] || 0;
-      const corruptionRisk = corruptionRiskForPercent(national.corruption);
+      const corruptionRisk = corruptionRiskForPercent(governance.governmentalCorruption);
+      const governmentalEfficiencyRisk = governmentalEfficiencyRiskForPercent(governance.governmentalEfficiency);
       const deficitRisk = deficitRiskForBalance(primaryBalance, budgetCapacity);
       const sanctionsRisk = sanctionsRiskForLevel(trade.sanctionsLevel || "None");
       const mobilizationRisk = mobilizationRiskForLevel(military.mobilizationLevel || industrial.mobilizationLevel || "None");
       const tradeBalanceRisk = tradeBalanceRiskForBalance(trade.tradeBalance, budgetCapacity);
-      const preliminaryInterestRate = Math.max(0, roundPercent(DEBT_RULES.baseInterestRate + debtRisk + stabilityRisk + healthRisk + corruptionRisk + deficitRisk + sanctionsRisk + mobilizationRisk + tradeBalanceRisk));
+      const preliminaryInterestRate = Math.max(0, roundPercent(DEBT_RULES.baseInterestRate + debtRisk + stabilityRisk + healthRisk + corruptionRisk + governmentalEfficiencyRisk + deficitRisk + sanctionsRisk + mobilizationRisk + tradeBalanceRisk));
       const preliminaryProjection = debtProjectionForRate({ budgetCapacity, primaryBalance, debtPrincipal, treasuryReserve, debtServiceRate: preliminaryInterestRate });
       const debtTrendRisk = debtTrendRiskForChange(debtPercent, preliminaryProjection.nextDebtPercent);
       const computedInterestRate = Math.max(0, roundPercent(preliminaryInterestRate + debtTrendRisk));
@@ -182,6 +195,7 @@
         stabilityRisk,
         healthRisk,
         corruptionRisk,
+        governmentalEfficiencyRisk,
         deficitRisk,
         sanctionsRisk,
         mobilizationRisk,
@@ -220,6 +234,7 @@
       national.stabilityRisk = fiscal.stabilityRisk;
       national.healthRisk = fiscal.healthRisk;
       national.corruptionRisk = fiscal.corruptionRisk;
+      national.governmentalEfficiencyRisk = fiscal.governmentalEfficiencyRisk;
       national.deficitRisk = fiscal.deficitRisk;
       national.sanctionsRisk = fiscal.sanctionsRisk;
       national.mobilizationRisk = fiscal.mobilizationRisk;
