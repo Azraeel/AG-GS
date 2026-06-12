@@ -91,6 +91,11 @@
       const civilianTiers = [{ key: "basic", label: "Basic" }, { key: "improved", label: "Improved" }, { key: "advanced", label: "Advanced" }];
       const militaryTiers = [{ key: "basic", label: "Basic" }, { key: "improved", label: "Improved" }, { key: "advanced", label: "Advanced" }];
       const shipyardTiers = [{ key: "medium", label: "Medium" }, { key: "large", label: "Large" }, { key: "mega", label: "Mega" }];
+      const sectorOutputs = new WeakMap();
+      function outputsFor(row) {
+        if (!sectorOutputs.has(row)) sectorOutputs.set(row, Engine.industrialSectorOutputs(row));
+        return sectorOutputs.get(row);
+      }
       tablePanel(
         "Industrial Status",
         "Production capacity and mobilization settings used by the economic and military supply models.",
@@ -102,22 +107,22 @@
             key: "civilianSectors",
             label: "Civilian",
             className: "industrial-tier-group",
-            raw: (row) => Engine.industrialSectorOutputs(row).civilian.physical,
-            render: (_, row) => tierBreakdownCell(Engine.industrialSectorOutputs(row).civilian, civilianTiers)
+            raw: (row) => outputsFor(row).civilian.physical,
+            render: (_, row) => tierBreakdownCell(outputsFor(row).civilian, civilianTiers)
           },
           {
             key: "militarySectors",
             label: "Military",
             className: "industrial-tier-group industrial-tier-divider",
-            raw: (row) => Engine.industrialSectorOutputs(row).military.physical,
-            render: (_, row) => tierBreakdownCell(Engine.industrialSectorOutputs(row).military, militaryTiers)
+            raw: (row) => outputsFor(row).military.physical,
+            render: (_, row) => tierBreakdownCell(outputsFor(row).military, militaryTiers)
           },
           {
             key: "shipyardSectors",
             label: "Shipyards",
             className: "industrial-tier-group industrial-tier-divider",
-            raw: (row) => Engine.industrialSectorOutputs(row).shipyard.physical,
-            render: (_, row) => tierBreakdownCell(Engine.industrialSectorOutputs(row).shipyard, shipyardTiers)
+            raw: (row) => outputsFor(row).shipyard.physical,
+            render: (_, row) => tierBreakdownCell(outputsFor(row).shipyard, shipyardTiers)
           }
         ],
         "industrial"

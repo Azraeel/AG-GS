@@ -11,11 +11,12 @@
 
     with (runtime) {
   function tradeNetworkPartnerRows(selectedId, network) {
+    const laneByPair = new Map((network.lanes || []).map((lane) => [`${lane.importerId}::${lane.exporterId}`, lane]));
     return sortedNations()
       .filter((nation) => nation.id !== selectedId)
       .map((partner) => {
-        const importLane = network.lanes.find((lane) => lane.importerId === selectedId && lane.exporterId === partner.id);
-        const exportLane = network.lanes.find((lane) => lane.importerId === partner.id && lane.exporterId === selectedId);
+        const importLane = laneByPair.get(`${selectedId}::${partner.id}`);
+        const exportLane = laneByPair.get(`${partner.id}::${selectedId}`);
         const override = data.tradeNetwork?.targetedTariffs?.[selectedId]?.[partner.id];
         const exportAnchor = data.tradeNetwork?.exportAnchors?.[selectedId]?.[partner.id];
         const importAnchor = data.tradeNetwork?.importAnchors?.[selectedId]?.[partner.id];

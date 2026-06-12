@@ -63,6 +63,9 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
+  const APP_ASSET_VERSION = "20260612-site-performance";
+  const lazyScriptLoads = new Map();
+  const failedLazyScripts = new Set();
 
   const datasets = AppConfig.datasets;
   const viewOptions = AppConfig.viewOptions;
@@ -110,6 +113,58 @@
     notice: ""
   };
   let tradeMapPanelDrag = null;
+
+  function appAssetPath(path) {
+    return `${isAdmin ? "../" : ""}${path}`;
+  }
+
+  function scriptUrl(path) {
+    return `${appAssetPath(path)}?v=${APP_ASSET_VERSION}`;
+  }
+
+  function hasTradeMapShapes() {
+    const manifest = window.AGGS_TRADE_MAP_SHAPES;
+    return Boolean(manifest?.viewBox && Array.isArray(manifest.territories));
+  }
+
+  function loadAppScript(path, isLoaded) {
+    if (isLoaded?.()) return Promise.resolve(true);
+    const src = scriptUrl(path);
+    if (failedLazyScripts.has(src)) return Promise.reject(new Error(`Failed to load ${path}`));
+    if (lazyScriptLoads.has(src)) return lazyScriptLoads.get(src);
+    const promise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.async = true;
+      script.onload = () => resolve(true);
+      script.onerror = () => {
+        failedLazyScripts.add(src);
+        lazyScriptLoads.delete(src);
+        reject(new Error(`Failed to load ${path}`));
+      };
+      document.head.append(script);
+    });
+    lazyScriptLoads.set(src, promise);
+    return promise;
+  }
+
+  function loadTradeMapShapes(options = {}) {
+    if (hasTradeMapShapes()) return Promise.resolve(true);
+    return loadAppScript("js/app/tradeMapShapes.js", hasTradeMapShapes)
+      .then(() => {
+        TradeMap.ensureGeography?.(data);
+        Engine.recalculateAll(data);
+        if (options.rerender && state.tab === "tradeNetwork") render({ force: true });
+        return true;
+      })
+      .catch(() => {
+        const message = "Detailed map outlines could not be loaded. The compact map remains available.";
+        const shouldRerender = options.rerender && state.tab === "tradeNetwork" && state.notice !== message;
+        state.notice = message;
+        if (shouldRerender) render({ force: true });
+        return false;
+      });
+  }
 
   function canAccessTab(tabKey) {
     return isAdmin || !adminOnlyTabs.has(tabKey);
@@ -1700,11 +1755,16 @@
       audit: renderAudit
     };
     renderers[state.tab]();
+    if (state.tab === "tradeNetwork") loadTradeMapShapes({ rerender: true });
   }
 
   populateNationSelect();
 
   tabs.forEach((tab) => {
+    if (tab.dataset.tab === "tradeNetwork") {
+      tab.addEventListener("pointerenter", () => loadTradeMapShapes());
+      tab.addEventListener("focus", () => loadTradeMapShapes());
+    }
     tab.addEventListener("click", () => {
       if (!canAccessTab(tab.dataset.tab)) return;
       flushPendingEdit(false);

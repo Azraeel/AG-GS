@@ -147,6 +147,15 @@
     return manifest && manifest.viewBox && Array.isArray(manifest.territories) ? manifest : null;
   }
 
+  function geographyCache() {
+    const cache = root.AGGS_TRADE_MAP_GEOGRAPHY;
+    return cache && cache.viewBox && cache.targets && typeof cache.targets === "object" && !Array.isArray(cache.targets) ? cache : null;
+  }
+
+  function cachedTargets() {
+    return geographyCache()?.targets || {};
+  }
+
   function formatMapNumber(value) {
     const rounded = Number(value.toFixed(6));
     return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(6);
@@ -154,18 +163,20 @@
 
   function mapConfig() {
     const manifest = shapeManifest();
-    const viewBox = manifest?.viewBox || DEFAULT_MAP_VIEWBOX;
+    const cache = geographyCache();
+    const viewBox = manifest?.viewBox || cache?.viewBox || DEFAULT_MAP_VIEWBOX;
     const width = Number(viewBox.width) || DEFAULT_MAP_VIEWBOX.width;
     const height = Number(viewBox.height) || DEFAULT_MAP_VIEWBOX.height;
     const areaPerViewBoxUnitSqMi = WORLD_SURFACE_AREA_SQ_MI / Math.max(1, width * height);
     const meanRadiusMi = Math.sqrt(WORLD_SURFACE_AREA_SQ_MI / (4 * Math.PI));
     return {
-      hasRealSvg: Boolean(manifest),
-      assetPath: manifest?.assetPath || "assets/world-map.png",
+      hasRealSvg: Boolean(manifest || cache?.assetPath),
+      hasShapeManifest: Boolean(manifest),
+      assetPath: manifest?.assetPath || cache?.assetPath || "assets/world-map.png",
       width,
       height,
       viewBox: `0 0 ${formatMapNumber(width)} ${formatMapNumber(height)}`,
-      sourceTerritoryCount: manifest?.territories?.length || 0,
+      sourceTerritoryCount: manifest?.territories?.length || cache?.source?.pathCount || 0,
       surfaceAreaSqMi: WORLD_SURFACE_AREA_SQ_MI,
       earthSurfaceScale: WORLD_SURFACE_AREA_SQ_MI / EARTH_SURFACE_AREA_SQ_MI,
       meanRadiusMi,
@@ -264,7 +275,8 @@
   function areaSqMiPerUnit() {
     const khalindarBinding = SVG_TERRITORY_BINDINGS.empire_of_khalindar;
     const khalindarTerritory = khalindarBinding?.sourceId ? sourceTerritoryMap()[khalindarBinding.sourceId] : null;
-    const khalindarUnits = territoryAreaUnits(khalindarTerritory);
+    const cachedKhalindar = cachedTargets().empire_of_khalindar;
+    const khalindarUnits = territoryAreaUnits(khalindarTerritory) || Number(cachedKhalindar?.sourceAreaUnits) || 0;
     return khalindarUnits > 0
       ? KHALINDAR_CALIBRATION_AREA_SQ_MI / khalindarUnits
       : WORLD_SURFACE_AREA_SQ_MI / Math.max(1, DEFAULT_MAP_VIEWBOX.width * DEFAULT_MAP_VIEWBOX.height);
@@ -484,9 +496,44 @@
     ].join(" ");
   }
 
+  function cachedTargetForNation(nationId) {
+    const target = cachedTargets()[nationId];
+    if (!target) return null;
+    const config = mapConfig();
+    const sourceBounds = target.sourceBounds && typeof target.sourceBounds === "object" && !Array.isArray(target.sourceBounds)
+      ? {
+          x: Number(target.sourceBounds.x) || 0,
+          y: Number(target.sourceBounds.y) || 0,
+          width: Number(target.sourceBounds.width) || 0,
+          height: Number(target.sourceBounds.height) || 0
+        }
+      : null;
+    const x = clamp(Number(target.x) || sourceBounds?.x || 0, 0, config.width);
+    const y = clamp(Number(target.y) || sourceBounds?.y || 0, 0, config.height);
+    const pathX = clamp(Number(target.pathX) || x, 0, config.width);
+    const pathY = clamp(Number(target.pathY) || y, 0, config.height);
+    const width = clamp(Number(target.width) || sourceBounds?.width || 3.2, 2.6, 18);
+    const height = clamp(Number(target.height) || sourceBounds?.height || 2.4, 1.8, 12);
+    return {
+      x,
+      y,
+      path: roundedRectPath(pathX, pathY, width, height),
+      transform: "",
+      anchorSource: target.anchorSource || "cached-map-target",
+      sourceTerritoryId: target.sourceTerritoryId || "",
+      sourceTerritoryPathIndex: target.sourceTerritoryPathIndex ?? null,
+      sourceAreaUnits: Number(target.sourceAreaUnits) || sourceAreaUnitsForBounds(sourceBounds),
+      labelClusterId: target.labelClusterId || "",
+      labelPathIndices: [],
+      labelLineCount: Number(target.labelLineCount) || 0,
+      sourceBounds
+    };
+  }
+
   function territoryTargetForNation(nation) {
     const binding = SVG_TERRITORY_BINDINGS[nation.id];
     const territory = binding?.sourceId ? sourceTerritoryMap()[binding.sourceId] : null;
+    if (!territory && cachedTargets()[nation.id]) return cachedTargetForNation(nation.id);
     if (!binding || (binding.sourceId && !territory?.bbox && !binding.useRoundedBox)) return null;
     const fallbackX = Number(binding.pathX ?? binding.x) || 0;
     const fallbackY = Number(binding.pathY ?? binding.y) || 0;
