@@ -434,8 +434,8 @@ tbody td {
 
 .nation-editor-shell {
   --editor-soft-line: var(--line);
-  --editor-major-line: #1f9bff;
-  --editor-accent-line: #1f9bff;
+  --editor-major-line: #0d65d9;
+  --editor-accent-line: #0d65d9;
   overflow: hidden;
 }
 
