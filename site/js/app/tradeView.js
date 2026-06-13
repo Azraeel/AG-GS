@@ -140,7 +140,7 @@
         <div class="trade-logistics-drivers">
           <div><span>Shipyards</span><strong>${fmtNumber(logistics.shipyards || 0)}</strong></div>
           <div><span>Civ Factories</span><strong>${fmtNumber(logistics.civilianFactories || 0)}</strong></div>
-          <div><span>Development</span><strong>${fmtNumber(logistics.development || 0)}</strong></div>
+          <div><span>Infrastructure</span><strong>${fmtNumber(logistics.infrastructure || 0)}</strong></div>
           <div><span>Stability</span><strong>${fmtPercent(logistics.stability || 0)}</strong></div>
           <div><span>Gov Efficiency</span><strong>${fmtNumber(logistics.governmentalEfficiency ?? 100)}%</strong></div>
           <div><span>Gov Corruption</span><strong>${fmtPercent(logistics.governmentalCorruption || 0)}</strong></div>

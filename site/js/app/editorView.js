@@ -66,7 +66,6 @@
         governmentalEfficiency: 100,
         effectiveGovernmentalEfficiency: 100,
         literacyRate: 95,
-        developmentLevel: 10,
         urbanizationRate: 50,
         ruralDevelopment: 10,
         infrastructureLevel: 10,
@@ -553,7 +552,6 @@
                 ${fieldControl("national", "governmentalCorruption", "Gov Corruption %", national.governmentalCorruption ?? national.corruption)}
                 ${fieldControl("national", "crimeRate", "Crime Rate %", national.crimeRate ?? national.corruption)}
                 ${fieldControl("national", "literacyRate", "Literacy %", national.literacyRate ?? 95)}
-                ${fieldControl("national", "developmentLevel", "Development", national.developmentLevel)}
                 ${fieldControl("national", "urbanizationRate", "Urbanization %", national.urbanizationRate)}
                 ${fieldControl("national", "ruralDevelopment", "Rural Development", national.ruralDevelopment)}
                 ${fieldControl("national", "infrastructureLevel", "Infrastructure", national.infrastructureLevel)}

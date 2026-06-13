@@ -195,7 +195,7 @@ Yearly causes:
 
 - High crime raises governmental corruption over time.
 - Low stability, unrest, and bad economic health also push corruption upward.
-- Development mildly lowers corruption targets.
+- Fiscal/state component capacity mildly lowers corruption targets.
 
 ### Crime Rate
 
@@ -212,7 +212,7 @@ Yearly causes:
 
 - Low literacy pushes crime upward.
 - Unrest, low stability, and bad economic health push crime upward.
-- Development mildly reduces crime pressure.
+- Fiscal/state component capacity mildly reduces crime pressure.
 
 ### Legacy Corruption
 
@@ -243,60 +243,36 @@ Does not directly do:
 - It does not directly change BC, debt, trade shares, or raw population on edit.
 - Its BC effect comes only through effective high-tier industrial output.
 
-### Development
-
-Type: editable/raw.
-
-Current behavior:
-
-- `developmentLevel` remains the overall 0-50 development summary.
-- In the current 2026-era world, 20 is the highest live value and the current-era reference point. It is not the absolute ceiling.
-- If component fields are present, overall development is derived from Urbanization, Rural Development, Infrastructure, and Living Standard.
-- Existing rows infer components from country profile data, then preserve the current `developmentLevel` directly, so the migration is neutral even when quality caps keep the display split below the old average.
-
-Direct effects:
-
-- BC: increases industrial contribution, tax revenue, collection, and development multipliers.
-- Trade: increases physical trade base, value-added strength, production, trade capacity, and tariff resilience.
-- Population: increases demographic maturity, lowering natural growth but improving migration attractiveness.
-- Industry yearly simulation: improves growth scaling.
-- Military supply: increases maximum supported equipment complexity.
-- Fiscal model: high development is required for auto High Capacity State / Welfare State.
-- Mobilization: increases wartime foundation, state capacity, ability, and endurance.
-
 ### Development Components
 
 Types: editable/raw component fields.
 
 Fields:
 
-- `urbanizationRate`: 0-100%, converted to a development contribution internally.
+- `urbanizationRate`: 0-100%; actual share of population living in cities/urban areas.
 - `ruralDevelopment`: countryside productivity, services, and rural state reach.
 - `infrastructureLevel`: roads, power, logistics, ports, rail, and internal movement.
 - `livingStandard`: public health, formal consumer economy, and general prosperity.
 
-Derived overall development:
+Formula routing:
 
-```text
-developmentLevel =
-  urbanization contribution * 15%
-  + rural development * 20%
-  + infrastructure * 35%
-  + living standard * 30%
-```
+- BC/fiscal capacity uses infrastructure, living standard, and rural development most heavily.
+- Trade logistics uses infrastructure most heavily, with smaller rural/urban/living support.
+- Population maturity uses urbanization and living standard most heavily.
+- Industry growth and modernization use infrastructure, living standard, industrial sophistication, literacy, and health.
+- Military equipment limits use infrastructure and living standard as the technology base.
+- Mobilization uses infrastructure/state capacity rather than a generic development stat.
 
 Important:
 
+- There is no stored or displayed overall Development number.
 - Missing or old placeholder components are inferred from population, industrial density, shipyard density, trade intensity, budget capacity per capita, literacy, stability, crime/corruption, economic health, and trade diversity.
 - The inference uses log-scaled comparisons across active countries so large countries do not automatically dominate small dense industrial states.
 - Inferred `urbanizationRate` is capped as a realistic population share, not as a pure development score. Major countries should not infer to 100%; high development means strong urban pull, but farms, mining towns, military sites, rural settlements, and food systems keep a rural population floor.
-- The inferred component spread is display/profile information. Auto-inferred rows preserve the previous `developmentLevel`; BC/trade should not jump just because the display components got better.
-- The system treats 20 as the current-era reference for 2026 balance, while allowing development values up to 50 for future-era or exceptional countries.
-- Editing old `Development` recalculates inferred component fields around that new overall value.
-- Editing a component recalculates `developmentLevel`.
+- Components are the player-facing development model. They do not collapse back into one public Development number or stored compatibility field.
 - Yearly population simulation can change `urbanizationRate`: if total population grows faster than city absorption, the urban share declines because more people are effectively being added to rural areas; if city absorption is strong, urban share rises toward the realistic ceiling.
 - Manually edited components are preserved by later normalization.
-- Industrial Sophistication is not part of overall development, so it does not become a hidden general BC booster.
+- Industrial Sophistication is separate from the component model, so it does not become a hidden general BC booster.
 
 ### Industrial Sophistication
 
@@ -338,7 +314,7 @@ Primary causes:
 - Effective military factories, scaled by mobilization factory multiplier.
 - Effective shipyards.
 - Population and tax model.
-- Development.
+- Component fiscal capacity.
 - Tax rate and fiscal model.
 - Trade balance.
 - Tariff revenue when tariff2026 is active.
@@ -841,7 +817,7 @@ Main causes:
 - Economic health.
 - Number of consecutive years in the same health status.
 - Existing industrial scale.
-- Development.
+- Industrial capacity components.
 - Stability.
 - State-capacity corruption.
 - Governmental efficiency.
@@ -902,7 +878,7 @@ Policies:
 Main yearly causes:
 
 - Economic health.
-- Development/maturity.
+- Urbanization/living-standard maturity.
 - Stability.
 - Public unrest.
 - Social corruption.
@@ -939,7 +915,7 @@ Yearly supply gain depends on:
 - Industrial sophistication.
 - Mobilization supply multiplier.
 - Equipment complexity multiplier.
-- Development vs equipment complexity tech gap.
+- Infrastructure/living-standard technology gap vs equipment complexity.
 - Military organization.
 
 Does not currently do:
@@ -1153,7 +1129,7 @@ Strongest direct BC inputs:
 - Effective civilian factories.
 - Effective military factories.
 - Effective shipyards.
-- Development.
+- Component fiscal capacity.
 - Industrial sophistication through high-tier effective output.
 - Population and tax rate.
 - Governmental efficiency.
@@ -1179,7 +1155,7 @@ Strongest direct trade inputs:
 - Effective factories and shipyards.
 - Population.
 - Budget capacity.
-- Development.
+- Trade and logistics component capacity.
 - Stability.
 - Logistics corruption and governmental efficiency.
 - Economic health.
@@ -1217,7 +1193,7 @@ Strongest yearly population inputs:
 
 - Current population.
 - Economic health.
-- Development/maturity.
+- Urbanization/living-standard maturity.
 - Stability.
 - Public unrest.
 - Social corruption.
@@ -1237,7 +1213,7 @@ Strongest yearly supply inputs:
 - Industrial sophistication.
 - Mobilization level.
 - Equipment complexity.
-- Development level.
+- Infrastructure/living-standard technology capacity.
 - Military organization.
 
 ## Current Display-Only Stats

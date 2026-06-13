@@ -63,7 +63,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260613-urban-realism";
+  const APP_ASSET_VERSION = "20260613-components-only-dev";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
 
@@ -1197,7 +1197,6 @@
       crimeRate: "Crime Rate",
       corruption: "Legacy Corruption",
       literacyRate: "Literacy Rate",
-      developmentLevel: "Development",
       fiscalModel: "Fiscal Model",
       budgetExpenditure: "Expenditure",
       debt: "Debt",
@@ -1591,7 +1590,6 @@
               dossierRow("Gov Corruption", fmtPercent(national?.governmentalCorruption ?? national?.corruption)),
               dossierRow("Crime Rate", fmtPercent(national?.crimeRate ?? national?.corruption)),
               dossierRow("Literacy", fmtPercent(national?.literacyRate ?? 95)),
-              dossierRow("Development", fmtNumber(national?.developmentLevel)),
               dossierRow("Urbanization", fmtPercent(national?.urbanizationRate)),
               dossierRow("Rural Development", fmtNumber(national?.ruralDevelopment)),
               dossierRow("Infrastructure", fmtNumber(national?.infrastructureLevel)),

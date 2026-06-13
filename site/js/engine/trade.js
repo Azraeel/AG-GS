@@ -113,16 +113,16 @@
       return data.tradeNetwork;
     }
 
-    function developmentLevelValue(value) {
+    function componentScoreValue(value) {
       return clamp(number(value, 0), 0, DEVELOPMENT_LEVEL_MAX);
     }
 
-    function developmentReferenceRatio(value) {
-      return clamp(developmentLevelValue(value) / DEVELOPMENT_CURRENT_REFERENCE, 0, DEVELOPMENT_LEVEL_MAX / DEVELOPMENT_CURRENT_REFERENCE);
+    function componentReferenceRatio(value) {
+      return clamp(componentScoreValue(value) / DEVELOPMENT_CURRENT_REFERENCE, 0, DEVELOPMENT_LEVEL_MAX / DEVELOPMENT_CURRENT_REFERENCE);
     }
 
-    function developmentTradeFactor(value) {
-      const development = developmentLevelValue(value);
+    function componentTradeFactor(value) {
+      const development = componentScoreValue(value);
       if (development <= DEVELOPMENT_CURRENT_REFERENCE) {
         return clamp(0.46 + development / 22, 0.46, 1.36);
       }
@@ -131,8 +131,30 @@
       return clamp(1.36 + futureShare * (futureMax - 1.36), 1.36, futureMax);
     }
 
+    function componentLevel(input = {}, key, fallback = 10) {
+      if (key === "urbanizationRate") return clamp(number(input.urbanizationRate, fallback * 5), 0, 100) / 5;
+      return clamp(number(input[key], fallback), 0, DEVELOPMENT_LEVEL_MAX);
+    }
+
+    function componentProfileScore(input = {}, weights = {}) {
+      return clamp(
+        componentLevel(input, "urbanizationRate") * number(weights.urbanizationRate, 0)
+          + componentLevel(input, "ruralDevelopment") * number(weights.ruralDevelopment, 0)
+          + componentLevel(input, "infrastructureLevel") * number(weights.infrastructureLevel, 0)
+          + componentLevel(input, "livingStandard") * number(weights.livingStandard, 0),
+        0,
+        DEVELOPMENT_LEVEL_MAX
+      );
+    }
+
     function tradeLogisticsProfile(input = {}) {
-      const development = developmentLevelValue(input.developmentLevel);
+      const infrastructure = componentLevel(input, "infrastructureLevel");
+      const logisticsCapacity = componentProfileScore(input, {
+        urbanizationRate: 0.08,
+        ruralDevelopment: 0.12,
+        infrastructureLevel: 0.68,
+        livingStandard: 0.12
+      });
       const shipyards = Math.max(0, number(input.shipyards, 0));
       const civilianFactories = Math.max(0, number(input.civilianFactories, 0));
       const stability = clamp(number(input.governmentalStability, 70), 0, 100);
@@ -140,9 +162,9 @@
       const efficiencyMultiplier = governanceEfficiencyMultiplier(input);
       const bureaucracyDrag = 1 - efficiencyMultiplier;
       const disruption = clamp(number(input.tradeDisruption, 0), 0, 100) / 100;
-      const reliability = clamp(48 + stability * 0.44 - corruption * 0.34 + development * 1.05 - bureaucracyDrag * 18 - disruption * 70, 0, 100);
-      const maritime = clamp((Math.sqrt(shipyards) * 1.2 + development * 0.22 + (stability - 50) * 0.035 - corruption * 0.022 - bureaucracyDrag * 1.1) * (1 - disruption * 0.92), 0, 10);
-      const corridors = clamp((Math.sqrt(civilianFactories) * 0.42 + development * 0.3 + (stability - 50) * 0.04 - corruption * 0.032 - bureaucracyDrag * 1.45) * (1 - disruption * 0.48), 0, 10);
+      const reliability = clamp(48 + stability * 0.44 - corruption * 0.34 + logisticsCapacity * 1.05 - bureaucracyDrag * 18 - disruption * 70, 0, 100);
+      const maritime = clamp((Math.sqrt(shipyards) * 1.2 + infrastructure * 0.22 + (stability - 50) * 0.035 - corruption * 0.022 - bureaucracyDrag * 1.1) * (1 - disruption * 0.92), 0, 10);
+      const corridors = clamp((Math.sqrt(civilianFactories) * 0.42 + logisticsCapacity * 0.3 + (stability - 50) * 0.04 - corruption * 0.032 - bureaucracyDrag * 1.45) * (1 - disruption * 0.48), 0, 10);
       const overall = clamp((maritime + corridors) * 4.2 + reliability * 0.16, 0, 100);
       return {
         maritime: roundPercent(maritime),
@@ -151,7 +173,7 @@
         overall: roundPercent(overall),
         shipyards: roundCurrency(shipyards),
         civilianFactories: roundCurrency(civilianFactories),
-        development: roundPercent(development),
+        infrastructure: roundPercent(infrastructure),
         stability: roundPercent(stability),
         corruption: roundPercent(corruption),
         governmentalCorruption: roundPercent(number(input.governmentalCorruption, corruption)),
@@ -217,7 +239,10 @@
       return {
         id,
         population: getPopulation(data, id),
-        developmentLevel: number(national.developmentLevel, 0),
+        urbanizationRate: number(national.urbanizationRate, 50),
+        ruralDevelopment: number(national.ruralDevelopment, 10),
+        infrastructureLevel: number(national.infrastructureLevel, 10),
+        livingStandard: number(national.livingStandard, 10),
         governmentalStability: number(national.governmentalStability, 70),
         corruption: governance.logisticsCorruption,
         governmentalCorruption: governance.governmentalCorruption,
@@ -318,7 +343,12 @@
     function valueAddedStrength(input) {
       const industryScale = input.civilianFactories + input.militaryFactories * 0.35 + input.shipyards * 2.5;
       const diversityScore = clamp(Math.sqrt(Math.max(0, input.economicTradeDiversity)) / 12, 0, 1.18);
-      const developmentScore = developmentReferenceRatio(input.developmentLevel);
+      const developmentScore = componentReferenceRatio(componentProfileScore(input, {
+        urbanizationRate: 0.18,
+        ruralDevelopment: 0.08,
+        infrastructureLevel: 0.38,
+        livingStandard: 0.36
+      }));
       const industryScore = clamp(Math.log10(Math.max(industryScale, 1)) / 3, 0, 1);
       const shipyardScore = clamp(Math.sqrt(Math.max(input.shipyards, 0)) / 10, 0, 1);
       const stabilityScore = clamp(number(input.governmentalStability, 70) / 100, 0, 1);
@@ -357,7 +387,12 @@
       const populationMarket = Math.sqrt(Math.max(input.population, 0) / 1000000) * 5200;
       const industrialMarket = input.civilianFactories * 1500 + input.militaryFactories * 340 + input.shipyards * 3000;
       const budgetMarket = Math.sqrt(Math.max(input.budgetCapacity, 0)) * 1900;
-      const developmentFactor = developmentTradeFactor(input.developmentLevel);
+      const developmentFactor = componentTradeFactor(componentProfileScore(input, {
+        urbanizationRate: 0.22,
+        ruralDevelopment: 0.08,
+        infrastructureLevel: 0.42,
+        livingStandard: 0.28
+      }));
       const stabilityFactor = clamp(0.74 + number(input.governmentalStability, 70) / 360 - number(input.corruption, 0) / 290, 0.42, 1.08) * governanceEfficiencyMultiplier(input);
       const healthFactor = { Prosperity: 1.14, Expansion: 1.08, Recovery: 1, Slowdown: 0.84, Recession: 0.62, Depression: 0.38 }[input.economicHealth] || 1;
       return Math.max(120, (populationMarket + industrialMarket + budgetMarket) * developmentFactor * stabilityFactor * healthFactor);
@@ -388,7 +423,13 @@
 
     function exportSupplyScore(input) {
       const reliance = Math.pow(Math.max(0, input.exportReliance) / 100, 1.32);
-      const production = input.civilianFactories * 850 + input.shipyards * 2500 + input.developmentLevel * 1750;
+      const productionCapacity = componentProfileScore(input, {
+        urbanizationRate: 0.14,
+        ruralDevelopment: 0.12,
+        infrastructureLevel: 0.46,
+        livingStandard: 0.28
+      });
+      const production = input.civilianFactories * 850 + input.shipyards * 2500 + productionCapacity * 1750;
       const policy = tradePolicyProfile(input.tradePolicy);
       const valueAdded = valueAddedProfile(input);
       return Math.max(
@@ -469,7 +510,13 @@
 
     function laneTariffRevenue(flow, tariffRate, importerInput) {
       const collectionCorruption = number(importerInput.governmentalCorruption, importerInput.corruption);
-      const collection = clamp((0.42 + importerInput.developmentLevel / 34 + (100 - collectionCorruption) / 260) * governanceEfficiencyMultiplier(importerInput), 0.05, 1);
+      const customsCapacity = componentProfileScore(importerInput, {
+        urbanizationRate: 0.12,
+        ruralDevelopment: 0.14,
+        infrastructureLevel: 0.5,
+        livingStandard: 0.24
+      });
+      const collection = clamp((0.42 + customsCapacity / 34 + (100 - collectionCorruption) / 260) * governanceEfficiencyMultiplier(importerInput), 0.05, 1);
       return flow * (tariffRate / 100) * 0.55 * collection;
     }
 
@@ -479,7 +526,13 @@
       if (tariffGapPoints <= 0) return 0;
       const reliancePressure = clamp(Math.max(0, importerInput.importReliance) / 220, 0, 1.25);
       const diversityRelief = clamp(Math.sqrt(Math.max(0, importerInput.economicTradeDiversity)) / 42, 0, 0.34);
-      const developmentRelief = clamp(importerInput.developmentLevel / 72, 0, 0.28);
+      const marketMaturity = componentProfileScore(importerInput, {
+        urbanizationRate: 0.3,
+        ruralDevelopment: 0.05,
+        infrastructureLevel: 0.25,
+        livingStandard: 0.4
+      });
+      const developmentRelief = clamp(marketMaturity / 72, 0, 0.28);
       const autarkyPressure = clamp(importerInput.autarkyIndex / 360, 0, 0.28);
       const sensitivity = clamp(0.65 + reliancePressure + autarkyPressure - diversityRelief - developmentRelief, 0.45, 1.75);
       const deadweightFriction = clamp(0.1 + Math.pow(tariffGapPoints, 1.12) * 0.014, 0.12, 0.92);

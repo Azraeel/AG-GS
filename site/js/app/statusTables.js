@@ -36,7 +36,6 @@
           { key: "governmentalCorruption", label: "Gov Corruption", numeric: true, secondary: true, render: fmtPercent },
           { key: "crimeRate", label: "Crime Rate", numeric: true, secondary: true, render: fmtPercent },
           { key: "literacyRate", label: "Literacy", numeric: true, render: fmtPercent },
-          { key: "developmentLevel", label: "Development", numeric: true, render: fmtNumber },
           { key: "urbanizationRate", label: "Urbanization", numeric: true, render: fmtPercent },
           { key: "ruralDevelopment", label: "Rural Dev", numeric: true, render: fmtNumber },
           { key: "infrastructureLevel", label: "Infrastructure", numeric: true, render: fmtNumber },
