@@ -259,6 +259,7 @@
         physicalCivilianFactories: sectorOutput.civilian.physical,
         physicalMilitaryFactories: sectorOutput.military.physical,
         physicalShipyards: sectorOutput.shipyard.physical,
+        industrialSophistication: clamp(number(national.industrialSophistication, 50), 0, 100),
         sectorOutput,
         tradeCapacity: roundCurrency(trade.tradeCapacity),
         tradeBalance: roundCurrency(trade.tradeBalance),
@@ -369,11 +370,24 @@
     function valueAddedProfile(input) {
       const strength = valueAddedStrength(input);
       const strengthRatio = strength / 100;
+      const sophisticationRatio = clamp(number(input.industrialSophistication, 50) / 100, 0, 1);
+      const elitePremium = Math.pow(clamp((strengthRatio - 0.68) / 0.32, 0, 1), 1.35);
       const autarkyRatio = clamp(input.autarkyIndex, 0, 100) / 100;
       const tradeAccess = clamp(1.1 - autarkyRatio * 0.55, 0.38, 1.08);
-      const exportMultiplier = clamp(0.76 + Math.pow(strengthRatio, 1.18) * 1.45 - autarkyRatio * 0.22, 0.72, 2.08);
-      const capacityMultiplier = clamp(0.78 + strengthRatio * 0.55 - autarkyRatio * 0.25, 0.72, 1.32);
-      const productiveImportShare = clamp(Math.pow(strengthRatio, 1.08) * tradeAccess, 0, 0.82);
+      const exportMultiplier = clamp(
+        0.76
+          + Math.pow(strengthRatio, 1.18) * 1.45
+          + elitePremium * (0.18 + sophisticationRatio * 0.46)
+          - autarkyRatio * 0.2,
+        0.72,
+        2.72
+      );
+      const capacityMultiplier = clamp(0.78 + strengthRatio * 0.55 + elitePremium * sophisticationRatio * 0.18 - autarkyRatio * 0.22, 0.72, 1.5);
+      const productiveImportShare = clamp(
+        Math.pow(strengthRatio, 1.08) * tradeAccess + elitePremium * sophisticationRatio * 0.16,
+        0,
+        0.94
+      );
       return {
         strength,
         strengthRatio,

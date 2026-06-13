@@ -268,7 +268,7 @@ Important:
 - There is no stored or displayed overall Development number.
 - Missing or old placeholder components are inferred from population, industrial density, shipyard density, trade intensity, budget capacity per capita, literacy, stability, crime/corruption, economic health, and trade diversity.
 - The inference uses log-scaled comparisons across active countries so large countries do not automatically dominate small dense industrial states.
-- Inferred `urbanizationRate` is capped as a realistic population share, not as a pure development score. Major countries should not infer to 100%; high development means strong urban pull, but farms, mining towns, military sites, rural settlements, and food systems keep a rural population floor.
+- Inferred `urbanizationRate` is capped as a realistic population share, not as a pure progress score. Strong infrastructure/living-standard maturity means strong urban pull, but farms, mining towns, military sites, rural settlements, and food systems keep a rural population floor.
 - Components are the player-facing development model. They do not collapse back into one public Development number or stored compatibility field.
 - Yearly population simulation can change `urbanizationRate`: if total population grows faster than city absorption, the urban share declines because more people are effectively being added to rural areas; if city absorption is strong, urban share rises toward the realistic ceiling.
 - Manually edited components are preserved by later normalization.
@@ -285,7 +285,7 @@ Meaning:
 
 Current behavior:
 
-- If missing, the engine auto-determines it from development, infrastructure, literacy, and industrial depth.
+- If missing, the engine auto-determines it from industrial component maturity, infrastructure, literacy, and industrial depth.
 - The first determined value becomes `industrialSophisticationBaseline`.
 - High-tier output uses current sophistication relative to the baseline, so no nation jumps at migration.
 - Manual edits mark the value as GM-overridden.
@@ -460,7 +460,7 @@ Manual options:
 
 Auto behavior:
 
-- If no explicit fiscal model is set, high development, high stability, high applied efficiency, strong economy, and large industry can auto-select High Capacity State.
+- If no explicit fiscal model is set, high component fiscal capacity, high stability, high applied efficiency, strong economy, and large industry can auto-select High Capacity State.
 - If the same high-capacity conditions exist and tax rate is high enough, it can auto-select Welfare State.
 
 Direct effects:
@@ -498,10 +498,18 @@ Direct effects:
 
 Type: editable/raw.
 
+Formula role:
+
+- Used only during yearly population advancement.
+- Converted into effective immigration after subtracting the tax-burden immigration penalty.
+- Combined with migration attractiveness from economic health, stability, urbanization/living-standard maturity, unrest, social corruption, bureaucracy drag, and tax penalty.
+- Damped by very large population size and high urbanization/living-standard maturity.
+
 Direct effects:
 
 - Adds to yearly migration growth after tax penalty.
 - Does not instantly change current population.
+- Does not directly change BC, trade, debt, or military stats.
 
 ### Tax Rate
 
@@ -521,6 +529,13 @@ Direct effects:
 - Industry growth multiplier.
 - Public unrest recommendations.
 - Fiscal model auto detection through tax-rate conditions.
+
+Formula role:
+
+- Sustainable tax rate is set by fiscal model plus component fiscal capacity.
+- Tax pressure is any amount above the sustainable rate.
+- Higher tax pressure reduces collection efficiency, slows population growth, lowers immigration attractiveness, and reduces yearly industry growth.
+- Tax revenue feeds BC through the active budget formula.
 
 Does not directly do:
 
@@ -670,7 +685,7 @@ Main causes:
 - Geography/route efficiency.
 - Anchors and targeted lane controls.
 - Effective industrial output.
-- Population, development, budget, stability, corruption, and economic health.
+- Population, infrastructure/living-standard component capacity, budget, stability, corruption, and economic health.
 
 ### Trade Balance
 
@@ -835,7 +850,7 @@ Outputs:
 - Shipyards.
 - Default/basic sector counts are adjusted along with physical totals.
 - Modernization can convert Basic Civilian to Improved Civilian, Improved Civilian to Advanced Civilian, Basic Military to Improved Military, Improved Military to Advanced Military, Medium Shipyards to Large Shipyards, and Large Shipyards to Mega Shipyards.
-- Modernization requires industrial sophistication and is affected by literacy, development, infrastructure, economic health, and sector-specific military or shipyard depth.
+- Modernization requires industrial sophistication and is affected by literacy, infrastructure, living standard, urbanization, rural development, economic health, and sector-specific military or shipyard depth.
 - Modernization upgrades existing lower-tier stock; it does not create advanced factories from nothing.
 
 ## Population Stats
@@ -862,7 +877,7 @@ Type: editable/raw.
 Direct yearly effect:
 
 - Adds a policy effect to natural population growth.
-- Effect is damped by high development/maturity.
+- Effect is damped by high urbanization/living-standard maturity.
 
 Policies:
 
@@ -959,7 +974,7 @@ Type: editable/raw.
 Direct effects:
 
 - Lower complexity gives a better `complexityMultiplier`.
-- If complexity exceeds what development can support, military supply growth gets a tech-gap penalty.
+- If complexity exceeds what infrastructure/living-standard technology capacity can support, military supply growth gets a tech-gap penalty.
 
 Does not currently do:
 
@@ -1131,7 +1146,8 @@ Strongest direct BC inputs:
 - Effective shipyards.
 - Component fiscal capacity.
 - Industrial sophistication through high-tier effective output.
-- Population and tax rate.
+- Population.
+- Tax rate.
 - Governmental efficiency.
 - Governmental corruption/crime through fiscal corruption.
 - Economic health.
