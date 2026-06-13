@@ -63,7 +63,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260612-editor-history-lines";
+  const APP_ASSET_VERSION = "20260613-trade-disruption";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
 
@@ -1208,6 +1208,7 @@
       exportReliance: "Export Reliance",
       economicTradeDiversity: "Diversity",
       autarkyIndex: "Autarky",
+      tradeDisruption: "Trade Disruption",
       tradePolicy: "Trade Policy",
       sanctionsLevel: "Legacy Trade Restriction",
       tariffRate: "Tariff",
@@ -1597,7 +1598,8 @@
               dossierRow("Policy", trade?.tradePolicy || "Unknown"),
               dossierRow("Trade Balance", trade ? fmtSigned(trade.tradeBalance) : "Unknown", tradeTone),
               dossierRow("Import Reliance", fmtNumber(trade?.importReliance)),
-              dossierRow("Export Reliance", fmtNumber(trade?.exportReliance))
+              dossierRow("Export Reliance", fmtNumber(trade?.exportReliance)),
+              dossierRow("Trade Disruption", fmtPercent(trade?.tradeDisruption || 0))
             ])}
             ${dossierSection("Industry", [
               dossierRow("Civilian Factories", fmtNumber(industrial?.civilianFactories)),

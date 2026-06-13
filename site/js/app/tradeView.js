@@ -145,6 +145,7 @@
           <div><span>Gov Efficiency</span><strong>${fmtNumber(logistics.governmentalEfficiency ?? 100)}%</strong></div>
           <div><span>Gov Corruption</span><strong>${fmtPercent(logistics.governmentalCorruption || 0)}</strong></div>
           <div><span>Crime Rate</span><strong>${fmtPercent(logistics.crimeRate || 0)}</strong></div>
+          <div><span>Disruption</span><strong>${fmtPercent(logistics.tradeDisruption || 0)}</strong></div>
         </div>
       </div>`;
   }
@@ -662,6 +663,7 @@
       activeTargets ? { label: "Targeted", value: fmtNumber(activeTargets), tone: "attention" } : null,
       Math.abs(flowDelta) >= 1 ? { label: "Flow", value: fmtSigned(flowDelta), tone: flowDelta >= 0 ? "positive" : "negative" } : null,
       Math.abs(balanceDelta) >= 1 ? { label: "Balance", value: fmtSigned(balanceDelta), tone: balanceDelta >= 0 ? "positive" : "negative" } : null,
+      { label: "Disruption", value: fmtPercent(trade.tradeDisruption || 0), tone: Engine.number(trade.tradeDisruption, 0) > 0 ? "negative" : "" },
       { label: "World Pool", value: Math.abs(worldPoolDelta) >= 1 ? fmtSigned(worldPoolDelta) : fmtNumber(worldPool.currentTradeFlow || 0), tone: worldPoolDelta ? worldPoolDelta >= 0 ? "positive" : "negative" : "" },
       { label: "Policy", value: trade.tradePolicy || "Balanced" },
       { label: "Tariff", value: fmtPercent(trade.tariffRate || 0) },

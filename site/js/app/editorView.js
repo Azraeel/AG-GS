@@ -105,6 +105,7 @@
         importReliance: 100,
         exportReliance: 100,
         economicTradeDiversity: 100,
+        tradeDisruption: 0,
         tradePolicy: "Balanced",
         sanctionsLevel: "None",
         tariffRate: 5,
@@ -582,6 +583,7 @@
                 ${fieldControl("trade", "exportReliance", "Export Reliance", trade.exportReliance)}
                 ${fieldControl("trade", "economicTradeDiversity", "Diversity", trade.economicTradeDiversity)}
                 ${fieldControl("trade", "autarkyIndex", "Autarky", trade.autarkyIndex)}
+                ${fieldControl("trade", "tradeDisruption", "Trade Disruption %", trade.tradeDisruption ?? 0)}
                 ${fieldControl("trade", "tradePolicy", "Trade Policy", trade.tradePolicy, "select", Object.keys(Engine.constants.TRADE_POLICY))}
                 ${fieldControl("trade", "tariffRate", "Tariff %", trade.tariffRate)}
               </section>

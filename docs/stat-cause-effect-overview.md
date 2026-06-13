@@ -1,6 +1,6 @@
 # AG-GS Stat Cause-Effect Overview
 
-Last verified against the codebase: 2026-06-12
+Last verified against the codebase: 2026-06-13
 
 This document explains how website stats currently work, what controls what, and which stats are display-only. It is based on the live client engine files under `site/`, especially `site/engine.js`, `site/js/engine/fiscal.js`, `site/js/engine/trade.js`, `site/js/app/editorView.js`, and `site/js/app/statusTables.js`.
 
@@ -577,6 +577,26 @@ Direct effects:
 - Lane sanctions reduce a specific lane through `lanePolicyMultiplier`.
 - Embargo sets lane multiplier to 0.
 
+### Trade Disruption
+
+Type: editable/raw.
+
+Neutral point:
+
+- `0%` is neutral and preserves existing trade behavior.
+
+Direct effects:
+
+- Reduces the disrupted nation's import demand, export supply, world-pool capacity, lane affinity, partner reach, and logistics.
+- Lowers maritime/corridor/reliability logistics readouts, so port damage or wartime disruption shows on the trade tab.
+- Adds a trade-balance penalty so collapsed imports do not accidentally make a disrupted economy look healthier.
+- Affects BC indirectly through lower trade balance and tariff flow.
+
+Does not directly do:
+
+- It does not delete shipyards, factories, ports, or geography.
+- It does not set sanctions or embargoes; it represents physical/war disruption rather than policy restriction.
+
 ### Trade Flow
 
 Type: derived.
@@ -594,6 +614,7 @@ Main causes:
 - World trade pool capacity.
 - Trade policy.
 - Sanctions.
+- Trade disruption.
 - Tariffs.
 - Autarky.
 - Diversity.
@@ -1076,6 +1097,7 @@ Strongest direct trade inputs:
 - Trade policy.
 - Tariffs and targeted tariffs.
 - Sanctions/embargoes.
+- Trade disruption.
 - Effective factories and shipyards.
 - Population.
 - Budget capacity.

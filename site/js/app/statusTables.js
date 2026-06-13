@@ -69,6 +69,7 @@
           { key: "importReliance", label: "Import", numeric: true, secondary: true, render: fmtNumber },
           { key: "exportReliance", label: "Export", numeric: true, secondary: true, render: fmtNumber },
           { key: "economicTradeDiversity", label: "Diversity", numeric: true, secondary: true, render: fmtNumber },
+          { key: "tradeDisruption", label: "Disruption", numeric: true, render: fmtPercent },
           { key: "tradePolicy", label: "Policy", render: (v) => safeStatus(v) },
           { key: "tariffRate", label: "Tariff", numeric: true, secondary: true, render: fmtPercent },
           { key: "economicImpactScore", label: "Impact", numeric: true, render: fmtNumber }
