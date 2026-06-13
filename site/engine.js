@@ -62,6 +62,7 @@
     infrastructureLevel: 0.35,
     livingStandard: 0.3
   };
+  const DEVELOPMENT_COMPONENT_FORMULA_VERSION = "components2026-profile";
   const MOBILIZATION_FINANCE = {
     None: { activationShare: 0, rampRate: 0, strainStartYears: 0, strainRate: 0, maxStrain: 0, autoSpendShare: 0 },
     Partial: { activationShare: 0.68, rampRate: 0.24, strainStartYears: 2.8, strainRate: 0.075, maxStrain: 0.55, autoSpendShare: 0.52 },
@@ -310,6 +311,184 @@
     };
   }
 
+  function developmentComponentsMatchDefaults(national = {}, defaults = developmentComponentDefaults(national.developmentLevel), tolerance = 0.05) {
+    return DEVELOPMENT_COMPONENT_KEYS.every((key) => !isBlank(national[key]) && Math.abs(number(national[key], 0) - number(defaults[key], 0)) <= tolerance);
+  }
+
+  function metricLogValue(value) {
+    return Math.log1p(Math.max(0, number(value, 0)));
+  }
+
+  function metricRange(rows, key) {
+    const values = rows.map((row) => metricLogValue(row[key]));
+    return {
+      min: Math.min(...values, 0),
+      max: Math.max(...values, 0)
+    };
+  }
+
+  function scaledMetric(context, key, value) {
+    const range = context?.ranges?.[key];
+    if (!range || range.max <= range.min) return 0.5;
+    return clamp((metricLogValue(value) - range.min) / (range.max - range.min), 0, 1);
+  }
+
+  function healthDevelopmentScore(health = "Recovery") {
+    return { Depression: 0.05, Recession: 0.2, Slowdown: 0.35, Recovery: 0.5, Expansion: 0.72, Prosperity: 0.9 }[health] ?? 0.5;
+  }
+
+  function developmentInferenceProfile(data, id) {
+    const national = data.national?.[id] || {};
+    const industrial = data.industrial?.[id] || {};
+    const trade = data.trade?.[id] || {};
+    const population = getPopulation(data, id, data.meta?.currentYear) || 0;
+    const populationMillions = population / 1000000;
+    const industrialBase = Math.max(0, number(industrial.civilianFactories, 0))
+      + Math.max(0, number(industrial.militaryFactories, 0)) * 1.4
+      + Math.max(0, number(industrial.shipyards, 0)) * 4;
+    const denominator = Math.max(populationMillions, 0.25);
+    return {
+      id,
+      population,
+      industrialBase,
+      industrialDensity: industrialBase / denominator,
+      shipyardDensity: Math.max(0, number(industrial.shipyards, 0)) / denominator,
+      tradeIntensity: Math.max(0, number(trade.tradeFlow, 0)) / denominator,
+      budgetIntensity: Math.max(0, number(national.budgetCapacity, 0)) / denominator
+    };
+  }
+
+  function developmentInferenceContext(data) {
+    const rows = visibleNations(data).map((nation) => developmentInferenceProfile(data, nation.id));
+    const ranges = ["population", "industrialBase", "industrialDensity", "shipyardDensity", "tradeIntensity", "budgetIntensity"]
+      .reduce((result, key) => {
+        result[key] = metricRange(rows, key);
+        return result;
+      }, {});
+    return {
+      ranges,
+      byId: rows.reduce((result, row) => {
+        result[row.id] = row;
+        return result;
+      }, {})
+    };
+  }
+
+  function weightedDevelopmentLevel(levels = {}) {
+    return number(levels.urbanizationLevel, 0) * DEVELOPMENT_COMPONENT_WEIGHTS.urbanizationRate
+      + number(levels.ruralDevelopment, 0) * DEVELOPMENT_COMPONENT_WEIGHTS.ruralDevelopment
+      + number(levels.infrastructureLevel, 0) * DEVELOPMENT_COMPONENT_WEIGHTS.infrastructureLevel
+      + number(levels.livingStandard, 0) * DEVELOPMENT_COMPONENT_WEIGHTS.livingStandard;
+  }
+
+  function anchorDevelopmentComponentLevels(levels = {}, targetDevelopment = 10) {
+    const target = developmentLevelValue(targetDevelopment, 10);
+    const anchored = {
+      urbanizationLevel: clamp(number(levels.urbanizationLevel, target), 0, 20),
+      ruralDevelopment: clamp(number(levels.ruralDevelopment, target), 0, 20),
+      infrastructureLevel: clamp(number(levels.infrastructureLevel, target), 0, 20),
+      livingStandard: clamp(number(levels.livingStandard, target), 0, 20)
+    };
+    const weights = {
+      urbanizationLevel: DEVELOPMENT_COMPONENT_WEIGHTS.urbanizationRate,
+      ruralDevelopment: DEVELOPMENT_COMPONENT_WEIGHTS.ruralDevelopment,
+      infrastructureLevel: DEVELOPMENT_COMPONENT_WEIGHTS.infrastructureLevel,
+      livingStandard: DEVELOPMENT_COMPONENT_WEIGHTS.livingStandard
+    };
+    Object.keys(anchored).forEach((key) => {
+      anchored[key] = roundPercent(anchored[key]);
+    });
+    for (let pass = 0; pass < 8; pass += 1) {
+      const difference = target - weightedDevelopmentLevel(anchored);
+      if (Math.abs(difference) < 0.005) break;
+      const adjustable = Object.keys(anchored).filter((key) => difference > 0 ? anchored[key] < 20 : anchored[key] > 0);
+      const weightTotal = adjustable.reduce((total, key) => total + weights[key], 0);
+      if (!weightTotal) break;
+      adjustable.forEach((key) => {
+        anchored[key] = roundPercent(clamp(anchored[key] + difference / weightTotal, 0, 20));
+      });
+    }
+    const finalDifference = target - weightedDevelopmentLevel(anchored);
+    if (Math.abs(finalDifference) >= 0.005) {
+      const correctionKey = finalDifference > 0
+        ? ["infrastructureLevel", "livingStandard", "ruralDevelopment", "urbanizationLevel"].find((key) => anchored[key] < 20)
+        : ["infrastructureLevel", "livingStandard", "ruralDevelopment", "urbanizationLevel"].find((key) => anchored[key] > 0);
+      if (correctionKey) {
+        anchored[correctionKey] = roundPercent(clamp(anchored[correctionKey] + finalDifference / weights[correctionKey], 0, 20));
+      }
+    }
+    return anchored;
+  }
+
+  function inferDevelopmentComponents(data, id, targetDevelopment = data.national?.[id]?.developmentLevel, context = developmentInferenceContext(data)) {
+    const national = data.national?.[id] || {};
+    const trade = data.trade?.[id] || {};
+    const profile = context.byId[id] || developmentInferenceProfile(data, id);
+    const development = developmentLevelValue(targetDevelopment, 10);
+    const developmentRatio = development / 20;
+    const literacyRatio = clamp(literacyRateForNational(national) / 100, 0, 1);
+    const stabilityRatio = clamp(number(national.governmentalStability, 70) / 100, 0, 1);
+    const efficiencyRatio = clamp(number(national.effectiveGovernmentalEfficiency, number(national.governmentalEfficiency, 100)) / 100, 0, 1);
+    const crime = percentStat(national.crimeRate, national.corruption);
+    const corruption = percentStat(national.governmentalCorruption, national.corruption);
+    const integrityRatio = clamp(1 - (crime * 0.45 + corruption * 0.55) / 100, 0, 1);
+    const healthRatio = healthDevelopmentScore(national.economicHealth);
+    const industryDensity = scaledMetric(context, "industrialDensity", profile.industrialDensity);
+    const shipyardDensity = scaledMetric(context, "shipyardDensity", profile.shipyardDensity);
+    const tradeIntensity = scaledMetric(context, "tradeIntensity", profile.tradeIntensity);
+    const budgetIntensity = scaledMetric(context, "budgetIntensity", profile.budgetIntensity);
+    const populationScale = scaledMetric(context, "population", profile.population);
+    const diversityRatio = clamp(number(trade.economicTradeDiversity, 50) / 260, 0, 1);
+    const urbanizationLevel = 20 * (
+      developmentRatio * 0.38
+        + industryDensity * 0.25
+        + budgetIntensity * 0.13
+        + tradeIntensity * 0.08
+        + shipyardDensity * 0.06
+        + populationScale * 0.04
+        + healthRatio * 0.03
+        + literacyRatio * 0.03
+    );
+    const levels = anchorDevelopmentComponentLevels({
+      urbanizationLevel,
+      ruralDevelopment: 20 * (
+        developmentRatio * 0.35
+          + (1 - clamp(urbanizationLevel / 20, 0, 1)) * 0.2
+          + stabilityRatio * 0.1
+          + literacyRatio * 0.1
+          + efficiencyRatio * 0.08
+          + integrityRatio * 0.09
+          + healthRatio * 0.05
+          + diversityRatio * 0.03
+      ),
+      infrastructureLevel: 20 * (
+        developmentRatio * 0.3
+          + industryDensity * 0.18
+          + shipyardDensity * 0.12
+          + tradeIntensity * 0.15
+          + budgetIntensity * 0.08
+          + diversityRatio * 0.08
+          + efficiencyRatio * 0.05
+          + populationScale * 0.04
+      ),
+      livingStandard: 20 * (
+        developmentRatio * 0.34
+          + literacyRatio * 0.18
+          + stabilityRatio * 0.13
+          + integrityRatio * 0.15
+          + budgetIntensity * 0.1
+          + healthRatio * 0.07
+          + efficiencyRatio * 0.03
+      )
+    }, development);
+    return {
+      urbanizationRate: roundPercent(levels.urbanizationLevel * 5),
+      ruralDevelopment: levels.ruralDevelopment,
+      infrastructureLevel: levels.infrastructureLevel,
+      livingStandard: levels.livingStandard
+    };
+  }
+
   function developmentComponentLevel(national = {}, key, fallbackDevelopment = developmentLevelValue(national.developmentLevel, 10)) {
     const defaults = developmentComponentDefaults(fallbackDevelopment);
     if (key === "urbanizationRate") return clamp(number(national.urbanizationRate, defaults.urbanizationRate), 0, 100) / 5;
@@ -332,9 +511,14 @@
     ));
   }
 
-  function setDevelopmentComponentsFromLevel(national = {}, developmentLevel = national.developmentLevel) {
-    Object.assign(national, developmentComponentDefaults(developmentLevel));
+  function setDevelopmentComponentsFromLevel(national = {}, developmentLevel = national.developmentLevel, data = null, id = "") {
+    const components = data && id
+      ? inferDevelopmentComponents(data, id, developmentLevel)
+      : developmentComponentDefaults(developmentLevel);
+    Object.assign(national, components);
     national.developmentLevel = developmentLevelFromComponents(national);
+    national.developmentComponentsManual = false;
+    national.developmentComponentsFormulaVersion = DEVELOPMENT_COMPONENT_FORMULA_VERSION;
     return national.developmentLevel;
   }
 
@@ -393,10 +577,27 @@
   }
 
   function normalizeDevelopmentFields(data) {
+    const context = developmentInferenceContext(data);
     Object.entries(data.national || {}).forEach(([id, national]) => {
       if (!national || typeof national !== "object") return;
       if (isBlank(national.developmentLevel)) national.developmentLevel = 10;
       const defaults = developmentComponentDefaults(national.developmentLevel);
+      const hasComponentData = DEVELOPMENT_COMPONENT_KEYS.every((key) => !isBlank(national[key]));
+      const hasOnlyOldDefaultComponents = hasComponentData && developmentComponentsMatchDefaults(national, defaults);
+      const needsProfileInference = !hasComponentData
+        || (national.developmentComponentsManual !== true
+          && national.developmentComponentsFormulaVersion !== DEVELOPMENT_COMPONENT_FORMULA_VERSION
+          && hasOnlyOldDefaultComponents);
+      let refreshedProfileComponents = false;
+      if (needsProfileInference) {
+        Object.assign(national, inferDevelopmentComponents(data, id, national.developmentLevel, context));
+        national.developmentComponentsManual = false;
+        national.developmentComponentsFormulaVersion = DEVELOPMENT_COMPONENT_FORMULA_VERSION;
+        refreshedProfileComponents = true;
+      } else if (national.developmentComponentsFormulaVersion !== DEVELOPMENT_COMPONENT_FORMULA_VERSION) {
+        national.developmentComponentsManual = national.developmentComponentsManual === true || !hasOnlyOldDefaultComponents;
+        national.developmentComponentsFormulaVersion = DEVELOPMENT_COMPONENT_FORMULA_VERSION;
+      }
       DEVELOPMENT_COMPONENT_KEYS.forEach((key) => {
         if (isBlank(national[key])) national[key] = defaults[key];
       });
@@ -405,7 +606,9 @@
       if (isBlank(national.industrialSophistication) || national.industrialSophisticationManual !== true) {
         national.industrialSophistication = determineIndustrialSophistication(national, data.industrial?.[id]);
       }
-      if (isBlank(national.industrialSophisticationBaseline)) {
+      if (refreshedProfileComponents && national.industrialSophisticationManual !== true) {
+        national.industrialSophisticationBaseline = clamp(number(national.industrialSophistication, determineIndustrialSophistication(national, data.industrial?.[id])), 0, 100);
+      } else if (isBlank(national.industrialSophisticationBaseline)) {
         national.industrialSophisticationBaseline = clamp(number(national.industrialSophistication, determineIndustrialSophistication(national, data.industrial?.[id])), 0, 100);
       }
     });
@@ -2053,9 +2256,11 @@
     if (dataset === "national") {
       const row = data.national[id];
       if (path === "developmentLevel") {
-        setDevelopmentComponentsFromLevel(row, row.developmentLevel);
+        setDevelopmentComponentsFromLevel(row, row.developmentLevel, data, id);
       } else if (DEVELOPMENT_COMPONENT_KEYS.includes(path)) {
         syncDevelopmentLevelFromComponents(row);
+        row.developmentComponentsManual = true;
+        row.developmentComponentsFormulaVersion = DEVELOPMENT_COMPONENT_FORMULA_VERSION;
       } else if (path === "industrialSophistication") {
         row.industrialSophisticationManual = true;
         if (isBlank(row.industrialSophisticationBaseline)) row.industrialSophisticationBaseline = clamp(number(row.industrialSophistication, 0), 0, 100);
@@ -2117,6 +2322,7 @@
     tradeTierForFlow,
     industrialSectorOutputs,
     developmentLevelFromComponents,
+    inferDevelopmentComponents,
     determineIndustrialSophistication,
     fiscalModelForNation,
     calculateTaxBurdenForNation,

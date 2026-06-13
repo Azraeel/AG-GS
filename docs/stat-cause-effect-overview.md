@@ -251,7 +251,7 @@ Current behavior:
 
 - `developmentLevel` remains the overall 0-20 development summary.
 - If component fields are present, overall development is derived from Urbanization, Rural Development, Infrastructure, and Living Standard.
-- Existing rows seed components from their current `developmentLevel`, so the migration is neutral.
+- Existing rows infer components from country profile data, then anchor the weighted average back to the current `developmentLevel`, so the migration is neutral.
 
 Direct effects:
 
@@ -286,8 +286,12 @@ developmentLevel =
 
 Important:
 
-- Editing old `Development` resets the component fields to match that overall value.
+- Missing or old placeholder components are inferred from population, industrial density, shipyard density, trade intensity, budget capacity per capita, literacy, stability, crime/corruption, economic health, and trade diversity.
+- The inference uses log-scaled comparisons across active countries so large countries do not automatically dominate small dense industrial states.
+- The inferred component spread is anchored so the weighted average remains the previous `developmentLevel`; BC/trade should not jump just because the display components got better.
+- Editing old `Development` recalculates inferred component fields around that new overall value.
 - Editing a component recalculates `developmentLevel`.
+- Manually edited components are preserved by later normalization.
 - Industrial Sophistication is not part of overall development, so it does not become a hidden general BC booster.
 
 ### Industrial Sophistication
