@@ -65,7 +65,6 @@
   const DEVELOPMENT_CURRENT_REFERENCE = 20;
   const DEVELOPMENT_LEVEL_MAX = 50;
   const DEVELOPMENT_COMPONENT_LEVEL_MAX = 60;
-  const URBANIZATION_COMPONENT_LEVEL_MAX = 20;
   const URBANIZATION_CURRENT_MAX = 92;
   const MOBILIZATION_FINANCE = {
     None: { activationShare: 0, rampRate: 0, strainStartYears: 0, strainRate: 0, maxStrain: 0, autoSpendShare: 0 },
@@ -331,185 +330,6 @@
     };
   }
 
-  function metricLogValue(value) {
-    return Math.log1p(Math.max(0, number(value, 0)));
-  }
-
-  function metricRange(rows, key) {
-    const values = rows.map((row) => metricLogValue(row[key]));
-    return {
-      min: Math.min(...values, 0),
-      max: Math.max(...values, 0)
-    };
-  }
-
-  function scaledMetric(context, key, value) {
-    const range = context?.ranges?.[key];
-    if (!range || range.max <= range.min) return 0.5;
-    return clamp((metricLogValue(value) - range.min) / (range.max - range.min), 0, 1);
-  }
-
-  function healthDevelopmentScore(health = "Recovery") {
-    return { Depression: 0.05, Recession: 0.2, Slowdown: 0.35, Recovery: 0.5, Expansion: 0.72, Prosperity: 0.9 }[health] ?? 0.5;
-  }
-
-  function developmentInferenceProfile(data, id) {
-    const national = data.national?.[id] || {};
-    const industrial = data.industrial?.[id] || {};
-    const trade = data.trade?.[id] || {};
-    const population = getPopulation(data, id, data.meta?.currentYear) || 0;
-    const populationMillions = population / 1000000;
-    const industrialBase = Math.max(0, number(industrial.civilianFactories, 0))
-      + Math.max(0, number(industrial.militaryFactories, 0)) * 1.4
-      + Math.max(0, number(industrial.shipyards, 0)) * 4;
-    const denominator = Math.max(populationMillions, 0.25);
-    return {
-      id,
-      population,
-      industrialBase,
-      industrialDensity: industrialBase / denominator,
-      shipyardDensity: Math.max(0, number(industrial.shipyards, 0)) / denominator,
-      tradeIntensity: Math.max(0, number(trade.tradeFlow, 0)) / denominator,
-      budgetIntensity: Math.max(0, number(national.budgetCapacity, 0)) / denominator
-    };
-  }
-
-  function developmentInferenceContext(data) {
-    const rows = visibleNations(data).map((nation) => developmentInferenceProfile(data, nation.id));
-    const ranges = ["population", "industrialBase", "industrialDensity", "shipyardDensity", "tradeIntensity", "budgetIntensity"]
-      .reduce((result, key) => {
-        result[key] = metricRange(rows, key);
-        return result;
-      }, {});
-    return {
-      ranges,
-      byId: rows.reduce((result, row) => {
-        result[row.id] = row;
-        return result;
-      }, {})
-    };
-  }
-
-  function clampDevelopmentComponentLevels(levels = {}, caps = {}) {
-    return {
-      urbanizationLevel: roundPercent(clamp(number(levels.urbanizationLevel, 10), 0, caps.urbanizationLevel ?? URBANIZATION_COMPONENT_LEVEL_MAX)),
-      ruralDevelopment: roundPercent(clamp(number(levels.ruralDevelopment, 10), 0, caps.ruralDevelopment ?? DEVELOPMENT_CURRENT_REFERENCE)),
-      infrastructureLevel: roundPercent(clamp(number(levels.infrastructureLevel, 10), 0, caps.infrastructureLevel ?? DEVELOPMENT_CURRENT_REFERENCE)),
-      livingStandard: roundPercent(clamp(number(levels.livingStandard, 10), 0, caps.livingStandard ?? DEVELOPMENT_CURRENT_REFERENCE))
-    };
-  }
-
-  function inferDevelopmentComponents(data, id, _unused = null, context = developmentInferenceContext(data)) {
-    const national = data.national?.[id] || {};
-    const trade = data.trade?.[id] || {};
-    const profile = context.byId[id] || developmentInferenceProfile(data, id);
-    const literacyRatio = clamp(literacyRateForNational(national) / 100, 0, 1);
-    const stabilityRatio = clamp(number(national.governmentalStability, 70) / 100, 0, 1);
-    const efficiencyRatio = clamp(number(national.effectiveGovernmentalEfficiency, number(national.governmentalEfficiency, 100)) / 100, 0, 1);
-    const crime = percentStat(national.crimeRate, national.corruption);
-    const corruption = percentStat(national.governmentalCorruption, national.corruption);
-    const integrityRatio = clamp(1 - (crime * 0.45 + corruption * 0.55) / 100, 0, 1);
-    const healthRatio = healthDevelopmentScore(national.economicHealth);
-    const industryDensity = scaledMetric(context, "industrialDensity", profile.industrialDensity);
-    const shipyardDensity = scaledMetric(context, "shipyardDensity", profile.shipyardDensity);
-    const tradeIntensity = scaledMetric(context, "tradeIntensity", profile.tradeIntensity);
-    const budgetIntensity = scaledMetric(context, "budgetIntensity", profile.budgetIntensity);
-    const populationScale = scaledMetric(context, "population", profile.population);
-    const diversityRatio = clamp(number(trade.economicTradeDiversity, 50) / 260, 0, 1);
-    const infrastructureQualityGate = clamp(0.42 + literacyRatio * 0.32 + integrityRatio * 0.16 + efficiencyRatio * 0.1, 0.42, 1);
-    const urbanizationRateCap = clamp(
-      66
-        + industryDensity * 4.5
-        + budgetIntensity * 2.5
-        + tradeIntensity * 2
-        + shipyardDensity * 1.2
-        + healthRatio * 1.8
-        + literacyRatio * 2.2
-        - populationScale * 9
-        + efficiencyRatio * 1.5,
-      35,
-      URBANIZATION_CURRENT_MAX
-    );
-    const urbanizationLevel = 20 * (
-      industryDensity * 0.31
-        + budgetIntensity * 0.17
-        + tradeIntensity * 0.1
-        + shipyardDensity * 0.06
-        + populationScale * 0.04
-        + healthRatio * 0.07
-        + literacyRatio * 0.08
-        + efficiencyRatio * 0.07
-        + stabilityRatio * 0.04
-    );
-    const ruralQualityCap = clamp(20 * (
-      literacyRatio * 0.27
-        + integrityRatio * 0.16
-        + budgetIntensity * 0.12
-        + industryDensity * 0.06
-        + stabilityRatio * 0.08
-        + healthRatio * 0.06
-        + efficiencyRatio * 0.05
-    ), 1.5, DEVELOPMENT_CURRENT_REFERENCE);
-    const livingStandardCap = clamp(20 * (
-      literacyRatio * 0.24
-        + integrityRatio * 0.12
-        + budgetIntensity * 0.18
-        + industryDensity * 0.16
-        + stabilityRatio * 0.08
-        + healthRatio * 0.08
-        + efficiencyRatio * 0.08
-        + tradeIntensity * 0.06
-    ), 3, DEVELOPMENT_CURRENT_REFERENCE);
-    const levels = clampDevelopmentComponentLevels({
-      urbanizationLevel,
-      ruralDevelopment: 20 * (
-        (1 - clamp(urbanizationLevel / 20, 0, 1)) * 0.03
-          + stabilityRatio * 0.06
-          + literacyRatio * 0.22
-          + efficiencyRatio * 0.03
-          + integrityRatio * 0.17
-          + healthRatio * 0.03
-          + budgetIntensity * 0.09
-          + industryDensity * 0.03
-          + diversityRatio * 0.03
-      ),
-      infrastructureLevel: 20 * (
-        industryDensity * 0.2
-          + shipyardDensity * 0.11
-          + tradeIntensity * 0.14
-          + budgetIntensity * 0.08
-          + diversityRatio * 0.06
-          + efficiencyRatio * 0.04
-          + populationScale * 0.04
-          + literacyRatio * 0.06
-          + integrityRatio * 0.05
-          + stabilityRatio * 0.04
-          + healthRatio * 0.05
-      ) * infrastructureQualityGate,
-      livingStandard: 20 * (
-        literacyRatio * 0.24
-          + stabilityRatio * 0.1
-          + integrityRatio * 0.17
-          + budgetIntensity * 0.17
-          + healthRatio * 0.08
-          + efficiencyRatio * 0.08
-          + industryDensity * 0.1
-          + tradeIntensity * 0.06
-      )
-    }, {
-      urbanizationLevel: urbanizationRateCap / 5,
-      ruralDevelopment: ruralQualityCap,
-      infrastructureLevel: DEVELOPMENT_CURRENT_REFERENCE,
-      livingStandard: livingStandardCap
-    });
-    return {
-      urbanizationRate: roundPercent(clamp(levels.urbanizationLevel * 5, 0, 100)),
-      ruralDevelopment: levels.ruralDevelopment,
-      infrastructureLevel: levels.infrastructureLevel,
-      livingStandard: levels.livingStandard
-    };
-  }
-
   function developmentComponentLevel(national = {}, key, fallbackScore = 10) {
     const defaults = developmentComponentDefaults(fallbackScore);
     if (key === "urbanizationRate") return urbanizationRateValue(national.urbanizationRate, defaults.urbanizationRate) / 5;
@@ -546,29 +366,6 @@
     ));
   }
 
-  function determineIndustrialSophistication(national = {}, industrial = {}) {
-    const infrastructure = developmentComponentLevel(national, "infrastructureLevel");
-    const industrialMaturity = componentProfileScore(national, {
-      urbanizationRate: 0.12,
-      ruralDevelopment: 0.1,
-      infrastructureLevel: 0.48,
-      livingStandard: 0.3
-    });
-    const literacy = literacyRateForNational(national);
-    const civilian = Math.max(0, number(industrial.civilianFactories, 0));
-    const military = Math.max(0, number(industrial.militaryFactories, 0));
-    const shipyards = Math.max(0, number(industrial.shipyards, 0));
-    const industrialDepth = clamp(Math.sqrt(civilian + military * 1.4 + shipyards * 4) * 1.2, 0, 14);
-    return roundPercent(clamp(
-      industrialMaturity * 2.15
-        + infrastructure * 1.3
-        + literacy * 0.18
-        + industrialDepth,
-      0,
-      100
-    ));
-  }
-
   function sophisticationScore(national = {}) {
     if (isBlank(national.industrialSophistication)) return null;
     return clamp(number(national.industrialSophistication, 0), 0, 100);
@@ -601,42 +398,25 @@
   }
 
   function normalizeDevelopmentFields(data) {
-    const context = developmentInferenceContext(data);
-    Object.entries(data.national || {}).forEach(([id, national]) => {
+    Object.values(data.national || {}).forEach((national) => {
       if (!national || typeof national !== "object") return;
       const legacyKeys = Object.keys(national).filter((key) => key.toLowerCase() === "developmentlevel");
       const defaults = developmentComponentDefaults();
-      const hasComponentData = DEVELOPMENT_COMPONENT_KEYS.every((key) => !isBlank(national[key]));
-      const needsProfileInference = national.developmentComponentsManual !== true
-        && (!hasComponentData || legacyKeys.length > 0);
-      let refreshedProfileComponents = false;
-      if (needsProfileInference) {
-        Object.assign(national, inferDevelopmentComponents(data, id, null, context));
-        if (isBlank(national.developmentComponentsManual)) national.developmentComponentsManual = false;
-        refreshedProfileComponents = true;
-      }
       DEVELOPMENT_COMPONENT_KEYS.forEach((key) => {
         if (isBlank(national[key])) national[key] = defaults[key];
       });
+      national.urbanizationRate = roundPercent(urbanizationRateValue(national.urbanizationRate, defaults.urbanizationRate));
+      national.ruralDevelopment = roundPercent(developmentComponentValue(national.ruralDevelopment, defaults.ruralDevelopment));
+      national.infrastructureLevel = roundPercent(developmentComponentValue(national.infrastructureLevel, defaults.infrastructureLevel));
+      national.livingStandard = roundPercent(developmentComponentValue(national.livingStandard, defaults.livingStandard));
       legacyKeys.forEach((key) => delete national[key]);
+      delete national.developmentComponentsManual;
       delete national.developmentComponentsFormulaVersion;
-      if (isBlank(national.industrialSophisticationManual)) national.industrialSophisticationManual = false;
-      if (isBlank(national.industrialSophistication) || national.industrialSophisticationManual !== true) {
-        national.industrialSophistication = determineIndustrialSophistication(national, data.industrial?.[id]);
-      }
-      if (refreshedProfileComponents && national.industrialSophisticationManual !== true) {
-        national.industrialSophisticationBaseline = clamp(number(national.industrialSophistication, determineIndustrialSophistication(national, data.industrial?.[id])), 0, 100);
-      } else if (isBlank(national.industrialSophisticationBaseline)) {
-        national.industrialSophisticationBaseline = clamp(number(national.industrialSophistication, determineIndustrialSophistication(national, data.industrial?.[id])), 0, 100);
-      }
+      delete national.industrialSophisticationManual;
+      national.industrialSophistication = roundPercent(clamp(number(national.industrialSophistication, 50), 0, 100));
+      if (isBlank(national.industrialSophisticationBaseline)) national.industrialSophisticationBaseline = national.industrialSophistication;
+      else national.industrialSophisticationBaseline = roundPercent(clamp(number(national.industrialSophisticationBaseline, national.industrialSophistication), 0, 100));
     });
-  }
-
-  function refreshAutoIndustrialSophistication(data, id) {
-    const national = data.national?.[id];
-    if (!national || national.industrialSophisticationManual === true) return;
-    national.industrialSophistication = determineIndustrialSophistication(national, data.industrial?.[id]);
-    if (isBlank(national.industrialSophisticationBaseline)) national.industrialSophisticationBaseline = national.industrialSophistication;
   }
 
   function normalizeGovernanceFields(data) {
@@ -1945,7 +1725,6 @@
     const nextUrbanization = roundPercent(clamp(previousUrbanization + urbanizationChange, 5, Math.max(ceiling, previousUrbanization)));
     const actualChange = roundPercent(nextUrbanization - previousUrbanization);
     national.urbanizationRate = nextUrbanization;
-    refreshAutoIndustrialSophistication(data, id);
 
     return {
       urbanizationRate: nextUrbanization,
@@ -2228,7 +2007,6 @@
     if (hasIndustrialSectorData(industrial, INDUSTRIAL_SECTOR_CONFIG.military)) syncIndustrialSectorTotal(industrial, "militarySectors.basic");
     if (hasIndustrialSectorData(industrial, INDUSTRIAL_SECTOR_CONFIG.shipyard)) syncIndustrialSectorTotal(industrial, "shipyardSectors.medium");
     const modernization = advanceIndustrialModernization(industrial, national, military, yearsAdvanced);
-    refreshAutoIndustrialSophistication(data, id);
     return {
       civilianFactories: industrial.civilianFactories - currentFactories,
       militaryFactories: industrial.militaryFactories - currentMilitaryFactories,
@@ -2446,16 +2224,11 @@
       data[dataset][id][path] = value;
     }
     if (dataset === "industrial") syncIndustrialSectorTotal(data.industrial[id], path);
-    if (dataset === "industrial") refreshAutoIndustrialSophistication(data, id);
     if (dataset === "national") {
       const row = data.national[id];
-      if (DEVELOPMENT_COMPONENT_KEYS.includes(path)) {
-        row.developmentComponentsManual = true;
-      } else if (path === "industrialSophistication") {
-        row.industrialSophisticationManual = true;
+      if (path === "industrialSophistication") {
         if (isBlank(row.industrialSophisticationBaseline)) row.industrialSophisticationBaseline = clamp(number(row.industrialSophistication, 0), 0, 100);
       }
-      if (path === "literacyRate" || DEVELOPMENT_COMPONENT_KEYS.includes(path)) refreshAutoIndustrialSophistication(data, id);
     }
     if (dataset === "national" && path === "debt") {
       const row = data.national[id];
@@ -2512,8 +2285,6 @@
     tradeTierForFlow,
     industrialSectorOutputs,
     componentScoreFromComponents,
-    inferDevelopmentComponents,
-    determineIndustrialSophistication,
     fiscalModelForNation,
     calculateTaxBurdenForNation,
     calculateTariffBurdenForNation,

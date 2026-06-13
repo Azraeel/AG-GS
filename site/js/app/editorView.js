@@ -72,7 +72,6 @@
         livingStandard: 10,
         industrialSophistication: 50,
         industrialSophisticationBaseline: 50,
-        industrialSophisticationManual: false,
         budgetCapacity: 0,
         budgetExpenditure: 0,
         primaryBalance: 0,

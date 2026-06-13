@@ -266,17 +266,15 @@ Formula routing:
 Important:
 
 - There is no stored or displayed overall Development number.
-- Missing or old placeholder components are inferred from population, industrial density, shipyard density, trade intensity, budget capacity per capita, literacy, stability, crime/corruption, economic health, and trade diversity.
-- The inference uses log-scaled comparisons across active countries so large countries do not automatically dominate small dense industrial states.
-- Inferred `urbanizationRate` is capped as a realistic population share, not as a pure progress score. Strong infrastructure/living-standard maturity means strong urban pull, but farms, mining towns, military sites, rural settlements, and food systems keep a rural population floor.
+- Component values are owned by synced/API state and direct editor edits.
+- Normalization only deletes obsolete setup fields, clamps impossible values, and fills emergency defaults for malformed local records.
 - Components are the player-facing development model. They do not collapse back into one public Development number or stored compatibility field.
 - Yearly population simulation can change `urbanizationRate`: if total population grows faster than city absorption, the urban share declines because more people are effectively being added to rural areas; if city absorption is strong, urban share rises toward the realistic ceiling.
-- Manually edited components are preserved by later normalization.
 - Industrial Sophistication is separate from the component model, so it does not become a hidden general BC booster.
 
 ### Industrial Sophistication
 
-Type: editable/auto-derived national stat with a stored baseline.
+Type: editable national stat with a stored baseline.
 
 Meaning:
 
@@ -285,10 +283,10 @@ Meaning:
 
 Current behavior:
 
-- If missing, the engine auto-determines it from industrial component maturity, infrastructure, literacy, and industrial depth.
-- The first determined value becomes `industrialSophisticationBaseline`.
+- The API/editor owns the current value.
+- If missing in malformed local data, it falls back to `50`.
+- If the baseline is missing, the current value becomes `industrialSophisticationBaseline`.
 - High-tier output uses current sophistication relative to the baseline, so no nation jumps at migration.
-- Manual edits mark the value as GM-overridden.
 
 Direct effects:
 
