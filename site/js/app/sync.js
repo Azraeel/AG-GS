@@ -140,6 +140,7 @@
 
     async function fetchSharedMeta() {
       if (!sharedSync.enabled || sharedSync.isPublishing || sharedSync.hasPendingLocalChange) return;
+      if (document.hidden) return;
       if (!sharedSync.revision) {
         await fetchSharedState();
         return;

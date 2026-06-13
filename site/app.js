@@ -45,7 +45,7 @@
     enabled: !forceLocalPreview && location.protocol.startsWith("http") && !["localhost", "127.0.0.1", "::1"].includes(location.hostname),
     endpoint: sharedSyncEndpoint,
     metaEndpoint: `${sharedSyncEndpoint.replace(/\/$/, "")}/meta`,
-    pollMs: 3000,
+    pollMs: isAdmin ? 15000 : 60000,
     revision: null,
     status: "connecting",
     message: "",
@@ -63,7 +63,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260613-dev-legacy-cleanup";
+  const APP_ASSET_VERSION = "20260613-sync-poll-budget";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
 
