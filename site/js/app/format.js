@@ -20,7 +20,10 @@
       "national.mobilizationRisk",
       "national.tradeBalanceRisk",
       "national.debtTrendRisk",
-      "national.literacyRate"
+      "national.literacyRate",
+      "national.urbanizationRate",
+      "national.industrialSophistication",
+      "national.industrialSophisticationBaseline"
     ]);
 
     function escapeHtml(value) {

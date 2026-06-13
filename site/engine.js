@@ -55,6 +55,13 @@
     military: { totalKey: "militaryFactories", sectorsKey: "militarySectors", defaultTier: "basic", tiers: ["basic", "improved", "advanced"], weights: INDUSTRIAL_SECTOR_WEIGHTS.military, literacyImpact: { improved: "improved", advanced: "advanced" } },
     shipyard: { totalKey: "shipyards", sectorsKey: "shipyardSectors", defaultTier: "medium", tiers: ["medium", "large", "mega"], weights: INDUSTRIAL_SECTOR_WEIGHTS.shipyard, literacyImpact: { large: "improved", mega: "advanced" } }
   };
+  const DEVELOPMENT_COMPONENT_KEYS = ["urbanizationRate", "ruralDevelopment", "infrastructureLevel", "livingStandard"];
+  const DEVELOPMENT_COMPONENT_WEIGHTS = {
+    urbanizationRate: 0.15,
+    ruralDevelopment: 0.2,
+    infrastructureLevel: 0.35,
+    livingStandard: 0.3
+  };
   const MOBILIZATION_FINANCE = {
     None: { activationShare: 0, rampRate: 0, strainStartYears: 0, strainRate: 0, maxStrain: 0, autoSpendShare: 0 },
     Partial: { activationShare: 0.68, rampRate: 0.24, strainStartYears: 2.8, strainRate: 0.075, maxStrain: 0.55, autoSpendShare: 0.52 },
@@ -289,6 +296,128 @@
     return Math.pow(highLiteracyShare, 1.15) * LITERACY_POPULATION_SLOWDOWN_MAX;
   }
 
+  function developmentLevelValue(value, fallback = 10) {
+    return clamp(number(value, fallback), 0, 20);
+  }
+
+  function developmentComponentDefaults(developmentLevel) {
+    const development = developmentLevelValue(developmentLevel, 10);
+    return {
+      urbanizationRate: roundPercent(development * 5),
+      ruralDevelopment: roundPercent(development),
+      infrastructureLevel: roundPercent(development),
+      livingStandard: roundPercent(development)
+    };
+  }
+
+  function developmentComponentLevel(national = {}, key, fallbackDevelopment = developmentLevelValue(national.developmentLevel, 10)) {
+    const defaults = developmentComponentDefaults(fallbackDevelopment);
+    if (key === "urbanizationRate") return clamp(number(national.urbanizationRate, defaults.urbanizationRate), 0, 100) / 5;
+    return developmentLevelValue(national[key], defaults[key]);
+  }
+
+  function developmentLevelFromComponents(national = {}) {
+    const fallbackDevelopment = developmentLevelValue(national.developmentLevel, 10);
+    const urbanization = developmentComponentLevel(national, "urbanizationRate", fallbackDevelopment);
+    const rural = developmentComponentLevel(national, "ruralDevelopment", fallbackDevelopment);
+    const infrastructure = developmentComponentLevel(national, "infrastructureLevel", fallbackDevelopment);
+    const livingStandard = developmentComponentLevel(national, "livingStandard", fallbackDevelopment);
+    return roundPercent(clamp(
+      urbanization * DEVELOPMENT_COMPONENT_WEIGHTS.urbanizationRate
+        + rural * DEVELOPMENT_COMPONENT_WEIGHTS.ruralDevelopment
+        + infrastructure * DEVELOPMENT_COMPONENT_WEIGHTS.infrastructureLevel
+        + livingStandard * DEVELOPMENT_COMPONENT_WEIGHTS.livingStandard,
+      0,
+      20
+    ));
+  }
+
+  function setDevelopmentComponentsFromLevel(national = {}, developmentLevel = national.developmentLevel) {
+    Object.assign(national, developmentComponentDefaults(developmentLevel));
+    national.developmentLevel = developmentLevelFromComponents(national);
+    return national.developmentLevel;
+  }
+
+  function syncDevelopmentLevelFromComponents(national = {}) {
+    national.developmentLevel = developmentLevelFromComponents(national);
+    return national.developmentLevel;
+  }
+
+  function determineIndustrialSophistication(national = {}, industrial = {}) {
+    const development = developmentLevelValue(national.developmentLevel, 10);
+    const infrastructure = developmentComponentLevel(national, "infrastructureLevel", development);
+    const literacy = literacyRateForNational(national);
+    const civilian = Math.max(0, number(industrial.civilianFactories, 0));
+    const military = Math.max(0, number(industrial.militaryFactories, 0));
+    const shipyards = Math.max(0, number(industrial.shipyards, 0));
+    const industrialDepth = clamp(Math.sqrt(civilian + military * 1.4 + shipyards * 4) * 1.2, 0, 14);
+    return roundPercent(clamp(
+      development * 2.15
+        + infrastructure * 1.3
+        + literacy * 0.18
+        + industrialDepth,
+      0,
+      100
+    ));
+  }
+
+  function sophisticationScore(national = {}) {
+    if (isBlank(national.industrialSophistication)) return null;
+    return clamp(number(national.industrialSophistication, 0), 0, 100);
+  }
+
+  function sophisticationAbsoluteMultiplier(score, impact = "") {
+    if (!impact || score === null || score === undefined) return 1;
+    const ratio = clamp(number(score, 0), 0, 100) / 100;
+    if (impact === "advanced") return clamp(0.15 + Math.pow(ratio, 1.25) * 0.85, 0.15, 1);
+    if (impact === "improved") return clamp(0.45 + Math.pow(ratio, 0.85) * 0.55, 0.45, 1);
+    return 1;
+  }
+
+  function sophisticationIndustrialMultiplier(national = {}, impact = "") {
+    const current = sophisticationScore(national);
+    if (current === null || !impact) return 1;
+    const baseline = clamp(number(national.industrialSophisticationBaseline, current), 0, 100);
+    const currentMultiplier = sophisticationAbsoluteMultiplier(current, impact);
+    const baselineMultiplier = sophisticationAbsoluteMultiplier(baseline, impact);
+    return clamp(currentMultiplier / Math.max(baselineMultiplier, 0.05), 0.05, 6);
+  }
+
+  function sophisticationSupplyMultiplier(national = {}) {
+    const current = sophisticationScore(national);
+    if (current === null) return 1;
+    const baseline = clamp(number(national.industrialSophisticationBaseline, current), 0, 100);
+    const currentMultiplier = clamp(0.45 + Math.pow(current / 100, 0.9) * 0.65, 0.45, 1.1);
+    const baselineMultiplier = clamp(0.45 + Math.pow(baseline / 100, 0.9) * 0.65, 0.45, 1.1);
+    return clamp(currentMultiplier / Math.max(baselineMultiplier, 0.05), 0.05, 2.5);
+  }
+
+  function normalizeDevelopmentFields(data) {
+    Object.entries(data.national || {}).forEach(([id, national]) => {
+      if (!national || typeof national !== "object") return;
+      if (isBlank(national.developmentLevel)) national.developmentLevel = 10;
+      const defaults = developmentComponentDefaults(national.developmentLevel);
+      DEVELOPMENT_COMPONENT_KEYS.forEach((key) => {
+        if (isBlank(national[key])) national[key] = defaults[key];
+      });
+      national.developmentLevel = developmentLevelFromComponents(national);
+      if (isBlank(national.industrialSophisticationManual)) national.industrialSophisticationManual = false;
+      if (isBlank(national.industrialSophistication) || national.industrialSophisticationManual !== true) {
+        national.industrialSophistication = determineIndustrialSophistication(national, data.industrial?.[id]);
+      }
+      if (isBlank(national.industrialSophisticationBaseline)) {
+        national.industrialSophisticationBaseline = clamp(number(national.industrialSophistication, determineIndustrialSophistication(national, data.industrial?.[id])), 0, 100);
+      }
+    });
+  }
+
+  function refreshAutoIndustrialSophistication(data, id) {
+    const national = data.national?.[id];
+    if (!national || national.industrialSophisticationManual === true) return;
+    national.industrialSophistication = determineIndustrialSophistication(national, data.industrial?.[id]);
+    if (isBlank(national.industrialSophisticationBaseline)) national.industrialSophisticationBaseline = national.industrialSophistication;
+  }
+
   function normalizeGovernanceFields(data) {
     Object.values(data.national || {}).forEach((national) => {
       if (!national || typeof national !== "object") return;
@@ -336,6 +465,7 @@
       ? data.tradeNetwork.lanePolicies
       : {};
     normalizeGovernanceFields(data);
+    normalizeDevelopmentFields(data);
     normalizeDebtServiceRates(data);
     ensureWikiState(data);
     return data;
@@ -862,12 +992,15 @@
     }
     const physical = config.tiers.reduce((total, tier) => total + values[tier], 0);
     const literacyMultipliers = {};
+    const sophisticationMultipliers = {};
     const effective = config.tiers.reduce((total, tier) => {
       const literacyMultiplier = literacyIndustrialMultiplier(national, config.literacyImpact?.[tier]);
+      const sophisticationMultiplier = sophisticationIndustrialMultiplier(national, config.literacyImpact?.[tier]);
       literacyMultipliers[tier] = literacyMultiplier;
-      return total + values[tier] * config.weights[tier] * literacyMultiplier;
+      sophisticationMultipliers[tier] = sophisticationMultiplier;
+      return total + values[tier] * config.weights[tier] * literacyMultiplier * sophisticationMultiplier;
     }, 0);
-    return { ...values, physical, effective, legacyTotal: physicalTotal, literacyMultipliers };
+    return { ...values, physical, effective, legacyTotal: physicalTotal, literacyMultipliers, sophisticationMultipliers };
   }
 
   function industrialSectorOutputs(industrial, national = {}) {
@@ -908,6 +1041,81 @@
     const sectors = industrial[config.sectorsKey] || {};
     sectors[config.defaultTier] = Math.max(0, roundCurrency(number(previousBreakdown?.[config.defaultTier], 0) + delta));
     industrial[config.sectorsKey] = sectors;
+  }
+
+  function ensureIndustrialSectorData(industrial, config) {
+    if (!industrial) return null;
+    if (hasIndustrialSectorData(industrial, config)) return industrial[config.sectorsKey];
+    const breakdown = industrialSectorBreakdown(industrial, config);
+    const sectors = {};
+    config.tiers.forEach((tier) => {
+      sectors[tier] = tier === config.defaultTier ? roundCurrency(breakdown[tier]) : 0;
+    });
+    industrial[config.sectorsKey] = sectors;
+    return sectors;
+  }
+
+  function healthModernizationMultiplier(health = "Recovery") {
+    return { Prosperity: 1.15, Expansion: 1.02, Recovery: 0.78, Slowdown: 0.42, Recession: 0.18, Depression: 0 }[health] ?? 0.78;
+  }
+
+  function modernizationRate(score, threshold, maxRate) {
+    if (score <= threshold) return 0;
+    const progress = clamp((score - threshold) / Math.max(1, 100 - threshold), 0, 1);
+    return maxRate * Math.pow(progress, 1.25);
+  }
+
+  function convertIndustrialTier(sectors, fromTier, toTier, rate, yearsAdvanced = 1) {
+    const available = Math.max(0, Math.floor(number(sectors?.[fromTier], 0)));
+    if (!available || rate <= 0) return 0;
+    const converted = Math.min(available, Math.floor(available * rate * Math.max(0, yearsAdvanced)));
+    if (!converted) return 0;
+    sectors[fromTier] = Math.max(0, roundCurrency(number(sectors[fromTier], 0) - converted));
+    sectors[toTier] = roundCurrency(number(sectors[toTier], 0) + converted);
+    return converted;
+  }
+
+  function modernizationScores(national = {}, industrial = {}, military = {}) {
+    const sophistication = sophisticationScore(national);
+    if (sophistication === null) return null;
+    const development = developmentLevelValue(national.developmentLevel, 10) * 5;
+    const infrastructure = developmentComponentLevel(national, "infrastructureLevel") * 5;
+    const literacy = literacyRateForNational(national);
+    const health = healthModernizationMultiplier(national.economicHealth);
+    const healthScore = health * 100;
+    const mobilization = military?.mobilizationLevel || industrial.mobilizationLevel || "None";
+    const mobilizationScore = { None: 0, Partial: 62, Full: 82, Total: 95 }[mobilization] || 0;
+    const warSupport = clamp(number(national.warSupport, 50), 0, 100);
+    const militaryOrganization = clamp(number(military?.militaryOrganization, 0), 0, 100);
+    const shipyardDepth = clamp(Math.sqrt(Math.max(0, number(industrial.shipyards, 0))) * 10, 0, 100);
+    return {
+      civilianImproved: sophistication * 0.44 + infrastructure * 0.2 + development * 0.14 + literacy * 0.1 + healthScore * 0.12,
+      civilianAdvanced: sophistication * 0.46 + literacy * 0.22 + development * 0.14 + infrastructure * 0.1 + healthScore * 0.08,
+      militaryImproved: sophistication * 0.38 + infrastructure * 0.16 + development * 0.12 + literacy * 0.1 + healthScore * 0.09 + Math.max(mobilizationScore, warSupport) * 0.15,
+      militaryAdvanced: sophistication * 0.42 + literacy * 0.18 + development * 0.12 + infrastructure * 0.1 + healthScore * 0.07 + Math.max(mobilizationScore, warSupport) * 0.07 + militaryOrganization * 0.04,
+      shipyardLarge: sophistication * 0.4 + infrastructure * 0.24 + development * 0.12 + literacy * 0.08 + healthScore * 0.08 + shipyardDepth * 0.08,
+      shipyardMega: sophistication * 0.48 + infrastructure * 0.18 + development * 0.12 + literacy * 0.1 + healthScore * 0.05 + shipyardDepth * 0.07
+    };
+  }
+
+  function advanceIndustrialModernization(industrial, national, military, yearsAdvanced = 1) {
+    const scores = modernizationScores(national, industrial, military);
+    if (!scores) return null;
+    const civilian = ensureIndustrialSectorData(industrial, INDUSTRIAL_SECTOR_CONFIG.civilian);
+    const militarySectors = ensureIndustrialSectorData(industrial, INDUSTRIAL_SECTOR_CONFIG.military);
+    const shipyard = ensureIndustrialSectorData(industrial, INDUSTRIAL_SECTOR_CONFIG.shipyard);
+    const changes = {
+      civilianBasicToImproved: convertIndustrialTier(civilian, "basic", "improved", modernizationRate(scores.civilianImproved, 40, 0.04), yearsAdvanced),
+      civilianImprovedToAdvanced: convertIndustrialTier(civilian, "improved", "advanced", modernizationRate(scores.civilianAdvanced, 70, 0.02), yearsAdvanced),
+      militaryBasicToImproved: convertIndustrialTier(militarySectors, "basic", "improved", modernizationRate(scores.militaryImproved, 42, 0.04), yearsAdvanced),
+      militaryImprovedToAdvanced: convertIndustrialTier(militarySectors, "improved", "advanced", modernizationRate(scores.militaryAdvanced, 72, 0.02), yearsAdvanced),
+      shipyardMediumToLarge: convertIndustrialTier(shipyard, "medium", "large", modernizationRate(scores.shipyardLarge, 50, 0.03), yearsAdvanced),
+      shipyardLargeToMega: convertIndustrialTier(shipyard, "large", "mega", modernizationRate(scores.shipyardMega, 90, 0.01), yearsAdvanced)
+    };
+    syncIndustrialSectorTotal(industrial, "civilianSectors.basic");
+    syncIndustrialSectorTotal(industrial, "militarySectors.basic");
+    syncIndustrialSectorTotal(industrial, "shipyardSectors.medium");
+    return changes;
   }
 
   function fiscalModelForNation(data, id, national = data.national?.[id]) {
@@ -1623,10 +1831,13 @@
     if (hasIndustrialSectorData(industrial, INDUSTRIAL_SECTOR_CONFIG.civilian)) syncIndustrialSectorTotal(industrial, "civilianSectors.basic");
     if (hasIndustrialSectorData(industrial, INDUSTRIAL_SECTOR_CONFIG.military)) syncIndustrialSectorTotal(industrial, "militarySectors.basic");
     if (hasIndustrialSectorData(industrial, INDUSTRIAL_SECTOR_CONFIG.shipyard)) syncIndustrialSectorTotal(industrial, "shipyardSectors.medium");
+    const modernization = advanceIndustrialModernization(industrial, national, military, yearsAdvanced);
+    refreshAutoIndustrialSophistication(data, id);
     return {
       civilianFactories: industrial.civilianFactories - currentFactories,
       militaryFactories: industrial.militaryFactories - currentMilitaryFactories,
-      shipyards: industrial.shipyards - currentShipyards
+      shipyards: industrial.shipyards - currentShipyards,
+      modernization
     };
   }
 
@@ -1640,7 +1851,7 @@
     const techGap = Math.max(0, number(military.equipmentComplexity, 4) - maxComplexityForDevelopment(national.developmentLevel));
     const techGapPenalty = Math.max(0.05, 1 - techGap * (0.95 / 11));
     const militaryOutput = industrialSectorOutputs(industrial, national).military.effective;
-    const monthlyIncrement = militaryOutput * 0.2 * mobilization.supplyMultiplier * complexityMultiplier(military.equipmentComplexity) * techGapPenalty * (1 + number(military.militaryOrganization, 0) * 0.01);
+    const monthlyIncrement = militaryOutput * 0.2 * sophisticationSupplyMultiplier(national) * mobilization.supplyMultiplier * complexityMultiplier(military.equipmentComplexity) * techGapPenalty * (1 + number(military.militaryOrganization, 0) * 0.01);
     military.militarySupply = Number((currentSupply + monthlyIncrement * months).toFixed(1));
     return military.militarySupply - currentSupply;
   }
@@ -1838,6 +2049,19 @@
       data[dataset][id][path] = value;
     }
     if (dataset === "industrial") syncIndustrialSectorTotal(data.industrial[id], path);
+    if (dataset === "industrial") refreshAutoIndustrialSophistication(data, id);
+    if (dataset === "national") {
+      const row = data.national[id];
+      if (path === "developmentLevel") {
+        setDevelopmentComponentsFromLevel(row, row.developmentLevel);
+      } else if (DEVELOPMENT_COMPONENT_KEYS.includes(path)) {
+        syncDevelopmentLevelFromComponents(row);
+      } else if (path === "industrialSophistication") {
+        row.industrialSophisticationManual = true;
+        if (isBlank(row.industrialSophisticationBaseline)) row.industrialSophisticationBaseline = clamp(number(row.industrialSophistication, 0), 0, 100);
+      }
+      if (path === "developmentLevel" || path === "literacyRate" || DEVELOPMENT_COMPONENT_KEYS.includes(path)) refreshAutoIndustrialSophistication(data, id);
+    }
     if (dataset === "national" && path === "debt") {
       const row = data.national[id];
       row.debt = Math.max(0, number(value, 0));
@@ -1892,6 +2116,8 @@
     tradeLogisticsFor,
     tradeTierForFlow,
     industrialSectorOutputs,
+    developmentLevelFromComponents,
+    determineIndustrialSophistication,
     fiscalModelForNation,
     calculateTaxBurdenForNation,
     calculateTariffBurdenForNation,

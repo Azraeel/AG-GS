@@ -63,7 +63,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260613-trade-disruption";
+  const APP_ASSET_VERSION = "20260613-development-components";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
 
@@ -1208,6 +1208,11 @@
       exportReliance: "Export Reliance",
       economicTradeDiversity: "Diversity",
       autarkyIndex: "Autarky",
+      urbanizationRate: "Urbanization",
+      ruralDevelopment: "Rural Development",
+      infrastructureLevel: "Infrastructure",
+      livingStandard: "Living Standard",
+      industrialSophistication: "Industrial Sophistication",
       tradeDisruption: "Trade Disruption",
       tradePolicy: "Trade Policy",
       sanctionsLevel: "Legacy Trade Restriction",
@@ -1587,6 +1592,11 @@
               dossierRow("Crime Rate", fmtPercent(national?.crimeRate ?? national?.corruption)),
               dossierRow("Literacy", fmtPercent(national?.literacyRate ?? 95)),
               dossierRow("Development", fmtNumber(national?.developmentLevel)),
+              dossierRow("Urbanization", fmtPercent(national?.urbanizationRate)),
+              dossierRow("Rural Development", fmtNumber(national?.ruralDevelopment)),
+              dossierRow("Infrastructure", fmtNumber(national?.infrastructureLevel)),
+              dossierRow("Living Standard", fmtNumber(national?.livingStandard)),
+              dossierRow("Industrial Sophistication", fmtPercent(national?.industrialSophistication)),
               dossierRow("Balance", national ? fmtSigned(national.primaryBalance) : "Unknown", balanceTone),
               dossierRow("Treasury Reserve", fmtNumber(national?.treasuryReserve)),
               dossierRow("Debt", fmtPercent(national?.debt)),
@@ -1695,6 +1705,7 @@
   let editRenderTimer = null;
   let editApplyTimer = null;
   let pendingEditDraft = null;
+  let pendingPostEditRenderKey = "";
   let deferredRenderTimer = null;
   const EDIT_APPLY_DELAY_MS = 450;
 
@@ -1925,9 +1936,28 @@
     return true;
   }
 
+  function schedulePostEditRender(draft) {
+    pendingPostEditRenderKey = editDraftKey(draft);
+    clearTimeout(editRenderTimer);
+    editRenderTimer = setTimeout(() => {
+      renderPendingPostEditIfSettled();
+    }, 150);
+  }
+
+  function renderPendingPostEditIfSettled() {
+    if (!pendingPostEditRenderKey) return;
+    const active = activeEditElement();
+    if (active && editDraftKey(readEditDraft(active)) === pendingPostEditRenderKey) return;
+    pendingPostEditRenderKey = "";
+    clearTimeout(editRenderTimer);
+    render({ force: true });
+  }
+
   function scheduleEditApply(edit) {
     pendingEditDraft = readEditDraft(edit);
     markPendingEditorChange();
+    pendingPostEditRenderKey = "";
+    clearTimeout(editRenderTimer);
     clearTimeout(editApplyTimer);
     editApplyTimer = setTimeout(() => {
       flushPendingEdit(false);
@@ -1978,10 +2008,11 @@
     scheduleSharedPublish(state.notice);
     updateSourceNote();
     if (renderNow) {
+      pendingPostEditRenderKey = "";
       clearTimeout(editRenderTimer);
       render({ force: true });
     } else {
-      clearTimeout(editRenderTimer);
+      schedulePostEditRender(draft);
     }
   }
 
@@ -2002,6 +2033,11 @@
     if (wikiView.handleInput?.(event)) return;
     const edit = event.target.closest("[data-edit]");
     if (edit) scheduleEditApply(edit);
+  });
+
+  app.addEventListener("focusout", (event) => {
+    if (!event.target.closest("[data-edit]")) return;
+    setTimeout(renderPendingPostEditIfSettled, 0);
   });
 
   app.addEventListener("scroll", (event) => {

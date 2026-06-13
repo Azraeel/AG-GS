@@ -67,6 +67,13 @@
         effectiveGovernmentalEfficiency: 100,
         literacyRate: 95,
         developmentLevel: 10,
+        urbanizationRate: 50,
+        ruralDevelopment: 10,
+        infrastructureLevel: 10,
+        livingStandard: 10,
+        industrialSophistication: 50,
+        industrialSophisticationBaseline: 50,
+        industrialSophisticationManual: false,
         budgetCapacity: 0,
         budgetExpenditure: 0,
         primaryBalance: 0,
@@ -547,6 +554,11 @@
                 ${fieldControl("national", "crimeRate", "Crime Rate %", national.crimeRate ?? national.corruption)}
                 ${fieldControl("national", "literacyRate", "Literacy %", national.literacyRate ?? 95)}
                 ${fieldControl("national", "developmentLevel", "Development", national.developmentLevel)}
+                ${fieldControl("national", "urbanizationRate", "Urbanization %", national.urbanizationRate)}
+                ${fieldControl("national", "ruralDevelopment", "Rural Development", national.ruralDevelopment)}
+                ${fieldControl("national", "infrastructureLevel", "Infrastructure", national.infrastructureLevel)}
+                ${fieldControl("national", "livingStandard", "Living Standard", national.livingStandard)}
+                ${fieldControl("national", "industrialSophistication", "Industrial Sophistication %", national.industrialSophistication)}
                 ${fieldControl("national", "fiscalModel", "Fiscal Model", Engine.fiscalModelForNation(data, nation.id), "select", Object.keys(Engine.constants.FISCAL_MODELS))}
                 ${fieldControl("national", "budgetExpenditure", "Expenditure", national.budgetExpenditure)}
                 ${fieldControl("national", "treasuryReserve", "Treasury Reserve", national.treasuryReserve ?? 0)}

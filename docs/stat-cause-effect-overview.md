@@ -64,6 +64,8 @@ The most important consequence: normal edits instantly recalculate trade, BC, fi
 - Effective output is what formulas use.
 - Missing sector data means all civilian/military factories are Basic and all shipyards are Medium.
 - Editing sector tiers syncs the physical total.
+- Literacy and industrial sophistication modify high-tier effective output; Basic factories and Medium shipyards stay simple physical counts.
+- Sophistication is baselined on migration, so existing high-tier output stays stable until the stat changes relative to its starting value.
 
 Current industrial weights:
 
@@ -245,6 +247,12 @@ Does not directly do:
 
 Type: editable/raw.
 
+Current behavior:
+
+- `developmentLevel` remains the overall 0-20 development summary.
+- If component fields are present, overall development is derived from Urbanization, Rural Development, Infrastructure, and Living Standard.
+- Existing rows seed components from their current `developmentLevel`, so the migration is neutral.
+
 Direct effects:
 
 - BC: increases industrial contribution, tax revenue, collection, and development multipliers.
@@ -254,6 +262,63 @@ Direct effects:
 - Military supply: increases maximum supported equipment complexity.
 - Fiscal model: high development is required for auto High Capacity State / Welfare State.
 - Mobilization: increases wartime foundation, state capacity, ability, and endurance.
+
+### Development Components
+
+Types: editable/raw component fields.
+
+Fields:
+
+- `urbanizationRate`: 0-100%, converted to a 0-20 contribution internally.
+- `ruralDevelopment`: 0-20 countryside productivity, services, and rural state reach.
+- `infrastructureLevel`: 0-20 roads, power, logistics, ports, rail, and internal movement.
+- `livingStandard`: 0-20 public health, formal consumer economy, and general prosperity.
+
+Derived overall development:
+
+```text
+developmentLevel =
+  urbanization contribution * 15%
+  + rural development * 20%
+  + infrastructure * 35%
+  + living standard * 30%
+```
+
+Important:
+
+- Editing old `Development` resets the component fields to match that overall value.
+- Editing a component recalculates `developmentLevel`.
+- Industrial Sophistication is not part of overall development, so it does not become a hidden general BC booster.
+
+### Industrial Sophistication
+
+Type: editable/auto-derived national stat with a stored baseline.
+
+Meaning:
+
+- Represents machine tooling, precision manufacturing, supplier networks, standards, maintenance culture, process control, and the ability to support complex production chains.
+- It is not literacy. Literacy is the human-capital bottleneck; sophistication is the production-chain and tooling bottleneck.
+
+Current behavior:
+
+- If missing, the engine auto-determines it from development, infrastructure, literacy, and industrial depth.
+- The first determined value becomes `industrialSophisticationBaseline`.
+- High-tier output uses current sophistication relative to the baseline, so no nation jumps at migration.
+- Manual edits mark the value as GM-overridden.
+
+Direct effects:
+
+- Improved/Advanced civilian factory effective output.
+- Improved/Advanced military factory effective output.
+- Large/Mega shipyard effective output.
+- Military supply growth through the effective military output and a direct sophistication supply multiplier.
+- Yearly industrial modernization.
+
+Does not directly do:
+
+- It does not improve Basic factories or Medium shipyards.
+- It does not directly change population, crime, corruption, or raw trade shares.
+- It does not directly alter general BC except through high-tier effective output.
 
 ### Budget Capacity
 
@@ -785,6 +850,9 @@ Outputs:
 - Military factories.
 - Shipyards.
 - Default/basic sector counts are adjusted along with physical totals.
+- Modernization can convert Basic Civilian to Improved Civilian, Improved Civilian to Advanced Civilian, Basic Military to Improved Military, Improved Military to Advanced Military, Medium Shipyards to Large Shipyards, and Large Shipyards to Mega Shipyards.
+- Modernization requires industrial sophistication and is affected by literacy, development, infrastructure, economic health, and sector-specific military or shipyard depth.
+- Modernization upgrades existing lower-tier stock; it does not create advanced factories from nothing.
 
 ## Population Stats
 
@@ -860,6 +928,7 @@ Type: editable/current value and yearly-simulation affected.
 Yearly supply gain depends on:
 
 - Effective military factory output.
+- Industrial sophistication.
 - Mobilization supply multiplier.
 - Equipment complexity multiplier.
 - Development vs equipment complexity tech gap.
@@ -1077,6 +1146,7 @@ Strongest direct BC inputs:
 - Effective military factories.
 - Effective shipyards.
 - Development.
+- Industrial sophistication through high-tier effective output.
 - Population and tax rate.
 - Governmental efficiency.
 - Governmental corruption/crime through fiscal corruption.
@@ -1156,6 +1226,7 @@ Strongest yearly supply inputs:
 
 - Current military supply.
 - Effective military factories.
+- Industrial sophistication.
 - Mobilization level.
 - Equipment complexity.
 - Development level.
