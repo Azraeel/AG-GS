@@ -289,10 +289,12 @@ Important:
 
 - Missing or old placeholder components are inferred from population, industrial density, shipyard density, trade intensity, budget capacity per capita, literacy, stability, crime/corruption, economic health, and trade diversity.
 - The inference uses log-scaled comparisons across active countries so large countries do not automatically dominate small dense industrial states.
+- Inferred `urbanizationRate` is capped as a realistic population share, not as a pure development score. Major countries should not infer to 100%; high development means strong urban pull, but farms, mining towns, military sites, rural settlements, and food systems keep a rural population floor.
 - The inferred component spread is display/profile information. Auto-inferred rows preserve the previous `developmentLevel`; BC/trade should not jump just because the display components got better.
 - The system treats 20 as the current-era reference for 2026 balance, while allowing development values up to 50 for future-era or exceptional countries.
 - Editing old `Development` recalculates inferred component fields around that new overall value.
 - Editing a component recalculates `developmentLevel`.
+- Yearly population simulation can change `urbanizationRate`: if total population grows faster than city absorption, the urban share declines because more people are effectively being added to rural areas; if city absorption is strong, urban share rises toward the realistic ceiling.
 - Manually edited components are preserved by later normalization.
 - Industrial Sophistication is not part of overall development, so it does not become a hidden general BC booster.
 

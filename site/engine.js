@@ -62,11 +62,12 @@
     infrastructureLevel: 0.35,
     livingStandard: 0.3
   };
-  const DEVELOPMENT_COMPONENT_FORMULA_VERSION = "components2026-rural-quality";
+  const DEVELOPMENT_COMPONENT_FORMULA_VERSION = "components2026-urban-realism";
   const DEVELOPMENT_CURRENT_REFERENCE = 20;
   const DEVELOPMENT_LEVEL_MAX = 50;
   const DEVELOPMENT_COMPONENT_LEVEL_MAX = 60;
   const URBANIZATION_COMPONENT_LEVEL_MAX = 20;
+  const URBANIZATION_CURRENT_MAX = 92;
   const MOBILIZATION_FINANCE = {
     None: { activationShare: 0, rampRate: 0, strainStartYears: 0, strainRate: 0, maxStrain: 0, autoSpendShare: 0 },
     Partial: { activationShare: 0.68, rampRate: 0.24, strainStartYears: 2.8, strainRate: 0.075, maxStrain: 0.55, autoSpendShare: 0.52 },
@@ -220,6 +221,14 @@
 
   function currentEraDevelopmentRatio(value) {
     return clamp(developmentLevelValue(value, 0) / DEVELOPMENT_CURRENT_REFERENCE, 0, 1);
+  }
+
+  function developmentComponentValue(value, fallback = 10) {
+    return clamp(number(value, fallback), 0, DEVELOPMENT_COMPONENT_LEVEL_MAX);
+  }
+
+  function urbanizationRateValue(value, fallback = 50) {
+    return clamp(number(value, fallback), 0, 100);
   }
 
   function roundCurrency(value) {
@@ -455,6 +464,20 @@
     const budgetIntensity = scaledMetric(context, "budgetIntensity", profile.budgetIntensity);
     const populationScale = scaledMetric(context, "population", profile.population);
     const diversityRatio = clamp(number(trade.economicTradeDiversity, 50) / 260, 0, 1);
+    const urbanizationRateCap = clamp(
+      66
+        + developmentRatio * 17
+        + industryDensity * 4.5
+        + budgetIntensity * 2.5
+        + tradeIntensity * 2
+        + shipyardDensity * 1.2
+        + healthRatio * 1.8
+        + literacyRatio * 2.2
+        - populationScale * 9
+        + futureDevelopmentShare * 8,
+      35,
+      development > DEVELOPMENT_CURRENT_REFERENCE ? 98 : URBANIZATION_CURRENT_MAX
+    );
     const urbanizationLevel = 20 * (
       developmentRatio * 0.38
         + industryDensity * 0.25
@@ -521,6 +544,7 @@
           + industryDensity * 0.03
       )
     }, development, {
+      urbanizationLevel: urbanizationRateCap / 5,
       ruralDevelopment: ruralQualityCap,
       livingStandard: livingStandardCap
     });
@@ -534,8 +558,8 @@
 
   function developmentComponentLevel(national = {}, key, fallbackDevelopment = developmentLevelValue(national.developmentLevel, 10)) {
     const defaults = developmentComponentDefaults(fallbackDevelopment);
-    if (key === "urbanizationRate") return clamp(number(national.urbanizationRate, defaults.urbanizationRate), 0, 100) / 5;
-    return developmentLevelValue(national[key], defaults[key]);
+    if (key === "urbanizationRate") return urbanizationRateValue(national.urbanizationRate, defaults.urbanizationRate) / 5;
+    return developmentComponentValue(national[key], defaults[key]);
   }
 
   function developmentLevelFromComponents(national = {}) {
@@ -550,7 +574,7 @@
         + infrastructure * DEVELOPMENT_COMPONENT_WEIGHTS.infrastructureLevel
         + livingStandard * DEVELOPMENT_COMPONENT_WEIGHTS.livingStandard,
       0,
-      20
+      DEVELOPMENT_LEVEL_MAX
     ));
   }
 
@@ -1833,6 +1857,96 @@
     calculateBudgetBreakdownForNation
   });
 
+  function healthUrbanizationMomentum(health = "Recovery") {
+    return { Depression: -0.18, Recession: -0.11, Slowdown: -0.05, Recovery: 0.02, Expansion: 0.07, Prosperity: 0.1 }[health] || 0;
+  }
+
+  function urbanizationSimulationCeiling(national = {}) {
+    const development = developmentLevelValue(national.developmentLevel, 0);
+    const developmentRatio = currentEraDevelopmentRatio(development);
+    const futureDevelopmentShare = Math.max(0, developmentReferenceRatio(development) - 1);
+    const infrastructureRatio = clamp(developmentComponentLevel(national, "infrastructureLevel", development) / DEVELOPMENT_CURRENT_REFERENCE, 0, 1.5);
+    const livingRatio = clamp(developmentComponentLevel(national, "livingStandard", development) / DEVELOPMENT_CURRENT_REFERENCE, 0, 1.5);
+    const literacyRatio = clamp(literacyRateForNational(national) / 100, 0, 1);
+    const stabilityRatio = clamp(number(national.governmentalStability, 70) / 100, 0, 1);
+    const governance = governanceMetrics(national);
+    const integrityRatio = clamp(1 - governance.socialCorruption / 100, 0, 1);
+    return roundPercent(clamp(
+      48
+        + developmentRatio * 18
+        + infrastructureRatio * 10
+        + livingRatio * 4
+        + literacyRatio * 3
+        + stabilityRatio * 2
+        + integrityRatio * 2
+        + futureDevelopmentShare * 8,
+      35,
+      development > DEVELOPMENT_CURRENT_REFERENCE ? 98 : URBANIZATION_CURRENT_MAX
+    ));
+  }
+
+  function advanceUrbanizationFromPopulation(data, id, populationMetrics) {
+    const national = data.national?.[id];
+    if (!national) return null;
+    const previousUrbanization = urbanizationRateValue(national.urbanizationRate, developmentLevelValue(national.developmentLevel, 10) * 4);
+    const ceiling = urbanizationSimulationCeiling(national);
+    const infrastructureRatio = clamp(developmentComponentLevel(national, "infrastructureLevel") / DEVELOPMENT_CURRENT_REFERENCE, 0, 1.5);
+    const developmentRatio = currentEraDevelopmentRatio(national.developmentLevel);
+    const governance = governanceMetrics(national);
+    const bureaucracyDrag = 1 - governance.efficiencyMultiplier;
+    const unrest = clamp(number(national.publicUnrest, 0), 0, 10);
+    const growthRate = number(populationMetrics.growthRate, 0);
+    const migrationGrowth = number(populationMetrics.migrationGrowth, 0);
+    const cityAbsorption = clamp(
+      -0.22
+        + developmentRatio * 0.28
+        + infrastructureRatio * 0.32
+        + healthUrbanizationMomentum(national.economicHealth)
+        + Math.max(0, migrationGrowth) * 0.18
+        - Math.max(0, -migrationGrowth) * 0.1
+        - bureaucracyDrag * 0.35
+        - unrest * 0.025
+        - governance.socialCorruption * 0.003,
+      -0.9,
+      1.2
+    );
+    const ruralGrowthPressure = Math.max(0, growthRate) * clamp((100 - previousUrbanization) / 60, 0.12, 1.1) * 0.48;
+    const headroomRatio = clamp((ceiling - previousUrbanization) / 18, 0, 1);
+    const overCeilingDrag = Math.max(0, previousUrbanization - ceiling) * 0.08;
+    const cityAbsorptionEffect = cityAbsorption >= 0 ? cityAbsorption * headroomRatio : cityAbsorption;
+    const urbanizationChange = roundPercent(clamp(cityAbsorptionEffect - ruralGrowthPressure - overCeilingDrag, -1.2, 0.85));
+    if (Math.abs(urbanizationChange) < 0.005) {
+      return {
+        urbanizationRate: previousUrbanization,
+        urbanizationRateChange: 0,
+        urbanizationCeiling: ceiling,
+        cityAbsorption: roundPercent(cityAbsorption),
+        ruralGrowthPressure: roundPercent(ruralGrowthPressure),
+        overCeilingDrag: roundPercent(overCeilingDrag),
+        developmentLevelChange: 0
+      };
+    }
+
+    const nextUrbanization = roundPercent(clamp(previousUrbanization + urbanizationChange, 5, Math.max(ceiling, previousUrbanization)));
+    const actualChange = roundPercent(nextUrbanization - previousUrbanization);
+    const developmentDelta = roundPercent((actualChange / 5) * DEVELOPMENT_COMPONENT_WEIGHTS.urbanizationRate);
+    national.urbanizationRate = nextUrbanization;
+    national.developmentLevel = roundPercent(clamp(developmentLevelValue(national.developmentLevel, 0) + developmentDelta, 0, DEVELOPMENT_LEVEL_MAX));
+    national.developmentComponentsManual = false;
+    national.developmentComponentsFormulaVersion = DEVELOPMENT_COMPONENT_FORMULA_VERSION;
+    refreshAutoIndustrialSophistication(data, id);
+
+    return {
+      urbanizationRate: nextUrbanization,
+      urbanizationRateChange: actualChange,
+      urbanizationCeiling: ceiling,
+      cityAbsorption: roundPercent(cityAbsorption),
+      ruralGrowthPressure: roundPercent(ruralGrowthPressure),
+      overCeilingDrag: roundPercent(overCeilingDrag),
+      developmentLevelChange: developmentDelta
+    };
+  }
+
   function advancePopulation(data, id, fromYear, toYear) {
     const national = data.national[id];
     const populationRow = data.population[id];
@@ -1881,6 +1995,11 @@
     const growthRate = roundPercent(rawGrowthRate * inertiaMultiplier);
     const nextPopulation = Math.round(currentPopulation * (1 + growthRate / 100));
     setPopulation(data, id, toYear, nextPopulation);
+    const urbanization = advanceUrbanizationFromPopulation(data, id, {
+      growthRate,
+      naturalGrowth,
+      migrationGrowth
+    });
     return {
       from: currentPopulation,
       to: nextPopulation,
@@ -1896,7 +2015,8 @@
       maturityStabilizer: roundPercent(maturityStabilizer),
       literacyGrowthSlowdown: roundPercent(literacyGrowthSlowdown),
       policyEffect: roundPercent(policyEffect),
-      stressPenalty: roundPercent(stressPenalty)
+      stressPenalty: roundPercent(stressPenalty),
+      urbanization
     };
   }
 
