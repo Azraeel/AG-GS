@@ -11,6 +11,8 @@
       governanceMetrics,
       industrialSectorOutputs
     } = deps;
+    const DEVELOPMENT_CURRENT_REFERENCE = 20;
+    const DEVELOPMENT_LEVEL_MAX = 50;
     const DEFAULT_MAP_WIDTH = 100;
     const DEFAULT_MAP_HEIGHT = 100;
     const DEFAULT_MAP_DIAGONAL = 141.4213562373;
@@ -111,8 +113,26 @@
       return data.tradeNetwork;
     }
 
+    function developmentLevelValue(value) {
+      return clamp(number(value, 0), 0, DEVELOPMENT_LEVEL_MAX);
+    }
+
+    function developmentReferenceRatio(value) {
+      return clamp(developmentLevelValue(value) / DEVELOPMENT_CURRENT_REFERENCE, 0, DEVELOPMENT_LEVEL_MAX / DEVELOPMENT_CURRENT_REFERENCE);
+    }
+
+    function developmentTradeFactor(value) {
+      const development = developmentLevelValue(value);
+      if (development <= DEVELOPMENT_CURRENT_REFERENCE) {
+        return clamp(0.46 + development / 22, 0.46, 1.36);
+      }
+      const futureMax = 0.46 + DEVELOPMENT_LEVEL_MAX / 22;
+      const futureShare = (development - DEVELOPMENT_CURRENT_REFERENCE) / (DEVELOPMENT_LEVEL_MAX - DEVELOPMENT_CURRENT_REFERENCE);
+      return clamp(1.36 + futureShare * (futureMax - 1.36), 1.36, futureMax);
+    }
+
     function tradeLogisticsProfile(input = {}) {
-      const development = clamp(number(input.developmentLevel, 0), 0, 20);
+      const development = developmentLevelValue(input.developmentLevel);
       const shipyards = Math.max(0, number(input.shipyards, 0));
       const civilianFactories = Math.max(0, number(input.civilianFactories, 0));
       const stability = clamp(number(input.governmentalStability, 70), 0, 100);
@@ -298,7 +318,7 @@
     function valueAddedStrength(input) {
       const industryScale = input.civilianFactories + input.militaryFactories * 0.35 + input.shipyards * 2.5;
       const diversityScore = clamp(Math.sqrt(Math.max(0, input.economicTradeDiversity)) / 12, 0, 1.18);
-      const developmentScore = clamp(input.developmentLevel / 20, 0, 1);
+      const developmentScore = developmentReferenceRatio(input.developmentLevel);
       const industryScore = clamp(Math.log10(Math.max(industryScale, 1)) / 3, 0, 1);
       const shipyardScore = clamp(Math.sqrt(Math.max(input.shipyards, 0)) / 10, 0, 1);
       const stabilityScore = clamp(number(input.governmentalStability, 70) / 100, 0, 1);
@@ -337,7 +357,7 @@
       const populationMarket = Math.sqrt(Math.max(input.population, 0) / 1000000) * 5200;
       const industrialMarket = input.civilianFactories * 1500 + input.militaryFactories * 340 + input.shipyards * 3000;
       const budgetMarket = Math.sqrt(Math.max(input.budgetCapacity, 0)) * 1900;
-      const developmentFactor = clamp(0.46 + clamp(input.developmentLevel, 0, 20) / 22, 0.46, 1.36);
+      const developmentFactor = developmentTradeFactor(input.developmentLevel);
       const stabilityFactor = clamp(0.74 + number(input.governmentalStability, 70) / 360 - number(input.corruption, 0) / 290, 0.42, 1.08) * governanceEfficiencyMultiplier(input);
       const healthFactor = { Prosperity: 1.14, Expansion: 1.08, Recovery: 1, Slowdown: 0.84, Recession: 0.62, Depression: 0.38 }[input.economicHealth] || 1;
       return Math.max(120, (populationMarket + industrialMarket + budgetMarket) * developmentFactor * stabilityFactor * healthFactor);

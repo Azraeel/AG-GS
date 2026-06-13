@@ -249,9 +249,10 @@ Type: editable/raw.
 
 Current behavior:
 
-- `developmentLevel` remains the overall 0-20 development summary.
+- `developmentLevel` remains the overall 0-50 development summary.
+- In the current 2026-era world, 20 is the highest live value and the current-era reference point. It is not the absolute ceiling.
 - If component fields are present, overall development is derived from Urbanization, Rural Development, Infrastructure, and Living Standard.
-- Existing rows infer components from country profile data, then anchor the weighted average back to the current `developmentLevel`, so the migration is neutral.
+- Existing rows infer components from country profile data, then preserve the current `developmentLevel` directly, so the migration is neutral even when quality caps keep the display split below the old average.
 
 Direct effects:
 
@@ -269,10 +270,10 @@ Types: editable/raw component fields.
 
 Fields:
 
-- `urbanizationRate`: 0-100%, converted to a 0-20 contribution internally.
-- `ruralDevelopment`: 0-20 countryside productivity, services, and rural state reach.
-- `infrastructureLevel`: 0-20 roads, power, logistics, ports, rail, and internal movement.
-- `livingStandard`: 0-20 public health, formal consumer economy, and general prosperity.
+- `urbanizationRate`: 0-100%, converted to a development contribution internally.
+- `ruralDevelopment`: countryside productivity, services, and rural state reach.
+- `infrastructureLevel`: roads, power, logistics, ports, rail, and internal movement.
+- `livingStandard`: public health, formal consumer economy, and general prosperity.
 
 Derived overall development:
 
@@ -288,7 +289,8 @@ Important:
 
 - Missing or old placeholder components are inferred from population, industrial density, shipyard density, trade intensity, budget capacity per capita, literacy, stability, crime/corruption, economic health, and trade diversity.
 - The inference uses log-scaled comparisons across active countries so large countries do not automatically dominate small dense industrial states.
-- The inferred component spread is anchored so the weighted average remains the previous `developmentLevel`; BC/trade should not jump just because the display components got better.
+- The inferred component spread is display/profile information. Auto-inferred rows preserve the previous `developmentLevel`; BC/trade should not jump just because the display components got better.
+- The system treats 20 as the current-era reference for 2026 balance, while allowing development values up to 50 for future-era or exceptional countries.
 - Editing old `Development` recalculates inferred component fields around that new overall value.
 - Editing a component recalculates `developmentLevel`.
 - Manually edited components are preserved by later normalization.
