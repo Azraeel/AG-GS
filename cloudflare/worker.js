@@ -1,3 +1,5 @@
+import { DurableObject } from "cloudflare:workers";
+
 const STATE_KEY = "global-ledger-state";
 const STATE_META_KEY = `${STATE_KEY}:meta`;
 const STATE_DATA_KEY = `${STATE_KEY}:data`;
@@ -5,6 +7,7 @@ const STATE_ADMIN_RESPONSE_KEY = `${STATE_KEY}:response:admin`;
 const STATE_PUBLIC_RESPONSE_KEY = `${STATE_KEY}:response:public`;
 const SNAPSHOT_INDEX_KEY = "global-ledger-state:snapshots";
 const SNAPSHOT_PREFIX = "global-ledger-state:snapshot:";
+const LIVE_OBJECT_NAME = "global-ledger-live";
 const MAX_SNAPSHOTS = 50;
 const DEFAULT_ALLOWED_HOSTS = ["aggsworld.net"];
 
@@ -34,8 +37,22 @@ function snapshotKey(revision) {
   return `${SNAPSHOT_PREFIX}${revision}`;
 }
 
+function livePayload(meta, type = "state-updated") {
+  return {
+    ok: true,
+    type,
+    revision: number(meta?.revision, 0),
+    updatedAt: meta?.updatedAt || "",
+    nationCount: number(meta?.nationCount, 0),
+    activeNationCount: number(meta?.activeNationCount, 0),
+    revertedFromRevision: meta?.revertedFromRevision
+  };
+}
+
 function isApiPath(pathname) {
   return (
+    pathname === "/api/live" ||
+    pathname === "/admin/api/live" ||
     pathname === "/api/state" ||
     pathname === "/api/state/meta" ||
     pathname === "/admin/api/state" ||
@@ -173,6 +190,28 @@ async function putCurrentState(env, meta, dataText, publicDataText) {
   ]);
 }
 
+async function notifyLiveClients(env, meta, type = "state-updated") {
+  if (!env.AGGS_LIVE) return;
+  const id = env.AGGS_LIVE.idFromName(LIVE_OBJECT_NAME);
+  const liveObject = env.AGGS_LIVE.get(id);
+  await liveObject.fetch("https://aggs-live.internal/broadcast", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(livePayload(meta, type))
+  });
+}
+
+function liveSocketRequest(request, env) {
+  if (!env.AGGS_LIVE) {
+    return json({ ok: false, message: "AGGS_LIVE Durable Object binding is not configured." }, { status: 501 });
+  }
+  if (request.headers.get("Upgrade")?.toLowerCase() !== "websocket") {
+    return json({ ok: false, message: "Expected WebSocket upgrade." }, { status: 426 });
+  }
+  const id = env.AGGS_LIVE.idFromName(LIVE_OBJECT_NAME);
+  return env.AGGS_LIVE.get(id).fetch(request);
+}
+
 async function getState(env, isAdmin = false) {
   const responseKey = isAdmin ? STATE_ADMIN_RESPONSE_KEY : STATE_PUBLIC_RESPONSE_KEY;
   const cachedResponse = await env.AGGS_LEDGER.get(responseKey);
@@ -246,7 +285,7 @@ async function getSnapshot(env, pathname) {
   return jsonText(snapshotText.startsWith('{"ok":') ? snapshotText : `{"ok":true,"snapshot":${snapshotText}}`);
 }
 
-async function putState(request, env) {
+async function putState(request, env, ctx) {
   const bodyText = await request.text();
   const body = parseJson(bodyText);
   if (!body?.data?.meta || !Array.isArray(body.data.nations)) {
@@ -283,10 +322,11 @@ async function putState(request, env) {
   const dataText = JSON.stringify(data);
   const publicDataText = JSON.stringify(redactPublicData(data));
   await putCurrentState(env, meta, dataText, publicDataText);
+  ctx?.waitUntil?.(notifyLiveClients(env, meta, "state-updated"));
   return json({ ok: true, revision, updatedAt, updatedBy });
 }
 
-async function revertState(request, env) {
+async function revertState(request, env, ctx) {
   const body = await request.json().catch(() => null);
   const snapshotRevision = number(body?.snapshotRevision, NaN);
   if (!Number.isFinite(snapshotRevision)) {
@@ -351,11 +391,81 @@ async function revertState(request, env) {
   const dataText = JSON.stringify(data);
   const publicDataText = JSON.stringify(redactPublicData(data));
   await putCurrentState(env, meta, dataText, publicDataText);
+  ctx?.waitUntil?.(notifyLiveClients(env, meta, "state-reverted"));
   return json({ ok: true, revision, updatedAt, updatedBy, revertedFromRevision: snapshotRevision });
 }
 
+export class LedgerLiveObject extends DurableObject {
+  constructor(ctx, env) {
+    super(ctx, env);
+  }
+
+  async fetch(request) {
+    const url = new URL(request.url);
+    if (url.pathname === "/broadcast" && request.method === "POST") {
+      const payload = await request.json().catch(() => null);
+      if (!payload?.revision) return json({ ok: false, message: "Revision payload is required." }, { status: 400 });
+      this.broadcast(payload);
+      return json({ ok: true, connections: this.ctx.getWebSockets().length });
+    }
+
+    if (request.headers.get("Upgrade")?.toLowerCase() !== "websocket") {
+      return new Response("Expected WebSocket upgrade.", { status: 426 });
+    }
+
+    const pair = new WebSocketPair();
+    const [client, server] = Object.values(pair);
+    server.serializeAttachment?.({ connectedAt: new Date().toISOString() });
+    this.ctx.acceptWebSocket(server);
+    await this.sendCurrentRevision(server);
+    return new Response(null, { status: 101, webSocket: client });
+  }
+
+  broadcast(payload) {
+    const text = JSON.stringify(payload);
+    for (const socket of this.ctx.getWebSockets()) {
+      try {
+        socket.send(text);
+      } catch (error) {
+        try {
+          socket.close(1011, "Broadcast failed.");
+        } catch (closeError) {
+          // Ignore sockets already closed by the runtime.
+        }
+      }
+    }
+  }
+
+  async sendCurrentRevision(socket) {
+    try {
+      const meta = await loadCurrentMeta(this.env);
+      if (meta?.revision) {
+        socket.send(JSON.stringify(livePayload(meta, "hello")));
+      } else {
+        socket.send(JSON.stringify({ ok: true, type: "ready-empty" }));
+      }
+    } catch (error) {
+      socket.send(JSON.stringify({ ok: false, type: "error", message: "Live revision metadata is unavailable." }));
+    }
+  }
+
+  async webSocketMessage(socket, message) {
+    if (typeof message !== "string") return;
+    const payload = parseJson(message);
+    if (payload?.type === "sync") await this.sendCurrentRevision(socket);
+  }
+
+  async webSocketClose(socket, code, reason) {
+    try {
+      socket.close(code, reason);
+    } catch (error) {
+      socket.close(1000, "Closed.");
+    }
+  }
+}
+
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     if (!isAllowedHost(url.hostname, env)) {
@@ -377,6 +487,10 @@ export default {
       return json({ ok: false, message: "Cloudflare Access identity is required." }, { status: 403 });
     }
 
+    if (request.method === "GET" && (url.pathname === "/api/live" || url.pathname === "/admin/api/live")) {
+      return liveSocketRequest(request, env);
+    }
+
     if (request.method === "GET" && (url.pathname === "/api/state/meta" || url.pathname === "/admin/api/state/meta")) {
       return getStateMeta(env, isAdminPath(url.pathname));
     }
@@ -395,10 +509,10 @@ export default {
       if (url.pathname !== "/admin/api/state") {
         return json({ ok: false, message: "Use the protected admin API path for writes." }, { status: 405 });
       }
-      return putState(request, env);
+      return putState(request, env, ctx);
     }
 
-    if (request.method === "POST" && url.pathname === "/admin/api/revert") return revertState(request, env);
+    if (request.method === "POST" && url.pathname === "/admin/api/revert") return revertState(request, env, ctx);
 
     return json({ ok: false, message: "Method not allowed." }, { status: 405 });
   }

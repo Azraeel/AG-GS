@@ -12,7 +12,7 @@ Global Ledger brings the AG-GS world state into a fast, readable web application
 
 Approved editors use the admin workspace to update records, run calculations, advance years, publish live changes, and export updated datasets.
 
-The live ledger is served through the AG-GS API, keeping the deployed website focused on the application experience rather than a static copy of the world state.
+The live ledger is served through the AG-GS API, keeping the deployed website focused on the application experience rather than a static copy of the world state. Browsers load the current ledger over HTTP, then use a WebSocket live channel for revision notifications so open tabs do not continuously poll the API.
 
 ## Core Features
 

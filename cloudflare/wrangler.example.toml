@@ -13,3 +13,11 @@ ALLOWED_HOSTS = "aggsworld.net"
 [[kv_namespaces]]
 binding = "AGGS_LEDGER"
 id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+[[durable_objects.bindings]]
+name = "AGGS_LIVE"
+class_name = "LedgerLiveObject"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = [ "LedgerLiveObject" ]

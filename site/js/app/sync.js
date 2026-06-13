@@ -138,39 +138,111 @@
       }
     }
 
-    async function fetchSharedMeta() {
-      if (!sharedSync.enabled || sharedSync.isPublishing || sharedSync.hasPendingLocalChange) return;
-      if (document.hidden) return;
-      if (!sharedSync.revision) {
+    function sharedLiveUrl() {
+      const url = new URL(sharedSync.liveEndpoint || sharedSync.endpoint, window.location.href);
+      url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
+      return url.toString();
+    }
+
+    function parseLiveMessage(message) {
+      if (!message || typeof message !== "string") return null;
+      try {
+        return JSON.parse(message);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    async function handleLiveMessage(message) {
+      const payload = parseLiveMessage(message);
+      if (!payload?.ok) return;
+      if (payload.type === "ready-empty") {
+        markSync("ready-empty");
+        return;
+      }
+      const nextRevision = Number(payload.revision || 0);
+      if (!nextRevision) return;
+      sharedSync.updatedAt = payload.updatedAt || sharedSync.updatedAt;
+      if (!sharedSync.revision || nextRevision !== sharedSync.revision) {
         await fetchSharedState();
         return;
       }
+      markSync("online");
+    }
+
+    function clearSocketReconnect() {
+      clearTimeout(sharedSync.socketReconnectTimer);
+      sharedSync.socketReconnectTimer = null;
+    }
+
+    function scheduleSocketReconnect() {
+      if (!sharedSync.enabled || !sharedSync.liveEndpoint) return;
+      if (sharedSync.socketReconnectTimer) return;
+      const delay = sharedSync.socketReconnectMs || 1000;
+      sharedSync.socketReconnectTimer = setTimeout(() => {
+        sharedSync.socketReconnectTimer = null;
+        connectSharedSocket();
+      }, delay);
+      sharedSync.socketReconnectMs = Math.min(Math.round(delay * 1.8), sharedSync.socketReconnectMaxMs || 300000);
+    }
+
+    function sendSocketSyncRequest() {
+      if (!sharedSync.socket || sharedSync.socket.readyState !== WebSocket.OPEN) return false;
       try {
-        const response = await fetch(sharedSync.metaEndpoint, {
-          cache: "no-store",
-          credentials: "same-origin",
-          headers: { Accept: "application/json" }
-        });
-        const payload = await readSharedJson(response);
-        if (response.status === 404 && payload?.code === "NO_SHARED_STATE") {
-          markSync("ready-empty", payload.message || "");
-          return;
-        }
-        if (!response.ok || !payload?.ok) {
-          markSync("offline", payload?.message || "Shared sync is unavailable.");
-          return;
-        }
-        const nextRevision = Number(payload.revision || 0);
-        if (nextRevision && nextRevision !== sharedSync.revision) {
-          await fetchSharedState();
-          return;
-        }
-        sharedSync.updatedAt = payload.updatedAt || sharedSync.updatedAt;
-        sharedSync.updatedBy = payload.updatedBy || sharedSync.updatedBy;
-        markSync("online");
+        sharedSync.socket.send(JSON.stringify({ type: "sync" }));
+        return true;
       } catch (error) {
-        markSync("offline", "Shared sync is unavailable.");
+        return false;
       }
+    }
+
+    function connectSharedSocket() {
+      if (!sharedSync.enabled || !sharedSync.liveEndpoint) return false;
+      if (!("WebSocket" in window)) {
+        markSync("offline", "Live sync requires WebSocket support.");
+        return false;
+      }
+      if (sharedSync.socket && [WebSocket.CONNECTING, WebSocket.OPEN].includes(sharedSync.socket.readyState)) return true;
+
+      clearSocketReconnect();
+      let socket;
+      try {
+        socket = new WebSocket(sharedLiveUrl());
+      } catch (error) {
+        markSync(sharedSync.revision ? "reconnecting" : "offline", "Live sync socket is unavailable.");
+        scheduleSocketReconnect();
+        return false;
+      }
+
+      sharedSync.socket = socket;
+      markSync(sharedSync.revision ? "reconnecting" : "connecting");
+
+      socket.addEventListener("open", () => {
+        sharedSync.socketConnected = true;
+        sharedSync.socketReconnectMs = 1000;
+        markSync(sharedSync.revision ? "online" : "connecting");
+      });
+
+      socket.addEventListener("message", (event) => {
+        handleLiveMessage(event.data);
+      });
+
+      socket.addEventListener("close", () => {
+        if (sharedSync.socket === socket) sharedSync.socket = null;
+        sharedSync.socketConnected = false;
+        markSync(sharedSync.revision ? "reconnecting" : "offline", "Live sync socket disconnected.");
+        scheduleSocketReconnect();
+      });
+
+      socket.addEventListener("error", () => {
+        try {
+          socket.close();
+        } catch (error) {
+          // The close event will schedule the reconnect if the socket is still active.
+        }
+      });
+
+      return true;
     }
 
     async function fetchSnapshots(force = false) {
@@ -333,10 +405,11 @@
         markSync("local");
         return;
       }
-      fetchSharedState();
-      sharedSync.pollTimer = setInterval(fetchSharedMeta, sharedSync.pollMs);
+      fetchSharedState().finally(connectSharedSocket);
       document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) fetchSharedMeta();
+        if (document.hidden) return;
+        if (!connectSharedSocket()) return;
+        sendSocketSyncRequest();
       });
     }
 
@@ -348,7 +421,7 @@
       downloadText,
       markSync,
       fetchSharedState,
-      fetchSharedMeta,
+      connectSharedSocket,
       fetchSnapshots,
       revertSelectedSnapshot,
       exportSelectedSnapshot,

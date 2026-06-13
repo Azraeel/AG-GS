@@ -41,16 +41,24 @@
   const adminOnlyActions = new Set(AppConfig.adminOnlyActions);
   const forceLocalPreview = window.AGGS_DISABLE_SHARED_SYNC === true || location.hostname.endsWith(".pages.dev");
   const sharedSyncEndpoint = window.AGGS_API_URL || (isAdmin ? "/admin/api/state" : "/api/state");
+  function sharedLiveEndpointFor(endpoint) {
+    const trimmed = endpoint.replace(/\/$/, "");
+    return trimmed.endsWith("/state") ? `${trimmed.slice(0, -"/state".length)}/live` : `${trimmed}/live`;
+  }
   const sharedSync = {
     enabled: !forceLocalPreview && location.protocol.startsWith("http") && !["localhost", "127.0.0.1", "::1"].includes(location.hostname),
     endpoint: sharedSyncEndpoint,
-    metaEndpoint: `${sharedSyncEndpoint.replace(/\/$/, "")}/meta`,
-    pollMs: isAdmin ? 15000 : 60000,
+    liveEndpoint: sharedLiveEndpointFor(sharedSyncEndpoint),
     revision: null,
     status: "connecting",
     message: "",
     updatedAt: "",
     updatedBy: "",
+    socket: null,
+    socketConnected: false,
+    socketReconnectTimer: null,
+    socketReconnectMs: 1000,
+    socketReconnectMaxMs: 300000,
     snapshots: [],
     snapshotsLoaded: false,
     isLoadingSnapshots: false,
@@ -58,12 +66,11 @@
     hasPendingLocalChange: false,
     publishQueued: false,
     pendingPublishMessage: "",
-    publishTimer: null,
-    pollTimer: null
+    publishTimer: null
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260613-sync-poll-budget";
+  const APP_ASSET_VERSION = "20260613-websocket-sync";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
 
@@ -210,6 +217,7 @@
     }
     if (sharedSync.status === "publishing") return short ? "Publishing" : "Publishing changes to the shared ledger.";
     if (sharedSync.status === "connecting") return short ? "Connecting sync" : "Connecting to the shared ledger.";
+    if (sharedSync.status === "reconnecting") return short ? "Sync reconnecting" : "Live sync is reconnecting; this browser is using the last loaded ledger.";
     if (sharedSync.status === "ready-empty") return short ? "Ready to publish" : "Shared ledger is ready; publish once from the admin workspace to initialize it.";
     if (sharedSync.status === "offline") return short ? "Sync offline" : "Shared sync is offline; this browser is using its local copy.";
     return short ? "Local mode" : "Local browser fallback.";
