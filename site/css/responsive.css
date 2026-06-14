@@ -73,10 +73,6 @@
     border-right: 1px solid var(--editor-soft-line);
   }
 
-  .roster-seed-card {
-    grid-column: span 4;
-  }
-
   .roster-archive-card {
     grid-column: span 4;
   }
@@ -258,7 +254,6 @@
   .nation-manager-select-card,
   .roster-create-card,
   .roster-rename-card,
-  .roster-seed-card,
   .roster-archive-card,
   .roster-restore-card {
     grid-column: 1 / -1;
@@ -268,7 +263,6 @@
 
   .roster-create-card,
   .roster-rename-card,
-  .roster-seed-card,
   .roster-archive-card,
   .roster-restore-card {
     border-top: 1px solid var(--editor-soft-line);
@@ -323,7 +317,6 @@
   .nation-manager-select-card,
   .roster-create-card,
   .roster-rename-card,
-  .roster-seed-card,
   .roster-archive-card,
   .roster-restore-card,
   .snapshot-recovery-controls,

@@ -231,12 +231,6 @@
             </label>
             <button class="command" type="button" data-action="rename-nation" ${nation ? "" : "disabled"}>Rename</button>
           </div>
-          <div class="roster-seed-card">
-            <div class="control-field">
-              <span>One-Time Setup</span>
-              <button class="command" type="button" data-action="seed-urban-development" ${activeCount ? "" : "disabled"}>Seed Urban Dev</button>
-            </div>
-          </div>
           <div class="roster-archive-card">
             <label class="control-field" for="archiveNationSelect">
               <span>Archive Country</span>

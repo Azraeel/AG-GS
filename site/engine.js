@@ -404,91 +404,6 @@
     };
   }
 
-  function industrialPhysicalUnitsForUrbanCapacity(industrial = {}, national = {}) {
-    const outputs = industrialSectorOutputs(industrial, national);
-    return outputs.civilian.physical + outputs.military.physical * 1.25 + outputs.shipyard.physical * 1.45;
-  }
-
-  function suggestUrbanDevelopmentForNation(data, id) {
-    const national = data.national?.[id] || {};
-    const industrial = data.industrial?.[id] || {};
-    const population = Math.max(0, getPopulation(data, id, data.meta?.currentYear));
-    const hasPopulation = population > 0;
-    const urbanizationRate = urbanizationRateValue(national.urbanizationRate, 50);
-    const urbanPressure = urbanizationRate / 5;
-    const urbanPopulationMillions = hasPopulation
-      ? Math.max(0.05, (population * urbanizationRate / 100) / 1_000_000)
-      : Math.max(0.05, urbanPressure);
-    const industrialUnits = industrialPhysicalUnitsForUrbanCapacity(industrial, national);
-    const industrialDensity = hasPopulation
-      ? clamp(Math.log1p(industrialUnits / urbanPopulationMillions) / Math.log1p(8) * 20, 0, 22)
-      : urbanPressure;
-    const infrastructure = developmentComponentLevel(national, "infrastructureLevel");
-    const livingStandard = developmentComponentLevel(national, "livingStandard");
-    const sophistication = clamp(number(national.industrialSophistication, 50) / 5, 0, 20);
-    const literacy = clamp(number(national.literacyRate, 50) / 5, 0, 20);
-    const efficiency = clamp(number(national.governmentalEfficiency, 90) / 5, 0, 20);
-    const stability = clamp(number(national.governmentalStability, 70) / 5, 0, 20);
-    const corruptionDrag = clamp(number(national.governmentalCorruption ?? national.corruption, 35) / 100, 0, 1) * 2.2;
-    const crimeDrag = clamp(number(national.crimeRate, 35) / 100, 0, 1) * 1.5;
-    const serviceQuality = clamp(
-      infrastructure * 0.28
-        + livingStandard * 0.26
-        + sophistication * 0.18
-        + literacy * 0.1
-        + efficiency * 0.08
-        + stability * 0.06
-        + industrialDensity * 0.04
-        - corruptionDrag
-        - crimeDrag,
-      0,
-      DEVELOPMENT_LEVEL_MAX
-    );
-    const populationLoad = clamp((urbanPopulationMillions - 80) / 260, 0, 1.25);
-    const overloadedCityPenalty = populationLoad * clamp((urbanPressure - serviceQuality) / 6, 0, 1) * 1.2;
-    const urbanDevelopment = clamp(
-      urbanPressure
-        + (serviceQuality - urbanPressure) * 0.62
-        + (industrialDensity - urbanPressure) * 0.18
-        - overloadedCityPenalty,
-      0,
-      DEVELOPMENT_LEVEL_MAX
-    );
-    return {
-      urbanDevelopment: roundPercent(urbanDevelopment),
-      urbanPressure: roundPercent(urbanPressure),
-      serviceQuality: roundPercent(serviceQuality),
-      industrialDensity: roundPercent(industrialDensity),
-      urbanPopulationMillions: roundPercent(urbanPopulationMillions),
-      industrialUnits: roundPercent(industrialUnits)
-    };
-  }
-
-  function seedUrbanDevelopment(data, options = {}) {
-    const rows = visibleNations(data).map((nation) => {
-      data.national[nation.id] = data.national[nation.id] || {};
-      const national = data.national[nation.id];
-      const beforeValue = number(national.urbanDevelopment, NaN);
-      const suggestion = suggestUrbanDevelopmentForNation(data, nation.id);
-      if (!options.onlyMissing || !Number.isFinite(beforeValue)) {
-        national.urbanDevelopment = suggestion.urbanDevelopment;
-      }
-      return {
-        nationId: nation.id,
-        nationName: nation.name,
-        beforeValue: Number.isFinite(beforeValue) ? roundPercent(beforeValue) : null,
-        afterValue: suggestion.urbanDevelopment,
-        changed: !Number.isFinite(beforeValue) || Math.abs(beforeValue - suggestion.urbanDevelopment) >= 0.005,
-        suggestion
-      };
-    });
-    return {
-      count: rows.length,
-      changedCount: rows.filter((row) => row.changed).length,
-      rows
-    };
-  }
-
   function sophisticationScore(national = {}) {
     if (isBlank(national.industrialSophistication)) return null;
     return clamp(number(national.industrialSophistication, 0), 0, 100);
@@ -2450,8 +2365,6 @@
     industrialSectorOutputs,
     componentScoreFromComponents,
     urbanStrainMetrics,
-    suggestUrbanDevelopmentForNation,
-    seedUrbanDevelopment,
     fiscalModelForNation,
     calculateTaxBurdenForNation,
     calculateTariffBurdenForNation,

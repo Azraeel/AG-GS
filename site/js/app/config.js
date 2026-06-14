@@ -15,7 +15,6 @@
       "rename-nation",
       "archive-nation",
       "restore-nation",
-      "seed-urban-development",
       "save-equipment-design",
       "delete-equipment-design",
       "add-naval-ship",

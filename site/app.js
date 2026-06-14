@@ -952,48 +952,6 @@
       : `Applied recommended unrest to ${fmtNumber(rows.length)} nations.`);
   }
 
-  function applyUrbanDevelopmentSeed() {
-    const active = visibleNations();
-    if (!active.length) {
-      state.notice = "No active nations to seed.";
-      render();
-      return;
-    }
-    const confirmed = window.confirm(`Seed Urban Development for ${fmtNumber(active.length)} active nations from current city, population, governance, and industry data?`);
-    if (!confirmed) return;
-    const beforeRows = active.map((nation) => ({
-      nation,
-      beforeValue: data.national?.[nation.id]?.urbanDevelopment,
-      beforeSnapshot: nationSnapshot(data, nation.id)
-    }));
-    const result = Engine.seedUrbanDevelopment(data);
-    Engine.recalculateAll(data);
-    const changedAt = new Date().toISOString();
-    const entries = beforeRows
-      .map((row) => {
-        const afterValue = data.national?.[row.nation.id]?.urbanDevelopment;
-        const fieldChanged = String(row.beforeValue ?? "") !== String(afterValue ?? "");
-        const changes = snapshotChanges(row.beforeSnapshot, nationSnapshot(data, row.nation.id));
-        if (!fieldChanged && !changes.length) return null;
-        return {
-          key: `urban-development-seed:${row.nation.id}:${Date.now()}`,
-          nationId: row.nation.id,
-          nationName: row.nation.name,
-          dataset: "national",
-          field: "urbanDevelopment",
-          label: "Seeded Urban Development",
-          beforeValue: row.beforeValue,
-          afterValue,
-          changedAt,
-          changes,
-          deltas: changes.filter((change) => change.numeric && change.delta !== 0)
-        };
-      })
-      .filter(Boolean);
-    data.meta.changeHistory = [...entries, ...(data.meta.changeHistory || [])].slice(0, 60);
-    saveWorkingState(`Seeded Urban Development for ${fmtNumber(result.changedCount)} nations.`);
-  }
-
   function renderSimulation() {
     const currentYear = Number(data.meta.currentYear) || 2021;
     const snapshot = Engine.snapshot(data, currentYear);
@@ -2125,8 +2083,6 @@
         archiveSelectedNationFromEditor();
       } else if (action === "restore-nation") {
         restoreArchivedNationFromEditor();
-      } else if (action === "seed-urban-development") {
-        applyUrbanDevelopmentSeed();
       } else if (action === "refresh-snapshots") {
         await fetchSnapshots(true);
       } else if (action === "snapshot-revert") {

@@ -286,7 +286,6 @@ Important:
 - There is no stored or displayed overall Development number.
 - Component values are owned by synced/API state and direct editor edits.
 - Normalization only deletes obsolete setup fields, clamps impossible values, and fills emergency defaults for malformed local records.
-- The admin `Seed Urban Dev` action is a temporary one-time setup helper. It generates `urbanDevelopment` from current city, population, governance, and industrial records, publishes through normal admin sync, and should be removed after the live values are seeded.
 - Components are the player-facing development model. They do not collapse back into one public Development number or stored compatibility field.
 - Yearly population simulation can change `urbanizationRate`: if total population grows faster than city absorption, the urban share declines because more people are effectively being added to rural areas; if city absorption is strong, urban share rises toward the realistic ceiling.
 - Raising `urbanDevelopment`, infrastructure, living standard, stability, and city-supporting economic health increases the ceiling and lowers strain.
