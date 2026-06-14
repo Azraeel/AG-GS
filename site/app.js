@@ -70,7 +70,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260614-final-expenditure";
+  const APP_ASSET_VERSION = "20260614-unused-wartime-bc";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
 
@@ -1156,11 +1156,11 @@
     const labels = {
       budgetCapacity: "Peacetime Budget Capacity",
       primaryBalance: "Primary Balance",
-      budgetBalance: "Budget Balance",
+      budgetBalance: "Peacetime Fiscal Balance",
       wartimeBudgetPeakBonus: "Peak Wartime BC Bonus",
       wartimeBudgetBonus: "Wartime BC Bonus",
       wartimeBudgetAutoExpenditure: "Auto Mobilization BE",
-      wartimeBudgetHeadroom: "Available Wartime Headroom",
+      wartimeBudgetHeadroom: "Unused Wartime BC",
       effectiveBudgetExpenditure: "Expenditure",
       mobilizedBudgetCapacity: "Displayed Budget Capacity",
       mobilizationFinanceLevel: "Mobilization Finance Level",

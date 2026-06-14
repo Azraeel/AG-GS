@@ -43,7 +43,7 @@
           { key: "industrialSophistication", label: "Sophistication", numeric: true, render: fmtPercent },
           { key: "budgetCapacity", label: "Budget Capacity", numeric: true, raw: (row) => displayBudgetCapacity(row.id), render: (_, row) => budgetCapacityCell(row.id) },
           { key: "effectiveBudgetExpenditure", label: "Expenditure", numeric: true, raw: (row) => Engine.number(row.effectiveBudgetExpenditure ?? row.budgetExpenditure, 0), render: fmtNumber },
-          { key: "budgetBalance", label: "Budget Balance", numeric: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
+          { key: "budgetBalance", label: "Peacetime Balance", numeric: true, render: (v) => safeStatus(fmtSigned(v), v >= 0 ? "positive" : "negative") },
           { key: "treasuryReserve", label: "Treasury Reserve", numeric: true, render: fmtNumber },
           { key: "debt", label: "Debt", numeric: true, render: fmtPercent },
           { key: "debtServiceRate", label: "Interest Rate", numeric: true, render: fmtPercent },

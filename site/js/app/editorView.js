@@ -606,14 +606,15 @@
             ${detailItem("Budget Capacity", `${budgetCapacityText(nation.id)}${budgetCapacityNote(nation.id) ? ` (${budgetCapacityNote(nation.id)})` : ""}`)}
             ${detailItem("Expenditure", fmtNumber(finalExpenditure))}
             ${hasWartimeCapacity && autoMobilizationBe > 0 ? detailItem("Mobilization BE", fmtNumber(autoMobilizationBe)) : ""}
-            ${wartimeHeadroom > 0 ? detailItem("Wartime Headroom", fmtNumber(wartimeHeadroom)) : ""}
+            ${wartimeHeadroom > 0 ? detailItem("Unused Wartime BC", fmtNumber(wartimeHeadroom)) : ""}
             ${Engine.number(national.mobilizationYears, 0) > 0 ? detailItem("Mobilization Strain", fmtDecimalPercent(national.mobilizationStrain)) : ""}
             ${detailItem("Primary Balance", fmtSigned(national.primaryBalance))}
             ${detailItem("Debt Service", fmtNumber(national.debtService))}
-            ${detailItem("Budget Balance", fmtSigned(national.budgetBalance))}
+            ${detailItem("Peacetime Fiscal Balance", fmtSigned(national.budgetBalance))}
             ${detailItem("Treasury Reserve", fmtNumber(national.treasuryReserve))}
             ${detailItem("Debt", fmtPercent(national.debt))}
             ${detailItem("Interest Rate", fmtPercent(national.debtServiceRate))}
+            ${detailItem("Projected Debt", fmtPercent(national.projectedDebt))}
             ${detailItem("Trade Flow", fmtNumber(trade.tradeFlow))}
           </div>
         </section>
