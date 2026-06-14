@@ -1,12 +1,12 @@
 (function () {
   const root = typeof window !== "undefined" ? window : globalThis;
   root.AGGS_TRADE_MAP_GEOGRAPHY = {
-  "version": "20260612-compact-geography-cache",
+  "version": "20260614-compact-geography-cache",
   "assetPath": "assets/ag-political-map.svg",
   "source": {
     "width": 8800,
     "height": 5806,
-    "pathCount": 8847
+    "pathCount": 8811
   },
   "viewBox": {
     "width": 100,
@@ -60,7 +60,7 @@
       "x": 53.637432,
       "y": 19.935452,
       "pathX": 53.637432,
-      "pathY": 19.935452,
+      "pathY": 19.935451,
       "width": 4.441698,
       "height": 3.939579,
       "sourceAreaUnits": 17.4984,
@@ -79,7 +79,7 @@
     "benera_navine": {
       "x": 47.947094,
       "y": 25.381383,
-      "pathX": 47.947095,
+      "pathX": 47.947094,
       "pathY": 25.381383,
       "width": 2.924831,
       "height": 3.78821,
@@ -90,8 +90,8 @@
         "width": 2.924831,
         "height": 3.78821
       },
-      "sourceTerritoryId": "svg_path_88",
-      "sourceTerritoryPathIndex": 88,
+      "sourceTerritoryId": "svg_path_89",
+      "sourceTerritoryPathIndex": 89,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -130,8 +130,8 @@
         "width": 5.247765,
         "height": 5.835278
       },
-      "sourceTerritoryId": "svg_path_43",
-      "sourceTerritoryPathIndex": 43,
+      "sourceTerritoryId": "svg_path_45",
+      "sourceTerritoryPathIndex": 45,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -140,7 +140,7 @@
       "x": 20.174544,
       "y": 39.168064,
       "pathX": 20.174544,
-      "pathY": 39.168065,
+      "pathY": 39.168064,
       "width": 5.098656,
       "height": 4.972493,
       "sourceAreaUnits": 25.353,
@@ -150,8 +150,8 @@
         "width": 5.098656,
         "height": 4.972493
       },
-      "sourceTerritoryId": "svg_path_46",
-      "sourceTerritoryPathIndex": 46,
+      "sourceTerritoryId": "svg_path_48",
+      "sourceTerritoryPathIndex": 48,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -159,8 +159,8 @@
     "democratic_republic_of_suzuharu": {
       "x": 31.277662,
       "y": 31.951936,
-      "pathX": 31.277663,
-      "pathY": 31.951937,
+      "pathX": 31.277662,
+      "pathY": 31.951936,
       "width": 6.637857,
       "height": 8.179569,
       "sourceAreaUnits": 54.2948,
@@ -170,8 +170,8 @@
         "width": 6.637857,
         "height": 8.179569
       },
-      "sourceTerritoryId": "svg_path_28",
-      "sourceTerritoryPathIndex": 28,
+      "sourceTerritoryId": "svg_path_30",
+      "sourceTerritoryPathIndex": 30,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -190,8 +190,8 @@
         "width": 5.279923,
         "height": 7.358756
       },
-      "sourceTerritoryId": "svg_path_38",
-      "sourceTerritoryPathIndex": 38,
+      "sourceTerritoryId": "svg_path_39",
+      "sourceTerritoryPathIndex": 39,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -210,8 +210,8 @@
         "width": 3.020124,
         "height": 4.205404
       },
-      "sourceTerritoryId": "svg_path_86",
-      "sourceTerritoryPathIndex": 86,
+      "sourceTerritoryId": "svg_path_87",
+      "sourceTerritoryPathIndex": 87,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -219,8 +219,8 @@
     "duchy_of_ledostrov": {
       "x": 55.920455,
       "y": 12.872429,
-      "pathX": 55.920455,
-      "pathY": 12.87243,
+      "pathX": 55.920454,
+      "pathY": 12.872429,
       "width": 5.090909,
       "height": 5.883259,
       "sourceAreaUnits": 29.9511,
@@ -250,8 +250,8 @@
         "width": 5.37629,
         "height": 8.489965
       },
-      "sourceTerritoryId": "svg_path_40",
-      "sourceTerritoryPathIndex": 40,
+      "sourceTerritoryId": "svg_path_41",
+      "sourceTerritoryPathIndex": 41,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -259,7 +259,7 @@
     "empire_of_hyeosu": {
       "x": 45.628196,
       "y": 32.885054,
-      "pathX": 45.628196,
+      "pathX": 45.628195,
       "pathY": 32.885054,
       "width": 9.279119,
       "height": 5.707164,
@@ -270,8 +270,8 @@
         "width": 9.279119,
         "height": 5.707164
       },
-      "sourceTerritoryId": "svg_path_25",
-      "sourceTerritoryPathIndex": 25,
+      "sourceTerritoryId": "svg_path_27",
+      "sourceTerritoryPathIndex": 27,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -280,7 +280,7 @@
       "x": 17.034091,
       "y": 49.006197,
       "pathX": 17.034091,
-      "pathY": 49.006198,
+      "pathY": 49.006197,
       "width": 18.136364,
       "height": 13.840023,
       "sourceAreaUnits": 251.0077,
@@ -319,7 +319,7 @@
     "federation_of_vinterholm": {
       "x": 10.060994,
       "y": 27.367725,
-      "pathX": 10.060995,
+      "pathX": 10.060994,
       "pathY": 27.367725,
       "width": 5.432469,
       "height": 7.66061,
@@ -330,8 +330,8 @@
         "width": 5.432469,
         "height": 7.66061
       },
-      "sourceTerritoryId": "svg_path_29",
-      "sourceTerritoryPathIndex": 29,
+      "sourceTerritoryId": "svg_path_31",
+      "sourceTerritoryPathIndex": 31,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -350,8 +350,8 @@
         "width": 1.791202,
         "height": 2.208898
       },
-      "sourceTerritoryId": "svg_path_109",
-      "sourceTerritoryPathIndex": 109,
+      "sourceTerritoryId": "svg_path_108",
+      "sourceTerritoryPathIndex": 108,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -360,7 +360,7 @@
       "x": 33.334225,
       "y": 10.670491,
       "pathX": 33.334224,
-      "pathY": 10.670491,
+      "pathY": 10.67049,
       "width": 4.879355,
       "height": 1.775199,
       "sourceAreaUnits": 8.6618,
@@ -439,7 +439,7 @@
     "imperial_suomi": {
       "x": 67.749578,
       "y": 17.567042,
-      "pathX": 67.749579,
+      "pathX": 67.749578,
       "pathY": 17.567042,
       "width": 5.523571,
       "height": 6.32609,
@@ -450,8 +450,8 @@
         "width": 5.523571,
         "height": 6.32609
       },
-      "sourceTerritoryId": "svg_path_42",
-      "sourceTerritoryPathIndex": 42,
+      "sourceTerritoryId": "svg_path_43",
+      "sourceTerritoryPathIndex": 43,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -470,8 +470,8 @@
         "width": 9.478826,
         "height": 4.488636
       },
-      "sourceTerritoryId": "svg_path_37",
-      "sourceTerritoryPathIndex": 37,
+      "sourceTerritoryId": "svg_path_38",
+      "sourceTerritoryPathIndex": 38,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -510,8 +510,8 @@
         "width": 5.342597,
         "height": 3.505199
       },
-      "sourceTerritoryId": "svg_path_66",
-      "sourceTerritoryPathIndex": 66,
+      "sourceTerritoryId": "svg_path_68",
+      "sourceTerritoryPathIndex": 68,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -530,28 +530,48 @@
         "width": 7.467534,
         "height": 7.312359
       },
-      "sourceTerritoryId": "svg_path_27",
-      "sourceTerritoryPathIndex": 27,
+      "sourceTerritoryId": "svg_path_29",
+      "sourceTerritoryPathIndex": 29,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
     },
     "kolkenlennan_empire": {
-      "x": 61.129654,
-      "y": 17.278228,
-      "pathX": 61.129654,
-      "pathY": 17.278228,
-      "width": 5.520148,
-      "height": 4.859236,
-      "sourceAreaUnits": 26.8237,
+      "x": 60.145952,
+      "y": 17.275485,
+      "pathX": 60.145952,
+      "pathY": 17.275485,
+      "width": 3.573153,
+      "height": 4.864723,
+      "sourceAreaUnits": 17.3824,
       "sourceBounds": {
-        "x": 58.36958,
-        "y": 14.84861,
-        "width": 5.520148,
-        "height": 4.859236
+        "x": 58.359375,
+        "y": 14.843123,
+        "width": 3.573153,
+        "height": 4.864723
       },
-      "sourceTerritoryId": "svg_path_45",
-      "sourceTerritoryPathIndex": 45,
+      "sourceTerritoryId": "svg_path_63",
+      "sourceTerritoryPathIndex": 63,
+      "anchorSource": "svg-territory",
+      "labelClusterId": "",
+      "labelLineCount": 0
+    },
+    "talvaskiyan_republic": {
+      "x": 61.242259,
+      "y": 19.904362,
+      "pathX": 61.242259,
+      "pathY": 19.904362,
+      "width": 3.529972,
+      "height": 1.827639,
+      "sourceAreaUnits": 6.4515,
+      "sourceBounds": {
+        "x": 59.477273,
+        "y": 18.990543,
+        "width": 3.529972,
+        "height": 1.827639
+      },
+      "sourceTerritoryId": "svg_path_126",
+      "sourceTerritoryPathIndex": 126,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -559,7 +579,7 @@
     "mumoon_hamed_sultunate": {
       "x": 70.654923,
       "y": 30.643355,
-      "pathX": 70.654923,
+      "pathX": 70.654922,
       "pathY": 30.643355,
       "width": 8.128409,
       "height": 9.423073,
@@ -660,7 +680,7 @@
       "x": 6.4265,
       "y": 38.702041,
       "pathX": 6.4265,
-      "pathY": 38.702042,
+      "pathY": 38.702041,
       "width": 8.112997,
       "height": 9.744709,
       "sourceAreaUnits": 79.0588,
@@ -670,8 +690,8 @@
         "width": 8.112997,
         "height": 9.744709
       },
-      "sourceTerritoryId": "svg_path_23",
-      "sourceTerritoryPathIndex": 23,
+      "sourceTerritoryId": "svg_path_25",
+      "sourceTerritoryPathIndex": 25,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -690,8 +710,8 @@
         "width": 4.810972,
         "height": 2.844426
       },
-      "sourceTerritoryId": "svg_path_92",
-      "sourceTerritoryPathIndex": 92,
+      "sourceTerritoryId": "svg_path_93",
+      "sourceTerritoryPathIndex": 93,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -730,8 +750,8 @@
         "width": 3.484358,
         "height": 5.023507
       },
-      "sourceTerritoryId": "svg_path_67",
-      "sourceTerritoryPathIndex": 67,
+      "sourceTerritoryId": "svg_path_69",
+      "sourceTerritoryPathIndex": 69,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -740,7 +760,7 @@
       "x": 56.727273,
       "y": 29.839962,
       "pathX": 56.727273,
-      "pathY": 29.839963,
+      "pathY": 29.839962,
       "width": 3.431818,
       "height": 5.332997,
       "sourceAreaUnits": 18.3019,
@@ -750,8 +770,8 @@
         "width": 3.431818,
         "height": 5.332997
       },
-      "sourceTerritoryId": "svg_path_75",
-      "sourceTerritoryPathIndex": 75,
+      "sourceTerritoryId": "svg_path_77",
+      "sourceTerritoryPathIndex": 77,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -790,8 +810,8 @@
         "width": 7.306818,
         "height": 7.014915
       },
-      "sourceTerritoryId": "svg_path_26",
-      "sourceTerritoryPathIndex": 26,
+      "sourceTerritoryId": "svg_path_28",
+      "sourceTerritoryPathIndex": 28,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -810,8 +830,8 @@
         "width": 3.127396,
         "height": 2.843528
       },
-      "sourceTerritoryId": "svg_path_93",
-      "sourceTerritoryPathIndex": 93,
+      "sourceTerritoryId": "svg_path_94",
+      "sourceTerritoryPathIndex": 94,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -830,8 +850,8 @@
         "width": 7.65619,
         "height": 8.603693
       },
-      "sourceTerritoryId": "svg_path_36",
-      "sourceTerritoryPathIndex": 36,
+      "sourceTerritoryId": "svg_path_37",
+      "sourceTerritoryPathIndex": 37,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -856,50 +876,10 @@
       "labelClusterId": "",
       "labelLineCount": 0
     },
-    "surnovska_republic": {
-      "x": 37.227273,
-      "y": 7.862989,
-      "pathX": 37.227273,
-      "pathY": 7.862989,
-      "width": 2.954546,
-      "height": 0.428709,
-      "sourceAreaUnits": 1.2666,
-      "sourceBounds": {
-        "x": 35.75,
-        "y": 7.648634,
-        "width": 2.954546,
-        "height": 0.428709
-      },
-      "sourceTerritoryId": "",
-      "sourceTerritoryPathIndex": null,
-      "anchorSource": "svg-label",
-      "labelClusterId": "svg_label_464",
-      "labelLineCount": 2
-    },
-    "talvaskiyan_republic": {
-      "x": 61.242259,
-      "y": 19.904362,
-      "pathX": 61.242259,
-      "pathY": 19.904362,
-      "width": 3.529972,
-      "height": 1.827639,
-      "sourceAreaUnits": 6.4515,
-      "sourceBounds": {
-        "x": 59.477273,
-        "y": 18.990543,
-        "width": 3.529972,
-        "height": 1.827639
-      },
-      "sourceTerritoryId": "svg_path_126",
-      "sourceTerritoryPathIndex": 126,
-      "anchorSource": "svg-territory",
-      "labelClusterId": "",
-      "labelLineCount": 0
-    },
     "templar_of_saxonia": {
       "x": 4.342596,
       "y": 16.426116,
-      "pathX": 4.342597,
+      "pathX": 4.342596,
       "pathY": 16.426116,
       "width": 4.844283,
       "height": 2.944374,
@@ -910,8 +890,8 @@
         "width": 4.844283,
         "height": 2.944374
       },
-      "sourceTerritoryId": "svg_path_82",
-      "sourceTerritoryPathIndex": 82,
+      "sourceTerritoryId": "svg_path_84",
+      "sourceTerritoryPathIndex": 84,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -930,8 +910,8 @@
         "width": 7.584863,
         "height": 6.965909
       },
-      "sourceTerritoryId": "svg_path_24",
-      "sourceTerritoryPathIndex": 24,
+      "sourceTerritoryId": "svg_path_26",
+      "sourceTerritoryPathIndex": 26,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -950,28 +930,28 @@
         "width": 5.086636,
         "height": 8.696795
       },
-      "sourceTerritoryId": "svg_path_33",
-      "sourceTerritoryPathIndex": 33,
+      "sourceTerritoryId": "svg_path_35",
+      "sourceTerritoryPathIndex": 35,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
     },
     "vesperan_federation": {
-      "x": 96.970734,
-      "y": 46.613636,
-      "pathX": 96.970734,
-      "pathY": 46.613636,
-      "width": 6.072419,
-      "height": 7.863636,
-      "sourceAreaUnits": 47.7513,
+      "x": 96.82307,
+      "y": 47.915953,
+      "pathX": 96.82307,
+      "pathY": 47.915953,
+      "width": 6.35386,
+      "height": 10.599912,
+      "sourceAreaUnits": 67.3504,
       "sourceBounds": {
-        "x": 93.934524,
-        "y": 42.681818,
-        "width": 6.072419,
-        "height": 7.863636
+        "x": 93.64614,
+        "y": 42.615997,
+        "width": 6.35386,
+        "height": 10.599912
       },
-      "sourceTerritoryId": "svg_path_35",
-      "sourceTerritoryPathIndex": 35,
+      "sourceTerritoryId": "svg_path_23",
+      "sourceTerritoryPathIndex": 23,
       "anchorSource": "svg-territory",
       "labelClusterId": "",
       "labelLineCount": 0
@@ -980,7 +960,7 @@
       "x": 42.198583,
       "y": 54.871146,
       "pathX": 42.198583,
-      "pathY": 54.871146,
+      "pathY": 54.871145,
       "width": 2.955867,
       "height": 2.189527,
       "sourceAreaUnits": 6.472,
@@ -1055,6 +1035,26 @@
       "anchorSource": "reviewed-map-target",
       "labelClusterId": "",
       "labelLineCount": 0
+    },
+    "surnovska_republic": {
+      "x": 37.227273,
+      "y": 7.862989,
+      "pathX": 37.227273,
+      "pathY": 7.862989,
+      "width": 2.954546,
+      "height": 0.428709,
+      "sourceAreaUnits": 1.2666,
+      "sourceBounds": {
+        "x": 35.75,
+        "y": 7.648634,
+        "width": 2.954546,
+        "height": 0.428709
+      },
+      "sourceTerritoryId": "",
+      "sourceTerritoryPathIndex": null,
+      "anchorSource": "svg-label",
+      "labelClusterId": "svg_label_474",
+      "labelLineCount": 2
     }
   }
 };
