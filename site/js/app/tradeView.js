@@ -458,10 +458,12 @@
 
   function tradeMapCanvasHtml(selected, rows, tradeMetrics, worldPool) {
     const mapConfig = TradeMap.mapConfig?.() || { hasRealSvg: false, hasBasemap: false, assetPath: "assets/world-map.png", width: 100, height: 100, viewBox: "0 0 100 100", sourceTerritoryCount: 0 };
-    const mapAssetHref = `${isAdmin ? "../" : ""}${mapConfig.assetPath}`;
+    const mapAssetHref = typeof appAssetUrl === "function" ? appAssetUrl(mapConfig.assetPath) : `${isAdmin ? "../" : ""}${mapConfig.assetPath}`;
     const tradeZoneOverlay = tradeZoneOverlayConfig();
     const showTradeZoneOverlay = Boolean(tradeZoneOverlay) && (state.tradeMapLayer === "seaZones" || state.tradeMapLayer === "ports");
-    const activeMapHref = showTradeZoneOverlay ? `${isAdmin ? "../" : ""}${tradeZoneOverlay.assetPath}` : mapAssetHref;
+    const activeMapHref = showTradeZoneOverlay
+      ? typeof appAssetUrl === "function" ? appAssetUrl(tradeZoneOverlay.assetPath) : `${isAdmin ? "../" : ""}${tradeZoneOverlay.assetPath}`
+      : mapAssetHref;
     const worldSurfaceLabel = mapConfig.surfaceAreaSqMi ? `${fmtCompact(mapConfig.surfaceAreaSqMi)} sq mi` : "Unknown scale";
     const worldSurfaceTitle = mapConfig.equatorialCircumferenceMi
       ? `${fmtNumber(Math.round(mapConfig.surfaceAreaSqMi))} sq mi surface / ${fmtNumber(Math.round(mapConfig.equatorialCircumferenceMi))} mi circumference`

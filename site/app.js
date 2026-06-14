@@ -70,7 +70,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260614-trade-map-svg";
+  const APP_ASSET_VERSION = "20260614-trade-map-basemap";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
 
@@ -125,8 +125,13 @@
     return `${isAdmin ? "../" : ""}${path}`;
   }
 
+  function appAssetUrl(path) {
+    const separator = String(path || "").includes("?") ? "&" : "?";
+    return `${appAssetPath(path)}${separator}v=${APP_ASSET_VERSION}`;
+  }
+
   function scriptUrl(path) {
-    return `${appAssetPath(path)}?v=${APP_ASSET_VERSION}`;
+    return appAssetUrl(path);
   }
 
   function hasTradeMapShapes() {
@@ -813,6 +818,7 @@
     applyTradeMapPanelPosition,
     restoreTableScroll,
     nationCell,
+    appAssetUrl,
     safeText,
     safeColor,
     escapeHtml,
