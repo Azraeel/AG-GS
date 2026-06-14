@@ -184,7 +184,7 @@
   }
 
   function renderNationManagement(nation) {
-    const color = nation?.color || "#63a4ff";
+    const color = safeColor(nation?.color || "#63a4ff");
     const archived = archivedNations();
     const activeCount = visibleNations().length;
     return `
@@ -230,6 +230,13 @@
               <input id="renameNationName" type="text" value="${escapeHtml(nation?.name || "")}" placeholder="Country name" autocomplete="off" ${nation ? "" : "disabled"}>
             </label>
             <button class="command" type="button" data-action="rename-nation" ${nation ? "" : "disabled"}>Rename</button>
+          </div>
+          <div class="roster-color-card">
+            <label class="control-field color-field" for="selectedNationColor">
+              <span>Selected Color</span>
+              <input id="selectedNationColor" type="color" value="${escapeHtml(color)}" aria-label="Selected nation color" ${nation ? "" : "disabled"}>
+            </label>
+            <button class="command" type="button" data-action="change-nation-color" ${nation ? "" : "disabled"}>Set Color</button>
           </div>
           <div class="roster-archive-card">
             <label class="control-field" for="archiveNationSelect">
@@ -336,6 +343,43 @@
       data.tradeNetwork.geography.nations[nation.id].nationName = nextName;
     }
     state.notice = `${previousName} renamed to ${nextName}.`;
+    saveLedger();
+    populateNationSelect();
+    scheduleSharedPublish(state.notice);
+    updateSourceNote();
+    render();
+  }
+
+  function changeSelectedNationColorFromEditor() {
+    const nation = byId(state.selectedNation);
+    const colorInput = document.getElementById("selectedNationColor");
+    if (!nation) {
+      state.notice = "Select a country to recolor first.";
+      render();
+      return;
+    }
+    const previousColor = safeColor(nation.color || "#63a4ff");
+    const nextColor = safeColor(colorInput?.value || previousColor);
+    if (nextColor.toLowerCase() === previousColor.toLowerCase()) {
+      state.notice = `${nation.name} already uses that color.`;
+      render();
+      return;
+    }
+    nation.color = nextColor;
+    data.meta.changeHistory = [{
+      key: `nation-color:${nation.id}:${Date.now()}`,
+      nationId: nation.id,
+      nationName: nation.name,
+      dataset: "nations",
+      field: "color",
+      label: "Changed Nation Color",
+      beforeValue: previousColor,
+      afterValue: nextColor,
+      changedAt: new Date().toISOString(),
+      changes: [],
+      deltas: []
+    }, ...(data.meta.changeHistory || [])].slice(0, 60);
+    state.notice = `${nation.name} color updated.`;
     saveLedger();
     populateNationSelect();
     scheduleSharedPublish(state.notice);
@@ -645,6 +689,7 @@
         renderEditor,
         createNationFromEditor,
         renameSelectedNationFromEditor,
+        changeSelectedNationColorFromEditor,
         archiveSelectedNationFromEditor,
         restoreArchivedNationFromEditor,
         fieldControl

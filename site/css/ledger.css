@@ -560,6 +560,7 @@ tbody td {
 .nation-manager-select-card,
 .roster-create-card,
 .roster-rename-card,
+.roster-color-card,
 .roster-archive-card,
 .roster-restore-card {
   display: grid;
@@ -599,14 +600,21 @@ tbody td {
   border-right: 0;
 }
 
+.roster-color-card {
+  grid-column: span 4;
+  grid-template-columns: 72px minmax(0, 1fr);
+  border-top: 1px solid var(--editor-soft-line);
+}
+
 .roster-archive-card,
 .roster-restore-card {
-  grid-column: span 6;
+  grid-column: span 4;
   grid-template-columns: minmax(0, 1fr);
   border-top: 1px solid var(--editor-soft-line);
 }
 
 .roster-rename-card .command,
+.roster-color-card .command,
 .roster-archive-card .command,
 .roster-restore-card .command {
   width: 100%;

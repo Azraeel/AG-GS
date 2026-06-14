@@ -68,17 +68,22 @@
   }
 
   .roster-rename-card {
-    grid-column: span 4;
+    grid-column: span 6;
     border-top: 1px solid var(--editor-soft-line);
     border-right: 1px solid var(--editor-soft-line);
   }
 
+  .roster-color-card {
+    grid-column: span 6;
+    border-right: 0;
+  }
+
   .roster-archive-card {
-    grid-column: span 4;
+    grid-column: span 6;
   }
 
   .roster-restore-card {
-    grid-column: span 4;
+    grid-column: span 6;
   }
 }
 
@@ -254,6 +259,7 @@
   .nation-manager-select-card,
   .roster-create-card,
   .roster-rename-card,
+  .roster-color-card,
   .roster-archive-card,
   .roster-restore-card {
     grid-column: 1 / -1;
@@ -263,6 +269,7 @@
 
   .roster-create-card,
   .roster-rename-card,
+  .roster-color-card,
   .roster-archive-card,
   .roster-restore-card {
     border-top: 1px solid var(--editor-soft-line);
@@ -317,6 +324,7 @@
   .nation-manager-select-card,
   .roster-create-card,
   .roster-rename-card,
+  .roster-color-card,
   .roster-archive-card,
   .roster-restore-card,
   .snapshot-recovery-controls,

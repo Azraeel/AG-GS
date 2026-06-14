@@ -13,6 +13,7 @@
       "apply-tax-unrest",
       "create-nation",
       "rename-nation",
+      "change-nation-color",
       "archive-nation",
       "restore-nation",
       "save-equipment-design",
