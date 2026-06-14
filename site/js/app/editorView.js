@@ -67,6 +67,7 @@
         effectiveGovernmentalEfficiency: 100,
         literacyRate: 95,
         urbanizationRate: 50,
+        urbanDevelopment: 10,
         ruralDevelopment: 10,
         infrastructureLevel: 10,
         livingStandard: 10,
@@ -229,6 +230,12 @@
               <input id="renameNationName" type="text" value="${escapeHtml(nation?.name || "")}" placeholder="Country name" autocomplete="off" ${nation ? "" : "disabled"}>
             </label>
             <button class="command" type="button" data-action="rename-nation" ${nation ? "" : "disabled"}>Rename</button>
+          </div>
+          <div class="roster-seed-card">
+            <div class="control-field">
+              <span>One-Time Setup</span>
+              <button class="command" type="button" data-action="seed-urban-development" ${activeCount ? "" : "disabled"}>Seed Urban Dev</button>
+            </div>
           </div>
           <div class="roster-archive-card">
             <label class="control-field" for="archiveNationSelect">
@@ -495,6 +502,7 @@
             ${hasWartimeCapacity ? detailItem("Auto Mobilization BE", autoMobilizationBe > 0 ? fmtNumber(autoMobilizationBe) : "Not started") : ""}
             ${wartimeHeadroom > 0 ? detailItem("Available Wartime Headroom", fmtNumber(wartimeHeadroom)) : ""}
             ${Engine.number(national.mobilizationYears, 0) > 0 ? detailItem("Mobilization Strain", fmtDecimalPercent(national.mobilizationStrain)) : ""}
+            ${detailItem("Urban Strain", fmtPercent(national.urbanStrain))}
             ${detailItem("Peacetime Fiscal Balance", fmtSigned(national.primaryBalance))}
             ${detailItem("Debt Service", fmtNumber(national.debtService))}
             ${detailItem("Effective Balance After Auto BE", fmtSigned(national.budgetBalance))}
@@ -552,6 +560,7 @@
                 ${fieldControl("national", "crimeRate", "Crime Rate %", national.crimeRate ?? national.corruption)}
                 ${fieldControl("national", "literacyRate", "Literacy %", national.literacyRate ?? 95)}
                 ${fieldControl("national", "urbanizationRate", "Urbanization %", national.urbanizationRate)}
+                ${fieldControl("national", "urbanDevelopment", "Urban Development", national.urbanDevelopment)}
                 ${fieldControl("national", "ruralDevelopment", "Rural Development", national.ruralDevelopment)}
                 ${fieldControl("national", "infrastructureLevel", "Infrastructure", national.infrastructureLevel)}
                 ${fieldControl("national", "livingStandard", "Living Standard", national.livingStandard)}

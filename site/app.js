@@ -70,7 +70,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260613-websocket-sync";
+  const APP_ASSET_VERSION = "20260613-urban-development";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
 
@@ -952,6 +952,48 @@
       : `Applied recommended unrest to ${fmtNumber(rows.length)} nations.`);
   }
 
+  function applyUrbanDevelopmentSeed() {
+    const active = visibleNations();
+    if (!active.length) {
+      state.notice = "No active nations to seed.";
+      render();
+      return;
+    }
+    const confirmed = window.confirm(`Seed Urban Development for ${fmtNumber(active.length)} active nations from current city, population, governance, and industry data?`);
+    if (!confirmed) return;
+    const beforeRows = active.map((nation) => ({
+      nation,
+      beforeValue: data.national?.[nation.id]?.urbanDevelopment,
+      beforeSnapshot: nationSnapshot(data, nation.id)
+    }));
+    const result = Engine.seedUrbanDevelopment(data);
+    Engine.recalculateAll(data);
+    const changedAt = new Date().toISOString();
+    const entries = beforeRows
+      .map((row) => {
+        const afterValue = data.national?.[row.nation.id]?.urbanDevelopment;
+        const fieldChanged = String(row.beforeValue ?? "") !== String(afterValue ?? "");
+        const changes = snapshotChanges(row.beforeSnapshot, nationSnapshot(data, row.nation.id));
+        if (!fieldChanged && !changes.length) return null;
+        return {
+          key: `urban-development-seed:${row.nation.id}:${Date.now()}`,
+          nationId: row.nation.id,
+          nationName: row.nation.name,
+          dataset: "national",
+          field: "urbanDevelopment",
+          label: "Seeded Urban Development",
+          beforeValue: row.beforeValue,
+          afterValue,
+          changedAt,
+          changes,
+          deltas: changes.filter((change) => change.numeric && change.delta !== 0)
+        };
+      })
+      .filter(Boolean);
+    data.meta.changeHistory = [...entries, ...(data.meta.changeHistory || [])].slice(0, 60);
+    saveWorkingState(`Seeded Urban Development for ${fmtNumber(result.changedCount)} nations.`);
+  }
+
   function renderSimulation() {
     const currentYear = Number(data.meta.currentYear) || 2021;
     const snapshot = Engine.snapshot(data, currentYear);
@@ -1216,6 +1258,8 @@
       economicTradeDiversity: "Diversity",
       autarkyIndex: "Autarky",
       urbanizationRate: "Urbanization",
+      urbanDevelopment: "Urban Development",
+      urbanStrain: "Urban Strain",
       ruralDevelopment: "Rural Development",
       infrastructureLevel: "Infrastructure",
       livingStandard: "Living Standard",
@@ -1599,6 +1643,8 @@
               dossierRow("Crime Rate", fmtPercent(national?.crimeRate ?? national?.corruption)),
               dossierRow("Literacy", fmtPercent(national?.literacyRate ?? 95)),
               dossierRow("Urbanization", fmtPercent(national?.urbanizationRate)),
+              dossierRow("Urban Development", fmtNumber(national?.urbanDevelopment)),
+              dossierRow("Urban Strain", fmtPercent(national?.urbanStrain)),
               dossierRow("Rural Development", fmtNumber(national?.ruralDevelopment)),
               dossierRow("Infrastructure", fmtNumber(national?.infrastructureLevel)),
               dossierRow("Living Standard", fmtNumber(national?.livingStandard)),
@@ -2079,6 +2125,8 @@
         archiveSelectedNationFromEditor();
       } else if (action === "restore-nation") {
         restoreArchivedNationFromEditor();
+      } else if (action === "seed-urban-development") {
+        applyUrbanDevelopmentSeed();
       } else if (action === "refresh-snapshots") {
         await fetchSnapshots(true);
       } else if (action === "snapshot-revert") {

@@ -250,26 +250,46 @@ Types: editable/raw component fields.
 Fields:
 
 - `urbanizationRate`: 0-100%; actual share of population living in cities/urban areas.
+- `urbanDevelopment`: quality, productivity, service capacity, housing/transit capacity, and administrative functionality of cities.
 - `ruralDevelopment`: countryside productivity, services, and rural state reach.
 - `infrastructureLevel`: roads, power, logistics, ports, rail, and internal movement.
 - `livingStandard`: public health, formal consumer economy, and general prosperity.
+- `urbanStrain`: derived visible pressure caused when urbanization outruns urban development/city capacity.
 
 Formula routing:
 
-- BC/fiscal capacity uses infrastructure, living standard, and rural development most heavily.
-- Trade logistics uses infrastructure most heavily, with smaller rural/urban/living support.
-- Population maturity uses urbanization and living standard most heavily.
-- Industry growth and modernization use infrastructure, living standard, industrial sophistication, literacy, and health.
+- BC/fiscal capacity uses infrastructure, living standard, rural development, and urban development most heavily.
+- Trade logistics uses infrastructure most heavily, with urban development supporting city reliability, services, customs capacity, and value-added trade.
+- Population maturity uses urbanization and living standard most heavily, with urban development representing mature city systems.
+- Industry growth and modernization use infrastructure, urban development, living standard, industrial sophistication, literacy, and health.
 - Military equipment limits use infrastructure and living standard as the technology base.
-- Mobilization uses infrastructure/state capacity rather than a generic development stat.
+- Mobilization uses infrastructure, urban development, and state capacity rather than a generic development stat.
+
+Urban development vs urbanization:
+
+- High `urbanizationRate` means many people live in cities.
+- High `urbanDevelopment` means those cities are functional, productive, well-serviced, and able to absorb people.
+- High urbanization with low urban development creates `urbanStrain`.
+- Missing `urbanDevelopment` in old records is migrated from the old urbanization quality signal, so countries do not jump just because the stat was added.
+
+Urban strain effects:
+
+- Reduces city absorption during yearly urbanization simulation.
+- Reduces natural growth and immigration attractiveness through population stress.
+- Raises crime pressure during yearly governance simulation.
+- Slightly raises governmental corruption pressure and lowers efficiency targets over time.
+- Slightly reduces tax administration and trade/service reliability when city systems are overloaded.
+- Slightly weakens yearly industrial growth when overcrowded cities cannot support productive expansion.
 
 Important:
 
 - There is no stored or displayed overall Development number.
 - Component values are owned by synced/API state and direct editor edits.
 - Normalization only deletes obsolete setup fields, clamps impossible values, and fills emergency defaults for malformed local records.
+- The admin `Seed Urban Dev` action is a temporary one-time setup helper. It generates `urbanDevelopment` from current city, population, governance, and industrial records, publishes through normal admin sync, and should be removed after the live values are seeded.
 - Components are the player-facing development model. They do not collapse back into one public Development number or stored compatibility field.
 - Yearly population simulation can change `urbanizationRate`: if total population grows faster than city absorption, the urban share declines because more people are effectively being added to rural areas; if city absorption is strong, urban share rises toward the realistic ceiling.
+- Raising `urbanDevelopment`, infrastructure, living standard, stability, and city-supporting economic health increases the ceiling and lowers strain.
 - Industrial Sophistication is separate from the component model, so it does not become a hidden general BC booster.
 
 ### Industrial Sophistication
@@ -1143,6 +1163,7 @@ Strongest direct BC inputs:
 - Effective military factories.
 - Effective shipyards.
 - Component fiscal capacity.
+- Urban development and low urban strain through tax/customs administration.
 - Industrial sophistication through high-tier effective output.
 - Population.
 - Tax rate.
@@ -1170,6 +1191,7 @@ Strongest direct trade inputs:
 - Population.
 - Budget capacity.
 - Trade and logistics component capacity.
+- Urban development and low urban strain for city services, customs, and value-added trade.
 - Stability.
 - Logistics corruption and governmental efficiency.
 - Economic health.
@@ -1208,6 +1230,7 @@ Strongest yearly population inputs:
 - Current population.
 - Economic health.
 - Urbanization/living-standard maturity.
+- Urban development and urban strain.
 - Stability.
 - Public unrest.
 - Social corruption.

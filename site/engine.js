@@ -55,9 +55,10 @@
     military: { totalKey: "militaryFactories", sectorsKey: "militarySectors", defaultTier: "basic", tiers: ["basic", "improved", "advanced"], weights: INDUSTRIAL_SECTOR_WEIGHTS.military, literacyImpact: { improved: "improved", advanced: "advanced" } },
     shipyard: { totalKey: "shipyards", sectorsKey: "shipyardSectors", defaultTier: "medium", tiers: ["medium", "large", "mega"], weights: INDUSTRIAL_SECTOR_WEIGHTS.shipyard, literacyImpact: { large: "improved", mega: "advanced" } }
   };
-  const DEVELOPMENT_COMPONENT_KEYS = ["urbanizationRate", "ruralDevelopment", "infrastructureLevel", "livingStandard"];
+  const DEVELOPMENT_COMPONENT_KEYS = ["urbanizationRate", "urbanDevelopment", "ruralDevelopment", "infrastructureLevel", "livingStandard"];
   const DEVELOPMENT_COMPONENT_WEIGHTS = {
-    urbanizationRate: 0.15,
+    urbanizationRate: 0.06,
+    urbanDevelopment: 0.09,
     ruralDevelopment: 0.2,
     infrastructureLevel: 0.35,
     livingStandard: 0.3
@@ -324,25 +325,33 @@
     const seed = componentScoreValue(seedScore, 10);
     return {
       urbanizationRate: roundPercent(clamp(seed * 5, 0, 100)),
+      urbanDevelopment: roundPercent(seed),
       ruralDevelopment: roundPercent(seed),
       infrastructureLevel: roundPercent(seed),
       livingStandard: roundPercent(seed)
     };
   }
 
+  function urbanDevelopmentFallback(national = {}, defaults = developmentComponentDefaults()) {
+    return urbanizationRateValue(national.urbanizationRate, defaults.urbanizationRate) / 5;
+  }
+
   function developmentComponentLevel(national = {}, key, fallbackScore = 10) {
     const defaults = developmentComponentDefaults(fallbackScore);
     if (key === "urbanizationRate") return urbanizationRateValue(national.urbanizationRate, defaults.urbanizationRate) / 5;
+    if (key === "urbanDevelopment") return developmentComponentValue(national.urbanDevelopment, urbanDevelopmentFallback(national, defaults));
     return developmentComponentValue(national[key], defaults[key]);
   }
 
   function componentScoreFromComponents(national = {}) {
     const urbanization = developmentComponentLevel(national, "urbanizationRate");
+    const urbanDevelopment = developmentComponentLevel(national, "urbanDevelopment");
     const rural = developmentComponentLevel(national, "ruralDevelopment");
     const infrastructure = developmentComponentLevel(national, "infrastructureLevel");
     const livingStandard = developmentComponentLevel(national, "livingStandard");
     return roundPercent(clamp(
       urbanization * DEVELOPMENT_COMPONENT_WEIGHTS.urbanizationRate
+        + urbanDevelopment * DEVELOPMENT_COMPONENT_WEIGHTS.urbanDevelopment
         + rural * DEVELOPMENT_COMPONENT_WEIGHTS.ruralDevelopment
         + infrastructure * DEVELOPMENT_COMPONENT_WEIGHTS.infrastructureLevel
         + livingStandard * DEVELOPMENT_COMPONENT_WEIGHTS.livingStandard,
@@ -353,17 +362,131 @@
 
   function componentProfileScore(national = {}, weights = DEVELOPMENT_COMPONENT_WEIGHTS) {
     const urbanization = developmentComponentLevel(national, "urbanizationRate");
+    const urbanDevelopment = developmentComponentLevel(national, "urbanDevelopment");
     const rural = developmentComponentLevel(national, "ruralDevelopment");
     const infrastructure = developmentComponentLevel(national, "infrastructureLevel");
     const livingStandard = developmentComponentLevel(national, "livingStandard");
     return roundPercent(clamp(
       urbanization * number(weights.urbanizationRate, 0)
+        + urbanDevelopment * number(weights.urbanDevelopment, 0)
         + rural * number(weights.ruralDevelopment, 0)
         + infrastructure * number(weights.infrastructureLevel, 0)
         + livingStandard * number(weights.livingStandard, 0),
       0,
       DEVELOPMENT_LEVEL_MAX
     ));
+  }
+
+  function urbanStrainMetrics(national = {}, populationMetrics = {}) {
+    const urbanPressure = developmentComponentLevel(national, "urbanizationRate");
+    const urbanDevelopment = developmentComponentLevel(national, "urbanDevelopment");
+    const supportCapacity = componentProfileScore(national, {
+      urbanizationRate: 0,
+      urbanDevelopment: 0.62,
+      ruralDevelopment: 0.04,
+      infrastructureLevel: 0.22,
+      livingStandard: 0.12
+    });
+    const directGap = Math.max(0, urbanPressure - urbanDevelopment);
+    const supportGap = Math.max(0, urbanPressure - supportCapacity) * clamp(directGap / 2, 0, 1);
+    const growthLoad = Math.max(0, number(populationMetrics.growthRate, 0)) * 0.35;
+    const migrationLoad = Math.max(0, number(populationMetrics.migrationGrowth, 0)) * 0.55;
+    const structuralStrain = clamp(directGap * 5.2 + supportGap * 2.1, 0, 100);
+    const growthStrain = clamp((growthLoad + migrationLoad) * Math.max(0.25, directGap / 5), 0, 18);
+    const urbanStrain = clamp(structuralStrain + growthStrain, 0, 100);
+    return {
+      urbanPressure: roundPercent(urbanPressure),
+      urbanCapacity: roundPercent(supportCapacity),
+      urbanDevelopment: roundPercent(urbanDevelopment),
+      urbanStructuralStrain: roundPercent(structuralStrain),
+      urbanGrowthStrain: roundPercent(growthStrain),
+      urbanStrain: roundPercent(urbanStrain)
+    };
+  }
+
+  function industrialPhysicalUnitsForUrbanCapacity(industrial = {}, national = {}) {
+    const outputs = industrialSectorOutputs(industrial, national);
+    return outputs.civilian.physical + outputs.military.physical * 1.25 + outputs.shipyard.physical * 1.45;
+  }
+
+  function suggestUrbanDevelopmentForNation(data, id) {
+    const national = data.national?.[id] || {};
+    const industrial = data.industrial?.[id] || {};
+    const population = Math.max(0, getPopulation(data, id, data.meta?.currentYear));
+    const hasPopulation = population > 0;
+    const urbanizationRate = urbanizationRateValue(national.urbanizationRate, 50);
+    const urbanPressure = urbanizationRate / 5;
+    const urbanPopulationMillions = hasPopulation
+      ? Math.max(0.05, (population * urbanizationRate / 100) / 1_000_000)
+      : Math.max(0.05, urbanPressure);
+    const industrialUnits = industrialPhysicalUnitsForUrbanCapacity(industrial, national);
+    const industrialDensity = hasPopulation
+      ? clamp(Math.log1p(industrialUnits / urbanPopulationMillions) / Math.log1p(8) * 20, 0, 22)
+      : urbanPressure;
+    const infrastructure = developmentComponentLevel(national, "infrastructureLevel");
+    const livingStandard = developmentComponentLevel(national, "livingStandard");
+    const sophistication = clamp(number(national.industrialSophistication, 50) / 5, 0, 20);
+    const literacy = clamp(number(national.literacyRate, 50) / 5, 0, 20);
+    const efficiency = clamp(number(national.governmentalEfficiency, 90) / 5, 0, 20);
+    const stability = clamp(number(national.governmentalStability, 70) / 5, 0, 20);
+    const corruptionDrag = clamp(number(national.governmentalCorruption ?? national.corruption, 35) / 100, 0, 1) * 2.2;
+    const crimeDrag = clamp(number(national.crimeRate, 35) / 100, 0, 1) * 1.5;
+    const serviceQuality = clamp(
+      infrastructure * 0.28
+        + livingStandard * 0.26
+        + sophistication * 0.18
+        + literacy * 0.1
+        + efficiency * 0.08
+        + stability * 0.06
+        + industrialDensity * 0.04
+        - corruptionDrag
+        - crimeDrag,
+      0,
+      DEVELOPMENT_LEVEL_MAX
+    );
+    const populationLoad = clamp((urbanPopulationMillions - 80) / 260, 0, 1.25);
+    const overloadedCityPenalty = populationLoad * clamp((urbanPressure - serviceQuality) / 6, 0, 1) * 1.2;
+    const urbanDevelopment = clamp(
+      urbanPressure
+        + (serviceQuality - urbanPressure) * 0.62
+        + (industrialDensity - urbanPressure) * 0.18
+        - overloadedCityPenalty,
+      0,
+      DEVELOPMENT_LEVEL_MAX
+    );
+    return {
+      urbanDevelopment: roundPercent(urbanDevelopment),
+      urbanPressure: roundPercent(urbanPressure),
+      serviceQuality: roundPercent(serviceQuality),
+      industrialDensity: roundPercent(industrialDensity),
+      urbanPopulationMillions: roundPercent(urbanPopulationMillions),
+      industrialUnits: roundPercent(industrialUnits)
+    };
+  }
+
+  function seedUrbanDevelopment(data, options = {}) {
+    const rows = visibleNations(data).map((nation) => {
+      data.national[nation.id] = data.national[nation.id] || {};
+      const national = data.national[nation.id];
+      const beforeValue = number(national.urbanDevelopment, NaN);
+      const suggestion = suggestUrbanDevelopmentForNation(data, nation.id);
+      if (!options.onlyMissing || !Number.isFinite(beforeValue)) {
+        national.urbanDevelopment = suggestion.urbanDevelopment;
+      }
+      return {
+        nationId: nation.id,
+        nationName: nation.name,
+        beforeValue: Number.isFinite(beforeValue) ? roundPercent(beforeValue) : null,
+        afterValue: suggestion.urbanDevelopment,
+        changed: !Number.isFinite(beforeValue) || Math.abs(beforeValue - suggestion.urbanDevelopment) >= 0.005,
+        suggestion
+      };
+    });
+    return {
+      count: rows.length,
+      changedCount: rows.filter((row) => row.changed).length,
+      rows
+    };
   }
 
   function sophisticationScore(national = {}) {
@@ -403,9 +526,10 @@
       const legacyKeys = Object.keys(national).filter((key) => key.toLowerCase() === "developmentlevel");
       const defaults = developmentComponentDefaults();
       DEVELOPMENT_COMPONENT_KEYS.forEach((key) => {
-        if (isBlank(national[key])) national[key] = defaults[key];
+        if (isBlank(national[key])) national[key] = key === "urbanDevelopment" ? urbanDevelopmentFallback(national, defaults) : defaults[key];
       });
       national.urbanizationRate = roundPercent(urbanizationRateValue(national.urbanizationRate, defaults.urbanizationRate));
+      national.urbanDevelopment = roundPercent(developmentComponentValue(national.urbanDevelopment, urbanDevelopmentFallback(national, defaults)));
       national.ruralDevelopment = roundPercent(developmentComponentValue(national.ruralDevelopment, defaults.ruralDevelopment));
       national.infrastructureLevel = roundPercent(developmentComponentValue(national.infrastructureLevel, defaults.infrastructureLevel));
       national.livingStandard = roundPercent(developmentComponentValue(national.livingStandard, defaults.livingStandard));
@@ -948,7 +1072,8 @@
 
   function maxComplexityForTechnology(national = {}) {
     const technology = componentProfileScore(national, {
-      urbanizationRate: 0.08,
+      urbanizationRate: 0.03,
+      urbanDevelopment: 0.05,
       ruralDevelopment: 0.08,
       infrastructureLevel: 0.42,
       livingStandard: 0.42
@@ -1087,6 +1212,7 @@
     const infrastructure = developmentComponentLevel(national, "infrastructureLevel") * 5;
     const livingStandard = developmentComponentLevel(national, "livingStandard") * 5;
     const urbanization = developmentComponentLevel(national, "urbanizationRate") * 5;
+    const urbanDevelopment = developmentComponentLevel(national, "urbanDevelopment") * 5;
     const ruralQuality = developmentComponentLevel(national, "ruralDevelopment") * 5;
     const literacy = literacyRateForNational(national);
     const health = healthModernizationMultiplier(national.economicHealth);
@@ -1098,11 +1224,11 @@
     const shipyardDepth = clamp(Math.sqrt(Math.max(0, number(industrial.shipyards, 0))) * 10, 0, 100);
     return {
       civilianImproved: sophistication * 0.44 + infrastructure * 0.2 + livingStandard * 0.08 + ruralQuality * 0.06 + literacy * 0.1 + healthScore * 0.12,
-      civilianAdvanced: sophistication * 0.46 + literacy * 0.22 + livingStandard * 0.1 + infrastructure * 0.1 + urbanization * 0.04 + healthScore * 0.08,
-      militaryImproved: sophistication * 0.38 + infrastructure * 0.16 + livingStandard * 0.08 + urbanization * 0.04 + literacy * 0.1 + healthScore * 0.09 + Math.max(mobilizationScore, warSupport) * 0.15,
-      militaryAdvanced: sophistication * 0.42 + literacy * 0.18 + livingStandard * 0.08 + infrastructure * 0.1 + urbanization * 0.04 + healthScore * 0.07 + Math.max(mobilizationScore, warSupport) * 0.07 + militaryOrganization * 0.04,
-      shipyardLarge: sophistication * 0.4 + infrastructure * 0.24 + livingStandard * 0.06 + urbanization * 0.06 + literacy * 0.08 + healthScore * 0.08 + shipyardDepth * 0.08,
-      shipyardMega: sophistication * 0.48 + infrastructure * 0.18 + livingStandard * 0.07 + urbanization * 0.05 + literacy * 0.1 + healthScore * 0.05 + shipyardDepth * 0.07
+      civilianAdvanced: sophistication * 0.46 + literacy * 0.22 + livingStandard * 0.1 + infrastructure * 0.1 + urbanization * 0.015 + urbanDevelopment * 0.025 + healthScore * 0.08,
+      militaryImproved: sophistication * 0.38 + infrastructure * 0.16 + livingStandard * 0.08 + urbanization * 0.015 + urbanDevelopment * 0.025 + literacy * 0.1 + healthScore * 0.09 + Math.max(mobilizationScore, warSupport) * 0.15,
+      militaryAdvanced: sophistication * 0.42 + literacy * 0.18 + livingStandard * 0.08 + infrastructure * 0.1 + urbanization * 0.015 + urbanDevelopment * 0.025 + healthScore * 0.07 + Math.max(mobilizationScore, warSupport) * 0.07 + militaryOrganization * 0.04,
+      shipyardLarge: sophistication * 0.4 + infrastructure * 0.24 + livingStandard * 0.06 + urbanization * 0.02 + urbanDevelopment * 0.04 + literacy * 0.08 + healthScore * 0.08 + shipyardDepth * 0.08,
+      shipyardMega: sophistication * 0.48 + infrastructure * 0.18 + livingStandard * 0.07 + urbanization * 0.015 + urbanDevelopment * 0.035 + literacy * 0.1 + healthScore * 0.05 + shipyardDepth * 0.07
     };
   }
 
@@ -1133,7 +1259,8 @@
     const taxRate = number(national?.taxRate, 0);
     const taxRatePercent = taxRate > 1 ? taxRate : taxRate * 100;
     const fiscalCapacity = componentProfileScore(national, {
-      urbanizationRate: 0.08,
+      urbanizationRate: 0.03,
+      urbanDevelopment: 0.05,
       ruralDevelopment: 0.22,
       infrastructureLevel: 0.4,
       livingStandard: 0.3
@@ -1165,43 +1292,50 @@
     const physicalMilitaryFactories = sectorOutput.military.physical;
     const physicalShipyards = sectorOutput.shipyard.physical;
     const fiscalCapacity = componentProfileScore(national, {
-      urbanizationRate: 0.08,
+      urbanizationRate: 0.03,
+      urbanDevelopment: 0.05,
       ruralDevelopment: 0.22,
       infrastructureLevel: 0.4,
       livingStandard: 0.3
     });
     const industrialCapacity = componentProfileScore(national, {
-      urbanizationRate: 0.1,
+      urbanizationRate: 0.03,
+      urbanDevelopment: 0.07,
       ruralDevelopment: 0.12,
       infrastructureLevel: 0.5,
       livingStandard: 0.28
     });
     const marketMaturity = componentProfileScore(national, {
-      urbanizationRate: 0.3,
+      urbanizationRate: 0.14,
+      urbanDevelopment: 0.16,
       ruralDevelopment: 0.05,
       infrastructureLevel: 0.25,
       livingStandard: 0.4
     });
     const stateCapacity = componentProfileScore(national, {
-      urbanizationRate: 0.08,
+      urbanizationRate: 0.03,
+      urbanDevelopment: 0.05,
       ruralDevelopment: 0.18,
       infrastructureLevel: 0.44,
       livingStandard: 0.3
     });
     const demographicMaturity = componentProfileScore(national, {
-      urbanizationRate: 0.35,
+      urbanizationRate: 0.25,
+      urbanDevelopment: 0.1,
       ruralDevelopment: 0.05,
       infrastructureLevel: 0.15,
       livingStandard: 0.45
     });
     const wartimeCapacity = componentProfileScore(national, {
-      urbanizationRate: 0.15,
+      urbanizationRate: 0.06,
+      urbanDevelopment: 0.09,
       ruralDevelopment: 0.12,
       infrastructureLevel: 0.48,
       livingStandard: 0.25
     });
     const population = getPopulation(data, id);
     const governance = governanceMetrics(national);
+    const urbanStrain = urbanStrainMetrics(national);
     const corruption = governance.fiscalCorruption;
     const economicHealth = national.economicHealth || "Recovery";
     const taxRate = number(national.taxRate, 0);
@@ -1230,6 +1364,7 @@
       stateCapacity,
       demographicMaturity,
       wartimeCapacity,
+      urbanStrain,
       population,
       governance,
       governmentalCorruption: governance.governmentalCorruption,
@@ -1251,7 +1386,7 @@
   function calculateTaxBurdenForNation(data, id) {
     const inputs = budgetInputsForNation(data, id);
     if (!inputs) return null;
-    const { taxRatePercent, fiscalCapacity, corruption, economicHealth, stability, national, fiscalModel, fiscalProfile, governance } = inputs;
+    const { taxRatePercent, fiscalCapacity, corruption, economicHealth, stability, national, fiscalModel, fiscalProfile, governance, urbanStrain } = inputs;
     const bureaucracyMultiplier = governance.efficiencyMultiplier;
     const sustainableTaxRate = roundPercent(clamp(4 + fiscalCapacity * 0.4 + fiscalProfile.sustainableTaxBonus, 3, 42));
     const taxPressure = roundPercent(Math.max(0, taxRatePercent - sustainableTaxRate));
@@ -1259,7 +1394,8 @@
     const stabilityPressure = 1 + clamp((70 - stability) / 60, 0, 1.25);
     const corruptionPressure = 1 + clamp(corruption / 180, 0, 0.75);
     const bureaucracyPressure = governance.bureaucracyPressure;
-    const pressureScore = roundPercent(taxPressure * healthPressure * stabilityPressure * corruptionPressure * bureaucracyPressure * fiscalProfile.pressureMultiplier);
+    const urbanStrainPressure = 1 + clamp(number(urbanStrain?.urbanStructuralStrain, 0) / 180, 0, 0.35);
+    const pressureScore = roundPercent(taxPressure * healthPressure * stabilityPressure * corruptionPressure * bureaucracyPressure * urbanStrainPressure * fiscalProfile.pressureMultiplier);
     let tier = "Stable";
     if (pressureScore > 16) tier = "Crisis";
     else if (pressureScore > 9) tier = "Volatile";
@@ -1277,7 +1413,8 @@
     const normalCollectionDrag = clamp(1 - taxRatePercent * (0.0022 + corruption / 60000) * fiscalProfile.avoidanceMultiplier, 0.82, 1);
     const saturationMultiplier = clamp(1 / (1 + pressureScore * 0.08), fiscalProfile.collectionFloor, 1);
     const avoidanceMultiplier = clamp(1 - taxPressure * (0.005 + corruption / 12000) * fiscalProfile.avoidanceMultiplier, 0.45, 1);
-    const collectionMultiplier = roundPercent(clamp(normalCollectionDrag * saturationMultiplier * avoidanceMultiplier * bureaucracyMultiplier, minimumCollectionMultiplier, collectionCeiling));
+    const urbanCollectionDrag = clamp(1 - number(urbanStrain?.urbanStructuralStrain, 0) * 0.002, 0.85, 1);
+    const collectionMultiplier = roundPercent(clamp(normalCollectionDrag * saturationMultiplier * avoidanceMultiplier * bureaucracyMultiplier * urbanCollectionDrag, minimumCollectionMultiplier, collectionCeiling));
     const normalPopulationDrag = taxRatePercent * 0.012 * healthPressure * fiscalProfile.populationPenaltyMultiplier;
     const normalImmigrationDrag = taxRatePercent * 0.008 * healthPressure * fiscalProfile.immigrationPenaltyMultiplier;
     const normalIndustryDrag = taxRatePercent * 0.0035 * healthPressure * fiscalProfile.industryPenaltyMultiplier;
@@ -1290,6 +1427,7 @@
     if (suggestedUnrestChange > 0) warnings.push(`Consider +${suggestedUnrestChange} public unrest if this tax level persists.`);
     if (collectionMultiplier < 0.8) warnings.push("High tax pressure is reducing collection efficiency.");
     if (governance.governmentalEfficiency < GOVERNANCE_HIGH_CAPACITY_MIN_EFFICIENCY) warnings.push("Low governmental efficiency is slowing tax administration.");
+    if (number(urbanStrain?.urbanStructuralStrain, 0) >= 15) warnings.push("Urban strain is reducing city tax administration.");
     if (populationGrowthPenalty > 0) warnings.push("Population growth and immigration are under tax pressure.");
     if (industryGrowthMultiplier < 0.9) warnings.push("Long-term industry growth is under tax pressure.");
 
@@ -1487,7 +1625,8 @@
     const tariffRate = clamp(number(tradeRow.tariffRate, 0), 0, 50);
     const tradeFlow = Math.max(0, storedTradeFlow ?? number(calculatedTrade.tradeFlow, 0));
     const customsCapacity = componentProfileScore(national, {
-      urbanizationRate: 0.12,
+      urbanizationRate: 0.04,
+      urbanDevelopment: 0.08,
       ruralDevelopment: 0.14,
       infrastructureLevel: 0.5,
       livingStandard: 0.24
@@ -1563,6 +1702,7 @@
     const breakdown = {
       formulaVersion: "legacy",
       taxRevenue: populationContribution,
+      urbanStrain: inputs.urbanStrain,
       ...budgetCapacityFromBreakdown(peacetimeInputs, industrialBudgetContribution(peacetimeInputs), populationContribution)
     };
     const mobilizationFinance = mobilizationFinanceMetricsFromInputs(inputs, breakdown.budgetCapacity);
@@ -1596,6 +1736,7 @@
       collectionEfficiency,
       taxDrag,
       taxBurden,
+      urbanStrain: inputs.urbanStrain,
       ...budgetCapacityFromBreakdown(peacetimeInputs, industrialBudgetContribution(peacetimeInputs), populationContribution, tariffRevenue)
     };
     const mobilizationFinance = mobilizationFinanceMetricsFromInputs(inputs, breakdown.budgetCapacity);
@@ -1648,7 +1789,8 @@
 
   function urbanizationSimulationCeiling(national = {}) {
     const urbanCapacity = componentProfileScore(national, {
-      urbanizationRate: 0.1,
+      urbanizationRate: 0.03,
+      urbanDevelopment: 0.07,
       ruralDevelopment: 0.05,
       infrastructureLevel: 0.55,
       livingStandard: 0.3
@@ -1682,17 +1824,19 @@
     const ceiling = urbanizationSimulationCeiling(national);
     const infrastructureRatio = clamp(developmentComponentLevel(national, "infrastructureLevel") / DEVELOPMENT_CURRENT_REFERENCE, 0, 1.5);
     const developmentRatio = currentEraComponentRatio(componentProfileScore(national, {
-      urbanizationRate: 0.1,
+      urbanizationRate: 0.02,
+      urbanDevelopment: 0.08,
       ruralDevelopment: 0.05,
       infrastructureLevel: 0.55,
       livingStandard: 0.3
     }));
+    const strain = urbanStrainMetrics(national, populationMetrics);
     const governance = governanceMetrics(national);
     const bureaucracyDrag = 1 - governance.efficiencyMultiplier;
     const unrest = clamp(number(national.publicUnrest, 0), 0, 10);
     const growthRate = number(populationMetrics.growthRate, 0);
     const migrationGrowth = number(populationMetrics.migrationGrowth, 0);
-    const cityAbsorption = clamp(
+    const cityAbsorptionBase = clamp(
       -0.22
         + developmentRatio * 0.28
         + infrastructureRatio * 0.32
@@ -1705,6 +1849,7 @@
       -0.9,
       1.2
     );
+    const cityAbsorption = clamp(cityAbsorptionBase - strain.urbanStrain * 0.006, -1.2, 1.2);
     const ruralGrowthPressure = Math.max(0, growthRate) * clamp((100 - previousUrbanization) / 60, 0.12, 1.1) * 0.48;
     const headroomRatio = clamp((ceiling - previousUrbanization) / 18, 0, 1);
     const overCeilingDrag = Math.max(0, previousUrbanization - ceiling) * 0.08;
@@ -1718,6 +1863,8 @@
         cityAbsorption: roundPercent(cityAbsorption),
         ruralGrowthPressure: roundPercent(ruralGrowthPressure),
         overCeilingDrag: roundPercent(overCeilingDrag),
+        urbanStrain: strain.urbanStrain,
+        urbanCapacity: strain.urbanCapacity,
         componentScoreChange: 0
       };
     }
@@ -1733,6 +1880,8 @@
       cityAbsorption: roundPercent(cityAbsorption),
       ruralGrowthPressure: roundPercent(ruralGrowthPressure),
       overCeilingDrag: roundPercent(overCeilingDrag),
+      urbanStrain: strain.urbanStrain,
+      urbanCapacity: strain.urbanCapacity,
       componentScoreChange: 0
     };
   }
@@ -1750,7 +1899,8 @@
     const stability = number(national.governmentalStability, 0);
     const unrest = number(national.publicUnrest, 0);
     const demographicMaturity = componentProfileScore(national, {
-      urbanizationRate: 0.35,
+      urbanizationRate: 0.25,
+      urbanDevelopment: 0.1,
       ruralDevelopment: 0.05,
       infrastructureLevel: 0.15,
       livingStandard: 0.45
@@ -1761,6 +1911,7 @@
     const immigrationRate = number(national.immigrationRate, 0);
     const taxBurden = calculateTaxBurdenForNation(data, id) || {};
     const effectiveImmigrationRate = immigrationRate - number(taxBurden.immigrationPenalty, 0);
+    const baselineUrbanStrain = urbanStrainMetrics(national);
     const policy = populationRow.mandatoryChildPolicy || "No Policy";
     const healthProfile = HEALTH_DEMOGRAPHICS[economicHealth] || HEALTH_DEMOGRAPHICS.Recovery;
     const maturity = currentEraComponentRatio(demographicMaturity);
@@ -1768,18 +1919,19 @@
     const stabilityEffect = clamp((stability - 65) * 0.0038, -0.32, 0.22);
     const policyEffect = (CHILD_POLICY_POPULATION_EFFECT[policy] || 0) * clamp(1 - maturity * 0.25, 0.72, 1.05);
     const taxGrowthPenalty = number(taxBurden.populationGrowthPenalty, 0) * 0.55;
-    const stressPenalty = unrest * 0.045 + corruption * 0.004 + bureaucracyDrag * 0.28 + taxGrowthPenalty;
+    const stressPenalty = unrest * 0.045 + corruption * 0.004 + bureaucracyDrag * 0.28 + taxGrowthPenalty + baselineUrbanStrain.urbanStructuralStrain * 0.006;
     const sizeDamping = clamp(1 - Math.max(0, Math.log10(currentPopulation / 6000000)) * 0.2, 0.5, 1);
     const maturityStabilizer = economicHealth === "Prosperity" ? maturity * 0.18 : 0;
     const literacyGrowthSlowdown = literacyPopulationGrowthSlowdown(national);
     const naturalGrowth = (demographicBase + healthProfile.naturalGrowth + maturityStabilizer + stabilityEffect + policyEffect - stressPenalty - literacyGrowthSlowdown) * sizeDamping;
-    const migrationDamping = clamp(1 - Math.max(0, Math.log10(currentPopulation / 25000000)) * 0.26, 0.28, 1) * clamp(1 - maturity * 0.35, 0.55, 1);
+    const migrationDamping = clamp(1 - Math.max(0, Math.log10(currentPopulation / 25000000)) * 0.26, 0.28, 1) * clamp(1 - maturity * 0.35, 0.55, 1) * clamp(1 - baselineUrbanStrain.urbanStructuralStrain / 220, 0.62, 1);
     const migrationAttractiveness = healthProfile.migration
       + clamp((stability - 60) * 0.007, -0.35, 0.28)
       + clamp((demographicMaturity - 10) * 0.025, -0.15, 0.28)
       - unrest * 0.045
       - corruption * 0.006
       - bureaucracyDrag * 0.5
+      - baselineUrbanStrain.urbanStructuralStrain * 0.006
       - number(taxBurden.immigrationPenalty, 0) * 0.4;
     const migrationGrowth = clamp((effectiveImmigrationRate * 0.15 + migrationAttractiveness * 0.08) * migrationDamping, -0.9, 0.9);
     const rawGrowthRate = clamp(naturalGrowth + migrationGrowth, -4.5, 3.5);
@@ -1795,6 +1947,10 @@
       naturalGrowth,
       migrationGrowth
     });
+    const finalUrbanStrain = urbanStrainMetrics(national, { growthRate, migrationGrowth });
+    national.urbanStrain = finalUrbanStrain.urbanStrain;
+    national.urbanCapacity = finalUrbanStrain.urbanCapacity;
+    national.urbanPressure = finalUrbanStrain.urbanPressure;
     return {
       from: currentPopulation,
       to: nextPopulation,
@@ -1811,6 +1967,7 @@
       literacyGrowthSlowdown: roundPercent(literacyGrowthSlowdown),
       policyEffect: roundPercent(policyEffect),
       stressPenalty: roundPercent(stressPenalty),
+      urbanStrain: finalUrbanStrain,
       urbanization
     };
   }
@@ -1830,11 +1987,13 @@
     const legacyCorruption = percentStat(national.corruption, 0);
     const literacy = literacyRateForNational(national);
     const development = componentProfileScore(national, {
-      urbanizationRate: 0.08,
+      urbanizationRate: 0.03,
+      urbanDevelopment: 0.05,
       ruralDevelopment: 0.22,
       infrastructureLevel: 0.4,
       livingStandard: 0.3
     });
+    const urbanStrain = urbanStrainMetrics(national);
     const stability = percentStat(national.governmentalStability, 70);
     const unrest = clamp(number(national.publicUnrest, 0), 0, 10);
     const health = national.economicHealth || "Recovery";
@@ -1850,6 +2009,7 @@
         + unrest * 2.2
         + lowStabilityCrimePressure
         + healthCrimePressure
+        + urbanStrain.urbanStrain * 0.22
         - development * 0.2,
       3,
       100
@@ -1866,6 +2026,7 @@
         + lowStabilityCorruptionPressure
         + unrest * 1.2
         + healthCorruptionPressure
+        + urbanStrain.urbanStrain * 0.06
         - development * 0.1,
       4,
       100
@@ -1882,6 +2043,7 @@
         - corruptionEfficiencyPressure
         - crimeEfficiencyPressure
         - instabilityEfficiencyPressure
+        - urbanStrain.urbanStrain * 0.03
         + development * 0.05,
       45,
       GOVERNANCE_DEFAULT_EFFICIENCY
@@ -1964,18 +2126,20 @@
     const healthMomentum = 1 + Math.sqrt(Math.max(industrialHealthYears - 1, 0)) * momentumRate;
     const industrialScale = Math.sqrt(Math.max(totalIndustrialCapacity, 0));
     const developmentScale = componentProfileScore(national, {
-      urbanizationRate: 0.1,
+      urbanizationRate: 0.03,
+      urbanDevelopment: 0.07,
       ruralDevelopment: 0.12,
       infrastructureLevel: 0.5,
       livingStandard: 0.28
     });
     const stabilityScale = clamp(number(national.governmentalStability, 70) / 100, 0, 1.2);
     const governance = governanceMetrics(national);
+    const urbanStrain = urbanStrainMetrics(national);
     const corruptionDrag = clamp(governance.stateCapacityCorruption / 160, 0, 0.55);
     const bureaucracyScale = governance.efficiencyMultiplier;
     const healthSignal = HEALTH_GROWTH[healthStatus] * yearsAdvanced;
-    const positiveScale = (1 + industrialScale / 28 + developmentScale / 55 + stabilityScale * 0.22 - corruptionDrag) * bureaucracyScale;
-    const negativeScale = (1 + industrialScale / 45 + corruptionDrag * 0.45 + clamp((65 - number(national.governmentalStability, 70)) / 120, 0, 0.35)) * governance.bureaucracyPressure;
+    const positiveScale = (1 + industrialScale / 28 + developmentScale / 55 + stabilityScale * 0.22 - corruptionDrag - urbanStrain.urbanStructuralStrain / 260) * bureaucracyScale;
+    const negativeScale = (1 + industrialScale / 45 + corruptionDrag * 0.45 + urbanStrain.urbanStructuralStrain / 220 + clamp((65 - number(national.governmentalStability, 70)) / 120, 0, 0.35)) * governance.bureaucracyPressure;
     const impactFromHealth = healthSignal >= 0
       ? healthSignal * positiveScale * healthMomentum
       : healthSignal * negativeScale * healthMomentum;
@@ -2285,6 +2449,9 @@
     tradeTierForFlow,
     industrialSectorOutputs,
     componentScoreFromComponents,
+    urbanStrainMetrics,
+    suggestUrbanDevelopmentForNation,
+    seedUrbanDevelopment,
     fiscalModelForNation,
     calculateTaxBurdenForNation,
     calculateTariffBurdenForNation,

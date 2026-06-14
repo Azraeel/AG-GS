@@ -133,12 +133,14 @@
 
     function componentLevel(input = {}, key, fallback = 10) {
       if (key === "urbanizationRate") return clamp(number(input.urbanizationRate, fallback * 5), 0, 100) / 5;
+      if (key === "urbanDevelopment") return clamp(number(input.urbanDevelopment, componentLevel(input, "urbanizationRate", fallback)), 0, DEVELOPMENT_LEVEL_MAX);
       return clamp(number(input[key], fallback), 0, DEVELOPMENT_LEVEL_MAX);
     }
 
     function componentProfileScore(input = {}, weights = {}) {
       return clamp(
         componentLevel(input, "urbanizationRate") * number(weights.urbanizationRate, 0)
+          + componentLevel(input, "urbanDevelopment") * number(weights.urbanDevelopment, 0)
           + componentLevel(input, "ruralDevelopment") * number(weights.ruralDevelopment, 0)
           + componentLevel(input, "infrastructureLevel") * number(weights.infrastructureLevel, 0)
           + componentLevel(input, "livingStandard") * number(weights.livingStandard, 0),
@@ -147,10 +149,17 @@
       );
     }
 
+    function urbanStrainRatio(input = {}) {
+      const urbanPressure = componentLevel(input, "urbanizationRate");
+      const urbanDevelopment = componentLevel(input, "urbanDevelopment");
+      return clamp(Math.max(0, urbanPressure - urbanDevelopment) / 20, 0, 1);
+    }
+
     function tradeLogisticsProfile(input = {}) {
       const infrastructure = componentLevel(input, "infrastructureLevel");
       const logisticsCapacity = componentProfileScore(input, {
-        urbanizationRate: 0.08,
+        urbanizationRate: 0.025,
+        urbanDevelopment: 0.055,
         ruralDevelopment: 0.12,
         infrastructureLevel: 0.68,
         livingStandard: 0.12
@@ -162,7 +171,8 @@
       const efficiencyMultiplier = governanceEfficiencyMultiplier(input);
       const bureaucracyDrag = 1 - efficiencyMultiplier;
       const disruption = clamp(number(input.tradeDisruption, 0), 0, 100) / 100;
-      const reliability = clamp(48 + stability * 0.44 - corruption * 0.34 + logisticsCapacity * 1.05 - bureaucracyDrag * 18 - disruption * 70, 0, 100);
+      const strain = urbanStrainRatio(input);
+      const reliability = clamp(48 + stability * 0.44 - corruption * 0.34 + logisticsCapacity * 1.05 - bureaucracyDrag * 18 - disruption * 70 - strain * 8, 0, 100);
       const maritime = clamp((Math.sqrt(shipyards) * 1.2 + infrastructure * 0.22 + (stability - 50) * 0.035 - corruption * 0.022 - bureaucracyDrag * 1.1) * (1 - disruption * 0.92), 0, 10);
       const corridors = clamp((Math.sqrt(civilianFactories) * 0.42 + logisticsCapacity * 0.3 + (stability - 50) * 0.04 - corruption * 0.032 - bureaucracyDrag * 1.45) * (1 - disruption * 0.48), 0, 10);
       const overall = clamp((maritime + corridors) * 4.2 + reliability * 0.16, 0, 100);
@@ -240,6 +250,7 @@
         id,
         population: getPopulation(data, id),
         urbanizationRate: number(national.urbanizationRate, 50),
+        urbanDevelopment: number(national.urbanDevelopment, number(national.urbanizationRate, 50) / 5),
         ruralDevelopment: number(national.ruralDevelopment, 10),
         infrastructureLevel: number(national.infrastructureLevel, 10),
         livingStandard: number(national.livingStandard, 10),
@@ -345,7 +356,8 @@
       const industryScale = input.civilianFactories + input.militaryFactories * 0.35 + input.shipyards * 2.5;
       const diversityScore = clamp(Math.sqrt(Math.max(0, input.economicTradeDiversity)) / 12, 0, 1.18);
       const developmentScore = componentReferenceRatio(componentProfileScore(input, {
-        urbanizationRate: 0.18,
+        urbanizationRate: 0.06,
+        urbanDevelopment: 0.12,
         ruralDevelopment: 0.08,
         infrastructureLevel: 0.38,
         livingStandard: 0.36
@@ -402,14 +414,16 @@
       const industrialMarket = input.civilianFactories * 1500 + input.militaryFactories * 340 + input.shipyards * 3000;
       const budgetMarket = Math.sqrt(Math.max(input.budgetCapacity, 0)) * 1900;
       const developmentFactor = componentTradeFactor(componentProfileScore(input, {
-        urbanizationRate: 0.22,
+        urbanizationRate: 0.08,
+        urbanDevelopment: 0.14,
         ruralDevelopment: 0.08,
         infrastructureLevel: 0.42,
         livingStandard: 0.28
       }));
+      const urbanStrainFactor = clamp(1 - urbanStrainRatio(input) * 0.12, 0.85, 1);
       const stabilityFactor = clamp(0.74 + number(input.governmentalStability, 70) / 360 - number(input.corruption, 0) / 290, 0.42, 1.08) * governanceEfficiencyMultiplier(input);
       const healthFactor = { Prosperity: 1.14, Expansion: 1.08, Recovery: 1, Slowdown: 0.84, Recession: 0.62, Depression: 0.38 }[input.economicHealth] || 1;
-      return Math.max(120, (populationMarket + industrialMarket + budgetMarket) * developmentFactor * stabilityFactor * healthFactor);
+      return Math.max(120, (populationMarket + industrialMarket + budgetMarket) * developmentFactor * stabilityFactor * healthFactor * urbanStrainFactor);
     }
 
     function tradeDisruptionBalancePenalty(input = {}) {
@@ -438,7 +452,8 @@
     function exportSupplyScore(input) {
       const reliance = Math.pow(Math.max(0, input.exportReliance) / 100, 1.32);
       const productionCapacity = componentProfileScore(input, {
-        urbanizationRate: 0.14,
+        urbanizationRate: 0.05,
+        urbanDevelopment: 0.09,
         ruralDevelopment: 0.12,
         infrastructureLevel: 0.46,
         livingStandard: 0.28
@@ -525,7 +540,8 @@
     function laneTariffRevenue(flow, tariffRate, importerInput) {
       const collectionCorruption = number(importerInput.governmentalCorruption, importerInput.corruption);
       const customsCapacity = componentProfileScore(importerInput, {
-        urbanizationRate: 0.12,
+        urbanizationRate: 0.04,
+        urbanDevelopment: 0.08,
         ruralDevelopment: 0.14,
         infrastructureLevel: 0.5,
         livingStandard: 0.24
@@ -541,14 +557,15 @@
       const reliancePressure = clamp(Math.max(0, importerInput.importReliance) / 220, 0, 1.25);
       const diversityRelief = clamp(Math.sqrt(Math.max(0, importerInput.economicTradeDiversity)) / 42, 0, 0.34);
       const marketMaturity = componentProfileScore(importerInput, {
-        urbanizationRate: 0.3,
+        urbanizationRate: 0.14,
+        urbanDevelopment: 0.16,
         ruralDevelopment: 0.05,
         infrastructureLevel: 0.25,
         livingStandard: 0.4
       });
       const developmentRelief = clamp(marketMaturity / 72, 0, 0.28);
       const autarkyPressure = clamp(importerInput.autarkyIndex / 360, 0, 0.28);
-      const sensitivity = clamp(0.65 + reliancePressure + autarkyPressure - diversityRelief - developmentRelief, 0.45, 1.75);
+      const sensitivity = clamp(0.65 + reliancePressure + autarkyPressure + urbanStrainRatio(importerInput) * 0.2 - diversityRelief - developmentRelief, 0.45, 1.75);
       const deadweightFriction = clamp(0.1 + Math.pow(tariffGapPoints, 1.12) * 0.014, 0.12, 0.92);
       return flow * tariffGap * sensitivity * deadweightFriction;
     }
