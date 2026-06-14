@@ -449,6 +449,9 @@
       national.infrastructureLevel = roundPercent(developmentComponentValue(national.infrastructureLevel, defaults.infrastructureLevel));
       national.livingStandard = roundPercent(developmentComponentValue(national.livingStandard, defaults.livingStandard));
       legacyKeys.forEach((key) => delete national[key]);
+      delete national.urbanStrain;
+      delete national.urbanCapacity;
+      delete national.urbanPressure;
       delete national.developmentComponentsManual;
       delete national.developmentComponentsFormulaVersion;
       delete national.industrialSophisticationManual;
@@ -1342,7 +1345,6 @@
     if (suggestedUnrestChange > 0) warnings.push(`Consider +${suggestedUnrestChange} public unrest if this tax level persists.`);
     if (collectionMultiplier < 0.8) warnings.push("High tax pressure is reducing collection efficiency.");
     if (governance.governmentalEfficiency < GOVERNANCE_HIGH_CAPACITY_MIN_EFFICIENCY) warnings.push("Low governmental efficiency is slowing tax administration.");
-    if (number(urbanStrain?.urbanStructuralStrain, 0) >= 15) warnings.push("Urban strain is reducing city tax administration.");
     if (populationGrowthPenalty > 0) warnings.push("Population growth and immigration are under tax pressure.");
     if (industryGrowthMultiplier < 0.9) warnings.push("Long-term industry growth is under tax pressure.");
 
@@ -1863,9 +1865,6 @@
       migrationGrowth
     });
     const finalUrbanStrain = urbanStrainMetrics(national, { growthRate, migrationGrowth });
-    national.urbanStrain = finalUrbanStrain.urbanStrain;
-    national.urbanCapacity = finalUrbanStrain.urbanCapacity;
-    national.urbanPressure = finalUrbanStrain.urbanPressure;
     return {
       from: currentPopulation,
       to: nextPopulation,

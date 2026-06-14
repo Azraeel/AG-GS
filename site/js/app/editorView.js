@@ -496,7 +496,6 @@
             ${hasWartimeCapacity ? detailItem("Auto Mobilization BE", autoMobilizationBe > 0 ? fmtNumber(autoMobilizationBe) : "Not started") : ""}
             ${wartimeHeadroom > 0 ? detailItem("Available Wartime Headroom", fmtNumber(wartimeHeadroom)) : ""}
             ${Engine.number(national.mobilizationYears, 0) > 0 ? detailItem("Mobilization Strain", fmtDecimalPercent(national.mobilizationStrain)) : ""}
-            ${detailItem("Urban Strain", fmtPercent(national.urbanStrain))}
             ${detailItem("Peacetime Fiscal Balance", fmtSigned(national.primaryBalance))}
             ${detailItem("Debt Service", fmtNumber(national.debtService))}
             ${detailItem("Effective Balance After Auto BE", fmtSigned(national.budgetBalance))}

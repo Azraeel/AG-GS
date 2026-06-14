@@ -305,9 +305,6 @@
         national.mobilizationEffectiveness = roundPercent(budgetBreakdown.mobilizationEffectiveness);
         national.mobilizationAbility = roundPercent(budgetBreakdown.mobilizationAbility);
         national.mobilizationEnduranceYears = roundPercent(budgetBreakdown.mobilizationEnduranceYears);
-        national.urbanStrain = roundPercent(budgetBreakdown.urbanStrain?.urbanStrain || 0);
-        national.urbanCapacity = roundPercent(budgetBreakdown.urbanStrain?.urbanCapacity || 0);
-        national.urbanPressure = roundPercent(budgetBreakdown.urbanStrain?.urbanPressure || 0);
         national.mobilizedBudgetCapacity = roundCurrency(budgetCapacity + national.wartimeBudgetBonus);
         let fiscal = calculateFiscalForNation(data, id, { budgetCapacity, budgetExpenditure: national.effectiveBudgetExpenditure });
         if (!fiscal) continue;

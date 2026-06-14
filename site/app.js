@@ -70,7 +70,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260613-urban-development";
+  const APP_ASSET_VERSION = "20260613-urban-strain-hidden";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
 
@@ -1217,7 +1217,6 @@
       autarkyIndex: "Autarky",
       urbanizationRate: "Urbanization",
       urbanDevelopment: "Urban Development",
-      urbanStrain: "Urban Strain",
       ruralDevelopment: "Rural Development",
       infrastructureLevel: "Infrastructure",
       livingStandard: "Living Standard",
@@ -1333,6 +1332,9 @@
     "national.mobilizationEffectiveness",
     "national.mobilizationAbility",
     "national.mobilizationEnduranceYears",
+    "national.urbanStrain",
+    "national.urbanCapacity",
+    "national.urbanPressure",
     "national.tradeBalanceRisk",
     "national.debtTrendRisk",
     "national.repaymentShareLimit",
@@ -1602,7 +1604,6 @@
               dossierRow("Literacy", fmtPercent(national?.literacyRate ?? 95)),
               dossierRow("Urbanization", fmtPercent(national?.urbanizationRate)),
               dossierRow("Urban Development", fmtNumber(national?.urbanDevelopment)),
-              dossierRow("Urban Strain", fmtPercent(national?.urbanStrain)),
               dossierRow("Rural Development", fmtNumber(national?.ruralDevelopment)),
               dossierRow("Infrastructure", fmtNumber(national?.infrastructureLevel)),
               dossierRow("Living Standard", fmtNumber(national?.livingStandard)),

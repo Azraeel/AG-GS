@@ -254,7 +254,6 @@ Fields:
 - `ruralDevelopment`: countryside productivity, services, and rural state reach.
 - `infrastructureLevel`: roads, power, logistics, ports, rail, and internal movement.
 - `livingStandard`: public health, formal consumer economy, and general prosperity.
-- `urbanStrain`: derived visible pressure caused when urbanization outruns urban development/city capacity.
 
 Formula routing:
 
@@ -269,10 +268,10 @@ Urban development vs urbanization:
 
 - High `urbanizationRate` means many people live in cities.
 - High `urbanDevelopment` means those cities are functional, productive, well-serviced, and able to absorb people.
-- High urbanization with low urban development creates `urbanStrain`.
+- High urbanization with low urban development creates internal city-capacity pressure.
 - Missing `urbanDevelopment` in old records is migrated from the old urbanization quality signal, so countries do not jump just because the stat was added.
 
-Urban strain effects:
+Internal city-capacity pressure effects:
 
 - Reduces city absorption during yearly urbanization simulation.
 - Reduces natural growth and immigration attractiveness through population stress.
@@ -1162,7 +1161,7 @@ Strongest direct BC inputs:
 - Effective military factories.
 - Effective shipyards.
 - Component fiscal capacity.
-- Urban development and low urban strain through tax/customs administration.
+- Urban development and low internal city-capacity pressure through tax/customs administration.
 - Industrial sophistication through high-tier effective output.
 - Population.
 - Tax rate.
@@ -1190,7 +1189,7 @@ Strongest direct trade inputs:
 - Population.
 - Budget capacity.
 - Trade and logistics component capacity.
-- Urban development and low urban strain for city services, customs, and value-added trade.
+- Urban development and low internal city-capacity pressure for city services, customs, and value-added trade.
 - Stability.
 - Logistics corruption and governmental efficiency.
 - Economic health.
@@ -1229,7 +1228,7 @@ Strongest yearly population inputs:
 - Current population.
 - Economic health.
 - Urbanization/living-standard maturity.
-- Urban development and urban strain.
+- Urban development and internal city-capacity pressure.
 - Stability.
 - Public unrest.
 - Social corruption.

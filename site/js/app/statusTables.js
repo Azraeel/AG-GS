@@ -37,7 +37,6 @@
           { key: "literacyRate", label: "Literacy", numeric: true, render: fmtPercent },
           { key: "urbanizationRate", label: "Urbanization", numeric: true, render: fmtPercent },
           { key: "urbanDevelopment", label: "Urban Dev", numeric: true, render: fmtNumber },
-          { key: "urbanStrain", label: "Urban Strain", numeric: true, render: fmtPercent },
           { key: "ruralDevelopment", label: "Rural Dev", numeric: true, render: fmtNumber },
           { key: "infrastructureLevel", label: "Infrastructure", numeric: true, render: fmtNumber },
           { key: "livingStandard", label: "Living Std", numeric: true, render: fmtNumber },
