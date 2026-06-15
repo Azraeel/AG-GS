@@ -2634,10 +2634,10 @@
           tone: literacyIndustrialMultiplier(national, "advanced") < 1 ? "warning" : "positive",
           detail: "Literacy share only; sophistication can reduce high-tier output too."
         }),
-        statExplainRow("Natural growth slowdown", literacyPopulationGrowthSlowdown(national), {
-          format: "precisePercent",
+        statExplainRow("Yearly growth reduction", literacyPopulationGrowthSlowdown(national), {
+          format: "yearlyPoints",
           tone: literacy > LITERACY_POPULATION_SLOWDOWN_START ? "warning" : "neutral",
-          detail: "Percentage points subtracted from yearly natural population growth."
+          detail: "Subtracted from the annual natural population growth rate. Example: 2.00% growth becomes 1.58% before other effects."
         })
       ];
       return base;

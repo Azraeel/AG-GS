@@ -70,7 +70,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260615-stat-explainers-v3";
+  const APP_ASSET_VERSION = "20260615-stat-explainers-v5";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
   let statExplainTimer = null;
@@ -581,6 +581,10 @@
     statExplainPinned = false;
   }
 
+  function fmtExplainPointValue(numeric, suffix = "percentage points") {
+    return `${Number(numeric.toFixed(4)).toLocaleString("en-US", { maximumFractionDigits: 4 })} ${suffix}`;
+  }
+
   function formatExplainValue(value, format = "auto") {
     if (value === undefined || value === null || value === "") return "Unknown";
     if (format === "text") return String(value);
@@ -592,6 +596,10 @@
     if (format === "signedPrecisePercent") return `${numeric > 0 ? "+" : ""}${fmtPrecisePercent(numeric)}`;
     if (format === "positivePercent") return numeric === 0 ? fmtPercent(0) : `+${fmtPercent(Math.abs(numeric))}`;
     if (format === "negativePercent") return numeric === 0 ? fmtPercent(0) : `-${fmtPercent(Math.abs(numeric))}`;
+    if (format === "points") return fmtExplainPointValue(numeric);
+    if (format === "yearlyPoints") return fmtExplainPointValue(numeric, "percentage points/year");
+    if (format === "signedPoints") return `${numeric > 0 ? "+" : ""}${fmtExplainPointValue(numeric)}`;
+    if (format === "negativePoints") return numeric === 0 ? fmtExplainPointValue(0) : `-${fmtExplainPointValue(Math.abs(numeric))}`;
     if (format === "signedNumber") return fmtSigned(numeric);
     if (format === "negativeNumber") return numeric === 0 ? fmtNumber(0) : `-${fmtNumber(Math.abs(numeric))}`;
     if (format === "multiplier") {
