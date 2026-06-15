@@ -434,7 +434,6 @@ tbody td {
   outline-offset: -1px;
 }
 
-.status-table-wrap td.has-stat-explain:hover,
 .status-table-wrap td.has-stat-explain.is-stat-explained {
   background: color-mix(in srgb, var(--blue) 10%, var(--table-row-hover));
 }

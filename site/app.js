@@ -70,7 +70,7 @@
   };
   const DISCORD_INVITE_URL = "https://discord.gg/baVd8qVgqB";
   const TRADE_MAP_PANEL_POSITION_KEY = "aggs:trade-map-panel-position:v1";
-  const APP_ASSET_VERSION = "20260615-stat-explainers";
+  const APP_ASSET_VERSION = "20260615-stat-explainers-v2";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
   let statExplainTimer = null;
@@ -676,7 +676,7 @@
 
   function scheduleStatExplain(target) {
     clearStatExplainTimer();
-    statExplainTimer = setTimeout(() => showStatExplain(target), 320);
+    statExplainTimer = setTimeout(() => showStatExplain(target), 140);
   }
 
   function statusViewOptions() {

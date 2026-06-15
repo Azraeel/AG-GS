@@ -2546,14 +2546,44 @@
       const sectorLabel = key.startsWith("military") ? "Military" : key.startsWith("shipyard") || key === "shipyards" ? "Shipyards" : "Civilian";
       base.value = sector.physical;
       base.valueFormat = "number";
-      base.summary = `${sectorLabel} industry is stored as physical tiers, then converted to effective output with tier weights, literacy, and industrial sophistication.`;
-      base.formula = "Effective output = tier count x tier weight x literacy multiplier x sophistication multiplier.";
+      base.summary = `${sectorLabel} industry is stored as physical tier counts. Formulas use effective output, which is the weighted output that actually counts after high-tier literacy and sophistication limits.`;
+      base.formula = "Effective output = tier count x tier weight x output retained share. Basic/Medium tiers retain 100%; higher tiers can be discounted.";
+      const retainedRows = [];
+      if (sector.improved !== undefined) {
+        retainedRows.push(statExplainRow("Improved output retained", number(sector.literacyMultipliers?.improved, 1) * number(sector.sophisticationMultipliers?.improved, 1) * 100, {
+          format: "percent",
+          tone: number(sector.literacyMultipliers?.improved, 1) * number(sector.sophisticationMultipliers?.improved, 1) < 1 ? "warning" : "positive",
+          detail: "Share of improved-tier theoretical output that counts."
+        }));
+      }
+      if (sector.advanced !== undefined) {
+        retainedRows.push(statExplainRow("Advanced output retained", number(sector.literacyMultipliers?.advanced, 1) * number(sector.sophisticationMultipliers?.advanced, 1) * 100, {
+          format: "percent",
+          tone: number(sector.literacyMultipliers?.advanced, 1) * number(sector.sophisticationMultipliers?.advanced, 1) < 1 ? "warning" : "positive",
+          detail: "Share of advanced-tier theoretical output that counts."
+        }));
+      }
+      if (sector.large !== undefined) {
+        retainedRows.push(statExplainRow("Large output retained", number(sector.literacyMultipliers?.large, 1) * number(sector.sophisticationMultipliers?.large, 1) * 100, {
+          format: "percent",
+          tone: number(sector.literacyMultipliers?.large, 1) * number(sector.sophisticationMultipliers?.large, 1) < 1 ? "warning" : "positive",
+          detail: "Share of large-shipyard theoretical output that counts."
+        }));
+      }
+      if (sector.mega !== undefined) {
+        retainedRows.push(statExplainRow("Mega output retained", number(sector.literacyMultipliers?.mega, 1) * number(sector.sophisticationMultipliers?.mega, 1) * 100, {
+          format: "percent",
+          tone: number(sector.literacyMultipliers?.mega, 1) * number(sector.sophisticationMultipliers?.mega, 1) < 1 ? "warning" : "positive",
+          detail: "Share of mega-shipyard theoretical output that counts."
+        }));
+      }
       base.components = [
         ...Object.keys(sector)
           .filter((tier) => !["physical", "effective", "legacyTotal", "literacyMultipliers", "sophisticationMultipliers"].includes(tier))
           .map((tier) => statExplainRow(statHumanLabel(tier), sector[tier], { format: "number" })),
         statExplainRow("Physical total", sector.physical, { format: "number" }),
         statExplainRow("Effective output", sector.effective, { format: "number", tone: "positive" }),
+        ...retainedRows,
         statExplainRow("Literacy", national.literacyRate, { format: "percent", tone: number(national.literacyRate, 95) < 95 ? "warning" : "positive" }),
         statExplainRow("Industrial sophistication", national.industrialSophistication, { format: "percent", tone: number(national.industrialSophistication, 0) >= 50 ? "positive" : "warning" })
       ];
@@ -2562,13 +2592,47 @@
     if (dataset === "national" && key === "industrialSophistication") {
       base.value = national.industrialSophistication;
       base.valueFormat = "percent";
-      base.summary = "Sophistication is the quality depth of the economy: whether factories and shipyards can actually perform like advanced industry.";
-      base.formula = "It affects improved/advanced factory output, large/mega shipyard output, and military supply growth.";
+      base.summary = "Sophistication is production quality: tooling, suppliers, standards, process control, and whether high-tier industry can perform at its theoretical level.";
+      base.formula = "100% retained means high-tier output counts fully. Lower retained output means advanced factories/shipyards exist physically but do not produce at full high-tier value.";
       base.components = [
         statExplainRow("Industrial sophistication", national.industrialSophistication, { format: "percent", tone: number(national.industrialSophistication, 0) >= 50 ? "positive" : "warning" }),
-        statExplainRow("Improved output multiplier", sophisticationIndustrialMultiplier(national, "improved"), { format: "multiplier" }),
-        statExplainRow("Advanced output multiplier", sophisticationIndustrialMultiplier(national, "advanced"), { format: "multiplier" }),
+        statExplainRow("Improved/Large output retained", sophisticationIndustrialMultiplier(national, "improved") * 100, {
+          format: "percent",
+          tone: sophisticationIndustrialMultiplier(national, "improved") < 1 ? "warning" : "positive",
+          detail: "Sophistication share only; low literacy can reduce this further."
+        }),
+        statExplainRow("Advanced/Mega output retained", sophisticationIndustrialMultiplier(national, "advanced") * 100, {
+          format: "percent",
+          tone: sophisticationIndustrialMultiplier(national, "advanced") < 1 ? "warning" : "positive",
+          detail: "Sophistication share only; low literacy can reduce this further."
+        }),
         statExplainRow("Literacy", national.literacyRate, { format: "percent", tone: number(national.literacyRate, 95) < 95 ? "warning" : "positive" })
+      ];
+      return base;
+    }
+    if (dataset === "national" && key === "literacyRate") {
+      const literacy = literacyRateForNational(national);
+      base.value = literacy;
+      base.valueFormat = "percent";
+      base.summary = "Literacy is human capital. It does not directly add BC, but low literacy limits high-tier industry and high literacy can slightly slow natural population growth.";
+      base.formula = "95% literacy is neutral. Below 95%, improved/large and advanced/mega output retain less of their theoretical value.";
+      base.components = [
+        statExplainRow("Literacy", literacy, { format: "percent", tone: literacy < LITERACY_NEUTRAL_RATE ? "warning" : "positive" }),
+        statExplainRow("Improved/Large output retained", literacyIndustrialMultiplier(national, "improved") * 100, {
+          format: "percent",
+          tone: literacyIndustrialMultiplier(national, "improved") < 1 ? "warning" : "positive",
+          detail: "Literacy share only; sophistication can reduce high-tier output too."
+        }),
+        statExplainRow("Advanced/Mega output retained", literacyIndustrialMultiplier(national, "advanced") * 100, {
+          format: "percent",
+          tone: literacyIndustrialMultiplier(national, "advanced") < 1 ? "warning" : "positive",
+          detail: "Literacy share only; sophistication can reduce high-tier output too."
+        }),
+        statExplainRow("High-literacy population slowdown", literacyPopulationGrowthSlowdown(national) * 100, {
+          format: "percent",
+          tone: literacy > LITERACY_NEUTRAL_RATE ? "warning" : "neutral",
+          detail: "Applies only when literacy is above the neutral rate."
+        })
       ];
       return base;
     }
