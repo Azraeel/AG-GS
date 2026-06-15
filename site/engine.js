@@ -2089,6 +2089,522 @@
     };
   }
 
+  function governanceSimulationPreview(national = {}, years = 1) {
+    const yearsAdvanced = Math.max(0, number(years, 1)) || 1;
+    const legacyCorruption = percentStat(national.corruption, 0);
+    const literacy = literacyRateForNational(national);
+    const development = componentProfileScore(national, {
+      urbanizationRate: 0.03,
+      urbanDevelopment: 0.05,
+      ruralDevelopment: 0.22,
+      infrastructureLevel: 0.4,
+      livingStandard: 0.3
+    });
+    const urbanStrain = urbanStrainMetrics(national);
+    const stability = percentStat(national.governmentalStability, 70);
+    const unrest = clamp(number(national.publicUnrest, 0), 0, 10);
+    const health = national.economicHealth || "Recovery";
+    const healthCrimePressure = { Prosperity: -3, Expansion: -1.5, Recovery: 0, Slowdown: 2, Recession: 5, Depression: 8 }[health] || 0;
+    const healthCorruptionPressure = { Prosperity: -2, Expansion: -1, Recovery: 0, Slowdown: 1.5, Recession: 3, Depression: 5 }[health] || 0;
+
+    const currentCrime = percentStat(national.crimeRate, legacyCorruption);
+    const literacyDeficit = Math.max(0, GOVERNANCE_CRIME_LITERACY_NEUTRAL - literacy);
+    const lowStabilityCrimePressure = Math.max(0, 68 - stability) * 0.35;
+    const crimeTarget = clamp(
+      10
+        + literacyDeficit * GOVERNANCE_CRIME_LITERACY_SENSITIVITY
+        + unrest * 2.2
+        + lowStabilityCrimePressure
+        + healthCrimePressure
+        + urbanStrain.urbanStrain * 0.22
+        - development * 0.2,
+      3,
+      100
+    );
+    const crimeChange = moveToward(currentCrime, crimeTarget, GOVERNANCE_CRIME_ADJUSTMENT_RATE, 2.2, 4.5, yearsAdvanced);
+    const nextCrime = roundPercent(clamp(currentCrime + crimeChange, 0, 100));
+
+    const currentCorruption = percentStat(national.governmentalCorruption, legacyCorruption);
+    const crimeCorruptionPressure = Math.max(0, nextCrime - 25) * 1.25;
+    const lowStabilityCorruptionPressure = Math.max(0, 65 - stability) * 0.25;
+    const corruptionTarget = clamp(
+      10
+        + crimeCorruptionPressure
+        + lowStabilityCorruptionPressure
+        + unrest * 1.2
+        + healthCorruptionPressure
+        + urbanStrain.urbanStrain * 0.06
+        - development * 0.1,
+      4,
+      100
+    );
+    const corruptionChange = moveToward(currentCorruption, corruptionTarget, GOVERNANCE_CORRUPTION_ADJUSTMENT_RATE, 1.5, 3.0, yearsAdvanced);
+    const nextCorruption = roundPercent(clamp(currentCorruption + corruptionChange, 0, 100));
+
+    const currentEfficiency = clamp(number(national.governmentalEfficiency, GOVERNANCE_DEFAULT_EFFICIENCY), 0, GOVERNANCE_DEFAULT_EFFICIENCY);
+    const corruptionEfficiencyPressure = Math.max(0, nextCorruption - 30) * 0.65;
+    const crimeEfficiencyPressure = Math.max(0, nextCrime - 60) * 0.15;
+    const instabilityEfficiencyPressure = Math.max(0, 70 - stability) * 0.08;
+    const efficiencyTarget = clamp(
+      GOVERNANCE_DEFAULT_EFFICIENCY
+        - corruptionEfficiencyPressure
+        - crimeEfficiencyPressure
+        - instabilityEfficiencyPressure
+        - urbanStrain.urbanStrain * 0.03
+        + development * 0.05,
+      45,
+      GOVERNANCE_DEFAULT_EFFICIENCY
+    );
+    const efficiencyChange = moveToward(currentEfficiency, efficiencyTarget, GOVERNANCE_EFFICIENCY_ADJUSTMENT_RATE, 1.2, 0.8, yearsAdvanced);
+    const nextEfficiency = roundPercent(clamp(currentEfficiency + efficiencyChange, 0, GOVERNANCE_DEFAULT_EFFICIENCY));
+
+    const currentEffectiveEfficiency = clamp(
+      number(national.effectiveGovernmentalEfficiency, currentEfficiency),
+      0,
+      GOVERNANCE_DEFAULT_EFFICIENCY
+    );
+    const effectiveEfficiencyChange = moveToward(
+      currentEffectiveEfficiency,
+      nextEfficiency,
+      GOVERNANCE_EFFECTIVE_EFFICIENCY_ADJUSTMENT_RATE,
+      0.75,
+      1.0,
+      yearsAdvanced
+    );
+    const nextEffectiveEfficiency = roundPercent(clamp(currentEffectiveEfficiency + effectiveEfficiencyChange, 0, GOVERNANCE_DEFAULT_EFFICIENCY));
+
+    return {
+      literacy,
+      literacyDeficit,
+      development,
+      urbanStrain,
+      stability,
+      unrest,
+      health,
+      healthCrimePressure,
+      healthCorruptionPressure,
+      currentCrime,
+      crimeTarget: roundPercent(crimeTarget),
+      crimeChange: roundPercent(crimeChange),
+      nextCrime,
+      currentCorruption,
+      crimeCorruptionPressure: roundPercent(crimeCorruptionPressure),
+      lowStabilityCorruptionPressure: roundPercent(lowStabilityCorruptionPressure),
+      corruptionTarget: roundPercent(corruptionTarget),
+      corruptionChange: roundPercent(corruptionChange),
+      nextCorruption,
+      currentEfficiency,
+      corruptionEfficiencyPressure: roundPercent(corruptionEfficiencyPressure),
+      crimeEfficiencyPressure: roundPercent(crimeEfficiencyPressure),
+      instabilityEfficiencyPressure: roundPercent(instabilityEfficiencyPressure),
+      efficiencyTarget: roundPercent(efficiencyTarget),
+      efficiencyChange: roundPercent(efficiencyChange),
+      nextEfficiency,
+      currentEffectiveEfficiency,
+      effectiveEfficiencyChange: roundPercent(effectiveEfficiencyChange),
+      nextEffectiveEfficiency
+    };
+  }
+
+  function statPathValue(row, path) {
+    if (!row || !path) return undefined;
+    if (!path.includes(".")) return row[path];
+    return path.split(".").reduce((target, segment) => target?.[segment], row);
+  }
+
+  function statHumanLabel(path = "") {
+    const labels = {
+      active: "Active Total",
+      autarkyIndex: "Autarky",
+      budgetBalance: "Peacetime Fiscal Balance",
+      budgetCapacity: "Budget Capacity",
+      budgetExpenditure: "Expenditure",
+      civilianFactories: "Civilian Factories",
+      civilianSectors: "Civilian Sectors",
+      combatPersonnel: "Combat Personnel",
+      crimeRate: "Crime Rate",
+      debt: "Debt",
+      debtRepayment: "Debt Repayment",
+      debtService: "Debt Service",
+      debtServiceRate: "Interest Rate",
+      economicHealth: "Economic Health",
+      economicImpactScore: "Economic Impact",
+      economicTradeDiversity: "Trade Diversity",
+      effectiveBudgetExpenditure: "Expenditure",
+      effectiveGovernmentalEfficiency: "Applied Governmental Efficiency",
+      exportReliance: "Export Reliance",
+      governmentalCorruption: "Governmental Corruption",
+      governmentalEfficiency: "Governmental Efficiency",
+      governmentalStability: "Stability",
+      importReliance: "Import Reliance",
+      industrialSophistication: "Industrial Sophistication",
+      infrastructureLevel: "Infrastructure",
+      literacyRate: "Literacy Rate",
+      livingStandard: "Living Standard",
+      maxDebtPaydown: "Debt Paydown Cap",
+      militaryFactories: "Military Factories",
+      militarySectors: "Military Sectors",
+      militarySupply: "Military Supply",
+      mobilizationLevel: "Mobilization",
+      mobilizationStrain: "Mobilization Strain",
+      mobilizedBudgetCapacity: "Displayed Budget Capacity",
+      primaryBalance: "Primary Balance",
+      projectedDebt: "Projected Debt",
+      publicUnrest: "Public Unrest",
+      ruralDevelopment: "Rural Development",
+      shipyardSectors: "Shipyard Sectors",
+      shipyards: "Shipyards",
+      taxRate: "Tax Rate",
+      tariffRate: "Tariff Rate",
+      temporaryBudgetExpenditure: "Temporary BE",
+      tradeBalance: "Trade Balance",
+      tradeCapacity: "Trade Capacity",
+      tradeDisruption: "Trade Disruption",
+      tradeFlow: "Trade Flow",
+      tradePolicy: "Trade Policy",
+      treasuryReserve: "Treasury Reserve",
+      urbanDevelopment: "Urban Development",
+      urbanizationRate: "Urbanization",
+      wartimeBudgetAutoExpenditure: "Auto Mobilization BE",
+      wartimeBudgetBonus: "Wartime BC Bonus",
+      wartimeBudgetHeadroom: "Unused Wartime BC",
+      wartimeBudgetPeakBonus: "Peak Wartime BC Bonus",
+      warSupport: "War Support"
+    };
+    if (labels[path]) return labels[path];
+    const last = String(path).split(".").pop() || path;
+    return last
+      .replace(/([A-Z])/g, " $1")
+      .replace(/[_-]+/g, " ")
+      .replace(/^./, (letter) => letter.toUpperCase());
+  }
+
+  function statExplainRow(label, value, options = {}) {
+    return {
+      label,
+      value,
+      format: options.format || "number",
+      tone: options.tone || "neutral",
+      detail: options.detail || "",
+      adminOnly: options.adminOnly === true
+    };
+  }
+
+  function publicStatRows(rows, admin) {
+    return rows.filter((row) => !row.adminOnly || admin);
+  }
+
+  function statExplainBase(data, id, dataset, key, options = {}) {
+    const row = dataset === "population" ? data.population?.[id]?.values : data[dataset]?.[id];
+    const rawValue = dataset === "population" && /^\d+$/.test(String(key))
+      ? data.population?.[id]?.values?.[key]
+      : statPathValue(row, key);
+    return {
+      nationId: id,
+      nationName: data.nations?.find((nation) => nation.id === id)?.name || id || "",
+      dataset,
+      key,
+      title: options.title || statHumanLabel(key),
+      value: rawValue ?? options.currentValue,
+      valueFormat: options.valueFormat || "auto",
+      summary: "This is the stored ledger value shown directly for this nation.",
+      formula: "",
+      components: [],
+      hidden: [],
+      warnings: []
+    };
+  }
+
+  function statToneForChange(value, positiveIsGood = true) {
+    const numeric = number(value, 0);
+    if (Math.abs(numeric) < 0.000001) return "neutral";
+    return numeric > 0 === positiveIsGood ? "positive" : "negative";
+  }
+
+  function explainGovernanceStat(data, id, key, options = {}) {
+    const national = data.national?.[id];
+    if (!national) return null;
+    const admin = options.admin === true;
+    const governance = governanceMetrics(national);
+    const preview = governanceSimulationPreview(national);
+    const base = statExplainBase(data, id, "national", key, {
+      title: options.title,
+      valueFormat: "percent"
+    });
+    base.formula = "Yearly simulation: literacy/stability/unrest/economy -> crime -> governmental corruption -> governmental efficiency -> applied efficiency.";
+
+    if (key === "governmentalEfficiency" || key === "effectiveGovernmentalEfficiency") {
+      base.value = key === "effectiveGovernmentalEfficiency" ? governance.governmentalEfficiency : governance.governmentalEfficiencyTarget;
+      base.summary = "The visible efficiency target moves during yearly simulation. Fiscal formulas use the lagged applied efficiency so a manual edit does not instantly delete BC.";
+      base.components = publicStatRows([
+        statExplainRow("Visible target", governance.governmentalEfficiencyTarget, { format: "precisePercent" }),
+        statExplainRow("Applied fiscal efficiency", governance.effectiveGovernmentalEfficiency, { format: "precisePercent", adminOnly: true, detail: "Budget and interest formulas use this lagged value." }),
+        statExplainRow("Next-year target pull", preview.efficiencyChange, { format: "signedPrecisePercent", tone: statToneForChange(preview.efficiencyChange), detail: `Targeting ${roundPercent(preview.efficiencyTarget)}%.` }),
+        statExplainRow("Gov corruption pressure", preview.corruptionEfficiencyPressure, { format: "negativePercent", tone: preview.corruptionEfficiencyPressure > 0 ? "negative" : "neutral" }),
+        statExplainRow("Crime pressure", preview.crimeEfficiencyPressure, { format: "negativePercent", tone: preview.crimeEfficiencyPressure > 0 ? "negative" : "neutral" }),
+        statExplainRow("Instability pressure", preview.instabilityEfficiencyPressure, { format: "negativePercent", tone: preview.instabilityEfficiencyPressure > 0 ? "negative" : "neutral" }),
+        statExplainRow("Development offset", preview.development * 0.05, { format: "positivePercent", tone: "positive" }),
+        statExplainRow("Bureaucracy multiplier", governance.efficiencyMultiplier, { format: "multiplier", tone: governance.efficiencyMultiplier < 1 ? "negative" : "positive", adminOnly: true }),
+        statExplainRow("Bureaucracy pressure", governance.bureaucracyPressure, { format: "multiplier", tone: governance.bureaucracyPressure > 1 ? "negative" : "neutral", adminOnly: true })
+      ], admin);
+      return base;
+    }
+
+    if (key === "governmentalCorruption" || key === "corruption") {
+      base.value = governance.governmentalCorruption;
+      base.summary = "Governmental corruption moves over yearly simulation. High crime, unrest, instability, poor economic health, and urban strain pull it upward.";
+      base.components = publicStatRows([
+        statExplainRow("Current corruption", governance.governmentalCorruption, { format: "percent", tone: governance.governmentalCorruption >= 30 ? "negative" : "neutral" }),
+        statExplainRow("Next-year pull", preview.corruptionChange, { format: "signedPercent", tone: statToneForChange(preview.corruptionChange, false), detail: `Targeting ${preview.corruptionTarget}%.` }),
+        statExplainRow("Crime pressure", preview.crimeCorruptionPressure, { format: "negativePercent", tone: preview.crimeCorruptionPressure > 0 ? "negative" : "neutral" }),
+        statExplainRow("Low-stability pressure", preview.lowStabilityCorruptionPressure, { format: "negativePercent", tone: preview.lowStabilityCorruptionPressure > 0 ? "negative" : "neutral" }),
+        statExplainRow("Public unrest", preview.unrest, { format: "number", tone: preview.unrest > 0 ? "negative" : "neutral" }),
+        statExplainRow("Economic health pressure", preview.healthCorruptionPressure, { format: "signedPercent", tone: statToneForChange(preview.healthCorruptionPressure, false), detail: preview.health }),
+        statExplainRow("Development offset", preview.development * 0.1, { format: "positivePercent", tone: "positive", adminOnly: true })
+      ], admin);
+      return base;
+    }
+
+    if (key === "crimeRate") {
+      base.value = governance.crimeRate;
+      base.summary = "Crime moves first in the governance chain. Low literacy, unrest, instability, economic weakness, and urban strain raise it over simulation years.";
+      base.components = publicStatRows([
+        statExplainRow("Current crime", governance.crimeRate, { format: "percent", tone: governance.crimeRate >= 25 ? "negative" : "neutral" }),
+        statExplainRow("Next-year pull", preview.crimeChange, { format: "signedPercent", tone: statToneForChange(preview.crimeChange, false), detail: `Targeting ${preview.crimeTarget}%.` }),
+        statExplainRow("Literacy deficit", preview.literacyDeficit, { format: "negativePercent", tone: preview.literacyDeficit > 0 ? "negative" : "positive", detail: `Neutral at ${GOVERNANCE_CRIME_LITERACY_NEUTRAL}%.` }),
+        statExplainRow("Public unrest", preview.unrest, { format: "number", tone: preview.unrest > 0 ? "negative" : "neutral" }),
+        statExplainRow("Urban strain", preview.urbanStrain.urbanStrain, { format: "percent", tone: preview.urbanStrain.urbanStrain > 0 ? "negative" : "neutral" }),
+        statExplainRow("Development offset", preview.development * 0.2, { format: "positivePercent", tone: "positive", adminOnly: true })
+      ], admin);
+      return base;
+    }
+
+    return null;
+  }
+
+  function explainFiscalStat(data, id, key, options = {}) {
+    const national = data.national?.[id];
+    if (!national) return null;
+    const admin = options.admin === true;
+    const fiscal = calculateFiscalForNation(data, id) || {};
+    const breakdown = calculateBudgetBreakdownForNation(data, id) || {};
+    const base = statExplainBase(data, id, "national", key, { title: options.title });
+    const finalExpenditure = number(national.effectiveBudgetExpenditure ?? national.budgetExpenditure, 0);
+    const permanentExpenditure = number(national.budgetExpenditure, 0);
+    const temporaryExpenditure = number(national.temporaryBudgetExpenditure, 0);
+    const autoMobilizationBe = number(national.wartimeBudgetAutoExpenditure, 0);
+
+    if (key === "budgetCapacity" || key === "mobilizedBudgetCapacity") {
+      base.value = displayBudgetCapacity(data, id);
+      base.valueFormat = "number";
+      base.summary = "Displayed BC is peacetime BC plus current wartime mobilization BC. Trade and normal peacetime systems should use the stored peacetime BC.";
+      base.formula = "Displayed BC = Peacetime BC + current wartime BC bonus.";
+      base.components = publicStatRows([
+        statExplainRow("Peacetime BC", number(national.budgetCapacity, 0), { format: "number", tone: "positive" }),
+        statExplainRow("Wartime BC bonus", number(national.wartimeBudgetBonus, 0), { format: "number", tone: number(national.wartimeBudgetBonus, 0) > 0 ? "positive" : "neutral" }),
+        statExplainRow("Industrial contribution", breakdown.industrialContribution, { format: "number", tone: "positive", adminOnly: true }),
+        statExplainRow("Population/tax contribution", breakdown.populationContribution, { format: "number", tone: "positive", adminOnly: true }),
+        statExplainRow("Tariff revenue", breakdown.tariffRevenue, { format: "number", tone: number(breakdown.tariffRevenue, 0) > 0 ? "positive" : "neutral", adminOnly: true }),
+        statExplainRow("Maintenance drag", breakdown.maintenanceCost, { format: "negativeNumber", tone: "negative", adminOnly: true }),
+        statExplainRow("Admin capacity multiplier", breakdown.administrativeCapacityMultiplier, { format: "multiplier", tone: number(breakdown.administrativeCapacityMultiplier, 1) < 1 ? "negative" : "positive", adminOnly: true })
+      ], admin);
+      return base;
+    }
+
+    if (key === "effectiveBudgetExpenditure" || key === "budgetExpenditure") {
+      base.value = finalExpenditure;
+      base.valueFormat = "number";
+      base.summary = "Expenditure is the final number used by fiscal balance. Public tables show only this final value; admins can see permanent, temporary, and mobilization pieces.";
+      base.formula = "Final expenditure = permanent BE + temporary BE + auto mobilization BE.";
+      base.components = publicStatRows([
+        statExplainRow("Final expenditure", finalExpenditure, { format: "number", tone: "negative" }),
+        statExplainRow("Permanent BE", permanentExpenditure, { format: "number", tone: "negative", adminOnly: true }),
+        statExplainRow("Temporary BE", temporaryExpenditure, { format: "number", tone: "negative", adminOnly: true }),
+        statExplainRow("Auto mobilization BE", autoMobilizationBe, { format: "number", tone: autoMobilizationBe > 0 ? "negative" : "neutral", adminOnly: true }),
+        statExplainRow("Temporary items", number(national.temporaryBudgetExpenditureCount, 0), { format: "number", adminOnly: true })
+      ], admin);
+      return base;
+    }
+
+    if (key === "primaryBalance" || key === "budgetBalance") {
+      base.value = key === "primaryBalance" ? fiscal.primaryBalance : fiscal.effectiveBalance;
+      base.valueFormat = "signedNumber";
+      base.summary = key === "primaryBalance"
+        ? "Primary balance is BC minus expenditure before debt service."
+        : "Peacetime fiscal balance subtracts debt service after primary balance. Surplus can repay debt; deficit draws reserves first, then adds debt.";
+      base.formula = key === "primaryBalance"
+        ? "Primary balance = peacetime BC - final expenditure."
+        : "Fiscal balance = primary balance - debt service.";
+      base.components = publicStatRows([
+        statExplainRow("Peacetime BC", fiscal.budgetCapacity, { format: "number", tone: "positive" }),
+        statExplainRow("Final expenditure", fiscal.budgetExpenditure, { format: "negativeNumber", tone: "negative" }),
+        statExplainRow("Primary balance", fiscal.primaryBalance, { format: "signedNumber", tone: statToneForChange(fiscal.primaryBalance) }),
+        statExplainRow("Debt service", fiscal.debtService, { format: "negativeNumber", tone: fiscal.debtService > 0 ? "negative" : "neutral" }),
+        statExplainRow("Fiscal balance", fiscal.effectiveBalance, { format: "signedNumber", tone: statToneForChange(fiscal.effectiveBalance) }),
+        statExplainRow("Treasury drawdown", fiscal.treasuryDrawdown, { format: "negativeNumber", tone: fiscal.treasuryDrawdown > 0 ? "warning" : "neutral", adminOnly: true }),
+        statExplainRow("Deficit borrowing", fiscal.deficitBorrowing, { format: "negativeNumber", tone: fiscal.deficitBorrowing > 0 ? "negative" : "neutral", adminOnly: true })
+      ], admin);
+      return base;
+    }
+
+    if (["debt", "projectedDebt", "debtService", "debtServiceRate", "interestRate"].includes(key)) {
+      base.value = key === "projectedDebt" ? fiscal.nextDebtPercent : key === "debt" ? fiscal.debtPercent : national[key];
+      base.valueFormat = key.includes("Rate") || key === "interestRate" || key === "debt" || key === "projectedDebt" ? "percent" : "number";
+      base.summary = "Debt projection uses peacetime BC, final expenditure, current debt principal, service rate, reserves, and deficit borrowing.";
+      base.formula = "Debt service = debt principal x service rate. Projected debt updates after repayment, reserve drawdown, and new borrowing.";
+      base.components = publicStatRows([
+        statExplainRow("Debt principal", fiscal.debtPrincipal, { format: "number", tone: fiscal.debtPrincipal > 0 ? "negative" : "neutral" }),
+        statExplainRow("Debt percent", fiscal.debtPercent, { format: "percent", tone: fiscal.debtPercent > 50 ? "negative" : fiscal.debtPercent > 25 ? "warning" : "neutral" }),
+        statExplainRow("Service rate", fiscal.debtServiceRate, { format: "percent", tone: fiscal.debtServiceRate > 5 ? "negative" : fiscal.debtServiceRate > 2 ? "warning" : "neutral" }),
+        statExplainRow("Debt service", fiscal.debtService, { format: "number", tone: fiscal.debtService > 0 ? "negative" : "neutral" }),
+        statExplainRow("Debt repayment", fiscal.debtRepayment, { format: "number", tone: fiscal.debtRepayment > 0 ? "positive" : "neutral" }),
+        statExplainRow("Deficit borrowing", fiscal.deficitBorrowing, { format: "number", tone: fiscal.deficitBorrowing > 0 ? "negative" : "neutral" }),
+        statExplainRow("Projected debt", fiscal.nextDebtPercent, { format: "percent", tone: fiscal.nextDebtPercent > fiscal.debtPercent ? "negative" : fiscal.nextDebtPercent < fiscal.debtPercent ? "positive" : "neutral" }),
+        statExplainRow("Debt risk", fiscal.debtRisk, { format: "signedPercent", tone: fiscal.debtRisk > 0 ? "negative" : "neutral", adminOnly: true }),
+        statExplainRow("Efficiency interest risk", fiscal.governmentalEfficiencyRisk, { format: "signedPercent", tone: fiscal.governmentalEfficiencyRisk > 0 ? "negative" : "neutral", adminOnly: true }),
+        statExplainRow("Deficit interest risk", fiscal.deficitRisk, { format: "signedPercent", tone: fiscal.deficitRisk > 0 ? "negative" : "neutral", adminOnly: true })
+      ], admin);
+      return base;
+    }
+
+    if (key === "wartimeBudgetHeadroom" || key === "wartimeBudgetBonus" || key === "wartimeBudgetAutoExpenditure" || key === "mobilizationStrain") {
+      base.value = statPathValue(national, key);
+      base.valueFormat = key === "mobilizationStrain" ? "percent" : "number";
+      base.summary = "Wartime BC is extra mobilized capacity. Auto mobilization BE uses part of it, and unused wartime BC is the remaining headroom.";
+      base.formula = "Unused wartime BC = current wartime BC bonus - auto mobilization BE.";
+      base.components = publicStatRows([
+        statExplainRow("Peak wartime BC bonus", national.wartimeBudgetPeakBonus, { format: "number", tone: "positive", adminOnly: true }),
+        statExplainRow("Current wartime BC bonus", national.wartimeBudgetBonus, { format: "number", tone: number(national.wartimeBudgetBonus, 0) > 0 ? "positive" : "neutral" }),
+        statExplainRow("Auto mobilization BE", national.wartimeBudgetAutoExpenditure, { format: "number", tone: number(national.wartimeBudgetAutoExpenditure, 0) > 0 ? "negative" : "neutral", adminOnly: true }),
+        statExplainRow("Unused wartime BC", national.wartimeBudgetHeadroom, { format: "number", tone: number(national.wartimeBudgetHeadroom, 0) > 0 ? "positive" : "neutral" }),
+        statExplainRow("Mobilization strain", national.mobilizationStrain, { format: "percent", tone: number(national.mobilizationStrain, 0) > 0 ? "negative" : "neutral" })
+      ], admin);
+      return base;
+    }
+
+    return null;
+  }
+
+  function explainTradeStat(data, id, key, options = {}) {
+    const trade = data.trade?.[id];
+    if (!trade) return null;
+    const admin = options.admin === true;
+    const tariff = calculateTariffRevenueForNation(data, id);
+    const base = statExplainBase(data, id, "trade", key, { title: options.title });
+    if (["tradeFlow", "tradeCapacity", "tradeBalance", "tradeDisruption", "tariffRate", "economicImpactScore"].includes(key)) {
+      base.value = statPathValue(trade, key);
+      base.valueFormat = key === "tradeDisruption" || key === "tariffRate" ? "percent" : "number";
+      base.summary = "Trade output is driven by trade capacity, trade policy, tariff burden, disruption, reliance/diversity, and the routed trade network.";
+      base.formula = "Flow is the active routed trade value after policy, tariff, network, and disruption effects.";
+      base.components = publicStatRows([
+        statExplainRow("Trade flow", trade.tradeFlow, { format: "number", tone: "positive" }),
+        statExplainRow("Trade capacity", trade.tradeCapacity, { format: "number", tone: "positive" }),
+        statExplainRow("Trade balance", trade.tradeBalance, { format: "signedNumber", tone: statToneForChange(trade.tradeBalance) }),
+        statExplainRow("Trade disruption", trade.tradeDisruption, { format: "negativePercent", tone: number(trade.tradeDisruption, 0) > 0 ? "negative" : "neutral" }),
+        statExplainRow("Trade policy", trade.tradePolicy || "Balanced", { format: "text" }),
+        statExplainRow("Tariff rate", trade.tariffRate, { format: "percent", tone: number(trade.tariffRate, 0) > 10 ? "warning" : "neutral" }),
+        statExplainRow("Tariff shock", tariff?.tariffShockScore, { format: "negativePercent", tone: number(tariff?.tariffShockScore, 0) > 0 ? "negative" : "neutral", adminOnly: true }),
+        statExplainRow("Tariff revenue", tariff?.tariffRevenue, { format: "number", tone: number(tariff?.tariffRevenue, 0) > 0 ? "positive" : "neutral", adminOnly: true }),
+        statExplainRow("Collection efficiency", tariff?.collectionEfficiency, { format: "percent", tone: number(tariff?.collectionEfficiency, 100) < 80 ? "warning" : "positive", adminOnly: true })
+      ], admin);
+      base.warnings = publicStatRows((tariff?.warnings || []).map((warning) => statExplainRow("Warning", warning, { format: "text", tone: "warning", adminOnly: true })), admin);
+      return base;
+    }
+    return null;
+  }
+
+  function explainDevelopmentStat(data, id, key, options = {}) {
+    const national = data.national?.[id];
+    if (!national) return null;
+    const base = statExplainBase(data, id, "national", key, { title: options.title });
+    const urbanStrain = urbanStrainMetrics(national);
+    if (["urbanizationRate", "urbanDevelopment", "ruralDevelopment", "infrastructureLevel", "livingStandard"].includes(key)) {
+      base.summary = "Development components feed tax collection, industry, trade logistics, urban strain, population behavior, and governance simulation.";
+      base.formula = "Different systems use weighted component profiles instead of one legacy development number.";
+      base.components = [
+        statExplainRow("Urbanization", national.urbanizationRate, { format: "percent" }),
+        statExplainRow("Urban development", national.urbanDevelopment, { format: "number", tone: "positive" }),
+        statExplainRow("Rural development", national.ruralDevelopment, { format: "number", tone: "positive" }),
+        statExplainRow("Infrastructure", national.infrastructureLevel, { format: "number", tone: "positive" }),
+        statExplainRow("Living standard", national.livingStandard, { format: "number", tone: "positive" }),
+        statExplainRow("Fiscal capacity profile", componentProfileScore(national, { urbanizationRate: 0.03, urbanDevelopment: 0.05, ruralDevelopment: 0.22, infrastructureLevel: 0.4, livingStandard: 0.3 }), { format: "number", tone: "positive" }),
+        statExplainRow("Urban strain", urbanStrain.urbanStrain, { format: "percent", tone: urbanStrain.urbanStrain > 0 ? "negative" : "neutral" })
+      ];
+      return base;
+    }
+    return null;
+  }
+
+  function explainIndustryStat(data, id, dataset, key, options = {}) {
+    const industrial = data.industrial?.[id];
+    if (!industrial) return null;
+    const national = data.national?.[id] || {};
+    const output = industrialSectorOutputs(industrial, national);
+    const base = statExplainBase(data, id, dataset, key, { title: options.title });
+    if (dataset === "industrial" && ["civilianSectors", "militarySectors", "shipyardSectors", "civilianFactories", "militaryFactories", "shipyards"].includes(key)) {
+      const sector = key.startsWith("military") ? output.military : key.startsWith("shipyard") || key === "shipyards" ? output.shipyard : output.civilian;
+      const sectorLabel = key.startsWith("military") ? "Military" : key.startsWith("shipyard") || key === "shipyards" ? "Shipyards" : "Civilian";
+      base.value = sector.physical;
+      base.valueFormat = "number";
+      base.summary = `${sectorLabel} industry is stored as physical tiers, then converted to effective output with tier weights, literacy, and industrial sophistication.`;
+      base.formula = "Effective output = tier count x tier weight x literacy multiplier x sophistication multiplier.";
+      base.components = [
+        ...Object.keys(sector)
+          .filter((tier) => !["physical", "effective", "legacyTotal", "literacyMultipliers", "sophisticationMultipliers"].includes(tier))
+          .map((tier) => statExplainRow(statHumanLabel(tier), sector[tier], { format: "number" })),
+        statExplainRow("Physical total", sector.physical, { format: "number" }),
+        statExplainRow("Effective output", sector.effective, { format: "number", tone: "positive" }),
+        statExplainRow("Literacy", national.literacyRate, { format: "percent", tone: number(national.literacyRate, 95) < 95 ? "warning" : "positive" }),
+        statExplainRow("Industrial sophistication", national.industrialSophistication, { format: "percent", tone: number(national.industrialSophistication, 0) >= 50 ? "positive" : "warning" })
+      ];
+      return base;
+    }
+    if (dataset === "national" && key === "industrialSophistication") {
+      base.value = national.industrialSophistication;
+      base.valueFormat = "percent";
+      base.summary = "Sophistication is the quality depth of the economy: whether factories and shipyards can actually perform like advanced industry.";
+      base.formula = "It affects improved/advanced factory output, large/mega shipyard output, and military supply growth.";
+      base.components = [
+        statExplainRow("Industrial sophistication", national.industrialSophistication, { format: "percent", tone: number(national.industrialSophistication, 0) >= 50 ? "positive" : "warning" }),
+        statExplainRow("Improved output multiplier", sophisticationIndustrialMultiplier(national, "improved"), { format: "multiplier" }),
+        statExplainRow("Advanced output multiplier", sophisticationIndustrialMultiplier(national, "advanced"), { format: "multiplier" }),
+        statExplainRow("Literacy", national.literacyRate, { format: "percent", tone: number(national.literacyRate, 95) < 95 ? "warning" : "positive" })
+      ];
+      return base;
+    }
+    return null;
+  }
+
+  function explainStat(data, id, dataset, key, options = {}) {
+    const admin = options.admin === true;
+    const normalizedDataset = String(dataset || "");
+    const normalizedKey = String(key || "");
+    const specialized =
+      (normalizedDataset === "national" && explainFiscalStat(data, id, normalizedKey, options))
+      || (normalizedDataset === "national" && explainGovernanceStat(data, id, normalizedKey, options))
+      || (normalizedDataset === "trade" && explainTradeStat(data, id, normalizedKey, options))
+      || (normalizedDataset === "national" && explainDevelopmentStat(data, id, normalizedKey, options))
+      || explainIndustryStat(data, id, normalizedDataset, normalizedKey, options);
+    if (specialized) {
+      specialized.components = publicStatRows(specialized.components || [], admin);
+      specialized.hidden = publicStatRows(specialized.hidden || [], admin);
+      specialized.warnings = publicStatRows(specialized.warnings || [], admin);
+      return specialized;
+    }
+
+    const base = statExplainBase(data, id, normalizedDataset, normalizedKey, options);
+    if (normalizedDataset === "military" && normalizedKey === "militarySupply") {
+      const national = data.national?.[id] || {};
+      base.summary = "Military supply is a visible readiness/output stat. Yearly growth is affected by mobilization, sophistication, literacy, and industrial depth.";
+      base.components = [
+        statExplainRow("Military supply", base.value, { format: "percent" }),
+        statExplainRow("Industrial sophistication", national.industrialSophistication, { format: "percent" }),
+        statExplainRow("Literacy", national.literacyRate, { format: "percent" })
+      ];
+    }
+    return base;
+  }
+
   function yearlyMilitaryFactoryGrowth(baseGrowth, national, currentMilitaryFactories, mobilizationLevel) {
     const growth = number(baseGrowth, 0);
     if (growth < 0) return Math.floor(growth * 0.25);
@@ -2472,6 +2988,7 @@
     displayBudgetCapacity,
     calculateFiscalForNation,
     calculateAnnualDebtUpdate,
+    explainStat,
     recalculateAll,
     recalculateTrade,
     recalculateBudgets,

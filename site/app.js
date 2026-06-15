@@ -73,6 +73,10 @@
   const APP_ASSET_VERSION = "20260614-unused-wartime-bc";
   const lazyScriptLoads = new Map();
   const failedLazyScripts = new Set();
+  let statExplainTimer = null;
+  let statExplainPopover = null;
+  let statExplainTarget = null;
+  let statExplainPinned = false;
 
   const datasets = AppConfig.datasets;
   const viewOptions = AppConfig.viewOptions;
@@ -549,6 +553,132 @@
     return `<div class="overview-fact"><span>${safeText(label)}</span><strong>${safeText(value)}</strong></div>`;
   }
 
+  function statExplainAttrs({ dataset, key, nationId, label, value } = {}) {
+    if (!dataset || !key || !nationId) return "";
+    const valueAttr = value === undefined || value === null ? "" : ` data-stat-value="${escapeHtml(value)}"`;
+    return [
+      `data-stat-explain`,
+      `data-stat-dataset="${escapeHtml(dataset)}"`,
+      `data-stat-key="${escapeHtml(key)}"`,
+      `data-stat-nation="${escapeHtml(nationId)}"`,
+      label ? `data-stat-label="${escapeHtml(label)}"` : "",
+      valueAttr.trim()
+    ].filter(Boolean).join(" ");
+  }
+
+  function clearStatExplainTimer() {
+    if (!statExplainTimer) return;
+    clearTimeout(statExplainTimer);
+    statExplainTimer = null;
+  }
+
+  function closeStatExplain() {
+    clearStatExplainTimer();
+    if (statExplainTarget?.classList) statExplainTarget.classList.remove("is-stat-explained");
+    statExplainPopover?.remove();
+    statExplainPopover = null;
+    statExplainTarget = null;
+    statExplainPinned = false;
+  }
+
+  function formatExplainValue(value, format = "auto") {
+    if (value === undefined || value === null || value === "") return "Unknown";
+    if (format === "text") return String(value);
+    const numeric = Engine.number(value, null);
+    if (numeric === null || !Number.isFinite(numeric)) return String(value);
+    if (format === "percent") return fmtPercent(numeric);
+    if (format === "precisePercent") return fmtPrecisePercent(numeric);
+    if (format === "signedPercent") return `${numeric > 0 ? "+" : ""}${fmtPercent(numeric)}`;
+    if (format === "signedPrecisePercent") return `${numeric > 0 ? "+" : ""}${fmtPrecisePercent(numeric)}`;
+    if (format === "positivePercent") return numeric === 0 ? fmtPercent(0) : `+${fmtPercent(Math.abs(numeric))}`;
+    if (format === "negativePercent") return numeric === 0 ? fmtPercent(0) : `-${fmtPercent(Math.abs(numeric))}`;
+    if (format === "signedNumber") return fmtSigned(numeric);
+    if (format === "negativeNumber") return numeric === 0 ? fmtNumber(0) : `-${fmtNumber(Math.abs(numeric))}`;
+    if (format === "multiplier") {
+      const fixed = numeric.toFixed(3).replace(/0+$/, "").replace(/\.$/, "");
+      return `${fixed}x`;
+    }
+    return fmtNumber(numeric);
+  }
+
+  function statExplainRowsHtml(title, rows = []) {
+    if (!rows.length) return "";
+    return `
+      <div class="stat-explain-section">
+        <div class="stat-explain-section-title">${safeText(title)}</div>
+        ${rows.map((row) => {
+          const tone = ["positive", "negative", "warning"].includes(row.tone) ? row.tone : "neutral";
+          return `
+            <div class="stat-explain-row is-${tone}">
+              <span>
+                ${safeText(row.label)}
+                ${row.detail ? `<small>${safeText(row.detail)}</small>` : ""}
+              </span>
+              <strong>${safeText(formatExplainValue(row.value, row.format))}</strong>
+            </div>`;
+        }).join("")}
+      </div>`;
+  }
+
+  function statExplainPopoverHtml(explanation) {
+    return `
+      <div class="stat-explain-head">
+        <div>
+          <span>${safeText(explanation.nationName || "")}</span>
+          <h3>${safeText(explanation.title || "Stat")}</h3>
+        </div>
+        <strong>${safeText(formatExplainValue(explanation.value, explanation.valueFormat))}</strong>
+      </div>
+      ${explanation.summary ? `<p class="stat-explain-summary">${safeText(explanation.summary)}</p>` : ""}
+      ${explanation.formula ? `<div class="stat-explain-formula">${safeText(explanation.formula)}</div>` : ""}
+      ${statExplainRowsHtml("Breakdown", explanation.components)}
+      ${statExplainRowsHtml("Hidden / Internal", explanation.hidden)}
+      ${statExplainRowsHtml("Warnings", explanation.warnings)}`;
+  }
+
+  function positionStatExplainPopover() {
+    if (!statExplainPopover || !statExplainTarget?.isConnected) return;
+    const rect = statExplainTarget.getBoundingClientRect();
+    const margin = 12;
+    const popoverRect = statExplainPopover.getBoundingClientRect();
+    let left = rect.left;
+    let top = rect.bottom + 8;
+    if (left + popoverRect.width > window.innerWidth - margin) left = window.innerWidth - popoverRect.width - margin;
+    if (top + popoverRect.height > window.innerHeight - margin) top = rect.top - popoverRect.height - 8;
+    left = Math.max(margin, left);
+    top = Math.max(margin, Math.min(top, window.innerHeight - popoverRect.height - margin));
+    statExplainPopover.style.left = `${Math.round(left)}px`;
+    statExplainPopover.style.top = `${Math.round(top)}px`;
+  }
+
+  function showStatExplain(target, options = {}) {
+    if (!target || !Engine.explainStat) return;
+    const explanation = Engine.explainStat(data, target.dataset.statNation || state.selectedNation, target.dataset.statDataset, target.dataset.statKey, {
+      admin: isAdmin,
+      title: target.dataset.statLabel,
+      currentValue: target.dataset.statValue
+    });
+    if (!explanation) return;
+    closeStatExplain();
+    statExplainTarget = target;
+    statExplainPinned = options.pinned === true;
+    statExplainTarget.classList.add("is-stat-explained");
+    statExplainPopover = document.createElement("div");
+    statExplainPopover.className = `stat-explain-popover${statExplainPinned ? " is-pinned" : ""}`;
+    statExplainPopover.innerHTML = statExplainPopoverHtml(explanation);
+    statExplainPopover.addEventListener("pointerenter", clearStatExplainTimer);
+    statExplainPopover.addEventListener("pointerleave", () => {
+      if (!statExplainPinned) closeStatExplain();
+    });
+    document.body.appendChild(statExplainPopover);
+    requestAnimationFrame(positionStatExplainPopover);
+  }
+
+  function scheduleStatExplain(target) {
+    clearStatExplainTimer();
+    statExplainTimer = setTimeout(() => showStatExplain(target), 320);
+  }
+
   function statusViewOptions() {
     return viewOptions
       .filter((view) => statusTableKeys.has(view.key) && (isAdmin || !view.adminOnly))
@@ -732,8 +862,11 @@
                         .map((column) => {
                           const value = column.raw ? column.raw(row) : row[column.key];
                           const rendered = column.render ? column.render(value, row) : safeText(value);
-                          const columnClass = [column.numeric ? "numeric" : "", column.className || ""].filter(Boolean).join(" ");
-                          return `<td class="${escapeHtml(columnClass)}">${rendered}</td>`;
+                          const explainAttrs = isStatusTable && column.key !== "nation"
+                            ? statExplainAttrs({ dataset: id, key: column.key, nationId: row.id, label: column.label, value })
+                            : "";
+                          const columnClass = [column.numeric ? "numeric" : "", column.className || "", explainAttrs ? "has-stat-explain" : ""].filter(Boolean).join(" ");
+                          return `<td class="${escapeHtml(columnClass)}" ${explainAttrs}>${rendered}</td>`;
                         })
                         .join("")}
                     </tr>`
@@ -1108,6 +1241,7 @@
     visibleChangeImpacts,
     renderChangeHistoryPanel,
     detailItem,
+    statExplainAttrs,
     fieldKey,
     editFieldValue,
     safeText,
@@ -1130,8 +1264,10 @@
     fieldControl
   } = editorView;
 
-  function detailItem(label, value) {
-    return `<div class="detail-item"><span>${safeText(label)}</span><strong>${safeText(value)}</strong></div>`;
+  function detailItem(label, value, explain = null) {
+    const explainAttrs = explain ? statExplainAttrs({ label, ...explain }) : "";
+    const className = ["detail-item", explainAttrs ? "has-stat-explain" : ""].filter(Boolean).join(" ");
+    return `<div class="${className}" ${explainAttrs}><span>${safeText(label)}</span><strong>${safeText(value)}</strong></div>`;
   }
 
   function readFieldValue(source, dataset, id, path) {
@@ -1768,6 +1904,7 @@
       return;
     }
     clearTimeout(deferredRenderTimer);
+    closeStatExplain();
     if (!canAccessTab(state.tab)) state.tab = "overview";
     if (state.tab !== "wiki") state.ledgerReturnTab = state.tab;
     document.body.classList.toggle("is-wiki-focus", state.tab === "wiki");
@@ -1842,6 +1979,47 @@
     });
   });
 
+  app.addEventListener("pointerover", (event) => {
+    if (statExplainPinned) return;
+    const target = event.target.closest?.("[data-stat-explain]");
+    if (!target || target === statExplainTarget) return;
+    scheduleStatExplain(target);
+  });
+
+  app.addEventListener("pointerout", (event) => {
+    if (statExplainPinned) return;
+    const target = event.target.closest?.("[data-stat-explain]");
+    if (!target) return;
+    const related = event.relatedTarget;
+    if (related && (target.contains(related) || statExplainPopover?.contains(related))) return;
+    clearStatExplainTimer();
+    statExplainTimer = setTimeout(closeStatExplain, 90);
+  });
+
+  app.addEventListener("focusin", (event) => {
+    const target = event.target.closest?.("[data-stat-explain]");
+    if (target) showStatExplain(target);
+  });
+
+  app.addEventListener("focusout", (event) => {
+    if (statExplainPinned) return;
+    const target = event.target.closest?.("[data-stat-explain]");
+    if (!target) return;
+    statExplainTimer = setTimeout(() => {
+      if (!target.contains(document.activeElement)) closeStatExplain();
+    }, 90);
+  });
+
+  document.addEventListener("pointerdown", (event) => {
+    if (!statExplainPinned) return;
+    if (statExplainPopover?.contains(event.target) || statExplainTarget?.contains(event.target)) return;
+    closeStatExplain();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeStatExplain();
+  });
+
   app.addEventListener("pointerdown", (event) => {
     const dragHandle = event.target.closest?.("[data-trade-map-panel-drag]");
     if (!dragHandle || event.button !== 0) return;
@@ -1907,6 +2085,7 @@
   window.addEventListener("pointercancel", finishTradeMapPanelDrag);
   window.addEventListener("resize", () => {
     if (state.tab === "tradeNetwork") applyTradeMapPanelPosition();
+    positionStatExplainPopover();
   });
 
   const pendingEdits = new Map();
@@ -2168,9 +2347,22 @@
   app.addEventListener("scroll", (event) => {
     const tableWrap = event.target.closest?.("[data-table-scroll]");
     if (tableWrap) rememberTableScroll(tableWrap.dataset.tableScroll, tableWrap);
+    positionStatExplainPopover();
   }, true);
 
   app.addEventListener("click", async (event) => {
+    const statTarget = event.target.closest?.("[data-stat-explain]");
+    const interactiveStatChild = event.target.closest?.("input, select, textarea, button, a, [data-action], th[data-table]") || statTarget?.closest?.(".control-field");
+    if (statTarget && !interactiveStatChild) {
+      if (statExplainPinned && statExplainTarget === statTarget) {
+        closeStatExplain();
+      } else {
+        showStatExplain(statTarget, { pinned: true });
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
     if (!event.target.closest("[data-edit]")) flushPendingEdit(false);
     if (recordsViews.handleClick?.(event)) return;
     if (wikiView.handleClick?.(event)) return;

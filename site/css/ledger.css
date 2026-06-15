@@ -425,6 +425,164 @@ tbody td {
   overflow-wrap: anywhere;
 }
 
+.has-stat-explain {
+  cursor: help;
+}
+
+.has-stat-explain.is-stat-explained {
+  outline: 1px solid color-mix(in srgb, var(--blue) 70%, transparent);
+  outline-offset: -1px;
+}
+
+.status-table-wrap td.has-stat-explain:hover,
+.status-table-wrap td.has-stat-explain.is-stat-explained {
+  background: color-mix(in srgb, var(--blue) 10%, var(--table-row-hover));
+}
+
+.control-field.has-stat-explain input,
+.control-field.has-stat-explain select,
+.control-field.has-stat-explain textarea {
+  cursor: text;
+}
+
+.control-field.has-stat-explain select {
+  cursor: pointer;
+}
+
+.stat-explain-popover {
+  position: fixed;
+  z-index: 10000;
+  width: min(390px, calc(100vw - 24px));
+  max-height: min(560px, calc(100vh - 24px));
+  overflow: auto;
+  padding: 12px;
+  color: var(--ink);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--blue) 8%, transparent), transparent 78px),
+    var(--panel);
+  border: 1px solid var(--line-strong);
+  border-top: 4px solid var(--blue);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.stat-explain-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.stat-explain-head span,
+.stat-explain-section-title {
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.stat-explain-head h3 {
+  margin: 2px 0 0;
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.stat-explain-head strong {
+  min-width: max-content;
+  font-size: 20px;
+  line-height: 1.1;
+  text-align: right;
+}
+
+.stat-explain-summary {
+  margin: 10px 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.stat-explain-formula {
+  margin: 10px 0;
+  padding: 8px 10px;
+  color: var(--ink);
+  background: var(--subtle-bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.stat-explain-section {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.stat-explain-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  gap: 12px;
+  align-items: start;
+  padding: 8px 9px;
+  background: var(--subtle-bg);
+  border-left: 3px solid var(--line-strong);
+  border-radius: 6px;
+}
+
+.stat-explain-row span {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1.25;
+}
+
+.stat-explain-row small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.stat-explain-row strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.stat-explain-row.is-positive {
+  background: var(--positive-bg);
+  border-left-color: var(--green);
+}
+
+.stat-explain-row.is-positive strong {
+  color: var(--positive-ink);
+}
+
+.stat-explain-row.is-negative {
+  background: var(--negative-bg);
+  border-left-color: var(--red);
+}
+
+.stat-explain-row.is-negative strong {
+  color: var(--negative-ink);
+}
+
+.stat-explain-row.is-warning {
+  background: var(--warning-bg);
+  border-left-color: var(--warning-border);
+}
+
+.stat-explain-row.is-warning strong {
+  color: var(--warning-ink);
+}
+
 .control-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

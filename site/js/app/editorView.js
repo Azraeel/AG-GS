@@ -12,13 +12,16 @@
     with (runtime) {
   function fieldControl(dataset, path, label, value, type = "number", options = []) {
     const id = `${dataset}-${path}`.replace(/[^a-z0-9_-]/gi, "-");
-    const fieldClass = ["control-field", type === "text" ? "is-text" : "", type === "select" ? "is-select" : ""]
+    const explainAttrs = typeof statExplainAttrs === "function"
+      ? statExplainAttrs({ dataset, key: path, nationId: state.selectedNation, label, value })
+      : "";
+    const fieldClass = ["control-field", type === "text" ? "is-text" : "", type === "select" ? "is-select" : "", explainAttrs ? "has-stat-explain" : ""]
       .filter(Boolean)
       .join(" ");
     const renderedValue = editFieldValue(dataset, path, value);
     if (type === "select") {
       return `
-        <label class="${fieldClass}" for="${id}">
+        <label class="${fieldClass}" for="${id}" ${explainAttrs}>
           <span>${safeText(label)}</span>
           <select id="${id}" data-edit data-dataset="${dataset}" data-path="${path}">
             ${options.map((option) => `<option value="${escapeHtml(option)}" ${value === option ? "selected" : ""}>${escapeHtml(option)}</option>`).join("")}
@@ -26,7 +29,7 @@
         </label>`;
     }
     return `
-      <label class="${fieldClass}" for="${id}">
+      <label class="${fieldClass}" for="${id}" ${explainAttrs}>
         <span>${safeText(label)}</span>
         <input id="${id}" type="${type}" value="${escapeHtml(renderedValue)}" inputmode="decimal" step="any" data-edit data-dataset="${dataset}" data-path="${path}">
       </label>`;
@@ -592,6 +595,7 @@
     const autoMobilizationBe = Engine.number(national.wartimeBudgetAutoExpenditure, 0);
     const finalExpenditure = Engine.number(national.effectiveBudgetExpenditure ?? national.budgetExpenditure, 0);
     const hasWartimeCapacity = wartimeBonus > 0 || wartimeHeadroom > 0 || Engine.number(national.mobilizedBudgetCapacity, 0) > Engine.number(national.budgetCapacity, 0);
+    const explain = (key, dataset = "national") => ({ dataset, key, nationId: nation.id });
     return `
       <aside class="editor-rail">
         <section class="editor-rail-panel derived-preview">
@@ -603,19 +607,19 @@
             ${state.notice ? `<span class="status positive">${safeText(state.notice)}</span>` : ""}
           </div>
           <div class="rail-detail-grid">
-            ${detailItem("Budget Capacity", `${budgetCapacityText(nation.id)}${budgetCapacityNote(nation.id) ? ` (${budgetCapacityNote(nation.id)})` : ""}`)}
-            ${detailItem("Expenditure", fmtNumber(finalExpenditure))}
-            ${hasWartimeCapacity && autoMobilizationBe > 0 ? detailItem("Mobilization BE", fmtNumber(autoMobilizationBe)) : ""}
-            ${wartimeHeadroom > 0 ? detailItem("Unused Wartime BC", fmtNumber(wartimeHeadroom)) : ""}
-            ${Engine.number(national.mobilizationYears, 0) > 0 ? detailItem("Mobilization Strain", fmtDecimalPercent(national.mobilizationStrain)) : ""}
-            ${detailItem("Primary Balance", fmtSigned(national.primaryBalance))}
-            ${detailItem("Debt Service", fmtNumber(national.debtService))}
-            ${detailItem("Peacetime Fiscal Balance", fmtSigned(national.budgetBalance))}
-            ${detailItem("Treasury Reserve", fmtNumber(national.treasuryReserve))}
-            ${detailItem("Debt", fmtPercent(national.debt))}
-            ${detailItem("Interest Rate", fmtPercent(national.debtServiceRate))}
-            ${detailItem("Projected Debt", fmtPercent(national.projectedDebt))}
-            ${detailItem("Trade Flow", fmtNumber(trade.tradeFlow))}
+            ${detailItem("Budget Capacity", `${budgetCapacityText(nation.id)}${budgetCapacityNote(nation.id) ? ` (${budgetCapacityNote(nation.id)})` : ""}`, explain("budgetCapacity"))}
+            ${detailItem("Expenditure", fmtNumber(finalExpenditure), explain("effectiveBudgetExpenditure"))}
+            ${hasWartimeCapacity && autoMobilizationBe > 0 ? detailItem("Mobilization BE", fmtNumber(autoMobilizationBe), explain("wartimeBudgetAutoExpenditure")) : ""}
+            ${wartimeHeadroom > 0 ? detailItem("Unused Wartime BC", fmtNumber(wartimeHeadroom), explain("wartimeBudgetHeadroom")) : ""}
+            ${Engine.number(national.mobilizationYears, 0) > 0 ? detailItem("Mobilization Strain", fmtDecimalPercent(national.mobilizationStrain), explain("mobilizationStrain")) : ""}
+            ${detailItem("Primary Balance", fmtSigned(national.primaryBalance), explain("primaryBalance"))}
+            ${detailItem("Debt Service", fmtNumber(national.debtService), explain("debtService"))}
+            ${detailItem("Peacetime Fiscal Balance", fmtSigned(national.budgetBalance), explain("budgetBalance"))}
+            ${detailItem("Treasury Reserve", fmtNumber(national.treasuryReserve), explain("treasuryReserve"))}
+            ${detailItem("Debt", fmtPercent(national.debt), explain("debt"))}
+            ${detailItem("Interest Rate", fmtPercent(national.debtServiceRate), explain("debtServiceRate"))}
+            ${detailItem("Projected Debt", fmtPercent(national.projectedDebt), explain("projectedDebt"))}
+            ${detailItem("Trade Flow", fmtNumber(trade.tradeFlow), explain("tradeFlow", "trade"))}
           </div>
         </section>
         ${renderEditorChangeHistory(nation)}
