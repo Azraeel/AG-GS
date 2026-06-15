@@ -2327,6 +2327,63 @@
     return numeric > 0 === positiveIsGood ? "positive" : "negative";
   }
 
+  function statToneForMultiplier(value, higherIsGood = true) {
+    const numeric = number(value, 1);
+    if (Math.abs(numeric - 1) < 0.000001) return "neutral";
+    return numeric > 1 === higherIsGood ? "positive" : "negative";
+  }
+
+  function fiscalCapacityProfileFor(national = {}) {
+    return componentProfileScore(national, {
+      urbanizationRate: 0.03,
+      urbanDevelopment: 0.05,
+      ruralDevelopment: 0.22,
+      infrastructureLevel: 0.4,
+      livingStandard: 0.3
+    });
+  }
+
+  function taxStabilityPressureFor(stability) {
+    return 1 + clamp((70 - number(stability, 70)) / 60, 0, 1.25);
+  }
+
+  function stabilityCollectionFactorFor(stability) {
+    return clamp(0.55 + number(stability, 70) / 200, 0.4, 1.1);
+  }
+
+  function stabilityPopulationGrowthEffect(stability) {
+    return clamp((number(stability, 65) - 65) * 0.0038, -0.32, 0.22);
+  }
+
+  function stabilityMigrationAttractiveness(stability) {
+    return clamp((number(stability, 60) - 60) * 0.007, -0.35, 0.28);
+  }
+
+  function diversityResilienceForExplain(diversity) {
+    return clamp(0.88 + Math.sqrt(Math.max(0, number(diversity, 0))) / 58, 0.88, 1.22);
+  }
+
+  function autarkyAccessForExplain(autarkyIndex, mode = "overall") {
+    const autarky = clamp(number(autarkyIndex, 50), 0, 100) / 100;
+    if (mode === "import") return clamp(1 - Math.pow(autarky, 1.12) * 0.9, 0.07, 1);
+    if (mode === "export") return clamp(1 - Math.pow(autarky, 1.06) * 0.72, 0.16, 1);
+    return clamp(1 - Math.pow(autarky, 1.1) * 0.78, 0.12, 1);
+  }
+
+  function tradePolicyProfileForExplain(policy) {
+    return {
+      Protectionist: { access: 0.52, importDemand: 0.5, exportSupply: 0.68, capacity: 0.66, balanceRisk: 0.78 },
+      Balanced: { access: 1, importDemand: 1, exportSupply: 1, capacity: 1, balanceRisk: 1 },
+      "Open Market": { access: 1.22, importDemand: 1.18, exportSupply: 1.14, capacity: 1.12, balanceRisk: 1.08 },
+      "Free Trade": { access: 1.44, importDemand: 1.32, exportSupply: 1.26, capacity: 1.22, balanceRisk: 1.14 }
+    }[policy] || { access: 1, importDemand: 1, exportSupply: 1, capacity: 1, balanceRisk: 1 };
+  }
+
+  function activeMilitaryPersonnel(military = {}) {
+    return ["combatPersonnel", "supportPersonnel", "airForcePersonnel", "navalPersonnel", "reserveForces", "paramilitaryIrregular"]
+      .reduce((total, key) => total + number(military[key], 0), 0);
+  }
+
   function explainGovernanceStat(data, id, key, options = {}) {
     const national = data.national?.[id];
     if (!national) return null;
@@ -2338,6 +2395,52 @@
       valueFormat: "percent"
     });
     base.formula = "Yearly simulation: literacy/stability/unrest/economy -> crime -> governmental corruption -> governmental efficiency -> applied efficiency.";
+
+    if (key === "governmentalStability") {
+      const stability = percentStat(national.governmentalStability, 70);
+      const fiscal = calculateFiscalForNation(data, id) || {};
+      const taxBurden = calculateTaxBurdenForNation(data, id) || {};
+      const logistics = tradeLogisticsFor(data, id) || {};
+      base.value = stability;
+      base.valueFormat = "percent";
+      base.summary = "Stability is a broad domestic-order score. It affects tax collection, unrest risk, population growth, immigration, trade logistics, debt interest risk, and the yearly governance chain.";
+      base.formula = "Low stability raises tax pressure, crime/corruption pressure, efficiency pressure, debt risk, and population stress. High stability improves collection, migration, logistics, and industrial growth.";
+      base.components = publicStatRows([
+        statExplainRow("Current stability", stability, { format: "percent", tone: stability >= 75 ? "positive" : stability < 60 ? "negative" : "warning" }),
+        statExplainRow("Tax collection factor", stabilityCollectionFactorFor(stability), { format: "multiplier", tone: statToneForMultiplier(stabilityCollectionFactorFor(stability)), detail: "Used by tax revenue collection." }),
+        statExplainRow("Tax unrest pressure", taxStabilityPressureFor(stability), { format: "multiplier", tone: taxStabilityPressureFor(stability) > 1 ? "negative" : "neutral", detail: "Only rises when stability is below 70%." }),
+        statExplainRow("Natural growth effect", stabilityPopulationGrowthEffect(stability), { format: "signedYearlyPoints", tone: statToneForChange(stabilityPopulationGrowthEffect(stability)), detail: "Added to annual natural population growth before other effects." }),
+        statExplainRow("Migration attractiveness", stabilityMigrationAttractiveness(stability), { format: "signedYearlyPoints", tone: statToneForChange(stabilityMigrationAttractiveness(stability)), detail: "Feeds the migration side of yearly population growth." }),
+        statExplainRow("Low-stability crime pressure", preview.lowStabilityCrimePressure, { format: "negativePoints", tone: preview.lowStabilityCrimePressure > 0 ? "negative" : "neutral" }),
+        statExplainRow("Low-stability corruption pressure", preview.lowStabilityCorruptionPressure, { format: "negativePoints", tone: preview.lowStabilityCorruptionPressure > 0 ? "negative" : "neutral" }),
+        statExplainRow("Efficiency pressure", preview.instabilityEfficiencyPressure, { format: "negativePoints", tone: preview.instabilityEfficiencyPressure > 0 ? "negative" : "neutral" }),
+        statExplainRow("Trade reliability", logistics.reliability, { format: "percent", tone: number(logistics.reliability, 0) >= 62 ? "positive" : "warning" }),
+        statExplainRow("Interest-rate risk", fiscal.stabilityRisk, { format: "signedPoints", tone: number(fiscal.stabilityRisk, 0) > 0 ? "negative" : "neutral", detail: "Added to debt interest when stability is below 75%." }),
+        statExplainRow("Tax pressure score", taxBurden.pressureScore, { format: "number", tone: number(taxBurden.pressureScore, 0) > 4 ? "warning" : "neutral", adminOnly: true })
+      ], admin);
+      return base;
+    }
+
+    if (key === "publicUnrest") {
+      const unrest = clamp(number(national.publicUnrest, 0), 0, 10);
+      const taxBurden = calculateTaxBurdenForNation(data, id) || {};
+      base.value = unrest;
+      base.valueFormat = "number";
+      base.summary = "Public unrest is a GM-controlled 0-10 pressure score. It does not auto-rise by itself, but the tax screen can recommend increases. Yearly simulation uses unrest to hurt population growth, immigration, crime, and governmental corruption.";
+      base.formula = "Unrest feeds annual population stress, city absorption, crime target, and corruption target. Crime/corruption can later pull governmental efficiency down.";
+      base.components = publicStatRows([
+        statExplainRow("Current unrest", unrest, { format: "number", tone: unrest >= 6 ? "negative" : unrest > 0 ? "warning" : "positive" }),
+        statExplainRow("Tax-tool recommendation", number(taxBurden.suggestedUnrestChange, 0), { format: "number", tone: number(taxBurden.suggestedUnrestChange, 0) > 0 ? "warning" : "neutral", detail: "Admins must apply this manually." }),
+        statExplainRow("Natural growth drag", unrest * 0.045, { format: "negativeYearlyPoints", tone: unrest > 0 ? "negative" : "neutral" }),
+        statExplainRow("Migration drag", unrest * 0.045, { format: "negativeYearlyPoints", tone: unrest > 0 ? "negative" : "neutral", detail: "Reduces migration attractiveness before damping." }),
+        statExplainRow("City absorption drag", unrest * 0.025, { format: "negativeYearlyPoints", tone: unrest > 0 ? "negative" : "neutral", detail: "Slows urbanization when cities are trying to absorb growth." }),
+        statExplainRow("Crime target pressure", unrest * 2.2, { format: "negativePoints", tone: unrest > 0 ? "negative" : "neutral" }),
+        statExplainRow("Corruption target pressure", unrest * 1.2, { format: "negativePoints", tone: unrest > 0 ? "negative" : "neutral" }),
+        statExplainRow("Next-year crime pull", preview.crimeChange, { format: "signedPercent", tone: statToneForChange(preview.crimeChange, false), detail: `Targeting ${preview.crimeTarget}%.` }),
+        statExplainRow("Next-year corruption pull", preview.corruptionChange, { format: "signedPercent", tone: statToneForChange(preview.corruptionChange, false), detail: `Targeting ${preview.corruptionTarget}%.` })
+      ], admin);
+      return base;
+    }
 
     if (key === "governmentalEfficiency" || key === "effectiveGovernmentalEfficiency") {
       base.value = key === "effectiveGovernmentalEfficiency" ? governance.governmentalEfficiency : governance.governmentalEfficiencyTarget;
@@ -2388,6 +2491,102 @@
     return null;
   }
 
+  function explainNationalDriverStat(data, id, key, options = {}) {
+    const national = data.national?.[id];
+    if (!national) return null;
+    const admin = options.admin === true;
+    const base = statExplainBase(data, id, "national", key, { title: options.title });
+    const military = data.military?.[id] || {};
+    const industrial = data.industrial?.[id] || {};
+    const mobilizationLevel = military.mobilizationLevel || industrial.mobilizationLevel || "None";
+    const fiscal = calculateFiscalForNation(data, id) || {};
+    const taxBurden = calculateTaxBurdenForNation(data, id) || {};
+    const preview = governanceSimulationPreview(national);
+
+    if (key === "warSupport") {
+      const warSupport = clamp(number(national.warSupport, 50), 0, 100);
+      const mobilization = MOBILIZATION[mobilizationLevel] || MOBILIZATION.None;
+      const resolveMultiplier = mobilizedBudgetResolveMultiplier(mobilizationLevel, warSupport / 100);
+      const readiness = clamp(0.62 + (warSupport / 100) * 0.38, 0.45, 1);
+      base.value = warSupport;
+      base.valueFormat = "percent";
+      base.summary = "War support does not directly change peacetime trade. It affects wartime mobilized BC resolve, wartime military factory growth readiness, and military modernization pressure.";
+      base.formula = "Mobilization uses war support as a resolve/readiness input. Low support matters most at Full and Total mobilization.";
+      base.components = publicStatRows([
+        statExplainRow("War support", warSupport, { format: "percent", tone: warSupport >= 75 ? "positive" : warSupport < 45 ? "negative" : "warning" }),
+        statExplainRow("Mobilization level", mobilizationLevel, { format: "text", tone: mobilizationLevel === "None" ? "neutral" : "warning" }),
+        statExplainRow("Resolve multiplier", resolveMultiplier, { format: "multiplier", tone: statToneForMultiplier(resolveMultiplier), detail: "Affects unlocked wartime BC at Full/Total mobilization." }),
+        statExplainRow("Readiness multiplier", readiness, { format: "multiplier", tone: statToneForMultiplier(readiness), detail: "Feeds wartime BC foundation." }),
+        statExplainRow("Supply multiplier from mobilization", mobilization.supplyMultiplier, { format: "multiplier", tone: statToneForMultiplier(mobilization.supplyMultiplier) }),
+        statExplainRow("Current wartime BC bonus", national.wartimeBudgetBonus, { format: "number", tone: number(national.wartimeBudgetBonus, 0) > 0 ? "positive" : "neutral" }),
+        statExplainRow("Auto mobilization BE", national.wartimeBudgetAutoExpenditure, { format: "number", tone: number(national.wartimeBudgetAutoExpenditure, 0) > 0 ? "negative" : "neutral", adminOnly: true })
+      ], admin);
+      return base;
+    }
+
+    if (key === "economicHealth") {
+      const health = national.economicHealth || "Recovery";
+      const demographics = HEALTH_DEMOGRAPHICS[health] || HEALTH_DEMOGRAPHICS.Recovery;
+      base.value = health;
+      base.valueFormat = "text";
+      base.summary = "Economic health is a broad cycle setting. It affects tax collection, tax stress, population growth, migration, industrial yearly growth, governance pressure, trade, and debt interest risk.";
+      base.formula = "Health multipliers feed budget collection, demographic pressure, industrial health signal, tariff/tax stress, governance drift, and interest-rate risk.";
+      base.components = publicStatRows([
+        statExplainRow("Health state", health, { format: "text", tone: ["Prosperity", "Expansion"].includes(health) ? "positive" : ["Recession", "Depression"].includes(health) ? "negative" : health === "Slowdown" ? "warning" : "neutral" }),
+        statExplainRow("Budget collection", HEALTH_BUDGET[health] || 1, { format: "multiplier", tone: statToneForMultiplier(HEALTH_BUDGET[health] || 1) }),
+        statExplainRow("Industry growth signal", HEALTH_GROWTH[health] || 0, { format: "signedNumber", tone: statToneForChange(HEALTH_GROWTH[health] || 0) }),
+        statExplainRow("Natural growth climate", demographics.naturalGrowth, { format: "signedYearlyPoints", tone: statToneForChange(demographics.naturalGrowth) }),
+        statExplainRow("Migration climate", demographics.migration, { format: "signedYearlyPoints", tone: statToneForChange(demographics.migration) }),
+        statExplainRow("Tax pressure tier", taxBurden.tier || "Stable", { format: "text", tone: ["Volatile", "Crisis"].includes(taxBurden.tier) ? "negative" : taxBurden.tier === "Agitated" ? "warning" : "neutral" }),
+        statExplainRow("Crime pressure", preview.healthCrimePressure, { format: "signedPoints", tone: statToneForChange(preview.healthCrimePressure, false) }),
+        statExplainRow("Corruption pressure", preview.healthCorruptionPressure, { format: "signedPoints", tone: statToneForChange(preview.healthCorruptionPressure, false) }),
+        statExplainRow("Interest-rate risk", fiscal.healthRisk, { format: "signedPoints", tone: number(fiscal.healthRisk, 0) > 0 ? "negative" : "neutral" })
+      ], admin);
+      return base;
+    }
+
+    if (key === "immigrationRate") {
+      const immigration = number(national.immigrationRate, 0);
+      const taxPenalty = number(taxBurden.immigrationPenalty, 0);
+      const effectiveImmigration = immigration - taxPenalty;
+      const stabilityMigration = stabilityMigrationAttractiveness(national.governmentalStability);
+      const unrestDrag = clamp(number(national.publicUnrest, 0), 0, 10) * 0.045;
+      base.value = immigration;
+      base.valueFormat = "number";
+      base.summary = "Immigration is a GM-facing migration input used by yearly population growth. Tax pressure, stability, unrest, corruption, bureaucracy, maturity, and urban strain modify how much actually becomes population growth.";
+      base.formula = "Effective immigration input = immigration rate - tax immigration penalty, then migration attractiveness and damping apply.";
+      base.components = publicStatRows([
+        statExplainRow("Immigration input", immigration, { format: "number", tone: immigration > 0 ? "positive" : immigration < 0 ? "negative" : "neutral" }),
+        statExplainRow("Tax immigration penalty", taxPenalty, { format: "negativePoints", tone: taxPenalty > 0 ? "negative" : "neutral" }),
+        statExplainRow("Effective input", effectiveImmigration, { format: "signedNumber", tone: statToneForChange(effectiveImmigration) }),
+        statExplainRow("Stability attractiveness", stabilityMigration, { format: "signedYearlyPoints", tone: statToneForChange(stabilityMigration) }),
+        statExplainRow("Unrest migration drag", unrestDrag, { format: "negativeYearlyPoints", tone: unrestDrag > 0 ? "negative" : "neutral" }),
+        statExplainRow("Tax pressure tier", taxBurden.tier || "Stable", { format: "text", tone: ["Volatile", "Crisis"].includes(taxBurden.tier) ? "negative" : taxBurden.tier === "Agitated" ? "warning" : "neutral", adminOnly: true })
+      ], admin);
+      return base;
+    }
+
+    if (key === "fiscalModel") {
+      const model = fiscalModelForNation(data, id, national);
+      const profile = FISCAL_MODELS[model] || FISCAL_MODELS.Standard;
+      base.value = model;
+      base.valueFormat = "text";
+      base.summary = "Fiscal model changes how the tax system behaves. It can raise sustainable tax capacity, alter unrest pressure, change tax collection floors, and modify population/immigration/industry tax penalties.";
+      base.formula = "If no model is manually set, strong high-capacity states can auto-resolve to High Capacity State or Welfare State.";
+      base.components = publicStatRows([
+        statExplainRow("Fiscal model", model, { format: "text" }),
+        statExplainRow("Fiscal capacity profile", fiscalCapacityProfileFor(national), { format: "number", tone: "positive" }),
+        statExplainRow("Sustainable tax bonus", profile.sustainableTaxBonus, { format: "signedPoints", tone: statToneForChange(profile.sustainableTaxBonus) }),
+        statExplainRow("Tax pressure multiplier", profile.pressureMultiplier, { format: "multiplier", tone: statToneForMultiplier(profile.pressureMultiplier, false) }),
+        statExplainRow("Collection floor", profile.collectionFloor * 100, { format: "percent", tone: "positive", adminOnly: true }),
+        statExplainRow("Avoidance multiplier", profile.avoidanceMultiplier, { format: "multiplier", tone: statToneForMultiplier(profile.avoidanceMultiplier, false), adminOnly: true })
+      ], admin);
+      return base;
+    }
+
+    return null;
+  }
+
   function explainFiscalStat(data, id, key, options = {}) {
     const national = data.national?.[id];
     if (!national) return null;
@@ -2399,6 +2598,30 @@
     const permanentExpenditure = number(national.budgetExpenditure, 0);
     const temporaryExpenditure = number(national.temporaryBudgetExpenditure, 0);
     const autoMobilizationBe = number(national.wartimeBudgetAutoExpenditure, 0);
+    const taxBurden = calculateTaxBurdenForNation(data, id) || {};
+
+    if (key === "taxRate") {
+      const taxRate = number(national.taxRate, 0);
+      const taxRatePercent = taxRate > 1 ? taxRate : taxRate * 100;
+      base.value = taxRatePercent;
+      base.valueFormat = "percent";
+      base.summary = "Tax rate feeds tax revenue, collection drag, tax pressure, population growth penalties, immigration penalties, industry growth penalties, and GM unrest recommendations.";
+      base.formula = "Tax pressure = tax rate - sustainable tax rate. Pressure then reduces collection and can recommend public unrest.";
+      base.components = publicStatRows([
+        statExplainRow("Tax rate", taxRatePercent, { format: "percent", tone: taxRatePercent > number(taxBurden.sustainableTaxRate, 0) ? "warning" : "neutral" }),
+        statExplainRow("Sustainable tax rate", taxBurden.sustainableTaxRate, { format: "percent", tone: "positive" }),
+        statExplainRow("Tax pressure", taxBurden.taxPressure, { format: "negativePoints", tone: number(taxBurden.taxPressure, 0) > 0 ? "negative" : "neutral" }),
+        statExplainRow("Pressure score", taxBurden.pressureScore, { format: "number", tone: number(taxBurden.pressureScore, 0) > 9 ? "negative" : number(taxBurden.pressureScore, 0) > 4 ? "warning" : "neutral" }),
+        statExplainRow("Pressure tier", taxBurden.tier || "Stable", { format: "text", tone: ["Volatile", "Crisis"].includes(taxBurden.tier) ? "negative" : taxBurden.tier === "Agitated" ? "warning" : "neutral" }),
+        statExplainRow("Collection retained", number(taxBurden.collectionMultiplier, 1) * 100, { format: "percent", tone: number(taxBurden.collectionMultiplier, 1) < 0.9 ? "warning" : "positive" }),
+        statExplainRow("Population growth penalty", taxBurden.populationGrowthPenalty, { format: "negativeYearlyPoints", tone: number(taxBurden.populationGrowthPenalty, 0) > 0 ? "negative" : "neutral" }),
+        statExplainRow("Immigration penalty", taxBurden.immigrationPenalty, { format: "negativePoints", tone: number(taxBurden.immigrationPenalty, 0) > 0 ? "negative" : "neutral" }),
+        statExplainRow("Industry growth retained", number(taxBurden.industryGrowthMultiplier, 1) * 100, { format: "percent", tone: number(taxBurden.industryGrowthMultiplier, 1) < 0.9 ? "warning" : "positive" }),
+        statExplainRow("Recommended unrest", taxBurden.suggestedUnrestChange, { format: "number", tone: number(taxBurden.suggestedUnrestChange, 0) > 0 ? "warning" : "neutral", detail: "GM-controlled; not applied automatically." })
+      ], admin);
+      base.warnings = publicStatRows((taxBurden.warnings || []).map((warning) => statExplainRow("Warning", warning, { format: "text", tone: "warning", adminOnly: true })), admin);
+      return base;
+    }
 
     if (key === "budgetCapacity" || key === "mobilizedBudgetCapacity") {
       base.value = displayBudgetCapacity(data, id);
@@ -2453,6 +2676,26 @@
       return base;
     }
 
+    if (["treasuryReserve", "debtRepayment", "maxDebtPaydown"].includes(key)) {
+      base.value = key === "treasuryReserve" ? fiscal.treasuryReserve : fiscal[key];
+      base.valueFormat = "number";
+      base.summary = key === "treasuryReserve"
+        ? "Treasury reserve absorbs deficits before new borrowing and receives surplus left after debt repayment."
+        : "Debt repayment is automatically limited by surplus, the annual repayment share, the max paydown cap, and remaining debt principal.";
+      base.formula = "Surplus repays debt up to the repayment share and paydown cap. Deficits draw treasury first, then borrow.";
+      base.components = publicStatRows([
+        statExplainRow("Treasury reserve", fiscal.treasuryReserve, { format: "number", tone: fiscal.treasuryReserve > 0 ? "positive" : "neutral" }),
+        statExplainRow("Fiscal balance", fiscal.effectiveBalance, { format: "signedNumber", tone: statToneForChange(fiscal.effectiveBalance) }),
+        statExplainRow("Treasury drawdown", fiscal.treasuryDrawdown, { format: "negativeNumber", tone: fiscal.treasuryDrawdown > 0 ? "warning" : "neutral" }),
+        statExplainRow("Treasury deposit", fiscal.treasuryDeposit, { format: "number", tone: fiscal.treasuryDeposit > 0 ? "positive" : "neutral" }),
+        statExplainRow("Next reserve", fiscal.nextTreasuryReserve, { format: "number", tone: fiscal.nextTreasuryReserve > fiscal.treasuryReserve ? "positive" : fiscal.nextTreasuryReserve < fiscal.treasuryReserve ? "warning" : "neutral" }),
+        statExplainRow("Debt repayment", fiscal.debtRepayment, { format: "number", tone: fiscal.debtRepayment > 0 ? "positive" : "neutral" }),
+        statExplainRow("Repayment share limit", fiscal.repaymentShareLimit, { format: "number", tone: "positive", adminOnly: true }),
+        statExplainRow("Paydown cap", fiscal.maxDebtPaydown, { format: "number", tone: "positive", adminOnly: true })
+      ], admin);
+      return base;
+    }
+
     if (["debt", "projectedDebt", "debtService", "debtServiceRate", "interestRate"].includes(key)) {
       base.value = key === "projectedDebt" ? fiscal.nextDebtPercent : key === "debt" ? fiscal.debtPercent : national[key];
       base.valueFormat = key.includes("Rate") || key === "interestRate" || key === "debt" || key === "projectedDebt" ? "percent" : "number";
@@ -2497,17 +2740,36 @@
     const admin = options.admin === true;
     const tariff = calculateTariffRevenueForNation(data, id);
     const base = statExplainBase(data, id, "trade", key, { title: options.title });
-    if (["tradeFlow", "tradeCapacity", "tradeBalance", "tradeDisruption", "tariffRate", "economicImpactScore"].includes(key)) {
+    if (["tradeFlow", "tradeCapacity", "tradeBalance", "tradeDisruption", "tariffRate", "economicImpactScore", "importReliance", "exportReliance", "economicTradeDiversity", "autarkyIndex", "tradePolicy"].includes(key)) {
+      const logistics = tradeLogisticsFor(data, id) || {};
+      const policy = trade.tradePolicy || "Balanced";
+      const policyProfile = tradePolicyProfileForExplain(policy);
+      const importReliance = number(trade.importReliance, 0);
+      const exportReliance = number(trade.exportReliance, 0);
+      const diversity = number(trade.economicTradeDiversity, 0);
+      const autarky = number(trade.autarkyIndex, 50);
       base.value = statPathValue(trade, key);
-      base.valueFormat = key === "tradeDisruption" || key === "tariffRate" ? "percent" : "number";
-      base.summary = "Trade output is driven by trade capacity, trade policy, tariff burden, disruption, reliance/diversity, and the routed trade network.";
-      base.formula = "Flow is the active routed trade value after policy, tariff, network, and disruption effects.";
+      base.valueFormat = key === "tradeDisruption" || key === "tariffRate" ? "percent" : key === "tradePolicy" ? "text" : "number";
+      base.summary = "Trade output is driven by trade capacity, trade policy, import/export reliance, trade diversity, autarky, tariffs, disruption, logistics, and the routed trade network.";
+      base.formula = "Flow is the active routed trade value after policy, reliance, diversity, autarky, tariff, network, logistics, and disruption effects.";
       base.components = publicStatRows([
         statExplainRow("Trade flow", trade.tradeFlow, { format: "number", tone: "positive" }),
         statExplainRow("Trade capacity", trade.tradeCapacity, { format: "number", tone: "positive" }),
         statExplainRow("Trade balance", trade.tradeBalance, { format: "signedNumber", tone: statToneForChange(trade.tradeBalance) }),
+        statExplainRow("Import reliance", importReliance, { format: "number", tone: importReliance > exportReliance * 1.25 ? "warning" : "neutral" }),
+        statExplainRow("Export reliance", exportReliance, { format: "number", tone: exportReliance > importReliance * 1.25 ? "positive" : "neutral" }),
+        statExplainRow("Reliance tilt", importReliance - exportReliance, { format: "signedNumber", tone: importReliance > exportReliance ? "warning" : exportReliance > importReliance ? "positive" : "neutral", detail: "Positive means import-biased; negative means export-biased." }),
+        statExplainRow("Trade diversity", diversity, { format: "number", tone: diversity >= 100 ? "positive" : diversity < 50 ? "warning" : "neutral" }),
+        statExplainRow("Diversity resilience", diversityResilienceForExplain(diversity), { format: "multiplier", tone: statToneForMultiplier(diversityResilienceForExplain(diversity)), detail: "Raises export/world-pool resilience." }),
+        statExplainRow("Autarky", autarky, { format: "number", tone: autarky > 60 ? "warning" : autarky < 25 ? "positive" : "neutral" }),
+        statExplainRow("Import access from autarky", autarkyAccessForExplain(autarky, "import"), { format: "multiplier", tone: statToneForMultiplier(autarkyAccessForExplain(autarky, "import")) }),
+        statExplainRow("Export access from autarky", autarkyAccessForExplain(autarky, "export"), { format: "multiplier", tone: statToneForMultiplier(autarkyAccessForExplain(autarky, "export")) }),
+        statExplainRow("Trade policy", policy, { format: "text" }),
+        statExplainRow("Policy import demand", policyProfile.importDemand, { format: "multiplier", tone: statToneForMultiplier(policyProfile.importDemand) }),
+        statExplainRow("Policy export supply", policyProfile.exportSupply, { format: "multiplier", tone: statToneForMultiplier(policyProfile.exportSupply) }),
+        statExplainRow("Policy capacity", policyProfile.capacity, { format: "multiplier", tone: statToneForMultiplier(policyProfile.capacity) }),
+        statExplainRow("Logistics reliability", logistics.reliability, { format: "percent", tone: number(logistics.reliability, 0) >= 62 ? "positive" : "warning" }),
         statExplainRow("Trade disruption", trade.tradeDisruption, { format: "negativePercent", tone: number(trade.tradeDisruption, 0) > 0 ? "negative" : "neutral" }),
-        statExplainRow("Trade policy", trade.tradePolicy || "Balanced", { format: "text" }),
         statExplainRow("Tariff rate", trade.tariffRate, { format: "percent", tone: number(trade.tariffRate, 0) > 10 ? "warning" : "neutral" }),
         statExplainRow("Tariff shock", tariff?.tariffShockScore, { format: "negativePercent", tone: number(tariff?.tariffShockScore, 0) > 0 ? "negative" : "neutral", adminOnly: true }),
         statExplainRow("Tariff revenue", tariff?.tariffRevenue, { format: "number", tone: number(tariff?.tariffRevenue, 0) > 0 ? "positive" : "neutral", adminOnly: true }),
@@ -2547,10 +2809,13 @@
     const national = data.national?.[id] || {};
     const output = industrialSectorOutputs(industrial, national);
     const base = statExplainBase(data, id, dataset, key, { title: options.title });
-    if (dataset === "industrial" && ["civilianSectors", "militarySectors", "shipyardSectors", "civilianFactories", "militaryFactories", "shipyards"].includes(key)) {
-      const sector = key.startsWith("military") ? output.military : key.startsWith("shipyard") || key === "shipyards" ? output.shipyard : output.civilian;
-      const sectorLabel = key.startsWith("military") ? "Military" : key.startsWith("shipyard") || key === "shipyards" ? "Shipyards" : "Civilian";
-      base.value = sector.physical;
+    const tierMatch = String(key).match(/^(civilianSectors|militarySectors|shipyardSectors)\.(basic|improved|advanced|medium|large|mega)$/);
+    if (dataset === "industrial" && (["civilianSectors", "militarySectors", "shipyardSectors", "civilianFactories", "militaryFactories", "shipyards"].includes(key) || tierMatch)) {
+      const sectorKey = tierMatch?.[1] || key;
+      const tierKey = tierMatch?.[2] || "";
+      const sector = sectorKey.startsWith("military") ? output.military : sectorKey.startsWith("shipyard") || sectorKey === "shipyards" ? output.shipyard : output.civilian;
+      const sectorLabel = sectorKey.startsWith("military") ? "Military" : sectorKey.startsWith("shipyard") || sectorKey === "shipyards" ? "Shipyards" : "Civilian";
+      base.value = tierKey ? sector[tierKey] : sector.physical;
       base.valueFormat = "number";
       base.summary = `${sectorLabel} industry is stored as physical tier counts. Formulas use effective output, which is the weighted output that actually counts after high-tier literacy and sophistication limits.`;
       base.formula = "Effective output = tier count x tier weight x output retained share. Basic/Medium tiers retain 100%; higher tiers can be discounted.";
@@ -2645,6 +2910,200 @@
     return null;
   }
 
+  function explainMilitaryStat(data, id, dataset, key, options = {}) {
+    if (dataset !== "military" && !(dataset === "industrial" && key === "mobilizationLevel")) return null;
+    const military = data.military?.[id] || {};
+    const national = data.national?.[id] || {};
+    const industrial = data.industrial?.[id] || {};
+    const base = statExplainBase(data, id, dataset, key, { title: options.title });
+    const mobilizationLevel = military.mobilizationLevel || industrial.mobilizationLevel || "None";
+    const mobilization = MOBILIZATION[mobilizationLevel] || MOBILIZATION.None;
+    const sectorOutput = industrialSectorOutputs(industrial, national);
+    const militaryOutput = sectorOutput.military.effective;
+    const complexity = number(military.equipmentComplexity, 4);
+    const techLimit = maxComplexityForTechnology(national);
+    const techGap = Math.max(0, complexity - techLimit);
+    const techGapPenalty = Math.max(0.05, 1 - techGap * (0.95 / 11));
+    const supplyGainPerYear = militaryOutput * 0.2 * 12
+      * sophisticationSupplyMultiplier(national)
+      * mobilization.supplyMultiplier
+      * complexityMultiplier(complexity)
+      * techGapPenalty
+      * (1 + number(military.militaryOrganization, 0) * 0.01);
+
+    if (key === "militarySupply") {
+      base.value = military.militarySupply;
+      base.valueFormat = "percent";
+      base.summary = "Military supply is the readiness stockpile/output score. It grows over time from effective military factories, sophistication, mobilization, equipment complexity, tech limits, and organization.";
+      base.formula = "Annual supply gain = military output x sophistication x mobilization x complexity x tech-gap penalty x organization boost.";
+      base.components = [
+        statExplainRow("Current supply", military.militarySupply, { format: "percent", tone: number(military.militarySupply, 0) >= 100 ? "positive" : "warning" }),
+        statExplainRow("Projected yearly gain", supplyGainPerYear, { format: "number", tone: supplyGainPerYear > 0 ? "positive" : "neutral" }),
+        statExplainRow("Effective military output", militaryOutput, { format: "number", tone: "positive" }),
+        statExplainRow("Sophistication supply", sophisticationSupplyMultiplier(national), { format: "multiplier", tone: statToneForMultiplier(sophisticationSupplyMultiplier(national)) }),
+        statExplainRow("Mobilization supply", mobilization.supplyMultiplier, { format: "multiplier", tone: statToneForMultiplier(mobilization.supplyMultiplier) }),
+        statExplainRow("Complexity multiplier", complexityMultiplier(complexity), { format: "multiplier", tone: statToneForMultiplier(complexityMultiplier(complexity)) }),
+        statExplainRow("Tech-gap penalty", techGapPenalty, { format: "multiplier", tone: techGapPenalty < 1 ? "negative" : "neutral" }),
+        statExplainRow("Organization boost", 1 + number(military.militaryOrganization, 0) * 0.01, { format: "multiplier", tone: "positive" })
+      ];
+      return base;
+    }
+
+    if (key === "militaryOrganization") {
+      base.value = military.militaryOrganization;
+      base.valueFormat = "number";
+      base.summary = "Organization is a military quality score. It boosts military supply growth and helps advanced military modernization.";
+      base.formula = "Supply growth uses organization as a direct multiplier: 1 + organization / 100.";
+      base.components = [
+        statExplainRow("Organization", military.militaryOrganization, { format: "number", tone: number(military.militaryOrganization, 0) >= 50 ? "positive" : "warning" }),
+        statExplainRow("Supply-growth boost", 1 + number(military.militaryOrganization, 0) * 0.01, { format: "multiplier", tone: "positive" }),
+        statExplainRow("Advanced modernization input", number(military.militaryOrganization, 0) * 0.04, { format: "number", tone: "positive", detail: "Feeds yearly advanced military tier growth." })
+      ];
+      return base;
+    }
+
+    if (key === "equipmentComplexity") {
+      base.value = complexity;
+      base.valueFormat = "number";
+      base.summary = "Equipment complexity represents how hard the force is to supply. Higher complexity can be powerful in lore, but it reduces supply growth unless the country's development can support it.";
+      base.formula = "Supply growth uses a complexity multiplier and an additional tech-gap penalty if complexity exceeds the development-based tech limit.";
+      base.components = [
+        statExplainRow("Equipment complexity", complexity, { format: "number", tone: complexity > techLimit ? "warning" : "neutral" }),
+        statExplainRow("Supported complexity", techLimit, { format: "number", tone: "positive" }),
+        statExplainRow("Unsupported gap", techGap, { format: "number", tone: techGap > 0 ? "negative" : "neutral" }),
+        statExplainRow("Complexity multiplier", complexityMultiplier(complexity), { format: "multiplier", tone: statToneForMultiplier(complexityMultiplier(complexity)) }),
+        statExplainRow("Tech-gap penalty", techGapPenalty, { format: "multiplier", tone: techGapPenalty < 1 ? "negative" : "neutral" })
+      ];
+      return base;
+    }
+
+    if (key === "mobilizationLevel") {
+      base.value = mobilizationLevel;
+      base.valueFormat = "text";
+      base.summary = "Mobilization changes military supply growth, civilian factory growth, military factory weighting, maintenance pressure, wartime BC, auto mobilization BE, and mobilization strain.";
+      base.formula = "Higher mobilization unlocks wartime BC and military output but applies civilian and fiscal strain.";
+      base.components = [
+        statExplainRow("Mobilization", mobilizationLevel, { format: "text", tone: mobilizationLevel === "None" ? "neutral" : "warning" }),
+        statExplainRow("Supply multiplier", mobilization.supplyMultiplier, { format: "multiplier", tone: statToneForMultiplier(mobilization.supplyMultiplier) }),
+        statExplainRow("Military factory BC weight", mobilization.militaryFactoryMultiplier * 100, { format: "percent", tone: mobilization.militaryFactoryMultiplier >= 1 ? "positive" : "warning" }),
+        statExplainRow("Civilian growth effect", mobilization.civilianPenalty * 100, { format: "signedPercent", tone: mobilization.civilianPenalty < 0 ? "negative" : "neutral" }),
+        statExplainRow("Maintenance multiplier", mobilization.maintenanceCost, { format: "multiplier", tone: mobilization.maintenanceCost > 1 ? "negative" : "neutral" }),
+        statExplainRow("Wartime BC bonus", national.wartimeBudgetBonus, { format: "number", tone: number(national.wartimeBudgetBonus, 0) > 0 ? "positive" : "neutral" }),
+        statExplainRow("Mobilization strain", national.mobilizationStrain, { format: "percent", tone: number(national.mobilizationStrain, 0) > 0 ? "negative" : "neutral" })
+      ];
+      return base;
+    }
+
+    if (key === "cyberSecurity") {
+      base.value = military.cyberSecurity;
+      base.valueFormat = "number";
+      base.summary = "Cyber security is a visible military/security capability score. It is tracked for player comparison and GM rulings, but it is not currently wired into fiscal, trade, or population formulas.";
+      base.components = [
+        statExplainRow("Cyber security", military.cyberSecurity, { format: "number", tone: number(military.cyberSecurity, 0) >= 10 ? "positive" : "neutral" }),
+        statExplainRow("Formula impact", "No automatic economy effect", { format: "text" })
+      ];
+      return base;
+    }
+
+    if (["combatPersonnel", "supportPersonnel", "airForcePersonnel", "navalPersonnel", "reserveForces", "paramilitaryIrregular", "active"].includes(key)) {
+      base.value = key === "active" ? activeMilitaryPersonnel(military) : military[key];
+      base.valueFormat = "number";
+      base.summary = "Personnel fields are force-structure records for display, comparison, and GM rulings. They do not currently feed BC, trade, or yearly population formulas automatically.";
+      base.components = [
+        statExplainRow("Combat personnel", military.combatPersonnel, { format: "number" }),
+        statExplainRow("Support personnel", military.supportPersonnel, { format: "number" }),
+        statExplainRow("Air force personnel", military.airForcePersonnel, { format: "number" }),
+        statExplainRow("Naval personnel", military.navalPersonnel, { format: "number" }),
+        statExplainRow("Reserve forces", military.reserveForces, { format: "number" }),
+        statExplainRow("Paramilitary", military.paramilitaryIrregular, { format: "number" }),
+        statExplainRow("Active total", activeMilitaryPersonnel(military), { format: "number", tone: "positive" })
+      ];
+      return base;
+    }
+
+    return null;
+  }
+
+  function explainPopulationStat(data, id, dataset, key, options = {}) {
+    if (dataset !== "population") return null;
+    const population = data.population?.[id] || {};
+    const national = data.national?.[id] || {};
+    const base = statExplainBase(data, id, dataset, key, { title: options.title });
+    const currentYearKey = currentPopulationKey(data);
+    const currentPopulation = getPopulation(data, id);
+    const policy = population.mandatoryChildPolicy || "No Policy";
+    if (/^\d+$/.test(String(key))) {
+      base.value = population.values?.[key];
+      base.valueFormat = "number";
+      base.summary = "Population history feeds market size, tax revenue, trade demand, mobilization finance, and yearly demographic simulation.";
+      base.formula = "Yearly population growth combines demographic maturity, economic health, stability, policy, tax stress, unrest, corruption, literacy slowdown, immigration, and urban strain.";
+      base.components = [
+        statExplainRow("Current population", currentPopulation, { format: "number", tone: "positive" }),
+        statExplainRow("Displayed year", String(key), { format: "text" }),
+        statExplainRow("Current year", currentYearKey, { format: "text" }),
+        statExplainRow("Child policy", policy, { format: "text" }),
+        statExplainRow("Policy growth effect", CHILD_POLICY_POPULATION_EFFECT[policy] || 0, { format: "yearlyPoints", tone: (CHILD_POLICY_POPULATION_EFFECT[policy] || 0) > 0 ? "positive" : "neutral" }),
+        statExplainRow("Literacy growth reduction", literacyPopulationGrowthSlowdown(national), { format: "negativeYearlyPoints", tone: literacyPopulationGrowthSlowdown(national) > 0 ? "warning" : "neutral" }),
+        statExplainRow("Immigration input", national.immigrationRate, { format: "number" })
+      ];
+      return base;
+    }
+    if (key === "mandatoryChildPolicy") {
+      base.value = policy;
+      base.valueFormat = "text";
+      base.summary = "Child policy is a GM-facing demographic policy. It adds to natural population growth before maturity and other stress effects dampen the result.";
+      base.formula = "Policy effect is added to annual natural growth, then reduced by demographic maturity and other penalties.";
+      base.components = [
+        statExplainRow("Child policy", policy, { format: "text" }),
+        statExplainRow("Base policy effect", CHILD_POLICY_POPULATION_EFFECT[policy] || 0, { format: "yearlyPoints", tone: (CHILD_POLICY_POPULATION_EFFECT[policy] || 0) > 0 ? "positive" : "neutral" }),
+        statExplainRow("Economic health", national.economicHealth || "Recovery", { format: "text" }),
+        statExplainRow("Stability", national.governmentalStability, { format: "percent" }),
+        statExplainRow("Public unrest", national.publicUnrest, { format: "number", tone: number(national.publicUnrest, 0) > 0 ? "warning" : "neutral" })
+      ];
+      return base;
+    }
+    return null;
+  }
+
+  function explainIntelligenceStat(data, id, dataset, key, options = {}) {
+    if (dataset !== "intelligence") return null;
+    const intelligence = data.intelligence?.[id] || {};
+    const base = statExplainBase(data, id, dataset, key, { title: options.title });
+    base.value = intelligence[key];
+    base.valueFormat = "number";
+    base.summary = "Intelligence stats are capability scores for player comparison and GM adjudication. They are not currently wired into BC, trade, population, debt, or yearly growth formulas.";
+    base.formula = "No automatic economy formula uses this intelligence field yet.";
+    base.components = [
+      statExplainRow("HUMINT", intelligence.humint, { format: "number" }),
+      statExplainRow("SIGINT", intelligence.sigint, { format: "number" }),
+      statExplainRow("Counterintelligence", intelligence.counterintelligence, { format: "number" }),
+      statExplainRow("Covert action", intelligence.covertAction, { format: "number" }),
+      statExplainRow("Analysis & doctrine", intelligence.analysisDoctrine, { format: "number" }),
+      statExplainRow("Global reach", intelligence.globalReach, { format: "number" }),
+      statExplainRow("Internal surveillance", intelligence.internalSurveillance, { format: "number" }),
+      statExplainRow("Secrecy & denial", intelligence.secrecyDenial, { format: "number" }),
+      statExplainRow("Formula impact", "GM/adjudication only right now", { format: "text" })
+    ];
+    return base;
+  }
+
+  function explainCivicScheduleStat(data, id, dataset, key, options = {}) {
+    if (!["eclipse", "elections"].includes(dataset)) return null;
+    const row = data[dataset]?.[id] || {};
+    const base = statExplainBase(data, id, dataset, key, { title: options.title });
+    base.value = row[key];
+    base.valueFormat = "text";
+    base.summary = dataset === "eclipse"
+      ? "Eclipse status is a civic/status record. It is visible for tracking but does not currently feed economy or yearly simulation formulas."
+      : "Election fields are schedule records. They are visible for tracking but do not currently feed economy or yearly simulation formulas.";
+    base.formula = "Recordkeeping only unless a GM applies separate effects.";
+    base.components = [
+      statExplainRow(statHumanLabel(key), row[key] || "Unknown", { format: "text" }),
+      statExplainRow("Formula impact", "No automatic economy effect", { format: "text" })
+    ];
+    return base;
+  }
+
   function explainStat(data, id, dataset, key, options = {}) {
     const admin = options.admin === true;
     const normalizedDataset = String(dataset || "");
@@ -2652,9 +3111,14 @@
     const specialized =
       (normalizedDataset === "national" && explainFiscalStat(data, id, normalizedKey, options))
       || (normalizedDataset === "national" && explainGovernanceStat(data, id, normalizedKey, options))
+      || (normalizedDataset === "national" && explainNationalDriverStat(data, id, normalizedKey, options))
       || (normalizedDataset === "trade" && explainTradeStat(data, id, normalizedKey, options))
       || (normalizedDataset === "national" && explainDevelopmentStat(data, id, normalizedKey, options))
-      || explainIndustryStat(data, id, normalizedDataset, normalizedKey, options);
+      || explainIndustryStat(data, id, normalizedDataset, normalizedKey, options)
+      || explainMilitaryStat(data, id, normalizedDataset, normalizedKey, options)
+      || explainPopulationStat(data, id, normalizedDataset, normalizedKey, options)
+      || explainIntelligenceStat(data, id, normalizedDataset, normalizedKey, options)
+      || explainCivicScheduleStat(data, id, normalizedDataset, normalizedKey, options);
     if (specialized) {
       specialized.components = publicStatRows(specialized.components || [], admin);
       specialized.hidden = publicStatRows(specialized.hidden || [], admin);
