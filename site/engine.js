@@ -16,7 +16,8 @@
   const GOVERNANCE_EFFICIENCY_ADJUSTMENT_RATE = 0.1;
   const GOVERNANCE_EFFECTIVE_EFFICIENCY_ADJUSTMENT_RATE = 0.28;
   const LITERACY_NEUTRAL_RATE = 95;
-  const LITERACY_POPULATION_SLOWDOWN_MAX = 0.32;
+  const LITERACY_POPULATION_SLOWDOWN_START = 70;
+  const LITERACY_POPULATION_SLOWDOWN_MAX = 0.45;
 
   const HEALTH_GROWTH = { Depression: -6.2, Recession: -4.1, Slowdown: -2.2, Recovery: 1.4, Expansion: 3.2, Prosperity: 4.8 };
   const INDUSTRIAL_HEALTH_MOMENTUM = { Prosperity: 0.18, Expansion: 0.12, Recovery: 0.04, Slowdown: 0.1, Recession: 0.16, Depression: 0.24 };
@@ -396,9 +397,14 @@
 
   function literacyPopulationGrowthSlowdown(national = {}) {
     const literacy = literacyRateForNational(national);
-    if (literacy <= LITERACY_NEUTRAL_RATE) return 0;
-    const highLiteracyShare = clamp((literacy - LITERACY_NEUTRAL_RATE) / Math.max(1, 100 - LITERACY_NEUTRAL_RATE), 0, 1);
+    if (literacy <= LITERACY_POPULATION_SLOWDOWN_START) return 0;
+    const highLiteracyShare = clamp((literacy - LITERACY_POPULATION_SLOWDOWN_START) / Math.max(1, 100 - LITERACY_POPULATION_SLOWDOWN_START), 0, 1);
     return Math.pow(highLiteracyShare, 1.15) * LITERACY_POPULATION_SLOWDOWN_MAX;
+  }
+
+  function corruptionEfficiencyPressureFor(corruptionPercent) {
+    const corruption = percentStat(corruptionPercent, 0);
+    return corruption * 0.1 + Math.max(0, corruption - 30) * 0.55;
   }
 
   function developmentComponentDefaults(seedScore = 10) {
@@ -2041,7 +2047,7 @@
     const nextCorruption = roundPercent(clamp(currentCorruption + corruptionChange, 0, 100));
 
     const currentEfficiency = clamp(number(national.governmentalEfficiency, GOVERNANCE_DEFAULT_EFFICIENCY), 0, GOVERNANCE_DEFAULT_EFFICIENCY);
-    const corruptionEfficiencyPressure = Math.max(0, nextCorruption - 30) * 0.65;
+    const corruptionEfficiencyPressure = corruptionEfficiencyPressureFor(nextCorruption);
     const crimeEfficiencyPressure = Math.max(0, nextCrime - 60) * 0.15;
     const instabilityEfficiencyPressure = Math.max(0, 70 - stability) * 0.08;
     const efficiencyTarget = clamp(
@@ -2142,7 +2148,7 @@
     const nextCorruption = roundPercent(clamp(currentCorruption + corruptionChange, 0, 100));
 
     const currentEfficiency = clamp(number(national.governmentalEfficiency, GOVERNANCE_DEFAULT_EFFICIENCY), 0, GOVERNANCE_DEFAULT_EFFICIENCY);
-    const corruptionEfficiencyPressure = Math.max(0, nextCorruption - 30) * 0.65;
+    const corruptionEfficiencyPressure = corruptionEfficiencyPressureFor(nextCorruption);
     const crimeEfficiencyPressure = Math.max(0, nextCrime - 60) * 0.15;
     const instabilityEfficiencyPressure = Math.max(0, 70 - stability) * 0.08;
     const efficiencyTarget = clamp(
@@ -2614,8 +2620,8 @@
       const literacy = literacyRateForNational(national);
       base.value = literacy;
       base.valueFormat = "percent";
-      base.summary = "Literacy is human capital. It does not directly add BC, but low literacy limits high-tier industry and high literacy can slightly slow natural population growth.";
-      base.formula = "95% literacy is neutral. Below 95%, improved/large and advanced/mega output retain less of their theoretical value.";
+      base.summary = "Literacy is human capital. It does not directly add BC, but low literacy limits high-tier industry and broader literacy slows natural population growth over time.";
+      base.formula = "High-tier industry reaches full retained output at 95% literacy. Population slowdown starts around 70% literacy and widens gradually toward 100%.";
       base.components = [
         statExplainRow("Literacy", literacy, { format: "percent", tone: literacy < LITERACY_NEUTRAL_RATE ? "warning" : "positive" }),
         statExplainRow("Improved/Large output retained", literacyIndustrialMultiplier(national, "improved") * 100, {
@@ -2628,10 +2634,10 @@
           tone: literacyIndustrialMultiplier(national, "advanced") < 1 ? "warning" : "positive",
           detail: "Literacy share only; sophistication can reduce high-tier output too."
         }),
-        statExplainRow("High-literacy population slowdown", literacyPopulationGrowthSlowdown(national) * 100, {
-          format: "percent",
-          tone: literacy > LITERACY_NEUTRAL_RATE ? "warning" : "neutral",
-          detail: "Applies only when literacy is above the neutral rate."
+        statExplainRow("Natural growth slowdown", literacyPopulationGrowthSlowdown(national), {
+          format: "precisePercent",
+          tone: literacy > LITERACY_POPULATION_SLOWDOWN_START ? "warning" : "neutral",
+          detail: "Percentage points subtracted from yearly natural population growth."
         })
       ];
       return base;
